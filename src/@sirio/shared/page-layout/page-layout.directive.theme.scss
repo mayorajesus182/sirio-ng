@@ -1,0 +1,22 @@
+.sirio-page-layout {
+
+}
+
+.sirio-page-layout-header {
+  background: $theme-color-primary;
+  color: $theme-color-primary-contrast;
+
+  sirio-breadcrumbs {
+    .crumb, .link {
+      color: $light-secondary-text;
+
+      &:hover {
+        color: $light-primary-text;
+      }
+    }
+
+    .crumb.current, .crumb.current .link {
+      color: $light-primary-text;
+    }
+  }
+}

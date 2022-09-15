@@ -1,0 +1,89 @@
+<sirio-loading-indicator></sirio-loading-indicator>
+<sirio-backdrop #backdrop="furyBackdrop"></sirio-backdrop>
+<sirio-config-panel-toggle (openConfig)="openConfigPanel()"></sirio-config-panel-toggle>
+
+<!-- QUICKPANEL -->
+<sirio-sidebar #configPanel="furySidebar" [backdrop]="backdrop" [invisibleBackdrop]="true" position="right">
+  <sirio-config-panel></sirio-config-panel>
+</sirio-sidebar>
+<!-- END QUICKPANEL -->
+
+<div class="container" fxLayout="column">
+  <ng-container *ngIf="(toolbarPosition$ | async) === 'above-fixed'">
+    <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+  </ng-container>
+
+  <mat-sidenav-container autosize fxFlex>
+
+    <!-- SIDENAV -->
+    <mat-sidenav (closedStart)="closeSidenav()"
+                 (openedStart)="openSidenav()"
+                 [mode]="sidenavMode$ | async"
+                 [opened]="sidenavOpen$ | async"
+                 *ngIf="sideNavigation$ | async"
+                 class="sirio-collapsable-sidenav">
+      <sirio-sidenav [collapsed]="sidenavCollapsed$ | async" [expanded]="sidenavExpanded$ | async"></sirio-sidenav>
+    </mat-sidenav>
+    <!-- END SIDENAV -->
+
+    <mat-sidenav [(opened)]="quickPanelOpen" mode="over" position="end">
+      <sirio-quickpanel></sirio-quickpanel>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="content-container" fxLayout="column">
+      <ng-container *ngIf="(toolbarPosition$ | async) === 'fixed'">
+        <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+      </ng-container>
+
+      <!-- CONTENT -->
+      <div [class.scroll-disabled]="scrollDisabled$ | async"
+           cdkScrollable
+           class="content"
+           fxFlex="auto"
+           fxLayout="column">
+        <ng-container *ngIf="(toolbarPosition$ | async) === 'static'">
+          <ng-container *ngTemplateOutlet="toolbar"></ng-container>
+        </ng-container>
+
+        <div class="content-inner" fxFlex="auto">
+          <router-outlet></router-outlet>
+        </div>
+
+        <ng-container *ngIf="(footerPosition$ | async) === 'static'">
+          <ng-container *ngTemplateOutlet="footer"></ng-container>
+        </ng-container>
+      </div>
+      <!-- END CONTENT -->
+
+      <ng-container *ngIf="(footerPosition$ | async) === 'fixed'">
+        <ng-container *ngTemplateOutlet="footer"></ng-container>
+      </ng-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
+  <ng-container *ngIf="(footerPosition$ | async) === 'above-fixed'">
+    <ng-container *ngTemplateOutlet="footer"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #toolbar>
+  <!-- TOOLBAR -->
+  <sirio-toolbar (openQuickPanel)="openQuickPanel()"
+                [hasNavigation]="topNavigation$ | async"
+                (openSidenav)="openSidenav()"
+                *ngIf="toolbarVisible$ | async"
+                fxFlex="none"></sirio-toolbar>
+  <!-- END TOOLBAR -->
+
+  <!-- NAVIGATION -->
+  <sirio-navigation *ngIf="topNavigation$ | async"
+                   fxFlex="none"></sirio-navigation>
+  <!-- END NAVIGATION -->
+</ng-template>
+
+<ng-template #footer>
+  <!-- FOOTER -->
+  <sirio-footer fxFlex="none"></sirio-footer>
+  <!-- END FOOTER -->
+</ng-template>
+

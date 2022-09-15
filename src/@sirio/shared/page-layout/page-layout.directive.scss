@@ -1,0 +1,42 @@
+.sirio-page-layout {
+  display: block;
+}
+
+.sirio-page-layout-simple {
+
+  .sirio-page-layout-content {
+    padding-top: $padding;
+    padding-bottom: $padding;
+  }
+}
+
+.sirio-page-layout-card {
+  padding-bottom: $padding;
+
+  .sirio-page-layout-header {
+    margin-bottom: -$page-layout-toolbar-height;
+    padding-bottom: $page-layout-toolbar-height;
+  }
+
+}
+
+.sirio-page-layout-header {
+  height: $page-layout-height - $page-layout-toolbar-height;
+  padding-left: $padding;
+  padding-right: $padding;
+  display: flex;
+  flex-direction: row;
+  place-content: center flex-start;
+  align-items: center;
+}
+
+.sirio-page-layout-content {
+  display: block;
+  padding-left: $padding;
+  padding-right: $padding;
+
+  @include layout-bp(lt-md) {
+    padding-left: $padding-md;
+    padding-right: $padding-md;
+  }
+}

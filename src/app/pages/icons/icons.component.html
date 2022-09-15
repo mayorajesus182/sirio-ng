@@ -1,0 +1,37 @@
+<div class="padding" fxLayout="column">
+
+  <sirio-breadcrumbs [@fadeInRight] current="Material Icons"></sirio-breadcrumbs>
+
+  <div fxLayout="column" fxLayout.gt-md="row" fxLayoutGap="24px">
+    <div [@fadeInRight] fxFlex="auto" fxFlex.gt-md="250px">
+      Icons are a neat way to add some image to text-only lists.
+      <br>
+      <br>Fury comes with a great variety of icons from the official Material Icons font and using them can't be
+      simpler.
+    </div>
+
+    <sirio-card [@fadeInUp] fxFlex="auto">
+      <sirio-card-header>
+        <sirio-card-header-heading>Icon Preview</sirio-card-header-heading>
+        <sirio-card-header-subheading>Hundreds of icons ready to be used.</sirio-card-header-subheading>
+      </sirio-card-header>
+
+      <sirio-card-content fxLayout="column">
+        <mat-form-field floatLabel="never" fxFlex="noshrink">
+          <mat-label>Search&hellip;</mat-label>
+          <input matInput [formControl]="iconCtrl">
+        </mat-form-field>
+
+        <sirio-scrollbar class="icon-list" fxFlex="grow">
+          <div class="icon" *ngFor="let icon of filteredIcons$ | async">
+            <mat-icon>{{ icon }}</mat-icon>
+            <div class="icon-name">{{ icon }}</div>
+          </div>
+        </sirio-scrollbar>
+      </sirio-card-content>
+
+    </sirio-card>
+  </div>
+
+
+</div>

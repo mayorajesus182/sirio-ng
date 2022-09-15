@@ -1,0 +1,38 @@
+<sirio-page-layout mode="card">
+
+  <sirio-page-layout-header>
+    <sirio-breadcrumbs [@fadeInRight] current="Drag & Drop"></sirio-breadcrumbs>
+  </sirio-page-layout-header>
+
+  <sirio-page-layout-content cdkDropListGroup
+                            fxLayout="row"
+                            fxLayout.lt-sm="column"
+                            fxLayoutAlign="start start"
+                            fxLayoutGap="24px">
+    <sirio-card [@fadeInUp] class="basic-forms" fxFlex="auto">
+      <sirio-card-header>
+        <sirio-card-header-heading>To-Do Tasks</sirio-card-header-heading>
+        <sirio-card-header-subheading>Simply Drag & Drop items in your order</sirio-card-header-subheading>
+      </sirio-card-header>
+      <sirio-card-content (cdkDropListDropped)="drop($event)" [cdkDropListData]="todo" cdkDropList>
+        <div *ngFor="let task of todo" cdkDrag class="task card" fxLayout="column" fxLayoutAlign="center start">
+          <div class="heading">{{ task.name }}</div>
+          <div class="caption secondary-text">{{ task.due }}</div>
+        </div>
+      </sirio-card-content>
+    </sirio-card>
+
+    <sirio-card [@fadeInUp] class="basic-forms" fxFlex="auto">
+      <sirio-card-header>
+        <sirio-card-header-heading>Done Tasks</sirio-card-header-heading>
+        <sirio-card-header-subheading>Drag between lists and inside lists</sirio-card-header-subheading>
+      </sirio-card-header>
+      <sirio-card-content (cdkDropListDropped)="drop($event)" [cdkDropListData]="done" cdkDropList>
+        <div *ngFor="let task of done" cdkDrag class="task card" fxLayout="row" fxLayoutAlign="space-between center">
+          <div>{{ task.name }}</div>
+          <mat-icon>done</mat-icon>
+        </div>
+      </sirio-card-content>
+    </sirio-card>
+  </sirio-page-layout-content>
+</sirio-page-layout>

@@ -1,0 +1,16 @@
+<sirio-page-layout class="editor" fxLayout="column" mode="card">
+  <sirio-page-layout-header>
+    <sirio-breadcrumbs current="WYSIWYG Editor"></sirio-breadcrumbs>
+  </sirio-page-layout-header>
+
+  <sirio-page-layout-content fxFlex="auto" fxLayout="column">
+    <quill-editor [@fadeInUp]
+                  [formControl]="form"
+                  [styles]="{ flex: '1 1 auto' }"
+                  class="quill card mat-elevation-z16"
+                  fxFlex="auto"
+                  fxLayout="column"></quill-editor>
+  </sirio-page-layout-content>
+</sirio-page-layout>
+
+

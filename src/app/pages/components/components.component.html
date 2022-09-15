@@ -1,0 +1,85 @@
+<sirio-page-layout mode="simple">
+  <sirio-page-layout-header>
+    <sirio-breadcrumbs [@fadeInRight] current="Components"></sirio-breadcrumbs>
+  </sirio-page-layout-header>
+
+  <sirio-page-layout-content fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="24px">
+    <sirio-scrollbar [fxFlex]="menuWidth"
+                    class="sticky-list"
+                    fxHide
+                    fxLayout="column"
+                    fxShow.gt-sm>
+      <mat-list [@fadeInUp] class="navigation" fxFlex="grow">
+        <h3 matSubheader>Components</h3>
+        <mat-list-item (click)="scrollTo('autocomplete')" matRipple>
+          <h4 matLine>Autocomplete</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('buttons')" matRipple>
+          <h4 matLine>Buttons</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('cards')" matRipple>
+          <h4 matLine>Cards</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('checkbox')" matRipple>
+          <h4 matLine>Checkbox</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('dialogs')" matRipple>
+          <h4 matLine>Dialog</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('gridList')" matRipple>
+          <h4 matLine>Grid List</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('input')" matRipple>
+          <h4 matLine>Input</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('lists')" matRipple>
+          <h4 matLine>List</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('menu')" matRipple>
+          <h4 matLine>Menu</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('progress')" matRipple>
+          <h4 matLine>Progress</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('progressSpinner')" matRipple>
+          <h4 matLine>Progress Spinner</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('radio')" matRipple>
+          <h4 matLine>Radio</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('slider')" matRipple>
+          <h4 matLine>Slider</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('slideToggle')" matRipple>
+          <h4 matLine>Slide Toggle</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('snackBar')" matRipple>
+          <h4 matLine>Snack Bar</h4>
+        </mat-list-item>
+        <mat-list-item (click)="scrollTo('tooltip')" matRipple>
+          <h4 matLine>Tooltip</h4>
+        </mat-list-item>
+      </mat-list>
+    </sirio-scrollbar>
+
+    <div [@fadeInUp] class="content" fxLayout="column" fxLayoutGap="24px">
+      <sirio-autocomplete></sirio-autocomplete>
+      <sirio-buttons></sirio-buttons>
+      <sirio-cards></sirio-cards>
+      <sirio-checkbox></sirio-checkbox>
+      <sirio-dialogs></sirio-dialogs>
+      <sirio-grid-list></sirio-grid-list>
+      <sirio-input></sirio-input>
+      <sirio-lists></sirio-lists>
+      <sirio-menu></sirio-menu>
+      <sirio-progress></sirio-progress>
+      <sirio-progress-spinner></sirio-progress-spinner>
+      <sirio-radio></sirio-radio>
+      <sirio-slider></sirio-slider>
+      <sirio-slide-toggle></sirio-slide-toggle>
+      <sirio-snack-bar></sirio-snack-bar>
+      <sirio-tooltip></sirio-tooltip>
+    </div>
+  </sirio-page-layout-content>
+</sirio-page-layout>
+
