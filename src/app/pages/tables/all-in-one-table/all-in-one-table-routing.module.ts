@@ -6,7 +6,11 @@ const routes: Routes = [
   {
     path: '',
     component: AllInOneTableComponent
-  }
+  },
+  {
+    path: 'registrar',
+    loadChildren: () => import('../forms/form-elements/form-elements.module').then(m => m.FormElementsModule),
+  },
 ];
 
 @NgModule({

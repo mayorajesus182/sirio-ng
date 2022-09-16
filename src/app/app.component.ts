@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { SidenavService } from './layout/sidenav/sidenav.service';
+import { SidenavService } from '../@sirio/layout/sidenav/sidenav.service';
 import { ThemeService } from '../@sirio/services/theme.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';

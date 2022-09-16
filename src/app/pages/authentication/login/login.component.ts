@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { UserIdleService } from 'angular-user-idle';
 import { AuthService } from 'src/@sirio/domain/services/security/auth.service';
 import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.animation';
 
@@ -19,11 +20,13 @@ export class LoginComponent implements OnInit {
   inputType = 'password';
   visible = false;
 
-  constructor(private router: Router,
-              private fb: FormBuilder,
-              private cd: ChangeDetectorRef,
-              private snackbar: MatSnackBar,
-              private authService: AuthService,
+  constructor(
+    private userIdle: UserIdleService,
+    private router: Router,
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef,
+    private snackbar: MatSnackBar,
+    private authService: AuthService,
   ) {
   }
 
@@ -35,9 +38,9 @@ export class LoginComponent implements OnInit {
   }
 
   send() {
-    
 
-    if(this.form.invalid){
+
+    if (this.form.invalid) {
       return;
     }
     const signinData = this.form.value;
@@ -48,31 +51,33 @@ export class LoginComponent implements OnInit {
 
 
     this.submitButton.disabled = true;
-    
+
 
     // this.loadingDataForm.next(true);
     this.authService
       .attemptAuth(signinData)
       .subscribe(
         data => {
-          
+
           this.submitButton.disabled = false;
           this.router.navigateByUrl('/sirio/personas');
 
           this.snackbar.open('Authentication Success', 'Close', {
             duration: 8000,
-            horizontalPosition:'center',
+            horizontalPosition: 'center',
             panelClass: 'success-snackbar'
           });
 
+          this.userIdle.startWatching();
+
         },
         err => {
-          
+
           this.snackbar.open('Authentication Faild', 'Close', {
-              duration: 8000,
-              horizontalPosition:'center',
-              panelClass: 'danger-snackbar'
-            });
+            duration: 8000,
+            horizontalPosition: 'center',
+            panelClass: 'danger-snackbar'
+          });
           this.submitButton.disabled = false;
         }
       );

@@ -1,0 +1,26 @@
+<div fxFlex="100" class="pt-3">&nbsp;</div>
+
+<div class=" m-333" *ngIf="buttons.length == 1">
+  <!--button mat-raised-button *ngFor="let item of buttons" class="mb-05" color="primary" (click)="callMethod(item.functionName)">{{item.label}}</button-->
+  <div id="panel-button">
+    <div class="handle" >
+      <button mat-fab color="primary" *ngFor="let item of buttons" (click)="callMethod(item.functionName)" matTooltip="{{item.label}}">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="m-333" *ngIf="buttons.length > 1">
+
+  <button mat-icon-button mat-sm-button [matMenuTriggerFor]="moreMenu" class="">
+    <mat-icon>add</mat-icon>
+  </button>
+  <mat-menu #moreMenu="matMenu">
+    <div *ngFor="let item of buttons">
+      <button mat-menu-item class="mr-1" (click)="callMethod(item.functionName)">
+        <mat-icon [ngClass]="applyColor(item)">{{item.icon}}</mat-icon>&nbsp;{{item.label}}
+      </button>
+    </div>
+  </mat-menu>
+</div>
+<!-- <span fxFlex></span> -->

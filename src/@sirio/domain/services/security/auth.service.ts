@@ -21,7 +21,6 @@ export interface User {
   timeout?: number;
   darkMode?: boolean;
   position?: string;
-
 }
 
 @Injectable(

@@ -1,0 +1,10 @@
+<button mat-icon-button mat-sm-button [matMenuTriggerFor]="moreMenu" class="">
+  <mat-icon>more_vert</mat-icon>
+</button>
+<mat-menu #moreMenu="matMenu">
+  <div *ngFor="let item of menuItems">
+    <button mat-menu-item class="mr-1" (click)="callMethod(item.functionName)" *ngIf="evalCondition(item)">
+      <mat-icon [ngClass]="applyColor(item)" [color]="item.color" >{{item.icon}}</mat-icon>&nbsp;{{'action.'+getLabel(item) | translate: {default: 'global.notfound'} | translate }}
+    </button>
+  </div>
+</mat-menu>

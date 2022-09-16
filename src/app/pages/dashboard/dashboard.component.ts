@@ -3,16 +3,15 @@ import { Router } from '@angular/router';
 import { ChartData } from 'chart.js';
 import * as moment from 'moment';
 import { Observable, ReplaySubject } from 'rxjs';
+import { ChartWidgetOptions } from '../../../@sirio/shared/chart-widget/chart-widget-options.interface';
+import { DashboardService } from './dashboard.service';
 import { AdvancedPieChartWidgetOptions } from './widgets/advanced-pie-chart-widget/advanced-pie-chart-widget-options.interface';
 import { AudienceOverviewWidgetOptions } from './widgets/audience-overview-widget/audience-overview-widget-options.interface';
 import { BarChartWidgetOptions } from './widgets/bar-chart-widget/bar-chart-widget-options.interface';
 import { DonutChartWidgetOptions } from './widgets/donut-chart-widget/donut-chart-widget-options.interface';
 import { RealtimeUsersWidgetData, RealtimeUsersWidgetPages } from './widgets/realtime-users-widget/realtime-users-widget.interface';
-import { RecentSalesWidgetOptions } from './widgets/recent-sales-widget/recent-sales-widget-options.interface';
-import { SalesSummaryWidgetOptions } from './widgets/sales-summary-widget/sales-summary-widget-options.interface';
-import { DashboardService } from './dashboard.service';
-import { ChartWidgetOptions } from '../../../@sirio/shared/chart-widget/chart-widget-options.interface';
 
+import { SalesSummaryWidgetOptions } from './widgets/sales-summary-widget/sales-summary-widget-options.interface';
 @Component({
   selector: 'sirio-dashboard',
   templateUrl: './dashboard.component.html',
@@ -66,10 +65,7 @@ export class DashboardComponent implements OnInit {
   };
   audienceOverviewOptions: AudienceOverviewWidgetOptions[] = [];
   recentSalesData$: Observable<ChartData>;
-  recentSalesOptions: RecentSalesWidgetOptions = {
-    title: 'Recent Sales',
-    subTitle: 'See who bought what in realtime'
-  };
+  
   recentSalesTableOptions = {
     pageSize: 5,
     columns: [
@@ -120,52 +116,8 @@ export class DashboardComponent implements OnInit {
    * Everything implemented here is purely for Demo-Demonstration and can be removed and replaced with your implementation
    */
   ngOnInit() {
-    this.salesData$ = this.dashboardService.getSales();
-    this.visitsData$ = this.dashboardService.getVisits();
-    this.clicksData$ = this.dashboardService.getClicks();
-    this.conversionsData$ = this.dashboardService.getConversions();
-    this.salesSummaryData$ = this.dashboardService.getSalesSummary();
-    this.top5CategoriesData$ = this.dashboardService.getTop5Categories();
+   
 
-    // Audience Overview Widget
-    this.dashboardService.getAudienceOverviewUsers().subscribe(response => {
-      this.audienceOverviewOptions.push({
-        label: 'Users',
-        data: response
-      } as AudienceOverviewWidgetOptions);
-    });
-    this.dashboardService.getAudienceOverviewSessions().subscribe(response => {
-      this.audienceOverviewOptions.push({
-        label: 'Sessions',
-        data: response
-      } as AudienceOverviewWidgetOptions);
-    });
-    this.dashboardService.getAudienceOverviewBounceRate().subscribe(response => {
-      const property: AudienceOverviewWidgetOptions = {
-        label: 'Bounce Rate',
-        data: response
-      };
-
-      // Calculate Bounce Rate Average
-      const data = response.datasets[0].data as number[];
-      property.sum = `${(data.reduce((sum, x) => sum + x) / data.length).toFixed(2)}%`;
-
-      this.audienceOverviewOptions.push(property);
-    });
-
-    this.dashboardService.getAudienceOverviewSessionDuration().subscribe(response => {
-      const property: AudienceOverviewWidgetOptions = {
-        label: 'Session Duration',
-        data: response
-      };
-
-      // Calculate Average Session Duration and Format to Human Readable Format
-      const data = response.datasets[0].data as number[];
-      const averageSeconds = (data.reduce((sum, x) => sum + x) / data.length).toFixed(0);
-      property.sum = `${averageSeconds} sec`;
-
-      this.audienceOverviewOptions.push(property);
-    });
 
     // Prefill realtimeUsersData with 30 random values
     for (let i = 0; i < 30; i++) {
@@ -215,10 +167,6 @@ export class DashboardComponent implements OnInit {
       }));
     }, 5000);
 
-    this.recentSalesTableData$ = this.dashboardService.getRecentSalesTableData();
-    this.recentSalesData$ = this.dashboardService.getRecentSalesData();
-
-    this.advancedPieChartData$ = this.dashboardService.getAdvancedPieChartData();
   }
 
 }

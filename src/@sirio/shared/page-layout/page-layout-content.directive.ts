@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[furyPageLayoutContent],sirio-page-layout-content',
+  selector: '[sirioPageLayoutContent],sirio-page-layout-content',
   host: {
     class: 'sirio-page-layout-content'
   }

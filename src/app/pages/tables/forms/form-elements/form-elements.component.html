@@ -1,0 +1,75 @@
+<sirio-page-layout mode="card">
+  <sirio-page-layout-header>
+    <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Persona']" current="Registro"></sirio-breadcrumbs>
+  </sirio-page-layout-header>
+
+  <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+    <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+         fxLayoutAlign.gt-sm="start stretch">
+
+      <sirio-card [fxFlex.gt-sm]="col2"
+                 class="basic-forms route-animations-elements"
+                 [@fadeInUp]
+                 fxFlex="grow">
+        <sirio-card-header>
+          <sirio-card-header-heading>Persona</sirio-card-header-heading>
+          <sirio-card-header-subheading>Registrando</sirio-card-header-subheading>
+          <sirio-card-header-actions>
+            <button class="icon"
+                    mat-icon-button
+                    matTooltip="Save"
+                    type="button">
+              <mat-icon>save</mat-icon>
+            </button>
+          </sirio-card-header-actions>
+        </sirio-card-header>
+        <sirio-card-content fxLayout="column">
+         
+          <div class="result" fxLayout="column">
+            <mat-form-field appearance="outline">
+              <mat-label>Company</mat-label>
+              <input matInput required>
+            </mat-form-field>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="16px">
+              <mat-form-field fxFlex="auto" appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input matInput>
+              </mat-form-field>
+              <mat-form-field fxFlex="auto" appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input matInput required>
+              </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input [type]="inputType" matInput required value="Hello!">
+              <button (click)="togglePassword()" mat-icon-button matSuffix type="button">
+                <mat-icon *ngIf="visible">visibility</mat-icon>
+                <mat-icon *ngIf="!visible">visibility_off</mat-icon>
+              </button>
+              <mat-hint>Try clicking the eye to toggle the visibility.</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Hint Label and Max Length</mat-label>
+              <input #lengthHint matInput maxlength="10" required>
+              <mat-hint align="start">Try to type in more than 10 letters</mat-hint>
+              <mat-hint align="end">{{lengthHint.value.length}}/10</mat-hint>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Disabled</mat-label>
+              <input disabled matInput>
+            </mat-form-field>
+          </div>
+        </sirio-card-content>
+        <mat-toolbar>
+          <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+              <button type="button" mat-button routerLink="/sirio/personas">Cancelar</button>
+              <button color="primary"  mat-raised-button >  <mat-icon>save</mat-icon> Guardar</button>
+          </div>
+  
+      </mat-toolbar>
+      </sirio-card>
+    </div>
+  </sirio-page-layout-content>
+</sirio-page-layout>

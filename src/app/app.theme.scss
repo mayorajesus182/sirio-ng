@@ -115,9 +115,8 @@ $dark-theme: mat.define-dark-theme((
 
   @import "./pages/apps/inbox/inbox.component.theme";
   @import "./pages/apps/chat/chat.component.theme";
-  @import "./pages/forms/form-wizard/form-wizard.component.theme";
   @import "./pages/coming-soon/coming-soon.component.theme";
-  @import "./layout/config-panel/config-panel.component.theme";
+  @import "../@sirio/layout/config-panel/config-panel.component.theme";
 }
 
 .sirio-light {
@@ -128,9 +127,8 @@ $dark-theme: mat.define-dark-theme((
 
   @import "./pages/apps/inbox/inbox.component.theme";
   @import "./pages/apps/chat/chat.component.theme";
-  @import "./pages/forms/form-wizard/form-wizard.component.theme";
   @import "./pages/coming-soon/coming-soon.component.theme";
-  @import "./layout/config-panel/config-panel.component.theme";
+  @import "../@sirio/layout/config-panel/config-panel.component.theme";
 }
 
 .sirio-dark {
@@ -148,9 +146,8 @@ $dark-theme: mat.define-dark-theme((
 
   @import "./pages/apps/inbox/inbox.component.theme";
   @import "./pages/apps/chat/chat.component.theme";
-  @import "./pages/forms/form-wizard/form-wizard.component.theme";
   @import "./pages/coming-soon/coming-soon.component.theme";
-  @import "./layout/config-panel/config-panel.component.theme";
+  @import "../@sirio/layout/config-panel/config-panel.component.theme";
 }
 
 .sirio-flat {
@@ -161,7 +158,6 @@ $dark-theme: mat.define-dark-theme((
 
   @import "./pages/apps/inbox/inbox.component.theme";
   @import "./pages/apps/chat/chat.component.theme";
-  @import "./pages/forms/form-wizard/form-wizard.component.theme";
   @import "./pages/coming-soon/coming-soon.component.theme";
-  @import "./layout/config-panel/config-panel.component.theme";
+  @import "../@sirio/layout/config-panel/config-panel.component.theme";
 }

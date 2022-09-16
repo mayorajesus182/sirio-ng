@@ -1,7 +1,7 @@
 import { Directive, HostBinding, Input } from '@angular/core';
 
 @Directive({
-  selector: '[furyPageLayout],sirio-page-layout',
+  selector: '[sirioPageLayout],sirio-page-layout',
   host: {
     class: 'sirio-page-layout'
   }
