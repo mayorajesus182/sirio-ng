@@ -1,0 +1,12 @@
+<div class="navigation-item-container">
+  <a (click)="handleClick.emit(item)" class="navigation-item"
+     fxLayout="row"
+     fxLayoutAlign="start center"
+     matRipple
+     routerLinkActive="active">
+    <!-- <mat-icon class="icon">{{ item.icon }}</mat-icon> -->
+    <fa-icon [icon]="['fas', item.icon]" size="md"></fa-icon>
+    <span class="name">{{ item.label }}</span>
+  </a>
+</div>
+

@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LayoutComponent } from '../@sirio/layout/layout.component';
+import { AuthGuard } from 'src/@sirio/guards/auth.guard';
+import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'user/login',
     pathMatch: 'full'
   },
   {
-    path: 'login',
+    path: 'user',
     loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
   },
   {
     path: 'sirio',
     component: LayoutComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: 'dashboard',

@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { JwtService } from 'src/@sirio/services/jwt.service';
 
 
 export interface TokeSession {
@@ -18,8 +19,6 @@ export interface User {
   prevLogin?: any;
   organization?: string;
   organizationId?: string
-  timeout?: number;
-  darkMode?: boolean;
   position?: string;
 }
 
@@ -37,6 +36,7 @@ export class AuthService {
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
   constructor(
+    private jwtService: JwtService,
     private apiService: ApiService,
   ) {
     //console.log('instance authservice');
@@ -78,7 +78,7 @@ export class AuthService {
     // Save JWT sent from server in localstorage
     console.log('user auth ', user);
 
-    // this.jwtService.saveToken(user.token.access_token);
+    this.jwtService.saveToken(user.token.access_token);
     localStorage.setItem('user', JSON.stringify(user));
     // Set current user data into observable
     //this.populate();
@@ -102,7 +102,7 @@ export class AuthService {
     // Remove JWT from localstorage
     //console.log('purg user ',this.getCurrentUser());
 
-    // this.jwtService.destroyToken();
+    this.jwtService.destroyToken();
     // Set current user to an empty object
     this.userSubject.next({} as User);
     localStorage.removeItem('user');

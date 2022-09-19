@@ -29,7 +29,7 @@ $sidenav-logo-color: white !default;
 $sidenav-secondary-text: $light-secondary-text !default;
 $sidenav-collapsed-hover-box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .40) !default;
 
-@import "../../layout/sidenav/sidenav.component.theme";
+@import "../../../app/layout/sidenav/sidenav.component.theme";
 
 // Sidenav Item
 $sidenav-item-color: $sidenav-color !default;
@@ -52,7 +52,7 @@ $sidenav-item-dropdown-level2: darken($sidenav-background, 5) !default;
 $sidenav-item-dropdown-level3: darken($sidenav-background, 7.5) !default;
 $sidenav-item-dropdown-level4: darken($sidenav-background, 10) !default;
 
-@import "../../layout/sidenav/sidenav-item/sidenav-item.component.theme";
+@import "../../../app/layout/sidenav/sidenav-item/sidenav-item.component.theme";
 
 // Toolbar
 $toolbar-background: $theme-card !default;
@@ -68,10 +68,10 @@ $toolbar-notification-elevation: $elevation !default;
 $toolbar-search-background: $theme-app-bar !default;
 $toolbar-search-dropdown-elevation: $elevation !default;
 
-@import "../../layout/toolbar/toolbar.component.theme";
+@import "../../../app/layout/toolbar/toolbar.component.theme";
 
 // Navigation
-@import "../../layout/navigation/navigation.component.theme";
+@import "../../../app/layout/navigation/navigation.component.theme";
 
 // Card
 @import "../../shared/card/card.component.theme";
@@ -80,7 +80,7 @@ $toolbar-search-dropdown-elevation: $elevation !default;
 $footer-background: $theme-app-bar !default;
 $footer-border-top: 1px solid $theme-divider !default;
 $footer-elevation: 0 !default;
-@import "../../layout/footer/footer.component.theme";
+@import "../../../app/layout/footer/footer.component.theme";
 
 // Title
 @import "../../shared/title/title.directive.theme";

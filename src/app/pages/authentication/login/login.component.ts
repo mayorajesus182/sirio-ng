@@ -60,6 +60,7 @@ export class LoginComponent implements OnInit {
         data => {
 
           this.submitButton.disabled = false;
+          // this.router.navigate(["/sirio/personas"]);
           this.router.navigateByUrl('/sirio/personas');
 
           this.snackbar.open('Authentication Success', 'Close', {

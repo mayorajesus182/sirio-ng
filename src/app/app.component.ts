@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Renderer2 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
-import { SidenavService } from '../@sirio/layout/sidenav/sidenav.service';
+import { SidenavService } from './layout/sidenav/sidenav.service';
 import { ThemeService } from '../@sirio/services/theme.service';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -39,27 +39,25 @@ export class AppComponent {
       this.renderer.addClass(this.document.body, 'is-blink');
     }
 
-    this.sidenavService.addItems([
-      {
-        name: 'MENU',
-        position: 5,
-        type: 'subheading',
-        customClass: 'first-subheading'
-      },
-      {
-        name: 'Estadisticas',
-        routeOrFunction: '/',
-        icon: 'dashboard',
-        position: 10,
-        pathMatchExact: true
-      },
-      {
-        name: 'Personas',
-        routeOrFunction: '/tables/all-in-one-table',
-        icon: 'people',
-        badgeColor: '#2196F3',
-        position: 15,
-      }
+    // this.sidenavService.addItems([
+    //   {
+    //     label: 'MENU',
+    //     type: 'subheading',
+    //     customClass: 'first-subheading'
+    //   },
+    //   {
+    //     label: 'Estadisticas',
+    //     view: '/',
+    //     icon: 'dashboard',
+        
+    //     pathMatchExact: true
+    //   },
+    //   {
+    //     label: 'Personas',
+    //     view: '/tables/all-in-one-table',
+    //     icon: 'people',
+        
+    //   }
       // ,
       // {
       //   name: 'Calendar',
@@ -238,6 +236,6 @@ export class AppComponent {
       //     }
       //   ]
       // }
-    ]);
+    // ]);
   }
 }

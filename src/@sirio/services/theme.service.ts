@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SidenavService } from '../layout/sidenav/sidenav.service';
+import { SidenavService } from '../../app/layout/sidenav/sidenav.service';
 
 export type Theme = 'sirio-default' | 'sirio-light' | 'sirio-dark' | 'sirio-flat';
 export type ThemePosition = 'fixed' | 'above-fixed' | 'static';

@@ -9,6 +9,9 @@ import { MaterialModule } from './material-components.module';
 import { SelectSearchComponent } from './select/select-search.component';
 import { SelectSimpleComponent } from './select/select-simple.component';
 
+
+
+
 const components = [
   SelectSearchComponent,
   SelectSimpleComponent,
@@ -25,8 +28,10 @@ const components = [
     FlexLayoutModule,
     MaterialModule
   ],
+  
 declarations: components,
   exports: components
 })
 export class SharedComponentModule {
+  
 }
