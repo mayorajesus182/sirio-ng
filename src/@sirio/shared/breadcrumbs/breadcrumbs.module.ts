@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../material-components.module';
 import { BreadcrumbsComponent } from './breadcrumbs.component';
 
@@ -8,7 +9,8 @@ import { BreadcrumbsComponent } from './breadcrumbs.component';
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   declarations: [BreadcrumbsComponent],
   exports: [BreadcrumbsComponent]

@@ -7,6 +7,7 @@ import { ClickOutsideModule } from '../../../@sirio/shared/click-outside/click-o
 import { MaterialModule } from '../../../@sirio/shared/material-components.module';
 import { ScrollbarModule } from '../../../@sirio/shared/scrollbar/scrollbar.module';
 import { ToolbarFullscreenToggleComponent } from './toolbar-fullscreen-toggle/toolbar-fullscreen-toggle.component';
+import { ToolbarLangComponent } from './toolbar-lang/toolbar-lang.component';
 import { ToolbarNotificationsComponent } from './toolbar-notifications/toolbar-notifications.component';
 import { ToolbarQuickpanelToggleComponent } from './toolbar-quickpanel-toggle/toolbar-quickpanel-toggle.component';
 import { ToolbarSearchBarComponent } from './toolbar-search-bar/toolbar-search-bar.component';
@@ -27,6 +28,7 @@ import { ToolbarComponent } from './toolbar.component';
   ],
   declarations: [
     ToolbarComponent,
+    ToolbarLangComponent,
     ToolbarUserComponent,
     ToolbarNotificationsComponent,
     ToolbarSearchComponent,

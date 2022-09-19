@@ -5,7 +5,8 @@ import { FormElementsComponent } from './form-elements.component';
 const routes: Routes = [
   {
     path: '',
-    component: FormElementsComponent
+    component: FormElementsComponent,
+    data: { title: "global.persons.register" }
   }
 ];
 

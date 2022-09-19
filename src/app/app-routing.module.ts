@@ -14,18 +14,28 @@ const routes: Routes = [
     loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
   },
   {
+    path: 'errors',
+    loadChildren: () => import('./pages/errors/errors.module').then(m => m.ErrorsModule),
+  },
+  {
     path: 'sirio',
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'welcome',
+        loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
+        
+      },
+      {
         path: 'dashboard',
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
-        pathMatch: 'full'
+        
       },
       {
         path: 'personas',
         loadChildren: () => import('./pages/tables/all-in-one-table/all-in-one-table.module').then(m => m.AllInOneTableModule),
+        data:{title:'menu.naturalPersons'}
       },
       
     ]

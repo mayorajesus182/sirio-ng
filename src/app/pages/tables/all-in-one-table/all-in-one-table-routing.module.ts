@@ -5,11 +5,13 @@ import { AllInOneTableComponent } from './all-in-one-table.component';
 const routes: Routes = [
   {
     path: '',
-    component: AllInOneTableComponent
+    component: AllInOneTableComponent,
+    data: { title: 'Lista' }
   },
   {
     path: 'registrar',
     loadChildren: () => import('../forms/form-elements/form-elements.module').then(m => m.FormElementsModule),
+    data: { title: 'action.add' }
   },
 ];
 

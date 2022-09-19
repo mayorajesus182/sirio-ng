@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UserIdleService } from 'angular-user-idle';
 import { AuthService } from 'src/@sirio/domain/services/security/auth.service';
+import { SessionService } from 'src/@sirio/services/session.service';
 import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.animation';
 
 @Component({
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
     private authService: AuthService,
+    private sessionService: SessionService
   ) {
   }
 
@@ -35,10 +37,15 @@ export class LoginComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
+
+
+    this.authService.purgeAuth();
+    this.sessionService.destroy();
+
+
   }
 
   send() {
-
 
     if (this.form.invalid) {
       return;
@@ -48,21 +55,14 @@ export class LoginComponent implements OnInit {
     //   duration: 10000
     // });
 
-
-
     this.submitButton.disabled = true;
 
-
-    // this.loadingDataForm.next(true);
     this.authService
       .attemptAuth(signinData)
       .subscribe(
         data => {
-
           this.submitButton.disabled = false;
-          // this.router.navigate(["/sirio/personas"]);
           this.router.navigateByUrl('/sirio/personas');
-
           this.snackbar.open('Authentication Success', 'Close', {
             duration: 8000,
             horizontalPosition: 'center',

@@ -12,6 +12,7 @@ import { ListColumn } from './list-column.model';
 export class ListComponent implements AfterViewInit {
 
   @Input() name: string;
+  @Input() placeholder: string;
   @Input() columns: ListColumn[];
 
   @ViewChild('filter') filter: ElementRef;

@@ -37,9 +37,9 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         console.warn('Acceso no autorizado', error);
                         if (this.sessionService.isLockScreen()) {
                             //console.log('is lockscreen');
-                            this.router.navigate(['session/lockscreen']);
+                            this.router.navigate(['user/lockscreen']);
                         } else {
-                            this.router.navigate(['session/login']);
+                            this.router.navigate(['user/login']);
                             // this.snack.show({ message: 'Acceso no Autorizado!', type: 'danger' });
                             // horizontalPosition: 'right',
                             this.snack.show({

@@ -5,11 +5,11 @@ import { BackdropDirective } from '../backdrop/backdrop.directive';
 import { DOCUMENT } from '@angular/common';
 
 @Directive({
-  selector: '[furySidebar],sirio-sidebar',
+  selector: '[sirioSidebar],sirio-sidebar',
   host: {
     class: 'sirio-sidebar'
   },
-  exportAs: 'furySidebar'
+  exportAs: 'sirioSidebar'
 })
 export class SidebarDirective implements AfterViewInit, OnDestroy {
 

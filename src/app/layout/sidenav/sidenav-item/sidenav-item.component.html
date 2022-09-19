@@ -35,7 +35,7 @@
   <ng-template #linkContent>
     <!-- <mat-icon *ngIf="level === 0" class="icon">{{ item.icon }}</mat-icon> -->
     <fa-icon *ngIf="level === 0" class="icon" [icon]="['fas', item.icon]" size="md"></fa-icon>
-    <div *ngIf="level > 0" class="text-icon" fxFlex="none">{{ getTextIcon(item) }}</div>
+    <!-- <div *ngIf="level > 0" class="text-icon" fxFlex="none">{{ getTextIcon(item) }}</div> -->
     <span class="name"> {{'menu.'+item.label | translate}}</span>
     <span fxFlex><!-- fill space --></span>
     <span *ngIf="item.badge"  class="badge mat-primary">{{ item.badge }}</span>

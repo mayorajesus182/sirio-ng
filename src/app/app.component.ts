@@ -1,28 +1,39 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, Renderer2 } from '@angular/core';
-import { MatIconRegistry } from '@angular/material/icon';
-import { SidenavService } from './layout/sidenav/sidenav.service';
-import { ThemeService } from '../@sirio/services/theme.service';
-import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { Platform } from '@angular/cdk/platform';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { filter } from 'rxjs/operators';
+import { RoutePartsService } from 'src/@sirio/services/route-parts.service';
 import { SplashScreenService } from '../@sirio/services/splash-screen.service';
+import { ThemeService } from '../@sirio/services/theme.service';
 
 @Component({
   selector: 'sirio-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
-  constructor(private sidenavService: SidenavService,
-              private iconRegistry: MatIconRegistry,
-              private renderer: Renderer2,
-              private themeService: ThemeService,
-              @Inject(DOCUMENT) private document: Document,
-              private platform: Platform,
-              private route: ActivatedRoute,
-              private splashScreenService: SplashScreenService) {
-    this.route.queryParamMap.pipe(
+  appTitle = 'Sirio By Novumideas';
+  pageTitle = '';
+
+
+  constructor(
+    public title: Title,
+    private router: Router,
+    private routePartsService: RoutePartsService,
+    private activeRoute: ActivatedRoute,
+    private iconRegistry: MatIconRegistry,
+    private renderer: Renderer2,
+    private themeService: ThemeService,
+    public translate: TranslateService,
+    @Inject(DOCUMENT) private document: Document,
+    private platform: Platform,
+    private splashScreenService: SplashScreenService) {
+   
+      this.activeRoute.queryParamMap.pipe(
       filter(queryParamMap => queryParamMap.has('style'))
     ).subscribe(queryParamMap => this.themeService.setStyle(queryParamMap.get('style')));
 
@@ -39,203 +50,41 @@ export class AppComponent {
       this.renderer.addClass(this.document.body, 'is-blink');
     }
 
-    // this.sidenavService.addItems([
-    //   {
-    //     label: 'MENU',
-    //     type: 'subheading',
-    //     customClass: 'first-subheading'
-    //   },
-    //   {
-    //     label: 'Estadisticas',
-    //     view: '/',
-    //     icon: 'dashboard',
-        
-    //     pathMatchExact: true
-    //   },
-    //   {
-    //     label: 'Personas',
-    //     view: '/tables/all-in-one-table',
-    //     icon: 'people',
-        
-    //   }
-      // ,
-      // {
-      //   name: 'Calendar',
-      //   routeOrFunction: '/apps/calendar',
-      //   icon: 'date_range',
-      //   position: 20
-      // },
-      // {
-      //   name: 'Inbox',
-      //   routeOrFunction: '/apps/inbox',
-      //   icon: 'inbox',
-      //   position: 25
-      // },
-      // {
-      //   name: 'Chat',
-      //   routeOrFunction: '/apps/chat',
-      //   icon: 'chat',
-      //   position: 30,
-      //   badge: '14',
-      //   badgeColor: '#009688'
-      // },
-      // {
-      //   name: 'USER INTERFACE',
-      //   type: 'subheading',
-      //   position: 35
-      // },
-      // {
-      //   name: 'Components',
-      //   routeOrFunction: '/components',
-      //   icon: 'layers',
-      //   position: 40
-      // },
-      // {
-      //   name: 'Forms',
-      //   icon: 'description',
-      //   position: 45,
-      //   subItems: [
-      //     {
-      //       name: 'Form Elements',
-      //       routeOrFunction: '/forms/form-elements',
-      //       position: 10
-      //     },
-      //     {
-      //       name: 'Form Wizard',
-      //       routeOrFunction: '/forms/form-wizard',
-      //       position: 15
-      //     }
-      //   ]
-      // },
-      // {
-      //   name: 'Drag & Drop',
-      //   routeOrFunction: '/drag-and-drop',
-      //   icon: 'mouse',
-      //   position: 55
-      // },
-      // {
-      //   name: 'WYSIWYG Editor',
-      //   routeOrFunction: '/editor',
-      //   icon: 'format_shapes',
-      //   position: 60
-      // },
-      // {
-      //   name: 'PAGES',
-      //   type: 'subheading',
-      //   position: 65
-      // },
-      // {
-      //   name: 'Authentication',
-      //   icon: 'lock',
-      //   position: 66,
-      //   subItems: [
-      //     {
-      //       name: 'Login Page',
-      //       routeOrFunction: '/login',
-      //       position: 5
-      //     },
-      //     {
-      //       name: 'Register Page',
-      //       routeOrFunction: '/register',
-      //       position: 10
-      //     },
-      //     {
-      //       name: 'Forgot Password',
-      //       routeOrFunction: '/forgot-password',
-      //       position: 15
-      //     }
-      //   ]
-      // },
-      // {
-      //   name: 'Page Layouts',
-      //   icon: 'view_compact',
-      //   position: 67,
-      //   subItems: [
-      //     {
-      //       name: 'Simple',
-      //       routeOrFunction: '/page-layouts/simple',
-      //       position: 5
-      //     },
-      //     {
-      //       name: 'Simple Tabbed',
-      //       routeOrFunction: '/page-layouts/simple-tabbed',
-      //       position: 5
-      //     },
-      //     {
-      //       name: 'Card',
-      //       routeOrFunction: '/page-layouts/card',
-      //       position: 10
-      //     },
-      //     {
-      //       name: 'Card Tabbed',
-      //       routeOrFunction: '/page-layouts/card-tabbed',
-      //       position: 15
-      //     },
-      //   ]
-      // },
-      // {
-      //   name: 'Coming Soon',
-      //   routeOrFunction: '/coming-soon',
-      //   icon: 'watch_later',
-      //   position: 68
-      // },
-      // {
-      //   name: 'Blank',
-      //   routeOrFunction: '/blank',
-      //   icon: 'picture_in_picture',
-      //   position: 69
-      // },
-      // {
-      //   name: 'Maps',
-      //   icon: 'map',
-      //   position: 70,
-      //   subItems: [
-      //     {
-      //       name: 'Google Maps',
-      //       routeOrFunction: '/maps/google-maps',
-      //       position: 0
-      //     }
-      //   ],
-      //   badge: '3',
-      //   badgeColor: '#4CAF50'
-      // },
-      // {
-      //   name: 'Material Icons',
-      //   routeOrFunction: '/icons',
-      //   icon: 'grade',
-      //   position: 75
-      // },
-      // {
-      //   name: 'Multi-Level Menu',
-      //   icon: 'menu',
-      //   position: 85,
-      //   subItems: [
-      //     {
-      //       name: 'Level 1',
-      //       subItems: [
-      //         {
-      //           name: 'Level 2',
-      //           subItems: [
-      //             {
-      //               name: 'Level 3',
-      //               subItems: [
-      //                 {
-      //                   name: 'Level 4',
-      //                   subItems: [
-      //                     {
-      //                       name: 'Level 5',
-      //                       routeOrFunction: '/level1/level2/level3/level4/level5'
-      //                     }
-      //                   ]
-      //                 }
-      //               ]
-      //             }
-      //           ]
-      //         }
-      //       ]
-      //     }
-      //   ]
-      // }
-    // ]);
+  }
+
+  
+  ngOnInit() {
+    this.changePageTitle();
+  }
+
+  ngAfterViewInit() {
+  }
+
+  changePageTitle() {
+
+
+    // console.log('set title ',this.appTitle);
+
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((routeChange) => {
+      const routeParts = this.routePartsService.generateRouteParts(this.activeRoute.snapshot);
+      if (!routeParts.length) {
+        return this.title.setTitle(this.appTitle);
+      }
+      // Extract title from parts;
+      this.pageTitle = routeParts
+                      .reverse()
+                      .map((part) =>{
+                        console.log('tl ',this.translate.instant(part.title));
+                        
+                      return   this.translate.instant(part.title) 
+                      
+                      })                      
+                      .reduce((partA, partI) => {return `${partA} > ${partI}`});
+      this.pageTitle += ` | ${this.appTitle}`;
+      this.title.setTitle(this.pageTitle);
+
+      
+    });
+    console.log('set title ',this.appTitle);
   }
 }

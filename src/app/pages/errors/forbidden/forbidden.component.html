@@ -1,0 +1,23 @@
+<div class="d-flex align-items-center h-full mat-bg-card">
+  <div class="app-error">
+    <div class="fix">
+      <mat-icon class="error-icon" color="accent">warning</mat-icon>
+      <div class="error-text">
+        <h1 class="error-title">403</h1>
+        <div class="error-subtitle">Access Forbidden!</div>
+      </div>
+    </div>
+    
+    <div class="error-actions">
+      <button 
+      mat-raised-button 
+      color="primary"
+      class="mb-16 mr-8"
+      [routerLink]="['/home']">Ir al Principal</button>
+<!--       
+      <button 
+      mat-raised-button 
+      color="warn">Report this Problem</button> -->
+    </div>
+  </div>
+</div>

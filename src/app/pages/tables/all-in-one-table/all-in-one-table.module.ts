@@ -15,10 +15,10 @@ import { CustomerCreateUpdateModule } from './customer-create-update/customer-cr
     AllInOneTableRoutingModule,
     FormsModule,
     MaterialModule,
-    SirioSharedModule,
-    // Core
-    SharedComponentModule,
     CustomerCreateUpdateModule,
+    // Core
+    SirioSharedModule,
+    SharedComponentModule,
     BreadcrumbsModule
   ],
   declarations: [AllInOneTableComponent],
