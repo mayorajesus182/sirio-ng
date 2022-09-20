@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { BreadcrumbsModule } from '../../../../../@sirio/shared/breadcrumbs/breadcrumbs.module';
-import { FuryCardModule } from '../../../../../@sirio/shared/card/card.module';
+import { SirioCardModule } from '../../../../../@sirio/shared/card/card.module';
 import { HighlightModule } from '../../../../../@sirio/shared/highlightjs/highlight.module';
 import { MaterialModule } from '../../../../../@sirio/shared/material-components.module';
 import { FormElementsRoutingModule } from './form-elements-routing.module';
@@ -19,7 +19,7 @@ import { FormElementsComponent } from './form-elements.component';
 
     // Core
     HighlightModule,
-    FuryCardModule,
+    SirioCardModule,
     BreadcrumbsModule
   ],
   declarations: [FormElementsComponent]

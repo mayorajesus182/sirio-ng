@@ -47,16 +47,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private router: Router) {
 
 
-    // Translator init
-    const browserLang: string = translate.getBrowserLang();
-
-    var lang = 'es';
-    if (localStorage.getItem('app-lang')) {
-      lang = (JSON.parse(localStorage.getItem('app-lang')) as Idioma).id.toLowerCase();
-    }
-
-
-    translate.use(browserLang.match(/en|es|pr/) ? browserLang : lang);
 
 
   }

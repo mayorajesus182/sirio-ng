@@ -4,7 +4,7 @@
   </sirio-page-layout-header>
 
   <sirio-page-layout-content [@fadeInUp]>
-    <sirio-list [name]="'naturalPerson.table' | translate: {default: 'global.notfound'}" placeholder="person.search" [columns]="columns" (filterChange)="onFilterChange($event)">
+    <sirio-list [name]="'naturalPerson.table' | translate: {default: 'global.notfound'}" placeholder="person.search"  (filterChange)="onFilterChange($event)">
       <div class="actions">
         <button class="create" routerLink="registrar" type="button" mat-mini-fab color="primary">
           <mat-icon>add</mat-icon>

@@ -9,7 +9,7 @@ import { ChangeDetectionStrategy, Component, Directive, Input, ViewEncapsulation
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuryCard {
+export class SirioCard {
 }
 
 // noinspection TsLint
@@ -27,7 +27,7 @@ export class FuryCard {
     <ng-content select="sirio-card-header-actions"></ng-content>
   `
 })
-export class FuryCardHeader {
+export class SirioCardHeader {
 }
 
 // noinspection TsLint
@@ -39,7 +39,7 @@ export class FuryCardHeader {
   template: `
     <ng-content></ng-content>`
 })
-export class FuryCardContent {
+export class SirioCardContent {
 }
 
 // noinspection TsLint
@@ -47,7 +47,7 @@ export class FuryCardContent {
   selector: 'sirio-card-header-heading',
   host: { 'class': 'sirio-card-header-heading' }
 })
-export class FuryCardHeaderTitle {
+export class SirioCardHeaderTitle {
 }
 
 // noinspection TsLint
@@ -55,7 +55,7 @@ export class FuryCardHeaderTitle {
   selector: 'sirio-card-header-subheading',
   host: { 'class': 'sirio-card-header-subheading' }
 })
-export class FuryCardHeaderSubTitle {
+export class SirioCardHeaderSubTitle {
 }
 
 // noinspection TsLint
@@ -63,7 +63,7 @@ export class FuryCardHeaderSubTitle {
   selector: 'sirio-card-header-actions',
   host: { 'class': 'sirio-card-header-actions' }
 })
-export class FuryCardHeaderActions {
+export class SirioCardHeaderActions {
 }
 
 // noinspection TsLint
@@ -74,7 +74,7 @@ export class FuryCardHeaderActions {
     '[class.sirio-card-actions-align-end]': 'align === "end"',
   }
 })
-export class FuryCardActions {
+export class SirioCardActions {
   /** Position of the actions inside the card. */
   @Input() align: 'start' | 'end' = 'start';
 }

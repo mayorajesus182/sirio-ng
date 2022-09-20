@@ -1,11 +1,11 @@
 import { Directive, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 
 @Directive({
-  selector: '[furyBackdrop],sirio-backdrop',
+  selector: '[sirioBackdrop],sirio-backdrop',
   host: {
     class: 'sirio-backdrop'
   },
-  exportAs: 'furyBackdrop'
+  exportAs: 'sirioBackdrop'
 })
 export class BackdropDirective {
 

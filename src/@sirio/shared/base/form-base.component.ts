@@ -4,15 +4,15 @@ import { HttpResponse } from "@angular/common/http";
 import { ChangeDetectorRef, Component, Injector } from "@angular/core";
 import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { TranslateService } from "@ngx-translate/core";
-import { NgxSpinnerService, Spinner } from "ngx-spinner";
 
-import { BehaviorSubject, Observable, pipe } from "rxjs";
-import { MenuItem, NavigationService } from "../../services/navigation.service";
-import { SnackbarService } from "../../services/snackbar.service";
-import { SweetAlertService } from "../../services/swal.service";
-import { saveAs } from 'file-saver';
 import { Router } from "@angular/router";
+import { saveAs } from 'file-saver';
+import { NgxSpinnerService, Spinner } from "ngx-spinner";
+import { BehaviorSubject, Observable } from "rxjs";
+import { NavigationService } from "src/@sirio/services/navigation.service";
+import { SnackbarService } from "src/@sirio/services/snackbar.service";
+import { SweetAlertService } from "src/@sirio/services/swal.service";
+import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.interface";
 
 @Component({
     template: '',
@@ -21,13 +21,13 @@ import { Router } from "@angular/router";
             provide: "snack", useClass: SnackbarService
         },
         {
-            provide:"navService", useClass: NavigationService
+            provide: "navService", useClass: NavigationService
         },
         {
-            provide:"router", useClass: Router
+            provide: "router", useClass: Router
         },
         {
-            provide:"swalService", useClass:SweetAlertService
+            provide: "swalService", useClass: SweetAlertService
         },
         {
             provide: "spinner", useClass: NgxSpinnerService
@@ -35,6 +35,15 @@ import { Router } from "@angular/router";
     ]
 })
 export class FormBaseComponent {
+
+    private _gap = 16;
+    gap = `${this._gap}px`;
+    col2 = `1 1 calc(50% - ${this._gap / 2}px)`;
+    col3 = `1 1 calc(33.3333% - ${this._gap / 1.5}px)`;
+
+    inputType = 'password';
+    visible = false;
+
 
     progress: { percentage: number } = { percentage: 0 };
     public data: any;
@@ -51,8 +60,8 @@ export class FormBaseComponent {
     isNew: boolean = false;
     public itemForm: FormGroup;
     protected dialogRef: MatDialogRef<any>;
-    public actions: MenuItem[] = [];
-    public buttons: MenuItem[] = [];
+    public actions: SidenavItem[] = [];
+    public buttons: SidenavItem[] = [];
     public opts = {
         type: 'line-scale-pulse-out',
         size: 'medium',
@@ -83,7 +92,7 @@ export class FormBaseComponent {
 
 
 
-    constructor(protected dialog: MatDialog,injector:Injector) {
+    constructor(protected dialog: MatDialog, injector: Injector) {
 
 
         this.navService = injector.get(NavigationService);
@@ -149,7 +158,7 @@ export class FormBaseComponent {
     }
 
 
-    protected showFormPopup(popupComponent, _title:string, data:any, _isNew, withDialog = '60%'):MatDialogRef<any> {
+    protected showFormPopup(popupComponent, _title: string, data: any, _isNew, withDialog = '60%'): MatDialogRef<any> {
         let data_aux = { payload: undefined, title: undefined, isNew: undefined };
 
         if (!data.payload) {
@@ -171,7 +180,7 @@ export class FormBaseComponent {
         return this.dialogRef;
     }
 
-    protected showSimplePopup(popupComponent, title: string, data:any, withDialog = '50%') {
+    protected showSimplePopup(popupComponent, title: string, data: any, withDialog = '50%') {
 
         let data_aux = { payload: undefined, title: undefined, isNew: undefined };
 

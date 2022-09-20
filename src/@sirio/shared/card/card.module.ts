@@ -1,23 +1,23 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-  FuryCard,
-  FuryCardActions,
-  FuryCardContent,
-  FuryCardHeader,
-  FuryCardHeaderActions,
-  FuryCardHeaderSubTitle,
-  FuryCardHeaderTitle
+  SirioCard,
+  SirioCardActions,
+  SirioCardContent,
+  SirioCardHeader,
+  SirioCardHeaderActions,
+  SirioCardHeaderSubTitle,
+  SirioCardHeaderTitle
 } from './card.component';
 
 const cardComponents = [
-  FuryCard,
-  FuryCardHeader,
-  FuryCardHeaderTitle,
-  FuryCardHeaderSubTitle,
-  FuryCardHeaderActions,
-  FuryCardContent,
-  FuryCardActions
+  SirioCard,
+  SirioCardHeader,
+  SirioCardHeaderTitle,
+  SirioCardHeaderSubTitle,
+  SirioCardHeaderActions,
+  SirioCardContent,
+  SirioCardActions
 ];
 
 @NgModule({
@@ -31,5 +31,5 @@ const cardComponents = [
     ...cardComponents
   ]
 })
-export class FuryCardModule {
+export class SirioCardModule {
 }

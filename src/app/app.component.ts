@@ -1,11 +1,12 @@
 import { Platform } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnInit, Renderer2 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
+import { Idioma } from 'src/@sirio/domain/services/preferencias/idioma.service';
 import { RoutePartsService } from 'src/@sirio/services/route-parts.service';
 import { SplashScreenService } from '../@sirio/services/splash-screen.service';
 import { ThemeService } from '../@sirio/services/theme.service';
@@ -14,7 +15,7 @@ import { ThemeService } from '../@sirio/services/theme.service';
   selector: 'sirio-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, AfterViewInit {
 
   appTitle = 'Sirio By Novumideas';
   pageTitle = '';
@@ -32,8 +33,21 @@ export class AppComponent implements OnInit{
     @Inject(DOCUMENT) private document: Document,
     private platform: Platform,
     private splashScreenService: SplashScreenService) {
+
+
    
-      this.activeRoute.queryParamMap.pipe(
+    // Translator init
+    const browserLang: string = translate.getBrowserLang();
+
+    var lang = 'es';
+    if (localStorage.getItem('sirio-lang')) {
+      lang = (JSON.parse(localStorage.getItem('sirio-lang')) as Idioma).id.toLowerCase();
+    }
+
+
+    translate.use(browserLang.match(/en|es|pr/) ? browserLang : lang);   
+
+    this.activeRoute.queryParamMap.pipe(
       filter(queryParamMap => queryParamMap.has('style'))
     ).subscribe(queryParamMap => this.themeService.setStyle(queryParamMap.get('style')));
 
@@ -52,7 +66,7 @@ export class AppComponent implements OnInit{
 
   }
 
-  
+
   ngOnInit() {
     this.changePageTitle();
   }
@@ -62,9 +76,6 @@ export class AppComponent implements OnInit{
 
   changePageTitle() {
 
-
-    // console.log('set title ',this.appTitle);
-
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((routeChange) => {
       const routeParts = this.routePartsService.generateRouteParts(this.activeRoute.snapshot);
       if (!routeParts.length) {
@@ -72,19 +83,22 @@ export class AppComponent implements OnInit{
       }
       // Extract title from parts;
       this.pageTitle = routeParts
-                      .reverse()
-                      .map((part) =>{
-                        console.log('tl ',this.translate.instant(part.title));
-                        
-                      return   this.translate.instant(part.title) 
-                      
-                      })                      
-                      .reduce((partA, partI) => {return `${partA} > ${partI}`});
+        .reverse()
+        .map((part) => {
+
+          let title =  this.translate.instant(part.title);
+
+          console.log('tl ', title);
+
+          return title;
+
+        })
+        .reduce((partA, partI) => { return `${partA} > ${partI}` });
       this.pageTitle += ` | ${this.appTitle}`;
       this.title.setTitle(this.pageTitle);
 
-      
+
     });
-    console.log('set title ',this.appTitle);
+    console.log('set title ', this.appTitle);
   }
 }

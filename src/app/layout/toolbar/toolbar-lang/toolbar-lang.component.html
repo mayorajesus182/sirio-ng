@@ -3,12 +3,12 @@
   <!-- Language Switcher -->
   <button mat-button [matMenuTriggerFor]="lang">
     <span class="flag-icon {{currentLang.icono}} mr-8"></span>
-    <span>{{currentLang?.nombre?.substring(0,2)}}</span>
+    <span>&nbsp;{{currentLang?.nombre?.substring(0,2)}}</span>
   </button>
   <mat-menu #lang="matMenu">
     <button mat-menu-item *ngFor="let lang of availableLangs" (click)="setLang(lang)">
       <span class="flag-icon mr-8 {{lang.icono}}"></span>
-      <span>{{lang.nombre.substring(0,2)}}</span>
+      <span>&nbsp;{{lang.nombre.substring(0,2)}}</span>
     </button>
   </mat-menu>
 </div>

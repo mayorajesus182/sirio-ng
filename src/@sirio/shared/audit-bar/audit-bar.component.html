@@ -1,0 +1,70 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center" *ngIf="mode!='string'">
+
+    <div fxFlex="50" fxFlex.gt-xs="25" class="pr-4">
+
+        <mat-form-field class="full-width audit-data" appearance="outline">
+            <mat-label>{{'global.createdBy' | translate: {default: 'global.notfound'} | translate }}</mat-label>
+            <input matInput class="text-center" [value]="element.creadoPor || ' '" readonly>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50" fxFlex.gt-xs="25" class="pr-4">
+
+        <mat-form-field class="full-width audit-data" appearance="outline">
+            <mat-label>{{'global.creationDate' | translate: {default: 'global.notfound'} | translate }}</mat-label>
+            <input matInput class="text-center" [value]="element.fechaCreacion || ' '" readonly>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50" fxFlex.gt-xs="25" class="pr-4">
+
+        <mat-form-field class="full-width audit-data" appearance="outline">
+            <mat-label>{{'global.modifiedBy' | translate: {default: 'global.notfound'} | translate }}</mat-label>
+            <input matInput class="text-center" [value]="element.modificadoPor || ' '" readonly>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50" fxFlex.gt-xs="25" class="">
+
+        <mat-form-field class="full-width audit-data" appearance="outline">
+            <mat-label>{{'global.lastModification' | translate: {default: 'global.notfound'} | translate }}</mat-label>
+            <input matInput class="text-center" [value]="element.fechaModificacion || ' '" readonly>
+        </mat-form-field>
+    </div>
+</div>
+<div fxFlex="100" class="mt-1 " *ngIf="mode=='string'">
+
+    <div fxFlex="50" fxFlex.gt-sm="20" class="pr-4 ">
+        <div class="text-muted text-small">
+            <strong>{{'global.createdBy' | translate: {default: 'global.notfound'} | translate }}:</strong> 
+            {{element.creadoPor || '--'}}
+        </div>
+    </div>
+    <div fxFlex="50" fxFlex.gt-sm="30" class="pr-4 ">
+        <div class="text-muted text-small">
+            <strong>{{'global.creationDate' | translate: {default: 'global.notfound'} | translate }}:</strong> 
+            {{element.fechaCreacion || '--'}}
+        </div>
+    </div>
+    <div fxFlex="50" fxFlex.gt-sm="20" class="pr-4 ">
+        <div class="text-muted text-small">
+            <strong>{{'global.modifiedBy' | translate: {default: 'global.notfound'} | translate }}:</strong> 
+            {{element.modificadoPor || '--'}}
+        </div>
+    </div>
+    <div fxFlex="50" fxFlex.gt-sm="30" class="">
+        <div class="text-muted text-small">
+            <strong>{{'global.lastModification' | translate: {default: 'global.notfound'} | translate }}:</strong> 
+            {{element.fechaModificacion || '--'}}
+        </div>
+    </div>
+
+    <!--mat-grid-list cols="4" rowHeight="4:1" class="text-small" *ngIf="element.id && mode=='string'">
+        <mat-grid-tile class="text-muted">Creado Por: {{element.creadoPor || '--'}} </mat-grid-tile>
+        <mat-grid-tile class="text-muted">Fecha Creación: {{element.fechaCreacion || '--'}} </mat-grid-tile>
+        <mat-grid-tile class="text-muted">Modificado Por: {{element.modificadoPor || '--'}} </mat-grid-tile>
+        <mat-grid-tile class="text-muted">Última Modificación: {{element.fechaModificacion || '--'}}</mat-grid-tile>
+    </mat-grid-list-->
+    <!--p class="mb-05 text-small"> <span class="text-muted">Creado Por: {{element.creadoPor || '--'}} 
+            | Fecha Creación: {{element.fechaCreacion || '--'}} 
+            | Modificado Por: {{element.modificadoPor || '--'}} 
+            | Última Modificación: {{element.fechaModificacion || '--'}}</span>
+        </p-->
+</div>

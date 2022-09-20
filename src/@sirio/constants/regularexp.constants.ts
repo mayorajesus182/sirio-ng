@@ -16,4 +16,7 @@ export class RegularExpConstants {
     public static get ALPHANUMERIC_ACCENTS_CHARACTERS(): string { return '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E\u0020\s]*'; };
     public static get ALPHANUMERIC_CHARACTERS(): string { return '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E\u0020]*'; };
     public static get ALPHANUMERIC_CHARACTERS_NOSPACE(): string { return '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E]*'; };
+
+    public static get ALPHA_ACCENTS_CHARACTERS_SPACE(): string { return '[a-zA-Z\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E\u0020]*'; };
+    public static get ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE(): string { return '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E\u0020\s]*'; };
 };

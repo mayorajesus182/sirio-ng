@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { ErrorStateMatcher, MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -95,7 +96,8 @@ export const DATE_FORMATS_CUSTOM = {
     MatStepperModule,
     FlexLayoutModule,
     MatDividerModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatChipsModule
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig },

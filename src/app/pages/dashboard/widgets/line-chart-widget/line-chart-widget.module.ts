@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { LoadingOverlayModule } from '../../../../../@sirio/shared/loading-overlay/loading-overlay.module';
 import { MaterialModule } from '../../../../../@sirio/shared/material-components.module';
 import { LineChartWidgetComponent } from './line-chart-widget.component';
-import { FuryCardModule } from '../../../../../@sirio/shared/card/card.module';
+import { SirioCardModule } from '../../../../../@sirio/shared/card/card.module';
 import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
@@ -15,7 +15,7 @@ import { ChartsModule } from 'ng2-charts';
     LoadingOverlayModule,
 
     // Chart Widget Style
-    FuryCardModule,
+    SirioCardModule,
     ChartsModule
   ],
   declarations: [LineChartWidgetComponent],

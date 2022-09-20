@@ -1,18 +1,19 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { MenuItem, NavigationService } from 'app/shared/services/navigation.service';
 import { Observable } from 'rxjs';
+import { NavigationService } from 'src/@sirio/services/navigation.service';
+import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.interface';
 
 @Component({
-  selector: 'app-actions-nav',
+  selector: 'sirio-actions-nav',
   templateUrl: './actions-nav.component.html'
 })
 export class ActionsNavComponent implements OnInit {
-  @Input('items') public items: Observable<MenuItem[]> ;
+  @Input('items') public items: Observable<SidenavItem[]> ;
   @Input('element') public element: any = {};
-
+  @Output() eventClicked = new EventEmitter<boolean>();
   @Input('method') private method: MethodComponentApi
-  menuItems:MenuItem[]=[];
+  menuItems:SidenavItem[]=[];
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,

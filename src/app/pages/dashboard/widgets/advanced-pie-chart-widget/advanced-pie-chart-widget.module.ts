@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FuryCardModule } from '../../../../../@sirio/shared/card/card.module';
+import { SirioCardModule } from '../../../../../@sirio/shared/card/card.module';
 import { LoadingOverlayModule } from '../../../../../@sirio/shared/loading-overlay/loading-overlay.module';
 import { MaterialModule } from '../../../../../@sirio/shared/material-components.module';
 import { ScrollbarModule } from '../../../../../@sirio/shared/scrollbar/scrollbar.module';
@@ -13,7 +13,7 @@ import { ChartsModule } from 'ng2-charts';
     MaterialModule,
 
     // Core
-    FuryCardModule,
+    SirioCardModule,
     LoadingOverlayModule,
     ScrollbarModule,
     ChartsModule

@@ -5,17 +5,17 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Router } from '@angular/router';
-import { DatasourceService } from "app/shared/services/datasource.service";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Spinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { BehaviorSubject, merge } from "rxjs";
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { DatasourceService } from "src/@sirio/services/datasource.service";
+import { NavigationService } from "src/@sirio/services/navigation.service";
+import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.interface";
 
-import { MenuItem, NavigationService } from "../../services/navigation.service";
 import { SnackbarService } from "../../services/snackbar.service";
 import { SweetAlertService } from "../../services/swal.service";
 import { MethodComponentApi } from "./actions/actions-nav.component";
-import { ButtonComponentApi } from "./button/button-nav.component";
 
 @Component({
     template: '',
@@ -47,8 +47,8 @@ export class TableBaseComponent {
     private searchTerm: any = undefined;
     pageEvent: PageEvent;
     protected dialogRef: MatDialogRef<any>;
-    public actions = new BehaviorSubject<MenuItem[]>([]);
-    public buttons = new BehaviorSubject<MenuItem[]>([]);
+    public actions = new BehaviorSubject<SidenavItem[]>([]);
+    public buttons = new BehaviorSubject<SidenavItem[]>([]);
 
 
     protected snack: SnackbarService;
@@ -100,14 +100,14 @@ export class TableBaseComponent {
         }
     }
 
-    public buttonAPI(): ButtonComponentApi {
-        return {
-            invoke: (name) => {
-                console.log('method ' + name);
-                this[name]();
-            }
-        }
-    }
+    // public buttonAPI(): ButtonComponentApi {
+    //     return {
+    //         invoke: (name) => {
+    //             console.log('method ' + name);
+    //             this[name]();
+    //         }
+    //     }
+    // }
 
     protected init(service, nameColumnSort: string, method?: string, paramsOpts?: any, tableNameLoading?: any) {
 

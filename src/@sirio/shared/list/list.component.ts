@@ -13,7 +13,7 @@ export class ListComponent implements AfterViewInit {
 
   @Input() name: string;
   @Input() placeholder: string;
-  @Input() columns: ListColumn[];
+  // @Input() columns: ListColumn[];
 
   @ViewChild('filter') filter: ElementRef;
   @Output() filterChange = new EventEmitter<string>();

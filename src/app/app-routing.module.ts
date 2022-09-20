@@ -37,6 +37,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/tables/all-in-one-table/all-in-one-table.module').then(m => m.AllInOneTableModule),
         data:{title:'menu.naturalPersons'}
       },
+      {
+        path: 'preferencia',
+        loadChildren: () => import('./pages/preferencia/preferencia.module').then(m => m.PreferenciaModule),
+        data:{title:'menu.preference'}
+      },
       
     ]
   }

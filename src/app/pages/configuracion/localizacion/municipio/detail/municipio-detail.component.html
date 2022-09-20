@@ -1,0 +1,72 @@
+<mat-toolbar>
+    <button mat-icon-button matTooltip="{{'button.back' | translate: {default: 'global.notfound'} | translate}}" routerLink="/configuracion/municipio">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+        {{'municipality.form' | translate: {default: "global.notfound"} }}
+    </span>
+    <!-- <span fxFlex></span> -->
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+    </div>
+</mat-toolbar>
+
+<div class="form-container" id="itemForm">
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'municipality.country' | translate: {default: 'global.country'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.paisNombre" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="50">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'municipality.state' | translate: {default: 'global.state'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.estadoNombre" readonly>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="10" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'municipality.code' | translate: {default: 'global.code'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.id" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="60" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'municipality.name' | translate: {default: 'global.name'} | translate }}</mat-label>
+                <input matInput [value]="d.nombre" readonly>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="20" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'municipality.city' | translate: {default: 'global.city'} | translate }}</mat-label>
+                <input matInput [value]="d.codigoLocal" readonly>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="10">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'municipality.localCode' | translate: {default: 'global.localCode'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.nombre" readonly>
+            </mat-form-field>
+        </div>
+
+    </div>
+
+    <app-audit-bar [element]="d.audit"></app-audit-bar>
+
+    <mat-toolbar>
+
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+            <button type="button" mat-button routerLink="/configuracion/municipio">{{'button.cancel' | translate: {default:
+                'global.notfound'} | translate }}</button>
+        </div>
+
+    </mat-toolbar>
+
+</div>

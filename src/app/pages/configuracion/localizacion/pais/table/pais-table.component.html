@@ -1,0 +1,60 @@
+<mat-toolbar fxLayoutGap="5px">
+    <div class="logo" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">reorder</mat-icon>
+        <span class="logo-text h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+            {{'country.table' | translate: {default: "global.notfound"} }}
+        </span>
+    </div>
+
+</mat-toolbar>
+
+
+<!-- 
+<mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+    <mat-card-content class="p-0"> -->
+<mat-table #table id="tableContainer" [dataSource]="dataSource" [@animateStagger]="{value:'50'}" matSort
+           matSortActive="pais_id" matSortDirection="asc">
+
+    <ng-container matColumnDef="pais_id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-30'">{{'country.code' | translate: {default: 'global.code'} | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+            <p class="font-weight-600">{{element.id}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'country.name' | translate: {default: 'global.name'} | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+            <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="activo">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header >{{'country.status' | translate: {default: 'global.status'} | translate }}</mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
+            <mat-chip mat-sm-chip [color]="element.activo ? 'primary' : 'warn'"
+                      [selected]="element.activo">{{element.activo ? 'Activo' : 'Inactivo'}}
+            </mat-chip>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'"></mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <app-actions-nav [element]="element"  [items]="actions.asObservable()" [method]="actionAPI()"></app-actions-nav>
+            </div>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let element; columns: displayedColumns;" class="element" 
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+
+<!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
+<mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
+               showFirstLastButtons></mat-paginator>
+<app-button-nav [method]="buttonAPI()"></app-button-nav>
