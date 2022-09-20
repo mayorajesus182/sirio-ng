@@ -1,7 +1,7 @@
 @use 'sass:math';
 @import "var";
 
-.toolbar-notifications {
+.toolbar-lang {
   position: relative;
 }
 
@@ -56,55 +56,3 @@
   padding: 0;
 }
 
-.notification {
-  min-height: 64px;
-  padding: 0 $spacing 0 math.div($spacing, 1.5);
-  position: relative;
-  cursor: pointer;
-
-  .icon {
-    height: 28px;
-    width: 28px;
-    line-height: 28px;
-    font-size: 18px;
-    margin-right: 13px;
-    text-align: center;
-    border-radius: 50%;
-  }
-
-  .label {
-    font: var(--font-body-1);
-    font-weight: 500;
-  }
-
-  .time {
-    font: var(--font-caption);
-  }
-
-  .close {
-    font-size: 18px;
-    width: 18px;
-    height: 18px;
-    line-height: 18px;
-  }
-}
-
-.empty {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  padding-top: $spacing;
-  padding-bottom: $spacing;
-}
-
-.dropdown-footer {
-  display: block;
-  line-height: 24px;
-  border-top-width: 1px;
-  border-top-style: solid;
-  cursor: pointer;
-  text-align: center;
-  font-size: 13px;
-}

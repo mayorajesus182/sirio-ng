@@ -3,6 +3,8 @@
 @import '~normalize.css/normalize.css';
 @import "~highlight.js/styles/androidstudio.css";
 @import "~simplebar/dist/simplebar.css";
+// // Flag icon
+@import "~flag-icon-css/css/flag-icons.css";
 
 @import "./var";
 @import "./theme";
@@ -12,8 +14,9 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core($config);
 
-@import "./partials/spacing";
 @import "./partials/scrollbars";
 @import "./partials/misc";
 @import "./partials/typography";
+@import "./partials/plugins/utilities";
+@import "./partials/spacing";
 @import "../shared/page-layout/page-layout.directive";

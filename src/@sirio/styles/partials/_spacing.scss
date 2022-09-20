@@ -13,7 +13,7 @@ $spaces: (
   44: 44px,
   48: 48px
 );
-
+$utilities: () !default;
 $utilities:(
   "margin": (
     // responsive: true,
@@ -115,6 +115,17 @@ $utilities:(
   margin: .333333rem !important;
 }
 
+
+// Print utilities
+@media print {
+  @each $key, $utility in $utilities {
+    // The utility can be disabled with `false`, thus check if the utility is a map first
+    // Then check if the utility needs print styles
+    @if type-of($utility) == "map" and map-get($utility, print) == true {
+      @include generate-utility($utility, "-print");
+    }
+  }
+}
 
 
 // [dir=rtl] {
