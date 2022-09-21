@@ -2,18 +2,16 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { SharedComponentsModule } from 'app/shared/components/shared-components.module';
-import { SharedDirectivesModule } from 'app/shared/directives/shared-directives.module';
-import { DomainServicesModule } from 'app/shared/domain/domain.services.module';
-import { SharedPipesModule } from 'app/shared/pipes/shared-pipes.module';
-import { SharedMaterialModule } from 'app/shared/shared-material.module';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
+import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
+import { MaterialModule } from 'src/@sirio/shared/material-components.module';
+import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
+import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { AgenciaRoutingModule } from 'src/app/pages/organizacion/agencia/agencia-routing.module';
 import { PaisDetailComponent } from './detail/pais-detail.component';
 import { PaisFormComponent } from './form/pais-form.component';
-import { PaisRoutes } from './pais-routing.module';
-import { PaisComponent } from './pais.component';
+import { PaisRoutingModule } from './pais-routing.module';
 import { PaisTableComponent } from './table/pais-table.component';
 
 @NgModule({
@@ -23,16 +21,17 @@ import { PaisTableComponent } from './table/pais-table.component';
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        SharedDirectivesModule,
-        SharedComponentsModule,
-        SharedPipesModule,
-        SharedMaterialModule,
-        DomainServicesModule,
-        PerfectScrollbarModule,
-        RouterModule.forChild(PaisRoutes)
+        PaisRoutingModule,
+        MaterialModule,
+        // Core
+        SirioSharedModule,
+        SharedComponentModule,
+               
+        HighlightModule,
+        SirioCardModule,
+        AgenciaRoutingModule
     ],
     declarations: [
-        PaisComponent,
         PaisFormComponent,
         PaisTableComponent,
         PaisDetailComponent

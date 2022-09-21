@@ -1,15 +1,16 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { appAnimations } from 'app/shared/animations/egret-animations';
-import { FormBaseComponent } from 'app/shared/components/base/form-base.component';
-import { PaisService } from 'app/shared/domain/services/configuracion/localizacion/pais.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
   selector: 'app-pais-detail',
   templateUrl: './pais-detail.component.html',
   styleUrls: ['./pais-detail.component.scss'],
-  animations: appAnimations
+  animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
 export class PaisDetailComponent extends FormBaseComponent implements OnInit {

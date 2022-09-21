@@ -52,6 +52,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log('loading layout');
+    
     let menuItems = [] as SidenavItem[];
 
     const dashboardItem = {

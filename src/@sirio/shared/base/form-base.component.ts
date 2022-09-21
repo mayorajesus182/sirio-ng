@@ -1,4 +1,5 @@
 
+import { Location } from "@angular/common";
 import { HttpResponse } from "@angular/common/http";
 
 import { ChangeDetectorRef, Component, Injector } from "@angular/core";
@@ -31,6 +32,9 @@ import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.in
         },
         {
             provide: "spinner", useClass: NgxSpinnerService
+        },
+        {
+            provide: "location", useClass: Location
         }
     ]
 })
@@ -56,6 +60,7 @@ export class FormBaseComponent {
     protected navService: NavigationService;
     protected swalService: SweetAlertService;
     protected spinner: NgxSpinnerService;
+    protected location: Location;
 
     isNew: boolean = false;
     public itemForm: FormGroup;
@@ -99,6 +104,7 @@ export class FormBaseComponent {
         this.spinner = injector.get(NgxSpinnerService);
         this.snack = injector.get(SnackbarService);
         this.swalService = injector.get(SweetAlertService);
+        this.location = injector.get(Location);
 
         this.opts.type = 'ball-scale-ripple-multiple';
         this.opts.size = 'medium';
@@ -302,7 +308,12 @@ export class FormBaseComponent {
         saveAs(blob, fileName);
     }
 
-    protected resetForm(): void {
+    
+    public back() {
+        this.location.back();
+    }
+
+    public resetForm(): void {
         if (this.itemForm) {
 
             //post send data to backend

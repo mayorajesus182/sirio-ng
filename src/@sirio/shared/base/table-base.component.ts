@@ -7,15 +7,16 @@ import { MatSort } from "@angular/material/sort";
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Spinner } from 'ngx-spinner/lib/ngx-spinner.enum';
-import { BehaviorSubject, merge } from "rxjs";
+import { BehaviorSubject, iif, merge } from "rxjs";
 import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { ApiConfConstants } from "src/@sirio/constants";
 import { DatasourceService } from "src/@sirio/services/datasource.service";
 import { NavigationService } from "src/@sirio/services/navigation.service";
 import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.interface";
 
 import { SnackbarService } from "../../services/snackbar.service";
 import { SweetAlertService } from "../../services/swal.service";
-import { MethodComponentApi } from "./actions/actions-nav.component";
+import { MethodComponentApi } from "../actions/actions-nav.component";
 
 @Component({
     template: '',
@@ -43,7 +44,7 @@ export class TableBaseComponent {
 
     @ViewChildren(MatPaginator) paginators: QueryList<MatPaginator>
     @ViewChild(MatSort) sort: MatSort;
-    @ViewChild('searchInput') searchInput: ElementRef;
+    // @ViewChild('searchInput') searchInput: ElementRef;
     private searchTerm: any = undefined;
     pageEvent: PageEvent;
     protected dialogRef: MatDialogRef<any>;
@@ -68,8 +69,6 @@ export class TableBaseComponent {
     }
 
     constructor(protected dialog: MatDialog, protected injector:Injector) {
-
-
         this.router = injector.get(Router);
         this.navService = injector.get(NavigationService);
         this.spinner = injector.get(NgxSpinnerService);
@@ -80,24 +79,37 @@ export class TableBaseComponent {
         if (this.router) {
 
             const url = this.router.url;
-            this.navService.getActions(url).subscribe(data => {
+            this.navService.getActions(url.substring(ApiConfConstants.APP_NAME.length)).subscribe(data => {
                 this.actions.next(data);
-                // console.log('actions ', data);
+                console.log('actions ', data);
 
             });
         }
 
     }
 
+    protected buildPrefixPath(path:string){
+        return `/${ApiConfConstants.APP_NAME}/${path}/`;
+    }
+
 
     public actionAPI(): MethodComponentApi {
         return {
             invoke: (element, name) => {
-                //console.log('this ',current, 'method '+name);
+                console.log('this ',element, 'method '+name);
 
                 this[name](element)
             }
         }
+    }
+
+    public eventActionClick(event){
+
+        
+        if(!event){
+            return;
+        }
+        console.log('click action ',event);
     }
 
     // public buttonAPI(): ButtonComponentApi {

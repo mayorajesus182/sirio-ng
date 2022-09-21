@@ -21,17 +21,11 @@ import { IdiomaTableComponent } from './table/idioma-table.component';
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        // SharedDirectivesModule,
-        
-        // SharedPipesModule,
         MaterialModule,
-        // PerfectScrollbarModule,
         // Core
         SirioSharedModule,
         SharedComponentModule,
-        BreadcrumbsModule,
-        
-        // Core
+               
         HighlightModule,
         SirioCardModule,
         

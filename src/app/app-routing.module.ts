@@ -42,6 +42,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/preferencia/preferencia.module').then(m => m.PreferenciaModule),
         data:{title:'menu.preference'}
       },
+      {
+        path: 'organizacion',
+        loadChildren: () => import('./pages/organizacion/organizacion.module').then(m => m.OrganizacionModule),
+        data:{title:'menu.organization'}
+      },
       
     ]
   }

@@ -1,4 +1,4 @@
-<div class="title">{{ current }}</div>
+<div class="title">{{ current  | translate: {default: 'global.notfound'} }}</div>
 <div class="crumbs" fxLayout="row" fxLayoutAlign="start center">
   <a [routerLink]="['/sirio/welcome']" class="crumb home">{{'globar.welcome'| translate: {default: 'Bienvenida'} }}</a>
   <div *ngFor="let crumb of crumbs" class="crumb" fxLayout="row" fxLayoutAlign="start center">

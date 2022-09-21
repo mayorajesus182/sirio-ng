@@ -2,35 +2,29 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import PerfectScrollbar from 'perfect-scrollbar';
-import { FormBaseComponent } from 'app/shared/components/base/form-base.component';
-import { Pais, PaisService } from 'app/shared/domain/services/configuracion/localizacion/pais.service';
-import { SnackbarService } from 'app/shared/services/snackbar.service';
-import { RegularExpConstants } from 'app/shared/constants/regularexp.constants';
-import { appAnimations } from 'app/shared/animations/egret-animations';
-import { SweetAlertService } from 'app/shared/services/swal.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
+
+import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
     selector: 'app-pais-form',
     templateUrl: './pais-form.component.html',
     styleUrls: ['./pais-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: appAnimations
+    animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
 export class PaisFormComponent extends FormBaseComponent implements OnInit {
 
     pais: Pais = {} as Pais;
 
-    a: PerfectScrollbar;
 
     constructor(
         injector: Injector,
         dialog: MatDialog,
-        snack: SnackbarService,
-        spinner: NgxSpinnerService,
-        swal: SweetAlertService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private paisService: PaisService,

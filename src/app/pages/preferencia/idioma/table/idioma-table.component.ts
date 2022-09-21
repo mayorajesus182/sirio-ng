@@ -51,15 +51,17 @@ export class IdiomaTableComponent extends TableBaseComponent implements OnInit, 
   add(path:string) {
     console.log(' apply add action '+path);
     
-    this.router.navigate([`/${ApiConfConstants.APP_NAME}/${path}/add`]);
+    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(path:string,element) {
-    this.router.navigate([`${path}/${element.id}/edit`]);
+  edit(data) {
+    console.log('data event click ', data);
+    
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
-  view(path:string,element) {
-    this.router.navigate([`${path}/${element.id}/view`]);
+  view(data) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}$${data.element.id}/view`]);
   }
 
   activateOrInactivate(path:string,element: Idioma) {

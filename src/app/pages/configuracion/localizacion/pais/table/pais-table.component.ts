@@ -4,20 +4,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { TableBaseComponent } from 'app/shared/components/base/table-base.component';
-import { SnackbarService } from 'app/shared/services/snackbar.service';
-import { NavigationService } from 'app/shared/services/navigation.service';
-import { SweetAlertService } from 'app/shared/services/swal.service';
-import { appAnimations } from 'app/shared/animations/egret-animations';
-import { Pais, PaisService } from 'app/shared/domain/services/configuracion/localizacion/pais.service';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
+import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 
 @Component({
   selector: 'app-pais-table',
   templateUrl: './pais-table.component.html',
   styleUrls: ['./pais-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: appAnimations
+  animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
 export class PaisTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -29,12 +26,8 @@ export class PaisTableComponent extends TableBaseComponent implements OnInit, Af
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
-    protected snack: SnackbarService,
-    protected navService: NavigationService,
     protected router: Router,
-    protected spinner: NgxSpinnerService,
     private cdr: ChangeDetectorRef,
-    protected swalService: SweetAlertService,
     private paisService: PaisService,
   ) {
     super(undefined,  injector);

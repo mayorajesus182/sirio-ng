@@ -68,6 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+    
     this.changePageTitle();
   }
 
@@ -88,7 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
           let title =  this.translate.instant(part.title);
 
-          console.log('tl ', title);
+          // console.log('tl ', title);
 
           return title;
 

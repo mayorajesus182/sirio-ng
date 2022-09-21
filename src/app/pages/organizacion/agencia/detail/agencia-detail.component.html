@@ -1,0 +1,123 @@
+<mat-toolbar>
+    <button mat-icon-button matTooltip="{{'button.back' | translate: {default: 'global.notfound'} | translate}}" routerLink="/organizacion/agencia">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+        {{'agency.form' | translate: {default: "global.notfound"} }}
+    </span>
+    <!-- <span fxFlex></span> -->
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+    </div>
+</mat-toolbar>
+
+<div class="form-container" id="itemForm">
+
+    <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.code' | translate: {default: 'global.code'} | translate }}</mat-label>
+                <input matInput [value]="d.codigo" readonly>
+            </mat-form-field>
+        </div>
+        
+
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.name' | translate: {default: 'global.name'} | translate }}</mat-label>
+                <input matInput [value]="d.nombre" readonly>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="30" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.email' | translate: {default: 'global.email'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.email" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="35" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.phone' | translate: {default: 'global.phone'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.telefono" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+
+        <div fxFlex="100" fxFlex.gt-xs="35" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.telefono_alt" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="35" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.state' | translate: {default: 'global.state'} | translate }}</mat-label>
+                <input matInput [value]="d.estadoNombre" readonly>
+            </mat-form-field>
+        </div>
+
+
+        <div fxFlex="100" fxFlex.gt-xs="35" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.municipality' | translate: {default: 'global.municipality'} | translate }}</mat-label>
+                <input matInput [value]="d.municipioNombre" readonly>
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="30" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.parish' | translate: {default: 'global.parish'} | translate }}</mat-label>
+                <input matInput [value]="d.parroquiaNombre" readonly>
+            </mat-form-field>
+        </div>
+
+
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.postalZone' | translate: {default: 'global.postalZone'} | translate }}</mat-label>
+                <input matInput [value]="d.zonaPostalNombre" readonly>
+            </mat-form-field>
+        </div>     
+
+        
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.direction' | translate: {default: 'global.direction'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.direccion" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.latitude' | translate: {default: 'global.latitude'} | translate }}</mat-label>
+                <input matInput [value]="d.latitud" readonly>
+            </mat-form-field>
+        </div>     
+
+        
+        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+            <mat-form-field appearance="outline" class="full-width">
+                <mat-label>{{'postalZone.longitude' | translate: {default: 'global.longitude'} | translate }}</mat-label>
+                <input matInput class="text-center" [value]="d.longitud" readonly class="text-center">
+            </mat-form-field>
+        </div>
+
+         
+        
+
+    </div>
+
+    <sirio-audit-bar [element]="d.audit"></sirio-audit-bar>
+
+    <mat-toolbar>
+
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+            <button type="button" mat-button routerLink="/organizacion/agencia">{{'button.cancel' | translate: {default:
+                'global.notfound'} | translate }}</button>
+        </div>
+
+    </mat-toolbar>
+
+</div>

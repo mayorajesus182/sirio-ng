@@ -1,0 +1,144 @@
+<mat-toolbar>
+    <button mat-icon-button matTooltip="{{'button.back' | translate: {default: 'global.notfound'} | translate}}" routerLink="/organizacion/agencia">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+        {{'agency.form' | translate: {default: "global.notfound"} }}
+    </span>
+    <!-- <span fxFlex></span> -->
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+        <button mat-icon-button matTooltip="{{'button.ai' | translate: {default: 'global.notfound'} | translate }}"
+            *ngIf="agencia.id" (click)="activateOrInactivate()">
+            <mat-icon>check_circle</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="{{'button.save' | translate: {default: 'global.notfound'} | translate}}" (click)="save()" [disabled]="itemForm?.invalid">
+            <mat-icon>trash</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
+
+<div id="itemForm" class="form-container">
+    <form [formGroup]="itemForm" *ngIf="itemForm" class="form-content" (ngSubmit)="save()">
+
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+            <div fxFlex="100" fxFlex.gt-xs="20" class="pr-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}</mat-label>
+                    <input matInput minlength="4" maxlength="4" name="codigo" formControlName="codigo" uppercase
+                        required class="text-center">
+                    <mat-error *ngIf="f.codigo.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.codigo.errors?.pattern">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="80">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}</mat-label>
+                    <input matInput maxlength="200" name="nombre" formControlName="nombre" uppercase required>
+                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="40" class="pr-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}</mat-label>
+                    <input type="email" matInput maxlength="60" name="email" formControlName="email" required>
+                    <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.email.errors?.invalid">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="30" class="pr-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}</mat-label>
+                    <input matInput maxlength="15" name="telefono" formControlName="telefono" uppercase
+                        class="text-center" required>
+                    <mat-error *ngIf="f.telefono.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.telefono.errors?.invalid">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="30">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate
+                        }}</mat-label>
+                    <input matInput maxlength="15" name="telefono_alt" formControlName="telefono_alt" uppercase
+                        class="text-center">
+                    <mat-error *ngIf="f.telefono_alt.errors?.invalid">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="40" class="pr-4">
+                <app-select-search [label]="'agency.state' | translate: {default: 'global.state'} | translate"
+                    formControlName="estado" [required]="true" [elements]="estados.asObservable()"
+                    [attributeName]="'nombre'" [errors]="f.estado?.errors">
+                </app-select-search>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="30" class="pr-4">
+                <app-select-search
+                    [label]="'agency.municipality' | translate: {default: 'global.municipality'} | translate"
+                    formControlName="municipio" [required]="true" [elements]="municipios.asObservable()"
+                    [attributeName]="'nombre'" [errors]="f.municipio?.errors">
+                </app-select-search>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="30">
+                <app-select-search [label]="'agency.parish' | translate: {default: 'global.parish'} | translate"
+                    formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()"
+                    [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
+                </app-select-search>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="40" class="pr-4">
+                <app-select-search [label]="'agency.postalZone' | translate: {default: 'global.postalZone'} | translate"
+                    formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()"
+                    [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
+                </app-select-search>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="60">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
+                    </mat-label>
+                    <input matInput maxlength="200" name="direccion" formControlName="direccion" uppercase required>
+                    <mat-error *ngIf="f.direccion.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.direccion.errors?.pattern">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}</mat-label>
+                    <input matInput maxlength="13" name="latitud" formControlName="latitud" uppercase
+                        class="text-center" required>
+                    <mat-error *ngIf="f.latitud.errors?.required">Requerido</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
+                    </mat-label>
+                    <input matInput maxlength="13" name="longitud" formControlName="longitud" uppercase
+                        class="text-center" required>
+                    <mat-error *ngIf="f.longitud.errors?.required">Requerido</mat-error>
+                </mat-form-field>
+            </div>
+
+        </div>
+
+    </form>
+    <mat-toolbar>
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+            <button type="button" mat-button routerLink="/organizacion/agencia">{{'button.cancel' | translate: {default:
+                'global.notfound'} | translate }}</button>
+            <button color="primary" (click)="save()" mat-raised-button
+                [disabled]="itemForm?.invalid ||  (!isNew && !agencia.activo)">{{'button.save' | translate: {default:
+                'global.notfound'} | translate }}</button>
+        </div>
+    </mat-toolbar>
+</div>
