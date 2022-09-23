@@ -133,10 +133,10 @@ export class TableBaseComponent {
 
             service.searchTerm.asObservable().pipe(
                 debounceTime(150)).subscribe(term => {
-                    console.log('data seach ', term);
+                    // console.log('data seach ', term);
                     this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
                     this.paginators.first.pageIndex = 0;
-                    console.log('TERM 1', term);
+                    // console.log('TERM 1', term);
 
                     this.searchTerm = term;
                     this.refreshElementList();

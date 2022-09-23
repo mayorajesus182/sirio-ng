@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Idioma']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['state.form']" current="action.add"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'language.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'state.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
@@ -20,7 +20,7 @@
 
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" (click)="resetForm()">
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>clear_all</mat-icon>
 
                         </button>
@@ -33,8 +33,8 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div class="result" fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm" class="form-content" (ngSubmit)="save()">
+                    <div  fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
 
 
                             <sirio-select-search

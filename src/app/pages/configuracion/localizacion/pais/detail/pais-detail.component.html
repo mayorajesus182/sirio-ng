@@ -1,59 +1,67 @@
-<mat-toolbar>
-    <button mat-icon-button matTooltip="{{'button.back' | translate: {default: 'global.notfound'} | translate}}" routerLink="/configuracion/pais">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-        {{'country.form' | translate: {default: "global.notfound"} }}
-    </span>
-    <!-- <span fxFlex></span> -->
-    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
-    </div>
-</mat-toolbar>
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['country.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
 
-<div class="form-container" id="itemForm">
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-    <div fxLayout="row wrap" fxLayoutAlign="center center">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
 
-        <div fxFlex="100" fxFlex.gt-xs="10" class="pr-4">
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>{{'country.code' | translate: {default: 'global.code'} | translate }}</mat-label>
-                <input matInput class="text-center" [value]="d.id" readonly class="text-center">
-            </mat-form-field>
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'country.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="10" >
+                                <mat-label>{{'country.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.id" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="auto" >
+                                <mat-label>{{'country.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="auto" >
+                                <mat-label>{{'country.demonym' | translate: {default: 'global.demonym'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.gentilicio" readonly>
+                            </mat-form-field>
+                            
+                            <mat-form-field fxFlex.gt-xs="10" >
+                                <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} | translate
+                                }}</mat-label>
+                                <input matInput class="text-center" [value]="d.codigoLocal" readonly>
+                            </mat-form-field>
+                            
+                        </div>
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+
+            </sirio-card>
         </div>
-
-        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>{{'country.name' | translate: {default: 'global.name'} | translate }}</mat-label>
-                <input matInput [value]="d.nombre" readonly>
-            </mat-form-field>
-        </div>
-
-        <div fxFlex="100" fxFlex.gt-xs="30" class="pr-4">
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>{{'country.demonym' | translate: {default: 'global.demonym'} | translate }}</mat-label>
-                <input matInput [value]="d.gentilicio" readonly>
-            </mat-form-field>
-        </div>
-
-        <div fxFlex="100" fxFlex.gt-xs="10">
-            <mat-form-field appearance="outline" class="full-width">
-                <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} | translate }}</mat-label>
-                <input matInput class="text-center" [value]="d.codigoLocal" readonly>
-            </mat-form-field>
-        </div>
-
-    </div>
-
-    
-    <sirio-audit-bar [element]="d.audit"></sirio-audit-bar>
-
-    <mat-toolbar>
-
-        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-            <button type="button" mat-button routerLink="/configuracion/pais">{{'button.cancel' | translate: {default:
-                'global.notfound'} | translate }}</button>
-        </div>
-
-    </mat-toolbar>
-
-</div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

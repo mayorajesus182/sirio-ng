@@ -3,7 +3,7 @@
   <a [routerLink]="['/sirio/welcome']" class="crumb home">{{'globar.welcome'| translate: {default: 'Bienvenida'} }}</a>
   <div *ngFor="let crumb of crumbs" class="crumb" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="chevron">chevron_right</mat-icon>
-    <div class="link">{{ crumb }}</div>
+    <div class="link">{{ crumb | translate: {default: 'global.notfound'} }}</div>
   </div>
   <div class="crumb current" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="chevron">chevron_right</mat-icon>

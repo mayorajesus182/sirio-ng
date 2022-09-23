@@ -22,7 +22,7 @@ export class PaisService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/pais'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/pais'};
     }
 
     all(): Observable<Pais[]> {

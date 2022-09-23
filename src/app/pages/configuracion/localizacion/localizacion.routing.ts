@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 const configuracionRoutes: Routes = [
 
-
     {
         path: 'pais',
         data: { title: 'País' },

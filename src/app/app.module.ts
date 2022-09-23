@@ -33,10 +33,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 
     // Displays Loading Bar when a Route Request or HTTP Request is pending
     PendingInterceptorModule,
-    // Optionally you can set time for `idle`, `timeout` and `ping` in seconds.
-    // Default values: `idle` is 600 (10 minutes), `timeout` is 300 (5 minutes) 
-    // and `ping` is 120 (2 minutes).
-    UserIdleModule.forRoot({ idle: 60*3, timeout: 15, ping: 120 }),
+    
     TranslateModule.forRoot({
       missingTranslationHandler: 
       {

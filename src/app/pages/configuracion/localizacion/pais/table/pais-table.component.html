@@ -1,10 +1,10 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Idioma']" current="language.table"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['country.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'language.table' | translate: {default: 'global.notfound'}" placeholder="language.search"
+        <sirio-list [name]="'country.table' | translate: {default: 'global.notfound'}" placeholder="country.search"
             (filterChange)="onFilterChange($event)">
 
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort

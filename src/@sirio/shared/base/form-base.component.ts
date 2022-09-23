@@ -128,7 +128,7 @@ export class FormBaseComponent {
                 this.spinner.show('componentLoading', opts);
             } else {
 
-                console.log('loading hiden ', status);
+                // console.log('loading hiden ', status);
                 this.spinner.hide('componentLoading');
             }
         });
@@ -280,8 +280,8 @@ export class FormBaseComponent {
         if (this.isNew) {
             return service.save(formData)
                 .subscribe(data => {
-                    // this.itemForm.reset({});
-                    this.resetForm()
+                    this.itemForm.reset({});
+                    // this.resetForm()
                     this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
                     return data;
                 }, error => this.errorResponse(true));

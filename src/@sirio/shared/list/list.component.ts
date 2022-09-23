@@ -27,7 +27,7 @@ export class ListComponent implements AfterViewInit {
     if (!this.hideHeader) {
       fromEvent(this.filter.nativeElement, 'keyup').pipe(
         distinctUntilChanged(),
-        debounceTime(150)
+        debounceTime(250)
       ).subscribe(() => {
         this.filterChange.emit(this.filter.nativeElement.value);
       });
