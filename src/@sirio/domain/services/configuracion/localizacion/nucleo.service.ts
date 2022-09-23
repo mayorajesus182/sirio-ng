@@ -23,7 +23,7 @@ export class NucleoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/nucleo'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/nucleo'};
     }
 
     all(): Observable<Nucleo[]> {

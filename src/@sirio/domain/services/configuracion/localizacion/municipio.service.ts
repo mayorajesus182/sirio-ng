@@ -29,7 +29,7 @@ export class MunicipioService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/municipio'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/municipio'};
     }
 
     all(): Observable<Municipio[]> {

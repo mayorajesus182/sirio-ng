@@ -27,7 +27,7 @@ export class ZonaPostalService {
     constructor(
         private apiService: ApiService
     ){
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/zona'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/zona'};
     }
 
     all(): Observable<ZonaPostal[]> {

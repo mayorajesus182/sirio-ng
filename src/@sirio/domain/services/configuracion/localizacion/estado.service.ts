@@ -24,7 +24,7 @@ export class EstadoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/estado'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/estado'};
     }
 
     all(): Observable<Estado[]> {

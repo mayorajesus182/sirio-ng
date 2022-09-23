@@ -26,7 +26,7 @@ export class ParroquiaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/parroquia'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/parroquia'};
     }
 
     all(): Observable<Parroquia[]> {

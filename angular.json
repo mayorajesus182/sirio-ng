@@ -1,5 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "5fd1dfee-2990-4a18-8d32-fb92801c7d9f"
+  },
   "version": 1,
   "newProjectRoot": "projects",
   "defaultProject": "sirio",
