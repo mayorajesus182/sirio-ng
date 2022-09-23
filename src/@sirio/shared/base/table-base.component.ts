@@ -44,6 +44,7 @@ export class TableBaseComponent {
 
     @ViewChildren(MatPaginator) paginators: QueryList<MatPaginator>
     @ViewChild(MatSort) sort: MatSort;
+    filter = new BehaviorSubject<string>('');
     // @ViewChild('searchInput') searchInput: ElementRef;
     private searchTerm: any = undefined;
     pageEvent: PageEvent;
@@ -128,6 +129,7 @@ export class TableBaseComponent {
         this.dataSource.loadData('', nameColumnSort, 'asc', 0, 15);
 
         if (service.searchTerm) {
+            this.filter= service.searchTerm;
 
             service.searchTerm.asObservable().pipe(
                 debounceTime(150)).subscribe(term => {
@@ -161,6 +163,16 @@ export class TableBaseComponent {
 
 
     }
+
+
+  onFilterChange(value) {
+    if (!this.dataSource) {
+      return;
+    }
+    value = value.trim();
+    const term = value.toLowerCase();
+    this.filter.next(term);
+  }
 
     public filterElementList(keyword, elements) {
         //console.log('searching ');

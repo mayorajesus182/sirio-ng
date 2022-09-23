@@ -47,6 +47,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/organizacion/organizacion.module').then(m => m.OrganizacionModule),
         data:{title:'menu.organization'}
       },
+      {
+        path: 'configuracion',
+        loadChildren: () => import('./pages/configuracion/configuracion.module').then(m => m.ConfiguracionModule),
+        data:{title:'menu.configuracion'}
+      },
       
     ]
   },

@@ -17,10 +17,8 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
-export class IdiomaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
+export class IdiomaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  test: string;
-  unsubscribeAll: Subject<any>;
   displayedColumns = ['idioma_id', 'nombre', 'activo', 'actions'];
 
   constructor(
@@ -31,7 +29,6 @@ export class IdiomaTableComponent extends TableBaseComponent implements OnInit, 
     private idiomaService: IdiomaService,
   ) {
     super(undefined,  injector);
-    this.unsubscribeAll = new Subject();
   }
 
   ngOnInit() {
@@ -42,10 +39,6 @@ export class IdiomaTableComponent extends TableBaseComponent implements OnInit, 
     this.afterInit();
   }
 
-  ngOnDestroy() {
-    this.unsubscribeAll.next();
-    this.unsubscribeAll.complete();
-  }
 
   add(path:string) {
     console.log(' apply add action '+path);
@@ -60,7 +53,7 @@ export class IdiomaTableComponent extends TableBaseComponent implements OnInit, 
   }
 
   view(data) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}$${data.element.id}/view`]);
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
   activateOrInactivate(data:any) {
@@ -68,14 +61,6 @@ export class IdiomaTableComponent extends TableBaseComponent implements OnInit, 
   }
 
 
-  onFilterChange(value) {
-    if (!this.dataSource) {
-      return;
-    }
-    value = value.trim();
-    const term = value.toLowerCase();
-    this.idiomaService.searchTerm.next(term);
-  }
 
 }
 

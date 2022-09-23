@@ -8,7 +8,6 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { AgenciaRoutingModule } from 'src/app/pages/organizacion/agencia/agencia-routing.module';
 import { PaisDetailComponent } from './detail/pais-detail.component';
 import { PaisFormComponent } from './form/pais-form.component';
 import { PaisRoutingModule } from './pais-routing.module';
@@ -21,7 +20,6 @@ import { PaisTableComponent } from './table/pais-table.component';
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        PaisRoutingModule,
         MaterialModule,
         // Core
         SirioSharedModule,
@@ -29,7 +27,7 @@ import { PaisTableComponent } from './table/pais-table.component';
                
         HighlightModule,
         SirioCardModule,
-        AgenciaRoutingModule
+        PaisRoutingModule
     ],
     declarations: [
         PaisFormComponent,

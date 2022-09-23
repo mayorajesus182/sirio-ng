@@ -11,7 +11,7 @@ import { ListComponent } from './list/list.component';
 import { MaterialModule } from './material-components.module';
 import { SelectSearchComponent } from './select/select-search.component';
 import { SelectSimpleComponent } from './select/select-simple.component';
-
+import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 
 
 
@@ -32,7 +32,8 @@ const components = [
     RouterModule,
     TranslateModule,
     FlexLayoutModule,
-    MaterialModule
+    MaterialModule,
+    NgxMatSelectSearchModule
   ],
   
 declarations: components,

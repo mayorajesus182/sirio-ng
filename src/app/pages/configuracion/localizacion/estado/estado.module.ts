@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -8,15 +9,17 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { IdiomaDetailComponent } from './detail/idioma-detail.component';
-import { IdiomaFormComponent } from './form/idioma-form.component';
-import { IdiomaRoutingModule } from './idioma-routing.module';
-import { IdiomaTableComponent } from './table/idioma-table.component';
+
+import { EstadoDetailComponent } from './detail/estado-detail.component';
+import { EstadoRoutingModule } from './estado-routing.module';
+
+import { EstadoFormComponent } from './form/estado-form.component';
+import { EstadoTableComponent } from './table/estado-table.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        // FormsModule,
+        FormsModule,
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
@@ -26,17 +29,16 @@ import { IdiomaTableComponent } from './table/idioma-table.component';
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
-
-        IdiomaRoutingModule,
+        EstadoRoutingModule
     ],
     declarations: [
-        IdiomaFormComponent,
-        IdiomaTableComponent,
-        IdiomaDetailComponent
+        EstadoFormComponent,
+        EstadoTableComponent,
+        EstadoDetailComponent
     ],
     exports: [],
 })
 
-export class IdiomaModule {
+export class EstadoModule {
 
 }

@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Idioma']" current="action.view"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Idioma']" current="action.add"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -11,7 +11,7 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'language.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
@@ -24,29 +24,33 @@
 
                     <div class="result" fxLayout="column" *ngIf="d.id">
 
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="12px">
+                        <mat-form-field fxFlex="100">
+                            <mat-label>{{'state.country' | translate: {default: 'global.country'} | translate }}
+                            </mat-label>
+                            <input matInput [value]="d.pais" readonly>
+                        </mat-form-field>
 
-                                <mat-form-field   fxFlex="auto">
-                                    <mat-label>{{'language.code' | translate: {default: 'global.code'} | translate }}
-                                    </mat-label>
-                                    <input matInput class="text-center" [value]="d.id" readonly class="text-center">
-                                </mat-form-field>
-                            
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-sm="70" >
-                                    <mat-label>{{'language.name' | translate: {default: 'global.name'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="d.nombre" readonly>
-                                </mat-form-field>
-                            
-                                <mat-form-field fxFlex="auto" >
-                                    <mat-label>{{'language.icon' | translate: {default: 'global.icon'} | translate }}
-                                    </mat-label>
-                                    <input matInput class="text-center" [value]="d.icono" readonly>
-                                </mat-form-field>
-                            
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'state.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.id" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="70">
+                                <mat-label>{{'state.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'state.localCode' | translate: {default: 'global.localCode'} |
+                                    translate }}</mat-label>
+                                <input matInput class="text-center" [value]="d.codigoLocal" readonly>
+                            </mat-form-field>
+
                         </div>
-
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
 
                     </div>

@@ -3,24 +3,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { IdiomaService } from 'src/@sirio/domain/services/preferencias/idioma.service';
+import { EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'sirio-idioma-detail',
-  templateUrl: './idioma-detail.component.html',
-  styleUrls: ['./idioma-detail.component.scss'],
+  selector: 'app-estado-detail',
+  templateUrl: './estado-detail.component.html',
+  styleUrls: ['./estado-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class IdiomaDetailComponent extends FormBaseComponent implements OnInit {
+export class EstadoDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
     private router: Router,
     private route: ActivatedRoute,
-    private idiomaService: IdiomaService) {
+    private estadoService: EstadoService) {
     super(undefined, injector);
   }
 
@@ -29,9 +29,7 @@ export class IdiomaDetailComponent extends FormBaseComponent implements OnInit {
 
     this.loadingDataForm.next(true);
 
-    this.idiomaService.get(id).subscribe(data => {
-      console.log('view idioma ',data);
-      
+    this.estadoService.detail(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
