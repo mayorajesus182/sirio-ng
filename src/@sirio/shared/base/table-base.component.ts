@@ -81,7 +81,7 @@ export class TableBaseComponent {
             const url = this.router.url;
             this.navService.getActions(url.substring(ApiConfConstants.APP_NAME.length)).subscribe(data => {
                 this.actions.next(data);
-                console.log('actions ', data);
+                // console.log('actions ', data);
 
             });
         }

@@ -25,7 +25,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    SirioSharedModule,
+    // SirioSharedModule,
     AppRoutingModule,
 
     // Layout Module (Sidenav, Toolbar, Quickpanel, Content)
@@ -73,7 +73,7 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
     
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ]
 })
 export class AppModule {

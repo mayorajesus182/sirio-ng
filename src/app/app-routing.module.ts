@@ -11,7 +11,7 @@ const routes: Routes = [
   },
   {
     path: 'user',
-    loadChildren: () => import('./pages/authentication/login/login.module').then(m => m.LoginModule),
+    loadChildren: () => import('./pages/authentication/authentication.module').then(m => m.AuthModule),
   },
   {
     path: 'errors',
@@ -49,6 +49,10 @@ const routes: Routes = [
       },
       
     ]
+  },
+  {
+    path: '**',
+    redirectTo: 'errors/404'
   }
 ];
 

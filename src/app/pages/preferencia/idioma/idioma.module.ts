@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { BreadcrumbsModule } from 'src/@sirio/shared/breadcrumbs/breadcrumbs.module';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
 import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
@@ -17,18 +16,17 @@ import { IdiomaTableComponent } from './table/idioma-table.component';
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
+        MaterialModule,
+        SirioSharedModule,
+        // FormsModule,
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        MaterialModule,
         // Core
-        SirioSharedModule,
         SharedComponentModule,
-               
         HighlightModule,
         SirioCardModule,
-        
+
         IdiomaRoutingModule,
     ],
     declarations: [

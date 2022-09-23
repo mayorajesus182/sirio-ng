@@ -33,7 +33,7 @@ export class ActionsNavComponent implements OnInit {
   }
 
   callMethod(item:SidenavItem) {
-    console.log('click ', item);
+    // console.log('click ', item);
     
     this.method.invoke({element:this.element,path:item.view}, item.functionName);
   }

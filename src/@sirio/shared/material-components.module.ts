@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +13,7 @@ import { ErrorStateMatcher, MatNativeDateModule, MatRippleModule, MAT_DATE_FORMA
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -33,6 +35,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const customCurrencyMaskConfig = {
   align: "right",
@@ -62,7 +65,9 @@ export const DATE_FORMATS_CUSTOM = {
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
     MatInputModule,
@@ -97,7 +102,15 @@ export const DATE_FORMATS_CUSTOM = {
     FlexLayoutModule,
     MatDividerModule,
     MatBadgeModule,
-    MatChipsModule
+    MatChipsModule,
+
+    MatFormFieldModule,
+    // MatExpansionModule,
+    // MatMomentDateModule,
+    // MatTreeModule,
+    // MatBottomSheetModule,
+    NgxSpinnerModule,
+    // NgxMatSelectSearchModule,
   ],
   providers: [
     { provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig },

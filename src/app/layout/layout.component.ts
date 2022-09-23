@@ -71,10 +71,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     });
 
-
+    this.userIdle.startWatching();
 
     // Start watching when user idle is starting.
-    this.userIdle.onTimerStart().subscribe(count => console.log('timer ', count));
+    // this.userIdle.onTimerStart().subscribe(count => console.log('timer ', count));
 
     // Start watch when time is up.
     this.userIdle.onTimeout().subscribe(() => console.log('Time is up!'));

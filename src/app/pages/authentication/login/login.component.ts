@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   visible = false;
 
   constructor(
-    private userIdle: UserIdleService,
+    
     private router: Router,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
             panelClass: 'success-snackbar'
           });
 
-          this.userIdle.startWatching();
+          // this.userIdle.startWatching();
 
         },
         err => {

@@ -9,6 +9,7 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { ErrorsRoutingModule } from './errors-routing.module';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
+    ErrorsRoutingModule,
     // Core
     SirioSharedModule,
     SharedComponentModule,

@@ -30,7 +30,8 @@ import { ToolbarModule } from './toolbar/toolbar.module';
     FooterModule,
     BackdropModule,
     ConfigPanelModule,
-    NavigationModule
+    NavigationModule,
+    
   ],
   declarations: [LayoutComponent]
 })

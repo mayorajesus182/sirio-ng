@@ -4,11 +4,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
-import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
-import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Idioma, IdiomaService } from 'src/@sirio/domain/services/preferencias/idioma.service';
-import { ApiConfConstants } from 'src/@sirio/constants';
+import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 @Component({
   selector: 'sirio-idioma-table',
@@ -64,8 +63,8 @@ export class IdiomaTableComponent extends TableBaseComponent implements OnInit, 
     this.router.navigate([`${this.buildPrefixPath(data.path)}$${data.element.id}/view`]);
   }
 
-  activateOrInactivate(path:string,element: Idioma) {
-    this.applyChangeStatus(this.idiomaService, element, element.nombre, this.cdr);
+  activateOrInactivate(data:any) {
+    this.applyChangeStatus(this.idiomaService, data.element, data.element.nombre, this.cdr);
   }
 
 

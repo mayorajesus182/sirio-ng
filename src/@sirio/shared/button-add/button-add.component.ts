@@ -32,7 +32,7 @@ export class ButtonAddComponent implements OnInit, AfterViewInit {
 
       const url = this.router.url;
       this.navService.getButtons(url.substring(ApiConfConstants.APP_NAME.length)).subscribe(data => {
-        console.log('button add action ',data);
+        // console.log('button add action ',data);
         
         if (data.length > 0) {
           this.button = data[0];

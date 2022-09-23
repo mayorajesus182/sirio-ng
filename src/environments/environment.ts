@@ -13,6 +13,7 @@ export const environment = {
   api: {
     public: config.apiDevUrl+'/api/public',
     default: config.apiDevUrl+'/api',
+    default_secure: config.apiDevUrl+'/api',
     auth: config.apiDevUrl+'/api',
     autorizacion: config.apiDevUrl+'/api/autorizacion',
     comun: config.apiDevUrl+'/api/comun',
@@ -21,9 +22,9 @@ export const environment = {
     websocket: config.apiDevUrl+'/websocket',
     auditoria: config.apiDevUrl+'/api/auditoria',
     reports: config.apiDevUrl+'/api/reports',
-    persona: config.apiDevUrl+'/api/persona',
-    configuracion: config.apiDevUrl+'/api/configuracion',
-    organizacion: config.apiDevUrl+'/api/organizacion',
-    preferencia: config.apiDevUrl+'/api/preferencia',
+    persona: config.apiProUrl+'/api/persona',
+    configuracion: config.apiProUrl+'/api/configuracion',
+    organizacion: config.apiProUrl+'/api/organizacion',
+    preferencia: config.apiProUrl+'/api/preferencia',
   }
 };

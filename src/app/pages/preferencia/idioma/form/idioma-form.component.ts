@@ -39,9 +39,8 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
             this.idiomaService.get(id).subscribe((agn: Idioma) => {
                 this.idioma = agn;
                 this.buildForm(this.idioma);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.cdr.detectChanges();
+                this.cdr.markForCheck();
             });
         } else {
             this.buildForm(this.idioma);
@@ -59,11 +58,16 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     buildForm(idioma: Idioma) {
+
+        console.log('idioma ', idioma);
+        
         this.itemForm = this.fb.group({
             id: [{value: idioma.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
             nombre: [idioma.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
-            icono: [idioma.icono || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+            icono: [idioma.icono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA)]],
         });
+
+        this.printErrors()
     }
 
     save() {
@@ -76,7 +80,7 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
 
     private codigoExists(id) {
         this.idiomaService.exists(id).subscribe(data => {
-            console.log(data.exists)
+            console.log('lang exists', data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: "El código existe"

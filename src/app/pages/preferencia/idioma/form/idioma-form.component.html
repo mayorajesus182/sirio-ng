@@ -14,7 +14,7 @@
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid ||  (!isNew && !idioma.activo)" (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
                             
                         </button>
@@ -67,7 +67,8 @@
                                         </mat-label>
                                         <input matInput maxlength="20"  autocomplete="off" name="icono" formControlName="icono" uppercase
                                             class="text-center">
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                        <mat-error *ngIf="f.icono.errors?.required">Requerido</mat-error>
+                                        <mat-error *ngIf="f.icono.errors?.pattern">Caracter Inválido</mat-error>
                                     </mat-form-field>
                             
 
@@ -83,7 +84,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}</button>
                         <button color="primary" (click)="save()" mat-raised-button
-                            [disabled]="itemForm?.invalid ||  (!isNew && !idioma.activo)">  
+                            [disabled]="itemForm?.invalid  ">  
                             <mat-icon class="margin-bottom-xxs" >save</mat-icon> {{'button.save' | translate: {default: 'global.notfound'} | translate }}</button>
                     </div>
 
