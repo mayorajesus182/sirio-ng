@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
+import { ForbiddenComponent } from "./forbidden/forbidden.component";
 
 import { NotFoundComponent } from "./not-found/not-found.component";
 
@@ -14,7 +15,7 @@ const errorsRoutes: Routes = [
       },
       {
         path: "403",
-        component: NotFoundComponent,
+        component: ForbiddenComponent,
         data: { title: "403" }
       }
     ]

@@ -1,23 +1,13 @@
-<div class="d-flex align-items-center h-full mat-bg-card">
-  <div class="app-error">
-    <div class="fix">
-      <mat-icon class="error-icon" color="accent">warning</mat-icon>
-      <div class="error-text">
-        <h1 class="error-title">403</h1>
-        <div class="error-subtitle">Access Forbidden!</div>
-      </div>
+<div id="notfound" class="background-pattern">
+  <div class="notfound">
+    <div class="notfound-404">
+      <h3>Oops! Forbidden Access</h3>
+      <h1><span>4</span><span>0</span><span>3</span></h1>
     </div>
-    
-    <div class="error-actions">
-      <button 
-      mat-raised-button 
-      color="primary"
-      class="mb-16 mr-8"
-      [routerLink]="['/home']">Ir al Principal</button>
-<!--       
-      <button 
-      mat-raised-button 
-      color="warn">Report this Problem</button> -->
-    </div>
+    <h2>we are sorry, but the request not is authorized</h2>
+    <button 
+    mat-raised-button 
+    color="primary"   (click)="location.back()"
+      >Regresar</button>
   </div>
 </div>
