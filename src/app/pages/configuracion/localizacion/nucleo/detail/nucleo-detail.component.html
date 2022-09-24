@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['country.form']" current="action.view"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['coreType.form']" current="action.view"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'country.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'coreType.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -25,25 +25,19 @@
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-xs="10" >
-                                <mat-label>{{'country.code' | translate: {default: 'global.code'} | translate }}
+                                <mat-label>{{'coreType.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly class="text-center">
                             </mat-form-field>
 
                             <mat-form-field fxFlex="auto" >
-                                <mat-label>{{'country.name' | translate: {default: 'global.name'} | translate }}
+                                <mat-label>{{'coreType.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>
-
-                            <mat-form-field fxFlex="auto" >
-                                <mat-label>{{'country.demonym' | translate: {default: 'global.demonym'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.gentilicio" readonly>
-                            </mat-form-field>
                             
                             <mat-form-field fxFlex.gt-xs="10" >
-                                <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} | translate
+                                <mat-label>{{'coreType.localCode' | translate: {default: 'global.localCode'} | translate
                                 }}</mat-label>
                                 <input matInput class="text-center" [value]="d.codigoLocal" readonly>
                             </mat-form-field>

@@ -1,0 +1,42 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
+import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
+import { MaterialModule } from 'src/@sirio/shared/material-components.module';
+import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
+import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { NucleoDetailComponent } from './detail/nucleo-detail.component';
+import { NucleoFormComponent } from './form/nucleo-form.component';
+import { NucleoRoutingModule } from './nucleo-routing.module';
+import { NucleoTableComponent } from './table/nucleo-table.component';
+
+@NgModule({
+    imports: [
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        TranslateModule,
+        FlexLayoutModule,
+        MaterialModule,
+        // Core
+        SirioSharedModule,
+        SharedComponentModule,
+               
+        HighlightModule,
+        SirioCardModule,
+        NucleoRoutingModule
+    ],
+    declarations: [
+        NucleoFormComponent,
+        NucleoTableComponent,
+        NucleoDetailComponent
+    ],
+    exports: [],
+})
+
+export class NucleoModule {
+
+}

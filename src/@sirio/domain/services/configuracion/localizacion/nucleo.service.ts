@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+
 
 
 export interface Nucleo {
@@ -42,6 +42,10 @@ export class NucleoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    detail(id: string): Observable<Nucleo> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    }
+
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Nucleo[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
@@ -60,5 +64,4 @@ export class NucleoService {
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
-
 }
