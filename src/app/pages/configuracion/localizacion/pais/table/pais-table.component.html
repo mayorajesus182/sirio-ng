@@ -26,6 +26,14 @@
                     </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="gentilicio">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'country.demonym' | translate:
+                        {default: 'global.demonym'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                        <p class="text-truncate font-weight-600">{{element.gentilicio}}</p>
+                    </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="activo">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'country.status' |
                         translate: {default: 'global.status'} | translate }}</mat-header-cell>

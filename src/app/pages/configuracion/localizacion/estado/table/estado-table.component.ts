@@ -19,7 +19,7 @@ import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/
 
 export class EstadoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['estado_id', 'nombre', 'pais_id', 'activo', 'actions'];
+  displayedColumns = ['estado_id', 'nombre', 'activo', 'actions'];
 
   constructor(
     injector: Injector,

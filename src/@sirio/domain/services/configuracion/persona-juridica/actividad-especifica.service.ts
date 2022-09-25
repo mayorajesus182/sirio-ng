@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
+
 
 
 export interface ActividadEspecifica {
@@ -25,11 +25,15 @@ export class ActividadEspecificaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/actividadEspecifica'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/actividad-especifica'};
     }
 
     actives(): Observable<ActividadEspecifica[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
+    }
+
+    activesByActividadEconomica(actividadEconomica: string): Observable<ActividadEspecifica[]> {
+        return this.apiService.config(this.apiConfig).get(`/${actividadEconomica}/byactividadEconomica/actives`);
     }
 
     exists(id: string): Observable<any> {
@@ -38,6 +42,10 @@ export class ActividadEspecificaService {
 
     get(id: string): Observable<ActividadEspecifica> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<ActividadEspecifica> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<ActividadEspecifica[]> {

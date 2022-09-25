@@ -23,7 +23,7 @@ export class SectorService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/sector'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/sector'};
     }
 
     all(): Observable<Sector[]> {
@@ -35,7 +35,7 @@ export class SectorService {
     }
 
     activesByTipoDocumento(tipoDocumento: string): Observable<Sector[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoDocumento}/actives/byTipoDocumento`);
+        return this.apiService.config(this.apiConfig).get(`/${tipoDocumento}/bytipoDocumento/actives`);
     }
 
     exists(id: string): Observable<any> {
@@ -44,6 +44,10 @@ export class SectorService {
 
     get(id: string): Observable<Sector> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Sector> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Sector[]> {

@@ -24,7 +24,7 @@ export class ActividadEconomicaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/actividadEconomica'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/actividad-economica'};
     }
 
     actives(): Observable<ActividadEconomica[]> {
@@ -37,6 +37,10 @@ export class ActividadEconomicaService {
 
     get(id: string): Observable<ActividadEconomica> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<ActividadEconomica> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<ActividadEconomica[]> {

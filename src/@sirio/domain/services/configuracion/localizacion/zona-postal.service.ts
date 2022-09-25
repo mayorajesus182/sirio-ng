@@ -27,7 +27,7 @@ export class ZonaPostalService {
     constructor(
         private apiService: ApiService
     ){
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/zona'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/zona-postal'};
     }
 
     all(): Observable<ZonaPostal[]> {
@@ -35,7 +35,7 @@ export class ZonaPostalService {
     }
     //
     activesByParroquia(parroquia: string) {
-        return this.apiService.config(this.apiConfig).get(`/byparroquia/${parroquia}/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${parroquia}/byparroquia/actives`);
     }
     //
 
@@ -49,6 +49,10 @@ export class ZonaPostalService {
 
     get(id: string): Observable<ZonaPostal> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<ZonaPostal> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<ZonaPostal[]> {

@@ -24,7 +24,7 @@ export class EstadoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/estado'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/estado'};
     }
 
     all(): Observable<Estado[]> {
@@ -36,7 +36,7 @@ export class EstadoService {
     }
 
     activesByPais(pais: string): Observable<Estado[]> {
-        return this.apiService.config(this.apiConfig).get(`/bypais/${pais}/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${pais}/bypais/actives`);
     }
 
     exists(id: string): Observable<any> {

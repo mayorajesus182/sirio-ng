@@ -48,7 +48,7 @@
                                 <mat-form-field fxFlex="auto">
                                     <mat-label>{{'state.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
-                                    <input matInput maxlength="6" name="id" formControlName="id" uppercase required
+                                    <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id" uppercase required
                                         class="text-center">
                                     <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
@@ -60,7 +60,7 @@
                                 <mat-form-field fxFlex.gt-xs="70">
                                     <mat-label>{{'state.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput maxlength="60" name="nombre" formControlName="nombre" uppercase
+                                    <input matInput autocomplete="off" maxlength="60" name="nombre" formControlName="nombre" uppercase
                                         required>
                                     <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
@@ -69,7 +69,7 @@
                                 <mat-form-field fxFlex="auto">
                                     <mat-label>{{'state.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
-                                    <input matInput maxlength="6" name="codigoLocal" formControlName="codigoLocal"
+                                    <input matInput autocomplete="off" maxlength="6" name="codigoLocal" formControlName="codigoLocal"
                                         uppercase class="text-center">
                                     <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
                                 </mat-form-field>

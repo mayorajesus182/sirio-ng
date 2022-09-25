@@ -11,7 +11,7 @@ import { GlobalConstants } from 'src/@sirio/constants/global.constants';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
-import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona.postal.service';
+import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
 import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
