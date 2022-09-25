@@ -66,6 +66,9 @@ export class SidenavService implements OnDestroy {
       filter<NavigationEnd>(event => event instanceof NavigationEnd),
       takeUntil(componentDestroyed(this))
     ).subscribe(event => {
+
+      console.log('event router ',event.url);
+      
       this.setCurrentlyOpenByRoute(event.url);
 
       if (this.mediaObserver.isActive(this.mobileBreakpoint)) {
@@ -78,6 +81,8 @@ export class SidenavService implements OnDestroy {
       map(() => this.mediaObserver.isActive(this.mobileBreakpoint)),
       takeUntil(componentDestroyed(this))
     ).subscribe(isMobile => {
+      // console.log('is mobile browser ',isMobile);
+      
       if (isMobile) {
         this._openSubject.next(false);
         this._modeSubject.next('over');
@@ -102,6 +107,8 @@ export class SidenavService implements OnDestroy {
   }
 
   toggleCollapsed() {
+    // console.log('event toggleCollapsed');
+    
     this._collapsedSubject.next(!this._collapsedSubject.getValue());
   }
 
@@ -114,11 +121,15 @@ export class SidenavService implements OnDestroy {
   }
 
   addItems(items: SidenavItem[]) {
+    
     items.forEach(item => this.addItem(item));
   }
 
   addItem(item: SidenavItem) {
+    
     const foundIndex = this.items.findIndex((existingItem) => isEqual(existingItem, item));
+    // console.log('found index', foundIndex);
+    
     if (foundIndex === -1) {
       this.setParentRecursive(item);
       this.items = [...this.items, item];
@@ -179,18 +190,24 @@ export class SidenavService implements OnDestroy {
   private setCurrentlyOpenByRoute(route: string) {
     const item = this.getItemByRouteRecursive(route, this.items);
     let currentlyOpen = [];
+    // console.log('item',currentlyOpen);
 
     if (item && item.parent) {
       currentlyOpen = this.getParents(item);
     } else if (item) {
       currentlyOpen = [item];
     }
+    // console.log('current open ',currentlyOpen);
 
     this.currentlyOpen = currentlyOpen;
   }
 
   private getItemByRouteRecursive(route: string, collection: SidenavItem[]) {
-    let result = collection.find(i => i.view === route);
+    // console.log('route ',route);
+    // console.log('collection',collection);
+    
+    let result = collection.find(i => route.indexOf(i.view) > 0);
+    console.log('result ',result);
 
     if (!result) {
       each(collection, (item) => {

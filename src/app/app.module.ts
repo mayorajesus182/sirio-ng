@@ -5,7 +5,7 @@ import { MatSnackBarConfig, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/mater
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Needed for Touch functionality of Material Components
 import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { UserIdleModule } from 'angular-user-idle';
+
 import { AppTranslateLoader } from 'src/@sirio/i18n/app-translate.loader';
 import { AppTranslateMissingHandler } from 'src/@sirio/i18n/app-translate.missinghandler';
 import { HttpErrorInterceptor } from 'src/@sirio/interceptors/http.error.interceptor';

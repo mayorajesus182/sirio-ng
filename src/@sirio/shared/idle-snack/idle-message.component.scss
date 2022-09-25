@@ -1,0 +1,47 @@
+@import "var";
+  
+  /*snack bar*/
+  snack-bar-container.danger-snackbar {
+    background-color: #eb2b1d !important;
+    height: 55px;
+    width: 100%;
+    font-weight: 500;
+    color: #ffffff !important;
+  }
+  snack-bar-container.success-snackbar {
+    background-color: #74c023 !important;
+    height: 55px;
+    width: 100%;
+    font-weight: 500;
+    color: #ffffff !important;
+  }
+  snack-bar-container.info-snackbar {
+    background-color: #12a19a !important;
+    height: 55px;
+    width: 100%;
+    font-weight: 500;
+    color: #ffffff !important;
+  }
+  snack-bar-container.black-snackbar {
+    background-color: #292929 !important;
+    height: 55px;
+    width: 100%;
+    font-weight: 500;
+    color: #ffffff !important;
+  }
+  snack-bar-container.sirio-snackbar {
+    
+    background-color: lighten($page-load-background,5%) !important;
+    height: 55px;
+    width: 100%;
+    font-weight: 500;
+    color: #ffffff !important;
+    margin-top: 15%;
+    .content{
+      display: flex;vertical-align: middle;padding: 2px;text-align: center;
+      button{
+        display: inline-block; line-height: 2.5; position: relative;margin-left: auto;top:-6px;right: -8px;
+      }
+    }
+
+  }

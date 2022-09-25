@@ -56,8 +56,8 @@ export class PaisTableComponent extends TableBaseComponent implements OnInit, Af
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data: Pais) {
-    this.applyChangeStatus(this.paisService, data, data.nombre, this.cdr);
+  activateOrInactivate(data: any) {
+    this.applyChangeStatus(this.paisService,  data.element, data.element.nombre, this.cdr);
   }
 
 }

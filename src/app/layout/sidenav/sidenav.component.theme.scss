@@ -31,9 +31,10 @@ sirio-sidenav {
       margin: $padding-sm 0 0;
     }
 
-    .sidenav-user-email {
+    .sidenav-user-text {
       font: var(--font-caption);
       color: $sidenav-secondary-text;
+      margin: 5px;
     }
 
     .sidenav-user-icons a {
@@ -41,7 +42,7 @@ sirio-sidenav {
     }
 
     .sidenav-user-name,
-    .sidenav-user-email,
+    .sidenav-user-text,
     .sidenav-user-icons {
       white-space: nowrap;
     }

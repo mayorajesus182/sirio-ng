@@ -2,13 +2,14 @@
 import { Component, Inject, ViewChild } from '@angular/core';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatSnackBar, MAT_SNACK_BAR_DATA, MatSnackBarRef } from '@angular/material/snack-bar';
-import { UserIdleService } from 'angular-user-idle';
+
 
 
 
 @Component({
   selector: 'sirio-idle-message',
   templateUrl: './idle-message.component.html',
+  styleUrls: ['./idle-message.component.scss'],
 })
 export class IdleSnackComponent {
   @ViewChild(MatProgressBar) progressBar: MatProgressBar;
@@ -17,7 +18,7 @@ export class IdleSnackComponent {
   constructor(
     @Inject(MAT_SNACK_BAR_DATA) public data: any,
     public snackBarRef: MatSnackBarRef<IdleSnackComponent>,
-    private userIdle: UserIdleService,
+    
   ) {
 
   }
@@ -30,24 +31,6 @@ export class IdleSnackComponent {
       // this.seconds = countdown;
     // });
 
-    // Start watching when user idle is starting.
-    this.userIdle.onTimerStart().subscribe(count => {
-      
-      console.log('timer ', count);
-    });
-
-    // Start watch when time is up.
-    this.userIdle.onTimeout().subscribe(() => {
-     
-      // this.seconds = countdown;
-      console.log('Time is up!');
-      
-    });
-    
-    // this.userIdle.onIdleEnd.subscribe(() => {
-    //   console.log('close dialogo after idle end');
-    //   // this.snackBar.dismiss();
-    // });
 
   }
 

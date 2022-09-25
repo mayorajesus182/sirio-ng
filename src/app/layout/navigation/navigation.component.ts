@@ -25,6 +25,9 @@ export class NavigationComponent implements OnInit, AfterViewInit {
   ngOnInit() {}
 
   handleClick(item: SidenavItem) {
+    
+    console.log('handle click navigation ',item);
+    
     if (item.subpermisos && item.subpermisos.length > 0) {
       this.sidenavService.toggleItemOpen(item);
     } else if (typeof item.view === 'string' ) {

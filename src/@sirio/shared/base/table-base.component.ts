@@ -97,7 +97,7 @@ export class TableBaseComponent {
     public actionAPI(): MethodComponentApi {
         return {
             invoke: (element, name) => {
-                console.log('this ',element, 'method '+name);
+                // console.log('this ',element, 'method '+name);
 
                 this[name](element)
             }
