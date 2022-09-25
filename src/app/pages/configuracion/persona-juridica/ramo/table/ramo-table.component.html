@@ -29,7 +29,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'branch.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
-                        <mat-chip mat-sm-chip [color]="element.activo ? 'primary' : 'warn'" [selected]="element.activo">
+                        <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
                     </mat-cell>

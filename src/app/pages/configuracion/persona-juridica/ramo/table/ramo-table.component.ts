@@ -55,8 +55,8 @@ export class RamoTableComponent extends TableBaseComponent implements OnInit, Af
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data: Ramo) {
-    this.applyChangeStatus(this.ramoService, data, data.nombre, this.cdr);
+  activateOrInactivate(data:any) {
+    this.applyChangeStatus(this.ramoService, data.element, data.element.nombre, this.cdr);
   }
 
 }

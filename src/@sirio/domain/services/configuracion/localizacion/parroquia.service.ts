@@ -34,7 +34,7 @@ export class ParroquiaService {
     }
 
     activesByMunicipio(municipio: string) {
-        return this.apiService.config(this.apiConfig).get(`/bymunicipio/${municipio}/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${municipio}/bymunicipio/actives`);
     }
 
     actives(): Observable<Parroquia[]> {
@@ -47,6 +47,10 @@ export class ParroquiaService {
 
     get(id: string): Observable<Parroquia> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Parroquia> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Parroquia[]> {

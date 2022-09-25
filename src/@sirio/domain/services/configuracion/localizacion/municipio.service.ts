@@ -12,9 +12,7 @@ export interface Municipio {
     codigoLocal: string;
     ciudad: string;
     pais: string;
-    paisNombre: string;
     estado: string;
-    estadoNombre: string;
     fechaCreacion?: any;
     activo?: number;
     
@@ -42,7 +40,7 @@ export class MunicipioService {
 
 
     activesByEstado(estado:string): Observable<Municipio[]> {
-        return this.apiService.config(this.apiConfig).get(`/byestado/${estado}/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${estado}/byestado/actives`);
     }
 
     exists(id: string): Observable<any> {
@@ -51,6 +49,10 @@ export class MunicipioService {
 
     get(id: string): Observable<Municipio> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Municipio> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Municipio[]> {

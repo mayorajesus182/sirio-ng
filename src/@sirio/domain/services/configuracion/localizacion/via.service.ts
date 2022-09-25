@@ -41,6 +41,10 @@ export class ViaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    detail(id: string): Observable<Via> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    }
+
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Via[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }

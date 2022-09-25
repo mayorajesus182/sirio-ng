@@ -9,9 +9,9 @@ const configuracionRoutes: Routes = [
         loadChildren: () => import('./localizacion/localizacion.module').then(m => m.LocalizacionModule),
     },
     {
-        path: 'personaJuridica',
+        path: 'persona-juridica',
         data: { title: 'Persona Juridica' },
-        loadChildren: () => import('./persona-juridica/personaJudirica.module').then(m => m.PersonaJuridicaModule),
+        loadChildren: () => import('./persona-juridica/persona-judirica.module').then(m => m.PersonaJuridicaModule),
     }
 
 ];

@@ -25,21 +25,11 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="pais_id">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'state.country' |
-                        translate: {default: 'global.country'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
-                        <p class="text-truncate font-weight-600">{{element.paisNombre}}</p>
-                    </mat-cell>
-                </ng-container>
-
-
-
                 <ng-container matColumnDef="activo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'state.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
-                        <mat-chip mat-sm-chip [color]="element.activo ? 'primary' : 'warn'" [selected]="element.activo">
+                        <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
                     </mat-cell>

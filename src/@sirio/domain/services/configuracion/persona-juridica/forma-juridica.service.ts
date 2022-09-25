@@ -22,7 +22,7 @@ export class FormaJuridicaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/formaJuridica'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/forma-juridica'};
     }
 
     all(): Observable<FormaJuridica[]> {
@@ -39,6 +39,10 @@ export class FormaJuridicaService {
 
     get(id: string): Observable<FormaJuridica> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<FormaJuridica> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<FormaJuridica[]> {
