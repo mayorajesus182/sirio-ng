@@ -1,28 +1,30 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
-import { ApiOption, ApiService } from 'app/shared/services/api';
-import { ApiConfConstants } from 'app/shared/constants';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ApiConfConstants } from 'src/@sirio/constants';
 
 
 export interface TipoReferencia {
     id: string;
     nombre: string;
+    pais:string;
     codigoLocal: string;
     fechaCreacion?: any;
     activo?: number;
 }
 
-@Injectable()
+@Injectable({
+    providedIn:'root'
+})
 export class TipoReferenciaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipoReferencia'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/tipo-referencia'};
     }
 
     all(): Observable<TipoReferencia[]> {
@@ -41,6 +43,10 @@ export class TipoReferenciaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    detail(id: string): Observable<TipoReferencia> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    }
+
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoReferencia[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
@@ -57,6 +63,7 @@ export class TipoReferenciaService {
     }
 
     changeStatus(id: any): Observable<any> {
+      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 

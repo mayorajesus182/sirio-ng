@@ -21,7 +21,7 @@ const personaJuridicaRoutes: Routes = [
     },
     {
         path: 'categoria-especial',
-        data: { title: 'Forma Juridica' },
+        data: { title: 'Categoría Especial' },
         loadChildren: () => import('./categoria-especial/categoria-especial.module').then(m => m.CategoriaEspecialModule),
     },
     {
