@@ -39,6 +39,10 @@ export class IdiomaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    detail(id: string): Observable<Idioma> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    }
+
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Idioma[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }

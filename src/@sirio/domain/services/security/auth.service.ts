@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { JwtService } from 'src/@sirio/services/jwt.service';
+import { SessionService } from 'src/@sirio/services/session.service';
 
 
 export interface TokeSession {
@@ -29,8 +30,6 @@ export interface User {
 )
 export class AuthService {
   private apiConfig: ApiOption;
-  private userSubject: BehaviorSubject<User>;
-  public user: Observable<User>;
 
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
@@ -43,8 +42,6 @@ export class AuthService {
 
     this.apiConfig = { name: ApiConfConstants.API_AUTH, prefix: '/session' };
 
-    this.userSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('user')));
-    this.user = this.userSubject.asObservable();
 
   }
 
@@ -79,33 +76,18 @@ export class AuthService {
     console.log('user auth ', user);
 
     this.jwtService.saveToken(user.token.access_token);
-    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem(SessionService.USER, JSON.stringify(user));
     // Set current user data into observable
-    //this.populate();
-    this.userSubject.next(user);
-    // window.localStorage['dark_mode'] = user.darkMode;
-    //this.themeService.toggleDarkMode(user.darkMode);
     // Set isAuthenticated to true
     this.isAuthenticatedSubject.next(true);
 
   }
 
-
-  getCurrentUser(): User {
-    //console.log(' user subject ',this.currentUserSubject);
-
-    return this.userSubject.value;
-  }
-
-
   purgeAuth() {
     // Remove JWT from localstorage
-    //console.log('purg user ',this.getCurrentUser());
 
     this.jwtService.destroyToken();
-    // Set current user to an empty object
-    this.userSubject.next({} as User);
-    localStorage.removeItem('user');
+    localStorage.removeItem(SessionService.USER);
     // Set auth status to false
     this.isAuthenticatedSubject.next(false);
     // this.userIdle.stop();

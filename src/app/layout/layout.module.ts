@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { UserIdleModule } from 'angular-user-idle';
+import { NgIdleModule } from '@ng-idle/core';
+
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { BackdropModule } from '../../@sirio/shared/backdrop/backdrop.module';
 import { LoadingIndicatorModule } from '../../@sirio/shared/loading-indicator/loading-indicator.module';
@@ -32,10 +33,7 @@ import { ToolbarModule } from './toolbar/toolbar.module';
     BackdropModule,
     ConfigPanelModule,
     NavigationModule,
-    // Optionally you can set time for `idle`, `timeout` and `ping` in seconds.
-    // Default values: `idle` is 600 (10 minutes), `timeout` is 300 (5 minutes) 
-    // and `ping` is 120 (2 minutes).
-    UserIdleModule.forRoot({ idle: 60*3, timeout: 15, ping: 120 }),
+    NgIdleModule.forRoot(),
     
   ],
   declarations: [LayoutComponent]

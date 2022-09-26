@@ -14,7 +14,7 @@ export class SidenavItem {
   view?: string;
   icon?: string;
   color?: string;
-  type?: string;
+  type?: 'item' | 'subheading';
   tooltip?: string;
   functionName?:string;
   section?:string;

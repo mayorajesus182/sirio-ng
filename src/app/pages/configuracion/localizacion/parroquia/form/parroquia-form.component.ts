@@ -1,18 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
-import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
-import { SnackbarService } from 'src/@sirio/services/snackbar.service';
-import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
+import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
+import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
+import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
     selector: 'app-parroquia-form',
@@ -31,9 +28,6 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
-        snack: SnackbarService,
-        spinner: NgxSpinnerService,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private parroquiaService: ParroquiaService,

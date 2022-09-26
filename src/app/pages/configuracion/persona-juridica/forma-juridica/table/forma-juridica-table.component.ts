@@ -1,5 +1,4 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -22,7 +21,6 @@ export class FormaJuridicaTableComponent extends TableBaseComponent implements O
 
   constructor(
     injector: Injector,
-    protected dialog: MatDialog,
     protected router: Router,
     protected formaJuridicaService: FormaJuridicaService,
     private cdr: ChangeDetectorRef,

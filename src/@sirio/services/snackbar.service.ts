@@ -31,8 +31,8 @@ export class SnackbarService {
             config.panelClass = ['danger-snackbar'];
         }else if(data.type === 'black'){
             config.panelClass = ['black-snackbar'];
-        }else if(data.type === 'genial'){
-            config.panelClass = ['purple-snackbar'];
+        }else if(data.type === 'sirio'){
+            config.panelClass = ['sirio-snackbar'];
         }else {
             config.panelClass = ['info-snackbar'];
         }

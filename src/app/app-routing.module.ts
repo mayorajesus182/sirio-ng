@@ -18,6 +18,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/errors/errors.module').then(m => m.ErrorsModule),
   },
   {
+    path: 'components',
+    loadChildren: () => import('./pages/components/components.module').then(m => m.ComponentsModule),
+  },
+  {
     path: 'sirio',
     component: LayoutComponent,
     canActivate: [AuthGuard],

@@ -36,7 +36,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import '@angular/common/locales/global/es' 
 export const customCurrencyMaskConfig = {
   align: "right",
   allowNegative: false,
@@ -103,7 +103,7 @@ export const DATE_FORMATS_CUSTOM = {
     MatDividerModule,
     MatBadgeModule,
     MatChipsModule,
-
+    // MatMomentDateModule,
     MatFormFieldModule,
     // MatExpansionModule,
     // MatMomentDateModule,
