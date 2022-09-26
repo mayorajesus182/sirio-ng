@@ -24,7 +24,7 @@ export class MonedaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/moneda'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/divisa/moneda'};
     }
 
     all(): Observable<Moneda[]> {
@@ -41,6 +41,10 @@ export class MonedaService {
 
     get(id: string): Observable<Moneda> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Moneda> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Moneda[]> {

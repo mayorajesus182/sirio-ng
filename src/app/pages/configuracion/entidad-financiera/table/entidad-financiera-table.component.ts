@@ -7,32 +7,32 @@ import { Router } from '@angular/router';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
+import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
 
 @Component({
-  selector: 'app-estado-table',
-  templateUrl: './estado-table.component.html',
-  styleUrls: ['./estado-table.component.scss'],
+  selector: 'app-entidad-financiera-table',
+  templateUrl: './entidad-financiera-table.component.html',
+  styleUrls: ['./entidad-financiera-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
-export class EstadoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class EntidadFinancieraTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['estado_id', 'nombre', 'activo', 'actions'];
+  displayedColumns = ['entfinanciera_id', 'nombre', 'activo', 'actions'];
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
-    protected estadoService: EstadoService,
+    protected entidadFinancieraService: EntidadFinancieraService,
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined,  injector);
   }
 
   ngOnInit() {
-    this.init(this.estadoService, 'estado_id');
+    this.init(this.entidadFinancieraService, 'entfinanciera_id');
   }
 
   ngAfterViewInit() {
@@ -57,7 +57,7 @@ export class EstadoTableComponent extends TableBaseComponent implements OnInit, 
   }
 
   activateOrInactivate(data:any) {
-    this.applyChangeStatus(this.estadoService, data.element, data.element.nombre, this.cdr);
+    this.applyChangeStatus(this.entidadFinancieraService, data.element, data.element.nombre, this.cdr);
   }
 
 }

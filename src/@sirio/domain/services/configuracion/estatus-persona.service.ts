@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-
-import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { ApiConfConstants } from 'src/@sirio/constants';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ApiConfConstants } from 'src/@sirio/constants';
 
 
-export interface TipoPersona {
+export interface EstatusPersona {
     id: string;
     nombre: string;
+    pais:string;
     codigoLocal: string;
     fechaCreacion?: any;
     activo?: number;
@@ -17,20 +18,20 @@ export interface TipoPersona {
 @Injectable({
     providedIn:'root'
 })
-export class TipoPersonaService {
+export class EstatusPersonaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-persona'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/estatus-persona'};
     }
 
-    all(): Observable<TipoPersona[]> {
+    all(): Observable<EstatusPersona[]> {
         return this.apiService.config(this.apiConfig).get('/all');
     }
 
-    actives(): Observable<TipoPersona[]> {
+    actives(): Observable<EstatusPersona[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
@@ -38,30 +39,31 @@ export class TipoPersonaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<TipoPersona> {
+    get(id: string): Observable<EstatusPersona> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<TipoPersona> {
+    detail(id: string): Observable<EstatusPersona> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoPersona[]> {
+    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<EstatusPersona[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
-    save(data: TipoPersona): Observable<any> {
+    save(data: EstatusPersona): Observable<any> {
         
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: TipoPersona): Observable<any> {
+    update(data: EstatusPersona): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
 
     changeStatus(id: any): Observable<any> {
+      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 
