@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+
+
 import { AuthService } from '../domain/services/security/auth.service';
 import { JwtService } from './jwt.service';
 import { SnackbarService } from './snackbar.service';
@@ -12,6 +13,10 @@ import { SnackbarService } from './snackbar.service';
   providedIn: 'root',
 })
 export class SessionService {
+
+  public static SESSION_STATUS = 'session_status';
+  public static STATUS_LOCKED = 'lockscreen';
+  public static USER = 'user';
 
   constructor(
 
@@ -25,7 +30,7 @@ export class SessionService {
 
   isLockScreen() {
     
-    return localStorage['sessionState'] !=undefined && localStorage['sessionState'] == 'LOCK-SCREEN';
+    return localStorage[SessionService.SESSION_STATUS] !=undefined && localStorage[SessionService.SESSION_STATUS] == SessionService.STATUS_LOCKED;
   }
 
   isLoggedIn() {
@@ -33,35 +38,31 @@ export class SessionService {
   }
 
   get(): String {
-    return localStorage['sessionState'];
+    return localStorage[SessionService.SESSION_STATUS];
   }
 
   getUser(): any {
-    if (!localStorage.getItem('user')) {
+    if (!localStorage.getItem(SessionService.USER)) {
       return undefined;
     }
-    return JSON.parse(localStorage.getItem('user'));
+    return JSON.parse(localStorage.getItem(SessionService.USER));
   }
 
-  user(): Observable<any> {
-
-    return this.authService.user;
-  }
 
   save(status: string) {
-    localStorage.setItem('sessionState', status);
+    localStorage.setItem(SessionService.SESSION_STATUS, status);
   }
 
   destroy() {
-    localStorage.removeItem('sessionState');
+    localStorage.removeItem(SessionService.SESSION_STATUS);
     this.authService.purgeAuth();
   }
 
   lockscreen() {
-    const user = this.authService.getCurrentUser();
+    const user = this.getUser();
 
-    // localStorage.setItem('currentUser', JSON.stringify({ username: user.username, fullName: user.fullName }));
-    localStorage['sessionState'] = 'LOCK-SCREEN';
+    localStorage.setItem('user-locked', JSON.stringify({ username: user.username, fullName: user.fullName }));
+    localStorage[SessionService.SESSION_STATUS] = SessionService.STATUS_LOCKED;
 
     this.authService.lockscreen().subscribe(
       data => {

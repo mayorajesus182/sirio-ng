@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -24,7 +23,6 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private paisService: PaisService,

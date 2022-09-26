@@ -207,7 +207,7 @@ export class SidenavService implements OnDestroy {
     // console.log('collection',collection);
     
     let result = collection.find(i => route.indexOf(i.view) > 0);
-    console.log('result ',result);
+    // console.log('result ',result);
 
     if (!result) {
       each(collection, (item) => {

@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -35,7 +34,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private agenciaService: AgenciaService,
@@ -118,8 +116,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             telefono_alt:  [agencia.telefono_alt || ''],
             latitud:  [agencia.latitud || '', [Validators.required]],
             longitud:  [agencia.longitud || '', [Validators.required]],
-            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]]
-         
+            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]]         
         });
 
 

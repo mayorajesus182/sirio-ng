@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { UserIdleService } from 'angular-user-idle';
+import { Idle } from '@ng-idle/core';
+
 import { AuthService } from 'src/@sirio/domain/services/security/auth.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.animation';
@@ -22,17 +23,21 @@ export class LoginComponent implements OnInit {
   visible = false;
 
   constructor(
-    
+    private userIdle: Idle,
     private router: Router,
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
     private authService: AuthService,
+
     private sessionService: SessionService
   ) {
   }
 
   ngOnInit() {
+
+    this.userIdle.stop();
+
     this.form = this.fb.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
@@ -41,8 +46,6 @@ export class LoginComponent implements OnInit {
 
     this.authService.purgeAuth();
     this.sessionService.destroy();
-
-
   }
 
   send() {
@@ -69,7 +72,7 @@ export class LoginComponent implements OnInit {
             panelClass: 'success-snackbar'
           });
 
-          // this.userIdle.startWatching();
+          
 
         },
         err => {

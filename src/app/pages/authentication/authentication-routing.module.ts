@@ -12,7 +12,7 @@ const authRoutes: Routes = [
   },
   
   {
-    path: 'lock',
+    path: 'locked',
     component: LockedComponent
   },
 

@@ -12,6 +12,7 @@ import { MaterialModule } from './material-components.module';
 import { SelectSearchComponent } from './select/select-search.component';
 import { SelectSimpleComponent } from './select/select-simple.component';
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
+import { IdleWarningComponent } from './idle-snack/idle-warning.component';
 
 
 
@@ -21,7 +22,8 @@ const components = [
   ListComponent,
   ButtonAddComponent,
   AuditBarComponent,
-  ActionsNavComponent
+  ActionsNavComponent,
+  IdleWarningComponent
 ]
 
 @NgModule({
