@@ -11,14 +11,23 @@ export class ToolbarUserComponent implements OnInit {
 
   isOpen: boolean;
 
+  username: string;
 
   constructor(
+    
     public translate: TranslateService,
     public sessionService: SessionService,
 
   ) { }
 
   ngOnInit() {
+
+    const data = this.sessionService.getUser();
+
+    if (data && data.username) {
+      // console.log("User session", data);
+      this.username = data.username;
+    }
   }
 
   toggleDropdown() {
