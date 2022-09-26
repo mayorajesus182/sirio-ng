@@ -127,12 +127,12 @@ export class AuthService {
 
   lockscreen(): Observable<any> {
 
-    return this.apiService.config(this.apiConfig).get('/lockscreen')
+    return this.apiService.config(this.apiConfig).get('/lock')
       .pipe(map(
         data => {
           //console.log('lockscreen session ', data);
           // Remove JWT from localstorage
-          // this.jwtService.destroyToken();
+          this.jwtService.destroyToken();
           //this.sessionStatusService.saveByUser('lockscreen',this.getCurrentUser().data.username);
           return data;
         }
@@ -143,10 +143,10 @@ export class AuthService {
 
   unLockscreen(credentials): Observable<User> {
 
-    return this.apiService.config({ name: ApiConfConstants.API_AUTH, prefix: undefined }).post('/public/unlockscreen', credentials)
+    return this.apiService.config({ name: ApiConfConstants.API_AUTH, prefix: undefined }).post('/public/session/unlock', credentials)
       .pipe(map(
         (data: User) => {
-          // console.log('unlock session by ',data);
+          console.log('unlock session by ',data);
 
           this.setAuth(data);
           return data;
