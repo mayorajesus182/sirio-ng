@@ -34,8 +34,6 @@
             },
             "assets": [
               "src/assets",
-              "src/favicon.ico",
-              "src/_redirects",
               "src/.htaccess"
             ],
             "styles": [
@@ -147,10 +145,7 @@
               "src/styles.scss"
             ],
             "assets": [
-              "src/assets",
-              "src/favicon.ico",
-              "src/manifest.json",
-              "src/manifest.json"
+              "src/assets"
             ]
           }
         }

@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
@@ -6,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { filter, map } from 'rxjs/operators';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { SessionService } from 'src/@sirio/services/session.service';
 import { SnackbarService } from 'src/@sirio/services/snackbar.service';
 import { IdleWarningComponent } from 'src/@sirio/shared/idle-snack/idle-warning.component';
 import { NavigationService } from '../../@sirio/services/navigation.service';
@@ -48,7 +50,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private themeService: ThemeService,
     translate: TranslateService,
     private snack: SnackbarService,
-    private route: ActivatedRoute,
+    private sessionService: SessionService,
+    private matDialogRef: MatDialog,
     private router: Router) {
 
 
@@ -73,7 +76,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
       this.snackIdle.dismiss();
       console.log('Timed out!');
-      this.router.navigate(['/user/locked']);
+
+      this.matDialogRef.closeAll();
+      this.sessionService.lockscreen();
+      // this.router.navigate(['/user/locked']);
     });
 
     this.userIdle.onIdleStart.subscribe(() => {

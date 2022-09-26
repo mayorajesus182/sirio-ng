@@ -17,6 +17,7 @@ export class SessionService {
   public static SESSION_STATUS = 'session_status';
   public static STATUS_LOCKED = 'lockscreen';
   public static USER = 'user';
+  public static USER_LOCKED = 'user-locked';
 
   constructor(
 
@@ -29,12 +30,12 @@ export class SessionService {
   }
 
   isLockScreen() {
-    
-    return localStorage[SessionService.SESSION_STATUS] !=undefined && localStorage[SessionService.SESSION_STATUS] == SessionService.STATUS_LOCKED;
+
+    return localStorage[SessionService.SESSION_STATUS] != undefined && localStorage[SessionService.SESSION_STATUS] == SessionService.STATUS_LOCKED;
   }
 
   isLoggedIn() {
-    return this.jwtService.getToken() && !this.isLockScreen();
+    return this.jwtService.getToken() ;
   }
 
   get(): String {
@@ -45,7 +46,7 @@ export class SessionService {
     if (!localStorage.getItem(SessionService.USER)) {
       return undefined;
     }
-    return JSON.parse(localStorage.getItem(SessionService.USER));
+    return JSON.parse(localStorage.getItem(SessionService.USER)) || JSON.parse(localStorage.getItem(SessionService.USER_LOCKED));
   }
 
 
@@ -58,14 +59,20 @@ export class SessionService {
     this.authService.purgeAuth();
   }
 
+  reset() {
+    localStorage.removeItem(SessionService.SESSION_STATUS);
+    localStorage.removeItem(SessionService.USER_LOCKED);
+    
+  }
+
   lockscreen() {
     const user = this.getUser();
 
-    localStorage.setItem('user-locked', JSON.stringify({ username: user.username, fullName: user.fullName }));
-    localStorage[SessionService.SESSION_STATUS] = SessionService.STATUS_LOCKED;
+    localStorage.setItem(SessionService.USER_LOCKED, JSON.stringify({ username: user.username, fullName: user.fullName }));
 
     this.authService.lockscreen().subscribe(
       data => {
+        localStorage[SessionService.SESSION_STATUS] = SessionService.STATUS_LOCKED;
         // this.router.navigateByUrl('/views/session/lock');
         this.router.navigate(['/user/locked'])
       },
