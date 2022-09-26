@@ -20,7 +20,7 @@ export class TenenciaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tenencia'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/domicilio/tenencia'};
     }
 
     all(): Observable<Tenencia[]> {
