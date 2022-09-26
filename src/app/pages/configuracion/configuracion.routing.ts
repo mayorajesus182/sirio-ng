@@ -18,11 +18,11 @@ const configuracionRoutes: Routes = [
         data: { title: 'Persona Natural' },
         loadChildren: () => import('./persona-natural/persona-natural.module').then(m => m.PersonaNaturalModule),
     },
-    {
-        path: 'estatus-persona',
-        data: { title: 'Estatus de Persona' },
-        loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
-    },
+    // {
+    //     path: 'estatus-persona',
+    //     data: { title: 'Estatus de Persona' },
+    //     loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
+    // },
     {
         path: 'entidad-financiera',
         data: { title: 'Entidad Financiera' },

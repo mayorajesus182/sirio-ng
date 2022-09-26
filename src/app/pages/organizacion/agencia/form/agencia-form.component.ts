@@ -1,19 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants';
-import { GlobalConstants } from 'src/@sirio/constants/global.constants';
-
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
 import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-
 
 @Component({
     selector: 'app-agencia-form',
@@ -40,9 +37,9 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         private zonaPostalService: ZonaPostalService,
         private parroquiaService: ParroquiaService,
         private municipioService: MunicipioService,
-        private estadoService: EstadoService,
+        private estadoService: EstadoService,        
         private cdr: ChangeDetectorRef) {
-        super(undefined, injector);
+        super(undefined,  injector);
     }
 
     ngOnInit() {
@@ -54,6 +51,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         if (id) {
             this.agenciaService.get(id).subscribe((agn: Agencia) => {
                 this.agencia = agn;
+                this.agencia.id=id;
                 this.buildForm(this.agencia);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
@@ -64,27 +62,34 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
 
+        if(!id){
+            this.f.id.valueChanges.subscribe(value => {
+                if (!this.f.id.errors && this.f.id.value.length > 0) {
+                    this.codigoExists(value);
+                }
+            });
+        }
+
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
+            console.log(data);
             this.estados.next(data);
+            this.cdr.detectChanges();
         });
+
     }
 
     ngAfterViewInit(): void {
-
-
         this.loading$.subscribe(loading => {
             if (!loading) {
-
                 if (this.f.estado.value) {
-
                     this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+                        console.log(data);
                         this.municipios.next(data);
                         this.cdr.detectChanges();
                     });
                 }
 
                 if (this.f.municipio.value) {
-
                     this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
                         this.parroquias.next(data);
                         this.cdr.detectChanges();
@@ -104,6 +109,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(agencia: Agencia) {
 
+        console.log(agencia);
+        
         this.itemForm = this.fb.group({
             codigo: [agencia.codigo || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
             nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
@@ -116,9 +123,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             telefono_alt:  [agencia.telefono_alt || ''],
             latitud:  [agencia.latitud || '', [Validators.required]],
             longitud:  [agencia.longitud || '', [Validators.required]],
-            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]]         
+            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]]
         });
-
 
         this.f.estado.valueChanges.subscribe(value => {
             this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
@@ -141,9 +147,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             });
         });
 
-
         this.cdr.detectChanges();
-
         this.printErrors()
     }
 
@@ -152,7 +156,18 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.agencia);
-        this.saveOrUpdate(this.agenciaService, this.agencia, 'La Agencia', this.isNew);
+        this.saveOrUpdate(this.agenciaService, this.agencia, 'El Agencia', this.isNew);
+    }
+
+    private codigoExists(id) {
+        this.agenciaService.exists(id).subscribe(data => {
+            if (data.exists) {
+                this.itemForm.controls['id'].setErrors({
+                    exists: "El código existe"
+                });
+                this.cdr.detectChanges();
+            }
+        });
     }
 
     activateOrInactivate() {
