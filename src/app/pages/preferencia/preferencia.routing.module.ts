@@ -14,7 +14,7 @@ const preferenciaModuleRoutes: Routes = [
     //     data: {title: 'Internacionalización'},
     //     loadChildren: () => import('./internacionalizacion/internacionalizacion.module').then(m => m.InternacionalizacionModule),
     // },
-
+    
 
 ];
 
