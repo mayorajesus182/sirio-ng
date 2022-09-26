@@ -1,35 +1,30 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { EstatusPersona, EstatusPersonaService } from 'src/@sirio/domain/services/configuracion/estatus-persona.service';
-import { SnackbarService } from 'src/@sirio/services/snackbar.service';
+import { TipoPersona, TipoPersonaService } from 'src/@sirio/domain/services/configuracion/tipo-persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-estatus-persona-form',
-    templateUrl: './estatus-persona-form.component.html',
-    styleUrls: ['./estatus-persona-form.component.scss'],
+    selector: 'app-tipo-persona-form',
+    templateUrl: './tipo-persona-form.component.html',
+    styleUrls: ['./tipo-persona-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class EstatusPersonaFormComponent extends FormBaseComponent implements OnInit {
+export class TipoPersonaFormComponent extends FormBaseComponent implements OnInit {
 
-    estatusPersona: EstatusPersona = {} as EstatusPersona;
-
+    tipoPersona: TipoPersona = {} as TipoPersona;
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private estatusPersonaService: EstatusPersonaService,
+        private tipoPersonaService: TipoPersonaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -41,15 +36,15 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.estatusPersonaService.get(id).subscribe((agn: EstatusPersona) => {
-                this.estatusPersona = agn;
-                this.buildForm(this.estatusPersona);
+            this.tipoPersonaService.get(id).subscribe((agn: TipoPersona) => {
+                this.tipoPersona = agn;
+                this.buildForm(this.tipoPersona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.estatusPersona);
+            this.buildForm(this.tipoPersona);
             this.loadingDataForm.next(false);
         }
 
@@ -62,11 +57,11 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         }
     }
 
-    buildForm(estatusPersona: EstatusPersona) {
+    buildForm(tipoPersona: TipoPersona) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: estatusPersona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(estatusPersona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(estatusPersona.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({value: tipoPersona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(tipoPersona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            codigoLocal: new FormControl(tipoPersona.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
 
@@ -74,12 +69,12 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.estatusPersona);
-        this.saveOrUpdate(this.estatusPersonaService, this.estatusPersona, 'El Estatus de Persona', this.isNew);
+        this.updateData(this.tipoPersona);
+        this.saveOrUpdate(this.tipoPersonaService, this.tipoPersona, 'El Tipo de Persona', this.isNew);
     }
 
     private codigoExists(id) {
-        this.estatusPersonaService.exists(id).subscribe(data => {
+        this.tipoPersonaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: "El código existe"
@@ -90,8 +85,8 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
     }
 
     activateOrInactivate() {
-        if (this.estatusPersona.id) {
-            this.applyChangeStatus(this.estatusPersonaService, this.estatusPersona, this.estatusPersona.nombre, this.cdr);
+        if (this.tipoPersona.id) {
+            this.applyChangeStatus(this.tipoPersonaService, this.tipoPersona, this.tipoPersona.nombre, this.cdr);
         }
     }
 

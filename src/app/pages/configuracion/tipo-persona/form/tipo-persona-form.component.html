@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['personStatus.form']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['personType.form']" current="action.add"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'personStatus.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'personType.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
@@ -19,7 +19,7 @@
                             <mat-icon>save</mat-icon>
 
                         </button>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>clear_all</mat-icon>
 
@@ -33,44 +33,33 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'personStatus.code' | translate: {default: 'global.code'} | translate }}
-                                    </mat-label>
-                                    <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id" uppercase required
-                                        class="text-center">
-                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.exists">
-                                        {{f.id.errors?.exists}}
-                                    </mat-error>
-                                </mat-form-field>
+                                    <mat-form-field fxFlex.gt-sm="10">
+                                        <mat-label>{{'personType.code' | translate: {default: 'global.code'} | translate }}
+                                        </mat-label>
+                                        <input matInput maxlength="5" autocomplete="off" name="id" formControlName="id" uppercase required
+                                            class="text-center">
+                                        <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.exists">
+                                            {{f.id.errors?.exists}}
+                                        </mat-error>
+                                    </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="70">
-                                    <mat-label>{{'personStatus.name' | translate: {default: 'global.name'} | translate }}
-                                    </mat-label>
-                                    <input matInput autocomplete="off" maxlength="60" name="nombre" formControlName="nombre" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>
-
-                                <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'personStatus.localCode' | translate: {default: 'global.localCode'} |
-                                        translate }}</mat-label>
-                                    <input matInput autocomplete="off" maxlength="6" name="codigoLocal" formControlName="codigoLocal"
-                                        uppercase class="text-center">
-                                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>
-
+                                    <mat-form-field fxFlex="auto">
+                                        <mat-label>{{'personType.name' | translate: {default: 'global.name'} | translate }}
+                                        </mat-label>
+                                        <input matInput maxlength="50" autocomplete="off" name="nombre" formControlName="nombre" uppercase
+                                            required>
+                                        <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                    </mat-form-field>
                             </div>
-
                         </form>
-                    </div>
+    
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -84,9 +73,7 @@
                             'global.notfound'} | translate }}
                         </button>
                     </div>
-
                 </mat-toolbar>
-
             </sirio-card>
         </div>
     </sirio-page-layout-content>

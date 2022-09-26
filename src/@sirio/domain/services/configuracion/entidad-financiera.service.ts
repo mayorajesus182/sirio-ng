@@ -22,7 +22,7 @@ export class EntidadFinancieraService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/entidadFinanciera'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/entidad-financiera'};
     }
 
     all(): Observable<EntidadFinanciera[]> {
@@ -39,6 +39,10 @@ export class EntidadFinancieraService {
 
     get(id: string): Observable<EntidadFinanciera> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<EntidadFinanciera> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<EntidadFinanciera[]> {

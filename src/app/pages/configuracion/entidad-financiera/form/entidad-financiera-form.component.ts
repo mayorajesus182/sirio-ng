@@ -2,26 +2,23 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { EstatusPersona, EstatusPersonaService } from 'src/@sirio/domain/services/configuracion/estatus-persona.service';
-import { SnackbarService } from 'src/@sirio/services/snackbar.service';
+import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-estatus-persona-form',
-    templateUrl: './estatus-persona-form.component.html',
-    styleUrls: ['./estatus-persona-form.component.scss'],
+    selector: 'app-entidad-financiera-form',
+    templateUrl: './entidad-financiera-form.component.html',
+    styleUrls: ['./entidad-financiera-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class EstatusPersonaFormComponent extends FormBaseComponent implements OnInit {
+export class EntidadFinancieraFormComponent extends FormBaseComponent implements OnInit {
 
-    estatusPersona: EstatusPersona = {} as EstatusPersona;
+    entidadFinanciera: EntidadFinanciera = {} as EntidadFinanciera;
 
 
     constructor(
@@ -29,7 +26,7 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private estatusPersonaService: EstatusPersonaService,
+        private entidadFinancieraService: EntidadFinancieraService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -41,15 +38,15 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.estatusPersonaService.get(id).subscribe((agn: EstatusPersona) => {
-                this.estatusPersona = agn;
-                this.buildForm(this.estatusPersona);
+            this.entidadFinancieraService.get(id).subscribe((agn: EntidadFinanciera) => {
+                this.entidadFinanciera = agn;
+                this.buildForm(this.entidadFinanciera);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.estatusPersona);
+            this.buildForm(this.entidadFinanciera);
             this.loadingDataForm.next(false);
         }
 
@@ -62,11 +59,11 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         }
     }
 
-    buildForm(estatusPersona: EstatusPersona) {
+    buildForm(entidadFinanciera: EntidadFinanciera) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: estatusPersona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(estatusPersona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(estatusPersona.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({value: entidadFinanciera.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(entidadFinanciera.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            codigoLocal: new FormControl(entidadFinanciera.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
 
@@ -74,12 +71,12 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.estatusPersona);
-        this.saveOrUpdate(this.estatusPersonaService, this.estatusPersona, 'El Estatus de Persona', this.isNew);
+        this.updateData(this.entidadFinanciera);
+        this.saveOrUpdate(this.entidadFinancieraService, this.entidadFinanciera, 'El Estatus de Persona', this.isNew);
     }
 
     private codigoExists(id) {
-        this.estatusPersonaService.exists(id).subscribe(data => {
+        this.entidadFinancieraService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: "El código existe"
@@ -90,8 +87,8 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
     }
 
     activateOrInactivate() {
-        if (this.estatusPersona.id) {
-            this.applyChangeStatus(this.estatusPersonaService, this.estatusPersona, this.estatusPersona.nombre, this.cdr);
+        if (this.entidadFinanciera.id) {
+            this.applyChangeStatus(this.entidadFinancieraService, this.entidadFinanciera, this.entidadFinanciera.nombre, this.cdr);
         }
     }
 

@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['personStatus.form']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['financialEntity.form']" current="action.add"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'personStatus.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'financialEntity.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
@@ -39,7 +39,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'personStatus.code' | translate: {default: 'global.code'} | translate }}
+                                    <mat-label>{{'financialEntity.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id" uppercase required
                                         class="text-center">
@@ -51,7 +51,7 @@
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="70">
-                                    <mat-label>{{'personStatus.name' | translate: {default: 'global.name'} | translate }}
+                                    <mat-label>{{'financialEntity.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="60" name="nombre" formControlName="nombre" uppercase
                                         required>
@@ -60,7 +60,7 @@
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'personStatus.localCode' | translate: {default: 'global.localCode'} |
+                                    <mat-label>{{'financialEntity.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
                                     <input matInput autocomplete="off" maxlength="6" name="codigoLocal" formControlName="codigoLocal"
                                         uppercase class="text-center">

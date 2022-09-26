@@ -1,16 +1,16 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['personStatus.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['financialEntity.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'personStatus.table' | translate: {default: 'global.notfound'}" placeholder="personStatus.search"
+        <sirio-list [name]="'financialEntity.table' | translate: {default: 'global.notfound'}" placeholder="financialEntity.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="estpersona_id" matSortDirection="asc">
+                matSortActive="entfinanciera_id" matSortDirection="asc">
 
-                <ng-container matColumnDef="estpersona_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'personStatus.code' | translate:
+                <ng-container matColumnDef="entfinanciera_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'financialEntity.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="font-weight-600">{{element.id}}</p>
@@ -18,7 +18,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'personStatus.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'financialEntity.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
@@ -26,7 +26,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'personStatus.status' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'financialEntity.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
