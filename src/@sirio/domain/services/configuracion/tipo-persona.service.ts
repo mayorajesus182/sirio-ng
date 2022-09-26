@@ -23,7 +23,7 @@ export class TipoPersonaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipoPersona'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-persona'};
     }
 
     all(): Observable<TipoPersona[]> {
@@ -40,6 +40,10 @@ export class TipoPersonaService {
 
     get(id: string): Observable<TipoPersona> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<TipoPersona> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoPersona[]> {

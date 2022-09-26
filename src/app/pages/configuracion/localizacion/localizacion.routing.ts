@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-const configuracionRoutes: Routes = [
+const localizacionRoutes: Routes = [
 
     {
         path: 'pais',
@@ -49,7 +49,7 @@ const configuracionRoutes: Routes = [
 
 
 @NgModule({
-    imports: [RouterModule.forChild(configuracionRoutes)],
+    imports: [RouterModule.forChild(localizacionRoutes)],
     exports: [RouterModule]
 })
 export class LocalizacionRoutingModule {

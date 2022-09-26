@@ -56,8 +56,8 @@ export class EstadoTableComponent extends TableBaseComponent implements OnInit, 
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data: Estado) {
-    this.applyChangeStatus(this.estadoService, data, data.nombre, this.cdr);
+  activateOrInactivate(data:any) {
+    this.applyChangeStatus(this.estadoService, data.element, data.element.nombre, this.cdr);
   }
 
 }

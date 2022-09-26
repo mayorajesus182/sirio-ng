@@ -17,6 +17,36 @@ const configuracionRoutes: Routes = [
         path: 'persona-natural',
         data: { title: 'Persona Natural' },
         loadChildren: () => import('./persona-natural/persona-natural.module').then(m => m.PersonaNaturalModule),
+    },
+    {
+        path: 'estatus-persona',
+        data: { title: 'Estatus de Persona' },
+        loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
+    },
+    {
+        path: 'entidad-financiera',
+        data: { title: 'Entidad Financiera' },
+        loadChildren: () => import('./entidad-financiera/entidad-financiera.module').then(m => m.EntidadFinancieraModule),
+    },
+    {
+        path: 'tipo-documento',
+        data: { title: 'Tipo de Documento' },
+        loadChildren: () => import('./tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule),
+    },
+    {
+        path: 'tipo-persona',
+        data: { title: 'Tipo de Persona' },
+        loadChildren: () => import('./tipo-persona/tipo-persona.module').then(m => m.TipoPersonaModule),
+    },
+    {
+        path: 'producto',
+        data: { title: 'Producto' },
+        loadChildren: () => import('./producto/producto.module').then(m => m.ProductoModule),
+    },
+    {
+        path: 'taquilla',
+        data: { title: 'Taquilla' },
+        loadChildren: () => import('./taquilla/taquilla.module').then(m => m.TaquillaModule),
     }
 
 ];

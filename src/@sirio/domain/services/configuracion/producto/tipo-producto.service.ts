@@ -23,7 +23,7 @@ export class TipoProductoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipoProducto'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/producto/tipo-producto'};
     }
 
     all(): Observable<TipoProducto[]> {
@@ -40,6 +40,10 @@ export class TipoProductoService {
 
     get(id: string): Observable<TipoProducto> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<TipoProducto> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoProducto[]> {

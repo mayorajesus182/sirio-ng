@@ -23,7 +23,7 @@ export class TipoDocumentoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipoDocumento'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-documento'};
     }
 
     all(): Observable<TipoDocumento[]> {
@@ -35,7 +35,7 @@ export class TipoDocumentoService {
     }
 
     activesByTipoPersona(tipoPersona: string): Observable<TipoDocumento[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/actives/byTipoPersona`);
+        return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/bytipoPersona/actives`);
     }
 
     exists(id: string): Observable<any> {
@@ -44,6 +44,10 @@ export class TipoDocumentoService {
 
     get(id: string): Observable<TipoDocumento> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<TipoDocumento> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoDocumento[]> {
