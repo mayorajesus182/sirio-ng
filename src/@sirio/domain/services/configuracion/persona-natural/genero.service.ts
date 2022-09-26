@@ -22,7 +22,7 @@ export class GeneroService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/genero'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/genero'};
     }
 
     all(): Observable<Genero[]> {
@@ -39,6 +39,10 @@ export class GeneroService {
 
     get(id: string): Observable<Genero> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Genero> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Genero[]> {

@@ -22,7 +22,7 @@ export class CargoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/cargo'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/cargo'};
     }
 
     all(): Observable<Cargo[]> {
@@ -39,6 +39,10 @@ export class CargoService {
 
     get(id: string): Observable<Cargo> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Cargo> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Cargo[]> {

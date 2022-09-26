@@ -22,7 +22,7 @@ export class NivelEstudioService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/nivelEstudio'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/nivel-estudio'};
     }
 
     all(): Observable<NivelEstudio[]> {
@@ -39,6 +39,10 @@ export class NivelEstudioService {
 
     get(id: string): Observable<NivelEstudio> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<NivelEstudio> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<NivelEstudio[]> {

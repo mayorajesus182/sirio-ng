@@ -22,7 +22,7 @@ export class EstadoCivilService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/estadoCivil'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/estado-civil'};
     }
 
     all(): Observable<EstadoCivil[]> {
@@ -39,6 +39,10 @@ export class EstadoCivilService {
 
     get(id: string): Observable<EstadoCivil> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<EstadoCivil> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<EstadoCivil[]> {
