@@ -37,6 +37,11 @@ const configuracionRoutes: Routes = [
         path: 'tipo-persona',
         data: { title: 'Tipo de Persona' },
         loadChildren: () => import('./tipo-persona/tipo-persona.module').then(m => m.TipoPersonaModule),
+    },
+    {
+        path: 'domicilio',
+        data: { title: 'Domicilio' },
+        loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule),
     }
 
 ];

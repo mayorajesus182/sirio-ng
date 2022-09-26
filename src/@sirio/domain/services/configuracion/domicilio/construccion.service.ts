@@ -23,7 +23,7 @@ export class ConstruccionService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/construccion'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/domicilio/construccion'};
     }
 
     all(): Observable<Construccion[]> {
@@ -40,6 +40,10 @@ export class ConstruccionService {
 
     get(id: string): Observable<Construccion> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Construccion> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Construccion[]> {

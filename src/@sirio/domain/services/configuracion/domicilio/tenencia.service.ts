@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
@@ -13,14 +14,16 @@ export interface Tenencia {
     activo?: number;
 }
 
-@Injectable()
+@Injectable({
+    providedIn:'root'
+})
 export class TenenciaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tenencia'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/domicilio/tenencia'};
     }
 
     all(): Observable<Tenencia[]> {
@@ -37,6 +40,10 @@ export class TenenciaService {
 
     get(id: string): Observable<Tenencia> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Tenencia> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Tenencia[]> {
