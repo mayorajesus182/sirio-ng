@@ -18,7 +18,7 @@ export class ToolbarLangComponent implements OnInit {
   public availableLangs = [] as Idioma[];
   currentLang = {
     nombre: 'ES',
-    id: 'es',
+    id: 'ES',
     icono: 'flag-icon-es'
   } as Idioma;
 

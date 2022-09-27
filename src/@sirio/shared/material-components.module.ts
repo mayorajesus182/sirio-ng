@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
+import '@angular/common/locales/global/es';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,10 +11,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { ErrorStateMatcher, MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { DateAdapter, MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from "@angular/material/expansion";
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,9 +37,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+
 import { NgxSpinnerModule } from 'ngx-spinner';
-import '@angular/common/locales/global/es' 
 export const customCurrencyMaskConfig = {
   align: "right",
   allowNegative: false,
@@ -67,7 +70,7 @@ export const DATE_FORMATS_CUSTOM = {
   imports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   exports: [
     MatInputModule,
@@ -103,6 +106,7 @@ export const DATE_FORMATS_CUSTOM = {
     MatDividerModule,
     MatBadgeModule,
     MatChipsModule,
+    MatExpansionModule,
     // MatMomentDateModule,
     MatFormFieldModule,
     // MatExpansionModule,
@@ -111,9 +115,12 @@ export const DATE_FORMATS_CUSTOM = {
     // MatBottomSheetModule,
     NgxSpinnerModule,
     // NgxMatSelectSearchModule,
+    CurrencyMaskModule,
   ],
   providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig },
+    { provide: MAT_DATE_LOCALE, useValue: 'es-VE' },
     { provide: LOCALE_ID, useValue: 'es-VE' },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS_CUSTOM },
     // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
