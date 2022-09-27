@@ -38,6 +38,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 export const customCurrencyMaskConfig = {
@@ -71,6 +72,7 @@ export const DATE_FORMATS_CUSTOM = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ],
   exports: [
     MatInputModule,
@@ -116,6 +118,7 @@ export const DATE_FORMATS_CUSTOM = {
     NgxSpinnerModule,
     // NgxMatSelectSearchModule,
     CurrencyMaskModule,
+    NgxMaskModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
