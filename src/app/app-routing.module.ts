@@ -21,11 +21,16 @@ const routes: Routes = [
     path: 'components',
     loadChildren: () => import('./pages/components/components.module').then(m => m.ComponentsModule),
   },
+  
   {
     path: 'sirio',
     component: LayoutComponent,
     canActivate: [AuthGuard],
     children: [
+      {
+        path: 'help',
+        loadChildren: () => import('./pages/help-components/components.module').then(m => m.HelpComponentsModule),
+      },
       {
         path: 'welcome',
         loadChildren: () => import('./pages/home/home.module').then(m => m.HomeModule),
