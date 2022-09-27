@@ -17,12 +17,10 @@
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
                             (click)="save()">
                             <mat-icon>save</mat-icon>
-
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>clear_all</mat-icon>
-
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
@@ -34,53 +32,45 @@
                 <sirio-card-content fxLayout="column">
 
                         <form [formGroup]="itemForm" *ngIf="itemForm">
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex.gt-sm="10">
+                                    <mat-label>{{'country.code' | translate: {default: 'global.code'} | translate }}
+                                    </mat-label>
+                                    <input matInput maxlength="5" autocomplete="off" name="id" formControlName="id" uppercase required
+                                        class="text-center">
+                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.exists">
+                                        {{f.id.errors?.exists}}
+                                    </mat-error>
+                                </mat-form-field>
 
-                                    <mat-form-field fxFlex.gt-sm="10">
-                                        <mat-label>{{'country.code' | translate: {default: 'global.code'} | translate }}
-                                        </mat-label>
-                                        <input matInput maxlength="5" autocomplete="off" name="id" formControlName="id" uppercase required
-                                            class="text-center">
-                                        <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.exists">
-                                            {{f.id.errors?.exists}}
-                                        </mat-error>
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label>{{'country.name' | translate: {default: 'global.name'} | translate }}
+                                    </mat-label>
+                                    <input matInput maxlength="50" autocomplete="off" name="nombre" formControlName="nombre" uppercase
+                                        required>
+                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                </mat-form-field>
+    
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label>{{'country.demonym' | translate: {default: 'global.demonym'} |
+                                        translate
+                                        }}</mat-label>
+                                    <input matInput maxlength="30" autocomplete="off" name="gentilicio" formControlName="gentilicio"
+                                        uppercase required>
+                                    <mat-error *ngIf="f.gentilicio.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.gentilicio.errors?.pattern">Caracter inválido</mat-error>
+                                </mat-form-field>
+                                <mat-form-field fxFlex.gt-sm="10">
+                                    <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} |
+                                        translate }}</mat-label>
+                                    <input matInput maxlength="5" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
+                                        uppercase class="text-center">
+                                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
                                     </mat-form-field>
-
-                                    <mat-form-field fxFlex="auto">
-                                        <mat-label>{{'country.name' | translate: {default: 'global.name'} | translate }}
-                                        </mat-label>
-                                        <input matInput maxlength="50" autocomplete="off" name="nombre" formControlName="nombre" uppercase
-                                            required>
-                                        <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                                    </mat-form-field>
-                                
-
-                                    <mat-form-field fxFlex="auto">
-                                        <mat-label>{{'country.demonym' | translate: {default: 'global.demonym'} |
-                                            translate
-                                            }}</mat-label>
-                                        <input matInput maxlength="30" autocomplete="off" name="gentilicio" formControlName="gentilicio"
-                                            uppercase required>
-                                        <mat-error *ngIf="f.gentilicio.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.gentilicio.errors?.pattern">Caracter inválido</mat-error>
-                                    </mat-form-field>
-                                
-
-                                    <mat-form-field fxFlex.gt-sm="10">
-                                        <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} |
-                                            translate }}</mat-label>
-                                        <input matInput maxlength="5" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
-                                            uppercase class="text-center">
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                                    </mat-form-field>
-                            
-
                             </div>
-
                         </form>
                 
 
