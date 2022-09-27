@@ -18,11 +18,11 @@ const configuracionRoutes: Routes = [
         data: { title: 'Persona Natural' },
         loadChildren: () => import('./persona-natural/persona-natural.module').then(m => m.PersonaNaturalModule),
     },
-    {
-        path: 'estatus-persona',
-        data: { title: 'Estatus de Persona' },
-        loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
-    },
+    // {
+    //     path: 'estatus-persona',
+    //     data: { title: 'Estatus de Persona' },
+    //     loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
+    // },
     {
         path: 'entidad-financiera',
         data: { title: 'Entidad Financiera' },
@@ -39,14 +39,24 @@ const configuracionRoutes: Routes = [
         loadChildren: () => import('./tipo-persona/tipo-persona.module').then(m => m.TipoPersonaModule),
     },
     {
-        path: 'domicilio',
-        data: { title: 'Domicilio' },
-        loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule),
-    }, 
+        path: 'producto',
+        data: { title: 'Producto' },
+        loadChildren: () => import('./producto/producto.module').then(m => m.ProductoModule),
+    },
+    {
+        path: 'taquilla',
+        data: { title: 'Taquilla' },
+        loadChildren: () => import('./taquilla/taquilla.module').then(m => m.TaquillaModule),
+    },
     {
         path: 'divisa',
         data: { title: 'Divisa' },
-        loadChildren: () => import('./divisa/divisa.module').then(m => m.DivisaModule),
+        loadChildren: () => import('./divisa/divisa.module').then(m => m.DivisaModule), 
+    },
+    {
+        path: 'domicilio',
+        data: { title: 'Domicilio' },
+        loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule), 
     }
 
 ];

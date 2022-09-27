@@ -1,0 +1,146 @@
+<sirio-page-layout mode="simple">
+  <sirio-page-layout-header>
+    <sirio-breadcrumbs [@fadeInRight] current="Components"></sirio-breadcrumbs>
+  </sirio-page-layout-header>
+
+  <sirio-page-layout-content fxLayout="column">
+    <div fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+      <div [formGroup]="formData" fxFlex="grow" >
+
+
+        <div [@fadeInUp] class="content" fxLayout="column" fxLayoutGap="5px">
+
+          <mat-accordion class="expansion-headers-align">
+
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <span class="mt-10">
+                    Datos Basicos
+                  </span>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                    <mat-icon>person</mat-icon>
+                  </button>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                <mat-form-field fxFlex="auto">
+                  <mat-label>Fecha Nacimiento</mat-label>
+                  <input class="text-center" autocomplete="off"   matInput  placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
+                    required>
+                  <mat-datepicker-toggle matSuffix [for]="fechaPicker">
+                  </mat-datepicker-toggle>
+                  <mat-error *ngIf="form.fecha.errors?.invalid">
+                    Fecha Invalidad
+                  </mat-error>
+                  <!-- {{form.fecha.errors|json}} -->
+                </mat-form-field>
+                <mat-datepicker #fechaPicker></mat-datepicker>
+
+
+
+                <mat-form-field fxFlex.gt-sm="25">
+                  <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
+                  </mat-label>
+                  <input matInput  name="telefono"  autocomplete="off"  formControlName="telefono" prefix="04"
+                    mask="00 000 00 00" required placeholder="">
+                    <mat-hint>Ingrese telefono movil</mat-hint>
+                  <mat-error *ngIf="form.telefono.errors?.required">Es requerido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex.gt-sm="25">
+                  <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
+                  </mat-label>
+                  <input matInput  name="telefonoAlt"   autocomplete="off"  placeholder="" formControlName="telefonoAlt"  prefix="02"
+                    mask="00 000 00 00" required>
+                    <mat-hint>Ingrese telefono local</mat-hint>
+                  <mat-error *ngIf="form.telefonoAlt.errors?.required">Es requerido</mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="auto">
+                  <mat-label>{{'form.mount' | translate: {default: 'global.amount'} | translate }}
+                  </mat-label>
+                  <input matInput max="999999999999999.99" min="1.00" autocomplete="off" name="monto" formControlName="monto"
+                    currencyMask [options]="{precision:2}" required>
+                  <mat-error *ngIf="form.monto.errors?.required">Es requerido</mat-error>
+                  <mat-error *ngIf="form.monto.errors?.max">No puede superior a 999.999.999.999.999,99</mat-error>
+                  <mat-error *ngIf="form.monto.errors?.min">Debe ser superior a 0,00</mat-error>
+                </mat-form-field>
+
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="hasBasicData">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Peps
+                </mat-panel-title>
+                <mat-panel-description>
+                  <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                    <mat-icon>peoples</mat-icon>
+                    <!-- <span class="notification-number mat-bg-warn "></span> -->
+                  </button>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="hasBasicData">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Direcciones
+                </mat-panel-title>
+                <mat-panel-description>
+                  <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                    <mat-icon>location_on</mat-icon>
+                    <span class="notification-number mat-bg-warn ">2</span>
+                  </button>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+
+
+              </div>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="hasBasicData">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Telefonos
+                </mat-panel-title>
+                <mat-panel-description>
+                  <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                    <mat-icon>phone</mat-icon>
+                    <span class="notification-number mat-bg-warn ">2</span>
+                  </button>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+
+
+              </div>
+            </mat-expansion-panel>
+
+          </mat-accordion>
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </sirio-page-layout-content>
+</sirio-page-layout>

@@ -1,50 +1,43 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Idioma']" current="language.table"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'language.table' | translate: {default: 'global.notfound'}" placeholder="language.search"
+        <sirio-list [name]="'agency.table' | translate: {default: 'global.notfound'}" placeholder="agency.search"
             (filterChange)="onFilterChange($event)">
-            <mat-table #table id="tableContainer" [dataSource]="dataSource" [@animateStagger]="{value:'50'}" matSort
-                matSortActive="agencia_id" matSortDirection="asc">
-                <!-- origen -->
+            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
+                matSortActive="codigo" matSortDirection="asc">
+
                 <ng-container matColumnDef="codigo">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'agency.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'agency.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="text-truncate font-weight-600">{{element.codigo}}</p>
+                        <p class="font-weight-600">{{element.codigo}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'" mat-sort-header>{{'agency.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="zonaPostalNombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.postalZone' |
-                        translate: {default: 'global.postalZone'} | translate }}</mat-header-cell>
+
+                <ng-container matColumnDef="horarioExt">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.extendedSchedule' | translate:
+                        {default: 'global.extendedSchedule'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="text-truncate font-weight-600">{{element.zonaPostalNombre}}</p>
+                        <p class=" font-weight-600 center ">{{element.horarioExt}}</p>
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="ciudad">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'" mat-sort-header>{{'agency.city' | translate:
-                        {default: 'global.city'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
-                        <p class="text-truncate font-weight-600">{{element.municipioNombre}}</p>
-                    </mat-cell>
-                </ng-container>
-                <!-- Fin -->
 
                 <ng-container matColumnDef="activo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'agency.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
-                        <mat-chip mat-sm-chip [color]="element.activo ? 'primary' : 'warn'" [selected]="element.activo">
+                        <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
                     </mat-cell>
@@ -55,22 +48,21 @@
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'"></mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <div fxFlex="row" fxLayoutAlign="end center">
-                            <app-actions-nav [element]="element" [items]="actions.asObservable()"
-                                [method]="actionAPI()"></app-actions-nav>
+                            <sirio-actions-nav [element]="element" [items]="actions.asObservable()" 
+                            [method]="actionAPI()"></sirio-actions-nav>
                         </div>
                     </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
-                    [@animate]="{value:'*',params:{y:'100%'}}">
+                    >
                 </mat-row>
             </mat-table>
 
             <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
-
 
         </sirio-list>
         <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>
