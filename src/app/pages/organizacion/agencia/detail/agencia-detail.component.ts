@@ -29,7 +29,7 @@ export class AgenciaDetailComponent extends FormBaseComponent implements OnInit 
 
     this.loadingDataForm.next(true);
 
-    this.agenciaService.get(id).subscribe(data => {
+    this.agenciaService.detail(id).subscribe(data => {     
       this.data = data;
       this.loadingDataForm.next(false);
     });

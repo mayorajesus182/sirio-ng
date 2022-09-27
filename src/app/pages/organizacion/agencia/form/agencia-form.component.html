@@ -40,9 +40,10 @@
                                     <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
                                     <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase
-                                        required>
+                                        required  >
                                     <mat-error *ngIf="f.codigo.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.codigo.errors?.exists">Código existente!</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
                                 </mat-form-field>
                                 
@@ -102,6 +103,16 @@
                                 [attributeName]="'nombre'" [errors]="f.municipio?.errors">
                                 </sirio-select-search>
 
+                                <mat-form-field fxFlex.gt-xs="80">
+                                    <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="ciudad" readonly>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
                                 <sirio-select-search 
                                 fxFlex="30"
                                 [label]="'agency.parish' | translate: {default: 'global.parish'} | translate"
@@ -109,17 +120,14 @@
                                 [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
                                 </sirio-select-search>
 
-                            </div>
-
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search 
-                                fxFlex="40"
+                                fxFlex="30"
                                 [label]="'agency.postalZone' | translate: {default: 'global.postalZone'} | translate"
                                 formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()"
                                 [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="60">
+                                <mat-form-field fxFlex="40">
                                     <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase

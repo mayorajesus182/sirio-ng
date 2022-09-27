@@ -9,8 +9,11 @@ export interface Agencia {
     id: string;
     nombre: string;
     estado: string;
+    estadoNombre: string;
     municipio: string;
+    municipioNombre: string;
     parroquia: string;
+    parroquiaNombre: string;
     zonaPostal: string;
     direccion: string;
     email: string;

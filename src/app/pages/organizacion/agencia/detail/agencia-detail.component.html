@@ -21,32 +21,102 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-
-                    <div class="result" fxLayout="column" *ngIf="d.id">
+                    <div class="result" fxLayout="column" *ngIf="d.codigo">
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="auto">
+                            <mat-form-field fxFlex="20">
                                 <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput class="text-center" [value]="d.id" readonly>
+                                <input matInput [value]="d.codigo" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="70">
+                            <mat-form-field fxFlex.gt-xs="80">
                                 <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>
+                        </div>
 
-                            <mat-form-field fxFlex="auto">
-                                <mat-label>{{'agency.localCode' | translate: {default: 'global.localCode'} |
-                                    translate }}</mat-label>
-                                <input matInput class="text-center" [value]="d.codigoLocal" readonly>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.email" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.telefono" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.telefono_alt" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.state' | translate: {default: 'global.state'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.estado" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.ciudad" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.municipality' | translate: {default: 'global.municipality'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.municipio" readonly>
                             </mat-form-field>
 
                         </div>
-                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
 
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.parish' | translate: {default: 'global.parish'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.parroquia" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.postalZone' | translate: {default: 'global.postalZone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.zonaPostal" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.direccion" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.latitud" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="50">
+                                <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.longitud" readonly>
+                            </mat-form-field>
+                        </div>
+                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
                     </div>
 
 
