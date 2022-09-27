@@ -61,15 +61,9 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             this.buildForm(this.agencia);
             this.loadingDataForm.next(false);
         }
-
-            this.f.codigo.valueChanges.subscribe(value => {
-                if (!this.f.codigo.errors && this.f.codigo.value.length > 0) {
-                    this.codigoExists(value);
-                }
-            });
+    
 
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
-            // console.log(data);
             this.estados.next(data);
             this.cdr.detectChanges();
         });
@@ -121,15 +115,16 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             direccion:  [agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
             email:  [agencia.email || '', [Validators.required]],
             telefono:  [agencia.telefono || '', [Validators.required]],
-            telefono_alt:  [agencia.telefono_alt || ''],
+            telefonoAlt:  [agencia.telefonoAlt || ''],
             latitud:  [agencia.latitud || '', [Validators.required]],
             longitud:  [agencia.longitud || '', [Validators.required]],
-            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]]
+            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]],
+            horarioExt: [agencia.horarioExt===1 || false],
         });
 
         this.f.estado.valueChanges.subscribe(value => {
             this.ciudad='';
-            this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+            this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
             });
@@ -150,6 +145,12 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             });
         });
 
+        this.f.codigo.valueChanges.subscribe(value => {
+            if (!this.f.codigo.errors && this.f.codigo.value.length > 0) {
+                this.codigoExists(value);
+            }
+        });
+
         this.cdr.detectChanges();
         this.printErrors()
     }
@@ -158,7 +159,11 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.agencia);
+            
+            
+            this.updateData(this.agencia);
+            console.log(this.agencia);
+            this.agencia.horarioExt = this.agencia.horarioExt?1:0
         this.saveOrUpdate(this.agenciaService, this.agencia, 'El Agencia', this.isNew);
     }
 

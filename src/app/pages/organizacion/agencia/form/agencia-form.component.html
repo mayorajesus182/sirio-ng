@@ -81,10 +81,9 @@
                                 <mat-form-field fxFlex="40">
                                     <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
                                     </mat-label>
-                                    <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefono_alt" formControlName="telefono_alt" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.telefono_alt.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.telefono_alt.errors?.pattern">Caracter inválido</mat-error>
+                                    <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase
+                                    >
+                                    <mat-error *ngIf="f.telefonoAlt.errors?.pattern">Caracter inválido</mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -138,7 +137,7 @@
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="50">
+                                <mat-form-field fxFlex="35">
                                     <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="13" autocomplete="off" name="latitud" formControlName="latitud" uppercase
@@ -147,14 +146,20 @@
                                     <mat-error *ngIf="f.latitud.errors?.pattern">Caracter inválido</mat-error>
                                 </mat-form-field>  
 
-                                <mat-form-field fxFlex="50">
+                                <mat-form-field fxFlex="35">
                                     <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="13" autocomplete="off" name="longitud" formControlName="longitud" uppercase
                                         required>
                                     <mat-error *ngIf="f.longitud.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.longitud.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>                              
+                                </mat-form-field>    
+
+                                <mat-slide-toggle [color]="'primary'" formControlName="horarioExt" name="horarioExt">
+                                    {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+                                </mat-slide-toggle>
+                                <mat-error *ngIf="f.horarioExt.errors?.pattern">Caracter inválido</mat-error>
+
                             </div>
                         </form>
     

@@ -7,6 +7,7 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface Agencia {
     id: string;
+    codigo: string;
     nombre: string;
     estado: string;
     estadoNombre: string;
@@ -18,13 +19,14 @@ export interface Agencia {
     direccion: string;
     email: string;
     telefono: number;
-    telefono_alt: number;
+    telefonoAlt: number;
     latitud: number;
     longitud: number;
     fechaCreacion?: any;
     activo?: number;
     institucion: String;
-    codigo: string;
+    horarioExt: number;
+    
 }
 
 @Injectable({
@@ -47,8 +49,8 @@ export class AgenciaService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    exists(id: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
+    exists(codigo: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${codigo}/exists`);
     }
 
     get(id: string): Observable<Agencia> {

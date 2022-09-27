@@ -55,7 +55,7 @@
                             <mat-form-field fxFlex.gt-xs="40">
                                 <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.telefono_alt" readonly>
+                                <input matInput [value]="d.telefonoAlt" readonly >
                             </mat-form-field>
                         </div>
 
@@ -104,16 +104,22 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="50">
+                            <mat-form-field fxFlex="35">
                                 <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.latitud" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="50">
+                            <mat-form-field fxFlex.gt-xs="35">
                                 <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.longitud" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="30">
+                                <mat-label>{{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} |
+                                    translate }}</mat-label>
+                                <input matInput class="text-center" [value]="d.horarioExt ? 'SI' : 'NO'" readonly>
                             </mat-form-field>
                         </div>
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
