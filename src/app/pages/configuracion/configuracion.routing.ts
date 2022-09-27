@@ -47,6 +47,11 @@ const configuracionRoutes: Routes = [
         path: 'taquilla',
         data: { title: 'Taquilla' },
         loadChildren: () => import('./taquilla/taquilla.module').then(m => m.TaquillaModule),
+    },
+    {
+        path: 'divisa',
+        data: { title: 'Divisa' },
+        loadChildren: () => import('./divisa/divisa.module').then(m => m.DivisaModule), 
     }
 
 ];
