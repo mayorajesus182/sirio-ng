@@ -1,40 +1,40 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['coin.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'agency.table' | translate: {default: 'global.notfound'}" placeholder="agency.search"
+        <sirio-list [name]="'coin.table' | translate: {default: 'global.notfound'}" placeholder="coin.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="codigo" matSortDirection="asc">
+                matSortActive="moneda_id" matSortDirection="asc">
 
-                <ng-container matColumnDef="codigo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'agency.code' | translate:
+                <ng-container matColumnDef="moneda_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'coin.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.codigo}}</p>
+                        <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'coin.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="horarioExt">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.extendedSchedule' | translate:
-                        {default: 'global.extendedSchedule'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class=" font-weight-600 center ">{{element.horarioExt}}</p>
+             
+                <ng-container matColumnDef="esVirtual">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'coin.isVirtual' | translate: {default: 'global.isVirtual'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                        <p class="text-truncate font-weight-600">{{element.esVirtual ? 'SI' : 'NO'}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'agency.status' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'coin.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">

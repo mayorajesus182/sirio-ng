@@ -3,24 +3,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
+import { TenenciaService } from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-agencia-detail',
-  templateUrl: './agencia-detail.component.html',
-  styleUrls: ['./agencia-detail.component.scss'],
+  selector: 'app-tenencia-detail',
+  templateUrl: './tenencia-detail.component.html',
+  styleUrls: ['./tenencia-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class AgenciaDetailComponent extends FormBaseComponent implements OnInit {
+export class TenenciaDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
     private router: Router,
     private route: ActivatedRoute,
-    private agenciaService: AgenciaService) {
+    private tenenciaService: TenenciaService) {
     super(undefined, injector);
   }
 
@@ -29,10 +29,11 @@ export class AgenciaDetailComponent extends FormBaseComponent implements OnInit 
 
     this.loadingDataForm.next(true);
 
-    this.agenciaService.detail(id).subscribe(data => {     
+    this.tenenciaService.detail(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
 
   }
+
 }

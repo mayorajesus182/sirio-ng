@@ -18,11 +18,11 @@ const configuracionRoutes: Routes = [
         data: { title: 'Persona Natural' },
         loadChildren: () => import('./persona-natural/persona-natural.module').then(m => m.PersonaNaturalModule),
     },
-    {
-        path: 'estatus-persona',
-        data: { title: 'Estatus de Persona' },
-        loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
-    },
+    // {
+    //     path: 'estatus-persona',
+    //     data: { title: 'Estatus de Persona' },
+    //     loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
+    // },
     {
         path: 'entidad-financiera',
         data: { title: 'Entidad Financiera' },
@@ -47,6 +47,16 @@ const configuracionRoutes: Routes = [
         path: 'taquilla',
         data: { title: 'Taquilla' },
         loadChildren: () => import('./taquilla/taquilla.module').then(m => m.TaquillaModule),
+    },
+    {
+        path: 'divisa',
+        data: { title: 'Divisa' },
+        loadChildren: () => import('./divisa/divisa.module').then(m => m.DivisaModule), 
+    },
+    {
+        path: 'domicilio',
+        data: { title: 'Domicilio' },
+        loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule), 
     }
 
 ];
