@@ -52,6 +52,11 @@ const configuracionRoutes: Routes = [
         path: 'divisa',
         data: { title: 'Divisa' },
         loadChildren: () => import('./divisa/divisa.module').then(m => m.DivisaModule), 
+    },
+    {
+        path: 'domicilio',
+        data: { title: 'Domicilio' },
+        loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule), 
     }
 
 ];
