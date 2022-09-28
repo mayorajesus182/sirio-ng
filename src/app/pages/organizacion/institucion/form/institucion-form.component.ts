@@ -45,8 +45,7 @@ export class InstitucionFormComponent extends FormBaseComponent implements OnIni
     ngOnInit() {
 
         this.loadingDataForm.next(true);
-
-        //if (id) {
+      
 
         this.institucionService.get().subscribe((inst: Institucion) => {
             this.institucion = inst;
@@ -97,7 +96,6 @@ export class InstitucionFormComponent extends FormBaseComponent implements OnIni
 
     buildForm(institucion: Institucion) {
 
-        // console.log(institucion);
 
         this.itemForm = this.fb.group({
             id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
