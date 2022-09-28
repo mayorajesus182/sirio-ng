@@ -80,4 +80,5 @@ export class AgenciaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 
+
 }
