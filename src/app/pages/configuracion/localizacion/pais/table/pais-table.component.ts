@@ -39,7 +39,6 @@ export class PaisTableComponent extends TableBaseComponent implements OnInit, Af
     this.afterInit();
   }
 
-
   add(path:string) {
     console.log(' apply add action '+path);
     

@@ -77,7 +77,7 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
         this.entidadFinancieraService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }
