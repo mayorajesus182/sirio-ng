@@ -1,31 +1,33 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
+import { Region, RegionService } from 'src/@sirio/domain/services/organizacion/region.service';
 import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-zona-form',
-    templateUrl: './zona-form.component.html',
-    styleUrls: ['./zona-form.component.scss'],
+    selector: 'app-region-form',
+    templateUrl: './region-form.component.html',
+    styleUrls: ['./region-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ZonaFormComponent extends FormBaseComponent implements OnInit {
+export class RegionFormComponent extends FormBaseComponent implements OnInit {
 
-    zona: Zona = {} as Zona;
+    region: Region = {} as Region;
+    public zonas = new BehaviorSubject<Zona[]>([]);
 
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private regionService: RegionService,
         private zonaService: ZonaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
@@ -38,15 +40,15 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.zonaService.get(id).subscribe((agn: Zona) => {
-                this.zona = agn;
-                this.buildForm(this.zona);
+            this.regionService.get(id).subscribe((agn: Region) => {
+                this.region = agn;
+                this.buildForm(this.region);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.zona);
+            this.buildForm(this.region);
             this.loadingDataForm.next(false);
         }
 
@@ -57,12 +59,18 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
                 }
             });
         }
+
+        this.zonaService.actives().subscribe(data => {
+            this.zonas.next(data);
+        });
+
     }
 
-    buildForm(zona: Zona) {
+    buildForm(region: Region) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: zona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(zona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            id: new FormControl({value: region.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            zona: new FormControl(region.zona || undefined, [Validators.required]),
         });
     }
 
@@ -70,12 +78,12 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.zona);
-        this.saveOrUpdate(this.zonaService, this.zona, 'La Zona', this.isNew);
+        this.updateData(this.region);
+        this.saveOrUpdate(this.regionService, this.region, 'La Región', this.isNew);
     }
 
     private codigoExists(id) {
-        this.zonaService.exists(id).subscribe(data => {
+        this.regionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: "El código existe"
@@ -86,8 +94,8 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     activateOrInactivate() {
-        if (this.zona.id) {
-            this.applyChangeStatus(this.zonaService, this.zona, this.zona.nombre, this.cdr);
+        if (this.region.id) {
+            this.applyChangeStatus(this.regionService, this.region, this.region.nombre, this.cdr);
         }
     }
 
