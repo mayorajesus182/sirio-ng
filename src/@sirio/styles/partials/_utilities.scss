@@ -156,6 +156,13 @@ blockquote {
   height: 100%;
 }
 
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+
 @each $property in (background, color, border-color, fill) {
   @each $direction in (primary, accent, warn, primary-contrast, accent-contrast, warn-contrast) {
     .#{$property}-#{$direction} {

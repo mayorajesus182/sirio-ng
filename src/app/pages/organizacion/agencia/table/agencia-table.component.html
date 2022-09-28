@@ -7,21 +7,31 @@
         <sirio-list [name]="'agency.table' | translate: {default: 'global.notfound'}" placeholder="agency.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="agencia_id" matSortDirection="asc">
+                matSortActive="codigo" matSortDirection="asc">
 
                 <ng-container matColumnDef="codigo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'agency.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                        <p >{{element.codigo}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'" mat-sort-header>{{'agency.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                        <p class="text-truncate">{{element.nombre}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="horarioExt">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'" mat-sort-header>{{'agency.extendedSchedule' | translate:
+                        {default: 'global.extendedSchedule'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                        <mat-chip mat-sm-chip [color]="element.horarioExt ? 'accent' : 'warn'" [selected]="element.horarioExt">
+                            {{element.horarioExt ? 'SI' : 'NO'}}
+                        </mat-chip>
                     </mat-cell>
                 </ng-container>
 

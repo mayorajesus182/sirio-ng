@@ -32,20 +32,19 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-
                         <form [formGroup]="itemForm" *ngIf="itemForm">
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <mat-form-field fxFlex="20">
                                     <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
                                     <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase
-                                        required>
+                                        required  >
                                     <mat-error *ngIf="f.codigo.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.codigo.errors?.exists">Código existente!</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
                                 </mat-form-field>
-                                
+
                                 <mat-form-field fxFlex="80">
                                     <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
@@ -53,9 +52,7 @@
                                         required>
                                     <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>
-
-                                
+                                </mat-form-field>   
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" > 
@@ -80,10 +77,9 @@
                                 <mat-form-field fxFlex="40">
                                     <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
                                     </mat-label>
-                                    <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefono_alt" formControlName="telefono_alt" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.telefono_alt.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.telefono_alt.errors?.pattern">Caracter inválido</mat-error>
+                                    <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase
+                                    >
+                                    <mat-error *ngIf="f.telefonoAlt.errors?.pattern">Caracter inválido</mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -102,6 +98,16 @@
                                 [attributeName]="'nombre'" [errors]="f.municipio?.errors">
                                 </sirio-select-search>
 
+                                <mat-form-field fxFlex.gt-xs="80">
+                                    <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="ciudad" readonly>
+                                </mat-form-field>
+
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
                                 <sirio-select-search 
                                 fxFlex="30"
                                 [label]="'agency.parish' | translate: {default: 'global.parish'} | translate"
@@ -109,17 +115,14 @@
                                 [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
                                 </sirio-select-search>
 
-                            </div>
-
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search 
-                                fxFlex="40"
+                                fxFlex="30"
                                 [label]="'agency.postalZone' | translate: {default: 'global.postalZone'} | translate"
                                 formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()"
                                 [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="60">
+                                <mat-form-field fxFlex="40">
                                     <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase
@@ -130,7 +133,7 @@
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="50">
+                                <mat-form-field fxFlex="35">
                                     <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="13" autocomplete="off" name="latitud" formControlName="latitud" uppercase
@@ -139,14 +142,18 @@
                                     <mat-error *ngIf="f.latitud.errors?.pattern">Caracter inválido</mat-error>
                                 </mat-form-field>  
 
-                                <mat-form-field fxFlex="50">
+                                <mat-form-field fxFlex="35">
                                     <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="13" autocomplete="off" name="longitud" formControlName="longitud" uppercase
                                         required>
                                     <mat-error *ngIf="f.longitud.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.longitud.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>                              
+                                </mat-form-field>    
+
+                                <mat-slide-toggle [color]="'primary'" formControlName="horarioExt" name="horarioExt">
+                                    {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+                                </mat-slide-toggle>
                             </div>
                         </form>
     

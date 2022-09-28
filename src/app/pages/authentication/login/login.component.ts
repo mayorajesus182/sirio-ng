@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.purgeAuth();
     this.sessionService.destroy();
+    this.sessionService.reset();
   }
 
   send() {
@@ -65,7 +66,7 @@ export class LoginComponent implements OnInit {
       .subscribe(
         data => {
           this.submitButton.disabled = false;
-          this.router.navigateByUrl('/sirio/personas');
+          this.router.navigateByUrl('/sirio/welcome');
           this.snackbar.open('Authentication Success', 'Close', {
             duration: 8000,
             horizontalPosition: 'center',

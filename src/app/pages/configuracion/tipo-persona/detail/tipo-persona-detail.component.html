@@ -22,7 +22,9 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >
 
                             <mat-form-field fxFlex.gt-xs="10" >
                                 <mat-label>{{'personType.code' | translate: {default: 'global.code'} | translate }}
@@ -39,7 +41,7 @@
                         </div>
 
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
-
+                    </div>
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
