@@ -9,6 +9,12 @@ const organizacionRoutes: Routes = [
         loadChildren: () => import('./agencia/agencia.module').then(m => m.AgenciaModule),
     },
 
+    {
+        path: 'institucion',
+        data: { title: 'institucion' },
+        loadChildren: () => import('./institucion/institucion.module').then(m => m.InstitucionModule),
+    },
+
 ];
 
 
