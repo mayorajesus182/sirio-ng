@@ -280,6 +280,18 @@ export class FormBaseComponent {
 
     }
 
+    protected applyFieldsDirty(){
+        Object.keys(this.itemForm.controls).forEach(key => {
+            this.itemForm.get(key).markAsDirty();
+          });
+    }
+
+    protected applyFieldsDirtyTo(form:FormGroup){
+        Object.keys(form.controls).forEach(key => {
+            this.itemForm.get(key).markAsDirty();
+          });
+    }
+
 
     protected saveOrUpdate(service, formData = {}, entityName, isNew?): Observable<any> {
         this.loadingDataForm.next(true);

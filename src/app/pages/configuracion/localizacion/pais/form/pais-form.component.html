@@ -63,6 +63,8 @@
                                         <mat-error *ngIf="f.gentilicio.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.gentilicio.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
+                                <!-- {{f.gentilicio.errors|json}} -->
+                                
                                 <mat-form-field fxFlex.gt-sm="10">
                                     <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
