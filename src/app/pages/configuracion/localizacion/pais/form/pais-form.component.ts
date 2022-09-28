@@ -79,7 +79,7 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
         this.paisService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: this.translateService.instant('error.codeExists')
                 });
                 this.cdr.detectChanges();
             }

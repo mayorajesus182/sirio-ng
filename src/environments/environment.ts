@@ -26,5 +26,6 @@ export const environment = {
     configuracion: config.apiProUrl+'/api/configuracion',
     organizacion: config.apiProUrl+'/api/organizacion',
     preferencia: config.apiProUrl+'/api/preferencia',
+    calendar: config.apiProUrl+'/api/calendar',
   }
 };
