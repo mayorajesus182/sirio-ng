@@ -4,7 +4,6 @@
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
-
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
             fxLayoutAlign.gt-sm="start stretch">
 
@@ -39,9 +38,9 @@
                                     </mat-label>
                                     <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase
                                         required  >
-                                    <mat-error *ngIf="f.codigo.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.codigo.errors?.pattern">Caracter inválido</mat-error>
-                                    <mat-error *ngIf="f.codigo.errors?.exists">Código existente!</mat-error>
+                                    <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.codigo.errors?.exists">{{f.codigo.errors?.exists}}</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
                                 </mat-form-field>
 
@@ -50,8 +49,8 @@
                                     </mat-label>
                                     <input matInput maxlength="200" minlength="1" autocomplete="off" name="nombre" formControlName="nombre" uppercase
                                         required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>   
                             </div>
 
@@ -61,8 +60,8 @@
                                     </mat-label>
                                     <input type="email" matInput minlength="1" maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase
                                         required>
-                                    <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.email.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="40">
@@ -70,8 +69,8 @@
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefono" formControlName="telefono" uppercase
                                         required>
-                                    <mat-error *ngIf="f.telefono.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="40">
@@ -79,7 +78,7 @@
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase
                                     >
-                                    <mat-error *ngIf="f.telefonoAlt.errors?.pattern">Caracter inválido</mat-error>
+                                <mat-error *ngIf="f.telefonoAlt.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -127,8 +126,8 @@
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase
                                         required>
-                                    <mat-error *ngIf="f.direccion.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.direccion.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>                              
                             </div>
 
@@ -138,8 +137,8 @@
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="13" autocomplete="off" name="latitud" formControlName="latitud" uppercase
                                         required>
-                                    <mat-error *ngIf="f.latitud.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.latitud.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.latitud.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.latitud.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>  
 
                                 <mat-form-field fxFlex="35">
@@ -147,8 +146,8 @@
                                     </mat-label>
                                     <input  matInput minlength="1" maxlength="13" autocomplete="off" name="longitud" formControlName="longitud" uppercase
                                         required>
-                                    <mat-error *ngIf="f.longitud.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.longitud.errors?.pattern">Caracter inválido</mat-error>
+                                    <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.longitud.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>    
 
                                 <mat-slide-toggle [color]="'primary'" formControlName="horarioExt" name="horarioExt">
@@ -161,7 +160,6 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
