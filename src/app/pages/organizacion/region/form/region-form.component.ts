@@ -1,31 +1,34 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
+import { Region, RegionService } from 'src/@sirio/domain/services/organizacion/region.service';
+import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-entidad-financiera-form',
-    templateUrl: './entidad-financiera-form.component.html',
-    styleUrls: ['./entidad-financiera-form.component.scss'],
+    selector: 'app-region-form',
+    templateUrl: './region-form.component.html',
+    styleUrls: ['./region-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class EntidadFinancieraFormComponent extends FormBaseComponent implements OnInit {
+export class RegionFormComponent extends FormBaseComponent implements OnInit {
 
-    entidadFinanciera: EntidadFinanciera = {} as EntidadFinanciera;
+    region: Region = {} as Region;
+    public zonas = new BehaviorSubject<Zona[]>([]);
+
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private entidadFinancieraService: EntidadFinancieraService,
+        private regionService: RegionService,
+        private zonaService: ZonaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -37,15 +40,15 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.entidadFinancieraService.get(id).subscribe((agn: EntidadFinanciera) => {
-                this.entidadFinanciera = agn;
-                this.buildForm(this.entidadFinanciera);
+            this.regionService.get(id).subscribe((agn: Region) => {
+                this.region = agn;
+                this.buildForm(this.region);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.entidadFinanciera);
+            this.buildForm(this.region);
             this.loadingDataForm.next(false);
         }
 
@@ -56,25 +59,31 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
                 }
             });
         }
+
+        this.zonaService.actives().subscribe(data => {
+            this.zonas.next(data);
+        });
+
     }
 
-    buildForm(entidadFinanciera: EntidadFinanciera) {
+    buildForm(region: Region) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: entidadFinanciera.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(entidadFinanciera.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            codigoLocal: new FormControl(entidadFinanciera.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]), 
+            id: new FormControl({value: region.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            zona: new FormControl(region.zona || undefined, [Validators.required]),
         });
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
-        this.updateData(this.entidadFinanciera);
-        this.saveOrUpdate(this.entidadFinancieraService, this.entidadFinanciera, 'El Estatus de Persona', this.isNew);
+
+        this.updateData(this.region);
+        this.saveOrUpdate(this.regionService, this.region, 'La Región', this.isNew);
     }
 
     private codigoExists(id) {
-        this.entidadFinancieraService.exists(id).subscribe(data => {
+        this.regionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: "El código existe"
@@ -85,8 +94,8 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
     }
 
     activateOrInactivate() {
-        if (this.entidadFinanciera.id) {
-            this.applyChangeStatus(this.entidadFinancieraService, this.entidadFinanciera, this.entidadFinanciera.nombre, this.cdr);
+        if (this.region.id) {
+            this.applyChangeStatus(this.regionService, this.region, this.region.nombre, this.cdr);
         }
     }
 

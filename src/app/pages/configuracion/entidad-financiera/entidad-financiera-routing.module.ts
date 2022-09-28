@@ -29,7 +29,6 @@ const entidadFinancieraRoutes: Routes = [
 
 ];
 
-
 @NgModule({
     imports: [RouterModule.forChild(entidadFinancieraRoutes)],
     exports: [RouterModule]

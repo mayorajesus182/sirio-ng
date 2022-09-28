@@ -5,27 +5,28 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
+import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-entidad-financiera-form',
-    templateUrl: './entidad-financiera-form.component.html',
-    styleUrls: ['./entidad-financiera-form.component.scss'],
+    selector: 'app-zona-form',
+    templateUrl: './zona-form.component.html',
+    styleUrls: ['./zona-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class EntidadFinancieraFormComponent extends FormBaseComponent implements OnInit {
+export class ZonaFormComponent extends FormBaseComponent implements OnInit {
 
-    entidadFinanciera: EntidadFinanciera = {} as EntidadFinanciera;
+    zona: Zona = {} as Zona;
+
 
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private entidadFinancieraService: EntidadFinancieraService,
+        private zonaService: ZonaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -37,15 +38,15 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.entidadFinancieraService.get(id).subscribe((agn: EntidadFinanciera) => {
-                this.entidadFinanciera = agn;
-                this.buildForm(this.entidadFinanciera);
+            this.zonaService.get(id).subscribe((agn: Zona) => {
+                this.zona = agn;
+                this.buildForm(this.zona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.entidadFinanciera);
+            this.buildForm(this.zona);
             this.loadingDataForm.next(false);
         }
 
@@ -58,23 +59,23 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
         }
     }
 
-    buildForm(entidadFinanciera: EntidadFinanciera) {
+    buildForm(zona: Zona) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: entidadFinanciera.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(entidadFinanciera.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            codigoLocal: new FormControl(entidadFinanciera.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]), 
+            id: new FormControl({value: zona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(zona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
         });
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
-        this.updateData(this.entidadFinanciera);
-        this.saveOrUpdate(this.entidadFinancieraService, this.entidadFinanciera, 'El Estatus de Persona', this.isNew);
+
+        this.updateData(this.zona);
+        this.saveOrUpdate(this.zonaService, this.zona, 'La Zona', this.isNew);
     }
 
     private codigoExists(id) {
-        this.entidadFinancieraService.exists(id).subscribe(data => {
+        this.zonaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: "El código existe"
@@ -85,8 +86,8 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
     }
 
     activateOrInactivate() {
-        if (this.entidadFinanciera.id) {
-            this.applyChangeStatus(this.entidadFinancieraService, this.entidadFinanciera, this.entidadFinanciera.nombre, this.cdr);
+        if (this.zona.id) {
+            this.applyChangeStatus(this.zonaService, this.zona, this.zona.nombre, this.cdr);
         }
     }
 

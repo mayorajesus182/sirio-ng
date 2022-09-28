@@ -1,34 +1,43 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['financialEntity.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['region.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'financialEntity.table' | translate: {default: 'global.notfound'}" placeholder="financialEntity.search"
+        <sirio-list [name]="'region.table' | translate: {default: 'global.notfound'}" placeholder="region.search"
             (filterChange)="onFilterChange($event)">
-            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="entfinanciera_id" matSortDirection="asc">
 
-                <ng-container matColumnDef="entfinanciera_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'financialEntity.code' | translate:
+            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
+                matSortActive="region_id" matSortDirection="asc">
+
+                <ng-container matColumnDef="region_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">{{'region.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p >{{element.id}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'financialEntity.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'" mat-sort-header>{{'region.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
-                        <p class="text-truncate ">{{element.nombre}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="zona_id">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'region.zone' | translate:
+                        {default: 'global.zone'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                        <p class="text-truncate font-weight-600">{{element.zona}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'financialEntity.status' | translate:
-                        {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'region.status' |
+                        translate: {default: 'global.status'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
@@ -47,8 +56,7 @@
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
-                    >
+                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
 

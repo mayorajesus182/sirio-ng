@@ -9,10 +9,15 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { EntidadFinancieraDetailComponent } from './detail/entidad-financiera-detail.component';
-import { EntidadFinancieraRoutingModule } from './entidad-financiera-routing.module';
-import { EntidadFinancieraFormComponent } from './form/entidad-financiera-form.component';
-import { EntidadFinancieraTableComponent } from './table/entidad-financiera-table.component';
+import { ZonaDetailComponent } from './detail/zona-detail.component';
+import { ZonaFormComponent } from './form/zona-form.component';
+import { ZonaTableComponent } from './table/zona-table.component';
+import { ZonaRoutingModule } from './zona-routing.module';
+
+
+
+
+
 @NgModule({
     imports: [
         CommonModule,
@@ -26,16 +31,16 @@ import { EntidadFinancieraTableComponent } from './table/entidad-financiera-tabl
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
-        EntidadFinancieraRoutingModule
+        ZonaRoutingModule
     ],
     declarations: [
-        EntidadFinancieraFormComponent,
-        EntidadFinancieraTableComponent,
-        EntidadFinancieraDetailComponent
+        ZonaFormComponent,
+        ZonaDetailComponent,
+        ZonaTableComponent
     ],
     exports: [],
 })
 
-export class EntidadFinancieraModule {
+export class ZonaModule {
 
 }
