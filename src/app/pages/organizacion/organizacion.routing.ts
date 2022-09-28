@@ -13,6 +13,12 @@ const organizacionRoutes: Routes = [
         data: { title: 'zone.table' },
         loadChildren: () => import('./zona/zona.module').then(m => m.ZonaModule),
     },
+    {
+        path: 'institucion',
+        data: { title: 'institucion' },
+        loadChildren: () => import('./institucion/institucion.module').then(m => m.InstitucionModule),
+    },
+
 ];
 
 
