@@ -13,9 +13,6 @@ import { EntidadFinancieraDetailComponent } from './detail/entidad-financiera-de
 import { EntidadFinancieraRoutingModule } from './entidad-financiera-routing.module';
 import { EntidadFinancieraFormComponent } from './form/entidad-financiera-form.component';
 import { EntidadFinancieraTableComponent } from './table/entidad-financiera-table.component';
-
-
-
 @NgModule({
     imports: [
         CommonModule,

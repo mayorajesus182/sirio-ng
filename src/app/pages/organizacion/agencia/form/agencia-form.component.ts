@@ -28,7 +28,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
 
-
     constructor(
         injector: Injector,
         private fb: FormBuilder,
@@ -62,7 +61,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
     
-
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
             this.estados.next(data);
             this.cdr.detectChanges();
@@ -74,10 +72,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         this.loading$.subscribe(loading => {
             if (!loading) {
                 if (this.f.estado.value) {
-                    console.log(this.f.estado.value);
-                    
                     this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-                        // console.log(data);
                         this.municipios.next(data);
                         this.ciudad=this.municipios.value.filter(m=>m.id===this.f.municipio.value).map(m=>m.ciudad)[0];  
                         this.cdr.detectChanges();
@@ -103,9 +98,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     buildForm(agencia: Agencia) {
-
-        console.log(agencia);
-        
         this.itemForm = this.fb.group({
             codigo: [agencia.codigo || '', {disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
             nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
@@ -161,7 +153,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             this.updateData(this.agencia);
             console.log(this.agencia);
             this.agencia.horarioExt = this.agencia.horarioExt?1:0
-        this.saveOrUpdate(this.agenciaService, this.agencia, 'El Agencia', this.isNew);
+        this.saveOrUpdate(this.agenciaService, this.agencia, 'La Agencia', this.isNew);
     }
 
     private codigoExists(codigo) {

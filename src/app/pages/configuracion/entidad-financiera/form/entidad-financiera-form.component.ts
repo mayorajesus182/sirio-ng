@@ -20,7 +20,6 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
 
     entidadFinanciera: EntidadFinanciera = {} as EntidadFinanciera;
 
-
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -61,16 +60,15 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
 
     buildForm(entidadFinanciera: EntidadFinanciera) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: entidadFinanciera.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(entidadFinanciera.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(entidadFinanciera.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({value: entidadFinanciera.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(entidadFinanciera.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            codigoLocal: new FormControl(entidadFinanciera.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]), 
         });
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
-
         this.updateData(this.entidadFinanciera);
         this.saveOrUpdate(this.entidadFinancieraService, this.entidadFinanciera, 'El Estatus de Persona', this.isNew);
     }
