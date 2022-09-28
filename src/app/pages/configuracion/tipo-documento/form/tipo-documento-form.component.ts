@@ -22,7 +22,6 @@ export class TipoDocumentoFormComponent extends FormBaseComponent implements OnI
     tipoDocumento: TipoDocumento = {} as TipoDocumento;
     public tiposPersonas = new BehaviorSubject<TipoPersona[]>([]);
 
-
     constructor(
         injector: Injector,
         private fb: FormBuilder,

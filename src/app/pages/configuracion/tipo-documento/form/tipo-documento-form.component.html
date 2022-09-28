@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['documentType.form']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['documentType.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -11,7 +11,7 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'documentType.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
