@@ -8,7 +8,11 @@ const organizacionRoutes: Routes = [
         data: { title: 'agency.table' },
         loadChildren: () => import('./agencia/agencia.module').then(m => m.AgenciaModule),
     },
-
+    {
+        path: 'zona',
+        data: { title: 'zone.table' },
+        loadChildren: () => import('./zona/zona.module').then(m => m.ZonaModule),
+    },
 ];
 
 
