@@ -32,9 +32,7 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-
                         <form [formGroup]="itemForm" *ngIf="itemForm">
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <mat-form-field fxFlex="20">
                                     <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
@@ -46,7 +44,7 @@
                                     <mat-error *ngIf="f.codigo.errors?.exists">Código existente!</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
                                 </mat-form-field>
-                                
+
                                 <mat-form-field fxFlex="80">
                                     <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
@@ -54,9 +52,7 @@
                                         required>
                                     <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>
-
-                                
+                                </mat-form-field>   
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" > 
@@ -158,8 +154,6 @@
                                 <mat-slide-toggle [color]="'primary'" formControlName="horarioExt" name="horarioExt">
                                     {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
                                 </mat-slide-toggle>
-                                <mat-error *ngIf="f.horarioExt.errors?.pattern">Caracter inválido</mat-error>
-
                             </div>
                         </form>
     

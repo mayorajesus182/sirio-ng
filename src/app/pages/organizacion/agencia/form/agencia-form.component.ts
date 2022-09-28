@@ -158,9 +158,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
     save() {
         if (this.itemForm.invalid)
             return;
-
-            
-            
             this.updateData(this.agencia);
             console.log(this.agencia);
             this.agencia.horarioExt = this.agencia.horarioExt?1:0
