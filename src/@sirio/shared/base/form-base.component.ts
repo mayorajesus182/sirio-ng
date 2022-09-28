@@ -7,6 +7,7 @@ import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 import { Router } from "@angular/router";
+import { TranslateService } from "@ngx-translate/core";
 import { saveAs } from 'file-saver';
 import { NgxSpinnerService, Spinner } from "ngx-spinner";
 import { BehaviorSubject, Observable } from "rxjs";
@@ -35,6 +36,9 @@ import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.in
         },
         {
             provide: "location", useClass: Location
+        },
+        {
+            provide: "translateService", useClass: TranslateService
         }
     ]
 })
@@ -61,6 +65,7 @@ export class FormBaseComponent {
     protected swalService: SweetAlertService;
     protected spinner: NgxSpinnerService;
     protected location: Location;
+    protected translateService: TranslateService;
 
     isNew: boolean = false;
     public itemForm: FormGroup;
@@ -105,6 +110,7 @@ export class FormBaseComponent {
         this.snack = injector.get(SnackbarService);
         this.swalService = injector.get(SweetAlertService);
         this.location = injector.get(Location);
+        this.translateService = injector.get(TranslateService);
 
         this.opts.type = 'ball-scale-ripple-multiple';
         this.opts.size = 'medium';

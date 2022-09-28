@@ -41,6 +41,9 @@ import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { NumAccountValidator } from './input/cuenta-validation.directive';
+import { EmailValidate } from './input/email-validation.directive';
+import { MinorAgeValidator } from './input/minAge-validation.directive';
 export const customCurrencyMaskConfig = {
   align: "right",
   allowNegative: false,
@@ -118,8 +121,16 @@ export const DATE_FORMATS_CUSTOM = {
     NgxSpinnerModule,
     // NgxMatSelectSearchModule,
     CurrencyMaskModule,
-    NgxMaskModule
+    NgxMaskModule,
+    NumAccountValidator,
+    MinorAgeValidator,
+    EmailValidate
   ],
+  
+  declarations: [NumAccountValidator,MinorAgeValidator,EmailValidate],
+  
+
+
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: CURRENCY_MASK_CONFIG, useValue: customCurrencyMaskConfig },
