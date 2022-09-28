@@ -11,7 +11,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { DateAdapter, MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter, ErrorStateMatcher, MatNativeDateModule, MatRippleModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -38,6 +38,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
+import { NgxMaskModule } from 'ngx-mask';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 export const customCurrencyMaskConfig = {
@@ -71,6 +72,7 @@ export const DATE_FORMATS_CUSTOM = {
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxMaskModule.forRoot()
   ],
   exports: [
     MatInputModule,
@@ -116,6 +118,7 @@ export const DATE_FORMATS_CUSTOM = {
     NgxSpinnerModule,
     // NgxMatSelectSearchModule,
     CurrencyMaskModule,
+    NgxMaskModule
   ],
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
@@ -123,7 +126,7 @@ export const DATE_FORMATS_CUSTOM = {
     { provide: MAT_DATE_LOCALE, useValue: 'es-VE' },
     { provide: LOCALE_ID, useValue: 'es-VE' },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS_CUSTOM },
-    // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ]
 })
 export class MaterialModule {

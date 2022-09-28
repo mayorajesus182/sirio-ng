@@ -1,6 +1,6 @@
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { Component, ElementRef, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
@@ -24,6 +24,7 @@ export class HelpComponentsComponent implements OnInit {
   isNew = true;
 
   formData: FormGroup;
+  formData2: FormGroup;
   // formTelefono:FormGroup;
   // formDireccion:FormGroup;
 
@@ -37,16 +38,46 @@ export class HelpComponentsComponent implements OnInit {
     return !this.formData ? {} : this.formData.controls;
   }
 
+  get form2() {
+    return !this.formData2 ? {} : this.formData2.controls;
+  }
+
   ngOnInit() {
 
     this.formData = this.fb.group({
-      fecha:['',Validators.required],
-      monto:[undefined,Validators.required],
-      telefono:['',Validators.required],
-      telefonoAlt:['',Validators.required],
-      email:['',[Validators.required, Validators.email] ]
+      fecha:new FormControl('',Validators.required),
+      monto:new FormControl(undefined,Validators.required),
+      telefono:new FormControl('',Validators.required),
+      telefonoAlt:new FormControl('',Validators.required),
+      email: new FormControl('',[Validators.required, Validators.email] )
+    })
+
+    // this.formData.markAsTouched();
+
+    this.formData2 = this.fb.group({
+      mostrar:[false],
+      fecha:new FormControl('',Validators.required),
+      monto:new FormControl(undefined,Validators.required),
+      telefono:new FormControl('',Validators.required)
     })
     
+  }
+
+
+  save(){
+      if(this.formData.invalid){
+        return;
+      }
+      console.log('send form data to server');
+      
+  }
+
+  save2(){
+      if(this.formData2.invalid){
+        return;
+      }
+      console.log('send form data 2 to server');
+      
   }
 
 }
