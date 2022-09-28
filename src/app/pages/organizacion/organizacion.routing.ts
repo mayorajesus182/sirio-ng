@@ -4,6 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const organizacionRoutes: Routes = [
     {
+        path: 'institucion',
+        data: { title: 'institucion' },
+        loadChildren: () => import('./institucion/institucion.module').then(m => m.InstitucionModule),
+    },
+    {
         path: 'agencia',
         data: { title: 'agency.table' },
         loadChildren: () => import('./agencia/agencia.module').then(m => m.AgenciaModule),
@@ -18,6 +23,7 @@ const organizacionRoutes: Routes = [
         data: { title: 'region.table' },
         loadChildren: () => import('./region/region.module').then(m => m.RegionModule),
     },
+
 ];
 
 

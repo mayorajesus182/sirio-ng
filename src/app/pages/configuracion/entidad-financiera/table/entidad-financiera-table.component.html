@@ -13,15 +13,15 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'financialEntity.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                        <p >{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'financialEntity.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'financialEntity.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
+                        <p class="text-truncate ">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 

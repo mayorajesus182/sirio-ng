@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -9,10 +8,11 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { EntidadFinancieraDetailComponent } from './detail/entidad-financiera-detail.component';
-import { EntidadFinancieraRoutingModule } from './entidad-financiera-routing.module';
-import { EntidadFinancieraFormComponent } from './form/entidad-financiera-form.component';
-import { EntidadFinancieraTableComponent } from './table/entidad-financiera-table.component';
+import { InstitucionFormComponent } from './form/institucion-form.component';
+import { InstitucionRoutingModule } from './institucion-routing.module';
+
+
+
 @NgModule({
     imports: [
         CommonModule,
@@ -20,22 +20,23 @@ import { EntidadFinancieraTableComponent } from './table/entidad-financiera-tabl
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        // Core
         MaterialModule,
+        // Core
         SirioSharedModule,
         SharedComponentModule,
+               
         HighlightModule,
         SirioCardModule,
-        EntidadFinancieraRoutingModule
+        InstitucionRoutingModule
     ],
     declarations: [
-        EntidadFinancieraFormComponent,
-        EntidadFinancieraTableComponent,
-        EntidadFinancieraDetailComponent
+        InstitucionFormComponent,
+      
+      
     ],
     exports: [],
 })
 
-export class EntidadFinancieraModule {
+export class InstitucionModule {
 
 }

@@ -9,72 +9,69 @@ import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
-import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
+import { Institucion, InstitucionService } from 'src/@sirio/domain/services/organizacion/institucion.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-agencia-form',
-    templateUrl: './agencia-form.component.html',
-    styleUrls: ['./agencia-form.component.scss'],
+    selector: 'app-institucion-form',
+    templateUrl: './institucion-form.component.html',
+    styleUrls: ['./institucion-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
-    ciudad:string='';
-    agencia: Agencia = {} as Agencia;
+export class InstitucionFormComponent extends FormBaseComponent implements OnInit {
+
+    institucion: Institucion = {} as Institucion;
     public zonasPostales = new BehaviorSubject<ZonaPostal[]>([]);
     public parroquias = new BehaviorSubject<Parroquia[]>([]);
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
 
+
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private agenciaService: AgenciaService,
+        private institucionService: InstitucionService,
         private zonaPostalService: ZonaPostalService,
         private parroquiaService: ParroquiaService,
         private municipioService: MunicipioService,
-        private estadoService: EstadoService,        
+        private estadoService: EstadoService,
         private cdr: ChangeDetectorRef) {
-        super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
 
-        let id = this.route.snapshot.params['id'];
-        this.isNew = id == undefined;
         this.loadingDataForm.next(true);
+      
 
-        if (id) {
-            this.agenciaService.get(id).subscribe((agn: Agencia) => {
-                this.agencia = agn;
-                this.agencia.id=id;
-                this.buildForm(this.agencia);
-                this.cdr.markForCheck();
-                this.loadingDataForm.next(false);
-                this.cdr.detectChanges();
-            });
-        } else {
-            this.buildForm(this.agencia);
+        this.institucionService.get().subscribe((inst: Institucion) => {
+            this.institucion = inst;
+            console.log(this.institucion);
+
+
+            this.buildForm(this.institucion);
             this.loadingDataForm.next(false);
-        }
-    
+            this.cdr.detectChanges();
+        });
+        
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
+            console.log(data);
             this.estados.next(data);
             this.cdr.detectChanges();
         });
 
-    }
 
+    }
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
             if (!loading) {
                 if (this.f.estado.value) {
                     this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+                        console.log(data);
                         this.municipios.next(data);
-                        this.ciudad=this.municipios.value.filter(m=>m.id===this.f.municipio.value).map(m=>m.ciudad)[0];  
                         this.cdr.detectChanges();
                     });
                 }
@@ -97,80 +94,64 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     }
 
-    buildForm(agencia: Agencia) {
+    buildForm(institucion: Institucion) {
+
+
         this.itemForm = this.fb.group({
-            codigo: [agencia.codigo || '', {disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
-            nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            parroquia: [agencia.parroquia || undefined, [Validators.required]],
-            municipio: [agencia.municipio || undefined, [Validators.required]],
-            estado: [agencia.estado || undefined, [Validators.required]],
-            direccion:  [agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email:  [agencia.email || '', [Validators.required]],
-            telefono:  [agencia.telefono || '', [Validators.required]],
-            telefonoAlt:  [agencia.telefonoAlt || ''],
-            latitud:  [agencia.latitud || '', [Validators.required]],
-            longitud:  [agencia.longitud || '', [Validators.required]],
-            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]],
-            horarioExt: [agencia.horarioExt===1 || false],
+            id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+            identificacion: [institucion.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+            siglas: [institucion.siglas || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+            nombre: [institucion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+            parroquia: [institucion.parroquia || undefined, [Validators.required]],
+            municipio: [institucion.municipio || undefined, [Validators.required]],
+            estado: [institucion.estado || undefined, [Validators.required]],
+            zonaPostal: [institucion.zonaPostal || undefined, [Validators.required]],
+            direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+            email: [institucion.email || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+            web: [institucion.web || ''],
+            telefono: [institucion.telefono || '', [Validators.required]],
+            telefono_alt: [institucion.telefono_alt || ''],
+            latitud: [institucion.latitud || '', [Validators.required]],
+            longitud: [institucion.longitud || '', [Validators.required]],
+
         });
 
         this.f.estado.valueChanges.subscribe(value => {
-            this.ciudad='';
-            this.municipioService.activesByEstado(value).subscribe(data => {
+            this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
             });
         });
 
-        this.f.municipio.valueChanges.subscribe(value => {  
-            this.ciudad=this.municipios.value.filter(m=>m.id===value).map(m=>m.ciudad)[0];         
-            this.parroquiaService.activesByMunicipio(value).subscribe(data => {
+        this.f.municipio.valueChanges.subscribe(value => {           
+            this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
                 this.parroquias.next(data);
                 this.cdr.detectChanges();
             });
         });
 
         this.f.parroquia.valueChanges.subscribe(value => {           
-            this.zonaPostalService.activesByParroquia(value).subscribe(data => {
+            this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
                 this.zonasPostales.next(data);
                 this.cdr.detectChanges();
             });
-        });
-
-        this.f.codigo.valueChanges.subscribe(value => {
-            if (!this.f.codigo.errors && this.f.codigo.value.length > 0) {
-                this.codigoExists(value);
-            }
         });
 
         this.cdr.detectChanges();
         this.printErrors()
     }
 
+
     save() {
         if (this.itemForm.invalid)
             return;
-            this.updateData(this.agencia);
-            console.log(this.agencia);
-            this.agencia.horarioExt = this.agencia.horarioExt?1:0
-        this.saveOrUpdate(this.agenciaService, this.agencia, 'La Agencia', this.isNew);
-    }
 
-    private codigoExists(codigo) {
-        this.agenciaService.exists(codigo).subscribe(data => {
-            if (data.exists) {
-                this.itemForm.controls['codigo'].setErrors({
-                    exists: "El código existe"
-                });
-                this.cdr.detectChanges();
-            }
-        });
-    }
 
-    activateOrInactivate() {
-        if (this.agencia.id) {
-            this.applyChangeStatus(this.agenciaService, this.agencia, this.agencia.nombre, this.cdr);
-        }
+        this.updateData(this.institucion);
+        this.saveOrUpdate(this.institucionService, this.institucion, 'La  institucion', this.isNew);
+
+
+
     }
 
 }
