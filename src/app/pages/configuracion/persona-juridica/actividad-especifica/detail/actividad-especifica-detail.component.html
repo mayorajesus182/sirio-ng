@@ -41,28 +41,19 @@
                                 }}</mat-label>
                                 <input matInput class="text-center" [value]="d.codigoLocal" readonly>
                             </mat-form-field>
-
-                            
-                            
                         </div>
-
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
                             <mat-form-field fxFlex="100">
                                 <mat-label>{{'specificActivity.economicActivity' | translate: {default: 'global.economicActivity'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.actividadEconomicaNombre" readonly>
+                                <input matInput [value]="d.actividadEconomica" readonly>
                             </mat-form-field>   
-
                         </div>
-
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
-
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>

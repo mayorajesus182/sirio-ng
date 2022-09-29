@@ -41,6 +41,7 @@ export class TipoDireccionFormComponent extends FormBaseComponent implements OnI
                 this.buildForm(this.tipoDireccion);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

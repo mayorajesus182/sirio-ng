@@ -49,16 +49,13 @@ export class InstitucionFormComponent extends FormBaseComponent implements OnIni
 
         this.institucionService.get().subscribe((inst: Institucion) => {
             this.institucion = inst;
-            console.log(this.institucion);
-
-
             this.buildForm(this.institucion);
             this.loadingDataForm.next(false);
+            this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
         
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
-            console.log(data);
             this.estados.next(data);
             this.cdr.detectChanges();
         });
@@ -70,7 +67,6 @@ export class InstitucionFormComponent extends FormBaseComponent implements OnIni
             if (!loading) {
                 if (this.f.estado.value) {
                     this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-                        console.log(data);
                         this.municipios.next(data);
                         this.cdr.detectChanges();
                     });

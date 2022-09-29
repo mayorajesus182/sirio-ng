@@ -42,6 +42,7 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.tenencia);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

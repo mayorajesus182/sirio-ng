@@ -50,6 +50,7 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
                 this.buildForm(this.parroquia);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

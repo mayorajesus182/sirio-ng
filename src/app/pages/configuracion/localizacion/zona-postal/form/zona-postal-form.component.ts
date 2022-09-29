@@ -53,20 +53,13 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
                 this.buildForm(this.zonaPostal);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
             this.buildForm(this.zonaPostal);
             this.loadingDataForm.next(false);
         }
-
-        // if(!id){
-        //     this.f.id.valueChanges.subscribe(value => {
-        //         if (!this.f.id.errors && this.f.id.value.length > 0) {
-        //             this.codigoExists(value);
-        //         }
-        //     });
-        // }
 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);

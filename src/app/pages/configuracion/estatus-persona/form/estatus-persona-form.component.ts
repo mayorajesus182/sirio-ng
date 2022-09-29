@@ -46,6 +46,7 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
                 this.buildForm(this.estatusPersona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

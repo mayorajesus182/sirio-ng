@@ -41,6 +41,7 @@ export class PromedioTransaccionFormComponent extends FormBaseComponent implemen
                 this.buildForm(this.promedioTransaccion);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -77,7 +78,7 @@ export class PromedioTransaccionFormComponent extends FormBaseComponent implemen
         this.promedioTransaccionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }
