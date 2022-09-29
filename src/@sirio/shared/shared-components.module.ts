@@ -13,6 +13,7 @@ import { SelectSearchComponent } from './select/select-search.component';
 import { SelectSimpleComponent } from './select/select-simple.component';
 import { NgxMatSelectSearchModule } from "ngx-mat-select-search";
 import { IdleWarningComponent } from './idle-snack/idle-warning.component';
+import { SirioDialogHeader, SirioDialogHeaderSubTitle, SirioDialogHeaderTitle } from './dialog/header-dialog.componts';
 
 
 
@@ -23,7 +24,10 @@ const components = [
   ButtonAddComponent,
   AuditBarComponent,
   ActionsNavComponent,
-  IdleWarningComponent
+  IdleWarningComponent,
+  SirioDialogHeader,
+  SirioDialogHeaderSubTitle,
+  SirioDialogHeaderTitle,
 ]
 
 @NgModule({
