@@ -79,7 +79,7 @@ export class ConstruccionFormComponent extends FormBaseComponent implements OnIn
         this.construccionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

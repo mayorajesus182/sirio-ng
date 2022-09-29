@@ -10,7 +10,6 @@ export interface EstatusPersona {
     id: string;
     nombre: string;
     pais:string;
-    codigoLocal: string;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -25,10 +24,6 @@ export class EstatusPersonaService {
         private apiService: ApiService
     ) {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/estatus-persona'};
-    }
-
-    all(): Observable<EstatusPersona[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
     }
 
     actives(): Observable<EstatusPersona[]> {
@@ -63,7 +58,6 @@ export class EstatusPersonaService {
     }
 
     changeStatus(id: any): Observable<any> {
-      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 

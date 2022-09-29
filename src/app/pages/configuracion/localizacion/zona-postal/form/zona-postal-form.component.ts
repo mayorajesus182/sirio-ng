@@ -121,7 +121,6 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            console.log('change pais id');
             this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
                 this.estados.next(data);
                 this.cdr.detectChanges();
@@ -129,7 +128,6 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
         });
 
         this.f.estado.valueChanges.subscribe(value => {
-            console.log(value);
                 this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
@@ -137,7 +135,6 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
         });
 
         this.f.municipio.valueChanges.subscribe(value => {
-            console.log(value);
                 this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
                 this.parroquias.next(data);
                 this.cdr.detectChanges();
@@ -163,7 +160,6 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
 
     private codigoExists(id) {
         this.zonaPostalService.exists(id).subscribe(data => {
-            console.log(data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true

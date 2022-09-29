@@ -72,11 +72,8 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
             if (!loading) {
-                console.log('load change events ');
                 if (this.f.pais.value) {
-                    console.log(this.f.pais.value);
                     this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
-                        console.log(data);
                         this.estados.next(data);
                         this.cdr.detectChanges();
                     });
@@ -95,8 +92,6 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
     }
 
     buildForm(municipio: Municipio) {
-
-        console.log('Municipio ',municipio);
         this.itemForm = this.fb.group({
             id: new FormControl({value: municipio.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(municipio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
@@ -107,7 +102,6 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            console.log('change pais id');
             this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
                 this.estados.next(data);
 
@@ -136,7 +130,6 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
 
     private codigoExists(id) {
         this.municipioService.exists(id).subscribe(data => {
-            console.log(data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true

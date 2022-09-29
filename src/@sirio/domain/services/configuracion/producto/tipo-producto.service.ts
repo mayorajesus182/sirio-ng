@@ -26,10 +26,6 @@ export class TipoProductoService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/producto/tipo-producto'};
     }
 
-    all(): Observable<TipoProducto[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<TipoProducto[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

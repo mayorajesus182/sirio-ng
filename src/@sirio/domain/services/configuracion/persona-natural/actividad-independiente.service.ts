@@ -25,10 +25,6 @@ export class ActividadIndependienteService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/actividad-independiente'};
     }
 
-    all(): Observable<ActividadIndependiente[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<ActividadIndependiente[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

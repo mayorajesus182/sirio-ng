@@ -25,10 +25,6 @@ export class CargoService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/cargo'};
     }
 
-    all(): Observable<Cargo[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Cargo[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

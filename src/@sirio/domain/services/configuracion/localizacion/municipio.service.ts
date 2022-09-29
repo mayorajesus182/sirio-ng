@@ -30,10 +30,6 @@ export class MunicipioService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/municipio'};
     }
 
-    all(): Observable<Municipio[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Municipio[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

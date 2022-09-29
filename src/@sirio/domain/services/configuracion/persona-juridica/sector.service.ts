@@ -26,10 +26,6 @@ export class SectorService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/sector'};
     }
 
-    all(): Observable<Sector[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Sector[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
@@ -66,7 +62,6 @@ export class SectorService {
     }
 
     changeStatus(id: any): Observable<any> {
-      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 

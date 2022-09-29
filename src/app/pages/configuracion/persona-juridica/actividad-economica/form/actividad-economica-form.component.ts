@@ -61,8 +61,9 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
         this.itemForm = this.fb.group({
             id: new FormControl({value: actividadEconomica.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(actividadEconomica.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(actividadEconomica.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            codigoLocal: new FormControl(actividadEconomica.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
+        this.printErrors();
     }
 
     save() {
@@ -77,7 +78,7 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
         this.actividadEconomicaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

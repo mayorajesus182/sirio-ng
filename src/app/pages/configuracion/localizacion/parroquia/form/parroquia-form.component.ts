@@ -74,11 +74,8 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
             if (!loading) {
-                console.log('load change events ');
                 if (this.f.pais.value) {
-                    console.log(this.f.pais.value);
                     this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
-                        console.log(data);
                         this.estados.next(data);
                         this.cdr.detectChanges();
                     });
@@ -97,8 +94,6 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
     }
 
     buildForm(parroquia: Parroquia) {
-
-        console.log('Parroquia ',parroquia);
         this.itemForm = this.fb.group({
             id: new FormControl({value: parroquia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(parroquia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
@@ -109,19 +104,14 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            console.log('change pais id');
             this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
                 this.estados.next(data);
-
                 this.cdr.detectChanges();
             });
         });
 
 
         this.f.estado.valueChanges.subscribe(value => {
-            console.log(value);
-            
-            // this.loadingDataForm.next(false);
             this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
@@ -141,7 +131,6 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
 
     private codigoExists(id) {
         this.parroquiaService.exists(id).subscribe(data => {
-            console.log(data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true

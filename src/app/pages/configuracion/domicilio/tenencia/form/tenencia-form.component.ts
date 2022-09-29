@@ -20,7 +20,6 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
 
     tenencia: Tenencia = {} as Tenencia;
 
-
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -79,7 +78,7 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
         this.tenenciaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }
