@@ -10,10 +10,10 @@
                 matSortActive="cono_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="cono_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'monetaryCone.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'monetaryCone.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                        <p>{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -29,15 +29,15 @@
                 <ng-container matColumnDef="denominacion">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-25'">{{'monetaryCone.denomination' | translate:
                         {default: 'global.denomination'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="font-weight-600">{{element.denominacion}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="esMoneda">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'monetaryCone.isCoin' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'" mat-sort-header>{{'monetaryCone.isCoin' | translate:
                         {default: 'global.isCoin'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="text-truncate font-weight-600">{{element.esMoneda ? 'SI' : 'NO'}}</p>
                     </mat-cell>
                 </ng-container>

@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'agency.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
@@ -40,7 +40,7 @@
                                         required  >
                                     <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.codigo.errors?.exists">{{f.codigo.errors?.exists}}</mat-error>
+                                    <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                                     <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
                                 </mat-form-field>
 

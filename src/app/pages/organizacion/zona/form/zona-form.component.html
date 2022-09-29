@@ -43,11 +43,9 @@
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id" uppercase required
                                         class="text-center">
-                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.exists">
-                                        {{f.id.errors?.exists}}
-                                    </mat-error>
+                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists'}}</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="70">
@@ -55,12 +53,10 @@
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="60" name="nombre" formControlName="nombre" uppercase
                                         required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
-
                             </div>
-
                         </form>
                     </div>
                 </sirio-card-content>

@@ -54,8 +54,8 @@
                                         </mat-label>
                                         <input matInput maxlength="50" autocomplete="off" name="nombre" formControlName="nombre" uppercase
                                             required>
-                                        <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                            <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                            <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
                                 
                                     <mat-form-field fxFlex.gt-sm="10">
@@ -63,7 +63,7 @@
                                             translate }}</mat-label>
                                         <input matInput maxlength="5" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
                                             uppercase class="text-center">
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                            <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
                             </div>
                         </form>
