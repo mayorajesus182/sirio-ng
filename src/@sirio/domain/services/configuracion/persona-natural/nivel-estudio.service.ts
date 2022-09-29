@@ -25,10 +25,6 @@ export class NivelEstudioService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/nivel-estudio'};
     }
 
-    all(): Observable<NivelEstudio[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<NivelEstudio[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

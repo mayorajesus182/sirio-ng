@@ -41,6 +41,7 @@ export class TipoPersonaFormComponent extends FormBaseComponent implements OnIni
                 this.buildForm(this.tipoPersona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -59,7 +60,7 @@ export class TipoPersonaFormComponent extends FormBaseComponent implements OnIni
 
     buildForm(tipoPersona: TipoPersona) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: tipoPersona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            id: new FormControl({value: tipoPersona.id || '',  disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(tipoPersona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(tipoPersona.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
@@ -77,7 +78,7 @@ export class TipoPersonaFormComponent extends FormBaseComponent implements OnIni
         this.tipoPersonaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

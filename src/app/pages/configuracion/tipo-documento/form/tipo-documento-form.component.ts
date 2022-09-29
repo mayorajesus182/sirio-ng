@@ -22,7 +22,6 @@ export class TipoDocumentoFormComponent extends FormBaseComponent implements OnI
     tipoDocumento: TipoDocumento = {} as TipoDocumento;
     public tiposPersonas = new BehaviorSubject<TipoPersona[]>([]);
 
-
     constructor(
         injector: Injector,
         private fb: FormBuilder,
@@ -45,6 +44,7 @@ export class TipoDocumentoFormComponent extends FormBaseComponent implements OnI
                 this.buildForm(this.tipoDocumento);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -87,7 +87,7 @@ export class TipoDocumentoFormComponent extends FormBaseComponent implements OnI
         this.tipoDocumentoService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

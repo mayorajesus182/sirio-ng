@@ -25,11 +25,7 @@ export class MotivoDevolucionService {
     ) {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/taquilla/motivo-devolucion'};
     }
-
-    all(): Observable<MotivoDevolucion[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
+    
     actives(): Observable<MotivoDevolucion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

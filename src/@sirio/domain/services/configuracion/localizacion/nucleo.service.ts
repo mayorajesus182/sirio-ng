@@ -25,11 +25,7 @@ export class NucleoService {
     ) {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/nucleo'};
     }
-
-    all(): Observable<Nucleo[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
+    
     actives(): Observable<Nucleo[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

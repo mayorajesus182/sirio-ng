@@ -25,11 +25,7 @@ export class TipoPersonaService {
     ) {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-persona'};
     }
-
-    all(): Observable<TipoPersona[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
+    
     actives(): Observable<TipoPersona[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

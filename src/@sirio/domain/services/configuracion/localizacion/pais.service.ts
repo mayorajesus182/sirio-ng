@@ -25,10 +25,6 @@ export class PaisService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/pais'};
     }
 
-    all(): Observable<Pais[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Pais[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
@@ -39,6 +35,10 @@ export class PaisService {
 
     get(id: string): Observable<Pais> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    detail(id: string): Observable<Pais> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Pais[]> {

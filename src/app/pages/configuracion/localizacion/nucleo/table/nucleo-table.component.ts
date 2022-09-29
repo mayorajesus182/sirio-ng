@@ -39,9 +39,7 @@ export class NucleoTableComponent extends TableBaseComponent implements OnInit, 
   }
 
 
-  add(path:string) {
-    console.log(' apply add action '+path);
-    
+  add(path:string) {    
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 

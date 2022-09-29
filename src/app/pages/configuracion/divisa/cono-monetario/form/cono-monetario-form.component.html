@@ -52,13 +52,14 @@
 
                               
                                     <sirio-select-search
+                                    fxFlex="40"
                                         [label]="'monetaryCone.coin' | translate: {default: 'global.coin'} | translate"
                                         formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
                                         [attributeName]="'nombre'" [errors]="f.moneda?.errors">
                                     </sirio-select-search>
                                
 
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex.gt-xs="30">
                                     <mat-label>{{'monetaryCone.denomination' | translate: {default:
                                         'global.denomination'} | translate }}
                                     </mat-label>
@@ -74,11 +75,13 @@
                                 </mat-form-field>
 
 
-                                <div fxFlex="100" fxFlex.gt-xs="10" class="text-right">
-                                    <mat-slide-toggle [color]="'primary'" formControlName="esMoneda" name="esMoneda">
-                                        {{'monetaryCone.isCoin' | translate: {default: 'global.isCoin'} | translate }}
+
+                                <div fxFlex="auto" >
+                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esMoneda" name="esMoneda">
+                                      {{'monetaryCone.isCoin' | translate: {default: 'global.isCoin'} | translate }}
                                     </mat-slide-toggle>
-                                </div>
+                  
+                                  </div>
 
 
 

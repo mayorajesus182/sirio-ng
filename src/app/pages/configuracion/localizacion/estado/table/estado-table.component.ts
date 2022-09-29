@@ -40,15 +40,11 @@ export class EstadoTableComponent extends TableBaseComponent implements OnInit, 
   }
 
 
-  add(path:string) {
-    console.log(' apply add action '+path);
-    
+  add(path:string) {    
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(data:any) {
-    console.log('data event click ', data);
-    
+  edit(data:any) {    
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 

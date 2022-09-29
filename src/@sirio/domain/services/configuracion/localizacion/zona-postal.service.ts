@@ -30,14 +30,9 @@ export class ZonaPostalService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/zona-postal'};
     }
 
-    all(): Observable<ZonaPostal[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-    //
     activesByParroquia(parroquia: string) {
         return this.apiService.config(this.apiConfig).get(`/${parroquia}/byparroquia/actives`);
     }
-    //
 
     actives(): Observable<ZonaPostal[]> {
         return this.apiService.config(this.apiConfig).get('/actives');

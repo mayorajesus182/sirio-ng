@@ -27,10 +27,6 @@ export class EstadoService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/estado'};
     }
 
-    all(): Observable<Estado[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Estado[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
@@ -67,7 +63,6 @@ export class EstadoService {
     }
 
     changeStatus(id: any): Observable<any> {
-      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 

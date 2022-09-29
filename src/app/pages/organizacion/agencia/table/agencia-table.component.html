@@ -18,17 +18,17 @@
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'" mat-sort-header>{{'agency.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'agency.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
                         <p class="text-truncate">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="horarioExt">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'" mat-sort-header>{{'agency.extendedSchedule' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'agency.extendedSchedule' | translate:
                         {default: 'global.extendedSchedule'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <mat-chip mat-sm-chip [color]="element.horarioExt ? 'accent' : 'warn'" [selected]="element.horarioExt">
                             {{element.horarioExt ? 'SI' : 'NO'}}
                         </mat-chip>
@@ -61,8 +61,6 @@
                     >
                 </mat-row>
             </mat-table>
-
-            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
 

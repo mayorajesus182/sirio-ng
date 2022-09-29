@@ -11,17 +11,17 @@
                 matSortActive="pais_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="pais_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'country.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'country.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <p>{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'country.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'country.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
@@ -35,9 +35,9 @@
                 </ng-container>
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'country.status' |
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'" mat-sort-header>{{'country.status' |
                         translate: {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
@@ -59,8 +59,6 @@
                 <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
-
-            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
 

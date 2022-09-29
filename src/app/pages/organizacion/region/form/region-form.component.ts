@@ -45,6 +45,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.region);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -86,7 +87,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
         this.regionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

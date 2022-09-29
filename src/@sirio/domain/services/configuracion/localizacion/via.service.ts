@@ -25,10 +25,6 @@ export class ViaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/via'};
     }
 
-    all(): Observable<Via[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Via[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

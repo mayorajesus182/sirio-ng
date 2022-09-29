@@ -54,6 +54,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.agencia);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -160,7 +161,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         this.agenciaService.exists(codigo).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['codigo'].setErrors({
-                    exists: "El código existe"
+                    exists: this.translateService.instant('error.codeExists')
                 });
                 this.cdr.detectChanges();
             }

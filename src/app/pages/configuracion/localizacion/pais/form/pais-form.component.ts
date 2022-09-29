@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
-
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -40,9 +39,10 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
             this.paisService.get(id).subscribe((agn: Pais) => {
                 this.pais = agn;
                 this.buildForm(this.pais);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.cdr.detectChanges();
+                this.applyFieldsDirty();
+                this.cdr.markForCheck();
+                
             });
         } else {
             this.buildForm(this.pais);
@@ -62,9 +62,11 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({value: pais.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(pais.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(pais.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             gentilicio: new FormControl(pais.gentilicio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            codigoLocal: new FormControl(pais.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            
         });
+        this.printErrors();
     }
 
     save() {
@@ -79,7 +81,7 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
         this.paisService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

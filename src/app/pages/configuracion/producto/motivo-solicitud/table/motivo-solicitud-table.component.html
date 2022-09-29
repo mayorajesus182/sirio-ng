@@ -11,17 +11,17 @@
                 matSortActive="motsolicitud_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="motsolicitud_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-30'">{{'requestReason.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'requestReason.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'requestReason.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'requestReason.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
@@ -51,8 +51,6 @@
                 <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
-
-            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
 

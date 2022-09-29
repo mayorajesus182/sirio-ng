@@ -26,10 +26,6 @@ export class RamoService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/ramo'};
     }
 
-    all(): Observable<Ramo[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Ramo[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

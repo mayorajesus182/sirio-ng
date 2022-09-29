@@ -17,10 +17,6 @@ const routes: Routes = [
     path: 'errors',
     loadChildren: () => import('./pages/errors/errors.module').then(m => m.ErrorsModule),
   },
-  {
-    path: 'components',
-    loadChildren: () => import('./pages/components/components.module').then(m => m.ComponentsModule),
-  },
   
   {
     path: 'sirio',

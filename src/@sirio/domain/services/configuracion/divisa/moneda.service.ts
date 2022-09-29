@@ -27,8 +27,6 @@ export class MonedaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/divisa/moneda'};
     }
 
-
-
     actives(): Observable<Moneda[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

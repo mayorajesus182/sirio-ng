@@ -35,6 +35,12 @@
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>  
+
+                            <mat-form-field fxFlex="auto" >
+                                <mat-label>{{'documentType.localCode' | translate: {default: 'global.localCode'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.codigoLocal" readonly>
+                            </mat-form-field>  
                             
                             <mat-form-field fxFlex="auto" >
                                 <mat-label>{{'documentType.personType' | translate: {default: 'global.personType'} | translate }}
@@ -49,7 +55,6 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
