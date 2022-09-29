@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Moment } from 'moment';
 import { GlobalConstants } from 'src/@sirio/constants';
@@ -8,6 +9,7 @@ import { CalendarioService } from 'src/@sirio/domain/services/calendario/calenda
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../@sirio/animations/fade-in-up.animation';
+import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.component';
 
 @Component({
   selector: 'sirio-help-components',
@@ -17,7 +19,7 @@ import { fadeInUpAnimation } from '../../../@sirio/animations/fade-in-up.animati
 })
 export class HelpComponentsComponent implements OnInit {
 
-  todayValue:Moment
+  todayValue: Moment
   private _gap = 16;
   gap = `${this._gap}px`;
   col2 = `1 1 calc(50% - ${this._gap / 2}px)`;
@@ -25,20 +27,20 @@ export class HelpComponentsComponent implements OnInit {
   hasBasicData = true;
   isNew = true;
 
-  frutasList:any[]=[
+  frutasList: any[] = [
     {
-    id:'P',
-    nombre:'Peras'
-  },
+      id: 'P',
+      nombre: 'Peras'
+    },
     {
-    id:'F',
-    nombre:'Fresas'
-  },
+      id: 'F',
+      nombre: 'Fresas'
+    },
     {
-    id:'M',
-    nombre:'Manzanas'
-  }
-]
+      id: 'M',
+      nombre: 'Manzanas'
+    }
+  ]
 
   formData: FormGroup;
   formData2: FormGroup;
@@ -46,7 +48,8 @@ export class HelpComponentsComponent implements OnInit {
   // formDireccion:FormGroup;
 
   constructor(
-    private calendarService:CalendarioService,
+    private dialog: MatDialog,
+    private calendarService: CalendarioService,
     private fb: FormBuilder) {
 
   }
@@ -62,47 +65,68 @@ export class HelpComponentsComponent implements OnInit {
 
   ngOnInit() {
 
-    this.calendarService.today().subscribe(data=>{
+    this.calendarService.today().subscribe(data => {
       // console.log('today ',data.today);
-      this.todayValue= moment(data.today,GlobalConstants.DATE_SHORT);
+      this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
     });
 
     this.formData = this.fb.group({
-      fecha:new FormControl('',Validators.required),
-      monto:new FormControl(undefined,Validators.required),
-      telefono:new FormControl('',Validators.required),
-      telefonoAlt:new FormControl('',Validators.required),
-      email: new FormControl('',[Validators.required] )
+      fecha: new FormControl('', Validators.required),
+      monto: new FormControl(undefined, Validators.required),
+      telefono: new FormControl('', Validators.required),
+      telefonoAlt: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required])
     })
 
     // this.formData.markAsTouched();
 
     this.formData2 = this.fb.group({
-      mostrar:[false],
-      fruta:[''],
-      cuenta:new FormControl('',Validators.required),
-      fecha:new FormControl('',Validators.required),
-      monto:new FormControl(undefined,Validators.required),
-      telefono:new FormControl('',Validators.required)
+      mostrar: [false],
+      fruta: [''],
+      cuenta: new FormControl('', Validators.required),
+      fecha: new FormControl('', Validators.required),
+      monto: new FormControl(undefined, Validators.required),
+      telefono: new FormControl('', Validators.required)
     })
-    
+
   }
 
 
-  save(){
-      if(this.formData.invalid){
-        return;
-      }
-      console.log('send form data to server');
-      
+  save() {
+    if (this.formData.invalid) {
+      return;
+    }
+    console.log('send form data to server');
+
   }
 
-  save2(){
-      if(this.formData2.invalid){
-        return;
-      }
-      console.log('send form data 2 to server');
-      
+  save2() {
+    if (this.formData2.invalid) {
+      return;
+    }
+    console.log('send form data 2 to server');
+
+  }
+
+  addElement() {
+
+    this.showFormPopup(DireccionFormPopupComponent,'Dirección')
+  }
+
+
+  private showFormPopup(popupComponent,  data: any, withDialog = '60%'): MatDialogRef<any> {
+    let data_aux = { payload: undefined, isNew: undefined };
+
+    data_aux.payload = data;
+
+    var dialogRef = this.dialog.open(popupComponent, {
+      panelClass: 'dialog-frame',
+      width: withDialog,
+      disableClose: true,
+      data: data_aux
+    });
+
+    return dialogRef;
   }
 
 }

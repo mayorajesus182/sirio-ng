@@ -112,6 +112,16 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
+
+              <div fxLayout="row"  fxLayout="column"  >                    
+                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                  <button color="accent" (click)="addElement()" mat-raised-button >
+                      <mat-icon class="margin-bottom-xxs">add</mat-icon> {{'button.add' | translate: {default:
+                      'global.notfound'} | translate }}
+                  </button>
+                </div>
+              </div>
+
               <div fxLayout="column" [formGroup]="formData2">
 
 

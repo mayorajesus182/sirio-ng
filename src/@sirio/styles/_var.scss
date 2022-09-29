@@ -2,8 +2,26 @@
 @import "@angular/material/core/theming/palette";
 
 /**
-  General
+  dialog popup
  */
+
+ .dialog-frame {
+  width: 90% !important;
+  max-width: 100% !important;
+}
+
+
+.dialog-frame {
+  top: 8%;
+  position: absolute !important;
+  .mat-dialog-container {
+      padding: 0;
+  }
+}
+
+/**
+Genearal
+*/
 
  .mat-chip[mat-sm-chip] {
   padding: 4px 6px 4px 6px !important;
