@@ -39,8 +39,10 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
             this.paisService.get(id).subscribe((agn: Pais) => {
                 this.pais = agn;
                 this.buildForm(this.pais);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();// TODO: DEBEMOS APLICAR ESTO EN TODOS ESTO
+                this.cdr.markForCheck();
+                
             });
         } else {
             this.buildForm(this.pais);
@@ -60,7 +62,7 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({value: pais.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(pais.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            gentilicio: new FormControl(pais.gentilicio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+            gentilicio: new FormControl(pais.gentilicio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(pais.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             
         });

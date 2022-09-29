@@ -46,8 +46,6 @@
                   </mat-form-field>
                   <mat-datepicker #fechaPicker></mat-datepicker>
 
-
-
                   <mat-form-field fxFlex.gt-sm="25">
                     <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
                     </mat-label>
@@ -58,7 +56,7 @@
                   </mat-form-field>
 
                   <mat-form-field fxFlex.gt-sm="25">
-                    <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
+                    <mat-label>{{'form.alternativePhone' | translate: {default: 'global.phone'} | translate }}
                     </mat-label>
                     <input matInput name="telefonoAlt" autocomplete="off" placeholder="" formControlName="telefonoAlt"
                       prefix="02" mask="00 000 00 00" required>
@@ -85,6 +83,7 @@
                   <mat-error *ngIf="form.email.errors?.required ">Es requerido</mat-error>
                   <mat-error *ngIf="form.email.errors?.email" >Email es invalido</mat-error>
                 </mat-form-field>
+
                 <!-- {{form.email.errors|json}} -->
 
               </div>
@@ -116,13 +115,45 @@
               <div fxLayout="column" [formGroup]="formData2">
 
 
-                <mat-slide-toggle [color]="'primary'" formControlName="mostrar" name="mostrar">
-                  {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
-                </mat-slide-toggle>
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px" >
+              
+
+                <mat-form-field fxFlex.gt-sm="30">
+                  <mat-label>Frutas</mat-label>
+                  <mat-select formControlName="fruta" >
+                    <!-- <mat-select-trigger>
+                      {{toppings.value?.[0] || ''}}
+                      <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
+                        (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
+                      </span>
+                    </mat-select-trigger> -->
+                    <mat-option *ngFor="let fruta of frutasList" [value]="fruta.id">{{fruta.nombre}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div fxFlex="auto" >
+                  <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="mostrar" name="mostrar">
+                    {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+                  </mat-slide-toggle>
+
+                </div>
+
+                </div>
 
 
 
-                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value">
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value || form2.fruta.value === 'M'">
+
+                  <mat-form-field fxFlex.gt-sm="30">
+                    <mat-label>{{'form.account' | translate: {default: 'global.account'} | translate }}
+                    </mat-label>
+                    <input matInput name="cuenta" autocomplete="off" num-account-validate formControlName="cuenta" 
+                      mask="0000 0000 0000 0000 0000" required placeholder="">
+                    <mat-hint>Ingrese el numero de cuenta</mat-hint>
+                    <mat-error *ngIf="form2.cuenta.errors?.required">Es requerido</mat-error>
+                    <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es invalido</mat-error>
+                  </mat-form-field>
+
 
                   <mat-form-field fxFlex="auto">
                     <mat-label>Fecha Nacimiento</mat-label>
@@ -139,10 +170,10 @@
 
 
 
-                  <mat-form-field fxFlex.gt-sm="40">
+                  <mat-form-field fxFlex.gt-sm="30">
                     <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
                     </mat-label>
-                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04"
+                    <input matInput name="telefono" autocomplete="off"  formControlName="telefono" prefix="04"
                       mask="00 000 00 00" required placeholder="">
                     <mat-hint>Ingrese telefono movil</mat-hint>
                     <mat-error *ngIf="form2.telefono.errors?.required">Es requerido</mat-error>

@@ -26,14 +26,18 @@ export class EmailValidate implements Validator {
         }
 
 
-        var regexpresion = new RegExp(/^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/);
+        // var regexpresion = new RegExp(/^[_a-z0-9-]+(.[_a-z0-9-]+)*@[a-z0-9-]+(.[a-z0-9-]+)*(.[a-z]{2,4})$/);
+        var result = control.value
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
 
+        // var modelValue = .toLowerCase();
 
-        var modelValue = control.value.toLowerCase();
+        // console.log('validate email ', result);
 
-        //console.log('validate email ', regexpresion.test(modelValue));
-
-        if (!regexpresion.test(modelValue)) {
+        if (!result) {
             return { email: 'Email inválido' };
         }
 

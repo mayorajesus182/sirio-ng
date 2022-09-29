@@ -3,11 +3,11 @@ import { AbstractControl, FormControl, NG_VALIDATORS, Validator, ValidatorFn } f
 
 
 
-export function validateAccount(procedencia: string): ValidatorFn {
+export function validateAccount(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: string } | null => {
-        console.log('cuenta',control.value);
+        // console.log('cuenta', control.value);
 
-        return NumAccountValidator.validateCuentaNumber(control, procedencia);
+        return NumAccountValidator.validateCuentaNumber(control);
     }
 }
 
@@ -24,51 +24,49 @@ export class NumAccountValidator implements Validator {
 
 
     validate(control: AbstractControl): { [key: string]: string } | null {
-        return validateAccount(this.procedencia)(control);
+        return validateAccount()(control);
     }
 
 
 
-    public static validateCuentaNumber(control: AbstractControl, procendecia: string): { [key: string]: string } | null {
+    public static validateCuentaNumber(control: AbstractControl): { [key: string]: string } | null {
 
         if (control.value == undefined) {
             return null;
         }
 
         var cuenta = control.value.split(' ').join('');
+
+        // console.log('procedencia', procendecia);
+        // if (!procendecia || procendecia.length == 0) {
+        //     return { notbank: 'Debe seleccionar primero el banco' };
+        // }
+
+
+        if (cuenta.length !== 20) {
+            return { account: 'Debe tener veinte (20) dígitos' };
+        }
+
+        if (cuenta.substring(10, 20) === '0000000000') {
+            return { account: 'Debe tener veinte (20) dígitos' };
+        }
+
+        // if (procendecia === 'N') {
+        var cc1 = cuenta.substring(0, 4);
+        var cc2 = cuenta.substring(4, 8);
+        var cc3 = cuenta.substring(8, 10);
+        var cc4 = cuenta.substring(10, 20);
+        var identOfi = cc1 + cc2;
+        var numCta = cc2 + cc4;
+        var value1 = NumAccountValidator.getControlDigitsCodCCliente(identOfi, numCta);
+        var value2 = cc3;
+        // console.log('value 1 ',value1);
+        // console.log('value 2 ',value2);
         
-        console.log('procedencia', procendecia);
-        if (!procendecia || procendecia.length == 0) {
-            return { notbank: 'Debe seleccionar primero el banco' };
+        if (value1 != value2) {
+            return { account: 'Número verificador inválido' };
         }
-
-
-        if (procendecia === 'N' && cuenta.length !== 20) {
-
-            return { account: 'Debe tener veinte (20) dígitos' };
-        }
-
-        if (procendecia === 'N' && cuenta.substring(10, 20) === '0000000000') {
-
-            return { account: 'Debe tener veinte (20) dígitos' };
-        }
-
-        if (procendecia === 'N') {
-            var cc1 = cuenta.substring(0, 4);
-            var cc2 = cuenta.substring(4, 8);
-            var cc3 = cuenta.substring(8, 10);
-            var cc4 = cuenta.substring(10, 20);
-            var IentOfi = cc1 + cc2;
-            var InumCta = cc2 + cc4;
-            var value1 = NumAccountValidator.getControlDigitsCodCCliente(IentOfi, InumCta);
-            var value2 = cc3;
-            //ctrl.$setValidity('cuenta', value1 == value2);
-            //console.log('value1 **'+value1+'** value2 **'+value2+'***');
-
-            if (value1 != value2) {
-                return { account: 'Número verificador inválido' };
-            }
-        }
+        // }
 
         return null;
 

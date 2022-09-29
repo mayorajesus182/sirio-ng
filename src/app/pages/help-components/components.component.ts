@@ -25,6 +25,21 @@ export class HelpComponentsComponent implements OnInit {
   hasBasicData = true;
   isNew = true;
 
+  frutasList:any[]=[
+    {
+    id:'P',
+    nombre:'Peras'
+  },
+    {
+    id:'F',
+    nombre:'Fresas'
+  },
+    {
+    id:'M',
+    nombre:'Manzanas'
+  }
+]
+
   formData: FormGroup;
   formData2: FormGroup;
   // formTelefono:FormGroup;
@@ -64,6 +79,8 @@ export class HelpComponentsComponent implements OnInit {
 
     this.formData2 = this.fb.group({
       mostrar:[false],
+      fruta:[''],
+      cuenta:new FormControl('',Validators.required),
       fecha:new FormControl('',Validators.required),
       monto:new FormControl(undefined,Validators.required),
       telefono:new FormControl('',Validators.required)
