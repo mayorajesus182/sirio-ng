@@ -17,26 +17,28 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="moneda_id">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'monetaryCone.coin' | translate: {default: 'global.coin'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
-                        <p class="text-truncate font-weight-600">{{element.moneda'}}</p>
+                <ng-container matColumnDef="moneda">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">{{'monetaryCone.coin' | translate:
+                        {default: 'global.coin'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="font-weight-600">{{element.moneda}}</p>
                     </mat-cell>
                 </ng-container>
 
 
                 <ng-container matColumnDef="denominacion">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'monetaryCone.denomination' | translate: {default: 'global.denomination'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
-                        <p class="text-truncate font-weight-600">{{element.denominacion'}}</p>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-25'">{{'monetaryCone.denomination' | translate:
+                        {default: 'global.denomination'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="font-weight-600">{{element.denominacion}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="es_moneda">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'monetaryCone.name' | translate:
-                        {default: 'global.name'} | translate }}</mat-header-cell>
+                <ng-container matColumnDef="esMoneda">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'monetaryCone.isCoin' | translate:
+                        {default: 'global.isCoin'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="text-truncate font-weight-600">{{element.esmoneda}}</p>
+                        <p class="text-truncate font-weight-600">{{element.esMoneda ? 'SI' : 'NO'}}</p>
                     </mat-cell>
                 </ng-container>
              
