@@ -12,7 +12,8 @@ import { ChangeDetectionStrategy, Component, Directive, ViewEncapsulation } from
   template: `
       <div class="sirio-dialog-header-heading-group" >
         <ng-content select="sirio-dialog-header-heading"></ng-content>
-        <ng-content select="sirio-dialog-header-subheading"></ng-content>
+        
+        <!-- <ng-content select="sirio-dialog-header-subheading"></ng-content> -->
       </div>  `
 })
 export class SirioDialogHeader {
