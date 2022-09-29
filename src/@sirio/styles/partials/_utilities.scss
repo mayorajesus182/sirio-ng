@@ -197,15 +197,15 @@ blockquote {
 }
 
 @each $property in (margin, padding) {
-  @each $direction in ('', -left, -right, -top, -bottom, -vertical, -horizontal) {
+  @each $direction in ('', -left, -right, -top, -bottom, -v, -h) {
     @each $prefix, $value in $paddings {
 
-      @if ($direction == -vertical) {
+      @if ($direction == -v) {
         .#{$property}#{$direction}#{$prefix} {
           #{$property}-top: $value;
           #{$property}-bottom: $value;
         }
-      } @else if ($direction == -horizontal) {
+      } @else if ($direction == -h) {
         .#{$property}#{$direction}#{$prefix} {
           #{$property}-left: $value;
           #{$property}-right: $value;

@@ -6,17 +6,31 @@
  */
 
  .dialog-frame {
-  width: 90% !important;
+  width: 90%;
   max-width: 100% !important;
 }
 
 
 .dialog-frame {
   top: 8%;
-  position: absolute !important;
-  .mat-dialog-container {
-      padding: 0;
+  // position: absolute !important;
+  .mat-dialog-content {
+    margin: 0px ;
+    padding: 0px;
   }
+  .mat-dialog-container {
+    // padding: 0px;
+    padding: 0px 24px 24px 24px;
+  }
+
+  .mat-dialog-actions {
+    padding: 8px 0 14px;
+  }
+
+  h1 {
+    font-size: 1.7em;
+  }
+    
 }
 
 /**
@@ -46,6 +60,9 @@ $elevation: 2;
 $color-success: #7cb342;
 
 $spacing: 24px;
+$spacing-md: 16px;
+$spacing-sm: 10px;
+$spacing-xs: 8px;
 $border-radius: 8px;
 
 $padding-xl: 48px;

@@ -20,7 +20,7 @@
                   </span>
                 </mat-panel-title>
                 <mat-panel-description>
-                  <button mat-icon-button type="button"  color="primary" class="topbar-button-right">
+                  <button mat-icon-button type="button" color="primary" class="topbar-button-right">
                     <mat-icon>person</mat-icon>
                   </button>
                 </mat-panel-description>
@@ -32,8 +32,9 @@
 
                   <mat-form-field fxFlex="auto">
                     <mat-label>Fecha Nacimiento</mat-label>
-                    <input class="text-center" autocomplete="off" minor-age today="{{todayValue}}" matInput placeholder="DD/MM/YYYY" name="fecha"
-                      formControlName="fecha" [matDatepicker]="fechaPicker" required>
+                    <input class="text-center" autocomplete="off" minor-age today="{{todayValue}}" matInput
+                      placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
+                      required>
                     <mat-datepicker-toggle matSuffix [for]="fechaPicker">
                     </mat-datepicker-toggle>
                     <mat-error *ngIf="form.fecha.errors?.matDatepickerParse">
@@ -79,24 +80,25 @@
                 <mat-form-field fxFlex="auto">
                   <mat-label>{{'form.email' | translate: {default: 'global.email'} | translate }}
                   </mat-label>
-                  <input matInput type="text" autocomplete="off" email-validate name="email" formControlName="email" required>
+                  <input matInput type="text" autocomplete="off" email-validate name="email" formControlName="email"
+                    required>
                   <mat-error *ngIf="form.email.errors?.required ">Es requerido</mat-error>
-                  <mat-error *ngIf="form.email.errors?.email" >Email es invalido</mat-error>
+                  <mat-error *ngIf="form.email.errors?.email">Email es invalido</mat-error>
                 </mat-form-field>
 
                 <!-- {{form.email.errors|json}} -->
 
               </div>
-              
-                <div fxLayout="row"  fxLayout="column"  >                    
-                  <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                    <button color="primary" (click)="save()" mat-raised-button [disabled]="formData?.invalid  ">
-                        <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
-                        'global.notfound'} | translate }}
-                    </button>
-                  </div>
+
+              <div fxLayout="row" fxLayout="column">
+                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                  <button color="primary" (click)="save()" mat-raised-button [disabled]="formData?.invalid  ">
+                    <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                    'global.notfound'} | translate }}
+                  </button>
                 </div>
-           
+              </div>
+
             </mat-expansion-panel>
 
             <mat-expansion-panel *ngIf="hasBasicData">
@@ -113,11 +115,11 @@
               </mat-expansion-panel-header>
 
 
-              <div fxLayout="row"  fxLayout="column"  >                    
+              <div fxLayout="row" fxLayout="column">
                 <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                  <button color="accent" (click)="addElement()" mat-raised-button >
-                      <mat-icon class="margin-bottom-xxs">add</mat-icon> {{'button.add' | translate: {default:
-                      'global.notfound'} | translate }}
+                  <button color="default" (click)="addElement()" mat-button>
+                    <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                    'global.notfound'} | translate }}
                   </button>
                 </div>
               </div>
@@ -125,39 +127,41 @@
               <div fxLayout="column" [formGroup]="formData2">
 
 
-                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px" >
-              
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px">
 
-                <mat-form-field fxFlex.gt-sm="30">
-                  <mat-label>Frutas</mat-label>
-                  <mat-select formControlName="fruta" >
-                    <!-- <mat-select-trigger>
+
+                  <mat-form-field fxFlex.gt-sm="30">
+                    <mat-label>Frutas</mat-label>
+                    <mat-select formControlName="fruta">
+                      <!-- <mat-select-trigger>
                       {{toppings.value?.[0] || ''}}
                       <span *ngIf="(toppings.value?.length || 0) > 1" class="example-additional-selection">
                         (+{{(toppings.value?.length || 0) - 1}} {{toppings.value?.length === 2 ? 'other' : 'others'}})
                       </span>
                     </mat-select-trigger> -->
-                    <mat-option *ngFor="let fruta of frutasList" [value]="fruta.id">{{fruta.nombre}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+                      <mat-option *ngFor="let fruta of frutasList" [value]="fruta.id">{{fruta.nombre}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
 
-                <div fxFlex="auto" >
-                  <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="mostrar" name="mostrar">
-                    {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
-                  </mat-slide-toggle>
+                  <div fxFlex="auto">
+                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="mostrar"
+                      name="mostrar">
+                      {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+                    </mat-slide-toggle>
+
+                  </div>
 
                 </div>
 
-                </div>
 
 
-
-                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value || form2.fruta.value === 'M'">
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
+                  *ngIf="form2.mostrar.value || form2.fruta.value === 'M'">
 
                   <mat-form-field fxFlex.gt-sm="30">
                     <mat-label>{{'form.account' | translate: {default: 'global.account'} | translate }}
                     </mat-label>
-                    <input matInput name="cuenta" autocomplete="off" num-account-validate formControlName="cuenta" 
+                    <input matInput name="cuenta" autocomplete="off" num-account-validate formControlName="cuenta"
                       mask="0000 0000 0000 0000 0000" required placeholder="">
                     <mat-hint>Ingrese el numero de cuenta</mat-hint>
                     <mat-error *ngIf="form2.cuenta.errors?.required">Es requerido</mat-error>
@@ -183,7 +187,7 @@
                   <mat-form-field fxFlex.gt-sm="30">
                     <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
                     </mat-label>
-                    <input matInput name="telefono" autocomplete="off"  formControlName="telefono" prefix="04"
+                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04"
                       mask="00 000 00 00" required placeholder="">
                     <mat-hint>Ingrese telefono movil</mat-hint>
                     <mat-error *ngIf="form2.telefono.errors?.required">Es requerido</mat-error>
@@ -219,8 +223,17 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
-              <div fxLayout="row wrap" fxLayoutAlign="center center">
+              <div fxLayout="row" fxLayout="column">
 
+
+                <div fxLayout="row" fxLayout="column">
+                  <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                    <button color="default" (click)="addElement()" mat-button>
+                      <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                      'global.notfound'} | translate }}
+                    </button>
+                  </div>
+                </div>
 
 
               </div>
