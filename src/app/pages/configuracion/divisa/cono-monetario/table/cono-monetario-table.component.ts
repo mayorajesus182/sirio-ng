@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class ConoMonetarioTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
-  displayedColumns = ['cono_id','moneda' ,'denominacion','esmoneda','activo','actions'];
+  displayedColumns = ['cono_id','moneda_id' ,'denominacion','es_moneda','activo','actions'];
 
   constructor(
     injector: Injector,

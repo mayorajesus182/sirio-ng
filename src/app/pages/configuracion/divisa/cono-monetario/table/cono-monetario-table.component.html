@@ -17,7 +17,7 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="moneda">
+                <ng-container matColumnDef="moneda_id">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'monetaryCone.coin' | translate: {default: 'global.coin'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
                         <p class="text-truncate font-weight-600">{{element.moneda'}}</p>
@@ -32,7 +32,7 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="esmoneda">
+                <ng-container matColumnDef="es_moneda">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'monetaryCone.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
