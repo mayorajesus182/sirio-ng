@@ -19,7 +19,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
         {
             provide:"swalService", useClass:SweetAlertService
         },
-        ,
         {
             provide: "spinner", useClass: NgxSpinnerService
         }
@@ -27,6 +26,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class PopupBaseComponent {
     isNew=true;
+    mode: 'global.add' | 'global.edit' = 'global.add';
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
     @ViewChild('formData') formData: NgForm;
     @ViewChild(MatProgressBar) progressBar: MatProgressBar;

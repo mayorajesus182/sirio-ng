@@ -37,6 +37,12 @@
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>  
+
+                            <mat-form-field fxFlex="auto" >
+                                <mat-label>{{'personType.localCode' | translate: {default: 'global.localCode'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.codigoLocal" readonly>
+                            </mat-form-field>  
                             
                         </div>
 

@@ -2,8 +2,8 @@
 @import "@angular/material/core/theming/palette";
 
 /**
-  General
- */
+Genearal
+*/
 
  .mat-chip[mat-sm-chip] {
   padding: 4px 6px 4px 6px !important;
@@ -28,6 +28,9 @@ $elevation: 2;
 $color-success: #7cb342;
 
 $spacing: 24px;
+$spacing-md: 16px;
+$spacing-sm: 10px;
+$spacing-xs: 8px;
 $border-radius: 8px;
 
 $padding-xl: 48px;

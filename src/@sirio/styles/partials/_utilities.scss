@@ -12,31 +12,39 @@
   font: var(--font-display-2);
 }
 
-.display-1, h1 {
+.display-1,
+h1 {
   font: var(--font-display-1);
 }
 
-.headline, h2 {
+.headline,
+h2 {
   font: var(--font-headline);
 }
 
-.title, h3 {
+.title,
+h3 {
   font: var(--font-title);
 }
 
-.subheading-2, h4 {
+.subheading-2,
+h4 {
   font: var(--font-subheading-2);
 }
 
-.subheading-1, h5 {
+.subheading-1,
+h5 {
   font: var(--font-subheading-1);
 }
 
-.body-2, h6 {
+.body-2,
+h6 {
   font: var(--font-body-2);
 }
 
-.body-1, p, li {
+.body-1,
+p,
+li {
   font: var(--font-body-1);
   line-height: 1.5;
 }
@@ -45,11 +53,23 @@
   font: var(--font-caption);
 }
 
-.display-4, .display-3, .display-2, .display-1, .headline, h1, .title, h2 {
+.display-4,
+.display-3,
+.display-2,
+.display-1,
+.headline,
+h1,
+.title,
+h2 {
   font-family: var(--font-family);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: $padding-sm 0;
 }
 
@@ -163,25 +183,79 @@ blockquote {
 }
 
 
+/**
+  dialog popup
+ */
+
+.dialog-frame {
+  width: 90%;
+  max-width: 100% !important;
+}
+
+.close-button {
+  float: right;
+  min-width: auto;
+  max-height: 36px;
+  // top:-24px;
+  // right:-24px;
+}
+
+.close-icon{
+  margin-top: -6px;
+}
+
+
+.dialog-frame {
+  top: 8%;
+
+  // position: absolute !important;
+  .mat-dialog-content {
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .mat-dialog-container {
+    // padding: 0px;
+    padding: 0px 24px 24px 24px;
+    border-radius: 8px;
+  }
+
+  .mat-dialog-actions {
+    padding: 8px 0 14px;
+  }
+
+  h1 {
+    font-size: 1.7em;
+  }
+
+}
+
+
+
 @each $property in (background, color, border-color, fill) {
   @each $direction in (primary, accent, warn, primary-contrast, accent-contrast, warn-contrast) {
     .#{$property}-#{$direction} {
-      @if $direction == primary {
+      @if $direction ==primary {
         #{$property}: $theme-color-primary;
       }
-      @if $direction == primary-contrast {
+
+      @if $direction ==primary-contrast {
         #{$property}: $theme-color-primary-contrast;
       }
-      @if $direction == accent {
+
+      @if $direction ==accent {
         #{$property}: $theme-color-accent;
       }
-      @if $direction == accent-contrast {
+
+      @if $direction ==accent-contrast {
         #{$property}: $theme-color-accent-contrast;
       }
-      @if $direction == warn {
+
+      @if $direction ==warn {
         #{$property}: $theme-color-warn;
       }
-      @if $direction == warn-contrast {
+
+      @if $direction ==warn-contrast {
         #{$property}: $theme-color-warn-contrast;
       }
     }
@@ -197,20 +271,26 @@ blockquote {
 }
 
 @each $property in (margin, padding) {
-  @each $direction in ('', -left, -right, -top, -bottom, -vertical, -horizontal) {
-    @each $prefix, $value in $paddings {
+  @each $direction in ('', -left, -right, -top, -bottom, -v, -h) {
 
-      @if ($direction == -vertical) {
+    @each $prefix,
+    $value in $paddings {
+
+      @if ($direction ==-v) {
         .#{$property}#{$direction}#{$prefix} {
           #{$property}-top: $value;
           #{$property}-bottom: $value;
         }
-      } @else if ($direction == -horizontal) {
+      }
+
+      @else if ($direction ==-h) {
         .#{$property}#{$direction}#{$prefix} {
           #{$property}-left: $value;
           #{$property}-right: $value;
         }
-      } @else {
+      }
+
+      @else {
         .#{$property}#{$direction}#{$prefix} {
           #{$property}#{$direction}: $value;
         }
@@ -219,7 +299,8 @@ blockquote {
   }
 }
 
-@each $prefix, $value in $icon-sizes {
+@each $prefix,
+$value in $icon-sizes {
   .mat-icon.icon-size#{$prefix} {
     height: $value;
     width: $value;
@@ -230,8 +311,7 @@ blockquote {
 
 .background-pattern {
   background: linear-gradient(135deg, $theme-background-login 22px, $theme-background-hover 22px, $theme-background-hover 24px, transparent 24px, transparent 67px, $theme-background-hover 67px, $theme-background-hover 69px, transparent 69px),
-  linear-gradient(225deg, $theme-background-login 22px, $theme-background-hover 22px, $theme-background-hover 24px, transparent 24px, transparent 67px, $theme-background-hover 67px, $theme-background-hover 69px, transparent 69px) 0 64px;
+    linear-gradient(225deg, $theme-background-login 22px, $theme-background-hover 22px, $theme-background-hover 24px, transparent 24px, transparent 67px, $theme-background-hover 67px, $theme-background-hover 69px, transparent 69px) 0 64px;
   background-color: $theme-background-login;
   background-size: 64px 128px;
 }
-

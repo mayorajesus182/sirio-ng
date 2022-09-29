@@ -29,7 +29,7 @@ export class PaisDetailComponent extends FormBaseComponent implements OnInit {
 
     this.loadingDataForm.next(true);
 
-    this.paisService.get(id).subscribe(data => {
+    this.paisService.detail(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });

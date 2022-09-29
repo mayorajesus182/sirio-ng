@@ -7,4 +7,6 @@ export class GlobalConstants {
   public static PERSONA_JURIDICA = 'J';
   public static CASADO = 'CAS';
   public static UNION_ESTABLE = 'UDH';
+  public static DATE_SHORT = 'DD/MM/YYYY';
+  public static DATE_LONG = 'DD/MM/YYYY hh:mm:ss';
 };
