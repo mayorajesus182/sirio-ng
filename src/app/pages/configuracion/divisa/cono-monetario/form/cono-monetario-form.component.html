@@ -33,16 +33,16 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
                                 <mat-form-field fxFlex="10">
-                                    <mat-label>{{'monetaryCone.code' | translate: {default: 'global.code'} | translate }}
+                                    <mat-label>{{'monetaryCone.code' | translate: {default: 'global.code'} | translate
+                                        }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id" required
-                                        class="text-center">
+                                    <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id"
+                                        required class="text-center">
                                     <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">
@@ -50,31 +50,36 @@
                                     </mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="30">
-                                    <mat-label>{{'monetaryCone.coin' | translate: {default: 'global.coin'} | translate }}
-                                    </mat-label>
-                                    <input matInput autocomplete="off" maxlength="30" name="moneda" formControlName="moneda" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.moneda.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.moneda.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>        
+                              
+                                    <sirio-select-search
+                                        [label]="'monetaryCone.coin' | translate: {default: 'global.coin'} | translate"
+                                        formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
+                                        [attributeName]="'nombre'" [errors]="f.moneda?.errors">
+                                    </sirio-select-search>
+                               
 
                                 <mat-form-field fxFlex.gt-xs="20">
-                                    <mat-label>{{'monetaryCone.denomination' | translate: {default: 'global.denomination'} | translate }}
+                                    <mat-label>{{'monetaryCone.denomination' | translate: {default:
+                                        'global.denomination'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="20" name="denominacion" formControlName="denominacion" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.denominacion.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.denominacion.errors?.pattern">Caracter inválido</mat-error>
-                                </mat-form-field>                               
-                                                    
-                              
+                                    <input matInput autocomplete="off" max="99999999.99" min="0.05" name="denominacion"
+                                        formControlName="denominacion" uppercase required currencyMask
+                                        [options]="{precision:2}">
+
+                                    <mat-error *ngIf="f.denominacion.errors?.required && !f.denominacion.errors?.min">Es
+                                        requerido</mat-error>
+                                    <mat-error *ngIf="f.denominacion.errors?.max">Debe ser menor que 99.999.999,99
+                                    </mat-error>
+                                    <mat-error *ngIf="f.denominacion.errors?.min">No debe ser menor que 0,05</mat-error>
+                                </mat-form-field>
+
+
                                 <div fxFlex="100" fxFlex.gt-xs="10" class="text-right">
                                     <mat-slide-toggle [color]="'primary'" formControlName="esMoneda" name="esMoneda">
                                         {{'monetaryCone.isCoin' | translate: {default: 'global.isCoin'} | translate }}
-                                    </mat-slide-toggle>                                   
+                                    </mat-slide-toggle>
                                 </div>
-                           
+
 
 
                             </div>

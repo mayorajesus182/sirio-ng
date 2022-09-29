@@ -30,7 +30,7 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-25'">{{'monetaryCone.denomination' | translate:
                         {default: 'global.denomination'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="font-weight-600">{{element.denominacion}}</p>
+                        <p class="font-weight-600">{{element.denominacion | number: '1.2'}}</p>
                     </mat-cell>
                 </ng-container>
 

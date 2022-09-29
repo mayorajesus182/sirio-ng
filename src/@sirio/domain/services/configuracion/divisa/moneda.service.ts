@@ -27,9 +27,7 @@ export class MonedaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/divisa/moneda'};
     }
 
-    all(): Observable<Moneda[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
+
 
     actives(): Observable<Moneda[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
@@ -64,6 +62,14 @@ export class MonedaService {
 
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
+    }
+
+    fisicaActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/actives/fisicas');
+    }
+    
+    virtualActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/actives/virtuales');
     }
 
 }
