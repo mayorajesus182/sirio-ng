@@ -58,7 +58,7 @@ const configuracionRoutes: Routes = [
         data: { title: 'Domicilio' },
         loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule), 
     }
-
+   
 ];
 
 
