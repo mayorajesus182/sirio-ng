@@ -41,7 +41,7 @@
                                 <mat-form-field fxFlex="auto">
                                     <mat-label>{{'incomeType.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
-                                    <input matInput maxlength="6" autocomplete="off" name="id" formControlName="id" uppercase required
+                                    <input matInput minlength="1" maxlength="2" autocomplete="off" name="id" formControlName="id" uppercase required
                                         class="text-center">
                                         <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
@@ -51,7 +51,7 @@
                                 <mat-form-field fxFlex.gt-xs="70">
                                     <mat-label>{{'incomeType.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput maxlength="60" autocomplete="off" name="nombre" formControlName="nombre" uppercase
+                                    <input matInput minlength="1" maxlength="50" autocomplete="off" name="nombre" formControlName="nombre" uppercase
                                         required>
                                         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
@@ -60,7 +60,7 @@
                                 <mat-form-field fxFlex="auto">
                                     <mat-label>{{'incomeType.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
-                                    <input matInput maxlength="6" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
+                                    <input matInput minlength="1" maxlength="2" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
                                         uppercase class="text-center">
                                         <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>

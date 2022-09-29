@@ -18,19 +18,18 @@
                 </ng-container>
 
                 <ng-container matColumnDef="moneda">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">{{'monetaryCone.coin' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-25'">{{'monetaryCone.coin' | translate:
                         {default: 'global.coin'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="font-weight-600">{{element.moneda}}</p>
                     </mat-cell>
                 </ng-container>
-
 
                 <ng-container matColumnDef="denominacion">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-25'">{{'monetaryCone.denomination' | translate:
                         {default: 'global.denomination'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
-                        <p class="font-weight-600">{{element.denominacion}}</p>
+                        <p class="font-weight-600">{{element.denominacion | number: '1.2'}}</p>
                     </mat-cell>
                 </ng-container>
 
@@ -42,7 +41,6 @@
                     </mat-cell>
                 </ng-container>
              
-
                 <ng-container matColumnDef="activo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'monetaryCone.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
@@ -69,8 +67,6 @@
                     >
                 </mat-row>
             </mat-table>
-
-            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
 

@@ -61,7 +61,7 @@ export class MotivoSolicitudFormComponent extends FormBaseComponent implements O
     buildForm(motivoSolicitud: MotivoSolicitud) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: motivoSolicitud.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(motivoSolicitud.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(motivoSolicitud.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             codigoLocal: new FormControl(motivoSolicitud.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }

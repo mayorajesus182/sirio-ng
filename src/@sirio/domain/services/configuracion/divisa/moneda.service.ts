@@ -62,4 +62,12 @@ export class MonedaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 
+    fisicaActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/actives/fisicas');
+    }
+    
+    virtualActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/actives/virtuales');
+    }
+
 }

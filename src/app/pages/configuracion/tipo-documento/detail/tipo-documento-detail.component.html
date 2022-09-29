@@ -30,11 +30,17 @@
                                 <input matInput class="text-center" [value]="d.id" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="auto" >
+                            <mat-form-field fxFlex="40" >
                                 <mat-label>{{'documentType.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>  
+
+                            <mat-form-field fxFlex="40" >
+                                <mat-label>{{'documentType.personType' | translate: {default: 'global.personType'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.tipoPersona" readonly>
+                            </mat-form-field> 
 
                             <mat-form-field fxFlex="auto" >
                                 <mat-label>{{'documentType.localCode' | translate: {default: 'global.localCode'} | translate }}
@@ -42,11 +48,7 @@
                                 <input matInput [value]="d.codigoLocal" readonly>
                             </mat-form-field>  
                             
-                            <mat-form-field fxFlex="auto" >
-                                <mat-label>{{'documentType.personType' | translate: {default: 'global.personType'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.tipoPersona" readonly>
-                            </mat-form-field>   
+                              
                         </div>
 
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
