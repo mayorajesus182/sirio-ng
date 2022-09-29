@@ -1,0 +1,100 @@
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { RegularExpConstants } from 'src/@sirio/constants';
+import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+
+@Component({
+    selector: 'app-cono-monetario-form',
+    templateUrl: './cono-monetario-form.component.html',
+    styleUrls: ['./cono-monetario-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [fadeInUpAnimation, fadeInRightAnimation]
+})
+
+export class ConoMonetarioFormComponent extends FormBaseComponent implements OnInit {
+
+    conomonetario: ConoMonetario = {} as ConoMonetario;
+
+
+    constructor(
+        injector: Injector,
+        dialog: MatDialog,
+        private fb: FormBuilder,
+        private route: ActivatedRoute,
+        private conomonetarioService: ConoMonetarioService,
+        private cdr: ChangeDetectorRef) {
+            super(undefined,  injector);
+    }
+
+    ngOnInit() {
+
+        let id = this.route.snapshot.params['id'];
+        this.isNew = id == undefined;
+        this.loadingDataForm.next(true);
+
+        if (id) {
+            this.conomonetarioService.get(id).subscribe((conm: ConoMonetario) => {
+                this.conomonetario = conm;
+                this.buildForm(this.conomonetario);
+                this.cdr.markForCheck();
+                this.loadingDataForm.next(false);
+                this.cdr.detectChanges();
+            });
+        } else {
+            this.buildForm(this.conomonetario);
+            this.loadingDataForm.next(false);
+        }
+
+        if(!id){
+            this.f.id.valueChanges.subscribe(value => {
+                if (!this.f.id.errors && this.f.id.value.length > 0) {
+                    this.codigoExists(value);
+                }
+            });
+        }
+    }
+
+    buildForm(conomonetario: ConoMonetario) {
+        this.itemForm = this.fb.group({
+            id: new FormControl({value: conomonetario.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            esmoneda: new FormControl(conomonetario.esMoneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            
+           // codigoLocal: new FormControl(moneda.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+        });
+    }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.conomonetario);
+        
+        this.saveOrUpdate(this.conomonetarioService, this.conomonetario, 'La  Moneda', this.isNew);
+       
+       
+    }
+
+    private codigoExists(id) {
+        this.conomonetarioService.exists(id).subscribe(data => {
+            if (data.exists) {
+                this.itemForm.controls['id'].setErrors({
+                    exists: "El código existe"
+                });
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
+    activateOrInactivate() {
+        if (this.conomonetario.id) {
+            this.applyChangeStatus(this.conomonetarioService, this.conomonetario, this.conomonetario.moneda, this.cdr);
+        }
+    }
+
+}
