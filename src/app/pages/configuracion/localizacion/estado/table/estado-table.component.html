@@ -18,9 +18,9 @@
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'state.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'state.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>

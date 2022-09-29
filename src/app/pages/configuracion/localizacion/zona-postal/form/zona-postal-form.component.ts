@@ -60,13 +60,13 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
-            this.f.id.valueChanges.subscribe(value => {
-                if (!this.f.id.errors && this.f.id.value.length > 0) {
-                    this.codigoExists(value);
-                }
-            });
-        }
+        // if(!id){
+        //     this.f.id.valueChanges.subscribe(value => {
+        //         if (!this.f.id.errors && this.f.id.value.length > 0) {
+        //             this.codigoExists(value);
+        //         }
+        //     });
+        // }
 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
@@ -75,19 +75,21 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
     }
 
     ngAfterViewInit(): void {
+
         this.loading$.subscribe(loading => {
             if (!loading) {
-                console.log('load change events ');
+
                 if (this.f.pais.value) {
-                    console.log(this.f.pais.value);
+
                     this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
-                        console.log(data);
                         this.estados.next(data);
+
                         this.cdr.detectChanges();
                     });
                 }
 
                 if (this.f.estado.value) {
+
                     this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
                         this.municipios.next(data);
                         this.cdr.detectChanges();
@@ -100,7 +102,6 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
                         this.cdr.detectChanges();
                     });
                 }
-
             }
         });
 
@@ -108,7 +109,6 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
 
     buildForm(zonaPostal: ZonaPostal) {
 
-        console.log('ZonaPostal ',zonaPostal);
         this.itemForm = this.fb.group({
             id: new FormControl({value: zonaPostal.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(zonaPostal.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
@@ -124,11 +124,9 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
             console.log('change pais id');
             this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
                 this.estados.next(data);
-
                 this.cdr.detectChanges();
             });
         });
-
 
         this.f.estado.valueChanges.subscribe(value => {
             console.log(value);
@@ -146,6 +144,11 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
             });
         });
 
+        this.f.id.valueChanges.subscribe(value => {
+                    if (!this.f.id.errors && this.f.id.value.length > 0) {
+                        this.codigoExists(value);
+                    }
+                });
 
         this.cdr.detectChanges();
     }
@@ -163,7 +166,7 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
             console.log(data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

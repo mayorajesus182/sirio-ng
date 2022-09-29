@@ -76,7 +76,7 @@ export class TipoDireccionFormComponent extends FormBaseComponent implements OnI
         this.tipoDireccionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

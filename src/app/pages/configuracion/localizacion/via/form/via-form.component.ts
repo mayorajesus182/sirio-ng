@@ -77,7 +77,7 @@ export class ViaFormComponent extends FormBaseComponent implements OnInit {
         this.viaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

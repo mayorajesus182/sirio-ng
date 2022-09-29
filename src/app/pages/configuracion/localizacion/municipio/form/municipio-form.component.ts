@@ -139,7 +139,7 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
             console.log(data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

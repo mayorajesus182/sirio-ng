@@ -11,25 +11,25 @@
                 matSortActive="nucleo_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="nucleo_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-30'">{{'coreType.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'coreType.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'coreType.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'coreType.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'coreType.status' |
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'" mat-sort-header>{{'coreType.status' |
                         translate: {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
