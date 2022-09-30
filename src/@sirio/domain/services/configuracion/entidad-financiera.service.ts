@@ -22,7 +22,7 @@ export class EntidadFinancieraService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/taquilla/entidad-financiera'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/entidad-financiera'};
     }
     
     actives(): Observable<EntidadFinanciera[]> {

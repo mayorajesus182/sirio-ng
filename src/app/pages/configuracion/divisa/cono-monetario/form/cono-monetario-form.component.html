@@ -66,7 +66,6 @@
                                     <input matInput autocomplete="off" max="99999999.99" min="0.05" name="denominacion"
                                         formControlName="denominacion" uppercase required currencyMask
                                         [options]="{precision:2}">
-
                                     <mat-error *ngIf="f.denominacion.errors?.required && !f.denominacion.errors?.min">Es
                                         requerido</mat-error>
                                     <mat-error *ngIf="f.denominacion.errors?.max">Debe ser menor que 99.999.999,99
