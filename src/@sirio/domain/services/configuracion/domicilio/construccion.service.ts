@@ -26,10 +26,6 @@ export class ConstruccionService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/domicilio/construccion'};
     }
 
-    all(): Observable<Construccion[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Construccion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

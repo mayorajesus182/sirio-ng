@@ -27,10 +27,6 @@ export class TipoReferenciaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/tipo-referencia'};
     }
 
-    all(): Observable<TipoReferencia[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<TipoReferencia[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
@@ -63,7 +59,6 @@ export class TipoReferenciaService {
     }
 
     changeStatus(id: any): Observable<any> {
-      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 

@@ -44,6 +44,7 @@ export class TipoDocumentoFormComponent extends FormBaseComponent implements OnI
                 this.buildForm(this.tipoDocumento);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

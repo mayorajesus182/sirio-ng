@@ -26,10 +26,6 @@ export class TipoDocumentoService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-documento'};
     }
 
-    all(): Observable<TipoDocumento[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<TipoDocumento[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

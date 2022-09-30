@@ -41,6 +41,7 @@ export class TipoPersonaFormComponent extends FormBaseComponent implements OnIni
                 this.buildForm(this.tipoPersona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

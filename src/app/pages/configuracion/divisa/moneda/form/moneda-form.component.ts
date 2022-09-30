@@ -63,7 +63,6 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({value: moneda.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(moneda.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            //esVirtual: new FormControl(moneda.esVirtual || 0),
             esVirtual: new FormControl(moneda.esVirtual || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             codigoLocal: new FormControl(moneda.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });

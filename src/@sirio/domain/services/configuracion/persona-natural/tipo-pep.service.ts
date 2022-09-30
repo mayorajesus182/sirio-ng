@@ -25,10 +25,6 @@ export class TipoPepService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/tipo-pep'};
     }
 
-    all(): Observable<TipoPep[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<TipoPep[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

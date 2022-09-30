@@ -25,10 +25,6 @@ export class EstadoCivilService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/estado-civil'};
     }
 
-    all(): Observable<EstadoCivil[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<EstadoCivil[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

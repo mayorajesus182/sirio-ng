@@ -44,6 +44,7 @@ export class ActividadEspecificaFormComponent extends FormBaseComponent implemen
                 this.buildForm(this.actividadEspecifica);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -68,7 +69,7 @@ export class ActividadEspecificaFormComponent extends FormBaseComponent implemen
     buildForm(actividadEspecifica: ActividadEspecifica) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: actividadEspecifica.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(actividadEspecifica.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(actividadEspecifica.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             actividadEconomica: [actividadEspecifica.actividadEconomica || undefined, [Validators.required]],
             codigoLocal: new FormControl(actividadEspecifica.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
@@ -86,7 +87,7 @@ export class ActividadEspecificaFormComponent extends FormBaseComponent implemen
         this.actividadEspecificaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

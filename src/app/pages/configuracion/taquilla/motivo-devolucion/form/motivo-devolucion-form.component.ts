@@ -41,6 +41,7 @@ export class MotivoDevolucionFormComponent extends FormBaseComponent implements 
                 this.buildForm(this.motivoDevolucion);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -77,7 +78,7 @@ export class MotivoDevolucionFormComponent extends FormBaseComponent implements 
         this.motivoDevolucionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }
