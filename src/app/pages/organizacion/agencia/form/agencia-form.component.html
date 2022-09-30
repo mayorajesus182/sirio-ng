@@ -150,7 +150,7 @@
                                     <mat-error *ngIf="f.longitud.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
                                 </mat-form-field>    
 
-                                <mat-slide-toggle [color]="'primary'" formControlName="horarioExt" name="horarioExt">
+                                <mat-slide-toggle [color]="'primary'" class="margin-top-md" formControlName="horarioExt" name="horarioExt">
                                     {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
                                 </mat-slide-toggle>
                             </div>
