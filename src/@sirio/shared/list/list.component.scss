@@ -3,6 +3,7 @@
 .sirio-list-table {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   .sirio-list-header {
     padding-left: $spacing;

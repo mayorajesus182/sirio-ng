@@ -34,6 +34,11 @@ const personaJuridicaRoutes: Routes = [
         data: { title: 'Actividad Económica' },
         loadChildren: () => import('./actividad-economica/actividad-economica.module').then(m => m.ActividadEconomicaModule),
     },
+    {
+        path: 'tipo-relacion',
+        data: { title: 'Tipo de Relación' },
+        loadChildren: () => import('./tipo-relacion/tipo-relacion.module').then(m => m.TipoRelacionModule),
+    },
    
    
 

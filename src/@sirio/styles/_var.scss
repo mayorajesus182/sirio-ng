@@ -2,24 +2,6 @@
 @import "@angular/material/core/theming/palette";
 
 /**
-  dialog popup
- */
-
- .dialog-frame {
-  width: 90% !important;
-  max-width: 100% !important;
-}
-
-
-.dialog-frame {
-  top: 8%;
-  position: absolute !important;
-  .mat-dialog-container {
-      padding: 0;
-  }
-}
-
-/**
 Genearal
 */
 
@@ -46,6 +28,9 @@ $elevation: 2;
 $color-success: #7cb342;
 
 $spacing: 24px;
+$spacing-md: 16px;
+$spacing-sm: 10px;
+$spacing-xs: 8px;
 $border-radius: 8px;
 
 $padding-xl: 48px;

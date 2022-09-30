@@ -10,9 +10,10 @@ import { ChangeDetectionStrategy, Component, Directive, ViewEncapsulation } from
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { 'class': 'sirio-dialog-header' },
   template: `
-      <div class="sirio-dialog-header-heading-group">
-        <h1><ng-content select="sirio-dialog-header-heading"></ng-content></h1>
-        <ng-content select="sirio-dialog-header-subheading"></ng-content>
+      <div class="sirio-dialog-header-heading-group" >
+        <ng-content select="sirio-dialog-header-heading"></ng-content>
+        
+        <!-- <ng-content select="sirio-dialog-header-subheading"></ng-content> -->
       </div>  `
 })
 export class SirioDialogHeader {
