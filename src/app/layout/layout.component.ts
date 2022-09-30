@@ -87,7 +87,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     });
 
 
-    this.userIdle.onIdleEnd.subscribe(() => { 
+    this.userIdle.onIdleEnd.subscribe(() => {
       console.log('No longer idle.');
       this.userIdle.watch();
       this.snackIdle.dismiss();
@@ -97,6 +97,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('loading layout');
+
+    const broadcast = new BroadcastChannel('sirio')
+    broadcast.postMessage('I am First');
+    broadcast.onmessage = (event) => {
+      if (event.data === "I am First") {
+        broadcast.postMessage(`Sorry! Already open`);
+        console.log("First Tab");
+      }
+      if (event.data === `Sorry! Already open`) {
+        console.log("Duplicate Tab");
+      }
+    };
 
     let menuItems = [] as SidenavItem[];
 

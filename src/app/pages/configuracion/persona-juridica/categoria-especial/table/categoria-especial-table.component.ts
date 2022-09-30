@@ -31,6 +31,9 @@ export class CategoriaEspecialTableComponent extends TableBaseComponent implemen
   }
 
   ngOnInit() {
+    const agent = navigator.userAgent;
+    console.log(agent);
+    
     this.init(this.categoriaEspecilService, 'catespecial_id');
   }
 
