@@ -24,14 +24,9 @@ export class TipoDireccionService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/tipo-direccion'};
     }
 
-    all(): Observable<TipoDireccion[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-    //
     activesByParroquia(parroquia: string) {
         return this.apiService.config(this.apiConfig).get(`/${parroquia}/byparroquia/actives`);
     }
-    //
 
     actives(): Observable<TipoDireccion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');

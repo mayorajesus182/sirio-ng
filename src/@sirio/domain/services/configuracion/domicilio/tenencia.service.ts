@@ -26,10 +26,6 @@ export class TenenciaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/domicilio/tenencia'};
     }
 
-    all(): Observable<Tenencia[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Tenencia[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

@@ -21,53 +21,46 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-
                     <div class="result" fxLayout="column" *ngIf="d.id">
-
-                        <mat-form-field fxFlex="100">
-                            <mat-label>{{'state.country' | translate: {default: 'global.country'} | translate }}
-                            </mat-label>
-                            <input matInput [value]="d.pais" readonly>
-                        </mat-form-field>
-
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                            <mat-form-field fxFlex="auto">
+                            <mat-form-field fxFlex="10">
                                 <mat-label>{{'state.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
+    
+                            <mat-form-field fxFlex="90">
+                                <mat-label>{{'state.country' | translate: {default: 'global.country'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.pais" readonly>
+                            </mat-form-field>
+                        </div>
 
-                            <mat-form-field fxFlex.gt-xs="70">
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex.gt-xs="90">
                                 <mat-label>{{'state.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="auto">
+                            <mat-form-field fxFlex="10">
                                 <mat-label>{{'state.localCode' | translate: {default: 'global.localCode'} |
                                     translate }}</mat-label>
                                 <input matInput class="text-center" [value]="d.codigoLocal" readonly>
                             </mat-form-field>
-
                         </div>
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
-
                     </div>
-
 
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
                     </div>
-
                 </mat-toolbar>
-
             </sirio-card>
         </div>
     </sirio-page-layout-content>

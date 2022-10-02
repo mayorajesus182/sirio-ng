@@ -37,20 +37,13 @@ export class InstitucionService {
         this.apiConfig = {name: ApiConfConstants.API_ORGANIZACION, prefix: '/institucion'};
     }
 
-
-
     get(): Observable<Institucion> {
         return this.apiService.config(this.apiConfig).get('/get');
     }
 
-    
- 
-   
     update(data: Institucion): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
     
-
-  
 }

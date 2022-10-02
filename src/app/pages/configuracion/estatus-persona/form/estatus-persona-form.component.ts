@@ -46,6 +46,7 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
                 this.buildForm(this.estatusPersona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -66,7 +67,6 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
         this.itemForm = this.fb.group({
             id: new FormControl({value: estatusPersona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(estatusPersona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(estatusPersona.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
 

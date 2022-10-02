@@ -45,6 +45,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.estado);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -87,7 +88,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
         this.estadoService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

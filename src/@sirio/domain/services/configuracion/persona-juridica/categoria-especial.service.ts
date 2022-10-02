@@ -25,10 +25,6 @@ export class CategoriaEspecialService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/categoria-especial'};
     }
 
-    all(): Observable<CategoriaEspecial[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<CategoriaEspecial[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

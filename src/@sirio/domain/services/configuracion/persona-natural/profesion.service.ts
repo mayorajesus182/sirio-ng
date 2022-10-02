@@ -27,10 +27,6 @@ export class ProfesionService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/profesion'};
     }
 
-    all(): Observable<Profesion[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Profesion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
@@ -63,7 +59,6 @@ export class ProfesionService {
     }
 
     changeStatus(id: any): Observable<any> {
-      1
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 

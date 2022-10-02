@@ -40,6 +40,7 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
                 this.idioma = agn;
                 this.buildForm(this.idioma);
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.markForCheck();
             });
         } else {
@@ -80,10 +81,9 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
 
     private codigoExists(id) {
         this.idiomaService.exists(id).subscribe(data => {
-            console.log('lang exists', data.exists)
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

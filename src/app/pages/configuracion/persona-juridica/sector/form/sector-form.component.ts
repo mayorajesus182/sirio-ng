@@ -44,6 +44,7 @@ export class SectorFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.sector);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -68,7 +69,7 @@ export class SectorFormComponent extends FormBaseComponent implements OnInit {
     buildForm(sector: Sector) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: sector.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(sector.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(sector.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             tipoDocumento: new FormControl(sector.tipoDocumento || undefined, [Validators.required]),
             codigoLocal: new FormControl(sector.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
@@ -86,7 +87,7 @@ export class SectorFormComponent extends FormBaseComponent implements OnInit {
         this.sectorService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

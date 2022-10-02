@@ -29,10 +29,6 @@ export class ParroquiaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/parroquia'};
     }
 
-    all(): Observable<Parroquia[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     activesByMunicipio(municipio: string) {
         return this.apiService.config(this.apiConfig).get(`/${municipio}/bymunicipio/actives`);
     }

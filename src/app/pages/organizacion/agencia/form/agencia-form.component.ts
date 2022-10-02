@@ -54,6 +54,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.agencia);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

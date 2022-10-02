@@ -26,10 +26,6 @@ export class PromedioTransaccionService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/producto/promedio-transaccion'};
     }
 
-    all(): Observable<PromedioTransaccion[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<PromedioTransaccion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

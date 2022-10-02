@@ -6,34 +6,29 @@
     <sirio-page-layout-content [@fadeInUp]>
         <sirio-list [name]="'language.table' | translate: {default: 'global.notfound'}" placeholder="language.search"
              (filterChange)="onFilterChange($event)">
-            <!-- <div class="actions">
-                <button class="create" routerLink="registrar" type="button" mat-mini-fab color="primary">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div> -->
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="idioma_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="idioma_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-30'">{{'language.code' |
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'language.code' |
                         translate: {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <p>{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'" mat-sort-header>{{'language.name' |
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'language.name' |
                         translate: {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
-                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
+                        <p class="text-truncate">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'language.status' |
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'language.status' |
                         translate: {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
                         </mat-chip>
@@ -56,8 +51,6 @@
                 </mat-row>
 
             </mat-table>
-
-            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
 
@@ -66,4 +59,3 @@
         <sirio-button-add tooltips="action.add" (eventClicked)="add($event)" ></sirio-button-add>
     </sirio-page-layout-content>
 </sirio-page-layout>
-<!-- <app-button-nav [method]="buttonAPI()"></app-button-nav> -->

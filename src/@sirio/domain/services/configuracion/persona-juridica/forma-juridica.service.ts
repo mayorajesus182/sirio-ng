@@ -25,10 +25,6 @@ export class FormaJuridicaService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/forma-juridica'};
     }
 
-    all(): Observable<FormaJuridica[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<FormaJuridica[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
