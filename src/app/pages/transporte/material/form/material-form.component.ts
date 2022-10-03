@@ -5,20 +5,20 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
+import { Material, MaterialService } from 'src/@sirio/domain/services/transporte/material.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-zona-form',
-    templateUrl: './zona-form.component.html',
-    styleUrls: ['./zona-form.component.scss'],
+    selector: 'app-material-form',
+    templateUrl: './material-form.component.html',
+    styleUrls: ['./material-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ZonaFormComponent extends FormBaseComponent implements OnInit {
+export class MaterialFormComponent extends FormBaseComponent implements OnInit {
 
-    zona: Zona = {} as Zona;
+    material: Material = {} as Material;
 
 
     constructor(
@@ -26,7 +26,7 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private zonaService: ZonaService,
+        private materialService: MaterialService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -38,16 +38,16 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.zonaService.get(id).subscribe((agn: Zona) => {
-                this.zona = agn;
-                this.buildForm(this.zona);
+            this.materialService.get(id).subscribe((agn: Material) => {
+                this.material = agn;
+                this.buildForm(this.material);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.zona);
+            this.buildForm(this.material);
             this.loadingDataForm.next(false);
         }
 
@@ -60,10 +60,10 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    buildForm(zona: Zona) {
+    buildForm(material: Material) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: zona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(zona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            id: new FormControl({value: material.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(material.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
         });
     }
 
@@ -71,12 +71,12 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.zona);
-        this.saveOrUpdate(this.zonaService, this.zona, 'La Zona', this.isNew);
+        this.updateData(this.material);
+        this.saveOrUpdate(this.materialService, this.material, 'El Material', this.isNew);
     }
 
     private codigoExists(id) {
-        this.zonaService.exists(id).subscribe(data => {
+        this.materialService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true
@@ -87,8 +87,8 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     activateOrInactivate() {
-        if (this.zona.id) {
-            this.applyChangeStatus(this.zonaService, this.zona, this.zona.nombre, this.cdr);
+        if (this.material.id) {
+            this.applyChangeStatus(this.materialService, this.material, this.material.nombre, this.cdr);
         }
     }
 

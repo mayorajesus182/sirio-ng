@@ -1,0 +1,82 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.table']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [@fadeInUp]>
+        <sirio-list [name]="'carrierCompany.table' | translate: {default: 'global.notfound'}" placeholder="carrierCompany.search"
+            (filterChange)="onFilterChange($event)">
+
+
+                <div fxLayout="row wrap" fxLayoutAlign="center center">
+
+                    <div fxFlex="100" fxFlex.gt-xs="98" class="pr-4">
+                        <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>{{'language.code' | translate: {default: 'global.code'} | translate }}</mat-label>
+                            <input matInput [value]="datosPersona" readonly>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
+                    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10"
+                    [rows]="empleados | async">
+
+                    <ngx-datatable-column name="#" [flexGrow]="0.25" [sortable]="true">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row?.id }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'personLocation.description' | translate: {default: 'global.description'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces;">{{ row?.cedula }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="4" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'personLocation.city' | translate: {default: 'global.city'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'personLocation.status' | translate: {default: 'global.status'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces;">{{ row?.activo ? 'Activo' : 'Inactivo'}}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="" [flexGrow]="1">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button mat-icon-button mat-sm-button color="primary" [disabled]="!row.activo"
+                                (click)="openPopup(row.id)" matTooltip="Editar">
+                                <mat-icon>edit</mat-icon>
+                            </button> &nbsp;&nbsp;
+                            <button mat-icon-button mat-sm-button [color]="row.activo?'muted':'primary'"
+                                (click)="activateOrInactivate(row)" matTooltip="Activar/Inactivar">
+                                <mat-icon>check_circle</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+                
+
+        </sirio-list>
+        <sirio-button-add tooltips="action.add" (eventClicked)="openPopup($event)"></sirio-button-add>
+    </sirio-page-layout-content>
+</sirio-page-layout>
+
+
+

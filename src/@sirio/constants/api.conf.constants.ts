@@ -11,6 +11,7 @@ export class ApiConfConstants {
   public static API_CONFIGURACION = 'configuracion';
   public static API_CALENDAR = 'calendar';
   public static API_ORGANIZACION = 'organizacion';
+  public static API_TRANSPORTE = 'transporte';
   public static API_PREFERENCIA = 'preferencia';
   public static API_DEFAULT = 'default';
 
