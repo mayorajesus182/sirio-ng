@@ -5,20 +5,20 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
+import { Avaluo, AvaluoService } from 'src/@sirio/domain/services/transporte/avaluo.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-zona-form',
-    templateUrl: './zona-form.component.html',
-    styleUrls: ['./zona-form.component.scss'],
+    selector: 'app-avaluo-form',
+    templateUrl: './avaluo-form.component.html',
+    styleUrls: ['./avaluo-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ZonaFormComponent extends FormBaseComponent implements OnInit {
+export class AvaluoFormComponent extends FormBaseComponent implements OnInit {
 
-    zona: Zona = {} as Zona;
+    avaluo: Avaluo = {} as Avaluo;
 
 
     constructor(
@@ -26,7 +26,7 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private zonaService: ZonaService,
+        private avaluoService: AvaluoService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -38,16 +38,16 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.zonaService.get(id).subscribe((agn: Zona) => {
-                this.zona = agn;
-                this.buildForm(this.zona);
+            this.avaluoService.get(id).subscribe((agn: Avaluo) => {
+                this.avaluo = agn;
+                this.buildForm(this.avaluo);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.zona);
+            this.buildForm(this.avaluo);
             this.loadingDataForm.next(false);
         }
 
@@ -60,10 +60,10 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    buildForm(zona: Zona) {
+    buildForm(avaluo: Avaluo) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: zona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(zona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            id: new FormControl({value: avaluo.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(avaluo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
         });
     }
 
@@ -71,12 +71,12 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.zona);
-        this.saveOrUpdate(this.zonaService, this.zona, 'La Zona', this.isNew);
+        this.updateData(this.avaluo);
+        this.saveOrUpdate(this.avaluoService, this.avaluo, 'El Avaluo', this.isNew);
     }
 
     private codigoExists(id) {
-        this.zonaService.exists(id).subscribe(data => {
+        this.avaluoService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true
@@ -87,8 +87,8 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     activateOrInactivate() {
-        if (this.zona.id) {
-            this.applyChangeStatus(this.zonaService, this.zona, this.zona.nombre, this.cdr);
+        if (this.avaluo.id) {
+            this.applyChangeStatus(this.avaluoService, this.avaluo, this.avaluo.nombre, this.cdr);
         }
     }
 

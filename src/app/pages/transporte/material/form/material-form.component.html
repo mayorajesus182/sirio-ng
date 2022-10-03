@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['zone.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['material.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -39,19 +39,19 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'zone.code' | translate: {default: 'global.code'} | translate }}
+                                    <mat-label>{{'material.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id" uppercase required
+                                    <input matInput autocomplete="off" maxlength="2" name="id" formControlName="id" uppercase required
                                         class="text-center">
-                                    <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="70">
-                                    <mat-label>{{'zone.name' | translate: {default: 'global.name'} | translate }}
+                                <mat-form-field fxFlex.gt-xs="80">
+                                    <mat-label>{{'material.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="60" name="nombre" formControlName="nombre" uppercase
+                                    <input matInput autocomplete="off" maxlength="100" name="nombre" formControlName="nombre" uppercase
                                         required>
                                         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>

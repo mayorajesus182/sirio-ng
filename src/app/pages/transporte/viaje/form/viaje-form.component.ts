@@ -5,20 +5,20 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
+import { Viaje, ViajeService } from 'src/@sirio/domain/services/transporte/viaje.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-zona-form',
-    templateUrl: './zona-form.component.html',
-    styleUrls: ['./zona-form.component.scss'],
+    selector: 'app-viaje-form',
+    templateUrl: './viaje-form.component.html',
+    styleUrls: ['./viaje-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ZonaFormComponent extends FormBaseComponent implements OnInit {
+export class ViajeFormComponent extends FormBaseComponent implements OnInit {
 
-    zona: Zona = {} as Zona;
+    viaje: Viaje = {} as Viaje;
 
 
     constructor(
@@ -26,7 +26,7 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private zonaService: ZonaService,
+        private viajeService: ViajeService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -38,16 +38,16 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.zonaService.get(id).subscribe((agn: Zona) => {
-                this.zona = agn;
-                this.buildForm(this.zona);
+            this.viajeService.get(id).subscribe((agn: Viaje) => {
+                this.viaje = agn;
+                this.buildForm(this.viaje);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.zona);
+            this.buildForm(this.viaje);
             this.loadingDataForm.next(false);
         }
 
@@ -60,10 +60,10 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    buildForm(zona: Zona) {
+    buildForm(viaje: Viaje) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: zona.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(zona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            id: new FormControl({value: viaje.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(viaje.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
         });
     }
 
@@ -71,12 +71,12 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.zona);
-        this.saveOrUpdate(this.zonaService, this.zona, 'La Zona', this.isNew);
+        this.updateData(this.viaje);
+        this.saveOrUpdate(this.viajeService, this.viaje, 'El Viaje', this.isNew);
     }
 
     private codigoExists(id) {
-        this.zonaService.exists(id).subscribe(data => {
+        this.viajeService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true
@@ -87,8 +87,8 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     activateOrInactivate() {
-        if (this.zona.id) {
-            this.applyChangeStatus(this.zonaService, this.zona, this.zona.nombre, this.cdr);
+        if (this.viaje.id) {
+            this.applyChangeStatus(this.viajeService, this.viaje, this.viaje.nombre, this.cdr);
         }
     }
 

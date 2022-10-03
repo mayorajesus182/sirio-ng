@@ -1,12 +1,12 @@
 <div class="title">{{ current  | translate: {default: 'global.notfound'} }}</div>
 <div class="crumbs" fxLayout="row" fxLayoutAlign="start center">
-  <a [routerLink]="['/sirio/welcome']" class="crumb home">{{'globar.welcome'| translate: {default: 'Bienvenida'} }}</a>
+  <a [routerLink]="['/sirio/welcome']" class="crumb home">{{'global.welcome'| translate: {default: 'global.notfound'} | translate}}</a>
   <div *ngFor="let crumb of crumbs" class="crumb" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="chevron">chevron_right</mat-icon>
-    <div class="link">{{ crumb | translate: {default: 'global.notfound'} }}</div>
+    <div class="link">{{ crumb | translate: {default: 'global.notfound'} | translate}}</div>
   </div>
   <div class="crumb current" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="chevron">chevron_right</mat-icon>
-    <div class="link">{{ current  | translate: {default: 'global.notfound'} }}</div>
+    <div class="link">{{ current  | translate: {default: 'global.notfound'} | translate}}</div>
   </div>
 </div>
