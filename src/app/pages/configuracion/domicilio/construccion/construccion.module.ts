@@ -14,9 +14,6 @@ import { ConstruccionRoutingModule } from './construccion-routing.module';
 import { ConstruccionFormComponent } from './form/construccion-form.component';
 import { ConstruccionTableComponent } from './table/construccion-table.component';
 
-
-
-
 @NgModule({
     imports: [
         CommonModule,

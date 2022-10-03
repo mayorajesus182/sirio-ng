@@ -1,44 +1,42 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { Subject } from 'rxjs';
 
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { DireccionService } from 'src/@sirio/domain/services/persona/direccion-natural.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 
 @Component({
-  selector: 'app-pais-table',
-  templateUrl: './pais-table.component.html',
-  styleUrls: ['./pais-table.component.scss'],
+  selector: 'app-direccion-table',
+  templateUrl: './direccion-table.component.html',
+  styleUrls: ['./direccion-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInUpAnimation, fadeInRightAnimation]
+  animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
-export class PaisTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
+export class DireccionTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['pais_id', 'nombre','gentilicio','activo', 'actions'];
-  
+  displayedColumns = ['id','persona','tipoDireccion','parroquia', 'zonaPostal','via','nombreVia','nucleo','nombreNucleo', 'construccion','estadonombreCostruccion', 'referencia',];
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
+    protected direccionService: DireccionService,
     private cdr: ChangeDetectorRef,
-    private paisService: PaisService,
   ) {
     super(undefined,  injector);
   }
 
   ngOnInit() {
-    this.init(this.paisService, 'pais_id');
+    this.init(this.direccionService, 'id');
   }
 
   ngAfterViewInit() {
     this.afterInit();
   }
-
 
   add(path:string) {
     console.log(' apply add action '+path);
@@ -56,9 +54,8 @@ export class PaisTableComponent extends TableBaseComponent implements OnInit, Af
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data: any) {
-    this.applyChangeStatus(this.paisService,  data.element, data.element.nombre, this.cdr);
+  activateOrInactivate(data:any) {
+    this.applyChangeStatus(this.direccionService, data.element, data.element.nombre, this.cdr);
   }
 
 }
-

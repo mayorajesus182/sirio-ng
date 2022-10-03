@@ -1,36 +1,77 @@
 import { Injectable } from '@angular/core';
+
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
-export interface Pais {
-    id: string;
-    nombre: string;
-    codigoLocal: string;
-    gentilicio: string;
-    fechaCreacion?: any;
-    activo?: number;
+export interface Persona {
+    tipoDocumento: String;
+    
+    identificacion: String;
+   
+    primerNombre: String;
 
+    segundoNombre: String;
+    
+    primerApellido: String;
+
+    segundoApellido: String;
+
+    fechaNacimiento: Date;
+ 
+    pais: String;
+
+    nacionalidad: String;
+
+    otraNacionalidad: String;
+
+    telefono: String;
+
+    genero: String;
+
+    profesion: String;
+
+    tenencia: String;
+
+    cargaFamiliar: Integer;
+
+    estadoCivil: String;
+
+     conyuge: String;
+
+    tipoDocumentoConyuge: String;
+
+    identificacionConyuge: String;
+
+    nombreConyuge: String;
+
+    fuenteIngreso: String;
+
+    email: String;
+
+    estatusPersona: String;
+
+    actividadEspecifica: String;
 }
 
 @Injectable({
     providedIn:'root'
 })
-export class PaisService {
+export class PersonaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/pais'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona/persona-natural'};
     }
 
-    all(): Observable<Pais[]> {
+    all(): Observable<Persona[]> {
         return this.apiService.config(this.apiConfig).get('/all');
     }
 
-    actives(): Observable<Pais[]> {
+    actives(): Observable<Persona[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
@@ -38,21 +79,24 @@ export class PaisService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<Pais> {
+    get(id: string): Observable<Persona> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Pais[]> {
+    detail(id: string): Observable<Persona> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    }
+
+    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Persona[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
-    save(data: Pais): Observable<any> {
-        
+    save(data: Persona): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: Pais): Observable<any> {
+    update(data: Persona): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
