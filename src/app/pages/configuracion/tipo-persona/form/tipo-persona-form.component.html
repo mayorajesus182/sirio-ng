@@ -42,7 +42,7 @@
                                             <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="auto">
+                                    <mat-form-field fxFlex="80">
                                         <mat-label>{{'personType.name' | translate: {default: 'global.name'} | translate }}
                                         </mat-label>
                                         <input matInput minlength="1" maxlength="20" autocomplete="off" name="nombre" formControlName="nombre" uppercase
@@ -54,9 +54,7 @@
                                     <mat-form-field fxFlex="auto">
                                         <mat-label>{{'personType.localCode' | translate: {default: 'global.localCode'} | translate }}
                                         </mat-label>
-                                        <input matInput minlength="1" maxlength="2" autocomplete="off" name="codigoLocal" formControlName="codigoLocal" uppercase
-                                            required>
-                                            <mat-error *ngIf="f.codigoLocal.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <input matInput minlength="1" maxlength="2" autocomplete="off" name="codigoLocal" formControlName="codigoLocal" uppercase>
                                             <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
                             </div>

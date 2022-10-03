@@ -10,26 +10,26 @@
                 matSortActive="moneda_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="moneda_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'coin.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'coin.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                        <p>{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'coin.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'coin.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
-                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                        <p class="text-truncate">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
              
                 <ng-container matColumnDef="esVirtual">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'coin.isVirtual' | translate: {default: 'global.isVirtual'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
-                        <p class="text-truncate font-weight-600">{{element.esVirtual ? 'SI' : 'NO'}}</p>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'coin.isVirtual' | translate: {default: 'global.isVirtual'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                        <p class="text-truncate">{{element.esVirtual ? 'SI' : 'NO'}}</p>
                     </mat-cell>
                 </ng-container>
 

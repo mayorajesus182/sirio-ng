@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['language.table']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['language.table']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -11,7 +11,7 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'language.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
@@ -43,11 +43,9 @@
                                         </mat-label>
                                         <input matInput maxlength="5" name="id" formControlName="id" uppercase required
                                             class="text-center" autocomplete="off">
-                                        <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.exists">
-                                            {{f.id.errors?.exists}}
-                                        </mat-error>
+                                            <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                            <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists'}}</mat-error>
                                     </mat-form-field>
                                 
                                     <mat-form-field appearance="outline" fxFlex="auto">
@@ -56,8 +54,8 @@
                                         </mat-label>
                                         <input matInput maxlength="20"  autocomplete="off" name="nombre" formControlName="nombre" uppercase
                                             required>
-                                        <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                                            <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                            <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
                             
 
@@ -67,8 +65,8 @@
                                         </mat-label>
                                         <input matInput maxlength="20"  autocomplete="off" name="icono" formControlName="icono" uppercase
                                             class="text-center">
-                                        <mat-error *ngIf="f.icono.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.icono.errors?.pattern">Caracter Inválido</mat-error>
+                                            <mat-error *ngIf="f.icono.errors?.required">{{'error.required' | translate}}</mat-error>
+                                            <mat-error *ngIf="f.icono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
                             </div>
                         </form>
@@ -84,6 +82,7 @@
                             <mat-icon class="margin-bottom-xxs" >save</mat-icon> {{'button.save' | translate: {default: 'global.notfound'} | translate }}</button>
                     </div>
                 </mat-toolbar>
+
             </sirio-card>
         </div>
     </sirio-page-layout-content>

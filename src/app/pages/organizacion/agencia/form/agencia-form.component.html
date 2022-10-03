@@ -1,20 +1,20 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="{{isNew?'action.add':'action.edit'}}">
+        </sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'agency.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}
+                    </sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
-                            (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -31,131 +31,132 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="20">
-                                    <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
-                                    </mat-label>
-                                    <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase
-                                        required  >
-                                    <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.codigo.errors?.exists">{{f.codigo.errors?.exists}}</mat-error>
-                                    <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
-                                </mat-form-field>
+                    <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase required>
+                                <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
+                            </mat-form-field>
 
-                                <mat-form-field fxFlex="80">
-                                    <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
-                                    </mat-label>
-                                    <input matInput maxlength="200" minlength="1" autocomplete="off" name="nombre" formControlName="nombre" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                </mat-form-field>   
-                            </div>
+                            <mat-form-field fxFlex="70">
+                                <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }} </mat-label>
+                                <input matInput maxlength="200" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
+                                <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                </mat-error>
+                            </mat-form-field>
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" > 
-                                <mat-form-field fxFlex="40">
-                                    <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
-                                    </mat-label>
-                                    <input type="email" matInput minlength="1" maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.email.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                </mat-form-field>
 
-                                <mat-form-field fxFlex="40">
-                                    <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
-                                    </mat-label>
-                                    <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefono" formControlName="telefono" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                </mat-form-field>
+                            <mat-slide-toggle [color]="'primary'" class="margin-top-md" formControlName="horarioExt" name="horarioExt">
+                                {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} |
+                                translate }}
+                            </mat-slide-toggle>
+                        </div>
 
-                                <mat-form-field fxFlex="40">
-                                    <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
-                                    </mat-label>
-                                    <input  matInput minlength="1" maxlength="60" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase
-                                    >
-                                <mat-error *ngIf="f.telefonoAlt.errors?.required">{{'error.required' | translate}}</mat-error>
-                                </mat-form-field>
-                            </div>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <sirio-select-search fxFlex="40" [label]="'agency.state' | translate: {default: 'global.state'} | translate"
+                                formControlName="estado" [required]="true" [elements]="estados.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.estado?.errors">
+                            </sirio-select-search>
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search 
-                                fxFlex="40"
-                                [label]="'agency.state' | translate: {default: 'global.state'} | translate"
-                                formControlName="estado" [required]="true" [elements]="estados.asObservable()"
-                                [attributeName]="'nombre'" [errors]="f.estado?.errors">
-                                </sirio-select-search>
+                            <sirio-select-search fxFlex="30" [label]="'agency.municipality' | translate: {default: 'global.municipality'} | translate"
+                                formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.municipio?.errors">
+                            </sirio-select-search>
 
-                                <sirio-select-search 
-                                fxFlex="30"
-                                [label]="'agency.municipality' | translate: {default: 'global.municipality'} | translate"
-                                formControlName="municipio" [required]="true" [elements]="municipios.asObservable()"
-                                [attributeName]="'nombre'" [errors]="f.municipio?.errors">
-                                </sirio-select-search>
+                            <mat-form-field fxFlex.gt-xs="80">
+                                <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="ciudad" readonly>
+                            </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="80">
-                                    <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="ciudad" readonly>
-                                </mat-form-field>
+                        </div>
 
-                            </div>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <sirio-select-search fxFlex="30" [label]="'agency.parish' | translate: {default: 'global.parish'} | translate"
+                                formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.parroquia?.errors">
+                            </sirio-select-search>
 
-                                <sirio-select-search 
-                                fxFlex="30"
-                                [label]="'agency.parish' | translate: {default: 'global.parish'} | translate"
-                                formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()"
-                                [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
-                                </sirio-select-search>
+                            <sirio-select-search fxFlex="30" [label]="'agency.postalZone' | translate: {default: 'global.postalZone'} | translate"
+                                formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.zonaPostal?.errors">
+                            </sirio-select-search>
 
-                                <sirio-select-search 
-                                fxFlex="30"
-                                [label]="'agency.postalZone' | translate: {default: 'global.postalZone'} | translate"
-                                formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()"
-                                [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
-                                </sirio-select-search>
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate
+                                    }}
+                                </mat-label>
+                                <input matInput maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase required>
+                                <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
 
-                                <mat-form-field fxFlex="40">
-                                    <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
-                                    </mat-label>
-                                    <input  matInput minlength="1" maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                </mat-form-field>                              
-                            </div>
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="60">
+                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
+                                </mat-label>
+                                <input type="text" matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase
+                                    required email-validate>
+                                <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
+                            </mat-form-field>
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="35">
-                                    <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
-                                    </mat-label>
-                                    <input  matInput minlength="1" maxlength="13" autocomplete="off" name="latitud" formControlName="latitud" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.latitud.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.latitud.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                </mat-form-field>  
+                            <mat-form-field fxFlex="20">
+                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
+                                </mat-label>
+                                <input matInput maxlength="15" autocomplete="off" name="telefono" formControlName="telefono" uppercase required>
+                                <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                </mat-error>
+                            </mat-form-field>
 
-                                <mat-form-field fxFlex="35">
-                                    <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
-                                    </mat-label>
-                                    <input  matInput minlength="1" maxlength="13" autocomplete="off" name="longitud" formControlName="longitud" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.longitud.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
-                                </mat-form-field>    
+                            <mat-form-field fxFlex="20">
+                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'}
+                                    | translate }}
+                                </mat-label>
+                                <input matInput maxlength="15" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase>
+                                <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
 
-                                <mat-slide-toggle [color]="'primary'" formControlName="horarioExt" name="horarioExt">
-                                    {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
-                                </mat-slide-toggle>
-                            </div>
-                        </form>
-    
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
+                                </mat-label>
+                                <input matInput autocomplete="off" name="latitud" formControlName="latitud" uppercase currencyMask [options]="{precision:8}"
+                                    max="999.99999999" required>
+                                <mat-error *ngIf="f.latitud.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.latitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
+                                </mat-label>
+                                <input matInput autocomplete="off" name="longitud" formControlName="longitud" uppercase currencyMask [options]="{precision:8}"
+                                    max="999.99999999" required>
+                                <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.longitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
+                            </mat-form-field>
+
+                        </div>
+                    </form>
+
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

@@ -82,7 +82,6 @@
                                     <mat-label>{{'carrierCompany.email' | translate: {default: 'global.email'} | translate }}</mat-label>
                                     <input matInput type="text" maxlength="60" autocomplete="off" email-validate name="email" formControlName="email" required>
                                     <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.email.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
                                 </mat-form-field>
 

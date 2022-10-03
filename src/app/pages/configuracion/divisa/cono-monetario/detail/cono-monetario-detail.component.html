@@ -26,12 +26,6 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="10">
-                                <mat-label>{{'monetaryCone.code' | translate: {default: 'global.code'} | translate }}
-                                </mat-label>
-                                <input matInput class="text-center" [value]="d.id" readonly>
-                            </mat-form-field>
-
                             <mat-form-field fxFlex.gt-xs="50">
                                 <mat-label>{{'monetaryCone.coin' | translate: {default: 'global.coin'} | translate }}
                                 </mat-label>
@@ -39,7 +33,7 @@
                             </mat-form-field>
 
 
-                            <mat-form-field fxFlex.gt-xs="30">
+                            <mat-form-field fxFlex.gt-xs="40">
                                 <mat-label>{{'monetaryCone.denomination' | translate: {default: 'global.denomination'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.denominacion" readonly>

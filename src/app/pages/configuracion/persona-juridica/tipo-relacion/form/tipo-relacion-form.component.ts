@@ -1,30 +1,30 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
-import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
+import { RegularExpConstants } from 'src/@sirio/constants';
+import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-motivo-solicitud-form',
-    templateUrl: './motivo-solicitud-form.component.html',
-    styleUrls: ['./motivo-solicitud-form.component.scss'],
+    selector: 'app-tipo-relacion-form',
+    templateUrl: './tipo-relacion-form.component.html',
+    styleUrls: ['./tipo-relacion-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class MotivoSolicitudFormComponent extends FormBaseComponent implements OnInit {
+export class TipoRelacionFormComponent extends FormBaseComponent implements OnInit {
 
-    motivoSolicitud: MotivoSolicitud = {} as MotivoSolicitud;
-
+    tipoRelacion: TipoRelacion = {} as TipoRelacion;
 
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private motivoSolicitudService: MotivoSolicitudService,
+        private tipoRelacionService: TipoRelacionService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -36,16 +36,16 @@ export class MotivoSolicitudFormComponent extends FormBaseComponent implements O
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.motivoSolicitudService.get(id).subscribe((agn: MotivoSolicitud) => {
-                this.motivoSolicitud = agn;
-                this.buildForm(this.motivoSolicitud);
+            this.tipoRelacionService.get(id).subscribe((agn: TipoRelacion) => {
+                this.tipoRelacion = agn;
+                this.buildForm(this.tipoRelacion);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.motivoSolicitud);
+            this.buildForm(this.tipoRelacion);
             this.loadingDataForm.next(false);
         }
 
@@ -58,11 +58,11 @@ export class MotivoSolicitudFormComponent extends FormBaseComponent implements O
         }
     }
 
-    buildForm(motivoSolicitud: MotivoSolicitud) {
+    buildForm(tipoRelacion: TipoRelacion) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: motivoSolicitud.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(motivoSolicitud.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
-            codigoLocal: new FormControl(motivoSolicitud.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
+            id: new FormControl({value: tipoRelacion.id || '',  disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(tipoRelacion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            codigoLocal: new FormControl(tipoRelacion.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
 
@@ -70,12 +70,12 @@ export class MotivoSolicitudFormComponent extends FormBaseComponent implements O
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.motivoSolicitud);
-        this.saveOrUpdate(this.motivoSolicitudService, this.motivoSolicitud, 'El Motivo de Solicitud', this.isNew);
+        this.updateData(this.tipoRelacion);
+        this.saveOrUpdate(this.tipoRelacionService, this.tipoRelacion, 'El Tipo de Relación', this.isNew);
     }
 
     private codigoExists(id) {
-        this.motivoSolicitudService.exists(id).subscribe(data => {
+        this.tipoRelacionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true
@@ -86,8 +86,8 @@ export class MotivoSolicitudFormComponent extends FormBaseComponent implements O
     }
 
     activateOrInactivate() {
-        if (this.motivoSolicitud.id) {
-            this.applyChangeStatus(this.motivoSolicitudService, this.motivoSolicitud, this.motivoSolicitud.nombre, this.cdr);
+        if (this.tipoRelacion.id) {
+            this.applyChangeStatus(this.tipoRelacionService, this.tipoRelacion, this.tipoRelacion.nombre, this.cdr);
         }
     }
 

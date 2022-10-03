@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['monetaryCone.form']" current="action.add"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['monetaryCone.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -11,7 +11,7 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'monetaryCone.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
@@ -37,29 +37,14 @@
                         <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="10">
-                                    <mat-label>{{'monetaryCone.code' | translate: {default: 'global.code'} | translate
-                                        }}
-                                    </mat-label>
-                                    <input matInput autocomplete="off" maxlength="6" name="id" formControlName="id"
-                                        required class="text-center">
-                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.exists">
-                                        {{f.id.errors?.exists}}
-                                    </mat-error>
-                                </mat-form-field>
-
-                              
                                     <sirio-select-search
-                                    fxFlex="40"
+                                    fxFlex="50"
                                         [label]="'monetaryCone.coin' | translate: {default: 'global.coin'} | translate"
                                         formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
                                         [attributeName]="'nombre'" [errors]="f.moneda?.errors">
                                     </sirio-select-search>
                                
-
-                                <mat-form-field fxFlex.gt-xs="30">
+                                <mat-form-field fxFlex.gt-xs="40">
                                     <mat-label>{{'monetaryCone.denomination' | translate: {default:
                                         'global.denomination'} | translate }}
                                     </mat-label>
@@ -73,26 +58,18 @@
                                     <mat-error *ngIf="f.denominacion.errors?.min">No debe ser menor que 0,05</mat-error>
                                 </mat-form-field>
 
-
-
                                 <div fxFlex="auto" >
                                     <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esMoneda" name="esMoneda">
                                       {{'monetaryCone.isCoin' | translate: {default: 'global.isCoin'} | translate }}
                                     </mat-slide-toggle>
-                  
                                   </div>
-
-
-
                             </div>
-
                         </form>
                     </div>
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>

@@ -47,6 +47,7 @@ export class ConoMonetarioFormComponent extends FormBaseComponent implements OnI
                 this.buildForm(this.conomonetario);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -65,7 +66,6 @@ export class ConoMonetarioFormComponent extends FormBaseComponent implements OnI
         this.monedaService.fisicaActives().subscribe(data => {
             this.monedas.next(data);
         });
-
     }
 
     buildForm(conomonetario: ConoMonetario) {
@@ -92,7 +92,7 @@ export class ConoMonetarioFormComponent extends FormBaseComponent implements OnI
         this.conomonetarioService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

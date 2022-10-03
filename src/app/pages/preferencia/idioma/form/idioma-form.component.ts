@@ -65,7 +65,7 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: [{value: idioma.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
             nombre: [idioma.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
-            icono: [idioma.icono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA)]],
+            icono: [idioma.icono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
         });
 
         this.printErrors()
