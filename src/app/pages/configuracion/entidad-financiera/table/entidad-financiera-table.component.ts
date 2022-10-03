@@ -1,13 +1,12 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
-import { Subject } from 'rxjs';
-
 import { Router } from '@angular/router';
-import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
+
+
 
 @Component({
   selector: 'app-entidad-financiera-table',
@@ -40,15 +39,11 @@ export class EntidadFinancieraTableComponent extends TableBaseComponent implemen
   }
 
 
-  add(path:string) {
-    console.log(' apply add action '+path);
-    
+  add(path:string) {    
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(data:any) {
-    console.log('data event click ', data);
-    
+  edit(data:any) {    
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 

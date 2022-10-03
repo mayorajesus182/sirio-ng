@@ -24,11 +24,7 @@ export class EntidadFinancieraService {
     ) {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/entidad-financiera'};
     }
-
-    all(): Observable<EntidadFinanciera[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
+    
     actives(): Observable<EntidadFinanciera[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

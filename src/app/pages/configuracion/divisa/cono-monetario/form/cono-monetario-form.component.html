@@ -1,0 +1,87 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['monetaryCone.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'monetaryCone.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
+                            (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>clear_all</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <sirio-select-search
+                                    fxFlex="50"
+                                        [label]="'monetaryCone.coin' | translate: {default: 'global.coin'} | translate"
+                                        formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
+                                        [attributeName]="'nombre'" [errors]="f.moneda?.errors">
+                                    </sirio-select-search>
+                               
+                                <mat-form-field fxFlex.gt-xs="40">
+                                    <mat-label>{{'monetaryCone.denomination' | translate: {default:
+                                        'global.denomination'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" max="99999999.99" min="0.05" name="denominacion"
+                                        formControlName="denominacion" uppercase required currencyMask
+                                        [options]="{precision:2}">
+                                    <mat-error *ngIf="f.denominacion.errors?.required && !f.denominacion.errors?.min">Es
+                                        requerido</mat-error>
+                                    <mat-error *ngIf="f.denominacion.errors?.max">Debe ser menor que 99.999.999,99
+                                    </mat-error>
+                                    <mat-error *ngIf="f.denominacion.errors?.min">No debe ser menor que 0,05</mat-error>
+                                </mat-form-field>
+
+                                <div fxFlex="auto" >
+                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esMoneda" name="esMoneda">
+                                      {{'monetaryCone.isCoin' | translate: {default: 'global.isCoin'} | translate }}
+                                    </mat-slide-toggle>
+                                  </div>
+                            </div>
+                        </form>
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

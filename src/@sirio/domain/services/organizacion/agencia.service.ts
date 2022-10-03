@@ -3,10 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
-
-
 export interface Agencia {
     id: string;
+    codigo: string;
     nombre: string;
     estado: string;
     municipio: string;
@@ -15,13 +14,13 @@ export interface Agencia {
     direccion: string;
     email: string;
     telefono: number;
-    telefono_alt: number;
+    telefonoAlt: number;
     latitud: number;
     longitud: number;
     fechaCreacion?: any;
     activo?: number;
     institucion: String;
-    codigo: string;
+    horarioExt: number;
 }
 
 @Injectable({
@@ -36,16 +35,12 @@ export class AgenciaService {
         this.apiConfig = {name: ApiConfConstants.API_ORGANIZACION, prefix: '/agencia'};
     }
 
-    all(): Observable<Agencia[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Agencia[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    exists(id: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
+    exists(codigo: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${codigo}/exists`);
     }
 
     get(id: string): Observable<Agencia> {
@@ -74,5 +69,6 @@ export class AgenciaService {
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
+
 
 }

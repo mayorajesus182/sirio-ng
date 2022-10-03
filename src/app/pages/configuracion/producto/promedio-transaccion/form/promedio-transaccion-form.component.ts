@@ -41,6 +41,7 @@ export class PromedioTransaccionFormComponent extends FormBaseComponent implemen
                 this.buildForm(this.promedioTransaccion);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -60,7 +61,7 @@ export class PromedioTransaccionFormComponent extends FormBaseComponent implemen
     buildForm(promedioTransaccion: PromedioTransaccion) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: promedioTransaccion.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(promedioTransaccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(promedioTransaccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             codigoLocal: new FormControl(promedioTransaccion.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }
@@ -77,7 +78,7 @@ export class PromedioTransaccionFormComponent extends FormBaseComponent implemen
         this.promedioTransaccionService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

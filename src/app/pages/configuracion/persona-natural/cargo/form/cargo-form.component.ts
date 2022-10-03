@@ -42,6 +42,7 @@ export class CargoFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.cargo);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -79,7 +80,7 @@ export class CargoFormComponent extends FormBaseComponent implements OnInit {
         this.cargoService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

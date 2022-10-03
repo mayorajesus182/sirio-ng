@@ -25,10 +25,6 @@ export class GeneroService {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/genero'};
     }
 
-    all(): Observable<Genero[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
     actives(): Observable<Genero[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

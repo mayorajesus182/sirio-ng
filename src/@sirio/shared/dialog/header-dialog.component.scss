@@ -1,0 +1,47 @@
+@use 'sass:math';
+@import "var";
+
+
+.sirio-dialog-header {
+  margin: 0px;
+  padding-left: 12px;
+  padding-right: 12px;
+  // padding: $spacing-sm;
+  // display: flex;
+  // justify-content: flex-start;
+  // align-items: flex-start;
+  // align-content: flex-start;
+  // white-space: nowrap;
+  // overflow: hidden;
+
+  .sirio-dialog-header-heading-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+    .sirio-dialog-header-heading {
+      white-space: nowrap;
+      font: var(--font-subheading-2);
+
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      align-content: center;
+      
+      span {
+        color: rgb(201, 201, 201);
+        font-size: 14px;
+        margin-left: 5px;
+        margin-top: auto;
+      }
+    }
+
+    .sirio-dialog-header-subheading {
+      white-space: nowrap;
+      font-size: 12px;
+      font: var(--font-body-1);
+    }
+  }
+
+}

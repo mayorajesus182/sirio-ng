@@ -40,6 +40,7 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
                 this.buildForm(this.actividadEconomica);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -60,15 +61,14 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
     buildForm(actividadEconomica: ActividadEconomica) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: actividadEconomica.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(actividadEconomica.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(actividadEconomica.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(actividadEconomica.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+            codigoLocal: new FormControl(actividadEconomica.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
-
         this.updateData(this.actividadEconomica);
         this.saveOrUpdate(this.actividadEconomicaService, this.actividadEconomica, 'La Actividad Economica', this.isNew);
     }
@@ -77,7 +77,7 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
         this.actividadEconomicaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

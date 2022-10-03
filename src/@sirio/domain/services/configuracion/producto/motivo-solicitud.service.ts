@@ -25,11 +25,7 @@ export class MotivoSolicitudService {
     ) {
         this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/producto/motivo-solicitud'};
     }
-
-    all(): Observable<MotivoSolicitud[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
+    
     actives(): Observable<MotivoSolicitud[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }

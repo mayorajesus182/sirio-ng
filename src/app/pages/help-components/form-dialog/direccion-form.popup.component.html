@@ -1,0 +1,67 @@
+<!-- <div mat-dialog-title>
+  <h1>{{isNew?'Crear': 'Editar'}}</h1>
+</div> -->
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{'road.form'|translate}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+      <!-- <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+          <mat-icon>close</mat-icon>
+      </button> -->
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+    <!-- <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+      <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div> -->
+  </sirio-dialog-header-heading>
+  <!-- <sirio-dialog-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-dialog-header-subheading> -->
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" (ngSubmit)="save()" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div class="person">
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+        <mat-form-field fxFlex>
+          <mat-label>First Name</mat-label>
+          <input type="text" formControlName="firstName" matInput required>
+          <mat-error *ngIf="f.firstName.errors?.required">Requerido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex>
+          <mat-label>Last Name</mat-label>
+          <input type="text" formControlName="lastName" matInput>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row">
+      <mat-form-field fxFlex>
+        <mat-label>Street</mat-label>
+        <input type="text" formControlName="street" matInput>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="24px">
+      <mat-form-field fxFlex>
+        <mat-label>Zipcode</mat-label>
+        <input type="text" formControlName="zipcode" matInput>
+      </mat-form-field>
+      <mat-form-field fxFlex>
+        <mat-label>City</mat-label>
+        <input type="text" formControlName="city" matInput>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

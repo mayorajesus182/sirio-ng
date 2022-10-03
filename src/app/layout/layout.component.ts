@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -12,7 +12,6 @@ import { SnackbarService } from 'src/@sirio/services/snackbar.service';
 import { IdleWarningComponent } from 'src/@sirio/shared/idle-snack/idle-warning.component';
 import { NavigationService } from '../../@sirio/services/navigation.service';
 import { ThemeService } from '../../@sirio/services/theme.service';
-import { SidebarDirective } from '../../@sirio/shared/sidebar/sidebar.directive';
 import { checkRouterChildsData } from '../../@sirio/utils/check-router-childs-data';
 import { SidenavItem } from './sidenav/sidenav-item/sidenav-item.interface';
 import { SidenavService } from './sidenav/sidenav.service';
@@ -48,7 +47,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private navService: NavigationService,
     private sidenavService: SidenavService,
     private themeService: ThemeService,
-    translate: TranslateService,
     private snack: SnackbarService,
     private sessionService: SessionService,
     private matDialogRef: MatDialog,
@@ -89,7 +87,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     });
 
 
-    this.userIdle.onIdleEnd.subscribe(() => { 
+    this.userIdle.onIdleEnd.subscribe(() => {
       console.log('No longer idle.');
       this.userIdle.watch();
       this.snackIdle.dismiss();
@@ -99,6 +97,18 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     console.log('loading layout');
+
+    const broadcast = new BroadcastChannel('sirio')
+    broadcast.postMessage('I am First');
+    broadcast.onmessage = (event) => {
+      if (event.data === "I am First") {
+        broadcast.postMessage(`Sorry! Already open`);
+        console.log("First Tab");
+      }
+      if (event.data === `Sorry! Already open`) {
+        console.log("Duplicate Tab");
+      }
+    };
 
     let menuItems = [] as SidenavItem[];
 

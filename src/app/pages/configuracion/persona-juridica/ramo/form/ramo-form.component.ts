@@ -40,6 +40,7 @@ export class RamoFormComponent extends FormBaseComponent implements OnInit {
                 this.buildForm(this.ramo);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -60,7 +61,7 @@ export class RamoFormComponent extends FormBaseComponent implements OnInit {
     buildForm(ramo: Ramo) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: ramo.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(ramo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(ramo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             codigoLocal: new FormControl(ramo.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
@@ -77,7 +78,7 @@ export class RamoFormComponent extends FormBaseComponent implements OnInit {
         this.ramoService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

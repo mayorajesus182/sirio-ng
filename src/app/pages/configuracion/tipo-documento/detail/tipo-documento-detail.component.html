@@ -30,17 +30,25 @@
                                 <input matInput class="text-center" [value]="d.id" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="auto" >
+                            <mat-form-field fxFlex="40" >
                                 <mat-label>{{'documentType.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>  
-                            
-                            <mat-form-field fxFlex="auto" >
+
+                            <mat-form-field fxFlex="40" >
                                 <mat-label>{{'documentType.personType' | translate: {default: 'global.personType'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.tipoPersona" readonly>
-                            </mat-form-field>   
+                            </mat-form-field> 
+
+                            <mat-form-field fxFlex="auto" >
+                                <mat-label>{{'documentType.localCode' | translate: {default: 'global.localCode'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.codigoLocal" readonly>
+                            </mat-form-field>  
+                            
+                              
                         </div>
 
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
@@ -49,7 +57,6 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>

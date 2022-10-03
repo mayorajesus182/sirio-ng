@@ -42,6 +42,7 @@ export class EstadoCivilFormComponent extends FormBaseComponent implements OnIni
                 this.buildForm(this.estadoCivil);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -62,7 +63,7 @@ export class EstadoCivilFormComponent extends FormBaseComponent implements OnIni
     buildForm(estadoCivil: EstadoCivil) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: estadoCivil.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(estadoCivil.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(estadoCivil.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             codigoLocal: new FormControl(estadoCivil.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
@@ -79,7 +80,7 @@ export class EstadoCivilFormComponent extends FormBaseComponent implements OnIni
         this.estadoCivilService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
+                    exists: true
                 });
                 this.cdr.detectChanges();
             }

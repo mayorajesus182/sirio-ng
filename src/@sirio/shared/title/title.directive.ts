@@ -1,7 +1,7 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[furyTitle],sirio-title',
+  selector: '[sirioTitle],sirio-title',
   host: {
     class: 'sirio-title'
   }
