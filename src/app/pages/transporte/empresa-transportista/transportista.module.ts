@@ -43,6 +43,7 @@ import { TransportistaRoutingModule } from './transportista-routing.module';
         EmpleadoTransportePopupComponent
     ],
     exports: [],
+    entryComponents:[EmpleadoTransportePopupComponent]
 })
 
 export class TransportistaModule {

@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -22,9 +22,11 @@ import { EmpleadoTransportePopupComponent } from '../popup/empleado-transporte-p
 export class EmpleadoTransporteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public empleados: ReplaySubject<EmpleadoTransporte[]> = new ReplaySubject<EmpleadoTransporte[]>();
-  private dialogoPopup: MatDialogRef<EmpleadoTransportePopupComponent>;
+  
+  transportistaId: string;
   transportista: string;
   datosPersona: string;
+
 
 
   constructor(
@@ -33,12 +35,14 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
     private route: ActivatedRoute,
     private empleadoTransporteService: EmpleadoTransporteService,
     private cdr: ChangeDetectorRef) {
-    super(undefined, injector);
+    super(dialog, injector);
   }
 
 
   loadList() {
-    this.empleadoTransporteService.allByTransportista(this.transportista).subscribe((data) => {
+    this.empleadoTransporteService.allByTransportista(this.transportistaId).subscribe((data) => {
+      console.log(data);
+      
       this.empleados.next(data.slice());
       this.cdr.markForCheck();
     });
@@ -46,9 +50,22 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
 
   ngOnInit() {
 
-    this.transportista = this.route.snapshot.params['id'];
+    this.transportistaId = this.route.snapshot.params['id'];
+    
+    const data = history.state.data;// obteniendo data del state
+    console.log(data)
+    if(data){
+      // en caso que venga data la guardo en el session storage
+      // sessionStorage.setItem('id',data.codigo);
+      this.transportista = data.nombre;
+      sessionStorage.setItem('trans_nombre',data.nombre);
+    }else{
+      this.transportista = sessionStorage.getItem('trans_nombre')
+    }
+    // console.log('data')
+    // console.log()
 
-    if (this.transportista) {
+    if (this.transportistaId) {
       this.loadList();
     }
   }
@@ -61,17 +78,30 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
 
   }
 
-  openPopup(id) {
-    this.dialogoPopup = this.dialog.open(EmpleadoTransportePopupComponent, {
-      panelClass: 'form-dialog',
-      width: '70%',
-      disableClose: true,
-      data: { payload: { persona: this.transportista, id: id }, isNew: true }
-    });
+  openPopup(data:any) {
+    // this.dialogoPopup = this.dialog.open(EmpleadoTransportePopupComponent, {
+    //   panelClass: 'form-dialog',
+    //   width: '70%',
+    //   disableClose: true,
+    //   data: { payload: { id: this.transportistaId,data:{} }, isNew: true }
+    // });
 
-    this.dialogoPopup.afterClosed().subscribe(res => {
-      if (res)
-        this.loadList();
+    // this.dialogoPopup.afterClosed().subscribe(res => {
+    //   if (res)
+    //     this.loadList();
+    // });
+    if(data){
+
+      data.transportista = this.transportistaId;
+    }
+
+    this.showFormPopup(EmpleadoTransportePopupComponent,data||{transportista:this.transportistaId},'50%');
+
+    this.dialogRef.afterClosed().subscribe(event=>{
+
+      console.log('event',event);
+      this.loadList()
+      
     });
   }
 

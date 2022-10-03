@@ -25,7 +25,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
     ]
 })
 export class PopupBaseComponent {
-    isNew=true;
+    // isNew=true;
     mode: 'global.add' | 'global.edit' = 'global.add';
     @ViewChild('tabGroup') tabGroup: MatTabGroup;
     @ViewChild('formData') formData: NgForm;
@@ -67,6 +67,10 @@ export class PopupBaseComponent {
 
     }
 
+    get isNew():boolean{
+        return this.mode === 'global.add'?true:false;
+    }
+
     protected download(fileName, blob) {
         // console.log('archivo-saldo ' + fileName);
 
@@ -96,7 +100,10 @@ export class PopupBaseComponent {
     }
 
     protected errorResponse(isNew: boolean = false) {
-        this.progressBar.mode = 'determinate';
+        if(this.progressBar){
+
+            this.progressBar.mode = 'determinate';
+        }
 
         this.buttons.forEach(element => {
             element.disabled = false;
@@ -167,7 +174,9 @@ export class PopupBaseComponent {
     }
 
     protected successResponse(entityName: string, event: string, noClose?: boolean) {
-        this.progressBar.mode = 'determinate';
+        if(this.progressBar){
+            this.progressBar.mode = 'determinate';
+        }
 
         this.buttons.forEach(element => {
             element.disabled = false;
@@ -239,7 +248,9 @@ export class PopupBaseComponent {
     protected saveOrUpdate(service, formData = {}, entityName, isNew?) {
 
 
-        this.progressBar.mode = 'indeterminate';
+        if(this.progressBar){
+            this.progressBar.mode = 'indeterminate';
+        }
 
 
         this.buttons.forEach(element => {
