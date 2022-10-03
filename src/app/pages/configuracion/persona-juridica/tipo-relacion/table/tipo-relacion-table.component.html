@@ -1,33 +1,33 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['maritalStatus.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['relationshipType.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'maritalStatus.table' | translate: {default: 'global.notfound'}" placeholder="maritalStatus.search"
+        <sirio-list [name]="'relationshipType.table' | translate: {default: 'global.notfound'}" placeholder="relationshipType.search"
             (filterChange)="onFilterChange($event)">
-            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="estcivil_id" matSortDirection="asc">
 
-                <ng-container matColumnDef="estcivil_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'maritalStatus.code' | translate:
+            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
+                matSortActive="relempresa_id" matSortDirection="asc">
+
+                <ng-container matColumnDef="relempresa_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'relationshipType.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                        <p>{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'maritalStatus.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'relationshipType.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
-                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                        <p class="text-truncate">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
-
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'maritalStatus.status' | translate:
-                        {default: 'global.status'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'" mat-sort-header>{{'relationshipType.status' |
+                        translate: {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}
@@ -47,8 +47,7 @@
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
-                    >
+                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
