@@ -16,7 +16,7 @@ const transporteRoutes: Routes = [
     {
         path: 'material',
         data: { title: 'material.table' },
-        loadChildren: () => import('./material/material.module').then(m => m.MaterialTransporteModule),
+        loadChildren: () => import('./material/material-transporte.module').then(m => m.MaterialTransporteModule),
     },
     {
         path: 'viaje',

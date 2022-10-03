@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TransportistaDetailComponent } from './detail/transportista-detail.component';
+import { EmpleadoTransporteTableComponent } from './empleados/table/empleado-transporte-table.component';
 import { TransportistaFormComponent } from './form/transportista-form.component';
 import { TransportistaTableComponent } from './table/transportista-table.component';
 
@@ -21,6 +22,11 @@ const transportistaRoutes: Routes = [
         path: ':id/edit',
         component: TransportistaFormComponent,
         data: { title: 'Editar Transportista' }
+    },
+    {
+        path: ':id/employee',
+        component: EmpleadoTransporteTableComponent,
+        data: { title: 'Empleados' }
     },
     {
         path: ':id/view',

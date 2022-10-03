@@ -16,7 +16,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class TransportistaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
+export class TransportistaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['transportista_id', 'nombre', 'activo', 'actions'];
 
@@ -45,6 +45,10 @@ export class TransportistaTableComponent extends TableBaseComponent implements O
 
   edit(data:any) { 
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  }
+
+  employee(data:any) { 
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/employee`]);
   }
 
   view(data:any) {

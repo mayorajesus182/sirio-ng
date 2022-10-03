@@ -10,6 +10,8 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { TransportistaDetailComponent } from './detail/transportista-detail.component';
+import { EmpleadoTransportePopupComponent } from './empleados/popup/empleado-transporte-popup.component';
+import { EmpleadoTransporteTableComponent } from './empleados/table/empleado-transporte-table.component';
 import { TransportistaFormComponent } from './form/transportista-form.component';
 import { TransportistaTableComponent } from './table/transportista-table.component';
 import { TransportistaRoutingModule } from './transportista-routing.module';
@@ -36,7 +38,9 @@ import { TransportistaRoutingModule } from './transportista-routing.module';
     declarations: [
         TransportistaFormComponent,
         TransportistaDetailComponent,
-        TransportistaTableComponent
+        TransportistaTableComponent,
+        EmpleadoTransporteTableComponent,
+        EmpleadoTransportePopupComponent
     ],
     exports: [],
 })
