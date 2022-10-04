@@ -231,6 +231,10 @@ blockquote {
 
 }
 
+.ngx-datatable.material {
+  box-shadow: none;
+  background-color: inherit;
+}
 
 
 @each $property in (background, color, border-color, fill) {
