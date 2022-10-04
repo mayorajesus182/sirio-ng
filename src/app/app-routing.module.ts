@@ -57,6 +57,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/configuracion/configuracion.module').then(m => m.ConfiguracionModule),
         data:{title:'menu.configuracion'}
       },
+      {
+        path: 'taquilla',
+        loadChildren: () => import('./pages/taquilla/taquilla.module').then(m => m.TaquillaModule),
+        data:{title:'menu.taquilla'}
+      },
       
     ]
   },
