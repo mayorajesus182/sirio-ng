@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Injector, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import * as EventEmitter from 'events';
 import { ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -20,12 +21,14 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class AvaluoTransporteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public avaluoData: AvaluoTransporte[];
   public avaluos: ReplaySubject<AvaluoTransporte[]> = new ReplaySubject<AvaluoTransporte[]>();
-  
+  public keywords: string = '';
   transportistaId: string;
   transportista: string;
   datosPersona: string;
-
+  editing: any[] = [];
+  btnState: boolean = false;
 
 
   constructor(
@@ -40,23 +43,21 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
 
   loadList() {
     this.avaluoTransporteService.activesByTransportista(this.transportistaId).subscribe((data) => {
+      this.avaluoData = data;
       this.avaluos.next(data.slice());
-      this.cdr.markForCheck();
-
-      console.log(data);
     });
   }
 
   ngOnInit() {
 
     this.transportistaId = this.route.snapshot.params['id'];
-    
+
     const data = history.state.data;
 
-    if(data){
+    if (data) {
       this.transportista = data.nombre;
-      sessionStorage.setItem('trans_nombre',data.nombre);
-    }else{
+      sessionStorage.setItem('trans_nombre', data.nombre);
+    } else {
       this.transportista = sessionStorage.getItem('trans_nombre')
     }
 
@@ -72,10 +73,48 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
 
   }
 
+  onFilterChange(value) {
+
+    value = value.trim();
+    value = value.toLowerCase();
+
+    this.avaluos.next(
+      this.avaluoData.filter(item => {
+        if (
+          item.nombre &&
+          item.nombre
+            .toString()
+            .toLowerCase()
+            .indexOf(value) !== -1 || !value
+        ) {
+
+          return true;
+        }
+      }).slice());
+  }
+
+
+  update(current: AvaluoTransporte, event) {
+    console.log('row current ', current);
+    console.log('button ', event);
+
+    this.btnState = true;
+
+
+    this.avaluoTransporteService.update(current).subscribe(data => {
+      this.btnState = false;
+      this.successResponse('Avaluo', 'Actualizar')
+    }, err => {
+      this.btnState = false;
+      console.log(err);
+      this.errorResponse(undefined, false)
+    });
+
+  }
 
 
   activateOrInactivate(row: AvaluoTransporte) {
-    if (!row || row.costo>0) {
+    if (!row || row.costo > 0) {
       return;
     }
 

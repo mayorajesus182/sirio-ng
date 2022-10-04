@@ -4,7 +4,7 @@
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'global.carrierEmployee' | translate: {default: 'global.notfound'}" placeholder="carrierEmployee.search"
+        <sirio-list-simple [name]="'global.carrierEmployee' | translate: {default: 'global.notfound'}" placeholder="carrierEmployee.search"
             (filterChange)="onFilterChange($event)">
 
             <div fxLayout="column" class="margin-h margin-top-md">
@@ -26,54 +26,55 @@
 
             <div fxLayout="column" class="margin-h padding-v">
                 <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
-                [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
-                [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="avaluos | async">
+                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="avaluos | async">
 
-                <ngx-datatable-column name="#" [flexGrow]="1" [sortable]="true">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{ row?.avaluo }}
-                    </ng-template>
-                </ngx-datatable-column>
-
-
-                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'personLocation.nombre' | translate: {default: 'global.nombre'} |
-                            translate}}</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
-                    </ng-template>
-                </ngx-datatable-column>
-
-                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'personLocation.description' | translate: {default: 'global.description'} |
-                            translate}}</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span style="white-space: break-spaces;">{{ row?.costo }}</span>
-                    </ng-template>
-                </ngx-datatable-column>
+                    <ngx-datatable-column name="#" [flexGrow]="1" [sortable]="true">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row?.avaluo }}
+                        </ng-template>
+                    </ngx-datatable-column>
 
 
-                <ngx-datatable-column name="" [flexGrow]="1" >
-                    <ng-template let-row="row" ngx-datatable-cell-template class="margin-v">
-                        <button mat-icon-button mat-sm-button color="primary"  [disabled]="!row.activo" (click)="openPopup(row)" matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button> &nbsp;&nbsp;
-                        <button mat-icon-button mat-sm-button [color]="row.activo?'muted':'primary'"  (click)="activateOrInactivate(row)"
-                            matTooltip="Activar/Inactivar">
-                            <mat-icon>check_circle</mat-icon>
-                        </button>
-                    </ng-template>
-                </ngx-datatable-column>
-            </ngx-datatable>
+                    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'personLocation.nombre' | translate: {default: 'global.nombre'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'personLocation.description' | translate: {default: 'global.description'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-costo'] = true" *ngIf="editing[rowIndex + '-costo']">
+                                <span class="text-rigth" >{{ row?.costo | number:'1.2-2'}}</span>
+                                <!-- {{value}} *ngIf="editing[rowIndex+ '-costo']"-->
+                            </span>
+                            <input class="mat-input"  [(ngModel)]="row.costo" autofocus 
+                                 matInput type="text" (blur)="editing[rowIndex + '-costo'] = false"  currencyMask [options]="{precision:2}" />
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="" [flexGrow]="1" >
+                        <ng-template let-row="row" ngx-datatable-cell-template >
+                            <button mat-icon-button mat-sm-button color="primary"  style="margin-top: -5px;"  [disabled]="row.costo <= 0 || btnState" (click)="update(row,$event)" matTooltip="Actualizar">
+                                <mat-icon>save</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
 
 
             </div>
-          
 
-        </sirio-list>
+
+        </sirio-list-simple>
     </sirio-page-layout-content>
 </sirio-page-layout>

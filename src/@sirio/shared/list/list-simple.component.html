@@ -1,0 +1,19 @@
+<div class="sirio-list-table">
+  <div class="sirio-list-header" *ngIf="!hideHeader" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px" fxLayoutGap.gt-xs="24px">
+    <div class="sirio-list-name">{{ name }}</div>
+
+    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+      <mat-icon class="sirio-filter-input-icon">search</mat-icon>
+      <input fxFlex class="sirio-filter-input" #filter placeholder="{{placeholder | translate: {default: 'global.search'} | translate }}">
+    </div>
+
+    <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+    {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <!-- <ng-content select=".actions"></ng-content> -->
+  </div>
+
+
+  <ng-content></ng-content>
+</div>
