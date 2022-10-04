@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -22,52 +22,53 @@ export class EmpleadoTransportePopupComponent extends PopupBaseComponent impleme
     empleadoTransporte: EmpleadoTransporte = {} as EmpleadoTransporte;
     transportista: string;
 
-   // a: PerfectScrollbar;
+    // a: PerfectScrollbar;
 
-    constructor(
-        injector: Injector,
-        dialog: MatDialog,
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
+
+    constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+        protected injector: Injector,
         private empleadoTransporteService: EmpleadoTransporteService,
-        private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        dialogRef: MatDialogRef<EmpleadoTransportePopupComponent>,
+        private fb: FormBuilder) {
+
+        super(dialogRef, injector)
     }
 
     ngOnInit() {
 
-        this.transportista = this.route.snapshot.params['id'];
-        this.isNew = this.transportista == undefined;
+        console.log(this.defaults);
+        this.empleadoTransporte = this.defaults.payload;
 
-        if (this.transportista) {
-            this.empleadoTransporteService.get(this.transportista).subscribe((agn: EmpleadoTransporte) => {
-                this.empleadoTransporte = agn;
-                this.buildForm(this.empleadoTransporte);
-                this.cdr.markForCheck();
-                this.cdr.detectChanges();
-            });
+        if (this.empleadoTransporte.id) {
+            this.mode = 'global.edit';
         } else {
-            this.buildForm(this.empleadoTransporte);
+            this.defaults = {} as any;
         }
+
+        this.buildForm(this.empleadoTransporte)
+
     }
 
     buildForm(empleadoTransporte: EmpleadoTransporte) {
-       
+
         this.itemForm = this.fb.group({
-            id: new FormControl({value: empleadoTransporte.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(empleadoTransporte.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            rif: new FormControl(empleadoTransporte.cedula || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: empleadoTransporte.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(empleadoTransporte.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            cedula: new FormControl(empleadoTransporte.cedula || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
 
-        this.cdr.detectChanges();
+        // this.cdr.detectChanges();
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
 
+
+
         this.updateData(this.empleadoTransporte);
-        this.empleadoTransporte.transportista = this.transportista;
+        // this.empleadoTransporte.transportista = this.transportista;
+        console.log(this.empleadoTransporte);
         this.saveOrUpdate(this.empleadoTransporteService, this.empleadoTransporte, 'El Empleado', this.isNew);
     }
 

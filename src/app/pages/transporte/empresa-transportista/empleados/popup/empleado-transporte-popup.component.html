@@ -1,92 +1,55 @@
-<div class="event-dialog-wrapper">
+<sirio-dialog-header mat-dialog-title>
+    <sirio-dialog-header-heading>
+        <h1>{{'global.carrierEmployee'|translate}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
-    <mat-toolbar matDialogTitle class="mat-accent m-0">
-        <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="title dialog-title" >
-                {{'personLocation.form' | translate: {default: 'global.notfound'} | translate}}
-            </span>
-            <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
-                <mat-icon>close</mat-icon>
+            <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+                <mat-icon class="close-icon">close</mat-icon>
             </button>
         </div>
-    </mat-toolbar>
+    </sirio-dialog-header-heading>
 
-    <mat-progress-bar mode="determinate" class="form-progress"></mat-progress-bar>
-
-    <div mat-dialog-content class="p-2 m-2">
-
-        <form [formGroup]="itemForm" *ngIf="itemForm" class="form-content">
-
-            <div fxLayout="row wrap" fxLayoutAlign="center center">
-
-                <div fxFlex="100" fxFlex.gt-xs="25" class="pr-4">
-                    <app-select-search
-                        [label]="'personLocation.locationType' | translate: {default: 'global.locationType'} | translate"
-                        formControlName="tipoDireccion" [required]="true" [elements]="tipoDirecciones.asObservable()"
-                        [attributeName]="'nombre'" [errors]="f.tipoDireccion?.errors">
-                    </app-select-search>
-                </div>
-
-                <div fxFlex="100" fxFlex.gt-xs="35" class="pr-4">
-                    <app-select-search
-                        [label]="'personLocation.state' | translate: {default: 'global.state'} | translate"
-                        formControlName="estado" [required]="true" [elements]="estados.asObservable()"
-                        [attributeName]="'nombre'" [errors]="f.estado?.errors">
-                    </app-select-search>
-                </div>
-
-                <div fxFlex="100" fxFlex.gt-xs="40">
-                    <app-select-search
-                        [label]="'personLocation.municipality' | translate: {default: 'global.municipality'} | translate"
-                        formControlName="municipio" [required]="true" [elements]="municipios.asObservable()"
-                        [attributeName]="'nombre'" [errors]="f.municipio?.errors">
-                    </app-select-search>
-                </div>
-
-                <div fxFlex="100" fxFlex.gt-xs="50" class="pr-4">
-                    <app-select-search
-                        [label]="'personLocation.parish' | translate: {default: 'global.parish'} | translate"
-                        formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()"
-                        [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
-                    </app-select-search>
-                </div>
-
-                <div fxFlex="100" fxFlex.gt-xs="50">
-                    <app-select-search
-                        [label]="'personLocation.postalZone' | translate: {default: 'global.postalZone'} | translate"
-                        formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()"
-                        [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
-                    </app-select-search>
-                </div>
+</sirio-dialog-header>
 
 
-                <div fxFlex="100" fxFlex.gt-xs="100">
-                    <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>{{'personLocation.description' | translate: {default: 'global.description'} |
-                            translate }}</mat-label>
-                        <input matInput maxlength="15" name="descripcion" formControlName="descripcion" uppercase
-                            required>
-                        <mat-error *ngIf="f.descripcion.errors?.required">Requerido</mat-error>
-                        <mat-error *ngIf="f.descripcion.errors?.pattern">Caracter inválido</mat-error>
-                    </mat-form-field>
-                </div>
+<form [formGroup]="itemForm" *ngIf="itemForm" (ngSubmit)="save()">
+    <mat-dialog-content>
+        
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                <mat-form-field fxFlex="auto">
+                    <mat-label>Código</mat-label>
+                    <input matInput maxlength="10" name="id" formControlName="id" uppercase required>
+                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex="auto">
+                    <mat-label>Cedula</mat-label>
+                    <input matInput maxlength="15" name="identicacion" formControlName="cedula" uppercase required>
+                    <mat-error *ngIf="f.cedula.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.cedula.errors?.pattern">Caracter inválido</mat-error>
+                </mat-form-field>
 
             </div>
 
-        </form>
-    </div>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                <mat-form-field fxFlex="auto">
+                    <mat-label>Nombre Completo</mat-label>
+                    <input matInput maxlength="80" name="nombre" formControlName="nombre" uppercase required>
+                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
+                </mat-form-field>
+            </div>
 
+            <!-- <div fxLayout="column" fxLayout.gt-sm="row"> -->
+            <!-- </div> -->
 
-    <div mat-dialog-actions class="m-2 p-10">
-        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">
-                {{'button.cancel' | translate: {default: 'global.notfound'} | translate }}
-            </button>
-            <button color="primary" mat-raised-button (click)="save()"
-                [disabled]="itemForm?.invalid ||  (!isNew && !empleadoTransporte.activo )">
-                {{'button.save' | translate: {default: 'global.notfound'} | translate }}
-            </button>
-        </div>
-    </div>
+    </mat-dialog-content>
 
-</div>
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+        <button mat-raised-button color="primary" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+    </mat-dialog-actions>
+</form>

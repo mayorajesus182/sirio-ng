@@ -1,5 +1,6 @@
 
 
+import { Location } from "@angular/common";
 import { ChangeDetectorRef, Component, ElementRef, Injector, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
@@ -35,6 +36,9 @@ import { MethodComponentApi } from "../actions/actions-nav.component";
         },
         {
             provide: "spinner", useClass: NgxSpinnerService
+        },
+        {
+            provide: "location", useClass: Location
         }
     ]
 })
@@ -58,6 +62,7 @@ export class TableBaseComponent {
     protected router: Router;
     protected swalService: SweetAlertService;
     protected spinner: NgxSpinnerService;
+    protected location: Location;
 
     colors = {
         REG: 'bg-success',
@@ -76,6 +81,7 @@ export class TableBaseComponent {
         this.snack = injector.get(SnackbarService);
         this.spinner = injector.get(NgxSpinnerService);
         this.swalService = injector.get(SweetAlertService);
+        this.location = injector.get(Location);
 
         if (this.router) {
 
@@ -90,7 +96,7 @@ export class TableBaseComponent {
     }
 
     protected buildPrefixPath(path:string){
-        return `/${ApiConfConstants.APP_NAME}/${path}/`;
+        return `/${ApiConfConstants.APP_NAME}/${path}/`.split('//').join('/');
     }
 
 
@@ -245,6 +251,9 @@ export class TableBaseComponent {
     }
 
     protected refreshElementList() {
+        if(!this.dataSource){
+            return;
+        }
         this.dataSource.loadData(
             this.searchTerm ? this.searchTerm : '',
             this.sort.active,
@@ -253,7 +262,7 @@ export class TableBaseComponent {
             this.paginators.first.pageSize);
     }
 
-    protected showFormPopup(popupComponent, _title, data, _isNew, withDialog = '60%') {
+    protected showFormPopup(popupComponent,  data,withDialog = '60%') {
         let data_aux = { payload: undefined, title: undefined, isNew: undefined };
 
         if (!data.payload) {
@@ -262,11 +271,11 @@ export class TableBaseComponent {
             data_aux = data;
         }
 
-        data_aux.title = _title;
-        data_aux.isNew = _isNew;
+        // data_aux.title = _title;
+        // data_aux.isNew = _isNew;
 
         this.dialogRef = this.dialog.open(popupComponent, {
-            panelClass: 'form-regla-OSCES-dialog',
+            panelClass: 'dialog-frame',
             width: withDialog,
             disableClose: true,
             data: data_aux
@@ -295,7 +304,7 @@ export class TableBaseComponent {
         data_aux.title = title;
 
         this.dialogRef = this.dialog.open(popupComponent, {
-            panelClass: 'form-regla-OSCES-dialog',
+            panelClass: 'dialog-frame',
             width: withDialog,
             disableClose: true,
             data: data_aux
