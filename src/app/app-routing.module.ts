@@ -55,7 +55,12 @@ const routes: Routes = [
       {
         path: 'configuracion',
         loadChildren: () => import('./pages/configuracion/configuracion.module').then(m => m.ConfiguracionModule),
-        data:{title:'menu.configuracion'}
+        data:{title:'menu.configuration'}
+      },
+      {
+        path: 'transporte',
+        loadChildren: () => import('./pages/transporte/transporte.module').then(m => m.TransporteModule),
+        data:{title:'menu.transport'}
       },
       {
         path: 'taquilla',

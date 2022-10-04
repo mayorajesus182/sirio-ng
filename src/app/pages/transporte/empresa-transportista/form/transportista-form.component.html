@@ -1,0 +1,139 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{(isNew?'action.add':'action.edit')|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
+                            (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>clear_all</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div  fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label>{{'carrierCompany.code' | translate: {default: 'global.code'} | translate }} </mat-label>
+                                    <input matInput autocomplete="off" maxlength="10" name="id" formControlName="id" uppercase required class="text-center">
+                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="20">
+                                    <mat-label>{{'carrierCompany.rif' | translate: {default: 'global.rif'} | translate }} </mat-label>
+                                    <input matInput autocomplete="off" maxlength="15" name="rif" formControlName="rif" uppercase required class="text-center">
+                                        <mat-error *ngIf="f.rif.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.rif.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <sirio-select-search fxFlex="60" [label]="'carrierCompany.zone' | translate: {default: 'global.zone'} | translate"
+                                    formControlName="zona" [required]="true" [elements]="zonas.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.zona?.errors">
+                                </sirio-select-search>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex.gt-xs="100">
+                                    <mat-label>{{'carrierCompany.name' | translate: {default: 'global.name'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" maxlength="150" name="nombre" formControlName="nombre" uppercase required>
+                                        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex.gt-xs="100">
+                                    <mat-label>{{'carrierCompany.address' | translate: {default: 'global.address'} | translate }} </mat-label>
+                                    <input matInput autocomplete="off" maxlength="200" name="direccion" formControlName="direccion" uppercase required>
+                                        <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex="60">
+                                    <mat-label>{{'carrierCompany.email' | translate: {default: 'global.email'} | translate }}</mat-label>
+                                    <input matInput type="text" maxlength="60" autocomplete="off" email-validate name="email" formControlName="email" required>
+                                    <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="20">
+                                    <mat-label>{{'carrierCompany.phone' | translate: {default: 'global.phone'} | translate }}</mat-label>
+                                    <input  matInput maxlength="15" autocomplete="off" name="telefono" formControlName="telefono" uppercase required class="text-center">
+                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="20">
+                                    <mat-label>{{'carrierCompany.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}</mat-label>
+                                    <input  matInput maxlength="15" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase class="text-center">
+                                    <mat-error *ngIf="f.telefonoAlt.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex="50">
+                                    <mat-label>{{'carrierCompany.latitude' | translate: {default: 'global.latitude'} | translate }} </mat-label>
+                                    <input  matInput max="999.99999999" autocomplete="off" currencyMask name="latitud" formControlName="latitud" [options]="{precision:8}" required>
+                                    <mat-error *ngIf="f.latitud.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.latitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
+                                </mat-form-field>  
+
+                                <mat-form-field fxFlex="50">
+                                    <mat-label>{{'carrierCompany.longitude' | translate: {default: 'global.longitude'} | translate }} </mat-label>
+                                    <input  matInput max="999.99999999" autocomplete="off" currencyMask name="longitud" formControlName="longitud" [options]="{precision:8}" required>
+                                    <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.longitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
+                                </mat-form-field> 
+
+                            </div>
+
+                        </form>
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

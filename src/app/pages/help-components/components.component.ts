@@ -110,7 +110,7 @@ export class HelpComponentsComponent implements OnInit {
 
   addElement() {
 
-    this.showFormPopup(DireccionFormPopupComponent,{})
+    this.showFormPopup(DireccionFormPopupComponent,{}, '50%')
   }
 
 
