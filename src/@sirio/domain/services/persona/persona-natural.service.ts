@@ -5,73 +5,51 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
-export interface Persona {
-    tipoDocumento: String;
-    
-    identificacion: String;
-   
-    primerNombre: String;
-
-    segundoNombre: String;
-    
-    primerApellido: String;
-
-    segundoApellido: String;
-
-    fechaNacimiento: Date;
- 
-    pais: String;
-
-    nacionalidad: String;
-
-    otraNacionalidad: String;
-
-    telefono: String;
-
-    genero: String;
-
-    profesion: String;
-
-    tenencia: String;
-
-    cargaFamiliar: Integer;
-
-    estadoCivil: String;
-
-     conyuge: String;
-
-    tipoDocumentoConyuge: String;
-
-    identificacionConyuge: String;
-
-    nombreConyuge: String;
-
-    fuenteIngreso: String;
-
-    email: String;
-
-    estatusPersona: String;
-
-    actividadEspecifica: String;
+export interface PersonaNatural {
+    id: number;
+    tipoDocumento: string;
+    identificacion: string;
+    primerNombre: string;
+    segundoNombre: string;
+    primerApellido: string;
+    segundoApellido: string;
+    fechaNacimiento: any;
+    pais: string;
+    nacionalidad: string;
+    otraNacionalidad: string;
+    telefono: string;
+    genero: string;
+    profesion: string;
+    tenencia: string;
+    cargaFamiliar: number;
+    estadoCivil: string;
+    conyuge: string;
+    tipoDocumentoConyuge: string;
+    identificacionConyuge: string;
+    nombreConyuge: string;
+    fuenteIngreso: string;
+    email: string;
+    estatusPersonaNatural: string;
+    actividadEspecifica: string;
 }
 
 @Injectable({
     providedIn:'root'
 })
-export class PersonaService {
+export class PersonaNaturalService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona/persona-natural'};
+        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/natural'};
     }
 
-    all(): Observable<Persona[]> {
+    all(): Observable<PersonaNatural[]> {
         return this.apiService.config(this.apiConfig).get('/all');
     }
 
-    actives(): Observable<Persona[]> {
+    actives(): Observable<PersonaNatural[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
@@ -79,24 +57,24 @@ export class PersonaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<Persona> {
+    get(id: string): Observable<PersonaNatural> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<Persona> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
-    }
+    // detail(id: string): Observable<PersonaNatural> {
+    //     return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    // }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Persona[]> {
-        return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
-    }
+    // page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<PersonaNatural[]> {
+    //     return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    // }
 
-    save(data: Persona): Observable<any> {
+    save(data: PersonaNatural): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: Persona): Observable<any> {
+    update(data: PersonaNatural): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
