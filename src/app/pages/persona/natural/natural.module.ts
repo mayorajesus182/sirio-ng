@@ -9,10 +9,12 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { ConstruccionDetailComponent } from './detail/construccion-detail.component';
-import { ConstruccionRoutingModule } from './construccion-routing.module';
-import { ConstruccionFormComponent } from './form/construccion-form.component';
-import { ConstruccionTableComponent } from './table/construccion-table.component';
+import { NaturalFormComponent } from './form/natural-form.component';
+import { NaturalRoutingModule } from './natural-routing.module';
+
+
+
+
 
 @NgModule({
     imports: [
@@ -27,16 +29,14 @@ import { ConstruccionTableComponent } from './table/construccion-table.component
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
-        ConstruccionRoutingModule
+        NaturalRoutingModule
     ],
     declarations: [
-        ConstruccionFormComponent,
-        ConstruccionDetailComponent,
-        ConstruccionTableComponent
+        NaturalFormComponent,
     ],
     exports: [],
 })
 
-export class ConstruccionModule {
+export class NaturalModule {
 
 }
