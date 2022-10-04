@@ -49,11 +49,22 @@ export class TransportistaTableComponent extends TableBaseComponent implements O
 
   employee(data:any) { 
     const url = `${this.buildPrefixPath(data.path)}${data.element.id}/employee`;
-    console.log('url ',url);
-    
-
     this.router.navigateByUrl(url, { state: {data: data.element}  });
-    // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/employee`]);
+  }
+
+  appraisal(data:any) { 
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/appraisal`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
+
+  material(data:any) { 
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/material`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
+
+  trip(data:any) { 
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/trip`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
   }
 
   view(data:any) {
