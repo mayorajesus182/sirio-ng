@@ -23,10 +23,10 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
    retiro: Retiro = {} as Retiro;
-    public zonasPostales = new BehaviorSubject<ZonaPostal[]>([]);
+    /*public Personas = new BehaviorSubject<Persona[]>([]);
     public parroquias = new BehaviorSubject<Parroquia[]>([]);
     public municipios = new BehaviorSubject<Municipio[]>([]);
-    public estados = new BehaviorSubject<Estado[]>([]);
+    public estados = new BehaviorSubject<Estado[]>([]);*/
 
 
     constructor(
@@ -34,10 +34,10 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
        private retiroService: RetiroService,
-        private zonaPostalService: ZonaPostalService,
+       /*private PersonaGetByTipoDoc: PersonaService,
         private parroquiaService: ParroquiaService,
         private municipioService: MunicipioService,
-        private estadoService: EstadoService,
+        private estadoService: EstadoService,*/
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -55,15 +55,17 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.cdr.detectChanges();
         });*/
         
+      /* trae servicio de estado
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
             this.estados.next(data);
             this.cdr.detectChanges();
         });
-
+        */
+        
 
     }
     ngAfterViewInit(): void {
-        this.loading$.subscribe(loading => {
+       /* this.loading$.subscribe(loading => {
             if (!loading) {
                 if (this.f.estado.value) {
                     this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
@@ -86,7 +88,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                     });
                 }
             }
-        });
+        });*/
 
     }
 
@@ -98,12 +100,15 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             identificacion: [institucion.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
             siglas: [institucion.siglas || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
             */
-            //nombre: [retiro.nombre || '', [Validators.required, ]],
-            nombre: new FormControl(retiro.nombre || '', [Validators.required, ]),
-            parroquia: [retiro.parroquia || undefined, [Validators.required]],
-            municipio: [retiro.municipio || undefined, [Validators.required]],
-            estado: [retiro.estado || undefined, [Validators.required]],
-            zonaPostal: [retiro.zonaPostal || undefined, [Validators.required]],
+           
+            
+
+            monto: new FormControl(retiro.monto || '', [Validators.required, ]),
+            identificacion: [retiro.identificacion || undefined, [Validators.required]],
+            numeroCuenta: [retiro.numeroCuenta || undefined, [Validators.required]],
+           
+            referencia: [retiro.referencia || undefined, [Validators.required]],
+            telefono: [retiro.telefono || '', [Validators.required, ]],
            /*direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
             email: [institucion.email || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
             web: [institucion.web || ''],
@@ -114,7 +119,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
         });
 
-        this.f.estado.valueChanges.subscribe(value => {
+       /* this.f.estado.valueChanges.subscribe(value => {
             this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
@@ -136,20 +141,20 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         });
 
         this.cdr.detectChanges();
-        this.printErrors()
+        this.printErrors()*/
     }
 
 
-   /* save() {
+   save() {
         if (this.itemForm.invalid)
             return;
 
 
-        this.updateData(this.institucion);
-        this.saveOrUpdate(this.institucionService, this.institucion, 'La  institucion', this.isNew);
+        this.updateData(this.retiro);
+        this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', this.isNew);
 
 
 
-    }*/
+    }
 
 }
