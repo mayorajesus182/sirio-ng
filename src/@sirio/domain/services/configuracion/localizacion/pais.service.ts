@@ -11,6 +11,7 @@ export interface Pais {
     gentilicio: string;
     fechaCreacion?: any;
     activo?: number;
+
 }
 
 @Injectable({

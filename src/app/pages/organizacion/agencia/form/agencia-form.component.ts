@@ -109,8 +109,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             email:  [agencia.email || '', [Validators.required]],
             telefono:  [agencia.telefono || '', [Validators.required]],
             telefonoAlt:  [agencia.telefonoAlt || ''],
-            latitud:  [agencia.latitud || '', [Validators.required]],
-            longitud:  [agencia.longitud || '', [Validators.required]],
+            latitud:  [agencia.latitud || undefined, [Validators.required]],
+            longitud:  [agencia.longitud || undefined, [Validators.required]],
             zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]],
             horarioExt: [agencia.horarioExt===1 || false],
         });

@@ -37,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
 
@@ -74,6 +75,7 @@ export const DATE_FORMATS_CUSTOM = {
   imports: [
     CommonModule,
     FormsModule,
+    NgxDatatableModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot()
   ],
@@ -119,6 +121,7 @@ export const DATE_FORMATS_CUSTOM = {
     // MatTreeModule,
     // MatBottomSheetModule,
     NgxSpinnerModule,
+    NgxDatatableModule,
     // NgxMatSelectSearchModule,
     CurrencyMaskModule,
     NgxMaskModule,

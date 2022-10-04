@@ -1,0 +1,116 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'carrierCompany.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'carrierCompany.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.id" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'carrierCompany.rif' | translate: {default: 'global.rif'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.rif" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="60">
+                                <mat-label>{{'carrierCompany.zone' | translate: {default: 'global.zone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.zona" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex.gt-xs="100">
+                                <mat-label>{{'carrierCompany.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex.gt-xs="100">
+                                <mat-label>{{'carrierCompany.address' | translate: {default: 'global.address'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.direccion" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="60">
+                                <mat-label>{{'carrierCompany.email' | translate: {default: 'global.email'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.email" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'carrierCompany.phone' | translate: {default: 'global.phone'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.telefono" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'carrierCompany.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.telefonoAlt" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'carrierCompany.latitude' | translate: {default: 'global.latitude'} | translate }}
+                                </mat-label>
+                                <input matInput currencyMask [value]="d.latitud" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'carrierCompany.longitude' | translate: {default: 'global.longitude'} | translate }}
+                                </mat-label>
+                                <input matInput currencyMask [value]="d.longitud" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
+
+                    </div>
+
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
