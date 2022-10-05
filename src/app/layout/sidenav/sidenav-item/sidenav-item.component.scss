@@ -5,6 +5,7 @@
   0% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
@@ -14,6 +15,7 @@
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -58,10 +60,20 @@
   transition: background-color $swift-ease-out-duration $swift-ease-out-timing-function;
 
   .icon {
-    width: $sidenav-item-icon-size;
-    height: $sidenav-item-icon-size;
+    // width: $sidenav-item-icon-size;
+    // height: $sidenav-item-icon-size;
+    // font-size: $sidenav-item-icon-size;
+    // line-height: $sidenav-item-icon-size;
+
+    text-align: left;
+    height: 22px;
+    width: 22px;
     font-size: $sidenav-item-icon-size;
-    line-height: $sidenav-item-icon-size;
+    line-height: 22px;
+    // border-left: 3px solid;
+    border-color: transparent;
+    // color: #9fb0c5;
+
   }
 
   .text-icon {
@@ -80,7 +92,7 @@
     font-size: 12px;
     border-radius: 12px;
 
-    & + .expand-indicator {
+    &+.expand-indicator {
       margin-left: 8px;
     }
   }
@@ -93,7 +105,9 @@
     }
   }
 
-  .name, .badge, .expand-indicator {
+  .name,
+  .badge,
+  .expand-indicator {
     will-change: opacity;
   }
 }
