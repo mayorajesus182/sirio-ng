@@ -20,7 +20,7 @@ import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/loca
 export class PaisTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
   displayedColumns = ['pais_id', 'nombre','gentilicio','activo', 'actions'];
-
+  
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
