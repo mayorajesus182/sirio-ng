@@ -1,24 +1,18 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['global.carrierEmployee']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['materialCosts.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'global.carrierEmployee' | translate: {default: 'global.notfound'}" placeholder="carrierEmployee.search"
+        <sirio-list [name]="'materialCosts.table' | translate: {default: 'global.notfound'}" placeholder="materialCosts.search"
             (filterChange)="onFilterChange($event)">
 
             <div fxLayout="column" class="margin-h margin-top-md">
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                    <mat-form-field fxFlex.gt-xs="30">
-                        <mat-label>{{'language.code' | translate: {default: 'global.code'} | translate }}</mat-label>
-                        <input matInput [value]="transportistaId" readonly>
-                    </mat-form-field>
-
-
                     <mat-form-field fxFlex="auto">
-                        <mat-label>{{'language.name' | translate: {default: 'global.name'} | translate }}</mat-label>
-                        <input matInput [value]="transportista" readonly>
+                        <mat-label>{{'materialCosts.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate }}</mat-label>
+                        <input matInput [value]="transportistaId+' - '+transportista" readonly>
                     </mat-form-field>
 
                 </div>
@@ -29,16 +23,19 @@
                 [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="materiales | async">
 
-                <ngx-datatable-column name="#" [flexGrow]="1" [sortable]="true">
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'materialCosts.code' | translate: {default: 'global.code'} |
+                            translate}}</span>
+                    </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         {{ row?.material }}
                     </ng-template>
                 </ngx-datatable-column>
 
-
                 <ngx-datatable-column [flexGrow]="2" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
-                        <span>{{'personLocation.nombre' | translate: {default: 'global.nombre'} |
+                        <span>{{'materialCosts.name' | translate: {default: 'global.name'} |
                             translate}}</span>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
@@ -48,7 +45,7 @@
 
                 <ngx-datatable-column [flexGrow]="2" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
-                        <span>{{'personLocation.description' | translate: {default: 'global.description'} |
+                        <span>{{'materialCosts.costNationalCurrency' | translate: {default: 'global.costNationalCurrency'} |
                             translate}}</span>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
@@ -56,6 +53,15 @@
                     </ng-template>
                 </ngx-datatable-column>
 
+                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'materialCosts.costForeignCurrency' | translate: {default: 'global.costForeignCurrency'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span style="white-space: break-spaces;">{{ row?.costo }}</span>
+                    </ng-template>
+                </ngx-datatable-column>
 
                 <ngx-datatable-column name="" [flexGrow]="1" >
                     <ng-template let-row="row" ngx-datatable-cell-template class="margin-v">
