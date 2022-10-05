@@ -37,10 +37,15 @@ const routes: Routes = [
         loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
         
       },
+      // {
+      //   path: 'personas',
+      //   loadChildren: () => import('./pages/tables/all-in-one-table/all-in-one-table.module').then(m => m.AllInOneTableModule),
+      //   data:{title:'menu.naturalPersons'}
+      // },
       {
-        path: 'personas',
-        loadChildren: () => import('./pages/tables/all-in-one-table/all-in-one-table.module').then(m => m.AllInOneTableModule),
-        data:{title:'menu.naturalPersons'}
+        path: 'persona',
+        loadChildren: () => import('./pages/persona/persona.module').then(m => m.PersonaModule),
+        data:{title:'menu.persons'}
       },
       {
         path: 'preferencia',
@@ -61,6 +66,11 @@ const routes: Routes = [
         path: 'transporte',
         loadChildren: () => import('./pages/transporte/transporte.module').then(m => m.TransporteModule),
         data:{title:'menu.transport'}
+      },
+      {
+        path: 'taquilla',
+        loadChildren: () => import('./pages/taquilla/taquilla.module').then(m => m.TaquillaModule),
+        data:{title:'menu.taquilla'}
       },
       
     ]

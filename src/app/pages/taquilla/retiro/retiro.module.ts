@@ -1,4 +1,3 @@
-
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -9,10 +8,10 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { ConstruccionDetailComponent } from './detail/construccion-detail.component';
-import { ConstruccionRoutingModule } from './construccion-routing.module';
-import { ConstruccionFormComponent } from './form/construccion-form.component';
-import { ConstruccionTableComponent } from './table/construccion-table.component';
+import { RetiroFormComponent } from './form/retiro-form.component';
+import { RetiroRoutingModule } from './retiro-routing.module';
+
+
 
 @NgModule({
     imports: [
@@ -21,22 +20,23 @@ import { ConstruccionTableComponent } from './table/construccion-table.component
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        // Core
         MaterialModule,
+        // Core
         SirioSharedModule,
         SharedComponentModule,
+               
         HighlightModule,
         SirioCardModule,
-        ConstruccionRoutingModule
+        RetiroRoutingModule
     ],
     declarations: [
-        ConstruccionFormComponent,
-        ConstruccionDetailComponent,
-        ConstruccionTableComponent
+        RetiroFormComponent,
+      
+      
     ],
     exports: [],
 })
 
-export class ConstruccionModule {
+export class RetiroModule {
 
 }
