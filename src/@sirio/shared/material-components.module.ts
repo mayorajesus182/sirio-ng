@@ -45,6 +45,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NumAccountValidator } from './input/cuenta-validation.directive';
 import { EmailValidate } from './input/email-validation.directive';
 import { MinorAgeValidator } from './input/minAge-validation.directive';
+import { UppercaseDirective } from './input/uppercase.directive';
 export const customCurrencyMaskConfig = {
   align: "right",
   allowNegative: false,
@@ -127,10 +128,11 @@ export const DATE_FORMATS_CUSTOM = {
     NgxMaskModule,
     NumAccountValidator,
     MinorAgeValidator,
-    EmailValidate
+    EmailValidate,
+    UppercaseDirective
   ],
   
-  declarations: [NumAccountValidator,MinorAgeValidator,EmailValidate],
+  declarations: [NumAccountValidator,MinorAgeValidator,EmailValidate,UppercaseDirective],
   
 
 

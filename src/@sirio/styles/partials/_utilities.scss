@@ -176,11 +176,23 @@ blockquote {
   height: 100%;
 }
 
+.fullwidth {
+  width: 100%;
+}
+
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
 }
 
 
