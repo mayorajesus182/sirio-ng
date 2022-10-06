@@ -8,30 +8,8 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface CuentaBancaria {
     id: number;
-    institucion: string;
-    agencia: number;
-    persona:number;
-    numper: string;
-    cuentaBancaria: number;
-    tipoDocumento: string;
-    identificacion: string;
-    nombre: string;
-    numeroCuenta: string;
+    descripcion: string;
     moneda: string;
-    tipoProducto: string;
-    referencia: string;
-    efectivo: number;
-    chequePropio: number;
-    cantidadPropio: number;
-    chequeOtros: number;
-    cantidadOtros: number;
-    conoAnterior: number;
-    monto: number;
-    libreta: string;
-    linea: string;
-    telefono: string;
-    email: string;
-    estatusOperacion: string;
 
 }
 
