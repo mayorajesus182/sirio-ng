@@ -18,10 +18,6 @@ import { PageModule } from './shared/page/page.module';
 import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { TitleModule } from './shared/title/title.module';
 
-import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { fab } from '@fortawesome/free-brands-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
-import { fas } from '@fortawesome/free-solid-svg-icons';
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
@@ -51,12 +47,9 @@ import { TranslateModule } from '@ngx-translate/core';
     MatCheckboxModule,
     MatRadioModule,
     MatMenuModule,
-    ScrollingModule,
-    FontAwesomeModule
+    ScrollingModule
   ]
 })
 export class SirioSharedModule {
-  constructor(library: FaIconLibrary) {
-    library.addIconPacks(fas, far,fab);
-  }
+  
 }

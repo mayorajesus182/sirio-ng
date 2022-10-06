@@ -34,8 +34,9 @@
 
   <ng-template #linkContent>
     <!-- <mat-icon *ngIf="level === 0" class="icon">{{ item.icon }}</mat-icon> -->
-    <fa-icon *ngIf="level === 0" class="icon" [icon]="['fas', item.icon]" size="md"></fa-icon>
-    
+    <!-- <fa-icon *ngIf="level === 0" class="icon" [icon]="['fas', item.icon]" size="md"></fa-icon> -->
+    <i class="fal fa-{{ item.icon}}  fa-icon"></i>
+    <!-- <i class="fa-light fa-people-group"></i> -->
     <!-- <div *ngIf="level > 0" class="text-icon" fxFlex="none">{{ getTextIcon(item) }}</div> -->
     <span class="name"> {{'menu.'+item.label | translate}}</span>
     <span fxFlex><!-- fill space --></span>
