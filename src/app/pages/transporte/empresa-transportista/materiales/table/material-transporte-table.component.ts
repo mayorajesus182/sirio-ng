@@ -20,12 +20,14 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class MaterialTransporteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public materialData: MaterialTransporte[];
   public materiales: ReplaySubject<MaterialTransporte[]> = new ReplaySubject<MaterialTransporte[]>();
-  
+  public keywords: string = '';
   transportistaId: string;
   transportista: string;
   datosPersona: string;
-
+  editing: any[] = [];
+  btnState: boolean = false;
 
 
   constructor(
@@ -40,10 +42,8 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
 
   loadList() {
     this.materialTransporteService.activesByTransportista(this.transportistaId).subscribe((data) => {
+      this.materialData = data;
       this.materiales.next(data.slice());
-      this.cdr.markForCheck();
-
-      console.log(data);
     });
   }
 
@@ -72,14 +72,43 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
 
   }
 
+  onFilterChange(value) {
+
+    value = value.trim();
+    value = value.toLowerCase();
+
+    this.materiales.next(
+      this.materialData.filter(item => {
+        if (
+          item.nombre &&
+          item.nombre
+            .toString()
+            .toLowerCase()
+            .indexOf(value) !== -1 || !value
+        ) {
+
+          return true;
+        }
+      }).slice());
+  }
 
 
-  activateOrInactivate(row: MaterialTransporte) {
-    if (!row || row.costo<=0) {
-      return;
-    }
+  update(current: MaterialTransporte, event) {
+    console.log('row current ', current);
+    console.log('button ', event);
 
-    this.applyChangeStatus(this.materialTransporteService, row, row.material, this.cdr);
+    this.btnState = true;
+
+
+    this.materialTransporteService.update(current).subscribe(data => {
+      this.btnState = false;
+      this.successResponse('Avaluo', 'Actualizar')
+    }, err => {
+      this.btnState = false;
+      console.log(err);
+      this.errorResponse(undefined, false)
+    });
+
   }
 
 }

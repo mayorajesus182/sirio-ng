@@ -8,8 +8,10 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface MaterialTransporte {
     material: string;
+    nombre: string;   
     transportista:string;
     costo: number;
+    costoDivisa: number;
     fechaCreacion?: any;
     activo?: number;
 }
