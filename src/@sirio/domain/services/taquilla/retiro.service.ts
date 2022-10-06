@@ -8,7 +8,8 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Retiro {
  
-    identificacion: string ;   
+    identificacion: string ;  
+    tipoDocumento: string; 
     nombre: string ;  
     numeroCuenta: string;
     monto: number;   
@@ -34,9 +35,7 @@ export class RetiroService {
     
     }
    
-    get(id: string): Observable<Retiro> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/get`);
-    }
+    
 
     save(data: Retiro): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)

@@ -1,14 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
-import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
-import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
-import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
-import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -22,29 +19,31 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
-   retiro: Retiro = {} as Retiro;
-    /*public Personas = new BehaviorSubject<Persona[]>([]);
-    public parroquias = new BehaviorSubject<Parroquia[]>([]);
-    public municipios = new BehaviorSubject<Municipio[]>([]);
-    public estados = new BehaviorSubject<Estado[]>([]);*/
+    retiro: Retiro = {} as Retiro;   
+    tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
 
+    //formData: FormGroup;
+    formData2: FormGroup;
 
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-       private retiroService: RetiroService,
-       /*private PersonaGetByTipoDoc: PersonaService,
-        private parroquiaService: ParroquiaService,
-        private municipioService: MunicipioService,
-        private estadoService: EstadoService,*/
+        private retiroService: RetiroService,
+        private TipoDocumentoService: TipoDocumentoService,     
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
+   
+    get form2() {
+        return !this.formData2 ? {} : this.formData2.controls;
+      }
 
     ngOnInit() {
 
-        this.loadingDataForm.next(true);
+       
+        this.buildForm(this.retiro);
+        this.loadingDataForm.next(false);
       
 
        /* this.institucionService.get().subscribe((inst: Institucion) => {
@@ -55,12 +54,20 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.cdr.detectChanges();
         });*/
         
-      /* trae servicio de estado
-        this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
-            this.estados.next(data);
+       //trae servicio de TIPO DE DOCUMENTOS
+        this.TipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+            this.tipoDocumentos.next(data);
             this.cdr.detectChanges();
         });
-        */
+
+       
+       this.formData2 = this.fb.group({
+            mostrar: [false],   
+            monto: new FormControl(this.retiro.monto),   
+            cuenta: new FormControl('', Validators.required),
+            referencia: new FormControl('', Validators.required),
+            //referencia: new FormControl('', Validators.required),
+          })
         
 
     }
@@ -94,30 +101,30 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(retiro: Retiro) {
 
-
-        this.itemForm = this.fb.group({
-           /* id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            identificacion: [institucion.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            siglas: [institucion.siglas || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            */
+        this.formData2 = this.fb.group({
+            mostrar: [false],          
+            //monto: new FormControl(retiro.monto),
+            // tipoDocumento: new FormControl(retiro.tipoDocumento || undefined, [Validators.required]),
+            cuenta: new FormControl(retiro.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            referencia: new FormControl(retiro.referencia || '', [Validators.required, ]),
+          });
+        
+        
+      /*  this.itemForm = this.fb.group({
+            tipoDocumento: new FormControl(retiro.tipoDocumento || undefined, [Validators.required]),
+            identificacion: new FormControl(retiro.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
            
             
 
             monto: new FormControl(retiro.monto || '', [Validators.required, ]),
-            identificacion: [retiro.identificacion || undefined, [Validators.required]],
-            numeroCuenta: [retiro.numeroCuenta || undefined, [Validators.required]],
+           
+           // numeroCuenta: [retiro.numeroCuenta || undefined, [Validators.required]],
            
             referencia: [retiro.referencia || undefined, [Validators.required]],
             telefono: [retiro.telefono || '', [Validators.required, ]],
-           /*direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email: [institucion.email || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            web: [institucion.web || ''],
-            telefono: [institucion.telefono || '', [Validators.required]],
-            telefono_alt: [institucion.telefono_alt || ''],
-            latitud: [institucion.latitud || '', [Validators.required]],
-            longitud: [institucion.longitud || '', [Validators.required]],*/
+          
 
-        });
+        });*/
 
        /* this.f.estado.valueChanges.subscribe(value => {
             this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
