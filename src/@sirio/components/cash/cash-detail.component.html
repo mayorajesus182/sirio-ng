@@ -1,0 +1,22 @@
+<div fxLayout="column" >
+
+    <div fxLayout="column" fxLayoutGap.gt-sm="10px" fxFlex="auto">
+        <h1>Cono Actual</h1>
+        <div *ngFor="let item of conoActual | async" [fxFlex]="width_column ||  '25'" >
+            <input class="mat-input"  [(ngModel)]="item.costo" autofocus 
+            matInput type="text"   currencyMask [options]="{precision:2}" />
+
+        </div>
+
+    </div>
+
+    <div fxLayout="column" fxLayoutGap.gt-sm="10px" fxFlex="auto" *ngIf="conoAnterior">
+        <h1>Cono Anterior</h1>
+        <div *ngFor="let item of conoAnterior | async" [fxFlex]="width_column ||  '25'" >
+            <input class="mat-input"  [(ngModel)]="item.costo" autofocus 
+            matInput type="text"   currencyMask [options]="{precision:2}" />
+
+        </div>
+
+    </div>
+</div>
