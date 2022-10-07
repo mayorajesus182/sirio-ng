@@ -1,0 +1,21 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{'coin.form'|translate}}</h1> <span> Desglosar</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+</sirio-dialog-header>
+
+<div>
+
+  <sirio-cash-detail [cono_actual]="" ></sirio-cash-detail>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+
+</div>

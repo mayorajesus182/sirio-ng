@@ -19,6 +19,7 @@ import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { TitleModule } from './shared/title/title.module';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { CashDetailComponent } from './components/cash/cash-detail.component';
 
 @NgModule({
   imports: [
@@ -28,8 +29,9 @@ import { TranslateModule } from '@ngx-translate/core';
     AuthGuard,
   ],
 
-  declarations: [],
+  declarations: [CashDetailComponent],
   exports: [
+    CashDetailComponent,
     BreadcrumbsModule,
     TitleModule,
     PageModule,

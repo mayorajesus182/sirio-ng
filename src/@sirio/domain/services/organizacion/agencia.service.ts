@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Agencia {
-    id: string;
+    id: number;
     codigo: string;
     nombre: string;
     estado: string;
@@ -19,7 +19,7 @@ export interface Agencia {
     longitud: number;
     fechaCreacion?: any;
     activo?: number;
-    institucion: String;
+    institucion: string;
     horarioExt: number;
 }
 

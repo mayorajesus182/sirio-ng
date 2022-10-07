@@ -252,7 +252,14 @@
 
               <div fxLayout="row wrap" fxLayoutAlign="center center">
 
-
+                <div fxLayout="row" fxLayout="column">
+                  <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                    <button color="default" (click)="addElement()" mat-button>
+                      <mat-icon class="margin-bottom-xxs">money</mat-icon> {{'button.add' | translate: {default:
+                      'global.notfound'} | translate }}
+                    </button>
+                  </div>
+                </div>
 
               </div>
             </mat-expansion-panel>

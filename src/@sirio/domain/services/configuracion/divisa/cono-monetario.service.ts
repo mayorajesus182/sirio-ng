@@ -11,6 +11,7 @@ export interface ConoMonetario {
     moneda: string;
     denominacion: number;
     esMoneda: number;    
+    count?: number;    
     activo?: number;
 }
 
@@ -29,6 +30,10 @@ export class ConoMonetarioService {
 
     actives(): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
+    }
+
+    activesByMoneda(moneda:string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/actives`);
     }
 
     exists(id: string): Observable<any> {
