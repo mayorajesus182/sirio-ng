@@ -73,7 +73,7 @@ export class ConoMonetarioFormComponent extends FormBaseComponent implements OnI
             id: new FormControl({value: conomonetario.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             moneda: new FormControl(conomonetario.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             denominacion : new FormControl(conomonetario.denominacion || '', [Validators.required, ]),
-            esMoneda: new FormControl(conomonetario.esMoneda || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
+            esBillete: new FormControl(conomonetario.esBillete || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
         });
     }
 
@@ -82,7 +82,7 @@ export class ConoMonetarioFormComponent extends FormBaseComponent implements OnI
             return;
 
         this.updateData(this.conomonetario);
-        this.conomonetario.esMoneda = this.conomonetario.esMoneda ? 1 : 0;
+        this.conomonetario.esBillete = this.conomonetario.esBillete ? 1 : 0;
         this.saveOrUpdate(this.conomonetarioService, this.conomonetario, 'La  Moneda', this.isNew);
        
        

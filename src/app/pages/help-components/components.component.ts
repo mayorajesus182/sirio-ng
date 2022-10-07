@@ -11,6 +11,7 @@ import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../@sirio/animations/fade-in-up.animation';
+import { CashFormPopupComponent } from './cash-dialog/cash-form.popup.component';
 import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.component';
 
 @Component({
@@ -20,7 +21,7 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 export class HelpComponentsComponent implements OnInit {
-  public conoActual = new BehaviorSubject<ConoMonetario[]>([]);
+  public conoActual:ConoMonetario[]=[];
   todayValue: Moment
   private _gap = 16;
   gap = `${this._gap}px`;
@@ -90,7 +91,7 @@ export class HelpComponentsComponent implements OnInit {
     })
 
 this.conoService.activesByMoneda('VES').subscribe(data=>{
-  this.conoActual.next(data);
+  this.conoActual=data;
 })
 
   }
@@ -119,7 +120,11 @@ this.conoService.activesByMoneda('VES').subscribe(data=>{
 
   detailCash() {
 
-    this.showFormPopup(DireccionFormPopupComponent,{conoActual:this.conoActual}, '50%')
+    if(this.conoActual && this.conoActual.length ==0){
+      return;
+    }
+
+    this.showFormPopup(CashFormPopupComponent,{conoActual:this.conoActual,conoAnterior:this.conoActual, moneda:'BOLIVARES'}, '50%')
   }
 
 
