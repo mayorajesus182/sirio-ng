@@ -5,7 +5,8 @@
      matRipple
      routerLinkActive="active">
     <!-- <mat-icon class="icon">{{ item.icon }}</mat-icon> -->
-    <fa-icon [icon]="['fas', item.icon]" size="md"></fa-icon>
+    <!-- <fa-icon [icon]="['fas', item.icon]" size="md"></fa-icon> -->
+    <i class="fal fa-{{ item.icon}}  fa-icon"></i>
     <span class="name">{{ item.label }}</span>
   </a>
 </div>
