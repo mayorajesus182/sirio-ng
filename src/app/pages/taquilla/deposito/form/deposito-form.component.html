@@ -32,47 +32,33 @@
 
                     <form [formGroup]="itemForm" *ngIf="itemForm">
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                               
+                            
                                 <sirio-select-search
                                     fxFlex.gt-xs="20"
                                     [label]="'deposit.documentType' | translate: {default: 'global.documentType'} | translate"
                                     formControlName="tipoDocumento" [required]="true" [elements]="tiposDocumentos.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
                                 </sirio-select-search>
-
+                  
                                 <mat-form-field fxFlex.gt-xs="15">
                                     <mat-label>{{'deposit.identification' | translate: {default: 'global.identification'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="15" name="identificacion" formControlName="identificacion" uppercase
+                                    <input matInput autocomplete="off" maxlength="15" id="identificacion" name="identificacion" formControlName="identificacion" uppercase 
                                         required>
                                     <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.identificacion.errors?.notexists">El cliente no existe!</mat-error>  <!--TODO: Cambiar-->
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="65">
                                     <mat-label>{{'deposit.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" readonly maxlength="20" name="nombre" formControlName="nombre" uppercase
-                                        required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                </mat-form-field>
+                                    <input matInput autocomplete="off" [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre" 
+                                    >
+                                </mat-form-field>                              
                             </div>
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <!-- <sirio-select-search
-                                    fxFlex.gt-xs="20"
-                                    [label]="'deposit.documentType' | translate: {default: 'global.documentType'} | translate"
-                                    formControlName="cuentaBancaria" [required]="true" [elements]="tiposDocumentos.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.cuentaBancaria?.errors">
-                                </sirio-select-search> -->
-
-                                <!-- <sirio-select-search
-                                fxFlex.gt-xs="20"
-                                [label]="'deposit.coin' | translate: {default: 'global.coin'} | translate"
-                                formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
-                                [attributeName]="'nombre'" [errors]="f.moneda?.errors">
-                            </sirio-select-search> -->
-                            </div>
                     </form>
                   
 
