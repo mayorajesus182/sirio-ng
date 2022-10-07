@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgIdleModule } from '@ng-idle/core';
 
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
@@ -23,8 +22,6 @@ import { ToolbarModule } from './toolbar/toolbar.module';
     MaterialModule,
     LoadingIndicatorModule,
     SirioSharedModule,
-
-    FontAwesomeModule,
     // Core
     ToolbarModule,
     QuickpanelModule,
