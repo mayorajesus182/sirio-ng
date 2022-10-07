@@ -6,6 +6,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { CuentaBancaria, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -21,6 +22,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
     retiro: Retiro = {} as Retiro;   
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    cuentaBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
 
     //formData: FormGroup;
     formData2: FormGroup;
@@ -30,7 +32,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private retiroService: RetiroService,
-        private TipoDocumentoService: TipoDocumentoService,     
+        private cuentaBancariaService: CuentaBancariaService,
+        private tipoDocumentoService: TipoDocumentoService,     
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -55,18 +58,30 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         });*/
         
        //trae servicio de TIPO DE DOCUMENTOS
-        this.TipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+        this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
             this.tipoDocumentos.next(data);
+            this.cdr.detectChanges();
+        });
+
+       /* this.cuentaBancariaService.activesByNumeroCuenta(GlobalConstants.C).subscribe(data => {
+            this.tipoDocumentos.next(data);
+            this.cdr.detectChanges();
+        });*/
+
+        this.cuentaBancariaService.activesByNumeroCuenta(this.f.numeroCuenta.value).subscribe(data => {
+            this.cuentaBancarias.next(data);
             this.cdr.detectChanges();
         });
 
        
        this.formData2 = this.fb.group({
             mostrar: [false],   
-            monto: new FormControl(this.retiro.monto),   
+            monto: new FormControl(this.retiro.monto), 
+            tipoDocumento: new FormControl(this.retiro.tipoDocumento || undefined, [Validators.required]),  
             cuenta: new FormControl('', Validators.required),
             referencia: new FormControl('', Validators.required),
-            //referencia: new FormControl('', Validators.required),
+            cuentaBancaria: new FormControl(this.retiro.numeroCuenta || undefined, [Validators.required]),  
+
           })
         
 
@@ -103,10 +118,11 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
         this.formData2 = this.fb.group({
             mostrar: [false],          
-            //monto: new FormControl(retiro.monto),
-            // tipoDocumento: new FormControl(retiro.tipoDocumento || undefined, [Validators.required]),
+            monto: new FormControl(retiro.monto),
+            tipoDocumento: new FormControl(retiro.tipoDocumento || undefined, [Validators.required]),
             cuenta: new FormControl(retiro.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             referencia: new FormControl(retiro.referencia || '', [Validators.required, ]),
+            cuentaBancaria: new FormControl(retiro.numeroCuenta || undefined, [Validators.required]),
           });
         
         

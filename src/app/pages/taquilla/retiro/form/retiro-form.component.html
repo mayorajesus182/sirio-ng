@@ -62,15 +62,24 @@
                             <mat-error *ngIf="form2.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                             <mat-error *ngIf="form2.monto.errors?.min">No debe ser menor que 0,05</mat-error>
                         </mat-form-field>  
+
+                        <div fxLayout="row" fxLayout="column">
+                            <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                              <button color="default" (click)="addElement()" mat-button>
+                                <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.edit' | translate: {default:
+                                'global.notfound'} | translate }}
+                              </button>
+                            </div>
+                          </div>
                         
                         <mat-form-field fxFlex.gt-sm="30">
                         <mat-label>{{'form.account' | translate: {default: 'global.account'} | translate }}
                         </mat-label>
-                        <input matInput name="cuenta" autocomplete="off" num-account-validate formControlName="cuenta"
-                            mask="0000 0000 0000" required placeholder="">
+                        <input matInput name="cuentaBancaria" autocomplete="off" num-account-validate formControlName="cuentaBancaria"
+                            mask="0000 0000 0000 0000 0000" required placeholder="">
                         <mat-hint>Ingrese el numero de cuenta</mat-hint>
-                        <mat-error *ngIf="form2.cuenta.errors?.required">Es requerido</mat-error>
-                        <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es invalido</mat-error>
+                        <mat-error *ngIf="form2.cuentaBancaria.errors?.required">Es requerido</mat-error>
+                        <mat-error *ngIf="form2.cuentaBancaria.errors?.account">El num. de cuenta es invalido</mat-error>
                         </mat-form-field>
 
                         <mat-form-field fxFlex.gt-sm="30">
@@ -81,10 +90,26 @@
                             <mat-hint>Ingrese el numero de referencia</mat-hint>
                             <mat-error *ngIf="form2.referencia.errors?.required">Es requerido</mat-error>
                           </mat-form-field>
+
+                    </div> 
+                         
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
+                        *ngIf="form2.mostrar.value">
+                          <sirio-select-simple fxFlex="20"
+                          [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                          formControlName="tipoDocumento" [required]="true"
+                          [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                          [errors]="f.tipoDocumento?.errors">
+                      </sirio-select-simple>
+
+
                        
-                     </div> 
+                       
+                    </div> 
 
                       
+               
+               
                 </div> 
                        
  
