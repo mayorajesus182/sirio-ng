@@ -11,6 +11,7 @@ export interface AvaluoTransporte {
     nombre: string;    
     transportista:string;
     costo: number;
+    costoDivisa: number;
     fechaCreacion?: any;
     activo?: number;
 }

@@ -3,35 +3,35 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
 
 @Component({
-  selector: 'app-cono-monetario-table',
-  templateUrl: './cono-monetario-table.component.html',
-  styleUrls: ['./cono-monetario-table.component.scss'],
+  selector: 'app-pase-efectivo-table',
+  templateUrl: './pase-efectivo-table.component.html',
+  styleUrls: ['./pase-efectivo-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ConoMonetarioTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
+export class PaseEfectivoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
-  displayedColumns = ['cono_id','moneda' ,'denominacion','esBillete','activo','actions'];
+  displayedColumns = ['bovagencia_id', 'tipoMovimiento', 'egreso', 'ingreso', 'estatus', 'actions'];
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
     private cdr: ChangeDetectorRef,
-    private conoMonetarioService: ConoMonetarioService,
+    private bovedaAgenciaService: BovedaAgenciaService,
   ) {
     super(undefined,  injector);
   }
 
   ngOnInit() {
-    this.init(this.conoMonetarioService, 'cono_id');
+    this.init(this.bovedaAgenciaService, 'bovagencia_id');
   }
 
   ngAfterViewInit() {
@@ -39,20 +39,20 @@ export class ConoMonetarioTableComponent extends TableBaseComponent implements O
   }
 
 
-  add(path:string) {
+  add(path:string) {    
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
-  }
+  // edit(data:any) {    
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  // }
 
   view(data:any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
   activateOrInactivate(data:any) {
-    this.applyChangeStatus(this.conoMonetarioService, data.element, data.element.moneda, this.cdr);
+    this.applyChangeStatus(this.bovedaAgenciaService, data.element, data.element.nombre, this.cdr);
   }
 
 }

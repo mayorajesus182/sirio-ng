@@ -3,12 +3,15 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
+import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../@sirio/animations/fade-in-up.animation';
+import { CashFormPopupComponent } from './cash-dialog/cash-form.popup.component';
 import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.component';
 
 @Component({
@@ -18,7 +21,7 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 export class HelpComponentsComponent implements OnInit {
-
+  public conoActual:ConoMonetario[]=[];
   todayValue: Moment
   private _gap = 16;
   gap = `${this._gap}px`;
@@ -44,12 +47,11 @@ export class HelpComponentsComponent implements OnInit {
 
   formData: FormGroup;
   formData2: FormGroup;
-  // formTelefono:FormGroup;
-  // formDireccion:FormGroup;
 
   constructor(
     private dialog: MatDialog,
     private calendarService: CalendarioService,
+    private conoService: ConoMonetarioService,
     private fb: FormBuilder) {
 
   }
@@ -78,7 +80,6 @@ export class HelpComponentsComponent implements OnInit {
       email: new FormControl('', [Validators.required])
     })
 
-    // this.formData.markAsTouched();
 
     this.formData2 = this.fb.group({
       mostrar: [false],
@@ -88,6 +89,10 @@ export class HelpComponentsComponent implements OnInit {
       monto: new FormControl(undefined, Validators.required),
       telefono: new FormControl('', Validators.required)
     })
+
+this.conoService.activesByMoneda('VES').subscribe(data=>{
+  this.conoActual=data;
+})
 
   }
 
@@ -111,6 +116,15 @@ export class HelpComponentsComponent implements OnInit {
   addElement() {
 
     this.showFormPopup(DireccionFormPopupComponent,{}, '50%')
+  }
+
+  detailCash() {
+
+    if(this.conoActual && this.conoActual.length ==0){
+      return;
+    }
+
+    this.showFormPopup(CashFormPopupComponent,{conoActual:this.conoActual,conoAnterior:this.conoActual, moneda:'BOLIVARES'}, '50%')
   }
 
 

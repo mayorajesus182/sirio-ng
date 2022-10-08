@@ -7,6 +7,7 @@ import { BreadcrumbsModule } from '../../../@sirio/shared/breadcrumbs/breadcrumb
 import { HighlightModule } from '../../../@sirio/shared/highlightjs/highlight.module';
 import { MaterialModule } from '../../../@sirio/shared/material-components.module';
 import { ScrollbarModule } from '../../../@sirio/shared/scrollbar/scrollbar.module';
+import { CashFormPopupComponent } from './cash-dialog/cash-form.popup.component';
 import { HelpComponentsRoutingModule } from './components-routing.module';
 import { HelpComponentsComponent } from './components.component';
 import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.component';
@@ -24,12 +25,12 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
     // Core
     HighlightModule,
     ScrollbarModule,
-    BreadcrumbsModule
+    BreadcrumbsModule,
   ],
   declarations: [
-    HelpComponentsComponent,DireccionFormPopupComponent
+    HelpComponentsComponent,DireccionFormPopupComponent, CashFormPopupComponent
   ],
-  entryComponents: [DireccionFormPopupComponent]
+  entryComponents: [DireccionFormPopupComponent,CashFormPopupComponent]
 })
 export class HelpComponentsModule {
 }
