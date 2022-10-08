@@ -10,7 +10,7 @@ export interface ConoMonetario {
     id: number;
     moneda: string;
     denominacion: number;
-    esMoneda: number;    
+    esBillete: number;
     count?: number;    
     activo?: number;
 }

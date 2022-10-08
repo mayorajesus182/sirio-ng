@@ -19,7 +19,7 @@ import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { TitleModule } from './shared/title/title.module';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { CashDetailComponent } from './components/cash/cash-detail.component';
+import { SirioComponentModule } from './components/sirio.component.modulo';
 
 @NgModule({
   imports: [
@@ -29,9 +29,8 @@ import { CashDetailComponent } from './components/cash/cash-detail.component';
     AuthGuard,
   ],
 
-  declarations: [CashDetailComponent],
+  declarations: [],
   exports: [
-    CashDetailComponent,
     BreadcrumbsModule,
     TitleModule,
     PageModule,
@@ -49,7 +48,8 @@ import { CashDetailComponent } from './components/cash/cash-detail.component';
     MatCheckboxModule,
     MatRadioModule,
     MatMenuModule,
-    ScrollingModule
+    ScrollingModule,
+    SirioComponentModule
   ]
 })
 export class SirioSharedModule {

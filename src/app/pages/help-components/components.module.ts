@@ -25,7 +25,7 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
     // Core
     HighlightModule,
     ScrollbarModule,
-    BreadcrumbsModule
+    BreadcrumbsModule,
   ],
   declarations: [
     HelpComponentsComponent,DireccionFormPopupComponent, CashFormPopupComponent
