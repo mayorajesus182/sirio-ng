@@ -24,6 +24,7 @@ export const environment = {
     reports: config.apiDevUrl+'/api/reports',
     persona: config.apiProUrl+'/api/persona',
     configuracion: config.apiProUrl+'/api/configuracion',
+    control_efectivo: config.apiProUrl+'/api/control-efectivo',
     organizacion: config.apiProUrl+'/api/organizacion',
     transporte: config.apiProUrl+'/api/transporte',
     preferencia: config.apiProUrl+'/api/preferencia',

@@ -72,7 +72,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/taquilla/taquilla.module').then(m => m.TaquillaModule),
         data:{title:'menu.taquilla'}
       },
-      
+      {
+        path: 'control-efectivo',
+        loadChildren: () => import('./pages/control-efectivo/control-efectivo.module').then(m => m.ControlEfectivoModule),
+        data:{title:'menu.cashControl'}
+      },
     ]
   },
   {
