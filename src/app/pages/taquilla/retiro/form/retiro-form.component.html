@@ -80,34 +80,65 @@
                         <mat-hint>Ingrese el numero de cuenta</mat-hint>
                         <mat-error *ngIf="form2.cuentaBancaria.errors?.required">Es requerido</mat-error>
                         <mat-error *ngIf="form2.cuentaBancaria.errors?.account">El num. de cuenta es invalido</mat-error>
-                        </mat-form-field>
-
-                        <mat-form-field fxFlex.gt-sm="30">
-                            <mat-label>{{'form.reference' | translate: {default: 'global.reference'} | translate }}
-                            </mat-label>
-                            <input matInput name="referencia" autocomplete="off" formControlName="referencia"
-                             required placeholder="">
-                            <mat-hint>Ingrese el numero de referencia</mat-hint>
-                            <mat-error *ngIf="form2.referencia.errors?.required">Es requerido</mat-error>
-                          </mat-form-field>
+                        </mat-form-field>                  
 
                     </div> 
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value">
+                        <mat-panel-title>
+                            <span class="mt-10">
+                            Datos del Cheque
+                            </span>
+                        </mat-panel-title>
+                    </div>                  
                          
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                        *ngIf="form2.mostrar.value">
-                          <sirio-select-simple fxFlex="20"
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value"> 
+                      <mat-form-field fxFlex.gt-sm="30">
+                        <mat-label>{{'form.reference' | translate: {default: 'global.reference'} | translate }}
+                        </mat-label>
+                        <input matInput name="referencia" autocomplete="off" formControlName="referencia"
+                         required placeholder="">
+                        <mat-hint>Ingrese el numero de referencia</mat-hint>
+                        <mat-error *ngIf="form2.referencia.errors?.required">Es requerido</mat-error>
+                      </mat-form-field>
+
+                      <mat-form-field fxFlex="20">
+                        <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
+                        </mat-label>
+                        <input matInput minlength="1" maxlength="10" autocomplete="off" name="moneda" formControlName="moneda" uppercase
+                            required>
+                            <mat-error *ngIf="form2.moneda.errors?.required">{{'error.required' | translate}}</mat-error>
+                            <mat-error *ngIf="form2.moneda.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                    </mat-form-field>
+
+                    </div> 
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value">
+                       
+                        <mat-panel-title>
+                            <span class="mt-10">
+                              Datos del Beneficiario
+                            </span>
+                          </mat-panel-title>
+                    </div> 
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value">  
+                        <sirio-select-simple fxFlex="30"
                           [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                           formControlName="tipoDocumento" [required]="true"
                           [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
                           [errors]="f.tipoDocumento?.errors">
-                      </sirio-select-simple>
-
-
-                       
-                       
-                    </div> 
-
-                      
+                        </sirio-select-simple>
+                        
+                        <mat-form-field fxFlex="20">
+                            <mat-label>{{'form.identification' | translate: {default: 'global.identification'} | translate }}
+                            </mat-label>
+                            <input matInput minlength="1" maxlength="10" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
+                                required>
+                                <mat-error *ngIf="form2.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="form2.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                        </mat-form-field>
+                     </div>
                
                
                 </div> 

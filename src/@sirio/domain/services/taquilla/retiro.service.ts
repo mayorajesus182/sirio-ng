@@ -12,6 +12,7 @@ export interface Retiro {
     tipoDocumento: string; 
     nombre: string ;  
     numeroCuenta: string;
+    moneda: String;
     monto: number;   
     referencia: string;
     libreta: string;

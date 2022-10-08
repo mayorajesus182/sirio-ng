@@ -7,6 +7,8 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
+import { PersonaNatural } from 'src/@sirio/domain/services/persona/persona-natural.service';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -23,6 +25,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     retiro: Retiro = {} as Retiro;   
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     cuentaBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
+    persona = new BehaviorSubject<Persona[]>([]);
 
     //formData: FormGroup;
     formData2: FormGroup;
@@ -33,7 +36,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         private route: ActivatedRoute,
         private retiroService: RetiroService,
         private cuentaBancariaService: CuentaBancariaService,
-        private tipoDocumentoService: TipoDocumentoService,     
+        private tipoDocumentoService: TipoDocumentoService, 
+        private personaService: PersonaService,    
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -67,11 +71,14 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.tipoDocumentos.next(data);
             this.cdr.detectChanges();
         });*/
-
         this.cuentaBancariaService.activesByNumeroCuenta(this.f.numeroCuenta.value).subscribe(data => {
             this.cuentaBancarias.next(data);
             this.cdr.detectChanges();
         });
+
+
+        
+        
 
        
        this.formData2 = this.fb.group({
@@ -81,6 +88,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             cuenta: new FormControl('', Validators.required),
             referencia: new FormControl('', Validators.required),
             cuentaBancaria: new FormControl(this.retiro.numeroCuenta || undefined, [Validators.required]),  
+            identificacion: new FormControl(this.retiro.identificacion || undefined, [Validators.required]), 
 
           })
         
@@ -123,6 +131,9 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             cuenta: new FormControl(retiro.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             referencia: new FormControl(retiro.referencia || '', [Validators.required, ]),
             cuentaBancaria: new FormControl(retiro.numeroCuenta || undefined, [Validators.required]),
+            moneda: new FormControl('', Validators.required),
+            identificacion: new FormControl(this.retiro.identificacion || undefined, [Validators.required]), 
+
           });
         
         
