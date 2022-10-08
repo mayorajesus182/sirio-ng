@@ -22,6 +22,7 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
 })
 export class HelpComponentsComponent implements OnInit {
   public conoActual:ConoMonetario[]=[];
+  public conoAnterior:ConoMonetario[]=[];
   todayValue: Moment
   private _gap = 16;
   gap = `${this._gap}px`;
@@ -51,7 +52,7 @@ export class HelpComponentsComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private calendarService: CalendarioService,
-    private conoService: ConoMonetarioService,
+    // private conoService: ConoMonetarioService,
     private fb: FormBuilder) {
 
   }
@@ -90,9 +91,6 @@ export class HelpComponentsComponent implements OnInit {
       telefono: new FormControl('', Validators.required)
     })
 
-this.conoService.activesByMoneda('VES').subscribe(data=>{
-  this.conoActual=data;
-})
 
   }
 
@@ -115,16 +113,13 @@ this.conoService.activesByMoneda('VES').subscribe(data=>{
 
   addElement() {
 
-    this.showFormPopup(DireccionFormPopupComponent,{}, '50%')
+    this.showFormPopup(DireccionFormPopupComponent,{}, '40%')
   }
 
   detailCash() {
 
-    if(this.conoActual && this.conoActual.length ==0){
-      return;
-    }
 
-    this.showFormPopup(CashFormPopupComponent,{conoActual:this.conoActual,conoAnterior:this.conoActual, moneda:'BOLIVARES'}, '50%')
+    this.showFormPopup(CashFormPopupComponent,{desgloseConoActual:this.conoActual,desgloseConoAnterior:this.conoActual}, '40%')
   }
 
 
