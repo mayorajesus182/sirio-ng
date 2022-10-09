@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['monetaryCone.form']" current="action.view"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['boxOffice.form']" current="action.view"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'monetaryCone.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'boxOffice.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -27,25 +27,16 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-xs="50">
-                                <mat-label>{{'monetaryCone.coin' | translate: {default: 'global.coin'} | translate }}
+                                <mat-label>{{'boxOffice.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.moneda" readonly>
+                                <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>
 
-
-                            <mat-form-field fxFlex.gt-xs="40">
-                                <mat-label>{{'monetaryCone.denomination' | translate: {default: 'global.denomination'} | translate }}
+                            <mat-form-field fxFlex.gt-xs="50">
+                                <mat-label>{{'boxOffice.boxOfficeOperator' | translate: {default: 'global.boxOfficeOperator'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.denominacion" readonly>
+                                <input matInput [value]="d.usuario" readonly>
                             </mat-form-field>
-
-                            <mat-form-field fxFlex="auto">
-                                <mat-label>{{'monetaryCone.isBill' | translate: {default: 'global.isBill'} |
-                                    translate }}</mat-label>
-                                <input matInput class="text-center" [value]="d.esMoneda ? 'SI' : 'NO'">
-                            </mat-form-field>
-
-                           
 
                         </div>
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
@@ -57,7 +48,6 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>

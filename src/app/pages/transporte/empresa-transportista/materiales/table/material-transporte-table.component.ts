@@ -94,8 +94,6 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
 
 
   update(current: MaterialTransporte, event) {
-    console.log('row current ', current);
-    console.log('button ', event);
 
     this.btnState = true;
 
@@ -105,7 +103,6 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
       this.successResponse('Avaluo', 'Actualizar')
     }, err => {
       this.btnState = false;
-      console.log(err);
       this.errorResponse(undefined, false)
     });
 

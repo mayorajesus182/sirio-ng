@@ -1,0 +1,88 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'cashPass.date' | translate: {default: 'global.date'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="70">
+                                <mat-label>{{'cashPass.movementType' | translate: {default: 'global.movementType'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.movimientoEfectivo" readonly>
+                            </mat-form-field>
+                        </div>
+                            
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.taquilla" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'cashPass.entry' | translate: {default: 'global.entry'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.ingreso" readonly currencyMask [options]="{precision:2}">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'cashPass.egress' | translate: {default: 'global.egress'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.egreso" readonly currencyMask [options]="{precision:2}">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'cashPass.status' | translate: {default: 'global.status'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.estatusEfectivo" readonly>
+                            </mat-form-field>
+
+                        </div>
+                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
+
+                    </div>
+
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

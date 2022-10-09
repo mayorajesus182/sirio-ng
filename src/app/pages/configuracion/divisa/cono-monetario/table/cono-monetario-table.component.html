@@ -34,8 +34,8 @@
                 </ng-container>
 
                 <ng-container matColumnDef="esMoneda">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'" mat-sort-header>{{'monetaryCone.isCoin' | translate:
-                        {default: 'global.isCoin'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'" mat-sort-header>{{'monetaryCone.isBill' | translate:
+                        {default: 'global.isBill'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="text-truncate font-weight-600">{{element.esMoneda ? 'SI' : 'NO'}}</p>
                     </mat-cell>

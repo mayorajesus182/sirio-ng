@@ -101,7 +101,6 @@ export class ViajeTransporteTableComponent extends TableBaseComponent implements
       this.successResponse('El Registro se', 'Actualizó')
     }, err => {
       this.btnState = false;
-      console.log(err);
       this.errorResponse(undefined, false)
     });
 

@@ -14,6 +14,11 @@ const organizacionRoutes: Routes = [
         loadChildren: () => import('./agencia/agencia.module').then(m => m.AgenciaModule),
     },
     {
+        path: 'taquilla',
+        data: { title: 'boxOffice.table' },
+        loadChildren: () => import('./taquilla/taquilla.module').then(m => m.TaquillaModule),
+    },
+    {
         path: 'zona',
         data: { title: 'zone.table' },
         loadChildren: () => import('./zona/zona.module').then(m => m.ZonaModule),
