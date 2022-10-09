@@ -7,9 +7,12 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 
 export interface CuentaBancaria {
-    id: number;
-    descripcion: string;
+    identificacion: string;  
+    nombre: string;
     moneda: string;
+    id: number;   
+    descripcion: string ;
+
 
 }
 

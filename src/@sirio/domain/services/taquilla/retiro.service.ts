@@ -8,6 +8,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Retiro {
  
+    persona: String; 
     identificacion: string ;  
     tipoDocumento: string; 
     nombre: string ;  
