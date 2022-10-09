@@ -103,7 +103,7 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
 
     this.avaluoTransporteService.update(current).subscribe(data => {
       this.btnState = false;
-      this.successResponse('Avaluo', 'Actualizar')
+      this.successResponse('El Registro se', 'Actualizó')
     }, err => {
       this.btnState = false;
       console.log(err);
@@ -112,14 +112,6 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
 
   }
 
-
-  activateOrInactivate(row: AvaluoTransporte) {
-    if (!row || row.costo > 0) {
-      return;
-    }
-
-    this.applyChangeStatus(this.avaluoTransporteService, row, row.avaluo, this.cdr);
-  }
 
 }
 

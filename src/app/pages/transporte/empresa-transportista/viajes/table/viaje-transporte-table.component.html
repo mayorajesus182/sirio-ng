@@ -1,24 +1,18 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['global.carrierEmployee']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['tripCosts.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'global.carrierEmployee' | translate: {default: 'global.notfound'}" placeholder="carrierEmployee.search"
+        <sirio-list-simple [name]="'tripCosts.table' | translate: {default: 'global.notfound'}" placeholder="tripCosts.search"
             (filterChange)="onFilterChange($event)">
 
             <div fxLayout="column" class="margin-h margin-top-md">
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                    <mat-form-field fxFlex.gt-xs="30">
-                        <mat-label>{{'language.code' | translate: {default: 'global.code'} | translate }}</mat-label>
-                        <input matInput [value]="transportistaId" readonly>
-                    </mat-form-field>
-
-
                     <mat-form-field fxFlex="auto">
-                        <mat-label>{{'language.name' | translate: {default: 'global.name'} | translate }}</mat-label>
-                        <input matInput [value]="transportista" readonly>
+                        <mat-label>{{'tripCosts.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate }}</mat-label>
+                        <input matInput [value]="transportistaId+' - '+transportista" readonly>
                     </mat-form-field>
 
                 </div>
@@ -26,54 +20,72 @@
 
             <div fxLayout="column" class="margin-h padding-v">
                 <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
-                [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
-                [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="viajes | async">
+                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="viajes | async">
 
-                <ngx-datatable-column name="#" [flexGrow]="1" [sortable]="true">
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        {{ row?.viaje }}
-                    </ng-template>
-                </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'tripCosts.code' | translate: {default: 'global.code'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row?.viaje }}
+                        </ng-template>
+                    </ngx-datatable-column>
 
+                    <ngx-datatable-column [flexGrow]="3" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'tripCosts.name' | translate: {default: 'global.name'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'personLocation.nombre' | translate: {default: 'global.nombre'} |
-                            translate}}</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
-                    </ng-template>
-                </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'tripCosts.costNationalCurrency' | translate: {default: 'global.costNationalCurrency'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-costo'] = true" *ngIf="editing[rowIndex + '-costo']"
+                                class="text-right">
+                                <span class="text-right">{{ row?.costo | number:'1.2-2'}}</span>
+                            </span>
+                            <input class="mat-input" [(ngModel)]="row.costo" autofocus maxlength="19" matInput type="text"
+                                (blur)="editing[rowIndex + '-costo'] = false" currencyMask [options]="{precision:2}" />
+                        </ng-template>
+                    </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'personLocation.description' | translate: {default: 'global.description'} |
-                            translate}}</span>
-                    </ng-template>
-                    <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span style="white-space: break-spaces;">{{ row?.costo }}</span>
-                    </ng-template>
-                </ngx-datatable-column>
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true" [headerClass]="">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'tripCosts.costForeignCurrency' | translate: {default: 'global.costForeignCurrency'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <span title="Click to edit" (click)="editing[rowIndex + '-costoDivisa'] = true" *ngIf="!editing[rowIndex + '-costoDivisa']">
+                                <span class="text-right">{{ row?.costoDivisa | number:'1.2-2'}}</span>
+                            </span>
+                            <input class="mat-input" [(ngModel)]="row.costoDivisa" autofocus maxlength="19" matInput type="text"
+                                *ngIf="editing[rowIndex + '-costoDivisa']" (blur)="editing[rowIndex + '-costoDivisa'] = false" currencyMask
+                                [options]="{precision:2}" />
+                        </ng-template>
+                    </ngx-datatable-column>
 
-
-                <ngx-datatable-column name="" [flexGrow]="1" >
-                    <ng-template let-row="row" ngx-datatable-cell-template class="margin-v">
-                        <button mat-icon-button mat-sm-button color="primary"  [disabled]="!row.activo" (click)="openPopup(row)" matTooltip="Editar">
-                            <mat-icon>edit</mat-icon>
-                        </button> &nbsp;&nbsp;
-                        <button mat-icon-button mat-sm-button [color]="row.activo?'muted':'primary'"  (click)="activateOrInactivate(row)"
-                            matTooltip="Activar/Inactivar">
-                            <mat-icon>check_circle</mat-icon>
-                        </button>
-                    </ng-template>
-                </ngx-datatable-column>
-            </ngx-datatable>
-
+                    <ngx-datatable-column name="" [flexGrow]="1">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                                [disabled]="row.costoDivisa+row.costo <= 0 || btnState" (click)="update(row,$event)" matTooltip="Actualizar">
+                                <mat-icon>save</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
 
             </div>
-          
 
-        </sirio-list>
+
+        </sirio-list-simple>
     </sirio-page-layout-content>
 </sirio-page-layout>

@@ -20,11 +20,14 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class ViajeTransporteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public viajeData: ViajeTransporte[];
   public viajes: ReplaySubject<ViajeTransporte[]> = new ReplaySubject<ViajeTransporte[]>();
-  
+  public keywords: string = '';
   transportistaId: string;
   transportista: string;
   datosPersona: string;
+  editing: any[] = [];
+  btnState: boolean = false;
 
   constructor(
     injector: Injector,
@@ -38,10 +41,8 @@ export class ViajeTransporteTableComponent extends TableBaseComponent implements
 
   loadList() {
     this.viajeTransporteService.activesByTransportista(this.transportistaId).subscribe((data) => {
+      this.viajeData = data;
       this.viajes.next(data.slice());
-      this.cdr.markForCheck();
-
-      console.log(data);
     });
   }
 
@@ -70,14 +71,40 @@ export class ViajeTransporteTableComponent extends TableBaseComponent implements
 
   }
 
+  onFilterChange(value) {
+
+    value = value.trim();
+    value = value.toLowerCase();
+
+    this.viajes.next(
+      this.viajeData.filter(item => {
+        if (
+          item.nombre &&
+          item.nombre
+            .toString()
+            .toLowerCase()
+            .indexOf(value) !== -1 || !value
+        ) {
+
+          return true;
+        }
+      }).slice());
+  }
 
 
-  activateOrInactivate(row: ViajeTransporte) {
-    if (!row || row.costo<=0) {
-      return;
-    }
+  update(current: ViajeTransporte, event) {
+    this.btnState = true;
 
-    this.applyChangeStatus(this.viajeTransporteService, row, row.viaje, this.cdr);
+
+    this.viajeTransporteService.update(current).subscribe(data => {
+      this.btnState = false;
+      this.successResponse('El Registro se', 'Actualizó')
+    }, err => {
+      this.btnState = false;
+      console.log(err);
+      this.errorResponse(undefined, false)
+    });
+
   }
 
 }
