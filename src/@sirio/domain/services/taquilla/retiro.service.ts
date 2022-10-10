@@ -8,20 +8,26 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Retiro {
  
-    persona: String; 
-    identificacion: string ;  
+    institucion: string;
+    agencia: number;
+    persona: number; 
+    numper: string;
+    cuentaBancaria: number;   
     tipoDocumento: string; 
+    identificacion: string ;  
     nombre: string ;  
     numeroCuenta: string;
     moneda: String;
-    monto: number;   
+    tipoProducto: string;     
     referencia: string;
+    monto: number;
     libreta: string;
     linea: string;
+    conoAnterior: number;
     telefono: string;
     email:string;
-    fechaCreacion?: any;
-    activo?: number;
+    estatusOperacion: string;
+      
 }
 
 @Injectable({

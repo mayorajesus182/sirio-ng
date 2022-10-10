@@ -16,7 +16,7 @@
                     <sirio-card-header-actions>
                         
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]=" "
                             (click)="save()">
                             <mat-icon>save</mat-icon>
 
@@ -35,7 +35,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">               
 
-            <form [formGroup]="formData2" *ngIf="formData2">                    
+            <form [formGroup]="itemForm" *ngIf="itemForm">                    
                     
 
                <div fxLayout="column" >
@@ -63,40 +63,18 @@
                             <mat-error *ngIf="form2.monto.errors?.min">No debe ser menor que 0,05</mat-error>
                         </mat-form-field>  
 
-                        <div fxLayout="row" fxLayout="column">
-                            <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                              <button color="default" (click)="addElement()" mat-button>
-                                <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.edit' | translate: {default:
-                                'global.notfound'} | translate }}
-                              </button>
-                            </div>
-                          </div>
                         
                         <mat-form-field fxFlex.gt-sm="25">
-                        <mat-label>{{'form.account' | translate: {default: 'global.account'} | translate }}
+                        <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} | translate }}
                         </mat-label>
                         <input matInput name="numeroCuenta" autocomplete="off" num-account-validate formControlName="numeroCuenta"
                             mask="0000 0000 0000 0000 0000" required placeholder="">
                         <mat-hint>Ingrese el numero de cuenta</mat-hint>
                         <mat-error *ngIf="form2.numeroCuenta.errors?.required">Es requerido</mat-error>
                         <mat-error *ngIf="form2.numeroCuenta.errors?.account">El num. de cuenta es invalido</mat-error>
-                        </mat-form-field>  
-                        
-                        <mat-form-field fxFlex.gt-xs="20">
-                            <mat-label>{{'deposit.name' | translate: {default: 'global.name'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre" 
-                            >
-                        </mat-form-field>   
-                        <mat-form-field fxFlex.gt-xs="20">
-                            <mat-label>{{'deposit.identification' | translate: {default: 'global.identification'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.identificacion" [ngModelOptions]="{standalone: true}" readonly  name="identificacion" 
-                            >
-                        </mat-form-field>   
+                        </mat-form-field>                 
+                  
                      
-                     
-               
 
                     </div> 
 
@@ -108,27 +86,44 @@
                         </mat-panel-title>
                     </div>                  
                          
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value"> 
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value">                        
+                     
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'form.name' | translate: {default: 'global.name'} | translate }}
+                            </mat-label>
+                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre">
+                        </mat-form-field>   
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'form.identification' | translate: {default: 'global.identification'} | translate }}
+                            </mat-label>
+                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.identificacion" [ngModelOptions]="{standalone: true}" readonly name="identificacion">
+                        </mat-form-field> 
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
+                            </mat-label>
+                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.moneda" [ngModelOptions]="{standalone: true}" readonly name="moneda">
+                        </mat-form-field> 
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'form.productType' | translate: {default: 'global.productType'} | translate }}
+                            </mat-label>
+                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.tipoProducto" [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
+                        </mat-form-field> 
                        
-                     
-                     
-                        <mat-form-field fxFlex.gt-sm="30">
-                        <mat-label>{{'form.reference' | translate: {default: 'global.reference'} | translate }}
-                        </mat-label>
-                        <input matInput name="referencia" autocomplete="off" formControlName="referencia"
-                         required placeholder="">
-                        <mat-hint>Ingrese el numero de referencia</mat-hint>
-                        <mat-error *ngIf="form2.referencia.errors?.required">Es requerido</mat-error>
-                      </mat-form-field>
+                        
+                    </div>     
+                    
 
-                      <mat-form-field fxFlex="20">
-                        <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
-                        </mat-label>
-                        <input matInput minlength="1" maxlength="10" autocomplete="off" name="moneda" formControlName="moneda" uppercase
-                            required>
-                            <mat-error *ngIf="form2.moneda.errors?.required">{{'error.required' | translate}}</mat-error>
-                            <mat-error *ngIf="form2.moneda.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                    </mat-form-field>
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value"> 
+                     
+
+                        <mat-form-field fxFlex.gt-sm="30">
+                            <mat-label>{{'form.reference' | translate: {default: 'global.reference'} | translate }}
+                            </mat-label>
+                            <input matInput name="referencia" autocomplete="off" formControlName="referencia"
+                             required placeholder="">
+                            <mat-hint>Ingrese el numero de referencia</mat-hint>
+                            <mat-error *ngIf="form2.referencia.errors?.required">Es requerido</mat-error>
+                          </mat-form-field>
 
                     </div> 
 
@@ -152,19 +147,14 @@
                         <mat-form-field fxFlex.gt-xs="15">
                             <mat-label>{{'deposit.identification' | translate: {default: 'global.identification'} | translate }}
                             </mat-label>
-                            <input matInput autocomplete="off" maxlength="15" id="identificacion" name="identificacion" formControlName="identificacion" uppercase 
+                            <input matInput autocomplete="off" maxlength="8" id="identificacion" name="identificacion" formControlName="identificacion" 
                                 required>
                             <mat-error *ngIf="form2.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
                             <mat-error *ngIf="form2.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                            <mat-error *ngIf="form2.identificacion.errors?.notexists">El cliente no existe!</mat-error>  <!--TODO: Cambiar-->
+                           <!--TODO: Cambiar-->
                         </mat-form-field>
 
-                        <mat-form-field fxFlex.gt-xs="65">
-                            <mat-label>{{'deposit.name' | translate: {default: 'global.name'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre" 
-                            >
-                        </mat-form-field>   
+                 
 
                      </div>
                
@@ -186,7 +176,7 @@
                             {default: 'global.notfound'} | translate }}
                         </button>  
 
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]=" ">
                             <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

@@ -132,8 +132,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.deposito.agencia = this.agencia.id;
         this.deposito.moneda = this.moneda.id;
         this.deposito.tipoProducto = this.tipoProducto.id;
-        this.deposito.estatusOperacion = this.tipoProducto.id;
-        
+       
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
     }
 
