@@ -6,11 +6,19 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
 
+export interface CuentaBancariaOperacion {
+    id: number;
+    numeroCuenta: string;
+    moneda: string;
+    tipoProducto: string;
+}
+
 export interface CuentaBancaria {
     id: number;
+    numeroCuenta: string;
     descripcion: string;
     moneda: string;
-
+    tipoProducto: string;
 }
 
 @Injectable({
@@ -30,5 +38,8 @@ export class CuentaBancariaService {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/all`);
     }
 
+    activesByNumper(numper: string): Observable<CuentaBancaria[]> {
+        return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/all`);
+    }
     
 }

@@ -165,8 +165,8 @@ export class FormBaseComponent {
         Object.assign(current, this.itemForm.value);
     }
 
-    protected updateDataItemForm(current = {}, itemForm) {
-        Object.assign(current, itemForm.value);
+    protected updateDataFromValues(current = {}, values) {
+        Object.assign(current, values);
     }
 
 
