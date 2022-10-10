@@ -27,6 +27,8 @@ import { ActividadEconomica, ActividadEconomicaService } from 'src/@sirio/domain
 
 export class NaturalFormComponent extends FormBaseComponent implements OnInit {
 
+    hasBasicData = true;
+    nombreCompletoPersona = 'NOMBRE COMPLETO DE LA PERSONA';
     personaNatural: PersonaNatural = {} as PersonaNatural;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     generos = new BehaviorSubject<Genero[]>([]);
@@ -54,6 +56,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
     }
 
     ngOnInit() {
+
+        let id = this.route.snapshot.params['id'];
+        this.isNew = id == undefined;
+        this.loadingDataForm.next(true);//TODO: CON ESTO, LUEGO DEBEMOS MANEJAR LOS EVENTOS DE CARGA DE DATA
 
         this.buildForm(this.personaNatural);
         this.loadingDataForm.next(false);
@@ -143,6 +149,11 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
 
         this.updateData(this.personaNatural);
         this.saveOrUpdate(this.personaNaturalService, this.personaNatural, 'El Registro de Persona', this.isNew);
+    }
+
+    send() {
+        
+        console.log('send data al banco');
     }
 
     private codigoExists(id) {
