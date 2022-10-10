@@ -119,9 +119,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
     }
 
-    buildForm(retiro: Retiro) {
-
-          
+    buildForm(retiro: Retiro) {          
 
         this.itemForm = this.fb.group({         
 
@@ -141,9 +139,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             referencia: new FormControl(retiro.referencia || '', [Validators.required]),
             
            
-        });
-        console.log('retiroooooooooo ', retiro);
-        //this.printErrors()
+        });    
+       
 
     }
 
@@ -158,7 +155,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.retiro.estatusOperacion = this.tipoProducto.id;
         this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', this.isNew);
 
-
+        console.log('retiroooooooooo ', this.retiro);
 
     }
 

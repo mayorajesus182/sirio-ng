@@ -143,15 +143,10 @@
                     <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="mostrar" name="mostrar">
                       {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
                     </mat-slide-toggle>
-
                   </div>
-
                 </div>
 
-
-
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value || form2.fruta.value === 'M'">
-
                   <mat-form-field fxFlex.gt-sm="30">
                     <mat-label>{{'form.account' | translate: {default: 'global.account'} | translate }}
                     </mat-label>

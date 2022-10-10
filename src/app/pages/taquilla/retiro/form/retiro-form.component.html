@@ -64,7 +64,7 @@
                         </mat-form-field>  
 
                         
-                        <mat-form-field fxFlex.gt-sm="45">
+                        <mat-form-field fxFlex.gt-sm="auto">
                         <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} | translate }}
                         </mat-label>
                         <input matInput name="numeroCuenta" autocomplete="off" num-account-validate formControlName="numeroCuenta"
@@ -93,7 +93,7 @@
                             </mat-label>
                             <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre">
                         </mat-form-field>   
-                        <mat-form-field fxFlex.gt-xs="20">
+                        <mat-form-field fxFlex.gt-xs="25">
                             <mat-label>{{'form.identification' | translate: {default: 'global.identification'} | translate }}
                             </mat-label>
                             <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.identificacion" [ngModelOptions]="{standalone: true}" readonly name="identificacion">

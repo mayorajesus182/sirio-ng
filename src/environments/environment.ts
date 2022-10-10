@@ -22,15 +22,24 @@ export const environment = {
     websocket: config.apiDevUrl+'/websocket',
     auditoria: config.apiDevUrl+'/api/auditoria',
     reports: config.apiDevUrl+'/api/reports',
-    persona: config.apiDevUrl+'/api/persona',
-    configuracion: config.apiDevUrl+'/api/configuracion',
-    control_efectivo: config.apiDevUrl+'/api/control-efectivo',
     workflow: config.apiDevUrl+'/api/workflow',
+<<<<<<< HEAD
     organizacion: config.apiDevUrl+'/api/organizacion',
     transporte: config.apiDevUrl+'/api/transporte',
     preferencia: config.apiDevUrl+'/api/preferencia',
     calendar: config.apiDevUrl+'/api/calendar',
     pasivo: config.apiProUrl+'/api/pasivo',
     taquilla: config.apiProUrl+'/api/taquilla',
+=======
+    persona: config.apiProUrl+'/api/persona',
+    configuracion: config.apiProUrl+'/api/configuracion',
+    control_efectivo: config.apiProUrl+'/api/control-efectivo',
+    organizacion: config.apiProUrl+'/api/organizacion',
+    transporte: config.apiProUrl+'/api/transporte',
+    preferencia: config.apiProUrl+'/api/preferencia',
+    calendar: config.apiProUrl+'/api/calendar',
+    pasivo: config.apiProUrl+'/api/pasivo',
+    taquilla: config.apiProUrl+'/api/taquilla'
+>>>>>>> 623edea1f2d08e5420812a5c4ac401bdbeec8eb4
   }
 };
