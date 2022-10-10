@@ -22,16 +22,6 @@ export const environment = {
     websocket: config.apiDevUrl+'/websocket',
     auditoria: config.apiDevUrl+'/api/auditoria',
     reports: config.apiDevUrl+'/api/reports',
-<<<<<<< HEAD
-    persona: config.apiProUrl+'/api/persona',
-    configuracion: config.apiProUrl+'/api/configuracion',
-    control_efectivo: config.apiProUrl+'/api/control-efectivo',
-    organizacion: config.apiProUrl+'/api/organizacion',
-    transporte: config.apiProUrl+'/api/transporte',
-    preferencia: config.apiProUrl+'/api/preferencia',
-    calendar: config.apiProUrl+'/api/calendar',
-    pasivo: config.apiProUrl+'/api/pasivo',
-=======
     persona: config.apiDevUrl+'/api/persona',
     configuracion: config.apiDevUrl+'/api/configuracion',
     control_efectivo: config.apiDevUrl+'/api/control-efectivo',
@@ -40,6 +30,7 @@ export const environment = {
     transporte: config.apiDevUrl+'/api/transporte',
     preferencia: config.apiDevUrl+'/api/preferencia',
     calendar: config.apiDevUrl+'/api/calendar',
->>>>>>> 4bf1661ef33ab4e679c37d57c64f808d47f4880b
+    pasivo: config.apiProUrl+'/api/pasivo',
+    taquilla: config.apiProUrl+'/api/taquilla',
   }
 };

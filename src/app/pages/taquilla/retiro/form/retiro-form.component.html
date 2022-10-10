@@ -53,7 +53,7 @@
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
                         *ngIf="form2.mostrar.value">
 
-                        <mat-form-field fxFlex="30">
+                        <mat-form-field fxFlex="50">
                             <mat-label>{{'form.mount' | translate: {default: 'global.amount'} | translate }}
                             </mat-label>
                             <input matInput max="99999999.99" min="0.05" autocomplete="off" name="monto"
@@ -64,7 +64,7 @@
                         </mat-form-field>  
 
                         
-                        <mat-form-field fxFlex.gt-sm="25">
+                        <mat-form-field fxFlex.gt-sm="45">
                         <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} | translate }}
                         </mat-label>
                         <input matInput name="numeroCuenta" autocomplete="off" num-account-validate formControlName="numeroCuenta"
@@ -88,7 +88,7 @@
                          
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="form2.mostrar.value">                        
                      
-                        <mat-form-field fxFlex.gt-xs="20">
+                        <mat-form-field fxFlex.gt-xs="25">
                             <mat-label>{{'form.name' | translate: {default: 'global.name'} | translate }}
                             </mat-label>
                             <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre">
@@ -98,12 +98,12 @@
                             </mat-label>
                             <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.identificacion" [ngModelOptions]="{standalone: true}" readonly name="identificacion">
                         </mat-form-field> 
-                        <mat-form-field fxFlex.gt-xs="20">
+                        <mat-form-field fxFlex.gt-xs="25">
                             <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
                             </mat-label>
                             <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.moneda" [ngModelOptions]="{standalone: true}" readonly name="moneda">
                         </mat-form-field> 
-                        <mat-form-field fxFlex.gt-xs="20">
+                        <mat-form-field fxFlex.gt-xs="25">
                             <mat-label>{{'form.productType' | translate: {default: 'global.productType'} | translate }}
                             </mat-label>
                             <input matInput autocomplete="off" [(ngModel)]="cuentaBancaria.tipoProducto" [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
