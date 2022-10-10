@@ -59,8 +59,6 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     buildForm(idioma: Idioma) {
-
-        console.log('idioma ', idioma);
         
         this.itemForm = this.fb.group({
             id: [{value: idioma.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],

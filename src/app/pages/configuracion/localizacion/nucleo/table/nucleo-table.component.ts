@@ -44,8 +44,6 @@ export class NucleoTableComponent extends TableBaseComponent implements OnInit, 
   }
 
   edit(data:any) {
-    console.log('data event click ', data);
-    
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 

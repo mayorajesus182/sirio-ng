@@ -3,24 +3,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { IdiomaService } from 'src/@sirio/domain/services/preferencias/idioma.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'sirio-idioma-detail',
-  templateUrl: './idioma-detail.component.html',
-  styleUrls: ['./idioma-detail.component.scss'],
+  selector: 'app-taquilla-detail',
+  templateUrl: './taquilla-detail.component.html',
+  styleUrls: ['./taquilla-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class IdiomaDetailComponent extends FormBaseComponent implements OnInit {
+export class TaquillaDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
     private router: Router,
     private route: ActivatedRoute,
-    private idiomaService: IdiomaService) {
+    private taquillaService: TaquillaService) {
     super(undefined, injector);
   }
 
@@ -29,14 +29,11 @@ export class IdiomaDetailComponent extends FormBaseComponent implements OnInit {
 
     this.loadingDataForm.next(true);
 
-    this.idiomaService.detail(id).subscribe(data => {
-
+    this.taquillaService.detail(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
 
   }
-
-
 
 }

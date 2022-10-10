@@ -13,38 +13,38 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'cashPass.date' | translate:
                         {default: 'global.date'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.fecha}}</p>
+                        <p class="font-weight-600">{{element.fecha | date: 'dd/MM/yyyy'}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="tipoMovimiento">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'">{{'cashPass.movementType' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'">{{'cashPass.movementType' | translate:
                         {default: 'global.movementType'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="text-truncate font-weight-600">{{element.movimientoEfectivo}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="egreso">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'">{{'cashPass.entry' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.entry' | translate:
                         {default: 'global.entry'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
-                        <p class="text-truncate font-weight-600">{{element.egreso}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <p class="text-truncate font-weight-600">{{element.egreso  | number: '1.2'}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="ingreso">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'">{{'cashPass.egress' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.egress' | translate:
                         {default: 'global.egress'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
-                        <p class="text-truncate font-weight-600">{{element.ingreso}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <p class="text-truncate font-weight-600">{{element.ingreso | number: '1.2'}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="estatus">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'">{{'cashPass.status' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'cashPass.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
                         <p class="text-truncate font-weight-600">{{element.estatusEfectivo}}</p>
                     </mat-cell>
                 </ng-container>

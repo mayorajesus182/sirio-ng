@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PaseEfectivoDetailComponent } from './detail/pase-efectivo-detail.component';
 import { PaseEfectivoFormComponent } from './form/pase-efectivo-form.component';
 import { PaseEfectivoTableComponent } from './table/pase-efectivo-table.component';
 
@@ -16,16 +17,11 @@ const paseEfectivoRoutes: Routes = [
         component: PaseEfectivoFormComponent,
         data: { title: 'Crear Pase de Efectivo' }
     },
-    // {
-    //     path: ':id/edit',
-    //     component: ConstruccionFormComponent,
-    //     data: { title: 'Editar Construccion' }
-    // },
-    // {
-    //     path: ':id/view',
-    //     component: ConstruccionDetailComponent,
-    //     data: { title: 'Visualizar Construccion' }
-    // }
+    {
+        path: ':id/view',
+        component: PaseEfectivoDetailComponent,
+        data: { title: 'Visualizar Pase de Efectivo' }
+    }
 
 ];
 

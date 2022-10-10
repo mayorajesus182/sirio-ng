@@ -6,15 +6,10 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface BovedaAgencia {
     id: number;
-    agencia: string;
-    taquilla: string;
-    usuarioTaquilla: string;
+    agencia: number;
+    taquilla: number;
     movimientoEfectivo: string;
-    fecha: any;
-    ingreso: number;
-    egreso: number;
     monto: number;
-    estatusEfectivo: string;
     fechaCreacion?: any;
 }
 
@@ -37,6 +32,10 @@ export class BovedaAgenciaService {
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<BovedaAgencia[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
+    detail(id: string): Observable<BovedaAgencia> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
     save(data: BovedaAgencia): Observable<any> {
