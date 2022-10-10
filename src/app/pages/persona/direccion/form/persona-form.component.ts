@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion-natural.service';
+import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({

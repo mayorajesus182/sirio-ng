@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { DireccionService } from 'src/@sirio/domain/services/persona/direccion-natural.service';
+import { DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 @Component({
