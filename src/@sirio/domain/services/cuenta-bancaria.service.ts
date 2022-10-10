@@ -8,8 +8,8 @@ export interface CuentaBancariaOperacion {
     numeroCuenta: string;
     moneda: string;
     tipoProducto: string;
-    identificacion: string;  
-    nombre: string;
+    identificacion?: string;  
+    nombre?: string;
 }
 
 export interface CuentaBancaria {

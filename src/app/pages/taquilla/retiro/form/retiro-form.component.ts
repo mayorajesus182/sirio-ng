@@ -9,7 +9,7 @@ import { RegularExpConstants } from 'src/@sirio/constants';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoProducto } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { CuentaBancaria, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
+import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Agencia } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
@@ -27,14 +27,15 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
     retiro: Retiro = {} as Retiro;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
-    cuentaBancaria: CuentaBancaria = {} as CuentaBancaria; // un solo registro
+    cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion; // un solo registro
     persona: Persona = {} as Persona;
     agencia: Agencia = {} as Agencia;
     moneda: Moneda = {} as Moneda;
     tipoProducto: TipoProducto = {} as TipoProducto;
+    esPagoCheque: boolean = false;
     
    // formData2: FormGroup;
-    itemForm: FormGroup;
+   // itemForm: FormGroup;
 
     constructor(
         injector: Injector,
@@ -48,52 +49,15 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         super(undefined, injector);
     }
 
-   /* get form2() {
-        return !this.formData2 ? {} : this.formData2.controls;
-    }*/
+ 
 
-    get form2() {
-        return !this.itemForm ? {} : this.itemForm.controls;
-    }
-
+            
+        
     
 
-    refreshForm2() {
-
-        console.log('form2 tipoDocumento ',this.form2.tipoDocumento.value);  
-        
 
 
-             
-        
-        
-        // manejo de escritura en el campo NUMERO DE CUENTA
-         this.form2.numeroCuenta.valueChanges.pipe(
-            distinctUntilChanged(),
-            debounceTime(1000)
-        ).subscribe(() => {
-            // se busca los dato que el usuario suministro      
-            const numeroCuenta = this.form2.numeroCuenta.value;
-            console.log("numeroCuentaDatos: ", numeroCuenta);         
-
-            if (numeroCuenta) {
-                this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {                   
-                    this.cuentaBancaria = data;            
-                    console.log("DATOS", data);                   
-                    this.cdr.markForCheck();
-
-                }, err => {
-                    console.log(err);
-                    this.form2.cuentaBancaria.setErrors({ notexists: true });
-                    this.cuentaBancaria = {} as CuentaBancaria;
-                    this.cdr.markForCheck();
-                })
-            }
-        });
-
-
-
-    }
+   // }
 
     ngOnInit() {
 
@@ -107,24 +71,47 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.tipoDocumentos.next(data);
         });
 
+            
+        // manejo de escritura en el campo NUMERO DE CUENTA
+        this.f.numeroCuenta.valueChanges.pipe(
+            distinctUntilChanged(),
+            debounceTime(1000)
+        ).subscribe(() => {
+            // se busca los dato que el usuario suministro      
+            const numeroCuenta = this.f.numeroCuenta.value;
+            console.log("numeroCuentaDatos: ", numeroCuenta);         
+
+            if (numeroCuenta) {
+                this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {                   
+                    this.cuentaBancariaOperacion = data;            
+                    console.log("DATOS", data);                   
+                    this.cdr.markForCheck();
+
+                }, err => {
+                    console.log(err);
+                    this.f.cuentaBancariaOperacion.setErrors({ notexists: true });
+                    this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+                    this.cdr.markForCheck();
+                })
+            }
+        });
+
 
 
     }
     ngAfterViewInit(): void {
 
-        this.form2.mostrar.valueChanges.subscribe(data => {
+      /*  this.form2.mostrar.valueChanges.subscribe(data => {
             this.refreshForm2();
             this.cdr.detectChanges();
-        })
+        })*/
 
     }
 
     buildForm(retiro: Retiro) {          
 
-        this.itemForm = this.fb.group({         
-
-            mostrar: [false],
-            
+        this.itemForm = this.fb.group({ 
+            esPagoCheque: new FormControl(false),        
             persona: new FormControl(retiro.persona || '', [Validators.required, ]),
             numper: new FormControl(retiro.numper || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             cuentaBancaria: new FormControl([retiro.cuentaBancaria || '', [Validators.required, ]]),
@@ -138,7 +125,6 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             estatusOperacion: new FormControl([retiro.estatusOperacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             referencia: new FormControl(retiro.referencia || '', [Validators.required]),
             
-           
         });    
        
 
@@ -147,15 +133,22 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
     save() {
         if (this.itemForm.invalid)
-            return;
+
+            return ("algo");
 
 
         this.updateData(this.retiro);
-        this.retiro.numper = this.persona.numper;       
-        this.retiro.estatusOperacion = this.tipoProducto.id;
-        this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', this.isNew);
+        
+       // this.retiro.numper = this.persona.numper;       
+       // this.retiro.estatusOperacion = this.tipoProducto.id;
+       this.updateDataFromValues (this.retiro,this.persona);
+       this.updateDataFromValues (this.retiro,this.cuentaBancariaOperacion);
+       
+       console.log("HOLAAAAAAAAAAAAAAAAAA", this.retiro);
+       
+       this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', this.isNew);
 
-        console.log('retiroooooooooo ', this.retiro);
+       
 
     }
 
