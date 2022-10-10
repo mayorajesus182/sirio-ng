@@ -7,6 +7,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface PersonaNatural {
     id: number;
+    numper: string;
     tipoDocumento: string;
     identificacion: string;
     primerNombre: string;
@@ -31,6 +32,8 @@ export interface PersonaNatural {
     email: string;
     estatusPersonaNatural: string;
     actividadEspecifica: string;
+    actividadEconomica?: string;
+    categoriaEspecial?: string;
 }
 
 @Injectable({

@@ -40,22 +40,18 @@ export class DireccionService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona/direccion-natural'};
+        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/persona/direccion'};
     }
 
-    all(): Observable<Direccion[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
+    allByPersonaId(id:number): Observable<Direccion[]> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/all`);
     }
 
     actives(): Observable<Direccion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    exists(id: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
-    }
-
-    get(id: string): Observable<Direccion> {
+    get(id: number): Observable<Direccion> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
@@ -63,9 +59,6 @@ export class DireccionService {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Direccion[]> {
-        return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
-    }
 
     save(data: Direccion): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
