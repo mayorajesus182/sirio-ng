@@ -4,6 +4,15 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+
+
+export interface CuentaBancariaOperacion {
+    id: number;
+    numeroCuenta: string;
+    moneda: string;
+    tipoProducto: string;
+}
+
 export interface CuentaBancaria {
     id: number;
     numeroCuenta: string;

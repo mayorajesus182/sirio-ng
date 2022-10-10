@@ -7,7 +7,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { CuentaBancaria, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
+import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -24,7 +24,12 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     deposito: Deposito = {} as Deposito;
     persona: Persona = {} as Persona;
+    cuentaOperacion: CuentaBancariaOperacion = {} as  CuentaBancariaOperacion;
+
+
     moneda: string = "";
+    numCuenta: string = "";
+    tipoProducto: string = "";
     // cuentasBancarias : CuentaBancaria = {} as CuentaBancaria;
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
@@ -66,7 +71,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         //TODO: Revisar
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
             if (val) {
-                this.moneda = this.cuentasBancarias.value.filter(e => e.id == val)[0].moneda;
+                this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];//obtiendo el unico resultado seleccionado al aplicar el filtro
+                // this.numCuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0].numeroCuenta;
+                // this.tipoProducto = this.cuentasBancarias.value.filter(e => e.id == val)[0].tipoProducto;
             }
         })
 
@@ -110,9 +117,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             cuentaBancaria: new FormControl([deposito.cuentaBancaria || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             tipoDocumento: new FormControl(deposito.tipoDocumento || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl(deposito.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            numeroCuenta: new FormControl([deposito.numeroCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            numeroCuenta: new FormControl([deposito.numeroCuenta || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             moneda: new FormControl([deposito.moneda || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            // tipoProducto: new FormControl([deposito.tipoProducto || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            tipoProducto: new FormControl([deposito.tipoProducto || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             // referencia: new FormControl(deposito.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             efectivo: new FormControl(deposito.efectivo || false, [Validators.required]),
             // chequePropio: new FormControl(deposito.chequePropio || undefined, [Validators.required]),
@@ -124,8 +131,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             // linea: new FormControl(deposito.linea || '', [Validators.required]),
             // telefono: new FormControl(deposito.telefono || '', [Validators.required]),
             // email: new FormControl([deposito.email || '', [Validators.required]]),
-            estatusOperacion: new FormControl([deposito.estatusOperacion || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            mostrar: [false],
+            // estatusOperacion: new FormControl([deposito.estatusOperacion || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            // mostrar: [false],
 
         });
 
@@ -137,12 +144,20 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         this.updateData(this.deposito);
 
-        this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
-        this.deposito.numper = this.persona.numper;
-        this.deposito.nombre = this.persona.nombre;
+        // this.deposito.numper = this.persona.numper;
+        // this.deposito.nombre = this.persona.nombre;
+        this.updateDataFromValues (this.deposito,this.persona);
 
-
+        this.updateDataFromValues (this.deposito,this.cuentaOperacion);
+        
+        // this.deposito.tipoProducto = this.tipoProducto;
+        // this.deposito.numeroCuenta = this.numCuenta;
         console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
+        
+        this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
+
+
+
     }
 
 }

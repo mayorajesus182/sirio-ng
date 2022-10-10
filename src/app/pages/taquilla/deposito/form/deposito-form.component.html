@@ -66,7 +66,7 @@
                                     <mat-form-field fxFlex.gt-xs="auto">
                                         <mat-label>{{'deposit.coin' | translate: {default: 'global.coin'} | translate }}
                                         </mat-label>
-                                        <input matInput autocomplete="off" [(ngModel)]="moneda" [ngModelOptions]="{standalone: true}" readonly  name="moneda">
+                                        <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.moneda" [ngModelOptions]="{standalone: true}" readonly  name="moneda">
                                     </mat-form-field>  
 
                                     <div fxFlex.gt-xs="15"  *ngIf="f.efectivo.value">
