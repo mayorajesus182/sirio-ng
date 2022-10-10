@@ -121,7 +121,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             moneda: new FormControl([deposito.moneda || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             tipoProducto: new FormControl([deposito.tipoProducto || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             // referencia: new FormControl(deposito.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            efectivo: new FormControl(deposito.efectivo || false, [Validators.required]),
+            esEfectivo: new FormControl(false),
+            esCheque: new FormControl(false),
             // chequePropio: new FormControl(deposito.chequePropio || undefined, [Validators.required]),
             // cantidadPropio: new FormControl(deposito.cantidadPropio || undefined, [Validators.required]),
             // chequeOtros: new FormControl(deposito.chequeOtros || undefined, [Validators.required]),
@@ -147,9 +148,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // this.deposito.numper = this.persona.numper;
         // this.deposito.nombre = this.persona.nombre;
         this.updateDataFromValues (this.deposito,this.persona);
-
         this.updateDataFromValues (this.deposito,this.cuentaOperacion);
-        
+        if (this.f.esEfectivo.value && !this.f.esCheque.value) {
+            this.deposito.efectivo = this.f.monto.value;
+        }
         // this.deposito.tipoProducto = this.tipoProducto;
         // this.deposito.numeroCuenta = this.numCuenta;
         console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
