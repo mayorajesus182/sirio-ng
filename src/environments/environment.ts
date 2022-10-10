@@ -23,14 +23,6 @@ export const environment = {
     auditoria: config.apiDevUrl+'/api/auditoria',
     reports: config.apiDevUrl+'/api/reports',
     workflow: config.apiDevUrl+'/api/workflow',
-<<<<<<< HEAD
-    organizacion: config.apiDevUrl+'/api/organizacion',
-    transporte: config.apiDevUrl+'/api/transporte',
-    preferencia: config.apiDevUrl+'/api/preferencia',
-    calendar: config.apiDevUrl+'/api/calendar',
-    pasivo: config.apiProUrl+'/api/pasivo',
-    taquilla: config.apiProUrl+'/api/taquilla',
-=======
     persona: config.apiProUrl+'/api/persona',
     configuracion: config.apiProUrl+'/api/configuracion',
     control_efectivo: config.apiProUrl+'/api/control-efectivo',
@@ -40,6 +32,5 @@ export const environment = {
     calendar: config.apiProUrl+'/api/calendar',
     pasivo: config.apiProUrl+'/api/pasivo',
     taquilla: config.apiProUrl+'/api/taquilla'
->>>>>>> 623edea1f2d08e5420812a5c4ac401bdbeec8eb4
   }
 };

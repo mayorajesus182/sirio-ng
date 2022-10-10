@@ -143,14 +143,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.deposito);
-<<<<<<< HEAD
-        this.deposito.numper = this.persona.numper;
-        this.deposito.institucion = this.agencia.institucion;
-        this.deposito.agencia = this.agencia.id;
-        this.deposito.moneda = this.moneda.id;
-        this.deposito.tipoProducto = this.tipoProducto.id;
-       
-=======
 
         // this.deposito.numper = this.persona.numper;
         // this.deposito.nombre = this.persona.nombre;
@@ -162,7 +154,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // this.deposito.numeroCuenta = this.numCuenta;
         console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
         
->>>>>>> 623edea1f2d08e5420812a5c4ac401bdbeec8eb4
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
 
 
