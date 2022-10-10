@@ -29,5 +29,7 @@ export const environment = {
     transporte: config.apiProUrl+'/api/transporte',
     preferencia: config.apiProUrl+'/api/preferencia',
     calendar: config.apiProUrl+'/api/calendar',
+    pasivo: config.apiProUrl+'/api/pasivo',
+    taquilla: config.apiProUrl+'/api/taquilla',
   }
 };
