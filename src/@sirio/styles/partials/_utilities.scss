@@ -77,10 +77,13 @@ a {
   color: $theme-text
 }
 
-.notification-number {
-  
+.notification-number {  
+  position: relative;
   top: 12px;
+  right: 5px;
   font-size: 12px;  
+  margin-left: auto;
+  margin-right: auto;
 }
 
 
