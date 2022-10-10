@@ -69,9 +69,9 @@
                                         <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.moneda" [ngModelOptions]="{standalone: true}" readonly  name="moneda">
                                     </mat-form-field>  
 
-                                    <div fxFlex.gt-xs="15"  *ngIf="f.efectivo.value">
+                                    <div fxFlex.gt-xs="15"  *ngIf="f.esEfectivo.value">
                                         <mat-form-field >
-                                            <mat-label>{{'deposit.amount' | translate: {default: 'global.amount'} | translate }}
+                                            <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }}
                                             </mat-label>
                                             <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask
                                             [options]="{precision:2}" >
@@ -82,7 +82,7 @@
                                     </div>
 
                                     <div fxFlex.gt-xs="15" >
-                                        <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="efectivo" name="efectivo">
+                                        <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esEfectivo" name="esEfectivo">
                                         {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
                                         </mat-slide-toggle>
                                     </div>
