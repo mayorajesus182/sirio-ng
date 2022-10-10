@@ -41,8 +41,7 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
 
   loadList() {
     this.empleadoTransporteService.allByTransportista(this.transportistaId).subscribe((data) => {
-      console.log(data);
-      
+
       this.empleados.next(data.slice());
       this.cdr.markForCheck();
     });
@@ -53,7 +52,7 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
     this.transportistaId = this.route.snapshot.params['id'];
     
     const data = history.state.data;// obteniendo data del state
-    console.log(data)
+
     if(data){
       // en caso que venga data la guardo en el session storage
       // sessionStorage.setItem('id',data.codigo);
@@ -62,8 +61,6 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
     }else{
       this.transportista = sessionStorage.getItem('trans_nombre')
     }
-    // console.log('data')
-    // console.log()
 
     if (this.transportistaId) {
       this.loadList();
@@ -99,7 +96,6 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
 
     this.dialogRef.afterClosed().subscribe(event=>{
 
-      console.log('event',event);
       this.loadList()
       
     });

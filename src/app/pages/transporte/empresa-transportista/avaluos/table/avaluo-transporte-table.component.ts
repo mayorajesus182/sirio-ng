@@ -95,9 +95,6 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
 
 
   update(current: AvaluoTransporte, event) {
-    console.log('row current ', current);
-    console.log('button ', event);
-
     this.btnState = true;
 
 
@@ -106,7 +103,6 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
       this.successResponse('El Registro se', 'Actualizó')
     }, err => {
       this.btnState = false;
-      console.log(err);
       this.errorResponse(undefined, false)
     });
 

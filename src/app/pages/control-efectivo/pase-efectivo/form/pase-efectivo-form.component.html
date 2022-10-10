@@ -36,9 +36,14 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search fxFlex="auto" [label]="'cashPass.movementType' | translate: {default: 'global.movementType'} | translate"
+                                <sirio-select-search fxFlex="40" [label]="'cashPass.movementType' | translate: {default: 'global.movementType'} | translate"
                                     formControlName="movimientoEfectivo" [required]="true" [elements]="movimientos.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.movimientoEfectivo?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search fxFlex="40" [label]="'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
+                                    formControlName="taquilla" [required]="true" [elements]="taquillas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.taquilla?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="auto">
