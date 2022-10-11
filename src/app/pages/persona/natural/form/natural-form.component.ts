@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
@@ -20,6 +20,8 @@ import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ActividadEspecifica, ActividadEspecificaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-especifica.service';
 import { CategoriaEspecial, CategoriaEspecialService } from 'src/@sirio/domain/services/configuracion/persona-juridica/categoria-especial.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 
 @Component({
     selector: 'app-natural-form',
@@ -29,7 +31,7 @@ import { CategoriaEspecial, CategoriaEspecialService } from 'src/@sirio/domain/s
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class NaturalFormComponent extends FormBaseComponent implements OnInit {
+export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     hasBasicData = true;
     nombreCompletoPersona = 'NOMBRE COMPLETO DE LA PERSONA';
@@ -59,6 +61,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private personaService: PersonaService,
         private personaNaturalService: PersonaNaturalService,
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
@@ -72,6 +75,22 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
         private direccionService: DireccionService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
+    }
+
+
+    ngAfterViewInit(): void {
+        this.loading$.subscribe(loading => {
+            if (!loading) {
+                if (this.f.actividadEconomica.value) {
+                    this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
+                        this.actividadesEspecificas.next(data);
+                        // this.cdr.detectChanges();
+                    });
+                }
+
+            }
+        });
+
     }
 
     ngOnInit() {
@@ -95,11 +114,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
 
-        // verifico si tengo datos basicos cargados
-        this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
 
-        this.buildForm(this.personaNatural);
+        // this.buildForm(this.personaNatural);
         this.loadingDataForm.next(false);
 
         this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
@@ -142,6 +159,48 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
 
 
 
+        //TODO: OJO ESTO NO VA ACA obtener la persona dado el tipo de documento e identificacion
+        this.f.identificacion.valueChanges.pipe(
+            distinctUntilChanged(),
+            debounceTime(1000)
+        ).subscribe(() => {
+            // se busca los dato que el usuario suministro      
+            const tipoDocumento = this.f.tipoDocumento.value;
+            const identificacion = this.f.identificacion.value;
+
+            console.log(tipoDocumento);
+            console.log(identificacion);
+
+
+            if (tipoDocumento && identificacion) {
+                this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                    console.log("resutado:", data);
+                    if (data.id) {
+                        this.isNew = false;
+                        this.loadingDataForm.next(true);
+                        this.personaNaturalService.get(data.id).subscribe(val => {
+
+                            this.personaNatural = val;
+
+                            console.log('PERSONAAAA: ', val);
+
+                            //TODO: OJO REVISAR ESTO LUEGO
+                            this.buildForm(this.personaNatural);
+                            this.loadingDataForm.next(false);
+                            this.cdr.detectChanges();
+                        })
+
+                    }
+
+                }, err => {
+                    //console.log(err);
+                    // this.f.identificacion.setErrors({ notexists: true });
+                    this.personaNatural = {} as PersonaNatural;
+                    this.cdr.detectChanges();
+                })
+            }
+        });
+
     }
 
     buildForm(personaNatural: PersonaNatural) {
@@ -161,8 +220,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
             tenencia: new FormControl(personaNatural.tenencia || undefined, [Validators.required]),
             cargaFamiliar: new FormControl(personaNatural.cargaFamiliar || undefined, [Validators.required]),
             estadoCivil: new FormControl(personaNatural.estadoCivil || undefined, [Validators.required]),
-            actividadEconomica: new FormControl(personaNatural.actividadEconomica || undefined,[Validators.required]),
-            actividadEspecifica: new FormControl(personaNatural.actividadEspecifica || undefined,[Validators.required]),
+            actividadEconomica: new FormControl(personaNatural.actividadEconomica || undefined, [Validators.required]),
+            actividadEspecifica: new FormControl(personaNatural.actividadEspecifica || undefined, [Validators.required]),
             categoriaEspecial: new FormControl(personaNatural.categoriaEspecial || undefined),
             tipoDocumentoConyuge: new FormControl(personaNatural.tipoDocumentoConyuge || undefined),
             identificacionConyuge: new FormControl(personaNatural.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
@@ -173,10 +232,13 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
 
 
 
+        // verifico si tengo datos basicos cargados
+        this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
+
         this.f.actividadEconomica.valueChanges.subscribe(value => {
             this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
                 this.actividadesEspecificas.next(data);
-                // this.cdr.detectChanges();
+                this.cdr.detectChanges();
             });
         });
 
@@ -191,7 +253,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit {
 
         console.log(this.personaNatural);
         this.personaNatural.fechaNacimiento = this.personaNatural.fechaNacimiento.format('DD/MM/YYYY');
-        
+
 
         this.saveOrUpdate(this.personaNaturalService, this.personaNatural, 'El Registro de Persona', this.isNew);
     }
