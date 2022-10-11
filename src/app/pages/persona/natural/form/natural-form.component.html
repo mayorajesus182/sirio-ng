@@ -31,9 +31,34 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
+
+                    <div fxLayout="column" [formGroup]="searchForm">
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <sirio-select-simple fxFlex="30" [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                                formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                                [errors]="">
+                            </sirio-select-simple>
+
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'naturalPerson.identification' | translate: {default:
+                                    'global.identification'} | translate }} </mat-label>
+                                <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
+                                    required>
+                                <mat-error *ngIf="search.identificacion.errors?.required">{{'error.required' | translate}}
+                                </mat-error>
+                                <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                                    translate}}
+                                </mat-error>
+                                <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe!
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                    </div>
+
                     <mat-accordion class="expansion-headers-align">
 
-                        <mat-expansion-panel expanded="true">
+                        <mat-expansion-panel expanded="true" *ngIf="itemForm">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
                                     <span class="mt-10">
@@ -46,7 +71,7 @@
                                     </button>
                                 </mat-panel-description>
                             </mat-expansion-panel-header>
-                            <div fxLayout="column" [formGroup]="itemForm">
+                            <div fxLayout="column" [formGroup]="itemForm" >
 
 
 
@@ -161,8 +186,8 @@
                                         <mat-label>{{'naturalPerson.familyBurden' | translate: {default:
                                             'global.familyBurden'} | translate }}
                                         </mat-label>
-                                        <input matInput max="10" autocomplete="off" name="cargaFamiliar" formControlName="cargaFamiliar" currencyMask
-                                            [options]="{precision:0}" required>
+                                        <input matInput max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar" formControlName="cargaFamiliar"
+                                            required>
                                         <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
                                         <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10</mat-error>
                                     </mat-form-field>
@@ -220,10 +245,10 @@
                                 </div>
 
 
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="evaluarEstadoCivil()">
                                     <sirio-select-simple fxFlex="20"
                                         [label]="'naturalPerson.spouseDocumentType' | translate: {default: 'global.spouseDocumentType'} | translate"
-                                        formControlName="tipoDocumentoConyuge" [required]="false" [elements]="tipoDocumentos.asObservable()"
+                                        formControlName="tipoDocumentoConyuge" [required]="evaluarEstadoCivil()" [elements]="tipoDocumentos.asObservable()"
                                         [attributeName]="'nombre'" [errors]="f.tipoDocumentoConyuge?.errors">
                                     </sirio-select-simple>
 
@@ -231,7 +256,7 @@
                                         <mat-label>{{'naturalPerson.spouseIdentification' | translate: {default:
                                             'global.spouseIdentification'} | translate }} </mat-label>
                                         <input matInput maxlength="15" autocomplete="off" name="identificacionConyuge" formControlName="identificacionConyuge"
-                                            uppercase>
+                                            uppercase required="{{evaluarEstadoCivil()}}">
                                         <mat-error *ngIf="f.identificacionConyuge.errors?.pattern">{{'error.invalidCharacter' |
                                             translate}}
                                         </mat-error>
@@ -240,29 +265,16 @@
                                     <mat-form-field fxFlex="30">
                                         <mat-label>{{'naturalPerson.spouseName' | translate: {default:
                                             'global.spouseName'} | translate }} </mat-label>
-                                        <input matInput maxlength="60" autocomplete="off" name="conyuge" formControlName="conyuge" uppercase>
+                                        <input matInput maxlength="60" required="evaluarEstadoCivil()" autocomplete="off" name="conyuge"
+                                            formControlName="conyuge" uppercase>
                                         <mat-error *ngIf="f.conyuge.errors?.pattern">{{'error.invalidCharacter' |
                                             translate}}
                                         </mat-error>
                                     </mat-form-field>
 
-
-                                    <!-- <mat-form-field fxFlex="25">
-                                    <mat-label>{{'naturalPerson.spouseName' | translate: {default:
-                                        'Conyugue'} | translate }} </mat-label>
-                                    <input matInput maxlength="35" minlength="1" autocomplete="off" name="conyuge"
-                                        formControlName="conyuge" uppercase required>
-                                    <mat-error *ngIf="f.conyuge.errors?.required">{{'error.required' | translate}}
-                                    </mat-error>
-                                    <mat-error *ngIf="f.conyuge.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}
-                                    </mat-error>
-                                </mat-form-field>
-                            -->
-
                                     <sirio-select-simple fxFlex="45"
                                         [label]="'naturalPerson.spouseSourceIncome' | translate: {default: 'global.spouseSourceIncome'} | translate"
-                                        formControlName="fuenteIngreso" [required]="true" [elements]="actividadesEconomicas.asObservable()"
+                                        formControlName="fuenteIngreso" [required]="evaluarEstadoCivil()" [elements]="actividadesEconomicas.asObservable()"
                                         [attributeName]="'nombre'" [errors]="f.actividadesEconomicas?.errors">
                                     </sirio-select-simple>
 
