@@ -15,12 +15,7 @@
                     <sirio-card-header-subheading></sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]=" "
-                            (click)="save()">
-                            <mat-icon>save</mat-icon>
-
-                        </button>
+                    
 
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
@@ -74,19 +69,10 @@
                         <mat-hint>Ingrese el numero de cuenta</mat-hint>
                         <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
                         <mat-error *ngIf="f.numeroCuenta.errors?.account">El num. de cuenta es invalido</mat-error>
-                        </mat-form-field>                 
-                  
-                     
+                        </mat-form-field>   
 
                     </div> 
-
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
-                        <mat-panel-title>
-                            <span class="mt-10">
-                            Datos del Cheque
-                            </span>
-                        </mat-panel-title>
-                    </div>                  
+              
                          
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">                        
                      
@@ -108,35 +94,27 @@
                         <mat-form-field fxFlex.gt-xs="25">
                             <mat-label>{{'form.productType' | translate: {default: 'global.productType'} | translate }}
                             </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.tipoProducto" [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
+                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.tipoProductoNombre" [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
                         </mat-form-field> 
                        
                         
                     </div>     
                     
 
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque"> 
+                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">  -->
                      
 
-                        <mat-form-field fxFlex.gt-sm="30">
+                        <!-- <mat-form-field fxFlex.gt-sm="30">
                             <mat-label>{{'form.reference' | translate: {default: 'global.reference'} | translate }}
                             </mat-label>
                             <input matInput name="referencia" autocomplete="off" formControlName="referencia"
-                             required placeholder="">
+                             placeholder="">
                             <mat-hint>Ingrese el numero de referencia</mat-hint>
-                            <mat-error *ngIf="f.referencia.errors?.required">Es requerido</mat-error>
-                          </mat-form-field>
+                             <mat-error *ngIf="f.referencia.errors?.required">Es requerido</mat-error>
+                          </mat-form-field> -->
 
-                    </div> 
-
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
-                       
-                        <mat-panel-title>
-                            <span class="mt-10">
-                              Datos del Beneficiario
-                            </span>
-                          </mat-panel-title>
-                    </div> 
+                    <!-- </div>  -->
+                     
 
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">  
                         <sirio-select-simple fxFlex="30"
@@ -172,13 +150,7 @@
 
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-                        <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
-                            {{'button.cancel' | translate:
-                            {default: 'global.notfound'} | translate }}
-                        </button>  
-
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]=" ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
                             <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

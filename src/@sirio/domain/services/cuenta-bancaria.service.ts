@@ -10,6 +10,8 @@ export interface CuentaBancariaOperacion {
     tipoProducto: string;
     identificacion?: string;  
     nombre?: string;
+    tipoProductoNombre: string;
+
 }
 
 export interface CuentaBancaria {
@@ -18,6 +20,8 @@ export interface CuentaBancaria {
     descripcion: string;
     moneda: string;
     tipoProducto: string;
+    numper : string;
+    tipoProductoNombre: string;
 }
 
 @Injectable({

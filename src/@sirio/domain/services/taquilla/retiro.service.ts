@@ -8,9 +8,9 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Retiro {
  
-    institucion: string;
-    agencia: number;
-    persona: number; 
+    //institucion: string;
+   // agencia: number;
+    // persona: number; 
     numper: string;
     cuentaBancaria: number;   
     tipoDocumento: string; 
@@ -26,7 +26,7 @@ export interface Retiro {
     conoAnterior: number;
     telefono: string;
     email:string;
-    estatusOperacion: string;
+    //estatusOperacion: string;
       
 }
 
@@ -42,10 +42,9 @@ export class RetiroService {
         this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro'};
     
     }
-   
     
 
-    save(data: Retiro): Observable<any> {
+    save(data: Retiro): Observable<any> {       
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
