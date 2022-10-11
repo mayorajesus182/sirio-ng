@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
@@ -119,7 +120,10 @@ export class HelpComponentsComponent implements OnInit {
   detailCash() {
 
 
-    this.showFormPopup(CashFormPopupComponent,{desgloseConoActual:this.conoActual,desgloseConoAnterior:this.conoActual}, '40%')
+    const moneda={} as Moneda;
+    moneda.id='USD';
+    moneda.nombre='DOLARES';
+    this.showFormPopup(CashFormPopupComponent,{desgloseConoActual:this.conoActual,desgloseConoAnterior:this.conoActual,moneda:moneda}, '40%')
   }
 
 
