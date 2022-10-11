@@ -48,12 +48,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     ngOnInit() {
 
-
-        let id = this.route.snapshot.params['id'];
-        this.isNew = id == undefined;
+        this.isNew = true;
         this.loadingDataForm.next(true);
         this.buildForm(this.deposito);
         this.loadingDataForm.next(false);
+        this.applyFieldsDirty();
 
         this.tipoDocumentoService.actives().subscribe(data => {
             this.tiposDocumentos.next(data);
@@ -71,9 +70,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         //TODO: Revisar
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
             if (val) {
-                this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];//obtiendo el unico resultado seleccionado al aplicar el filtro
-                // this.numCuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0].numeroCuenta;
-                // this.tipoProducto = this.cuentasBancarias.value.filter(e => e.id == val)[0].tipoProducto;
+                //obtiendo el unico resultado seleccionado al aplicar el filtro
+                this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0]; 
             }
         })
 
@@ -90,9 +88,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.persona = data;
                     const numper = data.numper;
                     this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
-                        // console.log("HOLAAAAAAAAAAAAAAAAAAAAAAAaa",cuenta)
                         this.cuentasBancarias.next(cuenta);
-
                     })
                     this.cdr.markForCheck();
                 }, err => {
@@ -101,10 +97,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.cdr.markForCheck();
                 })
             }
-
-
         });
-
 
         this.loading$.subscribe(val=>{
             if(val){
@@ -127,11 +120,12 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             identificacion: new FormControl(deposito.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             numeroCuenta: new FormControl([deposito.numeroCuenta || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             moneda: new FormControl([deposito.moneda || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            efectivo: new FormControl([deposito.efectivo || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             tipoProducto: new FormControl([deposito.tipoProducto || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
             // referencia: new FormControl(deposito.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             esEfectivo: new FormControl(false),
             esCheque: new FormControl(false),
-            // chequePropio: new FormControl(deposito.chequePropio || undefined, [Validators.required]),
+            // chequePropio: new FormControl(deposito.chequePropio || undefined),
             // cantidadPropio: new FormControl(deposito.cantidadPropio || undefined, [Validators.required]),
             // chequeOtros: new FormControl(deposito.chequeOtros || undefined, [Validators.required]),
             // cantidadOtros: new FormControl(deposito.cantidadOtros || undefined, [Validators.required]),
@@ -150,21 +144,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.deposito);
-
-        // this.deposito.numper = this.persona.numper;
-        // this.deposito.nombre = this.persona.nombre;
         this.updateDataFromValues (this.deposito,this.persona);
         this.updateDataFromValues (this.deposito,this.cuentaOperacion);
-        if (this.f.esEfectivo.value && !this.f.esCheque.value) {
-            this.deposito.efectivo = this.f.monto.value;
-        }
-        // this.deposito.tipoProducto = this.tipoProducto;
-        // this.deposito.numeroCuenta = this.numCuenta;
-        // console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
+
+        // if (this.f.esEfectivo.value && !this.f.esCheque.value) {
+        //     this.deposito.efectivo = this.f.monto.value;
+        // }
         
-        this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
-        // this.persona.nomb = "";
-        // this.cuentaOperacion.moneda = "";
+        this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
     }
 
 }
