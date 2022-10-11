@@ -50,6 +50,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     actividadesEconomicas = new BehaviorSubject<ActividadEconomica[]>([]);
     actividadesEspecificas = new BehaviorSubject<ActividadEspecifica[]>([]);
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
+    //fuenteIngreso = new BehaviorSubject<FuenteIngreso[]>([]);
+
+    
 
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
@@ -154,6 +157,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.categoriaEspecialService.actives().subscribe(data => {
             this.categoriasEspeciales.next(data);
         });
+
+        //this.categoriaEspecialService.actives().subscribe(data => {
+        //    this.categoriasEspeciales.next(data);
+        //});
 
         // TODO: DEBEO VERIFICAR ESTO DESPUES, LA LISTA DEBE SER CARGADA CUANDO SE ABRAR EL ACORDION
 
