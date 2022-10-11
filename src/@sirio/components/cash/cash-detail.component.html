@@ -11,12 +11,6 @@
                     <input matInput class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number" (blur)="onChangeConoActual(item)" />
                 </mat-form-field>
 
-                <!-- <ng-container *ngFor="let item of listConoActual | async" fxFlex="100">
-                    <mat-form-field fxFlex="48" *ngIf="item.esBillete === 0">
-                        <mat-label>{{item.denominacion}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }} </mat-label>
-                        <input matInput class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number" />
-                    </mat-form-field>
-                </ng-container> -->
             </div>
         </div>
 
@@ -35,30 +29,3 @@
         </div>
     </div>
 </div>
-<!-- <div fxLayout="column" *ngIf="conoAnterior" fxLayout.gt-sm="row">
-    <div fxFlex="auto">
-        <h3>Cono Anterior ({{label_cono_anterior}})</h3>
-        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-            <div fxLayout="column" fxFlex="49.5"   style="border-right: 1px solid rgb(216, 216, 216);">
-                <div fxLayout="row wrap" fxLayoutGap.gt-sm="5px">
-                    <ng-container *ngFor="let item of listConoAnterior | async">
-                        <mat-form-field fxFlex="48" *ngIf="item.esBillete === 1">
-                            <mat-label>{{item.denominacion}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }} </mat-label>
-                            <input matInput class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number" />
-                        </mat-form-field>
-                    </ng-container>
-                </div>
-            </div>
-            <div fxLayout="column" fxFlex="49.5">
-                <div fxLayout="row wrap" fxLayoutGap.gt-sm="5px">
-                    <ng-container *ngFor="let item of listConoAnterior | async">
-                        <mat-form-field fxFlex="48"  *ngIf="item.esBillete === 0">
-                            <mat-label>{{item.denominacion}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }} </mat-label>
-                            <input matInput class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number" />
-                        </mat-form-field>
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
