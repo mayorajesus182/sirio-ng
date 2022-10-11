@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
-
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface CuentaBancariaOperacion {
     id: number;
     numeroCuenta: string;
     moneda: string;
     tipoProducto: string;
+    identificacion?: string;  
+    nombre?: string;
 }
 
 export interface CuentaBancaria {
@@ -38,8 +37,13 @@ export class CuentaBancariaService {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/all`);
     }
 
+    activesByNumeroCuenta(numeroCuenta: string): Observable<CuentaBancariaOperacion> {
+        return this.apiService.config(this.apiConfig).get(`/${numeroCuenta}/get`);
+    }
+
     activesByNumper(numper: string): Observable<CuentaBancaria[]> {
         return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/all`);
     }
+
     
 }

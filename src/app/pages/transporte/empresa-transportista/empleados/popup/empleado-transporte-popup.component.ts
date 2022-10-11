@@ -35,8 +35,6 @@ export class EmpleadoTransportePopupComponent extends PopupBaseComponent impleme
     }
 
     ngOnInit() {
-
-        console.log(this.defaults);
         this.empleadoTransporte = this.defaults.payload;
 
         if (this.empleadoTransporte.id) {
@@ -64,11 +62,7 @@ export class EmpleadoTransportePopupComponent extends PopupBaseComponent impleme
         if (this.itemForm.invalid)
             return;
 
-
-
         this.updateData(this.empleadoTransporte);
-        // this.empleadoTransporte.transportista = this.transportista;
-        console.log(this.empleadoTransporte);
         this.saveOrUpdate(this.empleadoTransporteService, this.empleadoTransporte, 'El Empleado', this.isNew);
     }
 

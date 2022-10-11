@@ -22,6 +22,7 @@ export const environment = {
     websocket: config.apiDevUrl+'/websocket',
     auditoria: config.apiDevUrl+'/api/auditoria',
     reports: config.apiDevUrl+'/api/reports',
+    workflow: config.apiDevUrl+'/api/workflow',
     persona: config.apiProUrl+'/api/persona',
     configuracion: config.apiProUrl+'/api/configuracion',
     control_efectivo: config.apiProUrl+'/api/control-efectivo',
@@ -30,6 +31,6 @@ export const environment = {
     preferencia: config.apiProUrl+'/api/preferencia',
     calendar: config.apiProUrl+'/api/calendar',
     pasivo: config.apiProUrl+'/api/pasivo',
-    taquilla: config.apiProUrl+'/api/taquilla',
+    taquilla: config.apiProUrl+'/api/taquilla'
   }
 };
