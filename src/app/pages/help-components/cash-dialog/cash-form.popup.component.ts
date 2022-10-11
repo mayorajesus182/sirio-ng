@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 
@@ -14,9 +15,9 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class CashFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   static id = 100;
-  public valuesCono1=new BehaviorSubject<ConoMonetario[]>([]);
-  public valuesCono2=new BehaviorSubject<ConoMonetario[]>([]);
-  public moneda:string='BOLIVARES';
+  public valuesCono1:ConoMonetario[]= [];
+  public valuesCono2:ConoMonetario[]=[];
+  public moneda:Moneda={} as Moneda;
 
   public totalActual=0;
   public totalAnterior=0;
@@ -50,8 +51,10 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     console.log(this.defaults.payload.desgloseConoActual);
     console.log(this.defaults.payload.desgloseConoAnterior);
 
-    this.valuesCono1.next(this.defaults.payload.desgloseConoActual)
-    this.valuesCono2.next(this.defaults.payload.desgloseConoAnterior)
+    this.valuesCono1=this.defaults.payload.desgloseConoActual;
+    this.valuesCono2=this.defaults.payload.desgloseConoAnterior;
+
+    this.moneda= this.defaults.payload.moneda;
 
     if (this.defaults.id) {
       this.mode = 'global.edit';
@@ -68,14 +71,14 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     // this.saveOrUpdate()
 
 
-    this.dialogRef.close();
+    this.dialogRef.close({desgloseConoActual:this.valuesCono1,desgloseConoAnterior:this.valuesCono2});
 
   }
 
   updateConoActual(list:ConoMonetario[]){
     console.log('update cono actual ', list);
 
-    this.valuesCono1.next(list.slice());
+    this.valuesCono1=list;
     // calculo de totales para el cono actual
     this.totalActual= 0;
     this.totalActual=list.map(e=>e.count*e.denominacion).reduce((a,b)=>a+b);
@@ -86,7 +89,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   updateConoAnterior(list:ConoMonetario[]){
     console.log('update cono anterior ', list);
     
-    this.valuesCono2.next(list.slice());
+    this.valuesCono2 = list;
     // calculo de totale para el cono anterior
     this.totalAnterior= 0;
     this.totalAnterior=list.map(e=>e.count*e.denominacion/1000000).reduce((a,b)=>a+b);

@@ -22,6 +22,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
     @Input() label: string;
     @Input() labelPrefix: string;
     @Input() total: number;
+    @Input() moneda: string;
     public label_cono_actual: string = 'VES';
     public label_cono_anterior: string = 'VES';
     @Input() width_column: string = '24';
@@ -62,12 +63,39 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             if (data && data.monedaConoActual ) {
                 this.label_cono_actual=data.monedaConoActual;
                 this.label_cono_anterior=data.monedaConoAnterior || '';
-                this.conoService.activesByMoneda(data.monedaConoActual).subscribe(data => {
+                this.conoService.activesByMoneda(this.moneda==data.monedaConoActual?data.monedaConoActual:this.moneda).subscribe(data => {
+
+                    if(this.cono_actual){
+                        data.map(c=>{
+                            let index = this.cono_actual.findIndex(ca=>ca.id==c.id);
+                            if(index >=0){
+
+                                c.count= this.cono_actual[index].count;
+                            }
+                            return c;
+                        })
+                    }
                     this.listConoActual.next(data.slice());
                 });
-                this.conoService.activesByMoneda(data.monedaConoAnterior).subscribe(data => {
-                    this.listConoAnterior.next(data.slice());
-                });
+                if(this.moneda==data.monedaConoActual){
+
+                    this.conoService.activesByMoneda(data.monedaConoAnterior).subscribe(data => {
+    
+    
+                        if(this.cono_anterior){
+                            data.map(c=>{
+                                let index = this.cono_anterior.findIndex(ca=>ca.id==c.id);
+                                if(index >=0){
+    
+                                    c.count= this.cono_anterior[index].count;
+                                }
+                                return c;
+                            })
+                        }
+    
+                        this.listConoAnterior.next(data.slice());
+                    });
+                }
                 
             } else {                
                 this.listConoActual.next([]);
@@ -76,6 +104,8 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             }
             this.cdref.detectChanges();
         })
+
+
 
 
     }
