@@ -105,6 +105,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         });
 
+
+        this.loading$.subscribe(val=>{
+            if(val){
+                this.persona= {} as Persona;
+                this.cuentaOperacion = {} as CuentaBancariaOperacion;
+            }
+        });
+
     }
 
     buildForm(deposito: Deposito) {
@@ -133,8 +141,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             // telefono: new FormControl(deposito.telefono || '', [Validators.required]),
             // email: new FormControl([deposito.email || '', [Validators.required]]),
             // estatusOperacion: new FormControl([deposito.estatusOperacion || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            // mostrar: [false],
-
         });
 
     }
@@ -154,12 +160,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         }
         // this.deposito.tipoProducto = this.tipoProducto;
         // this.deposito.numeroCuenta = this.numCuenta;
-        console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
+        // console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
         
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
-
-
-
+        // this.persona.nomb = "";
+        // this.cuentaOperacion.moneda = "";
     }
 
 }
