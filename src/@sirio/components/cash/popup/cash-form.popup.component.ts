@@ -66,9 +66,6 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   save() {
     console.log('mode ', this.mode);
 
-    // this.saveOrUpdate()
-
-
     this.dialogRef.close({desgloseConoActual:this.valuesCono1,desgloseConoAnterior:this.valuesCono2});
 
   }

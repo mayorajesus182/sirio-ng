@@ -3,16 +3,16 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Moment } from 'moment';
-import { BehaviorSubject } from 'rxjs';
+import { CashFormPopupComponent } from 'src/@sirio/components/cash/popup/cash-form.popup.component';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
-import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../@sirio/animations/fade-in-up.animation';
-import { CashFormPopupComponent } from './cash-dialog/cash-form.popup.component';
+
 import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.component';
 
 @Component({
@@ -22,8 +22,8 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 export class HelpComponentsComponent implements OnInit {
-  public conoActual:ConoMonetario[]=[];
-  public conoAnterior:ConoMonetario[]=[];
+  public conoActual: ConoMonetario[] = [];
+  public conoAnterior: ConoMonetario[] = [];
   todayValue: Moment
   private _gap = 16;
   gap = `${this._gap}px`;
@@ -31,6 +31,13 @@ export class HelpComponentsComponent implements OnInit {
   col3 = `1 1 calc(33.3333% - ${this._gap / 1.5}px)`;
   hasBasicData = true;
   isNew = true;
+
+
+  moneda: Moneda = {
+    id: 'USD',
+    nombre: 'DOLARES'
+  } as Moneda;
+
 
   frutasList: any[] = [
     {
@@ -114,20 +121,19 @@ export class HelpComponentsComponent implements OnInit {
 
   addElement() {
 
-    this.showFormPopup(DireccionFormPopupComponent,{}, '40%')
+    this.showFormPopup(DireccionFormPopupComponent, {}, '40%')
   }
 
-  detailCash() {
+  // detailCash() {
 
+  //   this.showFormPopup(CashFormPopupComponent, { desgloseConoActual: this.conoActual, desgloseConoAnterior: this.conoActual, moneda: this.moneda }, '40%')
+  // }
 
-    const moneda={} as Moneda;
-    moneda.id='USD';
-    moneda.nombre='DOLARES';
-    this.showFormPopup(CashFormPopupComponent,{desgloseConoActual:this.conoActual,desgloseConoAnterior:this.conoActual,moneda:moneda}, '40%')
+  updateCashDetail(event) {
+    console.log(event)
   }
 
-
-  private showFormPopup(popupComponent,  data: any, withDialog = '60%'): MatDialogRef<any> {
+  private showFormPopup(popupComponent, data: any, withDialog = '60%'): MatDialogRef<any> {
     let data_aux = { payload: undefined, isNew: undefined };
 
     data_aux.payload = data;
