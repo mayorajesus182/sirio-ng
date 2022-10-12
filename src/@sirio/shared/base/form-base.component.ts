@@ -260,8 +260,10 @@ export class FormBaseComponent {
 
 
 
-    protected printErrors() {
-
+    public printErrors():any[] {
+        if(!this.itemForm || !this.itemForm.controls){
+            return null;
+        }
         const result = [];
         Object.keys(this.itemForm.controls).forEach(key => {
 
@@ -276,39 +278,42 @@ export class FormBaseComponent {
                 });
             }
         });
-        console.log("Errors:", result);
+        // console.log("Errors:", result);
+        return result;
 
     }
 
-    protected applyFieldsDirty(){
+    protected applyFieldsDirty() {
         Object.keys(this.itemForm.controls).forEach(key => {
             this.itemForm.get(key).markAsDirty();
-          });
+        });
     }
 
-    protected applyFieldsDirtyTo(form:FormGroup){
+    protected applyFieldsDirtyTo(form: FormGroup) {
         Object.keys(form.controls).forEach(key => {
             this.itemForm.get(key).markAsDirty();
-          });
+        });
     }
 
 
     protected saveOrUpdate(service, formData = {}, entityName, isNew?): Observable<any> {
         this.loadingDataForm.next(true);
         if (this.isNew) {
-            return service.save(formData)
-                .subscribe(data => {
-                    this.itemForm.reset({});
-                    // this.resetForm()
-                    this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
-                    return data;
-                }, error => this.errorResponse(true));
-        } else {
-            return service.update(formData)
-                .subscribe(data => {
 
-                    this.successResponse(entityName, 'actualizad' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
-                }, error => this.errorResponse(false));
+            const saveRequest = service.save(formData);
+            return saveRequest.subscribe(data => {
+                this.itemForm.reset({});
+                // this.resetForm()
+                this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
+                return data;
+            }, error => this.errorResponse(true));
+
+        } else {
+            const updateRequest = service.update(formData);
+            return updateRequest.subscribe(data => {
+
+                this.successResponse(entityName, 'actualizad' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
+            }, error => this.errorResponse(false));
         }
 
     }
@@ -326,7 +331,7 @@ export class FormBaseComponent {
         saveAs(blob, fileName);
     }
 
-    
+
     public back() {
         this.location.back();
     }

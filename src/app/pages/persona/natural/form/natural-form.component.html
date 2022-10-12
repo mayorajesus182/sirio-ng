@@ -25,7 +25,6 @@
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
-
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
@@ -42,7 +41,7 @@
                             <mat-form-field fxFlex="auto">
                                 <mat-label>{{'naturalPerson.identification' | translate: {default:
                                     'global.identification'} | translate }} </mat-label>
-                                <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
+                                <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" formControlName="identificacion" uppercase
                                     required>
                                 <mat-error *ngIf="search.identificacion.errors?.required">{{'error.required' | translate}}
                                 </mat-error>
@@ -52,6 +51,16 @@
                                 <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe!
                                 </mat-error>
                             </mat-form-field>
+
+
+                            <div fxFlex="15">
+                                    <button color="accent" class="btn-create" (click)="add()"  mat-raised-button [disabled]="btnCreateDisabled">
+                                        <!-- <mat-icon class="margin-bottom-xxs">save</mat-icon> -->
+                                        <i class="fa-light fa-user-plus fa-lg"></i>
+                                        {{'button.add' | translate: {default:
+                                        'global.notfound'} | translate }}
+                                    </button>
+                            </div>
 
                         </div>
                     </div>
@@ -260,7 +269,7 @@
                                             <mat-label>{{'naturalPerson.spouseIdentification' | translate: {default:
                                                 'global.spouseIdentification'} | translate }} </mat-label>
                                             <input matInput maxlength="15" autocomplete="off" name="identificacionConyuge" formControlName="identificacionConyuge"
-                                                uppercase required="{{evaluarEstadoCivil()}}">
+                                                uppercase [required]="evaluarEstadoCivil()">
                                             <mat-error *ngIf="f.identificacionConyuge.errors?.pattern">{{'error.invalidCharacter' |
                                                 translate}}
                                             </mat-error>
@@ -269,7 +278,7 @@
                                         <mat-form-field fxFlex="30">
                                             <mat-label>{{'naturalPerson.spouseName' | translate: {default:
                                                 'global.spouseName'} | translate }} </mat-label>
-                                            <input matInput maxlength="60" required="evaluarEstadoCivil()" autocomplete="off" name="nombreConyuge"
+                                            <input matInput maxlength="60" [required]="evaluarEstadoCivil()" autocomplete="off" name="nombreConyuge"
                                                 formControlName="nombreConyuge" uppercase>
                                             <mat-error *ngIf="f.nombreConyuge.errors?.pattern">{{'error.invalidCharacter' |
                                                 translate}}
@@ -299,6 +308,7 @@
                                             'global.notfound'} | translate }}
                                         </button>
                                     </div>
+                                    <!-- {{printErrors() | json}} -->
                                 </div>
     
     

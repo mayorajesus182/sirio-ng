@@ -36,6 +36,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     searchForm: FormGroup;
     hasBasicData = false;
+    btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
     constante = GlobalConstants;
@@ -186,6 +187,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             // se busca los dato que el usuario suministro      
             const tipoDocumento = this.search.tipoDocumento.value;
             const identificacion = this.search.identificacion.value;
+            this.btnCreateDisabled=true;
             this.loaded$.next(false);
             // console.log(tipoDocumento);
             // console.log(identificacion);
@@ -218,7 +220,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                     if(this.itemForm){
                         this.itemForm.reset({});
                     }
+                    this.isNew=true;
                     this.personaNatural = {} as PersonaNatural;
+                    this.btnCreateDisabled=false;
                     // this.buildForm(this.personaNatural);
                     this.loadingDataForm.next(false);
                     this.search.identificacion.setErrors({ notexists: true });
@@ -283,7 +287,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                     // si esta evaluacion retorna false , es que no es casado, ni union estable
                     this.addOrRemoveFieldValidator('tipoDocumentoConyuge',false)
                     this.addOrRemoveFieldValidator('identificacionConyuge',false,'')
-                    this.addOrRemoveFieldValidator('conyuge',false,'')
+                    this.addOrRemoveFieldValidator('nombreConyuge',false,'')
                     this.addOrRemoveFieldValidator('fuenteIngreso',false)
     
     
@@ -304,16 +308,42 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.updateData(this.personaNatural);
 
 
-        console.log(this.personaNatural);
+        // console.log(this.personaNatural);
         this.personaNatural.fechaNacimiento = this.personaNatural.fechaNacimiento.format('DD/MM/YYYY');
 
 
-        this.saveOrUpdate(this.personaNaturalService, this.personaNatural, 'El Registro de Persona', this.isNew);
+        // this.saveOrUpdate(this.personaNaturalService, this.personaNatural, 'El Registro de Persona').subscribe(resp=>console.log(resp));
+
+        if (this.isNew) {
+
+            this.personaNaturalService.save(this.personaNatural).subscribe(data => {                
+                console.log(data);
+                
+                this.personaNatural= data;
+                this.successResponse('La persona', 'creada' );
+                this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
+
+                
+            }, error => this.errorResponse(true));
+
+        } else {
+            this.personaNaturalService.update(this.personaNatural).subscribe(data => {
+
+                this.successResponse('La persona', 'actualizada');
+            }, error => this.errorResponse(false));
+        }
+        
     }
 
     send() {
 
         console.log('send data al banco');
+    }
+
+    add() {
+        console.log('add new person');
+        this.buildForm(this.personaNatural);
+        this.loaded$.next(true);
     }
 
     cargarDirecciones() {

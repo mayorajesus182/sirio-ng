@@ -72,7 +72,7 @@ export class PersonaNaturalService {
 
     save(data: PersonaNatural): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
-            .pipe(map(res => data));
+            .pipe(map(res => Object.assign(res, data)));
     }
 
     update(data: PersonaNatural): Observable<any> {
