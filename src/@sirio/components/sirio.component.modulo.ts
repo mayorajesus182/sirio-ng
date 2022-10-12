@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MaterialModule } from "../shared/material-components.module";
-import { CashDetailComponent } from "./cash/cash-detail.component";
+import { CashDetailComponent } from "./cash/form/cash-detail.form.component";
 
 const components = [
     CashDetailComponent
