@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
 import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
@@ -24,6 +25,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     bovedaAgencia: BovedaAgencia = {} as BovedaAgencia;
     public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
+    public monedas = new BehaviorSubject<Moneda[]>([]);
 
     constructor(
         injector: Injector,
@@ -32,6 +34,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         private route: ActivatedRoute,
         private bovedaAgenciaService: BovedaAgenciaService,
         private movimientoEfectivoService: MovimientoEfectivoService,
+        private monedaService: MonedaService,
         private taquillaService: TaquillaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
@@ -64,12 +67,17 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.taquillaService.activesWithUser().subscribe(data => {
             this.taquillas.next(data);
         });
+
+        this.monedaService.actives().subscribe(data => {
+            this.monedas.next(data);
+        });
     }
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            taquilla: new FormControl(bovedaAgencia.taquilla || undefined, Validators.required),
+            taquilla: new FormControl({value: bovedaAgencia.taquilla || undefined, disabled: !this.isNew}, Validators.required),
             movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
+            moneda: new FormControl(bovedaAgencia.moneda || undefined, Validators.required),
             monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
         });
     }

@@ -77,6 +77,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/control-efectivo/control-efectivo.module').then(m => m.ControlEfectivoModule),
         data:{title:'menu.cashControl'}
       },
+      {
+        path: 'workflow',
+        loadChildren: () => import('./pages/workflow/workflow.module').then(m => m.WorkflowModule),
+        data:{title:'menu.cashControl'}
+      },
     ]
   },
   {

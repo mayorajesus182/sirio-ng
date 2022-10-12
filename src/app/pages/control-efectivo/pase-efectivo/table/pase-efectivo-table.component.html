@@ -25,27 +25,39 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="egreso">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.entry' | translate:
-                        {default: 'global.entry'} | translate }}</mat-header-cell>
+                <ng-container matColumnDef="monto">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.amount' | translate:
+                        {default: 'global.amount'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="text-truncate font-weight-600">{{element.egreso  | number: '1.2'}}</p>
+                        <p class="text-truncate font-weight-600">{{element.ingreso+element.egreso  | number: '1.2'}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="ingreso">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.egress' | translate:
-                        {default: 'global.egress'} | translate }}</mat-header-cell>
+                <ng-container matColumnDef="moneda">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.coin' | translate:
+                        {default: 'global.coin'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="text-truncate font-weight-600">{{element.ingreso | number: '1.2'}}</p>
+                        <p class="text-truncate font-weight-600">{{element.moneda}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="estatus">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'cashPass.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="text-truncate font-weight-600">{{element.estatusEfectivo}}</p>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-20'">
+                        <mat-chip mat-sm-chip [color]="element.estatusEfectivo == aprobado ? 'accent' : 'warn'">
+                            {{element.estatusEfectivoNombre}}
+                        </mat-chip>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="activo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'tenure.status' | translate:
+                        {default: 'global.status'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
+                        <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
+                            {{element.activo ? 'Activo' : 'Inactivo'}}
+                        </mat-chip>
                     </mat-cell>
                 </ng-container>
 
