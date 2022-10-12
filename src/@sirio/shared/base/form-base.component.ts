@@ -51,11 +51,11 @@ export class FormBaseComponent {
 
     inputType = 'password';
     visible = false;
-
+    public loaded$ = new BehaviorSubject<boolean>(false);
 
     progress: { percentage: number } = { percentage: 0 };
     public data: any;
-    protected loadingDataForm = new BehaviorSubject<boolean>(false);
+    public loadingDataForm = new BehaviorSubject<boolean>(false);
 
     protected loading$ = this.loadingDataForm.asObservable();
 

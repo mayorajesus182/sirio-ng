@@ -25,7 +25,6 @@ export interface PersonaNatural {
     tenencia: string;
     cargaFamiliar: number;
     estadoCivil: string;
-    conyuge: string;
     tipoDocumentoConyuge: string;
     identificacionConyuge: string;
     nombreConyuge: string;

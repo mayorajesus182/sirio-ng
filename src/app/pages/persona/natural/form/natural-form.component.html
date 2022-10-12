@@ -56,511 +56,516 @@
                         </div>
                     </div>
 
-                    <mat-accordion class="expansion-headers-align">
+                    <ng-container *ngIf="loaded$ | async">
 
-                        <mat-expansion-panel expanded="true" *ngIf="itemForm">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    <span class="mt-10">
-                                        Datos Basicos
-                                    </span>
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>person</mat-icon>
-                                    </button>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-                            <div fxLayout="column" [formGroup]="itemForm" >
-
-
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                    <sirio-select-simple fxFlex="20"
-                                        [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
-                                        formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.tipoDocumento?.errors">
-                                    </sirio-select-simple>
-
-                                    <mat-form-field fxFlex="25">
-                                        <mat-label>{{'naturalPerson.identification' | translate: {default:
-                                            'global.identification'} | translate }} </mat-label>
-                                        <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
-                                            uppercase required>
-                                        <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
-                                        </mat-error>
-                                        <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <mat-form-field fxFlex="20">
-                                        <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
-                                            translate }}</mat-label>
-                                        <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
-                                            formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" required>
-                                        <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
-                                        </mat-datepicker-toggle>
-                                        <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse">
-                                            Fecha Invalidad
-                                        </mat-error>
-                                    </mat-form-field>
-                                    <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
-
-                                    <sirio-select-search fxFlex="35"
-                                        [label]="'naturalPerson.birthCountry' | translate: {default: 'global.birthCountry'} | translate" formControlName="pais"
-                                        [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
-                                    </sirio-select-search>
+                        <!-- Put the component which needs to be destroyed + rerendered inside -->
+                        
+                        <mat-accordion class="expansion-headers-align">
+    
+                            <mat-expansion-panel expanded="true" >
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <span class="mt-10">
+                                            Datos Basicos
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>person</mat-icon>
+                                        </button>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div fxLayout="column" [formGroup]="itemForm" >
+    
+    
+    
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <sirio-select-simple fxFlex="20"
+                                            [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                                            formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tipoDocumento?.errors">
+                                        </sirio-select-simple>
+    
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.identification' | translate: {default:
+                                                'global.identification'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
+                                                uppercase required>
+                                            <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
+                                                translate }}</mat-label>
+                                            <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
+                                                formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" required>
+                                            <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
+                                            </mat-datepicker-toggle>
+                                            <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse">
+                                                Fecha Invalidad
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
+    
+                                        <sirio-select-search fxFlex="35"
+                                            [label]="'naturalPerson.birthCountry' | translate: {default: 'global.birthCountry'} | translate" formControlName="pais"
+                                            [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
+                                        </sirio-select-search>
+                                    </div>
+    
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.firstName' | translate: {default:
+                                                'global.firstName'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="primerNombre" formControlName="primerNombre"
+                                                uppercase required>
+                                            <mat-error *ngIf="f.primerNombre.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.primerNombre.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.secondName' | translate: {default:
+                                                'global.secondName'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="segundoNombre" formControlName="segundoNombre"
+                                                uppercase>
+    
+                                            <mat-error *ngIf="f.segundoNombre.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.surname' | translate: {default:
+                                                'global.surname'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="primerApellido" formControlName="primerApellido"
+                                                uppercase required>
+                                            <mat-error *ngIf="f.primerApellido.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.primerApellido.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.secondSurname' | translate: {default:
+                                                'global.secondSurname'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="segundoApellido" formControlName="segundoApellido"
+                                                uppercase>
+    
+                                            <mat-error *ngIf="f.segundoApellido.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                    </div>
+    
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    
+                                        <sirio-select-search fxFlex="35"
+                                            [label]="'naturalPerson.nationality' | translate: {default: 'global.nationality'} | translate"
+                                            formControlName="nacionalidad" [required]="true" [elements]="nacionadades.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.pais?.errors">
+                                        </sirio-select-search>
+    
+                                        <sirio-select-search fxFlex="30"
+                                            [label]="'naturalPerson.anotherNationality' | translate: {default: 'global.anotherNationality'} | translate"
+                                            formControlName="otraNacionalidad" [required]="false" [elements]="paises.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.pais?.errors">
+                                        </sirio-select-search>
+    
+                                        <sirio-select-simple fxFlex="25" [label]="'naturalPerson.gender' | translate: {default: 'global.gender'} | translate"
+                                            formControlName="genero" [required]="true" [elements]="generos.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.genero?.errors">
+                                        </sirio-select-simple>
+    
+                                        <mat-form-field fxFlex="10">
+                                            <mat-label>{{'naturalPerson.familyBurden' | translate: {default:
+                                                'global.familyBurden'} | translate }}
+                                            </mat-label>
+                                            <input matInput max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar" formControlName="cargaFamiliar"
+                                                required>
+                                            <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
+                                            <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10</mat-error>
+                                        </mat-form-field>
+                                    </div>
+    
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <mat-form-field fxFlex="30">
+                                            <mat-label>{{'naturalPerson.email' | translate: {default:
+                                                'global.email'} | translate }} </mat-label>
+                                            <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
+                                                email-validate>
+                                            <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+                                        </mat-form-field>
+    
+                                        <sirio-select-search fxFlex="30"
+                                            [label]="'naturalPerson.profession' | translate: {default: 'global.profession'} | translate" formControlName="profesion"
+                                            [required]="true" [elements]="profesiones.asObservable()" [attributeName]="'nombre'" [errors]="f.profesion?.errors">
+                                        </sirio-select-search>
+    
+                                        <sirio-select-simple fxFlex="20" [label]="'naturalPerson.tenure' | translate: {default: 'global.tenure'} | translate"
+                                            formControlName="tenencia" [required]="true" [elements]="tenencias.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tenencia?.errors">
+                                        </sirio-select-simple>
+    
+                                        <sirio-select-simple fxFlex="20"
+                                            [label]="'naturalPerson.maritalStatus' | translate: {default: 'global.maritalStatus'} | translate"
+                                            formControlName="estadoCivil" [required]="true" [elements]="estadosCiviles.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.estadoCivil?.errors">
+                                        </sirio-select-simple>
+                                    </div>
+    
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    
+    
+                                        <sirio-select-search fxFlex="auto"
+                                            [label]="'naturalPerson.economicActivity' | translate: {default: 'global.economicActivity'} | translate"
+                                            formControlName="actividadEconomica" [required]="true" [elements]="actividadesEconomicas.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.actividadEconomica?.errors">
+                                        </sirio-select-search>
+    
+                                        <sirio-select-search fxFlex="auto"
+                                            [label]="'naturalPerson.specificActivity' | translate: {default: 'global.specificActivity'} | translate"
+                                            formControlName="actividadEspecifica" [required]="true" [elements]="actividadesEspecificas.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.actividadEspecifica?.errors">
+                                        </sirio-select-search>
+    
+                                        <sirio-select-search fxFlex="auto"
+                                            [label]="'naturalPerson.specialCategory' | translate: {default: 'global.specialCategory'} | translate"
+                                            formControlName="categoriaEspecial" [required]="false" [elements]="categoriasEspeciales.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.categoriaEspecial?.errors">
+                                        </sirio-select-search>
+    
+                                    </div>
+    
+    
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="evaluarEstadoCivil()">
+                                        <sirio-select-simple fxFlex="20"
+                                            [label]="'naturalPerson.spouseDocumentType' | translate: {default: 'global.spouseDocumentType'} | translate"
+                                            formControlName="tipoDocumentoConyuge" [required]="evaluarEstadoCivil()" [elements]="tipoDocumentos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.tipoDocumentoConyuge?.errors">
+                                        </sirio-select-simple>
+    
+                                        <mat-form-field fxFlex="15">
+                                            <mat-label>{{'naturalPerson.spouseIdentification' | translate: {default:
+                                                'global.spouseIdentification'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" autocomplete="off" name="identificacionConyuge" formControlName="identificacionConyuge"
+                                                uppercase required="{{evaluarEstadoCivil()}}">
+                                            <mat-error *ngIf="f.identificacionConyuge.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                        <mat-form-field fxFlex="30">
+                                            <mat-label>{{'naturalPerson.spouseName' | translate: {default:
+                                                'global.spouseName'} | translate }} </mat-label>
+                                            <input matInput maxlength="60" required="evaluarEstadoCivil()" autocomplete="off" name="nombreConyuge"
+                                                formControlName="nombreConyuge" uppercase>
+                                            <mat-error *ngIf="f.nombreConyuge.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+    
+                                        <sirio-select-simple fxFlex="45"
+                                            [label]="'naturalPerson.spouseSourceIncome' | translate: {default: 'global.spouseSourceIncome'} | translate"
+                                            formControlName="fuenteIngreso" [required]="evaluarEstadoCivil()" [elements]="actividadesEconomicas.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.actividadesEconomicas?.errors">
+                                        </sirio-select-simple>
+    
+    
+                                    </div>
+    
+    
+    
                                 </div>
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                    <mat-form-field fxFlex="25">
-                                        <mat-label>{{'naturalPerson.firstName' | translate: {default:
-                                            'global.firstName'} | translate }} </mat-label>
-                                        <input matInput maxlength="25" minlength="1" autocomplete="off" name="primerNombre" formControlName="primerNombre"
-                                            uppercase required>
-                                        <mat-error *ngIf="f.primerNombre.errors?.required">{{'error.required' | translate}}
-                                        </mat-error>
-                                        <mat-error *ngIf="f.primerNombre.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <mat-form-field fxFlex="25">
-                                        <mat-label>{{'naturalPerson.secondName' | translate: {default:
-                                            'global.secondName'} | translate }} </mat-label>
-                                        <input matInput maxlength="25" minlength="1" autocomplete="off" name="segundoNombre" formControlName="segundoNombre"
-                                            uppercase>
-
-                                        <mat-error *ngIf="f.segundoNombre.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <mat-form-field fxFlex="25">
-                                        <mat-label>{{'naturalPerson.surname' | translate: {default:
-                                            'global.surname'} | translate }} </mat-label>
-                                        <input matInput maxlength="25" minlength="1" autocomplete="off" name="primerApellido" formControlName="primerApellido"
-                                            uppercase required>
-                                        <mat-error *ngIf="f.primerApellido.errors?.required">{{'error.required' | translate}}
-                                        </mat-error>
-                                        <mat-error *ngIf="f.primerApellido.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <mat-form-field fxFlex="25">
-                                        <mat-label>{{'naturalPerson.secondSurname' | translate: {default:
-                                            'global.secondSurname'} | translate }} </mat-label>
-                                        <input matInput maxlength="25" minlength="1" autocomplete="off" name="segundoApellido" formControlName="segundoApellido"
-                                            uppercase>
-
-                                        <mat-error *ngIf="f.segundoApellido.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                </div>
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                    <sirio-select-search fxFlex="35"
-                                        [label]="'naturalPerson.nationality' | translate: {default: 'global.nationality'} | translate"
-                                        formControlName="nacionalidad" [required]="true" [elements]="nacionadades.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.pais?.errors">
-                                    </sirio-select-search>
-
-                                    <sirio-select-search fxFlex="30"
-                                        [label]="'naturalPerson.anotherNationality' | translate: {default: 'global.anotherNationality'} | translate"
-                                        formControlName="otraNacionalidad" [required]="false" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.pais?.errors">
-                                    </sirio-select-search>
-
-                                    <sirio-select-simple fxFlex="25" [label]="'naturalPerson.gender' | translate: {default: 'global.gender'} | translate"
-                                        formControlName="genero" [required]="true" [elements]="generos.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.genero?.errors">
-                                    </sirio-select-simple>
-
-                                    <mat-form-field fxFlex="10">
-                                        <mat-label>{{'naturalPerson.familyBurden' | translate: {default:
-                                            'global.familyBurden'} | translate }}
-                                        </mat-label>
-                                        <input matInput max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar" formControlName="cargaFamiliar"
-                                            required>
-                                        <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
-                                        <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10</mat-error>
-                                    </mat-form-field>
-                                </div>
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                    <mat-form-field fxFlex="30">
-                                        <mat-label>{{'naturalPerson.email' | translate: {default:
-                                            'global.email'} | translate }} </mat-label>
-                                        <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
-                                            email-validate>
-                                        <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}
-                                        </mat-error>
-                                        <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
-                                    </mat-form-field>
-
-                                    <sirio-select-search fxFlex="30"
-                                        [label]="'naturalPerson.profession' | translate: {default: 'global.profession'} | translate" formControlName="profesion"
-                                        [required]="true" [elements]="profesiones.asObservable()" [attributeName]="'nombre'" [errors]="f.profesion?.errors">
-                                    </sirio-select-search>
-
-                                    <sirio-select-simple fxFlex="20" [label]="'naturalPerson.tenure' | translate: {default: 'global.tenure'} | translate"
-                                        formControlName="tenencia" [required]="true" [elements]="tenencias.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.tenencia?.errors">
-                                    </sirio-select-simple>
-
-                                    <sirio-select-simple fxFlex="20"
-                                        [label]="'naturalPerson.maritalStatus' | translate: {default: 'global.maritalStatus'} | translate"
-                                        formControlName="estadoCivil" [required]="true" [elements]="estadosCiviles.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.estadoCivil?.errors">
-                                    </sirio-select-simple>
-                                </div>
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-
-                                    <sirio-select-search fxFlex="auto"
-                                        [label]="'naturalPerson.economicActivity' | translate: {default: 'global.economicActivity'} | translate"
-                                        formControlName="actividadEconomica" [required]="true" [elements]="actividadesEconomicas.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.actividadEconomica?.errors">
-                                    </sirio-select-search>
-
-                                    <sirio-select-search fxFlex="auto"
-                                        [label]="'naturalPerson.specificActivity' | translate: {default: 'global.specificActivity'} | translate"
-                                        formControlName="actividadEspecifica" [required]="true" [elements]="actividadesEspecificas.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.actividadEspecifica?.errors">
-                                    </sirio-select-search>
-
-                                    <sirio-select-search fxFlex="auto"
-                                        [label]="'naturalPerson.specialCategory' | translate: {default: 'global.specialCategory'} | translate"
-                                        formControlName="categoriaEspecial" [required]="false" [elements]="categoriasEspeciales.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.categoriaEspecial?.errors">
-                                    </sirio-select-search>
-
-                                </div>
-
-
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="evaluarEstadoCivil()">
-                                    <sirio-select-simple fxFlex="20"
-                                        [label]="'naturalPerson.spouseDocumentType' | translate: {default: 'global.spouseDocumentType'} | translate"
-                                        formControlName="tipoDocumentoConyuge" [required]="evaluarEstadoCivil()" [elements]="tipoDocumentos.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.tipoDocumentoConyuge?.errors">
-                                    </sirio-select-simple>
-
-                                    <mat-form-field fxFlex="15">
-                                        <mat-label>{{'naturalPerson.spouseIdentification' | translate: {default:
-                                            'global.spouseIdentification'} | translate }} </mat-label>
-                                        <input matInput maxlength="15" autocomplete="off" name="identificacionConyuge" formControlName="identificacionConyuge"
-                                            uppercase required="{{evaluarEstadoCivil()}}">
-                                        <mat-error *ngIf="f.identificacionConyuge.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <mat-form-field fxFlex="30">
-                                        <mat-label>{{'naturalPerson.spouseName' | translate: {default:
-                                            'global.spouseName'} | translate }} </mat-label>
-                                        <input matInput maxlength="60" required="evaluarEstadoCivil()" autocomplete="off" name="conyuge"
-                                            formControlName="conyuge" uppercase>
-                                        <mat-error *ngIf="f.conyuge.errors?.pattern">{{'error.invalidCharacter' |
-                                            translate}}
-                                        </mat-error>
-                                    </mat-form-field>
-
-                                    <sirio-select-simple fxFlex="45"
-                                        [label]="'naturalPerson.spouseSourceIncome' | translate: {default: 'global.spouseSourceIncome'} | translate"
-                                        formControlName="fuenteIngreso" [required]="evaluarEstadoCivil()" [elements]="actividadesEconomicas.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.actividadesEconomicas?.errors">
-                                    </sirio-select-simple>
-
-
-                                </div>
-
-
-
-                            </div>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
-                                        <!-- <mat-icon class="margin-bottom-xxs">save</mat-icon> -->
-                                        <i class="fa-light fa-floppy-disk margin-bottom-xxs"></i>
-                                        {{'button.save' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
-                                </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel *ngIf="hasBasicData" (opened)="cargarDirecciones()">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    {{'personAddress.table' | translate}}
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>location_on</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'2'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-                            <div fxLayout="row" fxLayout="column">
-
-
+    
+    
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="default" (click)="addDirecciones()" mat-button>
+                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                                            <!-- <mat-icon class="margin-bottom-xxs">save</mat-icon> -->
+                                            <i class="fa-light fa-floppy-disk margin-bottom-xxs"></i>
+                                            {{'button.save' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
+                                </div>
+    
+    
+                            </mat-expansion-panel>
+    
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="cargarDirecciones()">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{'personAddress.table' | translate}}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>location_on</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'2'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+                                <div fxLayout="row" fxLayout="column">
+    
+    
+                                    <div fxLayout="row" fxLayout="column">
+                                        <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                            <button color="default" (click)="addDirecciones()" mat-button>
+                                                <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                                'global.notfound'} | translate }}
+                                            </button>
+                                        </div>
+                                    </div>
+    
+                                    <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                                        [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
+                                        [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="direcciones | async">
+    
+                                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                            <ng-template ngx-datatable-header-template>
+                                                <span>#</span>
+                                            </ng-template>
+                                            <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                                                {{ rowIndex+1 }}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+    
+                                        <ngx-datatable-column [flexGrow]="3" [sortable]="true">
+                                            <ng-template ngx-datatable-header-template>
+                                                <span>Tipo Dirección</span>
+                                            </ng-template>
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                <span style="white-space: break-spaces;">{{ row?.tipoDireccion }}</span>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+    
+                                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                            <ng-template ngx-datatable-header-template>
+                                                <span>Descripción</span>
+                                            </ng-template>
+                                            <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                                {{row.descripcion}}
+                                            </ng-template>
+                                        </ngx-datatable-column>
+    
+                                        <ngx-datatable-column name="" [flexGrow]="1">
+                                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]=""
+                                                    (click)="update(row,$event)" matTooltip="Actualizar">
+                                                    <mat-icon>edit</mat-icon>
+                                                </button>
+                                            </ng-template>
+                                        </ngx-datatable-column>
+                                    </ngx-datatable>
+    
+    
+                                </div>
+                            </mat-expansion-panel>
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Telefonos
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>phone</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'2'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="detailCash()" mat-button>
                                             <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
                                             'global.notfound'} | translate }}
                                         </button>
                                     </div>
                                 </div>
-
-                                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
-                                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
-                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="direcciones | async">
-
-                                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                                        <ng-template ngx-datatable-header-template>
-                                            <span>#</span>
-                                        </ng-template>
-                                        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                                            {{ rowIndex+1 }}
-                                        </ng-template>
-                                    </ngx-datatable-column>
-
-                                    <ngx-datatable-column [flexGrow]="3" [sortable]="true">
-                                        <ng-template ngx-datatable-header-template>
-                                            <span>Tipo Dirección</span>
-                                        </ng-template>
-                                        <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.tipoDireccion }}</span>
-                                        </ng-template>
-                                    </ngx-datatable-column>
-
-                                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                                        <ng-template ngx-datatable-header-template>
-                                            <span>Descripción</span>
-                                        </ng-template>
-                                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                            {{row.descripcion}}
-                                        </ng-template>
-                                    </ngx-datatable-column>
-
-                                    <ngx-datatable-column name="" [flexGrow]="1">
-                                        <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]=""
-                                                (click)="update(row,$event)" matTooltip="Actualizar">
-                                                <mat-icon>edit</mat-icon>
-                                            </button>
-                                        </ng-template>
-                                    </ngx-datatable-column>
-                                </ngx-datatable>
-
-
-                            </div>
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Telefonos
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>phone</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'2'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="detailCash()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
+    
+                            </mat-expansion-panel>
+    
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Información Laboral
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>factory</mat-icon>
+                                            <!-- <span class="notification-number mat-bg-warn "></span> -->
+                                        </button>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
-                        </mat-expansion-panel>
-
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Información Laboral
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>factory</mat-icon>
-                                        <!-- <span class="notification-number mat-bg-warn "></span> -->
-                                    </button>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="addElement()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
+    
+    
+                            </mat-expansion-panel>
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Referencias Bancarias
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>account_balance</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'3'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Referencias Bancarias
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>account_balance</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'3'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="addElement()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
+    
+    
+                            </mat-expansion-panel>
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Referencias Personales
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>contacts</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'2'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Referencias Personales
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>contacts</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'2'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="addElement()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
+    
+    
+                            </mat-expansion-panel>
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Peps
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    Peps
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>peoples</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'1'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="addElement()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
+    
+    
+                            </mat-expansion-panel>
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <!-- TODO: INTERNACIONALIZACION -->
+                                        Representante Legal
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    <!-- TODO: INTERNACIONALIZACION -->
-                                    Representante Legal
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>peoples</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'1'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="addElement()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
+    
+    
+                            </mat-expansion-panel>
+    
+    
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <!-- TODO: INTERNACIONALIZACION -->
+                                        Apoderados
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+    
+    
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-
-
-                        <mat-expansion-panel *ngIf="hasBasicData">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    <!-- TODO: INTERNACIONALIZACION -->
-                                    Apoderados
-                                </mat-panel-title>
-                                <mat-panel-description>
-                                    <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                        <mat-icon>peoples</mat-icon>
-                                    </button>
-                                    <span class="notification-number " [matBadge]="'1'"></span>
-                                </mat-panel-description>
-                            </mat-expansion-panel-header>
-
-
-                            <div fxLayout="row" fxLayout="column">
-                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                    <button color="default" (click)="addElement()" mat-button>
-                                        <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                        'global.notfound'} | translate }}
-                                    </button>
-                                </div>
-                            </div>
-
-
-                        </mat-expansion-panel>
-                        <!-- <form [formGroup]="itemForm" *ngIf="itemForm">
-
-                       
-
-
-                    </form> -->
-                    </mat-accordion>
+    
+    
+                            </mat-expansion-panel>
+                            <!-- <form [formGroup]="itemForm" *ngIf="itemForm">
+    
+                           
+    
+    
+                        </form> -->
+                        </mat-accordion>
+                    </ng-container>
                 </sirio-card-content>
                 <!-- <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

@@ -36,7 +36,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     searchForm: FormGroup;
     hasBasicData = false;
-    nombreCompletoPersona = 'NOMBRE COMPLETO DE LA PERSONA';
+    nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
     constante = GlobalConstants;
     estado_civil: string;
@@ -50,7 +50,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     actividadesEconomicas = new BehaviorSubject<ActividadEconomica[]>([]);
     actividadesEspecificas = new BehaviorSubject<ActividadEspecifica[]>([]);
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
-    //fuenteIngreso = new BehaviorSubject<FuenteIngreso[]>([]);
+    
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
 
@@ -92,6 +92,11 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                     });
                 }
                 this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
+
+                if (this.f.estadoCivil && this.f.estadoCivil.value) {
+
+                    this.estado_civil = this.f.estadoCivil.value;
+                }
             }
         });
 
@@ -176,12 +181,12 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         //TODO: OJO ESTO NO VA ACA obtener la persona dado el tipo de documento e identificacion
         this.search.identificacion.valueChanges.pipe(
             distinctUntilChanged(),
-            debounceTime(1000)
+            debounceTime(1000)// espera 1 seg
         ).subscribe(() => {
             // se busca los dato que el usuario suministro      
             const tipoDocumento = this.search.tipoDocumento.value;
             const identificacion = this.search.identificacion.value;
-
+            this.loaded$.next(false);
             // console.log(tipoDocumento);
             // console.log(identificacion);
 
@@ -202,19 +207,23 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                             // this.itemForm.reset({});
                             this.buildForm(this.personaNatural);
                             this.loadingDataForm.next(false);
-                            this.cdr.markForCheck();
+                            this.loaded$.next(true);
+                            this.cdr.detectChanges();
                         })
 
                     }
                     
                 }, err => {
                     //console.log(err);
-                    this.itemForm.reset({});
+                    if(this.itemForm){
+                        this.itemForm.reset({});
+                    }
                     this.personaNatural = {} as PersonaNatural;
+                    // this.buildForm(this.personaNatural);
                     this.loadingDataForm.next(false);
                     this.search.identificacion.setErrors({ notexists: true });
-                    
-                    this.cdr.markForCheck();
+                    this.loaded$.next(false);
+                    this.cdr.detectChanges();
                 })
             }
         });
@@ -245,7 +254,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             categoriaEspecial: new FormControl(personaNatural.categoriaEspecial || undefined),
             tipoDocumentoConyuge: new FormControl(personaNatural.tipoDocumentoConyuge || undefined),
             identificacionConyuge: new FormControl(personaNatural.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            conyuge: new FormControl(personaNatural.conyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombreConyuge: new FormControl(personaNatural.nombreConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             fuenteIngreso: new FormControl(personaNatural.fuenteIngreso || undefined),
             email: new FormControl(personaNatural.email || '', [Validators.required]),
         });
@@ -256,25 +265,32 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
         this.f.actividadEconomica.valueChanges.subscribe(value => {
-            this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
-                this.actividadesEspecificas.next(data);
-                this.cdr.detectChanges();
-            });
+            if(value){
+                this.f.actividadEspecifica.setValue('');
+
+                this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
+                    this.actividadesEspecificas.next(data);
+                    this.cdr.detectChanges();
+                });
+            }
         });
 
         this.f.estadoCivil.valueChanges.subscribe(val => {
-            this.estado_civil = val;
-            if(!this.evaluarEstadoCivil()){
-                // si esta evaluacion retorna false , es que no es casado, ni union estable
-                this.addOrRemoveFieldValidator('tipoDocumentoConyuge',false)
-                this.addOrRemoveFieldValidator('identificacionConyuge',false,'')
-                this.addOrRemoveFieldValidator('conyuge',false,'')
-                this.addOrRemoveFieldValidator('fuenteIngreso',false)
+            if(val){
 
-
-
-                this.cdr.detectChanges();
-
+                this.estado_civil = val;
+                if(!this.evaluarEstadoCivil()){
+                    // si esta evaluacion retorna false , es que no es casado, ni union estable
+                    this.addOrRemoveFieldValidator('tipoDocumentoConyuge',false)
+                    this.addOrRemoveFieldValidator('identificacionConyuge',false,'')
+                    this.addOrRemoveFieldValidator('conyuge',false,'')
+                    this.addOrRemoveFieldValidator('fuenteIngreso',false)
+    
+    
+    
+                    this.cdr.detectChanges();
+    
+                }
             }
 
         })
