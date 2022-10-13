@@ -16,6 +16,7 @@ export class ApiConfConstants {
   public static API_PREFERENCIA = 'preferencia';
   public static API_TAQUILLA = 'taquilla';
   public static API_PASIVO= 'pasivo';
+  public static API_WORKFLOW= 'workflow';
   public static API_DEFAULT = 'default';
 
   public static APP_NAME = '/sirio/';

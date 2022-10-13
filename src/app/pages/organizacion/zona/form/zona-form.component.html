@@ -5,8 +5,7 @@
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -14,8 +13,7 @@
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
-                            (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -33,8 +31,8 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -43,30 +41,17 @@
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="10" name="id" formControlName="id" uppercase required
                                         class="text-center">
-<<<<<<< HEAD
-<<<<<<< HEAD
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
-=======
-                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists'}}</mat-error>
->>>>>>> 1cbaaa3940a4a7233b2765b99a62c1a619c2b042
-=======
-                                    <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
->>>>>>> c32129aa4684c022f1f52dc1347c0a33deff09ef
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="85">
                                     <mat-label>{{'zone.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="50" name="nombre" formControlName="nombre" uppercase
-                                        required>
-                                        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <input matInput autocomplete="off" minlength="1" maxlength="50" name="nombre" formControlName="nombre" uppercase required>
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
                             </div>
                         </form>

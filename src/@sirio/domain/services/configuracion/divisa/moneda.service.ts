@@ -11,6 +11,7 @@ export interface Moneda {
     nombre: string;
     codigoLocal: string;
     esVirtual: number;
+    divisor?: number;
     fechaCreacion?: any;
     activo?: number;
 }
