@@ -55,8 +55,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
-
-
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -130,8 +128,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             // this.loadingDataForm.next(false);
         }
 
-
-
         // this.buildForm(this.personaNatural);
         this.loadingDataForm.next(false);
 
@@ -178,7 +174,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         // TODO: DEBEO VERIFICAR ESTO DESPUES, LA LISTA DEBE SER CARGADA CUANDO SE ABRAR EL ACORDION
 
 
-
         //TODO: OJO ESTO NO VA ACA obtener la persona dado el tipo de documento e identificacion
         this.search.identificacion.valueChanges.pipe(
             distinctUntilChanged(),
@@ -191,7 +186,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.loaded$.next(false);
             // console.log(tipoDocumento);
             // console.log(identificacion);
-
 
             if (tipoDocumento && identificacion) {
                 this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
@@ -244,8 +238,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             pais: new FormControl(personaNatural.pais || undefined, [Validators.required]),
             primerNombre: new FormControl(personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
             segundoNombre: new FormControl(personaNatural.segundoNombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
-            primerApellido: new FormControl(personaNatural.primerApellido || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
-            segundoApellido: new FormControl(personaNatural.segundoApellido || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
+            primerApellido: new FormControl(personaNatural.primerApellido || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            segundoApellido: new FormControl(personaNatural.segundoApellido || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             nacionalidad: new FormControl(personaNatural.nacionalidad || undefined, [Validators.required]),
             otraNacionalidad: new FormControl(personaNatural.otraNacionalidad || undefined),
             profesion: new FormControl(personaNatural.profesion || undefined, [Validators.required]),
@@ -262,8 +256,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             fuenteIngreso: new FormControl(personaNatural.fuenteIngreso || undefined),
             email: new FormControl(personaNatural.email || '', [Validators.required]),
         });
-
-
 
         // verifico si tengo datos basicos cargados
         // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
