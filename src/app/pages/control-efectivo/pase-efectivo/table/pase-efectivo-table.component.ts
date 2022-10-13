@@ -43,10 +43,6 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  // edit(data:any) {    
-  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
-  // }
-
   view(data:any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }

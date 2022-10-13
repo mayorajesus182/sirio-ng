@@ -8,6 +8,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
+import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -22,6 +23,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
 
     bovedaAgencia: BovedaAgencia = {} as BovedaAgencia;
     public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
+    public taquillas = new BehaviorSubject<Taquilla[]>([]);
 
     constructor(
         injector: Injector,
@@ -30,6 +32,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         private route: ActivatedRoute,
         private bovedaAgenciaService: BovedaAgenciaService,
         private movimientoEfectivoService: MovimientoEfectivoService,
+        private taquillaService: TaquillaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -58,19 +61,14 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             this.movimientos.next(data);
         });
 
-        // if(!id){
-        //     this.f.id.valueChanges.subscribe(value => {
-        //         if (!this.f.id.errors && this.f.id.value.length > 0) {
-        //             this.codigoExists(value);
-        //         }
-        //     });
-        // }
+        this.taquillaService.activesWithUser().subscribe(data => {
+            this.taquillas.next(data);
+        });
     }
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            taquilla: new FormControl(bovedaAgencia.taquilla || undefined),
-            usuarioTaquilla: new FormControl(bovedaAgencia.usuarioTaquilla || undefined),
+            taquilla: new FormControl(bovedaAgencia.taquilla || undefined, Validators.required),
             movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
             monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
         });
@@ -83,16 +81,5 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.updateData(this.bovedaAgencia);
         this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
     }
-
-    // private codigoExists(id) {
-    //     this.bovedaAgenciaService.exists(id).subscribe(data => {
-    //         if (data.exists) {
-    //             this.itemForm.controls['id'].setErrors({
-    //                 exists: true
-    //             });
-    //             this.cdr.detectChanges();
-    //         }
-    //     });
-    // }
 
 }

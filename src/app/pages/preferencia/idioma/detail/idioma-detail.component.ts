@@ -30,8 +30,7 @@ export class IdiomaDetailComponent extends FormBaseComponent implements OnInit {
     this.loadingDataForm.next(true);
 
     this.idiomaService.detail(id).subscribe(data => {
-      console.log('view idioma ',data);
-      
+
       this.data = data;
       this.loadingDataForm.next(false);
     });

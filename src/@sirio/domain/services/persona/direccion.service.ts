@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface Direccion {
     id: string;

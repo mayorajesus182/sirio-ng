@@ -9,6 +9,7 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { PaseEfectivoDetailComponent } from './detail/pase-efectivo-detail.component';
 import { PaseEfectivoFormComponent } from './form/pase-efectivo-form.component';
 import { PaseEfectivoRoutingModule } from './pase-efectivo-routing.module';
 import { PaseEfectivoTableComponent } from './table/pase-efectivo-table.component';
@@ -32,6 +33,7 @@ import { PaseEfectivoTableComponent } from './table/pase-efectivo-table.componen
     declarations: [
         PaseEfectivoTableComponent,
         PaseEfectivoFormComponent,
+        PaseEfectivoDetailComponent
     ],
     exports: [],
 })

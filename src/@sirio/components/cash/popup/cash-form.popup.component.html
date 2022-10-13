@@ -1,0 +1,48 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1> <i class="fa-light fa-money-bill-transfer"></i> {{'coin.form'|translate}} </h1> &nbsp; <h4>({{moneda.nombre}})</h4> <span> Desglosar</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+</sirio-dialog-header>
+
+<div>
+
+  <div fxLayout="column">
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>Total Cono Actual
+        </mat-label>
+        <input matInput class="text-right" [value]="totalActual | number:'1.2-2'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>Total Cono Anterior
+        </mat-label>
+        <input matInput class="text-right" [value]="totalAnterior | number:'1.2-2'" readonly currencyMask [options]="{precision:2}">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>Total
+        </mat-label>
+        <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
+        <!-- <mat-error *ngIf="total != (totalActual+totalAnterior)">El total desglosado es diferente al total suministrado</mat-error> -->
+        <mat-hint class="mat-error">{{total != (totalActual+totalAnterior)?'El total desglosado esta descuadrado!':''}}</mat-hint>
+      </mat-form-field>
+
+    </div>
+  </div>
+  <sirio-cash-detail [preferencia]="preferencia" [cono_actual]="valuesCono1" [cono_anterior]="valuesCono2" [moneda]="moneda.id"
+    (cono_actual_update)="updateConoActual($event)" (cono_anterior_update)="updateConoAnterior($event)" [total]="total" labelPrefix="Bs."></sirio-cash-detail>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close(false)">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+
+</div>
