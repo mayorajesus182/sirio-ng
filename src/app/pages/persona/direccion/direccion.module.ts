@@ -8,6 +8,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { DireccionFormPopupComponent } from './popup/direccion-form.popup.component';
+import { DireccionTableComponent } from './table/direccion-table.component';
 
 @NgModule({
   imports: [
@@ -23,9 +24,9 @@ import { DireccionFormPopupComponent } from './popup/direccion-form.popup.compon
     BreadcrumbsModule
   ],
   declarations: [
-    DireccionFormPopupComponent
+    DireccionFormPopupComponent,DireccionTableComponent
   ],
-  exports: [],
+  exports: [DireccionTableComponent],
   entryComponents:[DireccionFormPopupComponent]
 })
 export class DireccionModule {

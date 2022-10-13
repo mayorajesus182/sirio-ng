@@ -13,6 +13,8 @@ export interface Direccion {
     tipoDireccion: String;
 
     parroquia: String 
+    municipio?: String 
+    estado?: String 
 
     zonaPostal: String;
 
@@ -40,7 +42,7 @@ export class DireccionService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/persona/direccion'};
+        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/direccion'};
     }
 
     allByPersonaId(id:number): Observable<Direccion[]> {

@@ -1,15 +1,16 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 
 import { Router } from '@angular/router';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
+import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 @Component({
-  selector: 'app-direccion-table',
+  selector: 'sirio-persona-direccion-table',
   templateUrl: './direccion-table.component.html',
   styleUrls: ['./direccion-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,7 +19,9 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class DireccionTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['id','persona','tipoDireccion','parroquia', 'zonaPostal','via','nombreVia','nucleo','nombreNucleo', 'construccion','estadonombreCostruccion', 'referencia',];
+  @Input() persona=undefined;
+  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+  direcciones:ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
   constructor(
     injector: Injector,
@@ -27,35 +30,55 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
     protected direccionService: DireccionService,
     private cdr: ChangeDetectorRef,
   ) {
-    super(undefined,  injector);
+    super(undefined, injector);
+  }
+
+  private loadList(){
+    this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
+      this.direcciones.next(data.slice());
+      this.cdr.detectChanges();
+    });
   }
 
   ngOnInit() {
-    this.init(this.direccionService, 'id');
+    console.log('direcciones table');
+    
+    if(this.persona){
+      console.log('buscando direccion en el servidor dado el id persona');
+      this.loadList();
+
+
+      this.onRefresh.subscribe(val=>{
+        if(val){
+
+          this.loadList();
+        }
+      })
+    }
   }
 
   ngAfterViewInit() {
-    this.afterInit();
+
   }
 
-  add(path:string) {
-    console.log(' apply add action '+path);
-    
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
-  }
 
-  edit(data:any) {
+  edit(data: Direccion) {
     console.log('data event click ', data);
-    
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+
+
   }
 
-  view(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+  delete(data: Direccion) {
+    console.log('data event click ', data);
+    // if(data){
+
+    // }
   }
 
-  activateOrInactivate(data:any) {
-    this.applyChangeStatus(this.direccionService, data.element, data.element.nombre, this.cdr);
+  view(data: any) {
+
+
   }
+
 
 }

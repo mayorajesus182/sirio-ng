@@ -172,7 +172,7 @@ export class FormBaseComponent {
     }
 
 
-    protected showFormPopup(popupComponent, _title: string, data: any, _isNew, withDialog = '60%'): MatDialogRef<any> {
+    protected showFormPopup(popupComponent,  data: any, _isNew:boolean, withDialog = '60%'): MatDialogRef<any> {
         let data_aux = { payload: undefined, title: undefined, isNew: undefined };
 
         if (!data.payload) {
@@ -181,11 +181,11 @@ export class FormBaseComponent {
             data_aux = data;
         }
 
-        data_aux.title = _title;
+        // data_aux.title = _title;
         data_aux.isNew = _isNew;
 
         this.dialogRef = this.dialog.open(popupComponent, {
-            panelClass: 'form-dialog',
+            panelClass: 'dialog-frame',
             width: withDialog,
             disableClose: true,
             data: data_aux
@@ -208,7 +208,7 @@ export class FormBaseComponent {
         data_aux.title = title;
 
         this.dialogRef = this.dialog.open(popupComponent, {
-            panelClass: 'form-dialog',
+            panelClass: 'dialog-frame',
             width: withDialog,
             disableClose: true,
             data: data_aux

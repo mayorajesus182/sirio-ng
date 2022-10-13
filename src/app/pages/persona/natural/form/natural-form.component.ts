@@ -1,8 +1,6 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 import { ActivatedRoute } from '@angular/router';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -23,6 +21,7 @@ import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import { DireccionFormPopupComponent } from '../../direccion/popup/direccion-form.popup.component';
 
 @Component({
     selector: 'app-natural-form',
@@ -36,12 +35,14 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     searchForm: FormGroup;
     hasBasicData = false;
+    showAddress = false;
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
     constante = GlobalConstants;
     estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    refreshDirecciones = new BehaviorSubject<boolean>(false);
     generos = new BehaviorSubject<Genero[]>([]);
     paises = new BehaviorSubject<Pais[]>([]);
     nacionadades = new BehaviorSubject<Pais[]>([]);
@@ -59,7 +60,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     constructor(
         injector: Injector,
         dialog: MatDialog,
-
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private personaService: PersonaService,
@@ -75,7 +75,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         private categoriaEspecialService: CategoriaEspecialService,
         private direccionService: DireccionService,
         private cdr: ChangeDetectorRef) {
-        super(undefined, injector);
+        super(dialog, injector);
     }
 
     get search(){
@@ -346,11 +346,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.loaded$.next(true);
     }
 
-    cargarDirecciones() {
-
-        console.log('cargar direcciones');
-        this.direccionService.allByPersonaId(this.personaNatural.id).subscribe(data => this.direcciones.next(data.slice()));
-    }
 
     evaluarEstadoCivil():boolean {
         return this.estado_civil == this.constante.CASADO || this.estado_civil == this.constante.UNION_ESTABLE;
@@ -367,10 +362,16 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
     }
 
-    // activateOrInactivate() {
-    //     if (this.personaNatural.id) {
-    //         this.applyChangeStatus(this.personaNaturalService, this.personaNatural, this.personaNatural.identificacion, this.cdr);
-    //     }
-    // }
+    addAddress() {
+        this.showFormPopup(DireccionFormPopupComponent, {persona:this.personaNatural.id}, true,'60%').afterClosed().subscribe(event=>{
+            if(event){
+                this.refreshDirecciones.next(true);
+            }
+        }); 
+    }
+
+    openAddress() {
+        this.showAddress=!this.showAddress; 
+    }
 
 }

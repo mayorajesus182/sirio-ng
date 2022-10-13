@@ -9,6 +9,7 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { DireccionModule } from '../direccion/direccion.module';
 import { NaturalFormComponent } from './form/natural-form.component';
 import { NaturalRoutingModule } from './natural-routing.module';
 
@@ -29,6 +30,8 @@ import { NaturalRoutingModule } from './natural-routing.module';
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
+
+        DireccionModule,
         NaturalRoutingModule
     ],
     declarations: [
