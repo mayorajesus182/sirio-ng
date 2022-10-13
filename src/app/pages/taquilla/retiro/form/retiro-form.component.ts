@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { id } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -50,6 +51,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
  
 
     ngOnInit() {
+        this.isNew=true;
         this.buildForm(this.retiro);
         this.loadingDataForm.next(false);
         //trae servicio de TIPO DE DOCUMENTOS   
@@ -69,8 +71,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             if (numeroCuenta) {
                 this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {                   
                     this.cuentaBancariaOperacion = data;  
-                    const tipoProducto = data.tipoProductoNombre;
-                    console.log("DATOS", data);                   
+                   //const cuentaBancaria = data.id;
+                   // console.log("DATOS", data);                   
                     this.cdr.markForCheck();
 
                 }, err => {
@@ -83,6 +85,15 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         });
 
 
+        this.loading$.subscribe(val=>{
+            if(val){
+                this.persona= {} as Persona;
+                this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+               
+            }
+        });
+
+
 
     }
 
@@ -91,19 +102,23 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({ 
 
             esPagoCheque: new FormControl(false),        
-            //persona: new FormControl(retiro.persona || '', [Validators.required, ]),
-            
+                 
             numper: new FormControl(retiro.numper || undefined),
-            //cuentaBancaria: new FormControl([retiro.cuentaBancaria || '', [Validators.required, ]]),
-            tipoDocumento: new FormControl(retiro.tipoDocumento || '', [Validators.required]),
-            identificacion: new FormControl(this.retiro.identificacion || '', [Validators.required]),
+          // cuentaBancaria: new FormControl([retiro.cuentaBancaria || '', [Validators.required, ]]),
+          tipoDocumentoBeneficiario: new FormControl(retiro.tipoDocumentoBeneficiario || '', [Validators.required]),
+            identificacionBeneficiario: new FormControl(this.retiro.identificacionBeneficiario || '', [Validators.required]),
             //nombre: new FormControl(retiro.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             monto: new FormControl(retiro.monto || '', [Validators.required]),
             numeroCuenta: new FormControl(retiro.numeroCuenta || '', [Validators.required]),
             moneda: new FormControl([retiro.moneda || '']),
             tipoProducto: new FormControl([retiro.tipoProducto || '', [Validators.required,]]),
            // estatusOperacion: new FormControl([retiro.estatusOperacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            // referencia: new FormControl(retiro.referencia || '',
+           serialCheque: new FormControl(retiro.serialCheque || '', [Validators.required,]),
+           montocheque: new FormControl(retiro.montocheque || '', [Validators.required,]),  
+           fechaEmision: new FormControl(retiro.fechaEmision || '', [Validators.required,]),
+           codSeguridad: new FormControl(retiro.codSeguridad || '', [Validators.required,]),
+           email: new FormControl(retiro.email || ''  ),    
+           telefono: new FormControl(retiro.telefono || ''),    
             
         });    
        
@@ -118,16 +133,19 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         
         if (this.itemForm.invalid)
             return;
-           
-            
+                       
 
         this.updateData(this.retiro);
         this.updateDataFromValues (this.retiro,this.persona);
+
         this.updateDataFromValues (this.retiro,this.cuentaBancariaOperacion);
+        this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;      
+        this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
+        this.retiro.fechaEmision = this.retiro.fechaEmision.format('DD/MM/YYYY');
+      
+       console.log("DATOSS3   ", this.retiro);
        
-       console.log("DATOSS3", this.retiro);
-       
-       this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', this.isNew);
+       this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
 
        
 

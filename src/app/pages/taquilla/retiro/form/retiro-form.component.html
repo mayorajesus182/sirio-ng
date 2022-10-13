@@ -1,6 +1,7 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['withdrawal.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['checkPayment.form']" current="{{isNew?'action.add':'action.edit'}}">
+        </sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,12 +11,13 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'withdrawal.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}</sirio-card-header-subheading>           
+                    <sirio-card-header-heading>{{'checkPayment.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}
+                    </sirio-card-header-subheading>
                     <sirio-card-header-subheading></sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        
-                    
+
+
 
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
@@ -28,122 +30,191 @@
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
-                <sirio-card-content fxLayout="column">               
+                <sirio-card-content fxLayout="column">
 
 
                     <div fxLayout="column">
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px">                     
-                      
-                        <div fxFlex="auto">
-                            <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque">
-                            {{'agency.checkPayment' | translate: {default: 'global.checkPayment'} | translate }}
-                          </mat-slide-toggle>
-                       </div>
-                    </div>    
-                </div>  
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px">
 
-            <form [formGroup]="itemForm" *ngIf="itemForm">                    
-                    
+                            <div fxFlex="auto">
+                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque">
+                                    {{'agency.checkPayment' | translate: {default: 'global.checkPayment'} | translate }}
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+                    </div>
 
-               <div fxLayout="column">
+                    <form [formGroup]="itemForm" *ngIf="itemForm">
 
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                        *ngIf="esPagoCheque">
 
-                        <mat-form-field fxFlex="50">
-                            <mat-label>{{'form.mount' | translate: {default: 'global.amount'} | translate }}
-                            </mat-label>
-                            <input matInput max="99999999.99" min="0.05" autocomplete="off" name="monto"
-                              formControlName="monto" currencyMask [options]="{precision:2}" required>
-                            <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
-                            <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,05</mat-error>
-                        </mat-form-field>  
+                        <div fxLayout="column">
 
-                        
-                        <mat-form-field fxFlex.gt-sm="auto">
-                        <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} | translate }}
-                        </mat-label>
-                        <input matInput name="numeroCuenta" autocomplete="off" num-account-validate formControlName="numeroCuenta"
-                            mask="0000 0000 0000 0000 0000" required placeholder="">
-                        <mat-hint>Ingrese el numero de cuenta</mat-hint>
-                        <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
-                        <mat-error *ngIf="f.numeroCuenta.errors?.account">El num. de cuenta es invalido</mat-error>
-                        </mat-form-field>   
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
 
-                    </div> 
-              
-                         
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">                        
-                     
-                        <mat-form-field fxFlex.gt-xs="25">
-                            <mat-label>{{'form.name' | translate: {default: 'global.name'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre">
-                        </mat-form-field>   
-                        <mat-form-field fxFlex.gt-xs="25">
-                            <mat-label>{{'form.identification' | translate: {default: 'global.identification'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.identificacion" [ngModelOptions]="{standalone: true}" readonly name="identificacion">
-                        </mat-form-field> 
-                        <mat-form-field fxFlex.gt-xs="25">
-                            <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.moneda" [ngModelOptions]="{standalone: true}" readonly name="moneda">
-                        </mat-form-field> 
-                        <mat-form-field fxFlex.gt-xs="25">
-                            <mat-label>{{'form.productType' | translate: {default: 'global.productType'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.tipoProductoNombre" [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
-                        </mat-form-field> 
-                       
-                        
-                    </div>     
-                    
+                                <mat-form-field fxFlex="30">
+                                    <mat-label>{{'checkPayment.amount' | translate: {default: 'global.amount'} | translate }}
+                                    </mat-label>
+                                    <input matInput max="999999999999999.99" min="0.05" autocomplete="off" name="monto"
+                                        formControlName="monto" currencyMask [options]="{precision:2}" required>                                   
+                                    <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,05</mat-error>
+                                </mat-form-field>
 
-                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">  -->
-                     
 
-                        <!-- <mat-form-field fxFlex.gt-sm="30">
-                            <mat-label>{{'form.reference' | translate: {default: 'global.reference'} | translate }}
-                            </mat-label>
-                            <input matInput name="referencia" autocomplete="off" formControlName="referencia"
-                             placeholder="">
-                            <mat-hint>Ingrese el numero de referencia</mat-hint>
-                             <mat-error *ngIf="f.referencia.errors?.required">Es requerido</mat-error>
-                          </mat-form-field> -->
+                                <mat-form-field fxFlex.gt-sm="50">
+                                    <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} |
+                                        translate }}
+                                    </mat-label>
+                                    <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
+                                        formControlName="numeroCuenta" mask="0000 0000 0000 0000 0000" required
+                                        placeholder="">                                    
+                                    <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="!f.numeroCuenta.errors?.required&&f.numeroCuenta.errors?.account">
+                                        El num. de cuenta es invalido</mat-error>
+                                </mat-form-field>
 
-                    <!-- </div>  -->
-                     
+                                <mat-form-field fxFlex.gt-xs="20">
+                                    <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.moneda"
+                                        [ngModelOptions]="{standalone: true}" readonly name="moneda">
+                                </mat-form-field>
 
-                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">  
-                        <sirio-select-simple fxFlex="30"
-                          [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
-                          formControlName="tipoDocumento" [required]="true"
-                          [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
-                          [errors]="f.tipoDocumento?.errors">
-                        </sirio-select-simple>
-                        
-                        <mat-form-field fxFlex.gt-xs="15">
-                            <mat-label>{{'deposit.identification' | translate: {default: 'global.identification'} | translate }}
-                            </mat-label>
-                            <input matInput autocomplete="off" maxlength="8" id="identificacion" name="identificacion" formControlName="identificacion" 
-                                required>
-                            <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
-                            <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                           <!--TODO: Cambiar-->
-                        </mat-form-field>
+                            </div>
 
-                 
 
-                     </div>
-               
-               
-                </div> 
-                       
- 
-             </form>
-                  
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
+
+                                <mat-form-field fxFlex.gt-xs="30">
+                                    <mat-label>{{'form.name' | translate: {default: 'global.name'} | translate }} </mat-label>
+                                    <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.nombre"
+                                        [ngModelOptions]="{standalone: true}" readonly name="nombre">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'form.nationality' | translate: {default: 'global.nationality'} |
+                                        translate }} </mat-label>
+                                    <input matInput autocomplete="off"
+                                        [(ngModel)]="cuentaBancariaOperacion.tipoDocumentoNombre"
+                                        [ngModelOptions]="{standalone: true}" readonly name="tipoDocumentoNombre">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="20">
+                                    <mat-label>{{'form.identification' | translate: {default: 'global.identification'} |
+                                        translate }}</mat-label>
+                                    <input matInput autocomplete="off"
+                                        [(ngModel)]="cuentaBancariaOperacion.identificacion"
+                                        [ngModelOptions]="{standalone: true}" readonly name="identificacion">
+                                </mat-form-field>                             
+
+                                <mat-form-field fxFlex.gt-xs="auto">
+                                    <mat-label>{{'form.productType' | translate: {default: 'global.productType'} |
+                                        translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off"
+                                        [(ngModel)]="cuentaBancariaOperacion.tipoProductoNombre"
+                                        [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
+                                </mat-form-field>
+
+
+                            </div>
+
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
+
+                                <mat-form-field fxFlex.gt-sm="25">
+                                    <mat-label>{{'withdrawal.serial' | translate: {default: 'global.serial'} | translate
+                                        }}
+                                    </mat-label>
+                                    <input matInput maxlength="10" name="serialCheque" autocomplete="off" formControlName="serialCheque" placeholder="" required>                                   
+                                    <mat-error *ngIf="f.serialCheque.errors?.required">Es requerido</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-sm="25">
+                                    <mat-label>{{'withdrawal.checkAmountPayable' | translate: {default:
+                                        'global.checkAmountPayable'} | translate }}
+                                    </mat-label>                                 
+                                        <input matInput max="999999999999999.99" min="0.05" autocomplete="off" name="montocheque"
+                                        formControlName="montocheque" currencyMask [options]="{precision:2}" required>                                       
+                                    <mat-error *ngIf="f.montocheque.errors?.required">Es requerido</mat-error>
+                                </mat-form-field>
+
+
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label>{{'withdrawal.issueDate' | translate: {default:
+                                        'global.issueDate'} | translate }}
+                                    </mat-label>
+                                    <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY"
+                                        name="fechaEmision" formControlName="fechaEmision" [matDatepicker]="fechaEmisionPicker" required>
+                                    <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
+                                    </mat-datepicker-toggle>
+                                    <mat-error *ngIf="f.fechaEmision.errors?.matDatepickerParse">
+                                        Fecha Invalidad
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-datepicker #fechaEmisionPicker></mat-datepicker>
+
+                                <mat-form-field fxFlex.gt-sm="25">
+                                    <mat-label>{{'withdrawal.securityCode' | translate: {default: 'global.securityCode'}
+                                        | translate }}
+                                    </mat-label>
+                                    <input matInput maxlength="10" name="codSeguridad" autocomplete="off"
+                                        formControlName="codSeguridad" placeholder="">                                   
+                                    <mat-error *ngIf="f.codSeguridad.errors?.required">Es requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
+                                <sirio-select-simple fxFlex="20"
+                                    [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                                    formControlName="tipoDocumentoBeneficiario" [required]="true"
+                                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.tipoDocumentoBeneficiario?.errors">
+                                </sirio-select-simple>
+
+                                <mat-form-field fxFlex.gt-xs="15">
+                                    <mat-label>{{'deposit.identification' | translate: {default:
+                                        'global.identification'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" maxlength="8" name="identificacionBeneficiario"
+                                        formControlName="identificacionBeneficiario" required>
+                                    <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required'
+                                        | translate}}</mat-error>
+                                    <mat-error *ngIf="f.identificacionBeneficiario.errors?.pattern">
+                                        {{'error.invalidCharacter' | translate}}</mat-error>
+                                    <!--TODO: Cambiar-->
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-sm="30">
+                                    <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
+                                        }}
+                                    </mat-label>
+                                    <input matInput name="email" autocomplete="off" email-validate name="email"
+                                        formControlName="email" placeholder="">                                    
+                                    <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+
+                                </mat-form-field>
+
+
+                                <mat-form-field fxFlex.gt-sm="auto">
+                                    <mat-label>{{'withdrawal.sms' | translate: {default: 'global.sms'} | translate }}
+                                    </mat-label>
+                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" 
+                                        placeholder="">                           
+                                </mat-form-field>
+
+                            </div>
+
+
+
+
+                        </div>
+
+
+                    </form>
+
 
 
                 </sirio-card-content>
@@ -154,7 +225,7 @@
                             <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
-                      
+
                     </div>
                 </mat-toolbar>
 

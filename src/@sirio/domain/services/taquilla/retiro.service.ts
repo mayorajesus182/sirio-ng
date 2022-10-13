@@ -10,7 +10,7 @@ export interface Retiro {
  
     //institucion: string;
    // agencia: number;
-    // persona: number; 
+    persona: number; 
     numper: string;
     cuentaBancaria: number;   
     tipoDocumento: string; 
@@ -19,8 +19,13 @@ export interface Retiro {
     numeroCuenta: string;
     moneda: String;
     tipoProducto: string;     
-    referencia: string;
+    serialCheque: string;
+    fechaEmision: any;
+    codSeguridad: string;
+    montocheque: number ;
     monto: number;
+    tipoDocumentoBeneficiario: string; 
+    identificacionBeneficiario: string;  
     libreta: string;
     linea: string;
     conoAnterior: number;
