@@ -75,7 +75,7 @@
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <span class="mt-10">
-                                            Datos Basicos
+                                            Datos Básicos
                                         </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
@@ -162,7 +162,7 @@
                                                 translate}}
                                             </mat-error>
                                         </mat-form-field>
-    
+
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'naturalPerson.secondSurname' | translate: {default:
                                                 'global.secondSurname'} | translate }} </mat-label>
@@ -285,12 +285,11 @@
                                             </mat-error>
                                         </mat-form-field>
     
-                                        <sirio-select-simple fxFlex="45"
-                                            [label]="'naturalPerson.spouseSourceIncome' | translate: {default: 'global.spouseSourceIncome'} | translate"
+                                        <sirio-select-search fxFlex="45"
+                                            [label]="'naturalPerson.sourceIncomeSpouse' | translate: {default: 'global.sourceIncomeSpouse'} | translate"
                                             formControlName="fuenteIngreso" [required]="evaluarEstadoCivil()" [elements]="actividadesEconomicas.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.actividadesEconomicas?.errors">
-                                        </sirio-select-simple>
-    
+                                            [attributeName]="'nombre'" [errors]="f.fuenteIngreso?.errors">
+                                        </sirio-select-search>
     
                                     </div>
     
@@ -308,7 +307,7 @@
                                             'global.notfound'} | translate }}
                                         </button>
                                     </div>
-                                    <!-- {{printErrors() | json}} -->
+                                     <!-- {{printErrors() | json}}  -->
                                 </div>
     
     
