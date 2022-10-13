@@ -1,14 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { Moment } from 'moment';
+import { CashFormPopupComponent } from 'src/@sirio/components/cash/popup/cash-form.popup.component';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 
 
 import { fadeInRightAnimation } from '../../../@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from '../../../@sirio/animations/fade-in-up.animation';
+
 import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.component';
 
 @Component({
@@ -18,7 +22,8 @@ import { DireccionFormPopupComponent } from './form-dialog/direccion-form.popup.
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 export class HelpComponentsComponent implements OnInit {
-
+  public conoActual: ConoMonetario[] = [];
+  public conoAnterior: ConoMonetario[] = [];
   todayValue: Moment
   private _gap = 16;
   gap = `${this._gap}px`;
@@ -26,6 +31,13 @@ export class HelpComponentsComponent implements OnInit {
   col3 = `1 1 calc(33.3333% - ${this._gap / 1.5}px)`;
   hasBasicData = true;
   isNew = true;
+
+
+  moneda: Moneda = {
+    id: 'USD',
+    nombre: 'DOLARES'
+  } as Moneda;
+
 
   frutasList: any[] = [
     {
@@ -44,12 +56,12 @@ export class HelpComponentsComponent implements OnInit {
 
   formData: FormGroup;
   formData2: FormGroup;
-  // formTelefono:FormGroup;
-  // formDireccion:FormGroup;
 
   constructor(
     private dialog: MatDialog,
     private calendarService: CalendarioService,
+    private cdr: ChangeDetectorRef,
+    // private conoService: ConoMonetarioService,
     private fb: FormBuilder) {
 
   }
@@ -78,7 +90,6 @@ export class HelpComponentsComponent implements OnInit {
       email: new FormControl('', [Validators.required])
     })
 
-    // this.formData.markAsTouched();
 
     this.formData2 = this.fb.group({
       mostrar: [false],
@@ -88,6 +99,7 @@ export class HelpComponentsComponent implements OnInit {
       monto: new FormControl(undefined, Validators.required),
       telefono: new FormControl('', Validators.required)
     })
+
 
   }
 
@@ -110,11 +122,25 @@ export class HelpComponentsComponent implements OnInit {
 
   addElement() {
 
-    this.showFormPopup(DireccionFormPopupComponent,{}, '50%')
+    this.showFormPopup(DireccionFormPopupComponent, {}, '40%')
   }
 
+  // detailCash() {
 
-  private showFormPopup(popupComponent,  data: any, withDialog = '60%'): MatDialogRef<any> {
+  //   this.showFormPopup(CashFormPopupComponent, { desgloseConoActual: this.conoActual, desgloseConoAnterior: this.conoActual, moneda: this.moneda }, '40%')
+  // }
+
+  updateCashDetail(event) {
+    console.log('update cash detail ',event)
+    if(!event){
+      return;
+    }
+    this.conoActual=event.desgloseConoActual;
+    this.conoAnterior=event.desgloseConoAnterior;
+    this.cdr.detectChanges();
+  }
+
+  private showFormPopup(popupComponent, data: any, withDialog = '60%'): MatDialogRef<any> {
     let data_aux = { payload: undefined, isNew: undefined };
 
     data_aux.payload = data;

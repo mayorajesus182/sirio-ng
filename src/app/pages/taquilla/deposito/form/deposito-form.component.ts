@@ -2,12 +2,13 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { CuentaBancaria, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
+import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -16,15 +17,22 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
     templateUrl: './deposito-form.component.html',
     styleUrls: ['./deposito-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: [fadeInUpAnimation, fadeInRightAnimation]
+    animations: [fadeInUpAnimation, fadeInRightAnimation],
 })
 
 export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     deposito: Deposito = {} as Deposito;
+    persona: Persona = {} as Persona;
+    cuentaOperacion: CuentaBancariaOperacion = {} as  CuentaBancariaOperacion;
+
+
+    moneda: string = "";
+    numCuenta: string = "";
+    tipoProducto: string = "";
+    // cuentasBancarias : CuentaBancaria = {} as CuentaBancaria;
+    public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
-    // public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
-    // public personaSimple = new BehaviorSubject<Persona[]>([]);
 
     constructor(
         injector: Injector,
@@ -32,112 +40,103 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         private route: ActivatedRoute,
         private depositoService: DepositoService,
         private tipoDocumentoService: TipoDocumentoService,
-        // private cuentaBancariaService: CuentaBancariaService,
+        private cuentaBancariaService: CuentaBancariaService,
+        private personaService: PersonaService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
 
+
         let id = this.route.snapshot.params['id'];
         this.isNew = id == undefined;
         this.loadingDataForm.next(true);
-
-        // if (id) {
-        //     this.depositoService.get(id).subscribe((agn: Deposito) => {
-        //         this.deposito = agn;
-        //         this.buildForm(this.deposito);
-        //         this.cdr.markForCheck();
-        //         this.loadingDataForm.next(false);
-        //         this.applyFieldsDirty();
-        //         this.cdr.detectChanges();
-        //     });
-        // } else {
-            this.buildForm(this.deposito);
-            this.loadingDataForm.next(false);
-        // }
-
-        // if(!id){
-        //     this.f.id.valueChanges.subscribe(value => {
-        //         if (!this.f.id.errors && this.f.id.value.length > 0) {
-        //             this.codigoExists(value);
-        //         }
-        //     });
-        // }
+        this.buildForm(this.deposito);
+        this.loadingDataForm.next(false);
 
         this.tipoDocumentoService.actives().subscribe(data => {
             this.tiposDocumentos.next(data);
         });
-        
-    }
 
-    // ngAfterViewInit(): void {
-    //     this.loading$.subscribe(loading => {
-    //         if (!loading) {
-    //             if (this.f.pais.value) {
-    //                 this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
-    //                     this.estados.next(data);
-    //                     this.cdr.detectChanges();
-    //                 });
-    //             }
+        if (this.f.tipoDocumento.value == "") {
+            this.f.identificacion.disable();
+        }
 
-    //             if (this.f.estado.value) {
-    //                 this.depositoService.activesByEstado(this.f.estado.value).subscribe(data => {
-    //                     this.depositos.next(data);
-    //                     this.cdr.detectChanges();
-    //                 });
-    //             }
+        this.f.tipoDocumento.valueChanges.subscribe(val => {
+            if (val) {
+                this.f.identificacion.enable()
+            }
+        })
+        //TODO: Revisar
+        this.f.cuentaBancaria.valueChanges.subscribe(val => {
+            if (val) {
+                this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];//obtiendo el unico resultado seleccionado al aplicar el filtro
+                // this.numCuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0].numeroCuenta;
+                // this.tipoProducto = this.cuentasBancarias.value.filter(e => e.id == val)[0].tipoProducto;
+            }
+        })
 
-    //         }
-    //     });
+        // manejo de escritura en el campo identificacion
+        this.f.identificacion.valueChanges.pipe(
+            distinctUntilChanged(),
+            debounceTime(1000)
+        ).subscribe(() => {
+            // se busca los dato que el usuario suministro      
+            const tipoDocumento = this.f.tipoDocumento.value;
+            const identificacion = this.f.identificacion.value;
+            if (tipoDocumento && identificacion) {
+                this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                    this.persona = data;
+                    const numper = data.numper;
+                    this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
+                        // console.log("HOLAAAAAAAAAAAAAAAAAAAAAAAaa",cuenta)
+                        this.cuentasBancarias.next(cuenta);
 
-    // }
+                    })
+                    this.cdr.markForCheck();
+                }, err => {
+                    this.f.identificacion.setErrors({ notexists: true });
+                    this.persona = {} as Persona;
+                    this.cdr.markForCheck();
+                })
+            }
 
-    buildForm(deposito: Deposito) {
-        this.itemForm = this.fb.group({
-            institucion: new FormControl([deposito.institucion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            agencia: new FormControl([deposito.agencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            persona: new FormControl(deposito.persona || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            numper: new FormControl(deposito.numper || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            cuentaBancaria: new FormControl([deposito.cuentaBancaria || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            tipoDocumento: new FormControl(deposito.tipoDocumento || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            identificacion:  new FormControl(deposito.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            nombre: new FormControl(deposito.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            numeroCuenta:  new FormControl([deposito.numeroCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            moneda:  new FormControl([deposito.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            tipoProducto:  new FormControl([deposito.tipoProducto || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            referencia: new FormControl(deposito.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            efectivo: new FormControl(deposito.efectivo || '', [Validators.required]),
-            chequePropio: new FormControl(deposito.chequePropio || undefined, [Validators.required]),
-            cantidadPropio: new FormControl(deposito.cantidadPropio || undefined, [Validators.required]),
-            chequeOtros: new FormControl(deposito.chequeOtros || undefined, [Validators.required]),
-            cantidadOtros: new FormControl(deposito.cantidadOtros || undefined, [Validators.required]),
-            monto: new FormControl(deposito.monto || undefined, [Validators.required]),
-            libreta: new FormControl(deposito.libreta || '', [Validators.required]),
-            linea: new FormControl(deposito.linea || '', [Validators.required]),
-            telefono: new FormControl(deposito.telefono || '', [Validators.required]),
-            email: new FormControl([deposito.email || '', [Validators.required]]),
-            estatusOperacion: new FormControl([deposito.estatusOperacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
 
         });
 
-        // this.f.pais.valueChanges.subscribe(value => {
-        //     this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
-        //         this.estados.next(data);
+    }
 
-        //         this.cdr.detectChanges();
-        //     });
-        // });
+    buildForm(deposito: Deposito) {
+        this.itemForm = this.fb.group({
+            // institucion: new FormControl([deposito.institucion || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            // agencia: new FormControl([deposito.agencia || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            // persona: new FormControl(deposito.persona || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            nombre: new FormControl(deposito.nombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            numper: new FormControl(deposito.numper || undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            cuentaBancaria: new FormControl([deposito.cuentaBancaria || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            tipoDocumento: new FormControl(deposito.tipoDocumento || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            identificacion: new FormControl(deposito.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            numeroCuenta: new FormControl([deposito.numeroCuenta || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            moneda: new FormControl([deposito.moneda || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            tipoProducto: new FormControl([deposito.tipoProducto || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            // referencia: new FormControl(deposito.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            esEfectivo: new FormControl(false),
+            esCheque: new FormControl(false),
+            // chequePropio: new FormControl(deposito.chequePropio || undefined, [Validators.required]),
+            // cantidadPropio: new FormControl(deposito.cantidadPropio || undefined, [Validators.required]),
+            // chequeOtros: new FormControl(deposito.chequeOtros || undefined, [Validators.required]),
+            // cantidadOtros: new FormControl(deposito.cantidadOtros || undefined, [Validators.required]),
+            monto: new FormControl(deposito.monto || undefined, [Validators.required]),
+            // libreta: new FormControl(deposito.libreta || '', [Validators.required]),
+            // linea: new FormControl(deposito.linea || '', [Validators.required]),
+            // telefono: new FormControl(deposito.telefono || '', [Validators.required]),
+            // email: new FormControl([deposito.email || '', [Validators.required]]),
+            // estatusOperacion: new FormControl([deposito.estatusOperacion || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            // mostrar: [false],
 
+        });
 
-        // this.f.estado.valueChanges.subscribe(value => {
-        //         this.depositoService.activesByEstado(this.f.estado.value).subscribe(data => {
-        //         this.depositos.next(data);
-        //         this.cdr.detectChanges();
-        //     });
-        // });
-
-        // this.cdr.detectChanges();
     }
 
     save() {
@@ -145,19 +144,22 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.deposito);
+
+        // this.deposito.numper = this.persona.numper;
+        // this.deposito.nombre = this.persona.nombre;
+        this.updateDataFromValues (this.deposito,this.persona);
+        this.updateDataFromValues (this.deposito,this.cuentaOperacion);
+        if (this.f.esEfectivo.value && !this.f.esCheque.value) {
+            this.deposito.efectivo = this.f.monto.value;
+        }
+        // this.deposito.tipoProducto = this.tipoProducto;
+        // this.deposito.numeroCuenta = this.numCuenta;
+        console.log("HOLAAAAAAAAAAAAAAAAAA", this.deposito);
+        
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito', this.isNew);
+
+
+
     }
-
-    // private codigoExists(id) {
-    //     this.depositoService.exists(id).subscribe(data => {
-    //         if (data.exists) {
-    //             this.itemForm.controls['id'].setErrors({
-    //                 exists: true
-    //             });
-    //             this.cdr.detectChanges();
-    //         }
-    //     });
-    // }
-
 
 }

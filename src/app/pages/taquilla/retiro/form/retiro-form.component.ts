@@ -1,14 +1,17 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
-import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
-import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
-import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
-import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
+import { RegularExpConstants } from 'src/@sirio/constants';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { TipoProducto } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
+import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
+import { Agencia } from 'src/@sirio/domain/services/organizacion/agencia.service';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -22,134 +25,131 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
-   retiro: Retiro = {} as Retiro;
-    public zonasPostales = new BehaviorSubject<ZonaPostal[]>([]);
-    public parroquias = new BehaviorSubject<Parroquia[]>([]);
-    public municipios = new BehaviorSubject<Municipio[]>([]);
-    public estados = new BehaviorSubject<Estado[]>([]);
-
+    retiro: Retiro = {} as Retiro;
+    tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
+    cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion; // un solo registro
+    persona: Persona = {} as Persona;
+    agencia: Agencia = {} as Agencia;
+    moneda: Moneda = {} as Moneda;
+    tipoProducto: TipoProducto = {} as TipoProducto;
+    esPagoCheque: boolean = false;
+    
+   // formData2: FormGroup;
+   // itemForm: FormGroup;
 
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-       private retiroService: RetiroService,
-        private zonaPostalService: ZonaPostalService,
-        private parroquiaService: ParroquiaService,
-        private municipioService: MunicipioService,
-        private estadoService: EstadoService,
+        private retiroService: RetiroService,
+        private cuentaBancariaService: CuentaBancariaService,
+        private tipoDocumentoService: TipoDocumentoService,
+        private personaService: PersonaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
 
+ 
+
+            
+        
+    
+
+
+
+   // }
+
     ngOnInit() {
 
-        this.loadingDataForm.next(true);
-      
 
-       /* this.institucionService.get().subscribe((inst: Institucion) => {
-            this.institucion = inst;
-            this.buildForm(this.institucion);
-            this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
-            this.cdr.detectChanges();
-        });*/
-        
-        this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
-            this.estados.next(data);
-            this.cdr.detectChanges();
+        this.buildForm(this.retiro);
+        this.loadingDataForm.next(false);
+
+
+        //trae servicio de TIPO DE DOCUMENTOS   
+        this.tipoDocumentoService.actives().subscribe(data => {
+            this.tipoDocumentos.next(data);
         });
+
+            
+        // manejo de escritura en el campo NUMERO DE CUENTA
+        this.f.numeroCuenta.valueChanges.pipe(
+            distinctUntilChanged(),
+            debounceTime(1000)
+        ).subscribe(() => {
+            // se busca los dato que el usuario suministro      
+            const numeroCuenta = this.f.numeroCuenta.value;
+            console.log("numeroCuentaDatos: ", numeroCuenta);         
+
+            if (numeroCuenta) {
+                this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {                   
+                    this.cuentaBancariaOperacion = data;            
+                    console.log("DATOS", data);                   
+                    this.cdr.markForCheck();
+
+                }, err => {
+                    console.log(err);
+                    this.f.cuentaBancariaOperacion.setErrors({ notexists: true });
+                    this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+                    this.cdr.markForCheck();
+                })
+            }
+        });
+
 
 
     }
     ngAfterViewInit(): void {
-        this.loading$.subscribe(loading => {
-            if (!loading) {
-                if (this.f.estado.value) {
-                    this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-                        this.municipios.next(data);
-                        this.cdr.detectChanges();
-                    });
-                }
 
-                if (this.f.municipio.value) {
-                    this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
-                        this.parroquias.next(data);
-                        this.cdr.detectChanges();
-                    });
-                }
-
-                if (this.f.parroquia.value) {                    
-                    this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {   
-                        this.zonasPostales.next(data);
-                        this.cdr.detectChanges();
-                    });
-                }
-            }
-        });
+      /*  this.form2.mostrar.valueChanges.subscribe(data => {
+            this.refreshForm2();
+            this.cdr.detectChanges();
+        })*/
 
     }
 
-    buildForm(retiro: Retiro) {
+    buildForm(retiro: Retiro) {          
 
+        this.itemForm = this.fb.group({ 
+            esPagoCheque: new FormControl(false),        
+            persona: new FormControl(retiro.persona || '', [Validators.required, ]),
+            numper: new FormControl(retiro.numper || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            cuentaBancaria: new FormControl([retiro.cuentaBancaria || '', [Validators.required, ]]),
+            tipoDocumento: new FormControl(retiro.tipoDocumento || undefined, [Validators.required]),
+            identificacion: new FormControl(this.retiro.identificacion || undefined, [Validators.required]),
+            nombre: new FormControl(retiro.nombre || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            monto: new FormControl(retiro.monto || undefined, [Validators.required]),
+            numeroCuenta: new FormControl(retiro.numeroCuenta || '', [Validators.required]),
+            moneda: new FormControl([retiro.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            tipoProducto: new FormControl([retiro.tipoProducto || '', [Validators.required,]]),
+            estatusOperacion: new FormControl([retiro.estatusOperacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
+            referencia: new FormControl(retiro.referencia || '', [Validators.required]),
+            
+        });    
+       
 
-        this.itemForm = this.fb.group({
-           /* id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            identificacion: [institucion.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            siglas: [institucion.siglas || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            */
-            //nombre: [retiro.nombre || '', [Validators.required, ]],
-            nombre: new FormControl(retiro.nombre || '', [Validators.required, ]),
-            parroquia: [retiro.parroquia || undefined, [Validators.required]],
-            municipio: [retiro.municipio || undefined, [Validators.required]],
-            estado: [retiro.estado || undefined, [Validators.required]],
-            zonaPostal: [retiro.zonaPostal || undefined, [Validators.required]],
-           /*direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email: [institucion.email || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            web: [institucion.web || ''],
-            telefono: [institucion.telefono || '', [Validators.required]],
-            telefono_alt: [institucion.telefono_alt || ''],
-            latitud: [institucion.latitud || '', [Validators.required]],
-            longitud: [institucion.longitud || '', [Validators.required]],*/
-
-        });
-
-        this.f.estado.valueChanges.subscribe(value => {
-            this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-                this.municipios.next(data);
-                this.cdr.detectChanges();
-            });
-        });
-
-        this.f.municipio.valueChanges.subscribe(value => {           
-            this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
-                this.parroquias.next(data);
-                this.cdr.detectChanges();
-            });
-        });
-
-        this.f.parroquia.valueChanges.subscribe(value => {           
-            this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
-                this.zonasPostales.next(data);
-                this.cdr.detectChanges();
-            });
-        });
-
-        this.cdr.detectChanges();
-        this.printErrors()
     }
 
 
-   /* save() {
+    save() {
         if (this.itemForm.invalid)
-            return;
+
+            return ("algo");
 
 
-        this.updateData(this.institucion);
-        this.saveOrUpdate(this.institucionService, this.institucion, 'La  institucion', this.isNew);
+        this.updateData(this.retiro);
+        
+       // this.retiro.numper = this.persona.numper;       
+       // this.retiro.estatusOperacion = this.tipoProducto.id;
+       this.updateDataFromValues (this.retiro,this.persona);
+       this.updateDataFromValues (this.retiro,this.cuentaBancariaOperacion);
+       
+       console.log("HOLAAAAAAAAAAAAAAAAAA", this.retiro);
+       
+       this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', this.isNew);
 
+       
 
-
-    }*/
+    }
 
 }

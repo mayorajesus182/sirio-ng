@@ -19,6 +19,7 @@ import { SidebarModule } from './shared/sidebar/sidebar.module';
 import { TitleModule } from './shared/title/title.module';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { SirioComponentModule } from './components/sirio.component.modulo';
 
 @NgModule({
   imports: [
@@ -47,7 +48,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatCheckboxModule,
     MatRadioModule,
     MatMenuModule,
-    ScrollingModule
+    ScrollingModule,
+    SirioComponentModule
   ]
 })
 export class SirioSharedModule {

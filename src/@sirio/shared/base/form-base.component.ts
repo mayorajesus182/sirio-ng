@@ -68,7 +68,7 @@ export class FormBaseComponent {
     protected translateService: TranslateService;
 
     isNew: boolean = false;
-    public itemForm: FormGroup;
+    public itemForm: FormGroup;   
     protected dialogRef: MatDialogRef<any>;
     public actions: SidenavItem[] = [];
     public buttons: SidenavItem[] = [];
@@ -160,13 +160,15 @@ export class FormBaseComponent {
         return this.itemForm ? this.itemForm.controls : {};
     }
 
+   
+
 
     protected updateData(current = {}) {
         Object.assign(current, this.itemForm.value);
     }
 
-    protected updateDataItemForm(current = {}, itemForm) {
-        Object.assign(current, itemForm.value);
+    protected updateDataFromValues(current = {}, values) {
+        Object.assign(current, values);
     }
 
 

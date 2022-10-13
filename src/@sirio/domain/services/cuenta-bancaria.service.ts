@@ -1,38 +1,23 @@
 import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
-
-export interface CuentaBancaria {
+export interface CuentaBancariaOperacion {
     id: number;
-    institucion: string;
-    agencia: number;
-    persona:number;
-    numper: string;
-    cuentaBancaria: number;
-    tipoDocumento: string;
-    identificacion: string;
-    nombre: string;
     numeroCuenta: string;
     moneda: string;
     tipoProducto: string;
-    referencia: string;
-    efectivo: number;
-    chequePropio: number;
-    cantidadPropio: number;
-    chequeOtros: number;
-    cantidadOtros: number;
-    conoAnterior: number;
-    monto: number;
-    libreta: string;
-    linea: string;
-    telefono: string;
-    email: string;
-    estatusOperacion: string;
+    identificacion?: string;  
+    nombre?: string;
+}
 
+export interface CuentaBancaria {
+    id: number;
+    numeroCuenta: string;
+    descripcion: string;
+    moneda: string;
+    tipoProducto: string;
 }
 
 @Injectable({
@@ -50,6 +35,14 @@ export class CuentaBancariaService {
 
     activesByPersona(persona: string): Observable<CuentaBancaria[]> {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/all`);
+    }
+
+    activesByNumeroCuenta(numeroCuenta: string): Observable<CuentaBancariaOperacion> {
+        return this.apiService.config(this.apiConfig).get(`/${numeroCuenta}/get`);
+    }
+
+    activesByNumper(numper: string): Observable<CuentaBancaria[]> {
+        return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/all`);
     }
 
     

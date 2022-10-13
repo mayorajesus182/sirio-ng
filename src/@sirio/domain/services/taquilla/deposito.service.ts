@@ -32,7 +32,7 @@ export interface Deposito {
     telefono: string;
     email: string;
     estatusOperacion: string;
-
+    
 }
 
 @Injectable({

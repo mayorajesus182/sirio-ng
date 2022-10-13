@@ -1,6 +1,8 @@
 import { Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 
@@ -12,7 +14,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class DireccionFormPopupComponent extends PopupBaseComponent implements OnInit {
 
   static id = 100;
-
+  conoActual: Observable<ConoMonetario>[] = [];
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -32,6 +34,8 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     } else {
       this.defaults = {} as any;
     }
+
+    this.conoActual.push(this.defaults.conoActual);
 
     this.itemForm = this.fb.group({
       firstName: new FormControl(this.defaults.firstName || '', [Validators.required]),
