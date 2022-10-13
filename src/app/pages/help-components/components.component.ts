@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -60,6 +60,7 @@ export class HelpComponentsComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private calendarService: CalendarioService,
+    private cdr: ChangeDetectorRef,
     // private conoService: ConoMonetarioService,
     private fb: FormBuilder) {
 
@@ -130,7 +131,13 @@ export class HelpComponentsComponent implements OnInit {
   // }
 
   updateCashDetail(event) {
-    console.log(event)
+    console.log('update cash detail ',event)
+    if(!event){
+      return;
+    }
+    this.conoActual=event.desgloseConoActual;
+    this.conoAnterior=event.desgloseConoAnterior;
+    this.cdr.detectChanges();
   }
 
   private showFormPopup(popupComponent, data: any, withDialog = '60%'): MatDialogRef<any> {

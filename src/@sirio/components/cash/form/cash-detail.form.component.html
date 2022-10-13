@@ -14,7 +14,6 @@
             </div>
         </div>
 
-
         <div *ngIf="listConoAnterior && listConoAnterior.observers.length>0" fxFlex="50" fxLayout="column">
             <h3>Cono Anterior ({{label_cono_anterior}}) </h3>
             <div fxLayout="row wrap">
@@ -22,7 +21,7 @@
                 <mat-form-field *ngFor="let item of listConoAnterior | async" fxFlex="100">
                     <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
                     </mat-label>
-                    <input matInput class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number"  />
+                    <input matInput (blur)="onChangeConoAnterior(item)" class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number"  />
                 </mat-form-field>
 
             </div>

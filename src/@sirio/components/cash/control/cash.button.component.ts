@@ -1,13 +1,11 @@
 import {
     AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewEncapsulation
+    Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation
 } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Subject } from 'rxjs';
-import { ConoMonetario, ConoMonetarioService } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
+import { ConoMonetario } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
 import { Moneda } from "src/@sirio/domain/services/configuracion/divisa/moneda.service";
-import { PreferenciaService } from "src/@sirio/domain/services/preferencias/preferencia.service";
-import { SweetAlertService } from "src/@sirio/services/swal.service";
 import { CashFormPopupComponent } from "../popup/cash-form.popup.component";
 
 
@@ -59,7 +57,9 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
             desgloseConoAnterior: this.cono_anterior, moneda: this.moneda
         }, '40%').afterClosed().subscribe(e => {
             console.log('close dialog ', e);
-            this.update.emit(e);
+            if(e){
+                this.update.emit(e);
+            }
         });
     }
 
@@ -70,14 +70,12 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
 
         data_aux.payload = data;
 
-        var dialogRef = this.dialog.open(popupComponent, {
+        return this.dialog.open(popupComponent, {
             panelClass: 'dialog-frame',
             width: withDialog,
             disableClose: true,
             data: data_aux
         });
-
-        return dialogRef;
     }
 
 
