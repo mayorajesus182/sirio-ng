@@ -1,0 +1,86 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'passToVault.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'passToVault.date' | translate: {default: 'global.date'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'passToVault.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.taquilla" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'passToVault.movementType' | translate: {default: 'global.movementType'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.movimientoEfectivo" readonly>
+                            </mat-form-field>
+                        </div>
+                            
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'passToVault.coin' | translate: {default: 'global.coin'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.moneda" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.ingreso+d.egreso | number: '1.2'" readonly class="text-right">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'passToVault.status' | translate: {default: 'global.status'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.estatusEfectivo" readonly>
+                            </mat-form-field>
+
+                        </div>
+
+                    </div>
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

@@ -99,7 +99,7 @@ export class QuickpanelComponent implements OnInit {
     }
   }
 
-  private wfSolPaseCajaBoveda(task: Workflow) {
+  private wfSolicitudPaseCajaBoveda(task: Workflow) {
     if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_CAJA_BOVEDA) {
       this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
     } else if (task.rol === TaskConstants.MOD_ANUL_SOLICITUD_PASE_CAJA_BOVEDA) {
