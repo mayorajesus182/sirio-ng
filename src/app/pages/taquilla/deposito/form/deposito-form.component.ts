@@ -13,6 +13,8 @@ import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/d
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import * as moment from 'moment';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 @Component({
     selector: 'app-deposito-form',
     templateUrl: './deposito-form.component.html',
@@ -23,12 +25,14 @@ import { CalendarioService } from 'src/@sirio/domain/services/calendario/calenda
 
 export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
+    public conoActual: ConoMonetario[] = [];
+    public conoAnterior: ConoMonetario[] = [];
     deposito: Deposito = {} as Deposito;
     persona: Persona = {} as Persona;
     cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     todayValue: moment.Moment;
 
-    moneda: string = "";
+    moneda: Moneda = {} as Moneda;
     numCuenta: string = "";
     tipoProducto: string = "";
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
@@ -78,6 +82,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                 this.f.esEfectivo.enable()
                 this.f.esCheque.enable()
+                this.moneda.id = this.cuentaOperacion.moneda;
+                this.moneda.nombre = this.cuentaOperacion.monedaNombre;
             }
 
         })
@@ -171,4 +177,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.updateDataFromValues(this.deposito, this.cuentaOperacion);
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
     }
+
+    updateCashDetail(event) {
+        console.log('update cash detail ',event)
+        if(!event){
+          return;
+        }
+        this.conoActual=event.desgloseConoActual;
+        this.conoAnterior=event.desgloseConoAnterior;
+        this.cdr.detectChanges();
+      }
 }
