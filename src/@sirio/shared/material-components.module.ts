@@ -37,6 +37,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
@@ -78,7 +79,8 @@ export const DATE_FORMATS_CUSTOM = {
     FormsModule,
     NgxDatatableModule,
     ReactiveFormsModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    SweetAlert2Module.forRoot()
   ],
   exports: [
     MatInputModule,
@@ -126,6 +128,7 @@ export const DATE_FORMATS_CUSTOM = {
     // NgxMatSelectSearchModule,
     CurrencyMaskModule,
     NgxMaskModule,
+    SweetAlert2Module,
     NumAccountValidator,
     MinorAgeValidator,
     EmailValidate,

@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['checkPayment.form']" current="{{isNew?'action.add':'action.edit'}}">
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['withdrawal.form']" current="{{isNew?'action.add':'action.edit'}}">
         </sirio-breadcrumbs>
     </sirio-page-layout-header>
 
@@ -11,7 +11,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'checkPayment.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'withdrawal.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}
                     </sirio-card-header-subheading>
                     <sirio-card-header-subheading></sirio-card-header-subheading>
@@ -38,15 +38,15 @@
 
                             <div fxFlex="15">
                                 <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque">
-                                    {{'agency.checkPayment' | translate: {default: 'global.checkPayment'} | translate }}
+                                    {{'checkPayment.checkPayment' | translate: {default: 'global.checkPayment'} | translate }}
                                 </mat-slide-toggle>
                             </div>
 
-                            <div fxFlex="15">
+                           <!--  <div fxFlex="15">
                                 <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esAhorroLibreta">
-                                    {{'agency.withBankBook' | translate: {default: 'global.withBankBook'} | translate }}
+                                    {{'certifiedCheckPayment.certifiedCheckPayment' | translate: {default: 'global.certifiedCheckPayment'} | translate }}
                                 </mat-slide-toggle>
-                            </div>
+                            </div>-->
 
 
                         </div>

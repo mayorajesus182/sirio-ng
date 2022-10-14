@@ -35,8 +35,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
     cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
-
-    public tipoDocumentosactivos = new BehaviorSubject<TipoDocumento[]>([]);
+    //public tipoDocumentosactivos = new BehaviorSubject<TipoDocumento[]>([]);
 
     persona: Persona = {} as Persona;
     agencia: Agencia = {} as Agencia;
@@ -61,7 +60,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
 
     ngOnInit() {
-        this.isNew = true;
+    this.isNew = true;
         this.buildForm(this.retiro);
         this.loadingDataForm.next(false);
 
@@ -70,9 +69,9 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.tipoDocumentos.next(data);
         });
 
-        this.tipoDocumentoService.actives().subscribe(data => {
+        /*this.tipoDocumentoService.actives().subscribe(data => {
             this.tipoDocumentosactivos.next(data);
-        });
+        });*/
 
 
         // manejo de escritura en el campo NUMERO DE CUENTA
@@ -80,7 +79,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             distinctUntilChanged(),
             debounceTime(1000)
         ).subscribe(() => {
-            // se busca los dato que el usuario suministro      
+            // se busca los dato que el usuario suministro    
             const numeroCuenta = this.f.numeroCuenta.value;
 
             if (numeroCuenta) {

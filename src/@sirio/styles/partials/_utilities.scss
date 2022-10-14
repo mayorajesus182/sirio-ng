@@ -77,6 +77,16 @@ a {
   color: $theme-text
 }
 
+.notification-number {  
+  position: relative;
+  top: 12px;
+  right: 5px;
+  font-size: 12px;  
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
 blockquote {
   margin: 1em 0 1.5em;
   padding: 0 1.5em;
