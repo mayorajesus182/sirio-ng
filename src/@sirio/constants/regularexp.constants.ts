@@ -20,6 +20,7 @@ export class RegularExpConstants {
             
     public static ALPHA_NUMERIC_ACCENTS_CHARACTERS= '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E]*'; 
     public static ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE= '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E\u0020\s]*'; 
+    // public static ALPHA_NUMERIC_CHARACTERS_SPACE= '[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E\u0020\s]*'; 
 
 
 

@@ -5,10 +5,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MaterialModule } from "../shared/material-components.module";
-import { CashDetailComponent } from "./cash/cash-detail.component";
+import { SharedComponentModule } from "../shared/shared-components.module";
+import { CashButtonComponent } from "./cash/control/cash.button.component";
+import { CashDetailComponent } from "./cash/form/cash-detail.form.component";
+import { CashFormPopupComponent } from "./cash/popup/cash-form.popup.component";
 
 const components = [
-    CashDetailComponent
+    CashDetailComponent,
+    CashFormPopupComponent,
+    CashButtonComponent
 ]
 
 @NgModule({
@@ -20,11 +25,12 @@ const components = [
         TranslateModule,
         FlexLayoutModule,
         MaterialModule,
+        SharedComponentModule,
     ],
 
     declarations: components,
     exports: components,
-    entryComponents:[CashDetailComponent]
+    entryComponents:[CashFormPopupComponent]
 })
 export class SirioComponentModule {
 

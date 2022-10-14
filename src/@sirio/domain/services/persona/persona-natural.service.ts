@@ -7,7 +7,9 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface PersonaNatural {
     id: number;
+    numper: string;
     tipoDocumento: string;
+    nombre: string;
     identificacion: string;
     primerNombre: string;
     segundoNombre: string;
@@ -23,7 +25,6 @@ export interface PersonaNatural {
     tenencia: string;
     cargaFamiliar: number;
     estadoCivil: string;
-    conyuge: string;
     tipoDocumentoConyuge: string;
     identificacionConyuge: string;
     nombreConyuge: string;
@@ -31,6 +32,8 @@ export interface PersonaNatural {
     email: string;
     estatusPersonaNatural: string;
     actividadEspecifica: string;
+    actividadEconomica?: string;
+    categoriaEspecial?: string;
 }
 
 @Injectable({
@@ -45,9 +48,6 @@ export class PersonaNaturalService {
         this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/natural'};
     }
 
-    all(): Observable<PersonaNatural[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
 
     actives(): Observable<PersonaNatural[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
@@ -57,21 +57,22 @@ export class PersonaNaturalService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<PersonaNatural> {
+    get(id: number): Observable<PersonaNatural> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    getByNumper(numper: string): Observable<PersonaNatural> {
+        return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/get`);
     }
 
     // detail(id: string): Observable<PersonaNatural> {
     //     return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     // }
 
-    // page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<PersonaNatural[]> {
-    //     return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
-    // }
 
     save(data: PersonaNatural): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
-            .pipe(map(res => data));
+            .pipe(map(res => Object.assign(res, data)));
     }
 
     update(data: PersonaNatural): Observable<any> {
