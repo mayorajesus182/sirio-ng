@@ -55,7 +55,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         this.isNew = true;
         this.loadingDataForm.next(true);
-        this.buildForm(this.deposito);
+        this.buildForm();
         this.loadingDataForm.next(false);
         this.applyFieldsDirty();
 
@@ -110,8 +110,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.persona = {} as Persona;
                     this.cuentasBancarias.next([]);
                     this.cuentaOperacion = {} as CuentaBancariaOperacion;
-                    this.cdr.markForCheck();
-                    this.f.cuentaBancaria.setValue(undefined);
+                    this.itemForm.controls.cuentaBancaria.setValue(undefined);
+                    this.cdr.detectChanges();
                 })
             }
         });
@@ -134,31 +134,31 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     }
 
-    buildForm(deposito: Deposito) {
+    buildForm() {
         this.itemForm = this.fb.group({
 
-            nombre: new FormControl(deposito.nombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            numper: new FormControl(deposito.numper || undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            cuentaBancaria: new FormControl([deposito.cuentaBancaria || undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            tipoDocumento: new FormControl(deposito.tipoDocumento || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            identificacion: new FormControl(deposito.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            numeroCuenta: new FormControl(deposito.numeroCuenta || undefined),
-            moneda: new FormControl([deposito.moneda || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            efectivo: new FormControl([deposito.efectivo || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            tipoProducto: new FormControl([deposito.tipoProducto || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]]),
-            referencia: new FormControl(deposito.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            nombre: new FormControl( '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            numper: new FormControl( undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            cuentaBancaria: new FormControl( undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            identificacion: new FormControl( '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            numeroCuenta: new FormControl(undefined),
+            moneda: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            efectivo: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            referencia: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             esEfectivo: new FormControl(false),
             esCheque: new FormControl(false),
-            monto: new FormControl(deposito.monto || undefined, Validators.required),
-            telefono: new FormControl(deposito.telefono || ''),
-            email: new FormControl(deposito.email || ''),   
-            // cantidadPropio: new FormControl(deposito.cantidadPropio || undefined, [Validators.required]),
-            // cantidadOtros: new FormControl(deposito.cantidadOtros || undefined, [Validators.required]),
-            // libreta: new FormControl(deposito.libreta || '', [Validators.required]),
-            // linea: new FormControl(deposito.linea || '', [Validators.required]),
+            monto: new FormControl( undefined, Validators.required),
+            telefono: new FormControl(''),
+            email: new FormControl( ''),   
+            // cantidadPropio: new FormControl(deposito. undefined, [Validators.required]),
+            // cantidadOtros: new FormControl(deposito undefined, [Validators.required]),
+            // libreta: new FormControl(de '', [Validators.required]),
+            // linea: new FormControl( '', [Validators.required]),
             
-            chequeOtros: new FormControl(deposito.chequeOtros || undefined),
-            chequePropio: new FormControl(deposito.chequePropio || undefined),
+            chequeOtros: new FormControl(undefined),
+            chequePropio: new FormControl(undefined),
             numeroCuentaCheque: new FormControl(''),
             montoCheque: new FormControl(undefined),
             serial: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
