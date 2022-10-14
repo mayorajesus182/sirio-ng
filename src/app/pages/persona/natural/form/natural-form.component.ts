@@ -354,8 +354,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
     }
 
-    addAddress() {
-        this.showFormPopup(DireccionFormPopupComponent, {persona:this.personaNatural.id}, true,'60%').afterClosed().subscribe(event=>{
+    editAddress(data:Direccion) {
+        this.showFormPopup(DireccionFormPopupComponent, !data?{persona:this.personaNatural.id}:data, !data,'60%').afterClosed().subscribe(event=>{
             if(event){
                 this.refreshDirecciones.next(true);
             }
@@ -364,6 +364,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     openAddress() {
         this.showAddress=!this.showAddress; 
+        this.cdr.detectChanges();
     }
 
 }

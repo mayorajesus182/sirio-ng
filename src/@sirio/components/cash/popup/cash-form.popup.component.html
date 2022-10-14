@@ -16,19 +16,20 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <mat-form-field fxFlex="auto">
-        <mat-label>Total Cono Actual
+        <!-- TODO: KEY INTERNACIONALIZACION -->
+        <mat-label>Total Detalle
         </mat-label>
-        <input matInput class="text-right" [value]="totalActual | number:'1.2-2'" readonly>
+        <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
       </mat-form-field>
-
+<!-- 
       <mat-form-field fxFlex="auto">
         <mat-label>Total Cono Anterior
         </mat-label>
         <input matInput class="text-right" [value]="totalAnterior | number:'1.2-2'" readonly currencyMask [options]="{precision:2}">
-      </mat-form-field>
+      </mat-form-field> -->
 
       <mat-form-field fxFlex="auto">
-        <mat-label>Total
+        <mat-label>Monto Total
         </mat-label>
         <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
         <!-- <mat-error *ngIf="total != (totalActual+totalAnterior)">El total desglosado es diferente al total suministrado</mat-error> -->

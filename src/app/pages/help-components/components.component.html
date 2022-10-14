@@ -241,7 +241,7 @@
 
               <div fxLayout="row" fxLayout="column">
                 <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                  <sirio-cash-button [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                  <sirio-cash-button total="150" [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
                   <!-- <button color="default" (click)="detailCash()" mat-button>
                     <mat-icon class="margin-bottom-xxs">money</mat-icon> {{'button.add' | translate: {default:
                     'global.notfound'} | translate }}
