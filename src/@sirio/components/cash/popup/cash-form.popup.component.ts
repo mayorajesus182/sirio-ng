@@ -23,7 +23,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   public totalActual = 0;
   public totalAnterior = 0;
-  public total = 100;
+  public total = 0;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -58,6 +58,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     // this.valuesCono2 = ;
     this.updateConoActual(this.defaults.payload.desgloseConoActual);
     this.updateConoAnterior(this.defaults.payload.desgloseConoAnterior);
+    this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
 
@@ -75,13 +76,17 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   save() {
     console.log('mode ', this.mode);
 
-    this.dialogRef.close({ desgloseConoActual: this.valuesCono1, desgloseConoAnterior: this.valuesCono2 });
+    this.dialogRef.close(
+      { desgloseConoActual: this.valuesCono1,
+       desgloseConoAnterior: this.valuesCono2,
+       totalActual: this.totalActual,
+       totalAnterior: this.totalAnterior });
 
   }
 
   updateConoActual(list: ConoMonetario[]) {
     this.totalActual = 0;
-    if (list && list.length >0) {
+    if (list && list.length > 0) {
       console.log('update cono actual ', list);
 
       this.valuesCono1 = list;
@@ -94,7 +99,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   updateConoAnterior(list: ConoMonetario[]) {
     this.totalAnterior = 0;
-    if (list && list.length >0) {
+    if (list && list.length > 0) {
       console.log('update cono anterior ', list);
 
       this.valuesCono2 = list;

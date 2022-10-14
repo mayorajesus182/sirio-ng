@@ -315,7 +315,7 @@
 
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress()">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress()" (closed)="openAddress()">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         {{'personAddress.table' | translate}}
