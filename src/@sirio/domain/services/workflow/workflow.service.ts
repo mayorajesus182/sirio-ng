@@ -5,20 +5,6 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
-
-export interface Secuencia {
-    id: string;
-    nombre: string;
-    fechaCreacion?: any;
-
-}
-
-export interface SecuenciaRol {
-    id:any;
-    secuencia: string;
-    rol: string;
-}
-
 export interface Workflow {
     id: number;
     fecha?: number;
@@ -42,18 +28,19 @@ export interface Workflow {
 export class WorkflowService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
+    public notify = new BehaviorSubject<boolean>(false);
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_WORKFLOW, prefix: ''};
+        this.apiConfig = {name: ApiConfConstants.API_WORKFLOW, prefix: '/task'};
     }
 
     list(): Observable<Workflow[]> {
         return this.apiService.config(this.apiConfig).get('/list');
     }
 
-    assignedList(): Observable<Workflow[]> {
-        return this.apiService.config(this.apiConfig).get('/assigned/list');
+    assigned(): Observable<Workflow[]> {
+        return this.apiService.config(this.apiConfig).get('/assigned');
     }
 
     listByExpediente(expediente: any): Observable<Workflow[]> {
@@ -80,19 +67,16 @@ export class WorkflowService {
         return this.apiService.config(this.apiConfig).put('/approved', data);
     }
 
-    reject(data: any): Observable<any> {
-        return this.apiService.config(this.apiConfig).put('/reject', data);
+    rollback(data: any): Observable<any> { 
+        return this.apiService.config(this.apiConfig).put('/rollback', data);
     }
 
-    // checkView(id: any): Observable<any> {
-    //     const params = new HttpParams().set('id', id);
-    //     return this.apiService.config(this.apiConfig).get('/check/view', params);
-    // }
+    annulled(data: any): Observable<any> { 
+        return this.apiService.config(this.apiConfig).put('/annulled', data);
+    }
 
+    checkView(id: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/check/view`);
+    }
 
-    // seed(secuencia: any, objeto: any): Observable<any> {
-    //     const params = new HttpParams().set('secuencia', secuencia)
-    //     .set('objeto', objeto);
-    //     return this.apiService.config(this.apiConfig).put('/seed', params);
-    // }
 }
