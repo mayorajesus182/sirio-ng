@@ -1,22 +1,21 @@
-import { HttpParams } from '@angular/common/http';
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
+import { CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
-  selector: 'app-wf-pase-efectivo-detail',
-  templateUrl: './wf-pase-efectivo-detail.component.html',
-  styleUrls: ['./wf-pase-efectivo-detail.component.scss'],
+  selector: 'app-wf-pase-boveda-detail',
+  templateUrl: './wf-pase-boveda-detail.component.html',
+  styleUrls: ['./wf-pase-boveda-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements OnInit {
+export class WFPaseABovedaDetailComponent extends FormBaseComponent implements OnInit {
 
   private opt_swal: SweetAlertOptions;
   workflow: string = undefined;
@@ -27,17 +26,17 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
     private router: Router,
     private route: ActivatedRoute,
     private workflowService: WorkflowService,
-    private bovedaAgenciaService: BovedaAgenciaService) {
+    private cajaTaquillaService: CajaTaquillaService) {
     super(undefined, injector);
   }
 
   ngOnInit() {
-    
+
     this.workflow = this.route.snapshot.params['wf'];
     let exp = this.route.snapshot.params['exp'];
     this.loadingDataForm.next(true);
 
-    this.bovedaAgenciaService.detailByExpediente(exp).subscribe(data => {
+    this.cajaTaquillaService.detailByExpediente(exp).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
@@ -57,7 +56,6 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
       );
     }
   }
-
 
   approveTask() {
     this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
@@ -91,5 +89,5 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
 
     });
   }
-
+  
 }

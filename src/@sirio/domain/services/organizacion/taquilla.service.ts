@@ -34,8 +34,16 @@ export class TaquillaService {
         return this.apiService.config(this.apiConfig).get('/withuser/actives');
     }
 
-    get(id: string): Observable<Taquilla> {
+    get(id: number): Observable<Taquilla> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    isOpen(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get('/open');
+    }
+
+    getByUsuario(): Observable<Taquilla> {
+        return this.apiService.config(this.apiConfig).get('/byusuario/get');
     }
 
     detail(id: string): Observable<Taquilla> {

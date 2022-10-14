@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/@sirio/guards/auth.guard';
+import { BoxOfficeGuard } from 'src/@sirio/guards/boxoffice.guard';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
@@ -69,6 +70,7 @@ const routes: Routes = [
       },
       {
         path: 'taquilla',
+        canActivate: [BoxOfficeGuard],
         loadChildren: () => import('./pages/taquilla/taquilla.module').then(m => m.TaquillaModule),
         data:{title:'menu.taquilla'}
       },

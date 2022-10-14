@@ -14,6 +14,16 @@ const workflowRoutes: Routes = [
         path: 'pase-efectivo/:wf/:exp/view',
         component: WFPaseEfectivoDetailComponent,
         data: { title: 'Workflow Pase de Efectivo' }
+    },
+    {
+        path: 'pase-boveda/:wf/:exp/edit',
+        component: WFPaseEfectivoFormComponent,
+        data: { title: 'Workflow Pase a Bóveda' }
+    },
+    {
+        path: 'pase-boveda/:wf/:exp/view',
+        component: WFPaseEfectivoDetailComponent,
+        data: { title: 'Workflow Pase a Bóveda' }
     }
 
 ];

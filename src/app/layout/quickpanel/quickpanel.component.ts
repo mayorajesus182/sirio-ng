@@ -91,22 +91,29 @@ export class QuickpanelComponent implements OnInit {
   }
 
 
-  private wfPaseBovedaCaja(task: Workflow) {
-    if (task.rol === TaskConstants.CONF_PASE_BOVEDA_CAJA) {
+  private wfPaseBovedaTaquilla(task: Workflow) {
+    if (task.rol === TaskConstants.CONF_PASE_BOVEDA_TAQUILLA) {
       this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
-    } else if (task.rol === TaskConstants.MOD_ANUL_PASE_BOVEDA_CAJA) {
+    } else if (task.rol === TaskConstants.MOD_ANUL_PASE_BOVEDA_TAQUILLA) {
       this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/edit']);
     }
   }
 
-  private wfSolicitudPaseCajaBoveda(task: Workflow) {
-    if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_CAJA_BOVEDA) {
+  private wfSolicitudPaseTaquillaBoveda(task: Workflow) {
+    if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
       this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
-    } else if (task.rol === TaskConstants.MOD_ANUL_SOLICITUD_PASE_CAJA_BOVEDA) {
+    } else if (task.rol === TaskConstants.MOD_ANUL_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
       this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/edit']);
     }
   }
 
+  private wfPaseTaquillaBoveda(task: Workflow) {
+    if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
+      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
+    } else if (task.rol === TaskConstants.MOD_ANUL_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
+      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/edit']);
+    }
+  }
   
 
   // private wfDesincorporacion(id: string) {

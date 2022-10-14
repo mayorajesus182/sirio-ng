@@ -7,9 +7,9 @@
         <sirio-list [name]="'passToVault.table' | translate: {default: 'global.notfound'}" placeholder="passToVault.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="bovagencia_id" matSortDirection="asc">
+                matSortActive="cajtaquilla_id" matSortDirection="asc">
 
-                <ng-container matColumnDef="bovagencia_id">
+                <ng-container matColumnDef="cajtaquilla_id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'passToVault.date' | translate:
                         {default: 'global.date'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">

@@ -75,7 +75,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            taquilla: new FormControl({value: bovedaAgencia.taquilla || undefined, disabled: !this.isNew}, Validators.required),
+            taquilla: new FormControl(bovedaAgencia.taquilla || undefined, Validators.required),
             movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
             moneda: new FormControl(bovedaAgencia.moneda || undefined, Validators.required),
             monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),

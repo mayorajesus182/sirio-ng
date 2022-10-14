@@ -5,6 +5,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
@@ -17,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class PaseABovedaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
+export class PaseABovedaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['cajtaquilla_id', 'tipoMovimiento', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
@@ -28,12 +29,23 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
     protected router: Router,
     private cdr: ChangeDetectorRef,
     private cajaTaquillaService: CajaTaquillaService,
+    private taquillaService: TaquillaService,
   ) {
-    super(undefined,  injector);
+    super(undefined, injector);
   }
 
   ngOnInit() {
-    this.init(this.cajaTaquillaService, 'cajtaquilla_id');
+
+    this.taquillaService.isOpen().subscribe(isOpen => {
+      if (isOpen) {
+        this.init(this.cajaTaquillaService, 'cajtaquilla_id');
+      } else {
+        this.router.navigate(['/sirio/welcome']);
+        this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+          if (!resp.dismiss) {}
+        });
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -41,15 +53,15 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   }
 
 
-  add(path:string) {    
+  add(path: string) {
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  view(data:any) {
+  view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data:any) {
+  activateOrInactivate(data: any) {
     this.applyChangeStatus(this.cajaTaquillaService, data.element, data.element.nombre, this.cdr);
   }
 
