@@ -13,6 +13,7 @@ export interface CuentaBancariaOperacion {
     persona: number;
     tipoProductoNombre: string;
     tipoDocumento: string;
+    monedaNombre:string;
 
 }
 

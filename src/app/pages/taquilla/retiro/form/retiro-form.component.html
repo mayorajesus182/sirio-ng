@@ -70,7 +70,10 @@
                                     <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
-                                </mat-form-field>                               
+                                </mat-form-field>   
+                           
+                                    <sirio-cash-button [moneda]="moneda"  class="margin-top-md" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                                
 
                                 <sirio-select-simple fxFlex="30"
                                 [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
@@ -216,6 +219,15 @@
                                 </mat-form-field>
 
                             </div>
+
+                            <div fxLayout="row" fxLayout="column">
+                                <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                  <sirio-cash-button [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                                 
+                                </div>
+                              </div>
+
+
                         </div>
                     </form>
 

@@ -20,6 +20,7 @@ import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retir
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 import * as moment from 'moment';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 
 @Component({
     selector: 'app-retiro-form',
@@ -34,9 +35,10 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     retiro: Retiro = {} as Retiro;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
     cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);   
     //public tipoDocumentosactivos = new BehaviorSubject<TipoDocumento[]>([]);
-
+    public conoActual: ConoMonetario[] = [];
+    public conoAnterior: ConoMonetario[] = [];
     persona: Persona = {} as Persona;
     agencia: Agencia = {} as Agencia;
     moneda: Moneda = {} as Moneda;
@@ -85,7 +87,11 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             if (numeroCuenta) {
                 this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
                     this.cuentaBancariaOperacion = data;
-                    //const cuentaBancaria = data.id;
+                   const moneda = data.moneda;
+                   const monedaNombre = data.monedaNombre;
+                   //this.moneda.id= this.cuentaBancariaOperacion.moneda;
+                   //this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
+
                     // console.log("DATOS", data);                   
                     this.cdr.markForCheck();
 
@@ -133,10 +139,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             email: new FormControl(retiro.email || ''),
             telefono: new FormControl(retiro.telefono || ''),
 
-
         });
-
-
 
 
     }
@@ -165,5 +168,16 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
 
 
+
     }
+
+    updateCashDetail(event) {
+        console.log('update cash detail ',event)
+        if(!event){
+          return;
+        }
+        this.conoActual=event.desgloseConoActual;
+        this.conoAnterior=event.desgloseConoAnterior;
+        this.cdr.detectChanges();
+      }
 }
