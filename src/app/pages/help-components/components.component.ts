@@ -33,9 +33,14 @@ export class HelpComponentsComponent implements OnInit {
   isNew = true;
 
 
+  // moneda: Moneda = {
+  //   id: 'USD',
+  //   nombre: 'DOLARES'
+  // } as Moneda;
+
   moneda: Moneda = {
-    id: 'USD',
-    nombre: 'DOLARES'
+    id: 'VED',
+    nombre: 'BOLIVARES'
   } as Moneda;
 
 

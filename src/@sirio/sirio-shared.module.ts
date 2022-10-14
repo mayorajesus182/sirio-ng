@@ -20,6 +20,7 @@ import { TitleModule } from './shared/title/title.module';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { SirioComponentModule } from './components/sirio.component.modulo';
+import { BoxOfficeGuard } from './guards/boxoffice.guard';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { SirioComponentModule } from './components/sirio.component.modulo';
   ],
   providers: [
     AuthGuard,
+    BoxOfficeGuard,
   ],
 
   declarations: [],

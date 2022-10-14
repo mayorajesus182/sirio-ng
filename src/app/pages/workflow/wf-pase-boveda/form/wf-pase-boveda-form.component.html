@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'passToVault.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
@@ -36,23 +36,25 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search fxFlex="30" [label]="'cashPass.movementType' | translate: {default: 'global.movementType'} | translate"
-                                    formControlName="movimientoEfectivo" [required]="true" [elements]="movimientos.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.movimientoEfectivo?.errors">
-                                </sirio-select-search>
+                                <mat-form-field fxFlex.gt-xs="30">
+                                    <mat-label>{{'passToVault.movementType' | translate: {default: 'global.movementType'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="movimientoEfectivo.nombre" readonly>
+                                </mat-form-field>
 
-                                <sirio-select-search fxFlex="25" [label]="'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
-                                    formControlName="taquilla" [required]="true" [elements]="taquillas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.taquilla?.errors">
-                                </sirio-select-search>
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'passToVault.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="taquilla.nombre" readonly>
+                                </mat-form-field>
 
-                                <sirio-select-search fxFlex="25" [label]="'cashPass.coin' | translate: {default: 'global.coin'} | translate"
+                                <sirio-select-search fxFlex="25" [label]="'passToVault.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
+                                    <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
