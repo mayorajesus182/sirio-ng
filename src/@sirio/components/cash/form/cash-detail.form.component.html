@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <div *ngIf="listConoAnterior && listConoAnterior.observers.length>0" fxFlex="50" fxLayout="column">
+        <div *ngIf="listConoAnterior | async" fxFlex="50" fxLayout="column">
             <h3>Cono Anterior ({{label_cono_anterior}}) </h3>
             <div fxLayout="row wrap">
 
