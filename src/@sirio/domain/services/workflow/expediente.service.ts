@@ -1,33 +1,33 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ApiConfConstants } from 'src/@sirio/constants';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
-export interface MovimientoEfectivo {
+import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ApiConfConstants } from 'src/@sirio/constants';
+
+
+export interface Expediente {
     id: string;
-    nombre: string;
+    objeto: string;
     fechaCreacion?: any;
+
 }
+
 
 
 @Injectable({
     providedIn:'root'
 })
-export class MovimientoEfectivoService {
+export class ExpedienteService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/movimiento-efectivo'};
+        this.apiConfig = {name: ApiConfConstants.API_WORKFLOW, prefix: '/expediente'};
     }
 
-    all(): Observable<MovimientoEfectivo[]> {
-        return this.apiService.config(this.apiConfig).get('/all');
-    }
-
-    get(id: string): Observable<MovimientoEfectivo> {
+    get(id: string): Observable<Expediente> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 

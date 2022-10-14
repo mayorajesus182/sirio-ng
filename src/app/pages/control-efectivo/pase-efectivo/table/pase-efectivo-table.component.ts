@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { GlobalConstants } from 'src/@sirio/constants';
 import { BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
@@ -18,7 +19,8 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class PaseEfectivoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
-  displayedColumns = ['bovagencia_id', 'tipoMovimiento', 'egreso', 'ingreso', 'estatus', 'actions'];
+  displayedColumns = ['bovagencia_id', 'tipoMovimiento', 'monto', 'moneda', 'estatus', 'actions'];
+  aprobado = GlobalConstants.APROBADO;
 
   constructor(
     injector: Injector,

@@ -1,3 +1,39 @@
+<div class="text-center mat-bg-primary pt-1 pb-1">
+
+  <h6 class="m-0">
+      <mat-icon class="fz-1">assignment</mat-icon>
+      <span>Tareas Pendientes - {{(tasks | async)?.length}}</span>
+  </h6>
+</div>
+<mat-list class="compact-list mb-1">
+  <mat-list-item class="" *ngFor="let t of tasks | async">
+      <div fxLayout="row" fxFlex="100" title="{{t.rol}}"
+          (click)="callFunction(t.functionName, t)">
+          <span class="m-0 mr-1 text-md">{{t.expediente}}</span>
+          <span fxFlex></span>
+          <div fxFlex="50" class="text-md">{{t.rol}}</div>
+          <!-- <div fxFlex="50" class="text-md">{{t.rol | excerpt:45 | titlecase }}</div> -->
+          <!-- <span fxFlex></span> -->
+          <!-- <small class="text-muted mr-1">{{ t.fecha | relativeTime}}</small> -->
+      </div>
+      <mat-chip mat-sm-chip [color]="t.visto ? 'accent' : 'primary'" [selected]="t.abierto">
+          {{t.visto ? 'Vista' : 'Nueva'}}</mat-chip>
+      
+  </mat-list-item>
+  <mat-list-item *ngIf="(tasks | async)?.length==0">
+      <div fxLayout="row" fxFlex="100">
+          <span class="m-0 mr-1 text-md">Sin tareas para mostrar</span>
+          <span fxFlex></span>
+      </div>
+  </mat-list-item>
+
+</mat-list>
+
+
+
+
+<!-- 
+
 <mat-tab-group class="quickpanel" fxFlex>
   <mat-tab label="Overview">
     <sirio-scrollbar class="overflow-container">
@@ -135,4 +171,4 @@
       </mat-nav-list>
     </sirio-scrollbar>
   </mat-tab>
-</mat-tab-group>
+</mat-tab-group> -->
