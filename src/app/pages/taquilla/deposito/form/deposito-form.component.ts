@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, throwIfEmpty } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 @Component({
     selector: 'app-deposito-form',
     templateUrl: './deposito-form.component.html',
@@ -42,95 +43,110 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private router: Router,
         private depositoService: DepositoService,
         private tipoDocumentoService: TipoDocumentoService,
         private cuentaBancariaService: CuentaBancariaService,
         private personaService: PersonaService,
         private calendarioService: CalendarioService,
+        private taquillaService: TaquillaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
 
     ngOnInit() {
 
-        this.isNew = true;
-        this.loadingDataForm.next(true);
-        this.buildForm();
-        this.loadingDataForm.next(false);
-        this.applyFieldsDirty();
+        this.taquillaService.isOpen().subscribe(isOpen => {
+            if (!isOpen) {
 
-        this.tipoDocumentoService.actives().subscribe(data => {
-            this.tiposDocumentos.next(data);
-        });
+                this.router.navigate(['/sirio/welcome']);
+                this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+                  if (!resp.dismiss) {}
+                });
 
-        if (this.f.tipoDocumento.value == "") {
-            this.f.identificacion.disable();
-            this.f.esEfectivo.disable();
-            this.f.esCheque.disable();
-        }
+            } else {
 
-        this.f.tipoDocumento.valueChanges.subscribe(val => {
-            if (val) {
-                this.f.identificacion.enable()
-
-            }
-        })
-        //TODO: Revisar
-        this.f.cuentaBancaria.valueChanges.subscribe(val => {
-            if (val) {
-                //obtiendo el unico resultado seleccionado al aplicar el filtro
-                this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                this.f.esEfectivo.enable()
-                this.f.esCheque.enable()
-                this.moneda.id = this.cuentaOperacion.moneda;
-                this.moneda.nombre = this.cuentaOperacion.monedaNombre;
-            }
-
-        })
-
-        // manejo de escritura en el campo identificacion
-        this.f.identificacion.valueChanges.pipe(
-            distinctUntilChanged(),
-            debounceTime(1000)
-        ).subscribe(() => {
-            // se busca los dato que el usuario suministro      
-            const tipoDocumento = this.f.tipoDocumento.value;
-            const identificacion = this.f.identificacion.value;
-            if (tipoDocumento && identificacion) {
-                this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                    this.persona = data;
-                    const numper = data.numper;
-                    this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
-                        this.cuentasBancarias.next(cuenta);
-                    });
-
-                    this.cdr.markForCheck();
-                }, err => {
-                    this.f.identificacion.setErrors({ notexists: true });
-                    this.persona = {} as Persona;
-                    this.cuentasBancarias.next([]);
-                    this.cuentaOperacion = {} as CuentaBancariaOperacion;
-                    this.itemForm.controls.cuentaBancaria.setValue(undefined);
-                    this.cdr.detectChanges();
+                this.isNew = true;
+                this.loadingDataForm.next(true);
+                this.buildForm();
+                this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
+        
+                this.tipoDocumentoService.actives().subscribe(data => {
+                    this.tiposDocumentos.next(data);
+                });
+        
+                if (this.f.tipoDocumento.value == "") {
+                    this.f.identificacion.disable();
+                    this.f.esEfectivo.disable();
+                    this.f.esCheque.disable();
+                }
+        
+                this.f.tipoDocumento.valueChanges.subscribe(val => {
+                    if (val) {
+                        this.f.identificacion.enable()
+        
+                    }
                 })
+                //TODO: Revisar
+                this.f.cuentaBancaria.valueChanges.subscribe(val => {
+                    if (val) {
+                        //obtiendo el unico resultado seleccionado al aplicar el filtro
+                        this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+                        this.f.esEfectivo.enable()
+                        this.f.esCheque.enable()
+                        this.moneda.id = this.cuentaOperacion.moneda;
+                        this.moneda.nombre = this.cuentaOperacion.monedaNombre;
+                    }
+        
+                })
+        
+                // manejo de escritura en el campo identificacion
+                this.f.identificacion.valueChanges.pipe(
+                    distinctUntilChanged(),
+                    debounceTime(1000)
+                ).subscribe(() => {
+                    // se busca los dato que el usuario suministro      
+                    const tipoDocumento = this.f.tipoDocumento.value;
+                    const identificacion = this.f.identificacion.value;
+                    if (tipoDocumento && identificacion) {
+                        this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                            this.persona = data;
+                            const numper = data.numper;
+                            this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
+                                this.cuentasBancarias.next(cuenta);
+                            });
+        
+                            this.cdr.markForCheck();
+                        }, err => {
+                            this.f.identificacion.setErrors({ notexists: true });
+                            this.persona = {} as Persona;
+                            this.cuentasBancarias.next([]);
+                            this.cuentaOperacion = {} as CuentaBancariaOperacion;
+                            this.f.cuentaBancaria.setValue(undefined);
+                            this.cdr.detectChanges();
+                        })
+                    }
+                });
+        
+                this.loading$.subscribe(val => {
+                    if (val) {
+                        this.persona = {} as Persona;
+                        this.cuentaOperacion = {} as CuentaBancariaOperacion;
+                        this.cuentasBancarias.next([]);
+                        this.f.esEfectivo.disable();
+                        this.f.esCheque.disable();
+        
+                    }
+                });
+        
+                this.calendarioService.today().subscribe(data => {
+                    this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+                    this.cdr.detectChanges();
+                });
+
             }
-        });
-
-        this.loading$.subscribe(val => {
-            if (val) {
-                this.persona = {} as Persona;
-                this.cuentaOperacion = {} as CuentaBancariaOperacion;
-                this.cuentasBancarias.next([]);
-                this.f.esEfectivo.disable();
-                this.f.esCheque.disable();
-
-            }
-        });
-
-        this.calendarioService.today().subscribe(data => {
-            this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-            this.cdr.detectChanges();
-        });
+          });
 
     }
 
