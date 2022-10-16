@@ -65,18 +65,6 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
             }
         });
 
-        this.movimientoEfectivoService.all().subscribe(data => {
-            this.movimientos.next(data);
-        });
-
-        this.taquillaService.activesWithUser().subscribe(data => {
-            this.taquillas.next(data);
-        });
-
-        this.monedaService.actives().subscribe(data => {
-            this.monedas.next(data);
-        });
-
         this.opt_swal = {};
         this.opt_swal.input = 'text';
         this.opt_swal.inputPlaceholder = 'Ingrese la observación';
@@ -85,9 +73,6 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            taquilla: new FormControl({ value: bovedaAgencia.taquilla || undefined, disabled: true }, Validators.required),
-            movimientoEfectivo: new FormControl({ value: bovedaAgencia.movimientoEfectivo || undefined, disabled: true }, Validators.required),
-            moneda: new FormControl({ value: bovedaAgencia.moneda || undefined, disabled: true }, Validators.required),
             monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
         });
     }

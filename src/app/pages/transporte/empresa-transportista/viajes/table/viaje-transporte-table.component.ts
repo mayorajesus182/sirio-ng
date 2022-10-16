@@ -29,6 +29,7 @@ export class ViajeTransporteTableComponent extends TableBaseComponent implements
   editing: any[] = [];
   btnState: boolean = false;
 
+
   constructor(
     injector: Injector,
     dialog: MatDialog,
@@ -49,13 +50,13 @@ export class ViajeTransporteTableComponent extends TableBaseComponent implements
   ngOnInit() {
 
     this.transportistaId = this.route.snapshot.params['id'];
-    
+
     const data = history.state.data;
 
-    if(data){
+    if (data) {
       this.transportista = data.nombre;
-      sessionStorage.setItem('trans_nombre',data.nombre);
-    }else{
+      sessionStorage.setItem('trans_nombre', data.nombre);
+    } else {
       this.transportista = sessionStorage.getItem('trans_nombre')
     }
 

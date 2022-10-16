@@ -44,7 +44,7 @@
                 <ng-container matColumnDef="estatus">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'passToVault.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
                         <mat-chip mat-sm-chip [color]="element.estatusEfectivo == aprobado ? 'accent' : 'warn'">
                             {{element.estatusEfectivoNombre}}
                         </mat-chip>

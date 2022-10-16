@@ -10,13 +10,30 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'passToVault.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
-                            <mat-icon>close</mat-icon>
-                        </button>
+                        <mat-card-title class="mat-bg-grey">
+                            <div class="card-title-text">            
+                                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                                    <mat-icon class="">more_vert</mat-icon>
+                                </button>
+                    
+                                <mat-menu #userMenu="matMenu">
+                                    <button mat-menu-item class="mr-1" (click)="approveTask()">
+                                        <mat-icon color="primary">check_circle</mat-icon>
+                                        {{'action.approve' | translate }}
+                                    </button>
+                                    <button mat-menu-item class="mr-1" (click)="rollbackTask()">
+                                        <mat-icon color="primary">cancel</mat-icon>
+                                        {{'action.rollback' | translate }}
+                                    </button>
+                                </mat-menu>
+                    
+                            </div>
+                            <mat-divider></mat-divider>
+                        </mat-card-title>
+
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">

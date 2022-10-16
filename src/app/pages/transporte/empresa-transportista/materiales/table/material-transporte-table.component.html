@@ -49,11 +49,11 @@
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-costo'] = true" *ngIf="editing[rowIndex + '-costo']">
-                                <span class="text-rigth">{{ row?.costo | number:'1.2-2'}}</span>
-                            </span>
-                            <input class="mat-input" [(ngModel)]="row.costo" autofocus maxlength="19" matInput type="text"
-                                (blur)="editing[rowIndex + '-costo'] = false" currencyMask [options]="{precision:2}" />
+                            <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-costo'] = true" *ngIf="!editing[rowIndex + '-costo']">
+                                <p class="fullwidth text-right " > {{ row?.costo | number:'1.2-2'}} <mat-icon  matTooltip="Clic Editar">edit</mat-icon></p>
+                            </div>
+                            <input class="mat-input" *ngIf="editing[rowIndex+ '-costo']"  [(ngModel)]="row.costo" autofocus 
+                                 matInput type="text" (blur)="editing[rowIndex + '-costo'] = false"  currencyMask [options]="{precision:2}" />
                         </ng-template>
                     </ngx-datatable-column>
 
@@ -63,12 +63,11 @@
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <span title="Double click to edit" (dblclick)="editing[rowIndex + '-costoDivisa'] = true"
-                                *ngIf="editing[rowIndex + '-costoDivisa']">
-                                <span class="text-rigth">{{ row?.costoDivisa | number:'1.2-2'}}</span>
-                            </span>
-                            <input class="mat-input" [(ngModel)]="row.costoDivisa" autofocus maxlength="19" matInput type="text"
-                                (blur)="editing[rowIndex + '-costoDivisa'] = false" currencyMask [options]="{precision:2}" />
+                            <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-costoDivisa'] = true" *ngIf="!editing[rowIndex + '-costoDivisa']">
+                                <p class="fullwidth text-right " > {{ row?.costoDivisa | number:'1.2-2'}} <mat-icon  matTooltip="Clic Editar">edit</mat-icon></p>
+                            </div>
+                            <input class="mat-input" *ngIf="editing[rowIndex+ '-costoDivisa']"  [(ngModel)]="row.costoDivisa" autofocus 
+                                 matInput type="text" (blur)="editing[rowIndex + '-costoDivisa'] = false"  currencyMask [options]="{precision:2}" />
                         </ng-template>
                     </ngx-datatable-column>
 

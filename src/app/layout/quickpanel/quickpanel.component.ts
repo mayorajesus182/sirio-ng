@@ -84,7 +84,7 @@ export class QuickpanelComponent implements OnInit {
     } else {
       this.workflowService.checkView(task.id).subscribe(data => {
         task.visto = true;
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
         this[functionName](task);
       });
     }
@@ -108,10 +108,10 @@ export class QuickpanelComponent implements OnInit {
   }
 
   private wfPaseTaquillaBoveda(task: Workflow) {
-    if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
-      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
-    } else if (task.rol === TaskConstants.MOD_ANUL_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
-      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/edit']);
+    if (task.rol === TaskConstants.CONF_PASE_TAQUILLA_BOVEDA) {
+      this.router.navigate(['/sirio/workflow/pase-boveda/'+task.id+'/'+task.expediente+'/view']);
+    } else if (task.rol === TaskConstants.MOD_ANUL_PASE_TAQUILLA_BOVEDA) {
+      this.router.navigate(['/sirio/workflow/pase-boveda/'+task.id+'/'+task.expediente+'/edit']);
     }
   }
   
