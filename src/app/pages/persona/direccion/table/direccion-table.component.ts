@@ -8,6 +8,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
+import { DireccionFormPopupComponent } from '../popup/direccion-form.popup.component';
 
 @Component({
   selector: 'sirio-persona-direccion-table',
@@ -47,7 +48,6 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
       console.log('buscando direccion en el servidor dado el id persona');
       this.loadList();
 
-
       this.onRefresh.subscribe(val=>{
         if(val){
 
@@ -79,6 +79,19 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
 
   }
+
+
+  editAddress(data?:Direccion) {
+    console.log(data);
+    if(data){
+      data.persona=this.persona;
+    }    
+    this.showFormPopup(DireccionFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+        if(event){
+            this.onRefresh.next(true);
+        }
+    }); 
+}
 
 
 }
