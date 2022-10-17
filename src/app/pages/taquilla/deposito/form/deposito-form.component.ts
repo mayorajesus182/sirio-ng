@@ -58,7 +58,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
             if (!isOpen) {
-
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                   if (!resp.dismiss) {}
@@ -88,6 +87,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         
                     }
                 })
+
                 //TODO: Revisar
                 this.f.cuentaBancaria.valueChanges.subscribe(val => {
                     if (val) {
@@ -104,7 +104,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 // manejo de escritura en el campo identificacion
                 this.f.identificacion.valueChanges.pipe(
                     distinctUntilChanged(),
-                    debounceTime(1000)
+                    debounceTime(500)
                 ).subscribe(() => {
                     // se busca los dato que el usuario suministro      
                     const tipoDocumento = this.f.tipoDocumento.value;
@@ -165,6 +165,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             referencia: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             esEfectivo: new FormControl(false),
             esCheque: new FormControl(false),
+            // btnEfectivo: new FormControl(true),
             monto: new FormControl( undefined, Validators.required),
             telefono: new FormControl(''),
             email: new FormControl( ''),   

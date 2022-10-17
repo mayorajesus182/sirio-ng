@@ -108,7 +108,7 @@
                                 </mat-form-field>   
 
                                 <!-- Botón Moneda -->
-                                <sirio-cash-button class="text-center" [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                                <sirio-cash-button class="text-center"   [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
 
                                 <mat-form-field fxFlex.gt-xs="auto">
                                     <mat-label>{{'deposit.reference' | translate: {default: 'global.reference'} | translate }}
