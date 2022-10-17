@@ -63,17 +63,19 @@
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <div class="fullwidth input-content" (click)="editing[rowIndex + '-conoMonetario'] = true"
-                                *ngIf="!editing[rowIndex + '-conoMonetario']">
-                                <p class="fullwidth text-right "> {{ row?.conoMonetario | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
-                                </p>
-                            </div>
+                            <ng-container *ngIf="!editing[rowIndex + '-conoMonetario']">
+                                <div class="fullwidth input-content" (click)="editing[rowIndex + '-conoMonetario'] = true" >
+                                    <p class="fullwidth text-right ">
+                                      {{ row?.conoMonetario | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
+                                    </p>
+                                </div>
+                            </ng-container>
 
                             <mat-form-field *ngIf="editing[rowIndex + '-conoMonetario']">
                                 <mat-label>Seleccione</mat-label>
                                 <mat-select [(ngModel)]="row.conoMonetario" (blur)="editing[rowIndex + '-conoMonetario'] = false">
                                     <mat-option value="">Ninguno</mat-option>
-                                    <mat-option *ngFor="let item of conos" value="item.id">{{item.denominacion}}</mat-option>
+                                    <mat-option *ngFor="let item of conos"  [value]="item.id">{{item.denominacion}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
 
