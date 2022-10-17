@@ -46,9 +46,11 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
   loadList() {
     this.cajetinService.activesByAtm(this.atmId).subscribe((data) => {
       this.cajetinData = data;
+      console.log(data);      
       this.cajetines.next(data.slice());
     });
 
+    //TODO: ESTO DE USD EN DURO
     this.conoMonetarioService.activesByMoneda('USD').subscribe((data) => {
       this.conos.next(data.slice());
     });
