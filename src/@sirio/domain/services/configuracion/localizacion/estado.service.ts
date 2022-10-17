@@ -34,6 +34,9 @@ export class EstadoService {
     activesByPais(pais: string): Observable<Estado[]> {
         return this.apiService.config(this.apiConfig).get(`/${pais}/bypais/actives`);
     }
+    activesByPaisInstitucion(): Observable<Estado[]> {
+        return this.apiService.config(this.apiConfig).get(`/bypais-institucion/actives`);
+    }
 
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);

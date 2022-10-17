@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, ElementRef, OnInit, AfterViewInit, forwardRef, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, HostListener, ElementRef, OnInit, AfterViewInit, forwardRef, ViewChild, ChangeDetectionStrategy, OnDestroy } from "@angular/core";
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl } from "@angular/forms";
 import { MatSelect } from '@angular/material/select';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ import { take, takeUntil } from 'rxjs/operators';
         }
     ]
 })
-export class SelectSearchComponent implements ControlValueAccessor, OnInit, AfterViewInit {
+export class SelectSearchComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
 
     @Input() errors;
     @Input() label: string;
@@ -30,7 +30,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     @Input() multiple: boolean = false;
     @Input('elements') public items: Observable<any[]>;
     public disabled: boolean = false;
-    onChange: Function;
+    
     public selected: any | null = null;
 
     public selectSearchControl: FormControl;
@@ -65,12 +65,12 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             .subscribe(() => {
 
                 // this.singleSelect.compareWith = (a: any, b: any) => { return a && b && a.id === b.id };
-                
-                this.singleSelect.compareWith = (a: any, b: any) => { 
+
+                this.singleSelect.compareWith = (a: any, b: any) => {
                     // console.log('A ',a);
                     // console.log('B ',b);
-                    
-                    if(!a || !b){
+
+                    if (!a || !b) {
                         return false;
                     }
                     // if(Object.keys(a.id).length > 0 && Object.keys(b.id).length > 0){
@@ -82,14 +82,14 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
                     //     // asumo que la clave compuesta es de 2 campos
                     //     return Object.keys(a.id)[0]==Object.keys(b.id)[0] && a.id[key1]== b.id[key1] && Object.keys(a.id)[1]==Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
                     // }    
-                    return a === b;  
-                
+                    return a === b;
+
                 };
             });
 
 
         if (this.items) {
-            
+
             this.items.subscribe(data => {
 
                 if (!data || data.length == 0) {
@@ -97,8 +97,8 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
                     return;
                 }
                 // console.log('lista ', data);
-                
-                
+
+
                 let elements = data;
                 //console.log('request service ',this.requestService);
 
@@ -144,7 +144,36 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
     }
 
+    ngOnDestroy() {
+        // this.subscriptions.forEach(s => s.unsubscribe());
+    }
 
+    // onChange: any = () => { };
+    // onTouched: any = () => { };
+
+    registerOnChange(fn) {
+        this.propagateChange = fn;
+    }
+
+    
+    registerOnTouched(fn) {
+        this.propagateTouched = fn;
+    }
+
+    writeValue(value) {
+        if (value) {
+            this.selectSearchControl.setValue(value);
+        }
+
+        if (value === null ) {
+            this.selectSearchControl.reset();
+        }
+    }
+
+    // communicate the inner form validation to the parent form
+    validate(_: FormControl) {
+        return this.selectSearchControl.valid ? null : { profile: { valid: false } };
+    }
 
     /**
      * Function registered to propagate a change to the parent
@@ -155,19 +184,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
      * Function registered to propagate touched to the parent
      */
     public propagateTouched: any = () => { };
-    /**
-       * ControlValueAccessor Interface Methods to be implemented
-       */
-    writeValue(obj: any): void {
-        this.selectSearchControl.setValue(obj);
-        // this.emailForm.get('email').setValidators();
-    }
-    registerOnChange(fn: any): void {
-        this.propagateChange = fn;
-    }
-    registerOnTouched(fn: any): void {
-        this.propagateTouched = fn;
-    }
+    
     setDisabledState?(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }

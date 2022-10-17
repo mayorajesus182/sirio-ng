@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, forwardRef, HostListener, Input, OnInit, ViewChild } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, forwardRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatSelect } from '@angular/material/select';
 import { Observable, ReplaySubject, Subject } from "rxjs";
@@ -16,7 +16,7 @@ import { take, takeUntil } from "rxjs/operators";
         }
     ]
 })
-export class SelectSimpleComponent implements ControlValueAccessor, OnInit, AfterViewInit {
+export class SelectSimpleComponent implements ControlValueAccessor, OnInit,AfterViewInit, OnDestroy {
 
     @Input() errors;
     @Input() label: string;
@@ -26,11 +26,11 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     @Input() readonly: boolean = false;
     @Input('elements') public items: Observable<any[]>;
     public disabled: boolean = false;
-    onChange: Function;
+    
     public selected: any | null = null;
 
     public selectControl: FormControl;
-    // public elements: any[] = [];
+    
 
     @ViewChild('singleSelect') singleSelect: MatSelect;
 
@@ -40,7 +40,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
 
     @HostListener('change', ['$event'])
     changeSelect(event: any) {
-        console.log(event);
+        // console.log(event);
 
         // const file = event && event.item(0);
         // this.onChange(file);
@@ -140,6 +140,14 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     }
 
 
+    ngOnDestroy() {
+        // this.subscriptions.forEach(s => s.unsubscribe());
+    }
+
+
+
+    onChange: any = () => { };
+    onTouched: any = () => { };
 
     /**
      * Function registered to propagate a change to the parent
@@ -153,18 +161,34 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     /**
        * ControlValueAccessor Interface Methods to be implemented
        */
-    writeValue(obj: any): void {
-        this.selectControl.setValue(obj);
-        // this.emailForm.get('email').setValidators();
+    writeValue(value: any): void {
+        if (value) {
+            this.selectControl.setValue(value);
+        }            
+       
+        if (value === null ) {
+            this.selectControl.reset();
+        }
     }
-    registerOnChange(fn: any): void {
+
+
+    registerOnChange(fn) {
         this.propagateChange = fn;
     }
-    registerOnTouched(fn: any): void {
+
+    
+    registerOnTouched(fn) {
         this.propagateTouched = fn;
     }
+
+   
+
     setDisabledState?(isDisabled: boolean): void {
         this.disabled = isDisabled;
+    }
+
+    validate(_: FormControl) {
+        return this.selectControl.valid ? null : { profile: { valid: false } };
     }
 
 }

@@ -11,7 +11,6 @@ export interface Pais {
     gentilicio: string;
     fechaCreacion?: any;
     activo?: number;
-
 }
 
 @Injectable({
@@ -28,6 +27,10 @@ export class PaisService {
 
     actives(): Observable<Pais[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
+    }
+
+    gentilicios(): Observable<Pais[]> {
+        return this.apiService.config(this.apiConfig).get('/gentilicio/actives');
     }
 
     exists(id: string): Observable<any> {
