@@ -71,9 +71,9 @@
 
                             <mat-form-field *ngIf="editing[rowIndex + '-conoMonetario']">
                                 <mat-label>Seleccione</mat-label>
-                                <mat-select [(ngModel)]="row.conoMonetario">
-                                    <mat-option>Ninguno</mat-option>
-                                    <mat-option value="option1">Option 1</mat-option>
+                                <mat-select [(ngModel)]="row.conoMonetario" (blur)="editing[rowIndex + '-conoMonetario'] = false">
+                                    <mat-option value="">Ninguno</mat-option>
+                                    <mat-option *ngFor="let item of conos" value="item.id">{{item.denominacion}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
 

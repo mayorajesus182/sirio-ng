@@ -23,7 +23,7 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
 
   public cajetinData: Cajetin[];
   public cajetines: ReplaySubject<Cajetin[]> = new ReplaySubject<Cajetin[]>();
-  public conos: ReplaySubject<ConoMonetario[]> = new ReplaySubject<ConoMonetario[]>();
+  public conos:ConoMonetario[] = [];
   public keywords: string = '';
   atmId: string;
   atm: string;
@@ -46,13 +46,13 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
   loadList() {
     this.cajetinService.activesByAtm(this.atmId).subscribe((data) => {
       this.cajetinData = data;
-      console.log(data);      
       this.cajetines.next(data.slice());
     });
-
+    
     //TODO: ESTO DE USD EN DURO
     this.conoMonetarioService.activesByMoneda('USD').subscribe((data) => {
-      this.conos.next(data.slice());
+      this.conos= data.slice();
+      console.log(data);      
     });
   }
 
