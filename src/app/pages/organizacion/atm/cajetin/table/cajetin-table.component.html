@@ -57,7 +57,7 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ngx-datatable-column [flexGrow]="1.2" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'boxes.denomination' | translate: {default: 'global.denomination'} |
                                 translate}}</span>
@@ -72,7 +72,7 @@
                             </ng-container>
 
                             <mat-form-field *ngIf="editing[rowIndex + '-conoMonetario']">
-                                <mat-label>Seleccione</mat-label>
+                                <!-- <mat-label>Seleccione</mat-label> -->
                                 <mat-select [(ngModel)]="row.conoMonetario" (blur)="editing[rowIndex + '-conoMonetario'] = false">
                                     <mat-option value="">Ninguno</mat-option>
                                     <mat-option *ngFor="let item of conos"  [value]="item.id">{{item.denominacion}}</mat-option>
