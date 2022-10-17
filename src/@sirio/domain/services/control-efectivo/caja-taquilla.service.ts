@@ -7,7 +7,7 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface CajaTaquilla {
     id: number;
     taquilla: number;
-    movimientoEfectivo: string;
+    movimientoEfectivo: string;     
     monto: number;
     moneda: string;
     fechaCreacion?: any;

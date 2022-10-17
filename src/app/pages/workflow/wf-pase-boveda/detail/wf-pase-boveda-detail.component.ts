@@ -1,4 +1,4 @@
-import { Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -26,19 +26,26 @@ export class WFPaseABovedaDetailComponent extends FormBaseComponent implements O
     private router: Router,
     private route: ActivatedRoute,
     private workflowService: WorkflowService,
-    private cajaTaquillaService: CajaTaquillaService) {
+    private cajaTaquillaService: CajaTaquillaService,
+    private cdr: ChangeDetectorRef) {
     super(undefined, injector);
   }
 
   ngOnInit() {
 
-    this.workflow = this.route.snapshot.params['wf'];
-    let exp = this.route.snapshot.params['exp'];
-    this.loadingDataForm.next(true);
+    this.route.paramMap.subscribe(params => {
 
-    this.cajaTaquillaService.detailByExpediente(exp).subscribe(data => {
-      this.data = data;
-      this.loadingDataForm.next(false);
+      this.workflow = params.get('wf');
+      let exp = params.get('exp');
+      this.loadingDataForm.next(true);
+
+      if (exp) {
+        this.cajaTaquillaService.detailByExpediente(exp).subscribe(data => {
+          this.data = data;
+          this.cdr.detectChanges();
+          this.loadingDataForm.next(false);
+        });
+      }
     });
 
     this.opt_swal = {};
@@ -89,5 +96,5 @@ export class WFPaseABovedaDetailComponent extends FormBaseComponent implements O
 
     });
   }
-  
+
 }

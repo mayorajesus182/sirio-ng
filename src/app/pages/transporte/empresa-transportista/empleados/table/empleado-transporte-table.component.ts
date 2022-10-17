@@ -22,7 +22,7 @@ import { EmpleadoTransportePopupComponent } from '../popup/empleado-transporte-p
 export class EmpleadoTransporteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public empleados: ReplaySubject<EmpleadoTransporte[]> = new ReplaySubject<EmpleadoTransporte[]>();
-  
+  public empleadoData: EmpleadoTransporte[];
   transportistaId: string;
   transportista: string;
   datosPersona: string;
@@ -41,7 +41,7 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
 
   loadList() {
     this.empleadoTransporteService.allByTransportista(this.transportistaId).subscribe((data) => {
-
+      this.empleadoData = data;
       this.empleados.next(data.slice());
       this.cdr.markForCheck();
     });
@@ -50,15 +50,15 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
   ngOnInit() {
 
     this.transportistaId = this.route.snapshot.params['id'];
-    
+
     const data = history.state.data;// obteniendo data del state
 
-    if(data){
+    if (data) {
       // en caso que venga data la guardo en el session storage
       // sessionStorage.setItem('id',data.codigo);
       this.transportista = data.nombre;
-      sessionStorage.setItem('trans_nombre',data.nombre);
-    }else{
+      sessionStorage.setItem('trans_nombre', data.nombre);
+    } else {
       this.transportista = sessionStorage.getItem('trans_nombre')
     }
 
@@ -75,29 +75,46 @@ export class EmpleadoTransporteTableComponent extends TableBaseComponent impleme
 
   }
 
-  openPopup(data:any) {
-    // this.dialogoPopup = this.dialog.open(EmpleadoTransportePopupComponent, {
-    //   panelClass: 'form-dialog',
-    //   width: '70%',
-    //   disableClose: true,
-    //   data: { payload: { id: this.transportistaId,data:{} }, isNew: true }
-    // });
+  onFilterChange(value) {
 
-    // this.dialogoPopup.afterClosed().subscribe(res => {
-    //   if (res)
-    //     this.loadList();
-    // });
-    if(data){
+    value = value.trim();
+    value = value.toLowerCase();
 
+    this.empleados.next(
+      this.empleadoData.filter(item => {
+        if (
+          item.id &&
+          item.id
+            .toString()
+            .toLowerCase()
+            .indexOf(value) !== -1 ||
+          item.nombre &&
+          item.nombre
+            .toString()
+            .toLowerCase()
+            .indexOf(value) !== -1 ||
+          item.identificacion &&
+          item.identificacion
+            .toString()
+            .toLowerCase()
+            .indexOf(value) !== -1 || !value
+        ) {
+
+          return true;
+        }
+      }).slice());
+  }
+
+  openPopup(data: any) {
+
+    if (data) {
       data.transportista = this.transportistaId;
     }
 
-    this.showFormPopup(EmpleadoTransportePopupComponent,data||{transportista:this.transportistaId},'50%');
+    this.showFormPopup(EmpleadoTransportePopupComponent, data || { transportista: this.transportistaId }, '50%');
 
-    this.dialogRef.afterClosed().subscribe(event=>{
-
+    this.dialogRef.afterClosed().subscribe(event => {
       this.loadList()
-      
     });
   }
 
