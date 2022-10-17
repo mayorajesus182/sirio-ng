@@ -62,7 +62,21 @@
                             
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
 
-                                <mat-form-field fxFlex="30">
+                               
+                                <mat-form-field fxFlex.gt-sm="25">
+                                    <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} |
+                                        translate }}
+                                    </mat-label>
+                                    <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
+                                        formControlName="numeroCuenta" mask="0000 0000 00 00 00000000" required
+                                        placeholder="">                                    
+                                    <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="!f.numeroCuenta.errors?.required&&f.numeroCuenta.errors?.account">
+                                        El num. de cuenta es invalido</mat-error>
+                                </mat-form-field>
+                               
+                               
+                                <mat-form-field fxFlex="25">
                                     <mat-label>{{'checkPayment.amount' | translate: {default: 'global.amount'} | translate }}
                                     </mat-label>
                                     <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
@@ -70,9 +84,10 @@
                                     <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.difference">existe diferencia</mat-error>
                                 </mat-form-field>   
                            
-                                    <sirio-cash-button [moneda]="moneda"  class="margin-top-md" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                                    <sirio-cash-button [moneda]="moneda"  [total]="f.monto.value"  [disabled]="f.monto.value <= 0"  class="margin-top-md" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
                                 
 
                                 <sirio-select-simple fxFlex="30"
@@ -99,20 +114,8 @@
                             
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
 
-                                <mat-form-field fxFlex.gt-sm="30">
-                                    <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} |
-                                        translate }}
-                                    </mat-label>
-                                    <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
-                                        formControlName="numeroCuenta" mask="0000 0000 0000 0000 0000" required
-                                        placeholder="">                                    
-                                    <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
-                                    <mat-error *ngIf="!f.numeroCuenta.errors?.required&&f.numeroCuenta.errors?.account">
-                                        El num. de cuenta es invalido</mat-error>
-                                </mat-form-field>
-
                                
-                                <mat-form-field fxFlex.gt-sm="20">
+                                <mat-form-field fxFlex.gt-sm="25">
                                     <mat-label>{{'withdrawal.serial' | translate: {default: 'global.serial'} | translate
                                         }}
                                     </mat-label>
@@ -121,19 +124,20 @@
                                     <mat-error *ngIf="f.serialCheque.errors?.required">Es requerido</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-sm="20">
+                                <mat-form-field fxFlex.gt-sm="25">
                                     <mat-label>{{'withdrawal.checkAmountPayable' | translate: {default:
                                         'global.checkAmountPayable'} | translate }}
                                     </mat-label>                                 
-                                        <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="montocheque"
-                                        formControlName="montocheque" currencyMask [options]="{precision:2}" required>                                       
-                                    <mat-error *ngIf="f.montocheque.errors?.required">Es requerido</mat-error>
-                                    <mat-error *ngIf="f.montocheque.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
-                                    <mat-error *ngIf="f.montocheque.errors?.min">No debe ser menor que 0,01</mat-error>
+                                        <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="montoCheque"
+                                        formControlName="montoCheque" currencyMask [options]="{precision:2}" required>                                       
+                                    <mat-error *ngIf="f.montoCheque.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.differenceMonto">existe diferencia con el monto a retirar</mat-error>
                                 </mat-form-field>
 
 
-                                <mat-form-field fxFlex="20">
+                                <mat-form-field fxFlex="25">
                                     <mat-label>{{'withdrawal.issueDate' | translate: {default:
                                         'global.issueDate'} | translate }}
                                     </mat-label>
