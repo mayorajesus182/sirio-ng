@@ -22,7 +22,7 @@ export interface Retiro {
     serialCheque: string;
     fechaEmision: any;
     codSeguridad: string;
-    montocheque: number ;
+    montoCheque: number ;
     monto: number;
     tipoDocumentoBeneficiario: string; 
     identificacionBeneficiario: string;  
