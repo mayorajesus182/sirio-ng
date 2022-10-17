@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class AtmTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['atm_id', 'codigo', 'tipatm_id', 'activo', 'actions'];
+  displayedColumns = ['atm_id', 'codigo', 'tipatm_id', 'responsable', 'activo', 'actions'];
 
   constructor(
     injector: Injector,
@@ -45,6 +45,11 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
 
   edit(data:any) {   
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  }
+
+  boxes(data:any) { 
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/boxes`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
   }
 
   view(data:any) {

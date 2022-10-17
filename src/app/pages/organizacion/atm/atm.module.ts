@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { AtmRoutingModule } from './atm-routing.module';
+import { CajetinTableComponent } from './cajetin/table/cajetin-table.component';
 import { AtmDetailComponent } from './detail/atm-detail.component';
 import { AtmFormComponent } from './form/atm-form.component';
 import { AtmTableComponent } from './table/atm-table.component';
@@ -33,7 +34,8 @@ import { AtmTableComponent } from './table/atm-table.component';
     declarations: [
         AtmFormComponent,
         AtmTableComponent,
-        AtmDetailComponent
+        AtmDetailComponent,
+        CajetinTableComponent,
     ],
     exports: [],
 })

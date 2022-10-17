@@ -19,18 +19,26 @@
                 </ng-container>
 
                 <ng-container matColumnDef="codigo">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'atm.code' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'atm.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="text-truncate font-weight-600">{{element.codigo}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="tipatm_id">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'atm.atmType' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'atm.atmType' | translate:
                         {default: 'global.atmType'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="text-truncate font-weight-600">{{element.tipoAtm}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="responsable">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'">{{'atm.responsible' | translate:
+                        {default: 'global.responsible'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                        <p class="text-truncate font-weight-600">{{element.agencia}}{{element.transportista}}</p>
                     </mat-cell>
                 </ng-container>
 

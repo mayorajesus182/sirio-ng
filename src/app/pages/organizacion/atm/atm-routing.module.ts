@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CajetinTableComponent } from './cajetin/table/cajetin-table.component';
 import { AtmDetailComponent } from './detail/atm-detail.component';
 import { AtmFormComponent } from './form/atm-form.component';
 import { AtmTableComponent } from './table/atm-table.component';
@@ -23,6 +24,11 @@ const atmRoutes: Routes = [
         component: AtmFormComponent,
         data: { title: 'Editar ATM' }
     },
+    {
+        path: ':id/boxes',
+        component: CajetinTableComponent,
+        data: { title: 'Cajetínes' }
+    },  
     {
         path: ':id/view',
         component: AtmDetailComponent,
