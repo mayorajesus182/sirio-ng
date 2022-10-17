@@ -22,6 +22,7 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
 
     @Input() tooltips: string = 'Desglosar Efectivo';
     @Input() moneda: Moneda;
+    @Input() total: number;
 
     public disabled: boolean = false;
 
@@ -54,7 +55,9 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
 
         this.showPopup(CashFormPopupComponent, {
             desgloseConoActual: this.cono_actual,
-            desgloseConoAnterior: this.cono_anterior, moneda: this.moneda
+            desgloseConoAnterior: this.cono_anterior, 
+            moneda: this.moneda,
+            total:this.total
         }, '40%').afterClosed().subscribe(e => {
             console.log('close dialog ', e);
             if(e){
