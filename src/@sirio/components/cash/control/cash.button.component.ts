@@ -24,7 +24,7 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
     @Input() moneda: Moneda;
     @Input() total: number;
 
-    public disabled: boolean = false;
+    @Input() disabled: boolean = false;
 
 
     @Input('cono_actual') cono_actual: ConoMonetario[] = [];
