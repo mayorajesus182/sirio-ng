@@ -288,6 +288,8 @@ export class TableBaseComponent {
             }
             this.refreshElementList();
         });
+
+        return this.dialogRef;
     }
 
     protected showSimplePopup(popupComponent, title: string, data, withDialog = '50%') {

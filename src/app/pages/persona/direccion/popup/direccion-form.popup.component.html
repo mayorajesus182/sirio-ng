@@ -42,7 +42,7 @@
         [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
       </sirio-select-search>
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.parish'} | translate"
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.postalZone'} | translate"
         formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()" [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
       </sirio-select-search>
 
