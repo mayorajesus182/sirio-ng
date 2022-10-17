@@ -7,6 +7,7 @@ export interface CuentaBancariaOperacion {
     id: number;   
     numeroCuenta: string;
     moneda: string;
+    monedaNombre: string;
     tipoProducto: string;
     identificacion: string;  
     nombre: string;
@@ -22,6 +23,7 @@ export interface CuentaBancaria {
     numeroCuenta: string;
     descripcion: string;
     moneda: string;
+    monedaNombre: string;
     tipoProducto: string;
     numper : string;
 

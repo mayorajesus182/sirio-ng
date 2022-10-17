@@ -1,0 +1,91 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['atm.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'atm.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>clear_all</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-sm="10">
+                                <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
+                                </mat-label>
+                                <input matInput maxlength="20" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
+                                <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-sm="20">
+                                <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput minlength="1" maxlength="10" autocomplete="off" name="codigo" formControlName="codigo" uppercase required
+                                    class="text-center">
+                                <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                            </mat-form-field>
+
+                            <sirio-select-search fxFlex="auto" [label]="'atm.atmType' | translate: {default: 'global.atmType'} | translate"
+                                formControlName="tipoAtm" [required]="true" [elements]="tipoAtms.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.tipoAtm?.errors">
+                            </sirio-select-search>
+
+                            <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === remoto" [label]="'atm.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
+                                formControlName="transportista" [required]="f.tipoAtm.value === remoto" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.transportista?.errors">
+                            </sirio-select-search>
+
+                            <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === oficina"  [label]="'atm.agency' | translate: {default: 'global.agency'} | translate"
+                                formControlName="agencia" [required]="f.tipoAtm.value === oficina" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.agencia?.errors">
+                            </sirio-select-search>
+
+                        </div>
+                    </form>
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

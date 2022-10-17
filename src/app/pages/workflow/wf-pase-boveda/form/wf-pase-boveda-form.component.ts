@@ -69,20 +69,6 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
             }
         });
 
-        this.monedaService.actives().subscribe(data => {
-            this.monedas.next(data);
-        });
-
-        this.movimientoEfectivoService.get(this.cajaTaquilla.movimientoEfectivo).subscribe(data => {
-            this.movimientoEfectivo = data;
-            this.cdr.detectChanges();
-        });
-
-        this.taquillaService.get(this.cajaTaquilla.taquilla).subscribe(data => {
-            this.taquilla = data;
-            this.cdr.detectChanges();
-        });
-
         this.opt_swal = {};
         this.opt_swal.input = 'text';
         this.opt_swal.inputPlaceholder = 'Ingrese la observación';
@@ -91,9 +77,6 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
 
     buildForm(cajaTaquilla: CajaTaquilla) {
         this.itemForm = this.fb.group({
-            taquilla: new FormControl(''),
-            movimientoEfectivo: new FormControl(''),
-            moneda: new FormControl(cajaTaquilla.moneda || undefined, Validators.required),
             monto: new FormControl(cajaTaquilla.monto || undefined, Validators.required),
         });
     }

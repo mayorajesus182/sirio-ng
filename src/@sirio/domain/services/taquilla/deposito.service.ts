@@ -8,9 +8,9 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Deposito {
     id: number;
-    institucion: string;
-    agencia: number;
-    persona:number;
+    // institucion: string;
+    // agencia: number;
+    // persona:number;
     numper: string;
     cuentaBancaria: number;
     tipoDocumento: string;

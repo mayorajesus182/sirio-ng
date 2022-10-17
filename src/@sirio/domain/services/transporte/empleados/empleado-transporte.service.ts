@@ -9,7 +9,8 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 export interface EmpleadoTransporte {
     id: string;
     transportista:string;
-    cedula: string;
+    tipoDocumento: string;
+    identificacion: string;
     nombre: string;
     fechaCreacion?: any;
     activo?: number;
@@ -35,8 +36,8 @@ export class EmpleadoTransporteService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    existsByTranportistaAndCedula(transportista: string, cedula: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${transportista}/${cedula}/exists`);
+    existsByTranportistaAndIdentificacion(transportista: string, identificacion: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${transportista}/${identificacion}/exists`);
     }
 
     get(id: string): Observable<EmpleadoTransporte> {

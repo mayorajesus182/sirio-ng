@@ -12,4 +12,6 @@ export class GlobalConstants {
   public static APROBADO = 'APR';
   public static ANULADO = 'ANU';
   public static TAQUILLA_BOVEDA = 'PTB';
+  public static REMOTO = 'R';
+  public static OFICINA = 'O';
 };
