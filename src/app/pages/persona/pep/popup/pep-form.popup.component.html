@@ -1,0 +1,93 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{'personAddress.form'|translate}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <sirio-select-simple fxFlex="33" [label]="'personAddress.addressType' | translate: {default: 'global.addressType'} | translate"
+        formControlName="tipPep" [required]="true" [elements]="tipPep.asObservable()" [attributeName]="'nombre'" [errors]="">
+      </sirio-select-simple>
+
+      <!--  <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.country' | translate: {default: 'global.country'} | translate"
+          formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.pais?.errors">
+      </sirio-select-search> -->
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.state' | translate: {default: 'global.state'} | translate" formControlName="nombre"
+        [required]="true" [elements]="nombre.asObservable()" [attributeName]="'nombre'" [errors]="f.nombre?.errors">
+      </sirio-select-search>
+
+    </div>
+
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
+        formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" [errors]="f.municipio?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.parish' | translate: {default: 'global.parish'} | translate" formControlName="parroquia"
+        [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.parish'} | translate" 
+        formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()" [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
+      </sirio-select-search>
+
+    </div> -->
+
+ 
+    private enteService: EnteService,
+    private cargoService: CargoService,
+    private paisService: Pais,
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.road' | translate: {default: 'global.road'} | translate" formControlName="ente"
+        [required]="true" [elements]="entes.asObservable()" [attributeName]="'nombre'" [errors]="f.ente?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.road' | translate: {default: 'global.road'} | translate" formControlName="cargo"
+        [required]="true" [elements]="cargos.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.parish'} | translate" 
+        formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
+      </sirio-select-search>
+
+    </div>
+
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row">
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'personAddress.reference' | translate: {default: 'global.reference'} | translate }}
+        </mat-label>
+        <input matInput minlength="4" maxlength="50" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
+        <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharater' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.referencia.errors?.exists">{{'error.codeExists' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.referencia.errors?.minlength">Debe tener 4 caracteres</mat-error>
+      </mat-form-field>
+    </div> -->
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

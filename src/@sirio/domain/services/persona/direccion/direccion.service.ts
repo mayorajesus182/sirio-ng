@@ -12,8 +12,10 @@ export interface Direccion {
 
     tipoDireccion: String;
 
-    parroquia: String 
-    municipio?: String 
+    parroquia: String
+    
+    municipio?: String
+
     estado?: String 
 
     zonaPostal: String;
