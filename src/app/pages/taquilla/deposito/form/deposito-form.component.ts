@@ -108,7 +108,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.cuentaBancaria.valueChanges.subscribe(val => {
                     if (val) {
                         //obtiendo el unico resultado seleccionado al aplicar el filtro
-                        this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+                        //this.cuentaOperacion = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                         this.f.esEfectivo.enable()
                         this.f.esCheque.enable()
                         this.moneda.id = this.cuentaOperacion.moneda;
