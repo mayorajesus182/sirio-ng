@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
     <sirio-dialog-header-heading>
-        <h1>{{'global.carrierEmployee'|translate}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+        <h1>{{'global.carrierEmployee'|translate}} <span>{{(isNew?'action.add':'action.edit') | translate}}</span></h1> 
         <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
             <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -14,37 +14,42 @@
 
 <form [formGroup]="itemForm" *ngIf="itemForm" (ngSubmit)="save()">
     <mat-dialog-content>
-        
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                <mat-form-field fxFlex="auto">
-                    <mat-label>Código</mat-label>
-                    <input matInput maxlength="10" name="id" formControlName="id" uppercase required>
-                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                    <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                </mat-form-field>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'carrierEmployee.code' | translate: {default: 'global.code'} | translate }}</mat-label>
+                <input matInput maxlength="10" name="id" formControlName="id" uppercase required class="text-center">
+                <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+            </mat-form-field>
 
-                <mat-form-field fxFlex="auto">
-                    <mat-label>Cedula</mat-label>
-                    <input matInput maxlength="15" name="identicacion" formControlName="cedula" uppercase required>
-                    <mat-error *ngIf="f.cedula.errors?.required">Requerido</mat-error>
-                    <mat-error *ngIf="f.cedula.errors?.pattern">Caracter inválido</mat-error>
-                </mat-form-field>
+            <sirio-select-search fxFlex.gt-xs="40" [label]="'carrierEmployee.documentType' | translate: {default: 'global.documentType'} | translate"
+                formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                [errors]="f.tipoDocumento?.errors">
+            </sirio-select-search>
 
-            </div>
+            <mat-form-field fxFlex="40">
+                <mat-label>{{'carrierEmployee.identification' | translate: {default: 'global.identification'} | translate }}</mat-label>
+                <input matInput maxlength="15" name="identificacion" formControlName="identificacion" uppercase required class="text-center">
+                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
+            </mat-form-field>
+        </div>
 
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                <mat-form-field fxFlex="auto">
-                    <mat-label>Nombre Completo</mat-label>
-                    <input matInput maxlength="80" name="nombre" formControlName="nombre" uppercase required>
-                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                    <mat-error *ngIf="f.nombre.errors?.pattern">Caracter inválido</mat-error>
-                </mat-form-field>
-            </div>
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'carrierEmployee.name' | translate: {default: 'global.name'} | translate }}</mat-label>
+                <input matInput maxlength="80" name="nombre" formControlName="nombre" uppercase required>
+                <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+            </mat-form-field>
+        </div>
 
-            <!-- <div fxLayout="column" fxLayout.gt-sm="row"> -->
-            <!-- </div> -->
+        <!-- <div fxLayout="column" fxLayout.gt-sm="row"> -->
+        <!-- </div> -->
 
     </mat-dialog-content>
 

@@ -27,4 +27,8 @@ export class MovimientoEfectivoService {
         return this.apiService.config(this.apiConfig).get('/all');
     }
 
+    get(id: string): Observable<MovimientoEfectivo> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
 }

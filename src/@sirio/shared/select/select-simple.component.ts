@@ -166,7 +166,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
             this.selectControl.setValue(value);
         }            
        
-        if (value === null ) {
+        if (value === null || value== undefined) {
             this.selectControl.reset();
         }
     }

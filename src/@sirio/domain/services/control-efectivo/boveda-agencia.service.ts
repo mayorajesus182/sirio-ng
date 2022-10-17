@@ -10,6 +10,7 @@ export interface BovedaAgencia {
     taquilla: number;
     movimientoEfectivo: string;
     monto: number;
+    moneda: string;
     fechaCreacion?: any;
 }
 
@@ -26,8 +27,12 @@ export class BovedaAgenciaService {
         this.apiConfig = {name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/boveda-agencia'};
     }
 
-    get(id: string): Observable<BovedaAgencia> {
+    get(id: number): Observable<BovedaAgencia> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    getByExpediente(expediente: string): Observable<BovedaAgencia> {
+        return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/get`);
     }
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<BovedaAgencia[]> {
@@ -36,6 +41,10 @@ export class BovedaAgenciaService {
 
     detail(id: string): Observable<BovedaAgencia> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    }
+
+    detailByExpediente(expediente: string): Observable<BovedaAgencia> {
+        return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/detail`);
     }
 
     save(data: BovedaAgencia): Observable<any> {

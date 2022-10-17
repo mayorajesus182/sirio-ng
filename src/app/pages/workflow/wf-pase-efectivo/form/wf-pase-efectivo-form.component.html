@@ -1,0 +1,92 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['workflow.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <mat-card-title class="mat-bg-grey">
+                            <div class="card-title-text">            
+                                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                                    <mat-icon class="">more_vert</mat-icon>
+                                </button>
+                    
+                                <mat-menu #userMenu="matMenu">
+                                    <button mat-menu-item class="mr-1" (click)="resendTask()">
+                                        <mat-icon color="primary">cancel</mat-icon>
+                                        {{'action.resend' | translate }}
+                                    </button>
+                                    <button mat-menu-item class="mr-1" (click)="annularTask()">
+                                        <mat-icon color="primary">check_circle</mat-icon>
+                                        {{'action.annular' | translate }}
+                                    </button>
+                                </mat-menu>
+                    
+                            </div>
+                            <mat-divider></mat-divider>
+                        </mat-card-title>
+
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                <mat-form-field fxFlex.gt-xs="30">
+                                    <mat-label>{{'cashPass.movementType' | translate: {default: 'global.movementType'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="bovedaAgencia.movimientoEfectivoNombre" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="bovedaAgencia.taquillaNombre" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'cashPass.coin' | translate: {default: 'global.coin'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="bovedaAgencia.monedaNombre" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
+                                    <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
+                                        [options]="{precision:2}" required>
+                                    <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
+                                </mat-form-field>
+
+                            </div>
+                        </form>
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

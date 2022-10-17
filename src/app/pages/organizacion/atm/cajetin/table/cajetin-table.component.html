@@ -1,0 +1,101 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['action.boxes']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [@fadeInUp]>
+        <sirio-list-simple [name]="'boxes.table' | translate: {default: 'global.notfound'}" placeholder="boxes.search" (filterChange)="onFilterChange($event)">
+
+            <div fxLayout="column" class="margin-h margin-top-md">
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                    <mat-form-field fxFlex="auto">
+                        <mat-label>{{'boxes.atm' | translate: {default: 'global.atm'} | translate }}</mat-label>
+                        <input matInput [value]="atmId+' - '+atm" readonly>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div fxLayout="column" class="margin-h padding-v">
+                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'boxes.code' | translate: {default: 'global.code'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            {{ row?.id }}
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="3" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'boxes.name' | translate: {default: 'global.name'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'boxes.billsQuantity' | translate: {default: 'global.billsQuantity'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content" (click)="editing[rowIndex + '-cantidad'] = true" *ngIf="!editing[rowIndex + '-cantidad']">
+                                <p class="fullwidth text-right "> {{ row?.cantidad | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
+                                </p>
+                            </div>
+                            <input class="mat-input" *ngIf="editing[rowIndex+ '-cantidad']" [(ngModel)]="row.cantidad" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-cantidad'] = false" currencyMask [options]="{precision:0}" />
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'boxes.denomination' | translate: {default: 'global.denomination'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <ng-container *ngIf="!editing[rowIndex + '-conoMonetario']">
+                                <div class="fullwidth input-content" (click)="editing[rowIndex + '-conoMonetario'] = true" >
+                                    <p class="fullwidth text-right ">
+                                      {{ row?.conoMonetario | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
+                                    </p>
+                                </div>
+                            </ng-container>
+
+                            <mat-form-field *ngIf="editing[rowIndex + '-conoMonetario']">
+                                <mat-label>Seleccione</mat-label>
+                                <mat-select [(ngModel)]="row.conoMonetario" (blur)="editing[rowIndex + '-conoMonetario'] = false">
+                                    <mat-option value="">Ninguno</mat-option>
+                                    <mat-option *ngFor="let item of conos"  [value]="item.id">{{item.denominacion}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="" [flexGrow]="1">
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                                [disabled]="row.cantidad <= 0 || row.conoMonetario == null || btnState" (click)="update(row,$event)" matTooltip="Actualizar">
+                                <mat-icon>save</mat-icon>
+                            </button>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+
+            </div>
+
+
+        </sirio-list-simple>
+    </sirio-page-layout-content>
+</sirio-page-layout>

@@ -123,7 +123,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
         if (elem.count <= 0 || !elem.count) {
             if (ix >= 0) {
                 this.listActual.splice(ix, 1);
-                console.log('remove ', this.listActual);
+                // console.log('remove ', this.listActual);
                 this.conoActual.emit(this.listActual.slice());
             }
 
@@ -145,8 +145,8 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
         if (elem.count <= 0 || !elem.count) {
             if (ix >= 0) {
                 this.listAnterior.splice(ix, 1);
-                console.log('remove ', this.listAnterior);
-                this.conoActual.emit(this.listAnterior.slice());
+                // console.log('remove ', this.listAnterior);
+                this.conoAnterior.emit(this.listAnterior.slice());
             }
 
         } else {
@@ -156,7 +156,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                 this.listAnterior.push(elem);
             }
             // console.log('push',this.listActual);
-            this.conoActual.emit(this.listAnterior.slice());
+            this.conoAnterior.emit(this.listAnterior.slice());
         }
     }
 

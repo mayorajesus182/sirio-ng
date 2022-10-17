@@ -30,6 +30,14 @@ export class TipoDocumentoService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesNaturales(): Observable<TipoDocumento[]> {
+        return this.apiService.config(this.apiConfig).get('/natural/actives');
+    }
+
+    activesJuridicos(): Observable<TipoDocumento[]> {
+        return this.apiService.config(this.apiConfig).get('/juridico/actives');
+    }
+
     activesByTipoPersona(tipoPersona: string): Observable<TipoDocumento[]> {
         return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/bytipoPersona/actives`);
     }

@@ -7,7 +7,7 @@ import { SweetAlertService } from '../../services/swal.service';
 import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import {MatTabGroup} from '@angular/material/tabs'
 import { NgxSpinnerService } from 'ngx-spinner';
 @Component({
@@ -32,6 +32,10 @@ export class PopupBaseComponent {
     @ViewChild(MatProgressBar) progressBar: MatProgressBar;
     @ViewChildren(MatButton) buttons: QueryList<MatButton>
     public itemForm: FormGroup;
+
+    protected loadingDataForm = new BehaviorSubject<boolean>(false);
+
+    public loading$ = this.loadingDataForm.asObservable();
 
 
     protected snack: SnackbarService;

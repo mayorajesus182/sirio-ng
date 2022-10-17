@@ -9,4 +9,9 @@ export class GlobalConstants {
   public static UNION_ESTABLE = 'UDH';
   public static DATE_SHORT = 'DD/MM/YYYY';
   public static DATE_LONG = 'DD/MM/YYYY hh:mm:ss';
+  public static APROBADO = 'APR';
+  public static ANULADO = 'ANU';
+  public static TAQUILLA_BOVEDA = 'PTB';
+  public static REMOTO = 'R';
+  public static OFICINA = 'O';
 };

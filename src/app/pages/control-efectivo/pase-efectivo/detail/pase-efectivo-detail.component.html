@@ -26,13 +26,19 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex.gt-xs="30">
+                            <mat-form-field fxFlex.gt-xs="20">
                                 <mat-label>{{'cashPass.date' | translate: {default: 'global.date'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="70">
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.taquilla" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
                                 <mat-label>{{'cashPass.movementType' | translate: {default: 'global.movementType'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.movimientoEfectivo" readonly>
@@ -41,35 +47,27 @@
                             
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex.gt-xs="30">
-                                <mat-label>{{'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                            <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'cashPass.coin' | translate: {default: 'global.coin'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.taquilla" readonly>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex.gt-xs="20">
-                                <mat-label>{{'cashPass.entry' | translate: {default: 'global.entry'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.ingreso" readonly currencyMask [options]="{precision:2}">
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex.gt-xs="20">
-                                <mat-label>{{'cashPass.egress' | translate: {default: 'global.egress'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.egreso" readonly currencyMask [options]="{precision:2}">
+                                <input matInput [value]="d.moneda" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.ingreso+d.egreso | number: '1.2'" readonly class="text-right">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="35">
                                 <mat-label>{{'cashPass.status' | translate: {default: 'global.status'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.estatusEfectivo" readonly>
                             </mat-form-field>
 
                         </div>
-                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
 
                     </div>
-
 
                 </sirio-card-content>
                 <mat-toolbar>

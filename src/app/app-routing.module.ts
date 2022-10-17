@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/@sirio/guards/auth.guard';
+import { BoxOfficeGuard } from 'src/@sirio/guards/boxoffice.guard';
 import { LayoutComponent } from './layout/layout.component';
 
 const routes: Routes = [
@@ -69,12 +70,18 @@ const routes: Routes = [
       },
       {
         path: 'taquilla',
+        canActivate: [BoxOfficeGuard],
         loadChildren: () => import('./pages/taquilla/taquilla.module').then(m => m.TaquillaModule),
         data:{title:'menu.taquilla'}
       },
       {
         path: 'control-efectivo',
         loadChildren: () => import('./pages/control-efectivo/control-efectivo.module').then(m => m.ControlEfectivoModule),
+        data:{title:'menu.cashControl'}
+      },
+      {
+        path: 'workflow',
+        loadChildren: () => import('./pages/workflow/workflow.module').then(m => m.WorkflowModule),
         data:{title:'menu.cashControl'}
       },
     ]

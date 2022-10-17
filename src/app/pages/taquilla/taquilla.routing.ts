@@ -12,9 +12,12 @@ const taquillaRoutes: Routes = [
         path: 'deposito',
         data: { title: 'Deposito' },
         loadChildren: () => import('./deposito/deposito.module').then(m => m.DepositoModule),
-    }
-    
-
+    },
+    {
+        path: 'pase-boveda',
+        data: { title: 'Pases a Bóveda' },
+        loadChildren: () => import('./pase-boveda/pase-boveda.module').then(m => m.PaseABovedaModule),
+    },
 ];
 
 
