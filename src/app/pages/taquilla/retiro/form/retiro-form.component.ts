@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { id } from '@swimlane/ngx-datatable';
 import { CalendarDayViewComponent, CalendarEventAction } from 'angular-calendar';
 import { BehaviorSubject } from 'rxjs';
@@ -21,6 +21,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 import * as moment from 'moment';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 
 @Component({
     selector: 'app-retiro-form',
@@ -44,17 +45,19 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
     esPagoCheque: boolean = false;
-    esAhorroLibreta: boolean = false;
+   // esAhorroLibreta: boolean = false;
     todayValue: moment.Moment;
 
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private router: Router,
         private retiroService: RetiroService,
         private cuentaBancariaService: CuentaBancariaService,
         private tipoDocumentoService: TipoDocumentoService,
         private calendarioService: CalendarioService,
+        private taquillaService: TaquillaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -62,60 +65,70 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
 
     ngOnInit() {
-    this.isNew = true;
-        this.buildForm(this.retiro);
-        this.loadingDataForm.next(false);
 
-        //trae servicio de TIPO DE DOCUMENTOS   
-        this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
-            this.tipoDocumentos.next(data);
-        });
-
-        /*this.tipoDocumentoService.actives().subscribe(data => {
-            this.tipoDocumentosactivos.next(data);
-        });*/
-
-
-        // manejo de escritura en el campo NUMERO DE CUENTA
-        this.f.numeroCuenta.valueChanges.pipe(
-            distinctUntilChanged(),
-            debounceTime(1000)
-        ).subscribe(() => {
-            // se busca los dato que el usuario suministro    
-            const numeroCuenta = this.f.numeroCuenta.value;
-
-            if (numeroCuenta) {
-                this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
-                    this.cuentaBancariaOperacion = data;
-                   const moneda = data.moneda;
-                   const monedaNombre = data.monedaNombre;
-                   //this.moneda.id= this.cuentaBancariaOperacion.moneda;
-                   //this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-
-                    // console.log("DATOS", data);                   
-                    this.cdr.markForCheck();
-
-                }, err => {
-                    console.log(err);
-                    this.f.cuentaBancariaOperacion.setErrors({ notexists: true });
-                    this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-                    this.cdr.markForCheck();
-                })
-            }
-        });
-
-
-        this.loading$.subscribe(val => {
-            if (val) {
-                this.persona = {} as Persona;
-                this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-
-            }
-        });
-
-        this.calendarioService.today().subscribe(data => {
-            this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-            this.cdr.detectChanges();
+        this.taquillaService.isOpen().subscribe(isOpen => {
+            if (!isOpen) {
+                this.router.navigate(['/sirio/welcome']);
+                this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+                  if (!resp.dismiss) {}
+                });
+            } else {
+                this.isNew = true;
+                this.buildForm(this.retiro);
+                this.loadingDataForm.next(false);
+        
+                //trae servicio de TIPO DE DOCUMENTOS   
+                this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+                    this.tipoDocumentos.next(data);
+                });
+        
+                /*this.tipoDocumentoService.actives().subscribe(data => {
+                    this.tipoDocumentosactivos.next(data);
+                });*/
+        
+        
+                // manejo de escritura en el campo NUMERO DE CUENTA
+                this.f.numeroCuenta.valueChanges.pipe(
+                    distinctUntilChanged(),
+                    debounceTime(1000)
+                ).subscribe(() => {
+                    // se busca los dato que el usuario suministro    
+                    const numeroCuenta = this.f.numeroCuenta.value;
+        
+                    if (numeroCuenta) {
+                        this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
+                            this.cuentaBancariaOperacion = data;
+                           //const moneda = data.moneda;
+                          // const monedaNombre = data.monedaNombre;
+                           this.moneda.id= this.cuentaBancariaOperacion.moneda;
+                           this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
+        
+                            // console.log("DATOS", data);                   
+                            this.cdr.markForCheck();
+        
+                        }, err => {
+                            console.log(err);
+                            this.f.cuentaBancariaOperacion.setErrors({ notexists: true });
+                            this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+                            this.cdr.markForCheck();
+                        })
+                    }
+                });
+        
+        
+                this.loading$.subscribe(val => {
+                    if (val) {
+                        this.persona = {} as Persona;
+                        this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+        
+                    }
+                });
+        
+                this.calendarioService.today().subscribe(data => {
+                    this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+                    this.cdr.detectChanges();
+                  });
+                }
           });
     }
 
