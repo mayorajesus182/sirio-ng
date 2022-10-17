@@ -19,6 +19,11 @@ const organizacionRoutes: Routes = [
         loadChildren: () => import('./taquilla/taquilla.module').then(m => m.TaquillaModule),
     },
     {
+        path: 'atm',
+        data: { title: 'atm.table' },
+        loadChildren: () => import('./atm/atm.module').then(m => m.AtmModule),
+    },
+    {
         path: 'zona',
         data: { title: 'zone.table' },
         loadChildren: () => import('./zona/zona.module').then(m => m.ZonaModule),

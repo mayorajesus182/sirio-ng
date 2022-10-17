@@ -5,11 +5,12 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 
-export interface TipoDocumento {
+export interface Atm {
     id: string;
-    nombre: string;
-    tipoPersona: string;
-    codigoLocal: string;
+    codigo: string;
+    tipoAtm: string;
+    agencia: number;
+    transportista: string;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -17,54 +18,53 @@ export interface TipoDocumento {
 @Injectable({
     providedIn:'root'
 })
-export class TipoDocumentoService {
+export class AtmService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-documento'};
+        this.apiConfig = {name: ApiConfConstants.API_ORGANIZACION, prefix: '/atm'};
     }
 
-    actives(): Observable<TipoDocumento[]> {
+    actives(): Observable<Atm[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    activesNaturales(): Observable<TipoDocumento[]> {
-        return this.apiService.config(this.apiConfig).get('/natural/actives');
+    activesByAgencia(agencia: number): Observable<Atm[]> {
+        return this.apiService.config(this.apiConfig).get(`/${agencia}/byagencia/actives`);
     }
 
-    activesJuridicos(): Observable<TipoDocumento[]> {
-        return this.apiService.config(this.apiConfig).get('/juridico/actives');
-    }
-
-    activesByTipoPersona(tipoPersona: string): Observable<TipoDocumento[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/bytipoPersona/actives`);
+    activesByTransportista(transportista: string): Observable<Atm[]> {
+        return this.apiService.config(this.apiConfig).get(`/${transportista}/bytransportista/actives`);
     }
 
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<TipoDocumento> {
+    existsByCodigo(codigo: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${codigo}/bycodigo/exists`);
+    }
+
+    get(id: string): Observable<Atm> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<TipoDocumento> {
+    detail(id: string): Observable<Atm> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoDocumento[]> {
+    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Atm[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
-    save(data: TipoDocumento): Observable<any> {
-        
+    save(data: Atm): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: TipoDocumento): Observable<any> {
+    update(data: Atm): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
