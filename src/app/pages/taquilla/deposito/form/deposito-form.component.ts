@@ -36,6 +36,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     moneda: Moneda = {} as Moneda;
     numCuenta: string = "";
     tipoProducto: string = "";
+    detalleEfectivo: number = 0;
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
 
@@ -85,6 +86,21 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     if (val) {
                         this.f.identificacion.enable()
         
+                    }
+                })
+
+
+                this.f.efectivo.valueChanges.subscribe(val => {
+                    if (val) {
+                        this.f.identificacion.enable()
+                        if (this.f.efectivo.value != this.detalleEfectivo) {
+                            this.itemForm.controls['efectivo'].setErrors({
+                                difference: true
+                            });
+                            this.cdr.detectChanges();
+                        } else {
+                            this.f.efectivo.setErrors(undefined);
+                        }
                     }
                 })
 
@@ -193,12 +209,25 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.updateDataFromValues(this.deposito, this.persona);
         this.updateDataFromValues(this.deposito, this.cuentaOperacion);
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
+        this.conoActual = [];
+        this.conoAnterior = [];
+        this.detalleEfectivo = 0;
     }
 
     updateCashDetail(event) {
-        console.log('update cash detail ',event)
         if(!event){
           return;
+        }
+
+        this.detalleEfectivo = event.montoTotal;
+
+        if (this.f.efectivo.value != this.detalleEfectivo) {
+            this.itemForm.controls['efectivo'].setErrors({
+                difference: true
+            });
+            this.cdr.detectChanges();
+        } else {
+            this.f.efectivo.setErrors(undefined);
         }
         this.conoActual=event.desgloseConoActual;
         this.conoAnterior=event.desgloseConoAnterior;

@@ -104,9 +104,10 @@
                                     <mat-error *ngIf="f.efectivo.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="!f.efectivo.errors?.required && f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                     <mat-error *ngIf="!f.efectivo.errors?.required && f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.efectivo.errors?.difference">diferencia</mat-error>
                                 </mat-form-field>   
                                 <!-- Botón Moneda -->
-                                <sirio-cash-button class="text-center"   [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                                <sirio-cash-button class="text-center" [total]="f.efectivo.value" [disabled]="f.efectivo.value <= 0" [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
 
                                 <mat-form-field fxFlex.gt-xs="auto">
                                     <mat-label>{{'deposit.reference' | translate: {default: 'global.reference'} | translate }}
