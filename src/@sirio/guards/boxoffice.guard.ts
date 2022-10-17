@@ -17,8 +17,6 @@ export class BoxOfficeGuard implements CanActivate {
 
     const u = this.userSession.getUser();
     if (u) {
-      console.log('user logged boxoffice ', u);
-
       if (!u.taquillaAsigned) {
 
         this.swalService.show('message.notBoxOfficeTitle', 'message.notBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
