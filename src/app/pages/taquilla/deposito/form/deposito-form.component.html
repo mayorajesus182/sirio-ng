@@ -43,8 +43,7 @@
                                     <input matInput autocomplete="off" maxlength="15" id="identificacion" name="identificacion" formControlName="identificacion" uppercase  class="text-center" required>
                                     <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.identificacion.errors?.notexists">El cliente no existe!</mat-error>  
-                                    <!--TODO: Cambiar-->
+                                    <mat-error *ngIf="f.identificacion.errors?.notexists">{{'error.notExistsClient' | translate}}</mat-error>  
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="70">
@@ -93,8 +92,8 @@
                                     <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask
                                     [options]="{precision:2}" >
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.max">No debe ser mayor que 9.999.999.999.999,99</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.min">Debe ser mayor que 0,01</mat-error>
+                                    <mat-error *ngIf="!f.monto.errors?.required && f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                    <mat-error *ngIf="!f.monto.errors?.required && f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                 </mat-form-field>   
 
                                 <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.esEfectivo.value">
@@ -102,18 +101,17 @@
                                     </mat-label>
                                     <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask
                                     [options]="{precision:2}" >
-                                    <mat-error *ngIf="f.efectivo.errors?.required">Es requerido</mat-error>
-                                    <mat-error *ngIf="f.efectivo.errors?.max">No debe ser mayor que 9.999.999.999.999,99</mat-error>
-                                    <mat-error *ngIf="f.efectivo.errors?.min">Debe ser mayor que 0,01</mat-error>
+                                    <mat-error *ngIf="f.efectivo.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="!f.efectivo.errors?.required && f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                    <mat-error *ngIf="!f.efectivo.errors?.required && f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                 </mat-form-field>   
-
                                 <!-- Botón Moneda -->
                                 <sirio-cash-button class="text-center"   [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
 
                                 <mat-form-field fxFlex.gt-xs="auto">
                                     <mat-label>{{'deposit.reference' | translate: {default: 'global.reference'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="15" id="referencia" name="referencia" formControlName="referencia" uppercase  class="text-center" required>
+                                    <input matInput autocomplete="off" maxlength="10" id="referencia" name="referencia" formControlName="referencia" uppercase  class="text-center" required>
                                     <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
@@ -180,8 +178,8 @@
                                                 </mat-label>
                                                 <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="montoCheque" formControlName="montoCheque" currencyMask
                                                 [options]="{precision:2}" >
-                                                <mat-error *ngIf="f.montoCheque.errors?.max">No debe ser mayor que 9.999.999.999.999,99</mat-error>
-                                                <mat-error *ngIf="f.montoCheque.errors?.min">Debe ser mayor que 0,01</mat-error>
+                                                <mat-error *ngIf="f.montoCheque.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                                <mat-error *ngIf="f.montoCheque.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             </mat-form-field>
 
                                             <mat-form-field fxFlex="15">
@@ -191,7 +189,7 @@
                                                 <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
                                                 </mat-datepicker-toggle>
                                                 <mat-error *ngIf="f.fechaEmision.errors?.matDatepickerParse">
-                                                  Fecha Invalidad
+                                                    {{'error.invalidDate' | translate}}
                                                 </mat-error>
                                             </mat-form-field>
                                             <mat-datepicker #fechaEmisionPicker></mat-datepicker>
@@ -212,7 +210,6 @@
                                     </div>
                                 </div>
                             </div>
-
                     </form>
                   
                 </sirio-card-content>
