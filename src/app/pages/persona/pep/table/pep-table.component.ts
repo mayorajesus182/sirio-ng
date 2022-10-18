@@ -6,6 +6,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Pep, PepService } from 'src/@sirio/domain/services/persona/pep/pep.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
+import { PepFormPopupComponent } from '../popup/pep-form.popup.component';
 
 @Component({
   selector: 'sirio-persona-pep-table',
@@ -19,7 +20,7 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  pep:ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
+  pepList:ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
 
   constructor(
     injector: Injector,
@@ -33,7 +34,9 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   private loadList(){
     this.pepService.allByPersonaId(this.persona).subscribe((data) => {
-      this.pep.next(data.slice());
+      console.log(data);
+      
+      this.pepList.next(data.slice());
       this.cdr.detectChanges();
     });
   }
@@ -44,7 +47,6 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
     if(this.persona){
       console.log('buscando pep en el servidor dado el id persona');
       this.loadList();
-
 
       this.onRefresh.subscribe(val=>{
         if(val){
@@ -59,13 +61,14 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   }
 
+
   edit(data: Pep) {
-    console.log('data event click ', data);
+    //console.log('data event click ', data);
 
   }
 
   delete(data: Pep) {
-    console.log('data event click ', data);
+    //console.log('data event click ', data);
     // if(data){
 
     // }
@@ -73,5 +76,22 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   view(data: any) {
 
+
   }
+
+  popup(data?:Pep) {
+    console.log(data);
+    if(data){
+      data.persona=this.persona;
+    }    
+    this.showFormPopup(PepFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+      console.log(event);
+      
+        if(event){
+            this.onRefresh.next(true);
+        }
+    }); 
+}
+
+
 }

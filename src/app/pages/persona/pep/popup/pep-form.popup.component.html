@@ -1,6 +1,7 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>{{'personAddress.form'|translate}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+     <!-- TODO: PENDIENTE IN18 -->
+    <h1>Persona Expuesta Políticamente (PEP)</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -16,73 +17,66 @@
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      
 
-      <sirio-select-simple fxFlex="33" [label]="'personAddress.addressType' | translate: {default: 'global.addressType'} | translate"
-        formControlName="tipPep" [required]="true" [elements]="tipPep.asObservable()" [attributeName]="'nombre'" [errors]="">
-      </sirio-select-simple>
+      <!-- <sirio-select-simple fxFlex="50" [label]="'pepType.pepType' | translate: {default: 'global.pepType'} | translate"
+        formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
+      </sirio-select-simple> -->
 
-      <!--  <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.country' | translate: {default: 'global.country'} | translate"
-          formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-          [errors]="f.pais?.errors">
-      </sirio-select-search> -->
-
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.state' | translate: {default: 'global.state'} | translate" formControlName="nombre"
-        [required]="true" [elements]="nombre.asObservable()" [attributeName]="'nombre'" [errors]="f.nombre?.errors">
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'tipoPep'"
+          formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.tipoPep?.errors">
       </sirio-select-search>
+
+      
+      <!-- TODO: PENDIENTE IN18 -->
+      <mat-form-field fxFlex="50">
+          <mat-label>{{'Nombre' | translate: {default:
+              'global.name'} | translate }} </mat-label>
+          <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
+              uppercase required>
+          <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
 
     </div>
-
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
-        formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" [errors]="f.municipio?.errors">
-      </sirio-select-search>
-
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.parish' | translate: {default: 'global.parish'} | translate" formControlName="parroquia"
-        [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
-      </sirio-select-search>
-
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.parish'} | translate" 
-        formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()" [attributeName]="'nombre'" [errors]="f.zonaPostal?.errors">
-      </sirio-select-search>
-
-    </div> -->
-
- 
-    private enteService: EnteService,
-    private cargoService: CargoService,
-    private paisService: Pais,
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.road' | translate: {default: 'global.road'} | translate" formControlName="ente"
-        [required]="true" [elements]="entes.asObservable()" [attributeName]="'nombre'" [errors]="f.ente?.errors">
-      </sirio-select-search>
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.road' | translate: {default: 'global.road'} | translate" formControlName="cargo"
-        [required]="true" [elements]="cargos.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
-      </sirio-select-search>
+      <mat-form-field fxFlex="33">
+          <mat-label>{{'Ente' | translate: {default:
+              'Ente'} | translate }} </mat-label>
+          <input matInput maxlength="200" minlength="1" autocomplete="off" name="ente" formControlName="ente"
+              uppercase required>
+          <mat-error *ngIf="f.ente.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.ente.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.parish'} | translate" 
-        formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
+      <mat-form-field fxFlex="33">
+          <mat-label>{{'Cargo' | translate: {default:
+              'Cargo'} | translate }} </mat-label>
+          <input matInput maxlength="100" minlength="1" autocomplete="off" name="cargo" formControlName="cargo"
+              uppercase required>
+          <mat-error *ngIf="f.cargo.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.cargo.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
+
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'pais'"
+          formControlName="pais" [required]="true" [elements]="paisList.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.pais?.errors">
       </sirio-select-search>
 
     </div>
-
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row">
-      <mat-form-field fxFlex="auto">
-        <mat-label>{{'personAddress.reference' | translate: {default: 'global.reference'} | translate }}
-        </mat-label>
-        <input matInput minlength="4" maxlength="50" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
-        <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharater' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.referencia.errors?.exists">{{'error.codeExists' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.referencia.errors?.minlength">Debe tener 4 caracteres</mat-error>
-      </mat-form-field>
-    </div> -->
 
   </mat-dialog-content>
 

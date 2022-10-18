@@ -1,12 +1,11 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-
 import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
+import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { DireccionFormPopupComponent } from '../popup/direccion-form.popup.component';
 
@@ -81,7 +80,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   }
 
 
-  editAddress(data?:Direccion) {
+  popup(data?:Direccion) {
     console.log(data);
     if(data){
       data.persona=this.persona;

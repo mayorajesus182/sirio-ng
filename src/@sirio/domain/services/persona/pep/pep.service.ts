@@ -10,7 +10,7 @@ export interface Pep {
    
     persona: String;
 
-    tippep: String;
+    tipoPep: String;
 
     nombre: String
     
@@ -20,6 +20,7 @@ export interface Pep {
 
     pais?: String 
 }
+
 
 @Injectable({
     providedIn:'root'
