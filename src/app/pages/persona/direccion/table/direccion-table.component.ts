@@ -22,6 +22,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   direcciones:ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
+  direccionList:Direccion[] = [];
 
   constructor(
     injector: Injector,
