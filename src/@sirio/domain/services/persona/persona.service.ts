@@ -8,6 +8,7 @@ export interface Persona{
     id: number;
     numper: string;
     nombre: string;
+    tipoDocumento: string;
 }
 
 @Injectable({
@@ -22,7 +23,7 @@ export class PersonaService {
         this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: ''};
     }
 
-    get(id: string): Observable<Persona> {
+    get(id: number): Observable<Persona> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
