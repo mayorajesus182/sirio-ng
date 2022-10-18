@@ -52,71 +52,93 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   }
   ngAfterViewInit(): void {
     // esto se utiliza en modo edición
-    if (this.f.estado.value) {
 
-      this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-        this.municipios.next(data);
-        this.cdr.detectChanges();
-      });
-    }
+    this.loading$.subscribe(loading => {
+      if (!loading) {
 
-    if (this.f.municipio.value) {
-      this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
-        this.parroquias.next(data);
-        this.cdr.detectChanges();
-      });
-    }
+        if (this.f.estado.value) {
 
-    if (this.f.parroquia.value) {
-      this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
-        this.zonasPostales.next(data);
-        this.cdr.detectChanges();
-      });
-    }
+          this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+            this.municipios.next(data);
+            this.cdr.detectChanges();
+          });
+        }
+
+        if (this.f.municipio.value) {
+          this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+            this.parroquias.next(data);
+            this.cdr.detectChanges();
+          });
+        }
+
+        if (this.f.parroquia.value) {
+          this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
+            this.zonasPostales.next(data);
+            this.cdr.detectChanges();
+          });
+        }
+      }
+    });
+
+
+
 
   }
 
   ngOnInit() {
 
-    console.log(this.defaults);
-
-    if (this.defaults.id) {
-      this.mode = 'global.edit';
-      this.direccion = this.defaults.payload;
-    } else {
-      this.direccion = {} as Direccion;
-    }
-
+    // console.log(this.defaults.payload);
 
 
     this.tipoDireccionesService.actives().subscribe(data => {
       this.tiposDirecciones.next(data);
       this.cdr.detectChanges();
     })
-    
-    
+
     this.estadoService.activesByPaisInstitucion().subscribe(data => {
       this.estados.next(data);
       this.cdr.detectChanges();
     });
-    
+
     this.viaService.actives().subscribe(data => {
       this.vias.next(data);
       this.cdr.detectChanges();
     });
-    
+
     this.nucleoService.actives().subscribe(data => {
       this.nucleos.next(data);
       this.cdr.detectChanges();
     });
-    
+
     this.construccionService.actives().subscribe(data => {
       this.construcciones.next(data);
       this.cdr.detectChanges();
     });
-    
+    this.loadingDataForm.next(true);
+    if (this.defaults.payload.id) {
+      this.direccionService.get(this.defaults.payload.id).subscribe(data => {
+        this.mode = 'global.edit';
+        this.direccion = data;
+        this.buildForm();
+        this.loadingDataForm.next(false);
+        console.log(data);
+        
+      })
+    } else {
+      this.direccion = {} as Direccion;
+      this.buildForm();
+      this.loadingDataForm.next(false);
+    }
 
 
+
+
+
+
+
+  }
+
+  buildForm() {
 
     this.itemForm = this.fb.group({
       tipoDireccion: new FormControl(this.direccion.tipoDireccion || '', [Validators.required]),
@@ -126,8 +148,8 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       zonaPostal: new FormControl(this.direccion.zonaPostal || '', [Validators.required]),
       via: new FormControl(this.direccion.via || '', [Validators.required]),
       nucleo: new FormControl(this.direccion.nucleo || '', [Validators.required]),
-      construccion: new FormControl(this.direccion.nucleo || '', [Validators.required]),
-      referencia: new FormControl(this.direccion.nucleo || '', [Validators.required,Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
+      construccion: new FormControl(this.direccion.construccion || '', [Validators.required]),
+      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
     });
 
 
@@ -153,17 +175,18 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     });
 
     this.cdr.detectChanges();
-
   }
 
   save() {
 
     console.log('mode ', this.mode);
     this.updateData(this.direccion);// aca actualizamos la direccion
-    this.direccion.persona=this.defaults.payload.persona;
+    if(this.isNew){
+      this.direccion.persona = this.defaults.payload.persona;
+    }
     console.log(this.direccion);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.direccionService,this.direccion,'La Dirección',this.direccion.id==undefined);
+    this.saveOrUpdate(this.direccionService, this.direccion, 'La Dirección', this.direccion.id == undefined);
 
     // this.dialogRef.close();
 

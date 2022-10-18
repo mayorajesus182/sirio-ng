@@ -330,14 +330,7 @@
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
 
-                                    <div fxLayout="row" fxLayout="column">
-                                        <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                            <button color="default" (click)="addAddress()" mat-button>
-                                                <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                                'global.notfound'} | translate }}
-                                            </button>
-                                        </div>
-                                    </div>
+                                    
 
                                     <sirio-persona-direccion-table [persona]="personaNatural.id" [onRefresh]="refreshDirecciones"></sirio-persona-direccion-table>
 

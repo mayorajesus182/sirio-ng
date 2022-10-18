@@ -4,8 +4,7 @@
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list-simple [name]="'boxes.table' | translate: {default: 'global.notfound'}" placeholder="boxes.search"
-            (filterChange)="onFilterChange($event)">
+        <sirio-list-simple [name]="'boxes.table' | translate: {default: 'global.notfound'}" placeholder="boxes.search" (filterChange)="onFilterChange($event)">
 
             <div fxLayout="column" class="margin-h margin-top-md">
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -21,7 +20,7 @@
             <div fxLayout="column" class="margin-h padding-v">
                 <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
                     [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
-                    [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="cajetines | async">
+                    [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
@@ -49,36 +48,36 @@
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-cantidad'] = true" *ngIf="!editing[rowIndex + '-cantidad']">
-                                <p class="fullwidth text-right " > {{ row?.cantidad | number:'1.2-2'}} <mat-icon  matTooltip="Clic Editar">edit</mat-icon></p>
+                            <div class="fullwidth input-content" (click)="editing[rowIndex + '-cantidad'] = true" *ngIf="!editing[rowIndex + '-cantidad']">
+                                <p class="fullwidth text-right "> {{ row?.cantidad | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
+                                </p>
                             </div>
-                            <input class="mat-input" *ngIf="editing[rowIndex+ '-cantidad']"  [(ngModel)]="row.cantidad" autofocus 
-                                 matInput type="text" (blur)="editing[rowIndex + '-cantidad'] = false"  currencyMask [options]="{precision:0}" />
+                            <input class="mat-input" *ngIf="editing[rowIndex+ '-cantidad']" [(ngModel)]="row.cantidad" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-cantidad'] = false" currencyMask [options]="{precision:0}" />
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ngx-datatable-column [flexGrow]="1.2" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'boxes.denomination' | translate: {default: 'global.denomination'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-conoMonetario'] = true" *ngIf="!editing[rowIndex + '-conoMonetario']">
-                                <p class="fullwidth text-right " > {{ row?.conoMonetario | number:'1.2-2'}} <mat-icon  matTooltip="Clic Editar">edit</mat-icon></p>
-                            </div>
-                            
+                            <ng-container *ngIf="!editing[rowIndex + '-conoMonetario']">
+                                <div class="fullwidth input-content" (click)="editing[rowIndex + '-conoMonetario'] = true" >
+                                    <p class="fullwidth text-right ">
+                                      {{ row?.conoMonetario | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
+                                    </p>
+                                </div>
+                            </ng-container>
 
-
-
-                                 <mat-form-field appearance="fill">
-                                    <mat-label>Seleccione</mat-label>
-                                    <mat-select [(value)]="selected">
-                                      <mat-option>Ninguno</mat-option>
-                                      <mat-option value="option1">Option 1</mat-option>
-                                      <mat-option value="option2">Option 2</mat-option>
-                                      <mat-option value="option3">Option 3</mat-option>
-                                    </mat-select>
-                                  </mat-form-field>
+                            <mat-form-field *ngIf="editing[rowIndex + '-conoMonetario']">
+                                <!-- <mat-label>Seleccione</mat-label> -->
+                                <mat-select [(ngModel)]="row.conoMonetario" (blur)="editing[rowIndex + '-conoMonetario'] = false">
+                                    <mat-option value="">Ninguno</mat-option>
+                                    <mat-option *ngFor="let item of conos"  [value]="item.id">{{item.denominacion}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
 
 
                         </ng-template>

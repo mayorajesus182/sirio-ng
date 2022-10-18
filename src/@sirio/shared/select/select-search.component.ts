@@ -165,7 +165,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             this.selectSearchControl.setValue(value);
         }
 
-        if (value === null ) {
+        if (value === null || value == undefined) {
             this.selectSearchControl.reset();
         }
     }

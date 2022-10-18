@@ -3,21 +3,26 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
-export interface CuentaBancariaOperacion {
-    id: number;
-    numeroCuenta: string;
-    moneda: string;
-    tipoProducto: string;
-    identificacion?: string;  
-    nombre?: string;
+export interface CuentaBancariaOperacion extends CuentaBancaria{    
+    
+    identificacion: string;  
+    nombre: string;
+    persona: number;
+    tipoProductoNombre: string;
+    tipoDocumento: string;
+
 }
 
-export interface CuentaBancaria {
-    id: number;
+export interface CuentaBancaria {  
+    id: number; 
     numeroCuenta: string;
     descripcion: string;
     moneda: string;
+    monedaNombre: string;
     tipoProducto: string;
+    numper : string;
+
+   
 }
 
 @Injectable({

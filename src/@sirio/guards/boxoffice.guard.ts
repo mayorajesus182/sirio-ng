@@ -19,13 +19,13 @@ export class BoxOfficeGuard implements CanActivate {
     if (u) {
       if (!u.taquillaAsigned) {
 
-        this.swalService.show('message.notBoxOfficeTitle', 'message.notBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
-          if (!resp.dismiss) {
-            this.router.navigate(['/sirio/welcome']);
-          }
+        // this.swalService.show('message.notBoxOfficeTitle', 'message.notBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+        //   if (!resp.dismiss) {
+        //     this.router.navigate(['/sirio/welcome']);
+        //   }
 
-        });
-        return false;
+        // });
+        return true;
 
       } 
 
