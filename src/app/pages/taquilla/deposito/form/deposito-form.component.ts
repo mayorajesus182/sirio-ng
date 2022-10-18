@@ -85,8 +85,17 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.tipoDocumento.valueChanges.subscribe(val => {
                     if (val) {
                         this.f.identificacion.enable()
-
                     }
+                    this.f.identificacion.reset();
+                    this.persona = {} as Persona;
+                    this.cuentaOperacion = {} as CuentaBancariaOperacion;
+                    this.cuentasBancarias.next([]);
+                    this.f.cuentaBancaria.setValue(undefined);
+                    this.f.esEfectivo.disable();
+                    this.f.esCheque.disable();
+                    this.f.esEfectivo.setValue(false);
+                    this.f.esCheque.setValue(false);
+                    
                 })
 
 
@@ -124,9 +133,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     const tipoDocumento = this.f.tipoDocumento.value;
                     const identificacion = this.f.identificacion.value;
                     if (tipoDocumento && identificacion) {
-                        this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                        this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {                            
                             this.persona = data;
                             const numper = data.numper;
+                            
                             this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
                                 this.cuentasBancarias.next(cuenta);
                             });
@@ -138,7 +148,30 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                             this.cuentasBancarias.next([]);
                             this.cuentaOperacion = {} as CuentaBancariaOperacion;
                             this.f.cuentaBancaria.setValue(undefined);
+                            this.f.esEfectivo.disable();
+                            this.f.esEfectivo.setValue(false);
+                            this.f.esCheque.disable();
+                            this.f.esCheque.setValue(false);
                             this.cdr.detectChanges();
+
+                            // prueba------------------------------------------------------------------------
+                            // this.deposito = {} as Deposito;
+                            this.f.monto.setValue('');
+                            this.f.efectivo.setValue('');
+                            this.f.referencia.setValue('');
+                            this.f.email.setValue('');
+                            this.f.telefono.setValue('');
+                            // Chequeeeees
+                            this.f.chequeOtros.setValue('');
+                            this.f.chequePropio.setValue('');
+                            this.f.numeroCuentaCheque.setValue('');
+                            this.f.serial.setValue('');
+                            this.f.fechaEmision.setValue('');
+                            this.f.tipoDocumentoCheque.setValue('');
+                            this.f.codigoSeguridad.setValue('');
+                            this.f.montoCheque.setValue('');
+                            // fin-----------------------------------------------------------------------------
+
                         })
                     }
                 });
@@ -201,19 +234,18 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             numeroCuenta: new FormControl(undefined),
             moneda: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             efectivo: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            monto: new FormControl('', Validators.required),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             referencia: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             esEfectivo: new FormControl(false),
             esCheque: new FormControl(false),
             // btnEfectivo: new FormControl(true),
-            monto: new FormControl(undefined, Validators.required),
             telefono: new FormControl(''),
             email: new FormControl(''),
             // cantidadPropio: new FormControl(deposito. undefined, [Validators.required]),
             // cantidadOtros: new FormControl(deposito undefined, [Validators.required]),
             // libreta: new FormControl(de '', [Validators.required]),
             // linea: new FormControl( '', [Validators.required]),
-
             chequeOtros: new FormControl(undefined),
             chequePropio: new FormControl(undefined),
             numeroCuentaCheque: new FormControl(''),
@@ -232,6 +264,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.updateData(this.deposito);
         this.updateDataFromValues(this.deposito, this.persona);
         this.updateDataFromValues(this.deposito, this.cuentaOperacion);
+
+        console.log(this.deposito);
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
         this.conoActual = [];
         this.conoAnterior = [];
