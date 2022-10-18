@@ -94,6 +94,7 @@
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="!f.monto.errors?.required && f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                     <mat-error *ngIf="!f.monto.errors?.required && f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.totalDifference">total diferencia</mat-error>
                                 </mat-form-field>   
 
                                 <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.esEfectivo.value">
