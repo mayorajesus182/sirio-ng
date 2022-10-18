@@ -57,6 +57,11 @@ const configuracionRoutes: Routes = [
         path: 'domicilio',
         data: { title: 'Domicilio' },
         loadChildren: () => import('./domicilio/domicilio.module').then(m => m.DomicilioModule), 
+    },
+    {
+        path: 'telefono',
+        data: { title: 'Teléfono' },
+        loadChildren: () => import('./telefono/telefono.module').then(m => m.TelefonoModule), 
     }
    
 ];

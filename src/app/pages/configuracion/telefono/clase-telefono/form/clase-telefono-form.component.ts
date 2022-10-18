@@ -1,30 +1,32 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
-import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
+import { RegularExpConstants } from 'src/@sirio/constants';
+import { ClaseTelefono, ClaseTelefonoService } from 'src/@sirio/domain/services/configuracion/telefono/clase-telefono.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-pais-form',
-    templateUrl: './pais-form.component.html',
-    styleUrls: ['./pais-form.component.scss'],
+    selector: 'app-clase-telefono-form',
+    templateUrl: './clase-telefono-form.component.html',
+    styleUrls: ['./clase-telefono-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class PaisFormComponent extends FormBaseComponent implements OnInit {
+export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnInit {
 
-    pais: Pais = {} as Pais;
+    claseTelefono: ClaseTelefono = {} as ClaseTelefono;
 
 
     constructor(
         injector: Injector,
+        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private paisService: PaisService,
+        private ClaseTelefonoService: ClaseTelefonoService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -36,16 +38,16 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.paisService.get(id).subscribe((agn: Pais) => {
-                this.pais = agn;
-                this.buildForm(this.pais);
+            this.ClaseTelefonoService.get(id).subscribe((agn: ClaseTelefono) => {
+                this.claseTelefono = agn;
+                this.buildForm(this.claseTelefono);
+                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
-                this.cdr.markForCheck();
-                
+                this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.pais);
+            this.buildForm(this.claseTelefono);
             this.loadingDataForm.next(false);
         }
 
@@ -58,27 +60,24 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    buildForm(pais: Pais) {
+    buildForm(claseTelefono: ClaseTelefono) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: pais.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(pais.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            gentilicio: new FormControl(pais.gentilicio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
-            codigoLocal: new FormControl(pais.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            prefijo: new FormControl(pais.prefijo || '', [Validators.pattern(RegularExpConstants.NUMERIC_PLUS_LESS)]),
+            id: new FormControl({value: claseTelefono.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            nombre: new FormControl(claseTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            codigoLocal: new FormControl(claseTelefono.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
-        this.printErrors();
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.pais);
-        this.saveOrUpdate(this.paisService, this.pais, 'El País', this.isNew);
+        this.updateData(this.claseTelefono);
+        this.saveOrUpdate(this.ClaseTelefonoService, this.claseTelefono, 'La Clase de Teléfono', this.isNew);
     }
 
     private codigoExists(id) {
-        this.paisService.exists(id).subscribe(data => {
+        this.ClaseTelefonoService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true
@@ -89,8 +88,8 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
     }
 
     activateOrInactivate() {
-        if (this.pais.id) {
-            this.applyChangeStatus(this.paisService, this.pais, this.pais.nombre, this.cdr);
+        if (this.claseTelefono.id) {
+            this.applyChangeStatus(this.ClaseTelefonoService, this.claseTelefono, this.claseTelefono.nombre, this.cdr);
         }
     }
 
