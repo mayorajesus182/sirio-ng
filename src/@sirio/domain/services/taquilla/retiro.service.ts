@@ -14,6 +14,7 @@ export interface Retiro {
     numper: string;
     cuentaBancaria: number;   
     tipoDocumento: string; 
+    tipoDocumentoCheque: string; 
     identificacion: string ;  
     nombre: string ;  
     numeroCuenta: string;
