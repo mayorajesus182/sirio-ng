@@ -10,6 +10,12 @@
   min-width: 330px;
   max-width: 330px;
   height: 100%;
+  
+}
+
+span.relative-time{
+  color: #8d8d8d;
+  font-size: 12px;
 }
 
 @media screen and (max-width: 959px) {
@@ -33,9 +39,8 @@
 
 p {
   margin: 0;
-  span{
-    color: #8d8d8d;
-  }
+  color: #959595;
+ 
 }
 
 .progress-bar {

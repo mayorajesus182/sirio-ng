@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
 
 @Component({
@@ -10,70 +10,16 @@ import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
 })
 export class ToolbarNotificationsComponent implements OnInit {
 
+  @Output() openQuickPanel = new EventEmitter();
   notifications: any[];
   isOpen: boolean;
+  total: number=2;
 
   constructor() {
   }
 
   ngOnInit() {
-    this.notifications = [
-      {
-        icon: 'notifications',
-        name: 'This is a notification',
-        time: 'few sec ago',
-        read: false,
-        colorClass: ''
-      },
-      {
-        icon: 'shopping_basket',
-        name: 'User bought your template',
-        time: '23 min ago',
-        read: false,
-        colorClass: 'primary'
-      },
-      {
-        icon: 'eject',
-        name: 'Server Crashed',
-        time: 'an hour ago',
-        read: false,
-        colorClass: 'accent'
-      },
-      {
-        icon: 'cached',
-        name: 'New user registered',
-        time: '6 hours ago',
-        read: true,
-        colorClass: ''
-      },
-      {
-        icon: 'code',
-        name: 'John added you as friend',
-        time: 'yesterday',
-        read: true,
-        colorClass: ''
-      }
-    ];
+   
   }
 
-  markAsRead(notification) {
-    notification.read = true;
-  }
-
-  dismiss(notification, event) {
-    event.stopPropagation();
-    this.notifications.splice(this.notifications.indexOf(notification), 1);
-  }
-
-  toggleDropdown() {
-    this.isOpen = !this.isOpen;
-  }
-
-  onClickOutside() {
-    this.isOpen = false;
-  }
-
-  markAllAsRead() {
-    this.notifications.forEach(notification => notification.read = true);
-  }
 }
