@@ -36,7 +36,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     retiro: Retiro = {} as Retiro;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
     cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);   
+   // public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);   
     //public tipoDocumentosactivos = new BehaviorSubject<TipoDocumento[]>([]);
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
@@ -122,7 +122,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                         })
                     }
                 });
-        
+    
         
                 this.loading$.subscribe(val => {
                     if (val) {
@@ -164,9 +164,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                     this.cdr.detectChanges();
                 }else {
                     this.f.montoCheque.setErrors(undefined);
-                }
-
-   
+                }   
         }
 
     buildForm() {
@@ -176,25 +174,24 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             esPagoCheque: new FormControl(false),
 
             numper: new FormControl(undefined),
+            //tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             tipoDocumentoBeneficiario: new FormControl( undefined, [Validators.required]),
-            identificacionBeneficiario: new FormControl( '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            identificacionBeneficiario: new FormControl( '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl( '', [Validators.required]),
             numeroCuenta: new FormControl( '', [Validators.required]),
-            moneda: new FormControl( ''),
+            moneda: new FormControl(''),
             tipoProducto: new FormControl(''),
             serialCheque: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(undefined, [Validators.required,]),
-            fechaEmision: new FormControl( '', [Validators.required,]),
+            montoCheque: new FormControl('', [Validators.required,]),
+            fechaEmision: new FormControl(''),
             codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             email: new FormControl( ''),
-            telefono: new FormControl( ''),
+            telefono: new FormControl( '',[Validators.pattern(RegularExpConstants.NUMERIC)]),
 
         });
 
 
     }
-
-
 
 
     save() {
@@ -206,19 +203,20 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
         this.updateData(this.retiro);
         this.updateDataFromValues(this.retiro, this.persona);
-
         this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
         this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
+        this.retiro.tipoDocumentoCheque= this.cuentaBancariaOperacion.tipoDocumento;
         this.retiro.fechaEmision = this.retiro.fechaEmision.format('DD/MM/YYYY');
+
+        
+        this.retiro.detalles=this.conoActual.concat(this.conoAnterior);
+        console.log("RETIRO   ", this.retiro);
+        
+        this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
         this.conoActual = [];
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
-
-        console.log("DATOSS3   ", this.retiro);
-
-        this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
-
 
 
 

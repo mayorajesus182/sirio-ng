@@ -1,0 +1,87 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+     <!-- TODO: PENDIENTE IN18 -->
+    <h1>Persona Expuesta Políticamente (PEP)</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      
+
+      <!-- <sirio-select-simple fxFlex="50" [label]="'pepType.pepType' | translate: {default: 'global.pepType'} | translate"
+        formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
+      </sirio-select-simple> -->
+
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'tipoPep'"
+          formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.tipoPep?.errors">
+      </sirio-select-search>
+
+      
+      <!-- TODO: PENDIENTE IN18 -->
+      <mat-form-field fxFlex="50">
+          <mat-label>{{'Nombre' | translate: {default:
+              'global.name'} | translate }} </mat-label>
+          <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
+              uppercase required>
+          <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+
+      <mat-form-field fxFlex="33">
+          <mat-label>{{'Ente' | translate: {default:
+              'Ente'} | translate }} </mat-label>
+          <input matInput maxlength="200" minlength="1" autocomplete="off" name="ente" formControlName="ente"
+              uppercase required>
+          <mat-error *ngIf="f.ente.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.ente.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+          <mat-label>{{'Cargo' | translate: {default:
+              'Cargo'} | translate }} </mat-label>
+          <input matInput maxlength="100" minlength="1" autocomplete="off" name="cargo" formControlName="cargo"
+              uppercase required>
+          <mat-error *ngIf="f.cargo.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.cargo.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
+
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'pais'"
+          formControlName="pais" [required]="true" [elements]="paisList.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.pais?.errors">
+      </sirio-select-search>
+
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

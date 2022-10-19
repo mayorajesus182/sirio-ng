@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit }
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { RegularExpConstants } from 'src/@sirio/constants';
 import { Construccion, ConstruccionService } from 'src/@sirio/domain/services/configuracion/domicilio/construccion.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
@@ -11,7 +11,7 @@ import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configur
 import { TipoDireccion, TipoDireccionService } from 'src/@sirio/domain/services/configuracion/localizacion/tipo-direccion.service';
 import { Via, ViaService } from 'src/@sirio/domain/services/configuracion/localizacion/via.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
-import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
+import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 
@@ -129,13 +129,6 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       this.buildForm();
       this.loadingDataForm.next(false);
     }
-
-
-
-
-
-
-
   }
 
   buildForm() {
@@ -189,8 +182,6 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     this.saveOrUpdate(this.direccionService, this.direccion, 'La Dirección', this.direccion.id == undefined);
 
     // this.dialogRef.close();
-
   }
-
 
 }
