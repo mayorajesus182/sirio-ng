@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
+
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
-export interface Pais {
+
+export interface TipoTelefono {
     id: string;
     nombre: string;
     codigoLocal: string;
-    gentilicio: string;
-    prefijo: string;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -17,46 +17,42 @@ export interface Pais {
 @Injectable({
     providedIn:'root'
 })
-export class PaisService {
+export class TipoTelefonoService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/localizacion/pais'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/telefono/tipo-telefono'};
     }
 
-    actives(): Observable<Pais[]> {
+    actives(): Observable<TipoTelefono[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
-    }
-
-    gentilicios(): Observable<Pais[]> {
-        return this.apiService.config(this.apiConfig).get('/gentilicio/actives');
     }
 
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<Pais> {
+    get(id: string): Observable<TipoTelefono> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<Pais> {
+    detail(id: string): Observable<TipoTelefono> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Pais[]> {
+    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoTelefono[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
-    save(data: Pais): Observable<any> {
+    save(data: TipoTelefono): Observable<any> {
         
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: Pais): Observable<any> {
+    update(data: TipoTelefono): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
