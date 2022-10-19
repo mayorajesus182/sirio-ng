@@ -186,48 +186,7 @@
                                         <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>                         
                                 </mat-form-field>
 
-                            </div>
-
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">               
-
-                            <mat-form-field fxFlex.gt-xs="30">
-                                <mat-label>{{'form.name' | translate: {default: 'global.name'} | translate }} </mat-label>
-                                <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.nombre"
-                                    [ngModelOptions]="{standalone: true}" readonly name="nombre">
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex.gt-xs="25">
-                                <mat-label>{{'form.nationality' | translate: {default: 'global.nationality'} |
-                                    translate }} </mat-label>
-                                <input matInput autocomplete="off"
-                                    [(ngModel)]="cuentaBancariaOperacion.tipoDocumentoNombre"
-                                    [ngModelOptions]="{standalone: true}" readonly name="tipoDocumentoNombre">
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex.gt-xs="20">
-                                <mat-label>{{'form.identification' | translate: {default: 'global.identification'} |
-                                    translate }}</mat-label>
-                                <input matInput autocomplete="off"
-                                    [(ngModel)]="cuentaBancariaOperacion.identificacion"
-                                    [ngModelOptions]="{standalone: true}" readonly name="identificacion">
-                            </mat-form-field>                             
-
-                            <mat-form-field fxFlex.gt-xs="25">
-                                <mat-label>{{'form.productType' | translate: {default: 'global.productType'} |
-                                    translate }}
-                                </mat-label>
-                                <input matInput autocomplete="off"
-                                    [(ngModel)]="cuentaBancariaOperacion.tipoProductoNombre"
-                                    [ngModelOptions]="{standalone: true}" readonly name="tipoProducto">
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex.gt-xs="auto">
-                                <mat-label>{{'form.coin' | translate: {default: 'global.coin'} | translate }}
-                                </mat-label>
-                                <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.moneda"
-                                    [ngModelOptions]="{standalone: true}" readonly name="moneda">
-                            </mat-form-field>
-                        </div>
+                            </div>                      
 
 
                         </div>

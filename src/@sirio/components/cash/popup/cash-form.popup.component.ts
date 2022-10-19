@@ -97,7 +97,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
       this.valuesCono1 = list;
       // calculo de totales para el cono actual
-      this.totalActual = list.map(e => e.count * e.denominacion).reduce((a, b) => a + b);
+      this.totalActual = list.map(e => e.cantidad * e.denominacion).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
     }
@@ -111,7 +111,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
       this.valuesCono2 = list;
       // calculo de totale para el cono anterior
-      this.totalAnterior = list.map(e => e.count * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
+      this.totalAnterior = list.map(e => e.cantidad * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
     }
