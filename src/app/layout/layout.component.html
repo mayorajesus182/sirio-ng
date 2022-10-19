@@ -26,8 +26,8 @@
     </mat-sidenav>
     <!-- END SIDENAV -->
 
-    <mat-sidenav [(opened)]="quickPanelOpen" mode="over" position="end" class="taskPanel">
-      <sirio-quickpanel></sirio-quickpanel>
+    <mat-sidenav #taskPanel [(opened)]="quickPanelOpen" mode="over" position="end" class="taskPanel">
+      <sirio-task-panel [taskPanel]="taskPanel"></sirio-task-panel>
     </mat-sidenav>
 
     <mat-sidenav-content class="content-container" fxLayout="column">

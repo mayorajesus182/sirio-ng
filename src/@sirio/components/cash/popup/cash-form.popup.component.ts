@@ -25,7 +25,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   public totalActual = 0;
   public totalAnterior = 0;
   public total = 0;
-  private divisor=1;
+  private divisor = 1;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -64,10 +64,10 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
     this.moneda = this.defaults.payload.moneda;
 
-    this.preferenciaService.get().subscribe(data =>{
+    this.preferenciaService.get().subscribe(data => {
       this.preferencia.next(data);
-      this.divisor=data.divisorConoAnterior;
-    } );
+      this.divisor = data.divisorConoAnterior;
+    });
 
     if (this.defaults.id) {
       this.mode = 'global.edit';
@@ -80,6 +80,18 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   save() {
     console.log('mode ', this.mode);
+
+    this.dialogRef.close(
+      {
+        desgloseConoActual: this.valuesCono1,
+        desgloseConoAnterior: this.valuesCono2,
+        montoTotal: this.montoTotal
+      });
+
+  }
+
+
+  close() {
 
     this.dialogRef.close(
       {
@@ -116,6 +128,11 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.cdref.detectChanges();
     }
 
+  }
+
+  clearAll() {
+    this.updateConoActual([]);
+    this.updateConoAnterior([]);
   }
 
 

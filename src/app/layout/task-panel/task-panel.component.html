@@ -1,0 +1,77 @@
+<!-- <div class="text-center mat-bg-primary pt-1 pb-1">
+
+  <h6 class="m-0"> -->
+      <!-- <mat-icon class="fz-1">assignment</mat-icon> -->
+      <!-- <i class="fa-regular fa-list-check"></i>
+      <span>Tareas Pendientes - {{(tasks | async)?.length}}</span>
+  </h6>
+</div> -->
+
+<sirio-scrollbar class="overflow-container">
+  <mat-nav-list>
+    <h2 matSubheader> <i class="fa-regular fa-list-check fa-lg"></i> &nbsp; &nbsp; Tareas Pendientes ({{(tasks | async)?.length}}) </h2>
+    <a href="javascript:" *ngFor="let t of tasks | async" mat-list-item (click)="callFunction(t.functionName, t)" >
+      <!-- <img mat-list-avatar src="assets/img/avatars/1.jpg"> -->
+      <i class="fa-light fa-file-pen"></i>
+      <h3 matLine># {{t.expediente}}</h3>
+      <p matLine>
+        <!-- <span> {{t.rol | excerpt:45 | titlecase }}  </span> -->
+         <mat-chip mat-sm-chip [color]="t.visto ? 'accent' : 'primary'" [selected]="t.abierto">
+          {{t.visto ? 'Vista' : 'Nueva'}}</mat-chip> &nbsp;<span class="">{{ t.fecha | relativeTime}}</span>
+      </p>
+    </a>
+    <a mat-list-item *ngIf="(tasks | async)?.length==0">
+      <p matLine>
+          <span class="m-0 mr-1 text-md">Sin tareas para mostrar</span>
+          <span fxFlex></span>
+      </p>
+  </a>
+<!-- 
+    
+    <h3 matSubheader>SERVER STATISTICS</h3>
+    <a mat-list-item>
+      <p matLine>CPU Load (71% / 100%)</p>
+      <p class="progress-bar" matLine>
+        <mat-progress-bar mode="determinate" color="primary" value="71"></mat-progress-bar>
+      </p>
+    </a>
+    <a mat-list-item>
+      <p matLine>RAM Usage (6,175 MB / 16,384 MB)</p>
+      <p class="progress-bar" matLine>
+        <mat-progress-bar mode="determinate" color="accent" value="34"></mat-progress-bar>
+      </p>
+    </a>
+    <a mat-list-item>
+      <p matLine>CPU Temp (43° / 80°)</p>
+      <p class="progress-bar" matLine>
+        <mat-progress-bar mode="determinate" color="warn" value="54"></mat-progress-bar>
+      </p>
+    </a> -->
+  </mat-nav-list>
+</sirio-scrollbar>
+
+<!-- <mat-list class="compact-list mb-1">
+  <mat-list-item class="" *ngFor="let t of tasks | async">
+      <div fxLayout="row" fxFlex="100" title="{{t.rol}}"
+          (click)="callFunction(t.functionName, t)">
+          <span class="m-0 mr-1 text-md">{{t.expediente}}</span>
+          <span fxFlex></span>
+          <div fxFlex="50" class="text-md">{{t.rol}}</div> -->
+          <!-- <div fxFlex="50" class="text-md">{{t.rol | excerpt:45 | titlecase }}</div> -->
+          <!-- <span fxFlex></span> -->
+          <!-- <small class="text-muted mr-1">{{ t.fecha | relativeTime}}</small> -->
+      <!-- </div> -->
+      <!-- <mat-chip mat-sm-chip [color]="t.visto ? 'accent' : 'primary'" [selected]="t.abierto">
+          {{t.visto ? 'Vista' : 'Nueva'}}</mat-chip> -->
+      
+  <!-- </mat-list-item>
+  <mat-list-item *ngIf="(tasks | async)?.length==0">
+      <div fxLayout="row" fxFlex="100">
+          <span class="m-0 mr-1 text-md">Sin tareas para mostrar</span>
+          <span fxFlex></span>
+      </div>
+  </mat-list-item>
+
+</mat-list> -->
+
+

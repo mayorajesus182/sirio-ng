@@ -185,7 +185,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             montoCheque: new FormControl('', [Validators.required,]),
             fechaEmision: new FormControl(''),
             codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            email: new FormControl( ''),
+            email: new FormControl(''),
             telefono: new FormControl( '',[Validators.pattern(RegularExpConstants.NUMERIC)]),
 
         });

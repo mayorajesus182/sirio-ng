@@ -11,7 +11,7 @@ import { ConfigPanelModule } from './config-panel/config-panel.module';
 import { FooterModule } from './footer/footer.module';
 import { LayoutComponent } from './layout.component';
 import { NavigationModule } from './navigation/navigation.module';
-import { QuickpanelModule } from './quickpanel/quickpanel.module';
+import { TaskPanelModule } from './task-panel/task-panel.module';
 import { SidenavModule } from './sidenav/sidenav.module';
 import { ToolbarModule } from './toolbar/toolbar.module';
 
@@ -24,7 +24,7 @@ import { ToolbarModule } from './toolbar/toolbar.module';
     SirioSharedModule,
     // Core
     ToolbarModule,
-    QuickpanelModule,
+    TaskPanelModule,
     SidenavModule,
     FooterModule,
     BackdropModule,
