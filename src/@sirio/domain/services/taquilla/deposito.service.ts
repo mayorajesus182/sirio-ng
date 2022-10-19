@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 
 export interface Deposito {
@@ -32,6 +33,7 @@ export interface Deposito {
     telefono: string;
     email: string;
     estatusOperacion: string;
+    detalles:ConoMonetario[];
     
 }
 
