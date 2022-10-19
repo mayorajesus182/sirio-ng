@@ -122,7 +122,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                         })
                     }
                 });
-        
+    
         
                 this.loading$.subscribe(val => {
                     if (val) {
@@ -209,8 +209,10 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.retiro.tipoDocumentoCheque= this.cuentaBancariaOperacion.tipoDocumento;
         this.retiro.fechaEmision = this.retiro.fechaEmision.format('DD/MM/YYYY');
 
-        console.log("RETIRO   ", this.retiro);       
-
+        
+        this.retiro.detalles=this.conoActual.concat(this.conoAnterior);
+        console.log("RETIRO   ", this.retiro);
+        
         this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
         this.conoActual = [];
         this.conoAnterior = [];
