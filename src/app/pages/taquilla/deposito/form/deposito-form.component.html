@@ -72,12 +72,12 @@
                                 </mat-form-field>
                             </div>
 
-                            <div>
+                            <div *ngIf="f.cuentaBancaria.value">
                                 <h2>Información Financiera</h2>
                             </div>
 
                             <!-- Tercera Fila del Formulario  Nota: Borrar este comentario al Final -->
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.cuentaBancaria.value" >
                                 <div fxFlex.gt-xs="50" >
                                     <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esEfectivo" name="esEfectivo">
                                     {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
@@ -92,26 +92,28 @@
                             </div>
 
                             <!-- Cuarta Fila del Formulario  Nota: Borrar este comentario al Final -->
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.esEfectivo.value || f.esCheque.value">
-                                <mat-form-field  fxFlex.gt-xs="auto"> 
-                                    <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
-                                    <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask [options]="{precision:2}" >
-                                    <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="!f.monto.errors?.required && f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                    <mat-error *ngIf="!f.monto.errors?.required && f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.totalDifference">total diferencia</mat-error>
-                                </mat-form-field>   
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="(f.esEfectivo.value || f.esCheque.value) && f.cuentaBancaria.value != undefined ">
+
 
                                 <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.esEfectivo.value">
                                     <mat-label>{{'deposit.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
-                                    <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask [options]="{precision:2}">
+                                    <input matInput max="9999999999999.99" readonly min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask [options]="{precision:2}">
                                     <mat-error *ngIf="f.efectivo.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="!f.efectivo.errors?.required && f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                     <mat-error *ngIf="!f.efectivo.errors?.required && f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                    <mat-error *ngIf="f.efectivo.errors?.difference">diferencia</mat-error>
+                                    <!-- <mat-error *ngIf="f.efectivo.errors?.difference">diferencia</mat-error> -->
                                 </mat-form-field>   
                                 <!-- Botón Moneda -->
-                                <sirio-cash-button class="text-center" [total]="f.efectivo.value" [disabled]="f.efectivo.value <= 0" [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+                                <!-- [disabled]="f.efectivo.value <= 0" -->
+                                <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.monto.value" [disabled]="f.esEfectivo.value <= 0"  [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
+
+                                <mat-form-field  fxFlex.gt-xs="auto"> 
+                                    <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
+                                    <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask [options]="{precision:2}" >
+                                    <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.totalDifference">total diferencia</mat-error>
+                                </mat-form-field>   
 
                                 <mat-form-field fxFlex.gt-xs="auto">
                                     <mat-label>{{'deposit.reference' | translate: {default: 'global.reference'} | translate }}
