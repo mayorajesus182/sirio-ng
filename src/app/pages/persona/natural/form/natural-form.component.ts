@@ -37,6 +37,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     hasBasicData = false;
     showAddress = false;
     showPep = false;
+    showInformacionLaboral = false;
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
@@ -355,8 +356,15 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
     }
 
-   
+    
 //openAddress() {
+    openInformacionLaboral() {
+        console.log('pruebas procesp');
+        
+        this.showInformacionLaboral=!this.showInformacionLaboral; 
+        this.cdr.detectChanges();
+    }
+
     openPep() {
         console.log('pruebas procesp');
         

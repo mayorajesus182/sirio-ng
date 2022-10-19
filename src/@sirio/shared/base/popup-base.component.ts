@@ -229,8 +229,10 @@ export class PopupBaseComponent {
     }
 
 
-    protected printErrors(){
-        
+    public printErrors():any[] {
+        if(!this.itemForm || !this.itemForm.controls){
+            return null;
+        }
         const result = [];
         Object.keys(this.itemForm.controls).forEach(key => {
 
@@ -245,7 +247,8 @@ export class PopupBaseComponent {
                 });
             }
         });
-        console.log("Errors:",result);
+        // console.log("Errors:", result);
+        return result;
 
     }
 
