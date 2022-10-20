@@ -2,9 +2,10 @@ import {
     AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation
 } from "@angular/core";
-import { FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { BehaviorSubject, Subject } from 'rxjs';
+import { RegularExpConstants } from "src/@sirio/constants";
 import { TipoDocumento, TipoDocumentoService } from "src/@sirio/domain/services/configuracion/tipo-documento.service";
 import { Persona } from "src/@sirio/domain/services/persona/persona.service";
 
@@ -24,10 +25,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isNew:boolean=true;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
-
+    @Input() taquilla: boolean=false;
     @Input() disabled: boolean = false;
-
-    @Output('update') update = new EventEmitter<any>();
+    @Output('result') result = new EventEmitter<any>();
 
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     persona:Persona={} as Persona;
@@ -36,6 +36,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     private _onDestroy = new Subject<void>();
 
     constructor(private dialog: MatDialog,
+        private fb: FormBuilder,
         private tipoDocumentoService: TipoDocumentoService,
         private cdref: ChangeDetectorRef) {
 
@@ -54,6 +55,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.tipoDocumentos.next(data);
         });
 
+        this.searchForm = this.fb.group({
+            tipoDocumento: new FormControl( undefined, [Validators.required]),
+            identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            nombre: new FormControl('')
+        });
+
+
         //             this.update.emit(e);
     }
 
@@ -65,7 +73,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    edit(){
+    query(){
 
     }
 
