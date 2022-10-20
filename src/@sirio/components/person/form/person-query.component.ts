@@ -61,7 +61,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.searchForm = this.fb.group({
             tipoDocumento: new FormControl( undefined, [Validators.required]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            nombre: new FormControl('')
+            nombre: new FormControl(''),
+            account: new FormControl('')
         });
 
 
@@ -80,7 +81,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    private queryBy(){
+    private queryByAccount(){
 
     }
 
