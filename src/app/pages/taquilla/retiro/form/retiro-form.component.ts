@@ -92,37 +92,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                     }
                 })
 
-                /* if (this.f.email.value == '' || this.f.telefono.value ==  ''){
-                     this.itemForm.controls['email'].setErrors({
-                         validacion: true
-                         
-                     });
-                 }else {
-                     this.f.email.setErrors(undefined);
-                 }
- */
-
-                this.f.email.valueChanges.subscribe(val => {
-
-                    console.log("email", this.f.email.errors);
-
-                    if (val && this.f.email.errors && this.f.email.errors.length == 0) {
-                        this.validateSmsOrEmail('telefono',false);
-                    }else {
-                        this.validateSmsOrEmail('telefono',true);
-                    }
-                });
-
-                this.f.telefono.valueChanges.subscribe(val => {
-
-                    console.log("telef", this.f.telefono.errors);
-
-                    if (val && this.f.telefono.errors && this.f.telefono.errors.length == 0) {
-                        this.validateSmsOrEmail('email',false);
-                    }else {
-                        this.validateSmsOrEmail('email',true,);
-                    }
-                });
+               
 
 
 
@@ -225,23 +195,6 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-   private  validateSmsOrEmail(fieldName: string, required: boolean, validator?:any ) {
-     
-
-       if (required){
-            this.f[fieldName].setValidators([Validators.required]);
-            //this.f[fieldName].updateValueAndValidity();
-        }else{
-            this.f[fieldName].clearValidators();
-            //this.f[fieldName].updateValueAndValidity();
-            this.f[fieldName].setErrors(null);
-        }
-
-        //this.f[fieldName].updateValueAndValidity();
-        //this.f[fieldName].setValue(value == undefined ? undefined : value);
-        this.cdr.detectChanges();
-
-    }
 
 
     buildForm() {
@@ -261,8 +214,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             montoCheque: new FormControl('', [Validators.required,]),
             fechaEmision: new FormControl(''),
             codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            email: new FormControl(undefined, [Validators.required]),
-            telefono: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            email: new FormControl(undefined, ),
+            telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
 
         });
 
