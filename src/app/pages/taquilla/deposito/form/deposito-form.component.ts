@@ -82,12 +82,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.f.esCheque.disable();
                 }
 
-                this.f.tipoDocumento.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.f.identificacion.enable()
-
-                    }
-                })
+               
 
 
                 this.f.efectivo.valueChanges.subscribe(val => {
