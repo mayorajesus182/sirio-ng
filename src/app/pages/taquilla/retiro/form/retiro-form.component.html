@@ -42,11 +42,11 @@
                                 </mat-slide-toggle>
                             </div>
 
-                           <!--  <div fxFlex="15">
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esAhorroLibreta">
+                            <div fxFlex="15">
+                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoChequeGerencia">
                                     {{'certifiedCheckPayment.certifiedCheckPayment' | translate: {default: 'global.certifiedCheckPayment'} | translate }}
                                 </mat-slide-toggle>
-                            </div>-->
+                            </div>
 
 
                         </div>
@@ -172,10 +172,11 @@
                                     <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
                                         }}
                                     </mat-label>
-                                    <input matInput name="email" autocomplete="off"  name="email"
+                                    <input matInput name="email" autocomplete="off" email-validate name="email"
                                         formControlName="email" placeholder="">                                    
                                      <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
-                                   <mat-error *ngIf="f.email.errors?.validacion">debe indicar por lo menos algun dato</mat-error>
+                                     <mat-error *ngIf="f.email.errors?.required">{{'error.required'
+                                        | translate}}</mat-error>
                                 </mat-form-field>   
 
 
@@ -184,9 +185,9 @@
                                     </mat-label>
                                     <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" 
                                         placeholder="">  
+                                        <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>                         
                                 </mat-form-field>
-
                             </div>                      
 
 
@@ -197,7 +198,7 @@
 
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid ">
                             <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
