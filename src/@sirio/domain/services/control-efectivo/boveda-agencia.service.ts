@@ -8,6 +8,7 @@ export interface BovedaAgencia {
     id: number;
     agencia: number;
     taquilla: number;
+    atm: string;
     movimientoEfectivo: string;
     monto: number;
     moneda: string;

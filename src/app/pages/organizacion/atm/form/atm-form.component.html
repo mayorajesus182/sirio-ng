@@ -38,7 +38,7 @@
                             <mat-form-field fxFlex.gt-sm="10">
                                 <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
                                 </mat-label>
-                                <input matInput maxlength="20" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
+                                <input matInput maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
                                 <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>

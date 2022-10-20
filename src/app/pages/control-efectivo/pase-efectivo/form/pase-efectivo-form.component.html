@@ -36,27 +36,37 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search fxFlex="30" [label]="'cashPass.movementType' | translate: {default: 'global.movementType'} | translate"
+                                <sirio-select-search fxFlex="auto" [label]="'cashPass.movementType' | translate: {default: 'global.movementType'} | translate"
                                     formControlName="movimientoEfectivo" [required]="true" [elements]="movimientos.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.movimientoEfectivo?.errors">
                                 </sirio-select-search>
 
                                 <sirio-select-search fxFlex="25" [label]="'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
-                                    formControlName="taquilla" [required]="true" [elements]="taquillas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.taquilla?.errors">
+                                    formControlName="taquilla" [elements]="taquillas.asObservable()" [attributeName]="'nombre'" [errors]="f.taquilla?.errors"
+                                    *ngIf="f.movimientoEfectivo.value === movimiento.TAQUILLA_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_TAQUILLA"
+                                    [required]="f.movimientoEfectivo.value === movimiento.TAQUILLA_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_TAQUILLA">
+                                </sirio-select-search>
+
+                                <sirio-select-search fxFlex="25" [label]="'cashPass.atm' | translate: {default: 'global.atm'} | translate"
+                                    formControlName="atm" [elements]="atms.asObservable()" [attributeName]="'nombre'" [errors]="f.atm?.errors"
+                                    *ngIf="f.movimientoEfectivo.value === movimiento.ATM_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_ATM"
+                                    [required]="f.movimientoEfectivo.value === movimiento.ATM_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_ATM">
                                 </sirio-select-search>
 
                                 <sirio-select-search fxFlex="25" [label]="'cashPass.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.moneda?.errors">
+                                    *ngIf="f.movimientoEfectivo.value != undefined" [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
-                                    <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
-                                        [options]="{precision:2}" required>
+                                    <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.availableBalance' |
+                                        translate }} {{saldoDisponible | number: '1.2'}})</mat-label>
+                                    <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
+                                        [options]="{precision:2}" required readonly="{{saldoDisponible <= 0}}">
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.balance">{{'error.insufficientBalance' | translate}}</mat-error>
+                                    <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf=" f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
 
                             </div>
@@ -69,7 +79,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || saldoDisponible <= 0">
                             <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

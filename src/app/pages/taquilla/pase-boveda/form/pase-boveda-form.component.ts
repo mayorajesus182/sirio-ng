@@ -9,6 +9,7 @@ import { GlobalConstants } from 'src/@sirio/constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { CajaTaquilla, CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
+import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -28,6 +29,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
     public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
+    saldoDisponible: number = 0;
 
     constructor(
         injector: Injector,
@@ -38,8 +40,9 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         private movimientoEfectivoService: MovimientoEfectivoService,
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
+        private saldoTaquillaService: SaldoTaquillaService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -84,18 +87,48 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
             moneda: new FormControl(cajaTaquilla.moneda || undefined, Validators.required),
             monto: new FormControl(cajaTaquilla.monto || undefined, Validators.required),
         });
+
+        this.f.moneda.valueChanges.subscribe(value => {
+            this.obtenerSaldo();
+        });
+
+        this.f.monto.valueChanges.subscribe(value => {
+            this.validarBalance(value);
+        });
+    }
+
+    obtenerSaldo() {
+
+        this.saldoDisponible = 0;
+
+        this.saldoTaquillaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
+            this.saldoDisponible = data;
+            this.validarBalance(this.f.monto.value);
+        });
+    }
+
+    validarBalance(monto: number) {
+
+        if (this.saldoDisponible < monto) {
+            this.itemForm.controls['monto'].setErrors({
+                balance: true
+            });
+            this.cdr.detectChanges();
+        } else {
+            this.f.monto.setErrors(undefined);
+        }
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.cajaTaquilla);    
+        this.updateData(this.cajaTaquilla);
         this.cajaTaquilla.taquilla = this.taquilla.id;
         this.cajaTaquilla.movimientoEfectivo = this.movimientoEfectivo.id;
 
         console.log('  this.cajaTaquilla   ', this.cajaTaquilla);
-        
+
         this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
     }
 
