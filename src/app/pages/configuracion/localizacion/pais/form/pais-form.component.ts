@@ -64,7 +64,7 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
             nombre: new FormControl(pais.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             gentilicio: new FormControl(pais.gentilicio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             codigoLocal: new FormControl(pais.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            
+            prefijo: new FormControl(pais.prefijo || '', [Validators.pattern(RegularExpConstants.NUMERIC_PLUS_LESS)]),
         });
         this.printErrors();
     }

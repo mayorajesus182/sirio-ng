@@ -1,13 +1,14 @@
-<div (sirioClickOutside)="onClickOutside()" class="toolbar-notifications"
+<div  class="toolbar-notifications"
      fxFlex="grow" fxLayout="row" fxLayoutAlign="start center">
-  <button (click)="toggleDropdown()" [class.open]="isOpen" class="button"
+  <button (click)="openQuickPanel.emit()"  class="button"
           fxFlex="grow" mat-button type="button">
-    <mat-icon [matBadgeHidden]="notifications.length === 0" [matBadge]="notifications.length" class="icon">
+          <!-- TODO: CARGAR EL NUMERO DE TAREAS -->
+    <mat-icon [matBadgeHidden]="total === 0" [matBadge]="total" class="icon">
       notifications_active
     </mat-icon>
   </button>
 
-  <div [class.open]="isOpen" class="dropdown">
+  <!-- <div [class.open]="isOpen" class="dropdown">
     <sirio-card>
       <sirio-card-header class="dropdown-header">
         <sirio-card-header-heading>
@@ -57,5 +58,5 @@
         Mark all as read
       </sirio-card-actions>
     </sirio-card>
-  </div>
+  </div> -->
 </div>

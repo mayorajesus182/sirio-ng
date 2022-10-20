@@ -27,7 +27,7 @@
                             <mat-form-field fxFlex.gt-xs="10" >
                                 <mat-label>{{'country.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput class="text-center" [value]="d.id" readonly class="text-center">
+                                <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="auto" >
@@ -42,10 +42,16 @@
                                 <input matInput [value]="d.gentilicio" readonly>
                             </mat-form-field> 
 
-                            <mat-form-field fxFlex="auto" >
+                            <mat-form-field fxFlex="10" >
+                                <mat-label>{{'country.prefix' | translate: {default: 'global.prefix'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.prefijo" readonly class="text-center">
+                            </mat-form-field>  
+
+                            <mat-form-field fxFlex="10" >
                                 <mat-label>{{'country.localCode' | translate: {default: 'global.localCode'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.codigoLocal" readonly>
+                                <input matInput [value]="d.codigoLocal" readonly class="text-center">
                             </mat-form-field>  
                         </div>
 

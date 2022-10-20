@@ -9,6 +9,7 @@ export interface Pais {
     nombre: string;
     codigoLocal: string;
     gentilicio: string;
+    prefijo: string;
     fechaCreacion?: any;
     activo?: number;
 }

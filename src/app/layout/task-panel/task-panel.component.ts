@@ -13,9 +13,9 @@ import { Workflow, WorkflowService } from 'src/@sirio/domain/services/workflow/w
 
 
 @Component({
-  selector: 'sirio-quickpanel',
-  templateUrl: './quickpanel.component.html',
-  styleUrls: ['./quickpanel.component.scss'],
+  selector: 'sirio-task-panel',
+  templateUrl: './task-panel.component.html',
+  styleUrls: ['./task-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
@@ -23,8 +23,7 @@ import { Workflow, WorkflowService } from 'src/@sirio/domain/services/workflow/w
 
 export class QuickpanelComponent implements OnInit {
 
-  @Input() notificPanel;
-  // private _taskSub: Subscription;
+  @Input() taskPanel: any;
   public tasks = new BehaviorSubject<Workflow[]>([]);
   bovedaAgencia: BovedaAgencia = {} as BovedaAgencia;
 
@@ -45,12 +44,14 @@ export class QuickpanelComponent implements OnInit {
     // this.socktask.instance();
 
     this.workflowService.assigned().subscribe(data => {
-      this.tasks.next(data);;
+      this.tasks.next(data);
+      console.log(data);
+      
     });
 
     this.router.events.subscribe((routeChange) => {
       if (routeChange instanceof NavigationEnd) {
-        this.notificPanel.close();
+        this.taskPanel.close();
       }
     });
 

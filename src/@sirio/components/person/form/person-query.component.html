@@ -1,0 +1,39 @@
+<div fxLayout="column" [formGroup]="searchForm">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+        <sirio-select-simple fxFlex="25" [label]="'global.documentType' | translate"
+            formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" [errors]="">
+        </sirio-select-simple>
+
+        <mat-form-field fxFlex="20">
+            <mat-label>{{'global.identification' | translate }} </mat-label>
+            <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" formControlName="identificacion" uppercase
+                required>
+            <mat-error *ngIf="search.identificacion.errors?.required">{{'error.required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                translate}}
+            </mat-error>
+            <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe!
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30">
+            <mat-label>{{'global.name' | translate }} </mat-label>
+            <input matInput  autocomplete="off" class="text-center" name="nombre" formControlName="nombre"
+                readonly="">
+        </mat-form-field>
+
+        <div fxFlex="15">
+            <button color="accent" class="btn-create" (click)="add()" *ngIf="!persona.id"  mat-raised-button  >
+                <i class="fa-light fa-user-plus fa-lg"></i>
+                {{'button.add' | translate: {default:'global.notfound'} | translate }}
+            </button>
+            <button color="accent" class="btn-create" (click)="edit()" *ngIf="persona.id || persona.numper"  mat-raised-button  [disabled]="!persona.id && !persona.numper">                
+                <i class="fa-light fa-user-pen fa-lg"></i>
+                {{'button.update' | translate: {default:'global.notfound'} | translate }}
+            </button>
+        </div>
+
+    </div>
+</div>
+<mat-divider></mat-divider>

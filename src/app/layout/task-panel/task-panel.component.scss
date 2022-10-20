@@ -10,6 +10,12 @@
   min-width: 330px;
   max-width: 330px;
   height: 100%;
+  
+}
+
+span.relative-time{
+  color: #8d8d8d;
+  font-size: 12px;
 }
 
 @media screen and (max-width: 959px) {
@@ -33,6 +39,8 @@
 
 p {
   margin: 0;
+  color: #959595;
+ 
 }
 
 .progress-bar {
@@ -48,4 +56,11 @@ p {
 
 h3 {
   padding: 16px 16px 0;
+  color: rgb(58, 58, 58);
+}
+
+h2 {
+  padding: 14px 14px 0;
+  font-weight: 600 !important;
+  
 }

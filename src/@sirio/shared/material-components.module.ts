@@ -47,6 +47,10 @@ import { NumAccountValidator } from './input/cuenta-validation.directive';
 import { EmailValidate } from './input/email-validation.directive';
 import { MinorAgeValidator } from './input/minAge-validation.directive';
 import { UppercaseDirective } from './input/uppercase.directive';
+import { ExcerptPipe } from './pipes/excerpt.pipe';
+import { RelativeTimePipe } from './pipes/relative-time.pipe';
+import { ShortNumberPipe } from './pipes/short-number.pipe';
+import { ShortSizePipe } from './pipes/short-size.pipe';
 export const customCurrencyMaskConfig = {
   align: "right",
   allowNegative: false,
@@ -72,6 +76,16 @@ export const DATE_FORMATS_CUSTOM = {
   },
 };
 
+const toInclude = [
+  NumAccountValidator,
+  MinorAgeValidator,
+  EmailValidate,
+  UppercaseDirective,
+  RelativeTimePipe,
+  ShortNumberPipe,
+  ShortSizePipe,
+  ExcerptPipe
+]
 
 @NgModule({
   imports: [
@@ -129,15 +143,11 @@ export const DATE_FORMATS_CUSTOM = {
     CurrencyMaskModule,
     NgxMaskModule,
     SweetAlert2Module,
-    NumAccountValidator,
-    MinorAgeValidator,
-    EmailValidate,
-    UppercaseDirective
+    toInclude
   ],
   
-  declarations: [NumAccountValidator,MinorAgeValidator,EmailValidate,UppercaseDirective],
+  declarations: toInclude,
   
-
 
   providers: [
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
