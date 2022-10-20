@@ -86,7 +86,6 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.atmService.actives().subscribe(data => {
             this.atms.next(data);
         });
-
     }
 
     buildForm(bovedaAgencia: BovedaAgencia) {
@@ -133,8 +132,6 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
 
             if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_TAQUILLA ||
                 this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_ATM) {
-
-                    console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiii   ');
                     
                 this.saldoAgenciaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
                     this.saldoDisponible = data;

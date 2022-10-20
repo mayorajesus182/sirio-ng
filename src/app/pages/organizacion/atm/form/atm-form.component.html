@@ -44,7 +44,7 @@
                                 <mat-error *ngIf="f.id.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-sm="20">
+                            <mat-form-field fxFlex.gt-sm="15">
                                 <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput minlength="1" maxlength="10" autocomplete="off" name="codigo" formControlName="codigo" uppercase required
@@ -53,6 +53,11 @@
                                 <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                             </mat-form-field>
+
+                            <sirio-select-search fxFlex="20" [label]="'atm.coin' | translate: {default: 'global.coin'} | translate"
+                                formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.moneda?.errors">
+                            </sirio-select-search>
 
                             <sirio-select-search fxFlex="auto" [label]="'atm.atmType' | translate: {default: 'global.atmType'} | translate"
                                 formControlName="tipoAtm" [required]="true" [elements]="tipoAtms.asObservable()" [attributeName]="'nombre'"

@@ -8,6 +8,7 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Atm {
     id: string;
     codigo: string;
+    moneda: string;
     tipoAtm: string;
     agencia: number;
     transportista: string;
