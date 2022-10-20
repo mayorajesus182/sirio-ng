@@ -7,7 +7,8 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { RegularExpConstants } from "src/@sirio/constants";
 import { TipoDocumento, TipoDocumentoService } from "src/@sirio/domain/services/configuracion/tipo-documento.service";
-import { Persona } from "src/@sirio/domain/services/persona/persona.service";
+import { CuentaBancariaService } from "src/@sirio/domain/services/cuenta-bancaria.service";
+import { Persona, PersonaService } from "src/@sirio/domain/services/persona/persona.service";
 
 
 
@@ -36,8 +37,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     private _onDestroy = new Subject<void>();
 
     constructor(private dialog: MatDialog,
-        private fb: FormBuilder,
+        private fb: FormBuilder,        
         private tipoDocumentoService: TipoDocumentoService,
+        private cuentaBancariaService: CuentaBancariaService,
+        private personaService: PersonaService,
         private cdref: ChangeDetectorRef) {
 
     }
@@ -73,7 +76,11 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    query(){
+    private queryByPerson(){
+
+    }
+
+    private queryBy(){
 
     }
 
