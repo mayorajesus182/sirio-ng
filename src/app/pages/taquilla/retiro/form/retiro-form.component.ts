@@ -246,8 +246,6 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
 
-
-
     }
 
     updateCashDetail(event) {
