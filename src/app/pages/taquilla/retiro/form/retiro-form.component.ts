@@ -183,9 +183,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.f.monto.setErrors(undefined);
         }
 
-        if (this.f.monto.value != this.f.montoCheque.value) {
-            //console.log("valor", +this.f.monto.value + "valor2", this.f.montoCheque.value);
-
+        if (this.f.monto.value != this.f.montoCheque.value) {    
             this.itemForm.controls['montoCheque'].setErrors({
                 differenceMonto: true
             });
