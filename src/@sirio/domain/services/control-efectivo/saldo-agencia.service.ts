@@ -33,7 +33,7 @@ export class SaldoAgenciaService {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldo`);
     }
 
-    getSaldoByMonedaAndAgencia(moneda: string, agencia: number): Observable<any> {
+    getSaldoByMonedaAndAgencia(moneda: string, agencia: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/${agencia}/agencia/saldo`);
     }
 

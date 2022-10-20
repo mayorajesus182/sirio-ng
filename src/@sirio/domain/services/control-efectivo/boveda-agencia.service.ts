@@ -6,7 +6,7 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface BovedaAgencia {
     id: number;
-    agencia: number;
+    agencia: string;
     taquilla: number;
     atm: string;
     movimientoEfectivo: string;
