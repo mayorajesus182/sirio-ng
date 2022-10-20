@@ -1,6 +1,6 @@
 <div  class="toolbar-notifications"
      fxFlex="grow" fxLayout="row" fxLayoutAlign="start center">
-  <button (click)="openQuickPanel.emit()" [class.open]="isOpen" class="button"
+  <button (click)="openQuickPanel.emit()"  class="button"
           fxFlex="grow" mat-button type="button">
           <!-- TODO: CARGAR EL NUMERO DE TAREAS -->
     <mat-icon [matBadgeHidden]="total === 0" [matBadge]="total" class="icon">

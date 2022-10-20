@@ -11,8 +11,9 @@ import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
 export class ToolbarNotificationsComponent implements OnInit {
 
   @Output() openQuickPanel = new EventEmitter();
-  notifications: any[];
+  
   isOpen: boolean;
+  //TODO: esto debo obtenerlo de un colsolidado por usuario de tareas
   total: number=2;
 
   constructor() {
