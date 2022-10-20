@@ -132,7 +132,7 @@
                                 <mat-form-field fxFlex.gt-sm="30">
                                     <mat-label>{{'form.sms' | translate: {default: 'global.sms'} | translate }}
                                     </mat-label>
-                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="">
+                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="" >
                                   </mat-form-field>
                             </div>
                             <!-- Quinta Fila del Formula Nota: borrar este comentario al final -->
@@ -168,7 +168,7 @@
                                                 <mat-label>{{'form.bankAccount' | translate: {default: 'global.bankAccount'} | translate }}
                                                 </mat-label>
                                                 <input matInput name="numeroCuentaCheque" autocomplete="off" num-account-validate formControlName="numeroCuentaCheque" mask="0000 0000 0000 0000 0000" required placeholder=""class="text-center">
-                                                <!-- <mat-error *ngIf="f.numeroCuentaCheque.errors?.account">El num. de cuenta es invalido</mat-error> -->
+                                                <mat-error *ngIf="f.numeroCuentaCheque.errors?.account">El num. de cuenta es invalido</mat-error>
                                             </mat-form-field>
 
                                             <mat-form-field fxFlex.gt-xs="10">

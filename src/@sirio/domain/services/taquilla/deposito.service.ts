@@ -6,6 +6,19 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
+export interface Cheque {
+    id: number;
+    deposito: number;
+    entidadFinanciera: number;
+    serial: number;
+    numeroCuenta: string;
+    tipoDocumento: string;
+    codigoSeguridad: string;
+    fechaEmision: Date;
+    monto: number;
+    devolver: number;
+    motivoDevolucion: string;
+}
 
 export interface Deposito {
     id: number;
@@ -34,9 +47,13 @@ export interface Deposito {
     email: string;
     estatusOperacion: string;
     detalles:ConoMonetario[];
+    cheques: Cheque[];
     
 }
+//Pruebaaaaa para preguntar
 
+
+// Fin de la prueba de preguntar
 @Injectable({
     providedIn:'root'
 })

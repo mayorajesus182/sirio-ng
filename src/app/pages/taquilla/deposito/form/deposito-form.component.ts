@@ -84,6 +84,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     if (val) {
                         this.f.identificacion.enable()
                     }
+
                     this.f.identificacion.reset();
                     this.persona = {} as Persona;
                     this.cuentaOperacion = {} as CuentaBancariaOperacion;
@@ -177,7 +178,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                         this.cuentasBancarias.next([]);
                         this.f.esEfectivo.enable();
                         this.f.esCheque.disable();
-
                     }
                 });
 
