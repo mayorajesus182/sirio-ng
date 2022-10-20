@@ -31,6 +31,7 @@ export class HelpComponentsComponent implements OnInit {
   col3 = `1 1 calc(33.3333% - ${this._gap / 1.5}px)`;
   hasBasicData = true;
   isNew = true;
+  tipoPersona:string='N';
 
 
   // moneda: Moneda = {

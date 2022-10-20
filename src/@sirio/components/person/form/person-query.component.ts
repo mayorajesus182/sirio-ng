@@ -5,6 +5,8 @@ import {
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { BehaviorSubject, Subject } from 'rxjs';
+import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
+import { fadeInUpAnimation } from "src/@sirio/animations/fade-in-up.animation";
 import { RegularExpConstants } from "src/@sirio/constants";
 import { TipoDocumento, TipoDocumentoService } from "src/@sirio/domain/services/configuracion/tipo-documento.service";
 import { CuentaBancariaService } from "src/@sirio/domain/services/cuenta-bancaria.service";
@@ -15,11 +17,12 @@ import { Persona, PersonaService } from "src/@sirio/domain/services/persona/pers
 
 
 @Component({
-    selector: 'sirio-person-query',
+    selector: 'sirio-person-query[tipo_persona]',
     templateUrl: './person-query.component.html',
     styleUrls: ['./person-query.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 export class PersonQueryComponent implements OnInit, AfterViewInit {
     searchForm: FormGroup;
@@ -32,6 +35,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     persona:Persona={} as Persona;
+
+    private loading = new BehaviorSubject<boolean>(false);
 
 
     private _onDestroy = new Subject<void>();
@@ -48,7 +53,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
 
-
         this.cdref.detectChanges();
     }
 
@@ -59,14 +63,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         });
 
         this.searchForm = this.fb.group({
-            tipoDocumento: new FormControl( undefined, [Validators.required]),
-            identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            tipoDocumento: new FormControl(undefined),
+            identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombre: new FormControl(''),
             account: new FormControl('')
         });
 
 
-        //             this.update.emit(e);
     }
 
     get search() {
@@ -77,11 +80,33 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    private queryByPerson(){
+    public queryByPerson(){
+        const tipoDocumento = this.search.tipoDocumento.value;
+        const identificacion = this.search.identificacion.value;
+        
+        this.loading.next(true);
 
+        if (tipoDocumento && identificacion) {
+            this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                console.log("result query:", data);
+                this.persona=data;
+                this.search.nombre.setValue(data.nombre);
+                this.loading.next(false);
+                this.cdref.detectChanges();
+                
+            }, err => {
+                
+                this.persona = {} as Persona;
+                
+                this.loading.next(false);
+                this.search.identificacion.setErrors({ notexists: true });
+                
+                this.cdref.detectChanges();
+            })
+        }
     }
 
-    private queryByAccount(){
+    public queryByAccount(){
 
     }
 
