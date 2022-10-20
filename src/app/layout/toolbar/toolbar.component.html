@@ -21,7 +21,7 @@
 
     <sirio-toolbar-search fxHide fxShow.gt-sm fxHide.gt-md class="toolbar-button"></sirio-toolbar-search>
 
-    <sirio-toolbar-notifications class="toolbar-button"></sirio-toolbar-notifications>
+    <sirio-toolbar-notifications class="toolbar-button" (openQuickPanel)="openQuickPanel.emit()"></sirio-toolbar-notifications>
 
     <sirio-toolbar-lang class="toolbar-button"></sirio-toolbar-lang>
 

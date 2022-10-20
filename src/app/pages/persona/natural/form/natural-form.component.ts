@@ -17,7 +17,7 @@ import { EstadoCivil, EstadoCivilService } from 'src/@sirio/domain/services/conf
 import { Genero, GeneroService } from 'src/@sirio/domain/services/configuracion/persona-natural/genero.service';
 import { Profesion, ProfesionService } from 'src/@sirio/domain/services/configuracion/persona-natural/profesion.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion.service';
+import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -36,6 +36,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
+    showPep = false;
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
@@ -354,14 +355,14 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
     }
 
-    editAddress(data:Direccion) {
-        this.showFormPopup(DireccionFormPopupComponent, !data?{persona:this.personaNatural.id}:data, !data,'60%').afterClosed().subscribe(event=>{
-            if(event){
-                this.refreshDirecciones.next(true);
-            }
-        }); 
+   
+//openAddress() {
+    openPep() {
+        console.log('pruebas procesp');
+        
+        this.showPep=!this.showPep; 
+        this.cdr.detectChanges();
     }
-
     openAddress() {
         this.showAddress=!this.showAddress; 
         this.cdr.detectChanges();

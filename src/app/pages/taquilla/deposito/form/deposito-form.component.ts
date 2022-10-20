@@ -82,25 +82,18 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.f.esCheque.disable();
                 }
 
-                this.f.tipoDocumento.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.f.identificacion.enable()
-
-                    }
-                })
+               
 
 
                 this.f.efectivo.valueChanges.subscribe(val => {
                     if (val) {
-                        this.f.identificacion.enable()
-                        if (this.f.efectivo.value != this.detalleEfectivo) {
-                            this.itemForm.controls['efectivo'].setErrors({
-                                difference: true
-                            });
-                            this.cdr.detectChanges();
-                        } else {
-                            this.f.efectivo.setErrors(undefined);
-                        }
+                        this.calculateDifferences();
+                    }
+                })
+
+                this.f.monto.valueChanges.subscribe(val => {
+                    if (val) {
+                        this.calculateDifferences();
                     }
                 })
 
@@ -166,6 +159,32 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     }
 
+
+    calculateDifferences() {
+
+        let efectivo = this.f.efectivo.value == undefined ? 0 : this.f.efectivo.value;
+        let chequePropio = this.f.chequePropio.value == undefined ? 0 : this.f.chequePropio.value;
+        let chequeOtros = this.f.chequeOtros.value == undefined ? 0 : this.f.chequeOtros.value;
+
+        if (this.f.efectivo.value != this.detalleEfectivo) {
+            this.itemForm.controls['efectivo'].setErrors({
+                difference: true
+            });
+            this.cdr.detectChanges();
+        } else {
+            this.f.efectivo.setErrors(undefined);
+        }
+
+        if (efectivo + chequePropio + chequeOtros  != this.f.monto.value) {
+            this.itemForm.controls['monto'].setErrors({
+                totalDifference: true
+            });
+            this.cdr.detectChanges();
+        } else {
+            this.f.monto.setErrors(undefined);
+        }
+    }
+
     buildForm() {
         this.itemForm = this.fb.group({
 
@@ -229,8 +248,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         } else {
             this.f.efectivo.setErrors(undefined);
         }
-        this.conoActual = event.desgloseConoActual;
-        this.conoAnterior = event.desgloseConoAnterior;
+        
+        this.conoActual=event.desgloseConoActual;
+        this.conoAnterior=event.desgloseConoAnterior;
         this.cdr.detectChanges();
     }
 }

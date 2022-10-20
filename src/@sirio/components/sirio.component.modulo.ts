@@ -6,14 +6,16 @@ import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { MaterialModule } from "../shared/material-components.module";
 import { SharedComponentModule } from "../shared/shared-components.module";
-import { CashButtonComponent } from "./cash/control/cash.button.component";
+import { CashButtonComponent } from "./cash/control/cash-button.component";
 import { CashDetailComponent } from "./cash/form/cash-detail.form.component";
 import { CashFormPopupComponent } from "./cash/popup/cash-form.popup.component";
+import { PersonQueryComponent } from "./person/form/person-query.component";
 
 const components = [
     CashDetailComponent,
     CashFormPopupComponent,
-    CashButtonComponent
+    CashButtonComponent,
+    PersonQueryComponent
 ]
 
 @NgModule({

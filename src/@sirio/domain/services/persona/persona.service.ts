@@ -15,7 +15,7 @@ export interface Persona{
     providedIn:'root'
 })
 export class PersonaService {
-    searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService

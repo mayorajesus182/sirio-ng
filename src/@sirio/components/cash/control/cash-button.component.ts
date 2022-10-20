@@ -13,8 +13,8 @@ import { CashFormPopupComponent } from "../popup/cash-form.popup.component";
 
 @Component({
     selector: 'sirio-cash-button',
-    templateUrl: './cash.button.component.html',
-    styleUrls: ['./cash.button.component.scss'],
+    templateUrl: './cash-button.component.html',
+    styleUrls: ['./cash-button.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })

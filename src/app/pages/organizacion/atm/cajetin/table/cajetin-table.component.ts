@@ -47,6 +47,8 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
     this.cajetinService.activesByAtm(this.atmId).subscribe((data) => {
       this.cajetinData = data;
       this.cajetines.next(data.slice());
+      console.log(data);
+      
     });
     
     //TODO: ESTO DE USD EN DURO
@@ -118,7 +120,21 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
       this.btnState = false;
       this.errorResponse(undefined, false)
     });
+  }
 
+
+  selectConoMonetario(event,row:Cajetin) {
+    console.log('cono monetario',event);
+    row.conoMonetario = Number.parseInt((event.target as HTMLSelectElement).value);    
+  }
+
+  denominacion(row:Cajetin){ 
+    if(row){
+      return this.conos.filter(c=> c.id==row.conoMonetario).map(c=>c.denominacion+" - "+c.moneda)[0];
+    }else{
+      return '';
+    }
+    // retorno la denominacion
   }
 
 
