@@ -36,14 +36,14 @@
                             <mat-form-field fxFlex="15">
                                 <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase required>
-                                <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}
+                                <input matInput minlength="4" maxlength="4" autocomplete="off" name="id" formControlName="id" uppercase required>
+                                <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}
                                 </mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharater' | translate}}
                                 </mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}
                                 </mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
+                                <mat-error *ngIf="f.id.errors?.minlength">Debe tener 4 caracteres</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="70">
@@ -139,7 +139,7 @@
                             <mat-form-field fxFlex="50">
                                 <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
                                 </mat-label>
-                                <input matInput autocomplete="off" name="latitud" formControlName="latitud" uppercase currencyMask [options]="{precision:8}"
+                                <input matInput autocomplete="off" name="latitud" formControlName="latitud"  currencyMask [options]="{precision:8}"
                                     max="999.99999999" required>
                                 <mat-error *ngIf="f.latitud.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.latitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
@@ -148,7 +148,7 @@
                             <mat-form-field fxFlex="50">
                                 <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
                                 </mat-label>
-                                <input matInput autocomplete="off" name="longitud" formControlName="longitud" uppercase currencyMask [options]="{precision:8}"
+                                <input matInput autocomplete="off" name="longitud" formControlName="longitud"  currencyMask [options]="{precision:8}"
                                     max="999.99999999" required>
                                 <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.longitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
