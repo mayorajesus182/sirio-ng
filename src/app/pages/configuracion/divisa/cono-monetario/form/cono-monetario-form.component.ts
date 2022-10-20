@@ -70,10 +70,10 @@ export class ConoMonetarioFormComponent extends FormBaseComponent implements OnI
 
     buildForm(conomonetario: ConoMonetario) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: conomonetario.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            id: new FormControl(conomonetario.id || undefined),
             moneda: new FormControl(conomonetario.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             denominacion : new FormControl(conomonetario.denominacion || '', [Validators.required, ]),
-            esBillete: new FormControl(conomonetario.esBillete || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
+            esBillete: new FormControl(conomonetario.esBillete || true),
         });
     }
 
