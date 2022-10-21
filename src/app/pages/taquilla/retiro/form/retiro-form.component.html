@@ -182,7 +182,7 @@
                                     <mat-label>{{'withdrawal.sms' | translate: {default: 'global.sms'} | translate }}
                                     </mat-label>
                                     <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00"
-                                        placeholder="" [required]="!f.email.value">
+                                        placeholder="" [required]="!f.telefono.value">
                                     <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
