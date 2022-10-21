@@ -36,14 +36,22 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px">
 
                             <div fxFlex="15">
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque">
+                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque" 
+                                (change) ="esPagoChequeGerencia = false && esCuentaCorrienteAhorro= false">
                                     {{'checkPayment.checkPayment' | translate: {default: 'global.checkPayment'} | translate }}
                                 </mat-slide-toggle>
                             </div>
 
                             <div fxFlex="15">
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoChequeGerencia">
+                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoChequeGerencia" 
+                                (change) ="esPagoCheque = false || esCuentaCorrienteAhorro= false">
                                     {{'certifiedCheckPayment.certifiedCheckPayment' | translate: {default: 'global.certifiedCheckPayment'} | translate }}
+                                </mat-slide-toggle>
+                            </div>
+                            <div fxFlex="15">                          
+                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esCuentaCorrienteAhorro"
+                                (change) ="esPagoCheque = false  || esPagoChequeGerencia = false" >
+                                    {{'checkPayment.checkAccount' | translate: {default: 'global.checkPayment'} | translate }}
                                 </mat-slide-toggle>
                             </div>
 
@@ -51,19 +59,13 @@
                         </div>
                     </div>
 
-
-
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
+            <form [formGroup]="itemForm" *ngIf="itemForm">
 
 
                         <div fxLayout="column">
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
-                                
-                            
-                            </div>
-
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
+                           
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque || esPagoChequeGerencia">
 
 
                                 <mat-form-field fxFlex.gt-sm="25">
@@ -126,9 +128,37 @@
                                 </mat-form-field>
                             </div>
 
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoChequeGerencia && !esPagoCheque">
+                                <mat-form-field fxFlex.gt-sm="50">
+                                    <mat-label>{{'withdrawal.beneficiary' | translate: {default: 'global.beneficiary'} | translate
+                                        }}
+                                    </mat-label>
+                                    <input matInput maxlength="35" name="comprador" autocomplete="off" formControlName="comprador"
+                                        placeholder="" required>
+                                        <mat-error *ngIf="f.beneficiario.errors?.required">{{'error.required'
+                                            | translate}}</mat-error>
+                                    <mat-error *ngIf="f.comprador.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                        
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-sm="50">
+                                    <mat-label>{{'withdrawal.beneficiary' | translate: {default: 'global.beneficiary'} | translate
+                                        }}
+                                    </mat-label>
+                                    <input matInput maxlength="35" name="beneficiario" autocomplete="off" formControlName="beneficiario"
+                                        placeholder="" required>
+                                        <mat-error *ngIf="f.beneficiario.errors?.required">{{'error.required'
+                                            | translate}}</mat-error>
+                                    <mat-error *ngIf="f.beneficiario.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    
+                                </mat-form-field>
+                            
+                            </div>
 
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
+
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque || esPagoChequeGerencia">
 
 
                                 <mat-form-field fxFlex="20">
@@ -168,7 +198,7 @@
                             </div>
 
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque">
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esPagoCheque || esPagoChequeGerencia">
 
                                 <mat-form-field fxFlex.gt-sm="50">
                                     <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate

@@ -33,6 +33,8 @@ export interface Retiro {
     conoAnterior: number;
     telefono: string;
     email:string;
+    comprador: string;
+    beneficiario: string;
     detalles:ConoMonetario[];
     //estatusOperacion: string;
       

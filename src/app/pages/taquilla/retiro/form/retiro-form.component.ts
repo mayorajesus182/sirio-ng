@@ -47,6 +47,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     esPagoCheque: boolean = false;
     detalleEfectivo: number = 0;
     esPagoChequeGerencia: boolean = false;
+    esCuentaCorrienteAhorro: boolean = false;
     todayValue: moment.Moment;
 
     constructor(
@@ -83,7 +84,10 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                      this.tipoDocumentos.next(data);
                  });*/
 
-                this.f.numeroCuenta.valueChanges.subscribe(val => {
+                //  this.f.esPagoCheque.disable();
+                //  this.f.esPagoChequeGerencia.disable();
+               
+                 this.f.numeroCuenta.valueChanges.subscribe(val => {
                     if (val) {
                         this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
                             this.tipoDocumentos.next(data);
@@ -95,8 +99,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                
 
 
-
-                    this.f.monto.valueChanges.subscribe(val => {
+                   this.f.monto.valueChanges.subscribe(val => {
                         if (val) {
                             this.calculateDifferences();
                         }
@@ -125,7 +128,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                                 // const monedaNombre = data.monedaNombre;
                                 this.moneda.id = this.cuentaBancariaOperacion.moneda;
                                 this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                                // console.log("DATOS", data);                   
+                                console.log("DATOS", data);                   
                                 this.cdr.markForCheck();
 
                             }, err => {
@@ -169,6 +172,40 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         });
     }
 
+    changed(){
+        console.log("esPagoCheque",this.esPagoCheque)
+        console.log("esPagoChequeGerencia",this.esPagoChequeGerencia)
+
+    /*  if (this.esCuentaCorrienteAhorro = true ){
+            console.log("siii");
+            this.esPagoCheque = false;
+            this.esPagoChequeGerencia= false;
+            this.persona = {} as Persona;
+            this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+        }else {
+
+
+        }*/
+
+      if (this.esPagoCheque = true ){
+            console.log("pagoCheque",this.esPagoCheque)
+            
+            this.esPagoChequeGerencia = false;
+            //this.esCuentaCorrienteAhorro = false;
+            return
+        }else{return}
+
+
+        if (this.esPagoChequeGerencia = true ){
+            console.log("cheGere",this.esPagoCheque)
+            
+            this.esPagoCheque = false;
+           // this.esCuentaCorrienteAhorro = false;
+        }else{this.esPagoCheque = false;}
+
+
+
+      }
 
     calculateDifferences() {
 
@@ -200,7 +237,12 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
 
             esPagoCheque: new FormControl(false),
+            esPagoChequeGerencia: new FormControl(false),
+            esCuentaCorrienteAhorro: new FormControl(false),
 
+
+           comprador: new FormControl('', [Validators.required,Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
+           beneficiario: new FormControl('', [Validators.required,Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
             numper: new FormControl(undefined),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
