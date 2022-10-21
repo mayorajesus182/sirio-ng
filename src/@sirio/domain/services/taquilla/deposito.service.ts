@@ -14,7 +14,7 @@ export interface Cheque {
     numeroCuenta: string;
     tipoDocumento: string;
     codigoSeguridad: string;
-    fechaEmision: Date;
+    fechaEmision: any;
     monto: number;
     devolver: number;
     motivoDevolucion: string;
@@ -50,10 +50,6 @@ export interface Deposito {
     cheques: Cheque[];
     
 }
-//Pruebaaaaa para preguntar
-
-
-// Fin de la prueba de preguntar
 @Injectable({
     providedIn:'root'
 })
@@ -71,6 +67,5 @@ export class DepositoService {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
-
    
 }
