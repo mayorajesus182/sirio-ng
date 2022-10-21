@@ -5,7 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
 import { MovimientoEfectivoConstants } from 'src/@sirio/constants/movimiento.efectivo.constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
@@ -32,7 +31,9 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public atms = new BehaviorSubject<Atm[]>([]);
     saldoDisponible: number = 0;
-    movimiento: MovimientoEfectivoConstants = MovimientoEfectivoConstants;
+    movimiento = MovimientoEfectivoConstants;
+    atmSeleccionado: Atm = {} as Atm;
+    monedaAtm: Moneda = {} as Moneda;
 
     constructor(
         injector: Injector,
@@ -97,28 +98,43 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
         });
 
-        this.f.movimientoEfectivo.valueChanges.subscribe(value => {
+        this.f.movimientoEfectivo.valueChanges.subscribe(val => {
             this.f.taquilla.setValue(undefined);
             this.f.atm.setValue(undefined);
+            this.f.moneda.setValue(undefined);
+            this.f.taquilla.setErrors(undefined);
+            this.f.atm.setErrors(undefined);
+            this.f.moneda.setErrors(undefined);
+            this.monedaAtm = { nombre: '' } as Moneda;
+            this.obtenerSaldo();
             this.cdr.detectChanges();
-            this.obtenerSaldo();
         });
 
-        this.f.taquilla.valueChanges.subscribe(value => {
-            this.obtenerSaldo();
+        this.f.taquilla.valueChanges.subscribe(val => {
+            if (val) {
+                this.obtenerSaldo();
+            }
         });
 
-        this.f.atm.valueChanges.subscribe(value => {
-            this.obtenerSaldo();
+        this.f.atm.valueChanges.subscribe(val => {
+            if (val) {
+                this.atmSeleccionado = this.atms.value.filter(e => e.id == val)[0] as Atm;
+                this.monedaAtm = this.monedas.value.filter(e => e.id == this.atmSeleccionado.moneda)[0] as Moneda;
+                this.f.moneda.setValue(this.atmSeleccionado.moneda);
+                this.obtenerSaldo();
+            }
         });
 
-        this.f.moneda.valueChanges.subscribe(value => {
-            this.obtenerSaldo();
+        this.f.moneda.valueChanges.subscribe(val => {
+            if (val) {
+                this.obtenerSaldo();
+            }
         });
 
-        this.f.monto.valueChanges.subscribe(value => {
-            this.validarBalance(value);
+        this.f.monto.valueChanges.subscribe(val => {
+            this.validarBalance(val);
         });
+
     }
 
     obtenerSaldo() {
@@ -126,40 +142,53 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.saldoDisponible = 0;
         this.f.monto.setValue(undefined);
 
-        if (this.f.movimientoEfectivo.value != undefined &&
-            this.f.moneda.value != undefined &&
-            (this.f.taquilla.value != undefined || this.f.atm.value != undefined)) {
+        console.log('this.f.movimientoEfectivo.value   ', this.f.movimientoEfectivo.value);
+        console.log('this.f.moneda.value   ', this.f.moneda.value);
+        console.log('this.f.taquilla.value   ', this.f.taquilla.value);
+        console.log('this.f.atm.value   ', this.f.atm.value);
 
-            if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_TAQUILLA ||
-                this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_ATM) {
-                    
-                this.saldoAgenciaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
-                    this.saldoDisponible = data;
-                    this.validarBalance(this.f.monto.value);
-                });
+        if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
 
-            } else if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.TAQUILLA_BOVEDA) {
+            if (this.f.movimientoEfectivo.value !== undefined &&
+                this.f.moneda.value !== undefined &&
+                (this.f.taquilla.value !== undefined || this.f.atm.value !== undefined)) {
 
-                this.saldoTaquillaService.getSaldoByMonedaAndTaquilla(this.f.moneda.value, this.f.taquilla.value).subscribe(data => {
-                    this.saldoDisponible = data;
-                    this.validarBalance(this.f.monto.value);
-                });
+                if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_TAQUILLA ||
+                    this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_ATM) {
 
-            } else if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.ATM_BOVEDA) {
-                console.log('Voy por el saldo en atm   ');
-                this.validarBalance(this.f.monto.value);
+                    this.saldoAgenciaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
+                        this.saldoDisponible = data;
+                        this.validarBalance(this.f.monto.value);
+                        this.cdr.detectChanges();
+
+                    });
+
+                } else if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.TAQUILLA_BOVEDA) {
+
+                    this.saldoTaquillaService.getSaldoByMonedaAndTaquilla(this.f.moneda.value, this.f.taquilla.value).subscribe(data => {
+                        this.saldoDisponible = data;
+                        this.validarBalance(this.f.monto.value);
+                        this.cdr.detectChanges();
+
+                    });
+
+                }
             }
+        } else {
+            this.cdr.detectChanges();
         }
+
     }
 
     validarBalance(monto: number) {
-
-        if (this.saldoDisponible < monto) {
-            this.itemForm.controls['monto'].setErrors({
-                balance: true
-            });
-            this.cdr.detectChanges();
-        } 
+        if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
+            if (this.saldoDisponible < monto) {
+                this.itemForm.controls['monto'].setErrors({
+                    balance: true
+                });
+                this.cdr.detectChanges();
+            }
+        }
     }
 
     save() {
@@ -167,6 +196,9 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             return;
 
         this.updateData(this.bovedaAgencia);
+
+        console.log('this.bovedaAgencia  ', this.bovedaAgencia);
+
         this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
     }
 

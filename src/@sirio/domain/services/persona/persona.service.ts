@@ -6,8 +6,8 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface Persona{
     id: number;
-    numper: string;
     nombre: string;
+    numper: string;
     tipoDocumento: string;
 }
 
