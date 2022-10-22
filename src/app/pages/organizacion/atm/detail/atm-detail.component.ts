@@ -1,10 +1,10 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { GlobalConstants } from 'src/@sirio/constants';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegionService } from 'src/@sirio/domain/services/organizacion/region.service';
+import { GlobalConstants } from 'src/@sirio/constants';
+import { AtmService } from 'src/@sirio/domain/services/organizacion/atm.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -23,7 +23,7 @@ export class AtmDetailComponent extends FormBaseComponent implements OnInit {
     injector: Injector,
     private router: Router,
     private route: ActivatedRoute,
-    private regionService: RegionService) {
+    private atmService: AtmService) {
     super(undefined, injector);
   }
 
@@ -32,8 +32,9 @@ export class AtmDetailComponent extends FormBaseComponent implements OnInit {
 
     this.loadingDataForm.next(true);
 
-    this.regionService.detail(id).subscribe(data => {
+    this.atmService.detail(id).subscribe(data => {
       this.data = data;
+      console.log(data)
       this.loadingDataForm.next(false);
     });
 

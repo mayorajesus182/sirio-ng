@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoAtm, TipoAtmService } from 'src/@sirio/domain/services/configuracion/tipo-atm.service';
 import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { Atm, AtmService } from 'src/@sirio/domain/services/organizacion/atm.service';
@@ -25,6 +26,7 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
     public agencias = new BehaviorSubject<Agencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     public tipoAtms = new BehaviorSubject<TipoAtm[]>([]);
+    public monedas = new BehaviorSubject<Moneda[]>([]);
     remoto = GlobalConstants.REMOTO;
     oficina = GlobalConstants.OFICINA;
 
@@ -35,6 +37,7 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
         private atmService: AtmService,
         private agenciaService: AgenciaService,
         private transportistaService: TransportistaService,
+        private monedaService: MonedaService,
         private tipoAtmService: TipoAtmService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -70,9 +73,7 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
         }
 
         if (!id) {
-            this.f.codigo.valueChanges.subscribe(value => {
-                console.log('codigoooooooooo');
-                
+            this.f.codigo.valueChanges.subscribe(value => {               
                 if (!this.f.codigo.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
                 }
@@ -87,6 +88,10 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
             this.transportistas.next(data);
         });
 
+        this.monedaService.actives().subscribe(data => {
+            this.monedas.next(data);
+        });
+
         this.tipoAtmService.actives().subscribe(data => {
             this.tipoAtms.next(data);
         });
@@ -97,6 +102,7 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({ value: atm.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             codigo: new FormControl({ value: atm.codigo || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            moneda: new FormControl(atm.moneda || undefined, [Validators.required]),
             tipoAtm: new FormControl(atm.tipoAtm || undefined, [Validators.required]),
             agencia: new FormControl(atm.agencia || undefined),
             transportista: new FormControl(atm.transportista || undefined),
