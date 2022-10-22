@@ -8,7 +8,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Pases de Efectivo' },
         loadChildren: () => import('./pase-efectivo/pase-efectivo.module').then(m => m.PaseEfectivoModule),
     },
-
+    {
+        path: 'arqueo-atm',
+        data: { title: 'Arqueos de ATM' },
+        loadChildren: () => import('./arqueo-atm/arqueo-atm.module').then(m => m.ArqueoAtmModule),
+    },
 ];
 
 

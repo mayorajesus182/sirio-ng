@@ -12,7 +12,7 @@ const atmRoutes: Routes = [
     {
         path: '',
         component: AtmTableComponent,
-        data: { title: 'Atmes' }
+        data: { title: 'ATM' }
     },
     {
         path: 'add',
