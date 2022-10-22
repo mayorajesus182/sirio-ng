@@ -158,7 +158,6 @@
                     <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es invalido</mat-error>
                   </mat-form-field>
 
-
                   <mat-form-field fxFlex="auto">
                     <mat-label>Fecha Nacimiento</mat-label>
                     <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha"
@@ -172,8 +171,6 @@
                   </mat-form-field>
                   <mat-datepicker #fechaPicker></mat-datepicker>
 
-
-
                   <mat-form-field fxFlex.gt-sm="30">
                     <mat-label>{{'form.phone' | translate: {default: 'global.phone'} | translate }}
                     </mat-label>
@@ -181,7 +178,6 @@
                     <mat-hint>Ingrese telefono movil</mat-hint>
                     <mat-error *ngIf="form2.telefono.errors?.required">Es requerido</mat-error>
                   </mat-form-field>
-
 
                   <mat-form-field fxFlex="auto">
                     <mat-label>{{'form.mount' | translate: {default: 'global.amount'} | translate }}
@@ -192,7 +188,6 @@
                     <mat-error *ngIf="form2.monto.errors?.max">No puede superior a 999.999.999.999.999,99</mat-error>
                     <mat-error *ngIf="form2.monto.errors?.min">Debe ser superior a 0,00</mat-error>
                   </mat-form-field>
-
                 </div>
               </div>
             </mat-expansion-panel>
