@@ -25,7 +25,7 @@
                     <div class="result" fxLayout="column" *ngIf="d.id">
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                            <mat-form-field fxFlex="auto">
+                            <mat-form-field fxFlex="10">
                                 <mat-label>{{'carrierCompany.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly>
@@ -37,15 +37,7 @@
                                 <input matInput class="text-center" [value]="d.rif" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="60">
-                                <mat-label>{{'carrierCompany.zone' | translate: {default: 'global.zone'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.zona" readonly>
-                            </mat-form-field>
-                        </div>
-
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                            <mat-form-field fxFlex.gt-xs="100">
+                            <mat-form-field fxFlex.gt-xs="auto">
                                 <mat-label>{{'carrierCompany.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
