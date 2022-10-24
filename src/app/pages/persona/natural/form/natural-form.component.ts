@@ -1,7 +1,8 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
@@ -41,7 +42,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
-    constante = GlobalConstants;
+    constants = GlobalConstants;
     estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
@@ -54,7 +55,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     actividadesEconomicas = new BehaviorSubject<ActividadEconomica[]>([]);
     actividadesEspecificas = new BehaviorSubject<ActividadEspecifica[]>([]);
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
-    
+
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
     constructor(
@@ -62,6 +63,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        protected router: Router,
         private personaService: PersonaService,
         private personaNaturalService: PersonaNaturalService,
         private tipoDocumentoService: TipoDocumentoService,
@@ -78,7 +80,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         super(dialog, injector);
     }
 
-    get search(){
+    get search() {
         return this.searchForm ? this.searchForm.controls : {};
     }
 
@@ -105,35 +107,57 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     ngOnInit() {
 
-        let id = this.route.snapshot.params['id'];
-        this.isNew = id == undefined;
-        this.loadingDataForm.next(true);//TODO: CON ESTO, LUEGO DEBEMOS MANEJAR LOS EVENTOS DE CARGA DE DATA
+        // let id = this.route.snapshot.params['id'];
+        
+        // SI ESTOY EN EDICIÓM ME VIENE UN ID, DEBEO OBTENER LA INFORMACIÓN BASICA
+        
+        this.route.paramMap.subscribe(params => {
+            const id = params.get('id');
+            this.isNew = id == undefined;
+            this.loadingDataForm.next(true);//TODO: CON ESTO, LUEGO DEBEMOS MANEJAR LOS EVENTOS DE CARGA DE DATA
+            if (id) {
+                
+                if(this.f.tipoDocumento){
+                    this.itemForm.reset({});
+                }
+                this.isNew = false;
+                console.log('current loaded ',this.loaded$.value);
+                
+                this.loaded$.next(false);
+                this.loadingDataForm.next(true);
+                this.personaNaturalService.get(Number.parseInt(id)).subscribe(val => {
+                    
+                    this.personaNatural = val;
+                    
+                    console.log('PERSONAAAA: ', val);
+                    
+                    //TODO: OJO REVISAR ESTO LUEGO
+                    // this.itemForm.reset({});
+                    this.buildForm(this.personaNatural);
+                    this.loadingDataForm.next(false);
+                    this.loaded$.next(true);
+                        this.applyFieldsDirty();
+                    this.cdr.detectChanges();
+                });
+            }
+    
 
 
-        this.searchForm = this.fb.group({
-            tipoDocumento: new FormControl( undefined, [Validators.required]),
-            identificacion: new FormControl( '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)])
+
         });
 
-        // SI ESTOY EN EDICIÓM ME VIENE UN ID, DEBEO OBTENER LA INFORMACIÓN BASICA
-        if (id) {
-            this.personaNaturalService.get(id).subscribe((persona: PersonaNatural) => {
-                this.personaNatural = persona;
-                // this.buildForm(persona); //TODO: POR AHORA
-                this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
-                this.cdr.detectChanges();
-            });
-        } else {
-            // TODO: REVISAR LUEGO
-            // this.buildForm(this.personaNatural);
-            // this.loadingDataForm.next(false);
-        }
+
+        
+        // else {
+        // TODO: REVISAR LUEGO
+        // this.buildForm(this.personaNatural);
+        // this.loadingDataForm.next(false);
+        // }
 
         // this.buildForm(this.personaNatural);
         this.loadingDataForm.next(false);
 
-        this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+        this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
             this.tipoDocumentos.next(data);
         });
 
@@ -177,62 +201,62 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
         //TODO: OJO ESTO NO VA ACA obtener la persona dado el tipo de documento e identificacion
-        this.search.identificacion.valueChanges.pipe(
-            distinctUntilChanged(),
-            debounceTime(1000)// espera 1 seg
-        ).subscribe(() => {
-            // se busca los dato que el usuario suministro      
-            const tipoDocumento = this.search.tipoDocumento.value;
-            const identificacion = this.search.identificacion.value;
-            this.btnCreateDisabled=true;
-            this.loaded$.next(false);
-            // console.log(tipoDocumento);
-            // console.log(identificacion);
+        // this.search.identificacion.valueChanges.pipe(
+        //     distinctUntilChanged(),
+        //     debounceTime(1000)// espera 1 seg
+        // ).subscribe(() => {
+        //     // se busca los dato que el usuario suministro      
+        //     const tipoDocumento = this.search.tipoDocumento.value;
+        //     const identificacion = this.search.identificacion.value;
+        //     this.btnCreateDisabled = true;
+        //     this.loaded$.next(false);
+        //     // console.log(tipoDocumento);
+        //     // console.log(identificacion);
 
-            if (tipoDocumento && identificacion) {
-                this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                    console.log("resutado:", data);
-                    if (data.id) {
-                        this.isNew = false;
-                        this.loadingDataForm.next(true);
-                        this.personaNaturalService.get(data.id).subscribe(val => {
+        //     if (tipoDocumento && identificacion) {
+        //         this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+        //             console.log("resutado:", data);
+        //             if (data.id) {
+        //                 this.isNew = false;
+        //                 this.loadingDataForm.next(true);
+        //                 this.personaNaturalService.get(data.id).subscribe(val => {
 
-                            this.personaNatural = val;
+        //                     this.personaNatural = val;
 
-                            console.log('PERSONAAAA: ', val);
+        //                     console.log('PERSONAAAA: ', val);
 
-                            //TODO: OJO REVISAR ESTO LUEGO
-                            // this.itemForm.reset({});
-                            this.buildForm(this.personaNatural);
-                            this.loadingDataForm.next(false);
-                            this.loaded$.next(true);
-                            this.cdr.detectChanges();
-                        })
+        //                     //TODO: OJO REVISAR ESTO LUEGO
+        //                     // this.itemForm.reset({});
+        //                     this.buildForm(this.personaNatural);
+        //                     this.loadingDataForm.next(false);
+        //                     this.loaded$.next(true);
+        //                     this.cdr.detectChanges();
+        //                 })
 
-                    }
-                    
-                }, err => {
-                    //console.log(err);
-                    if(this.itemForm){
-                        this.itemForm.reset({});
-                    }
-                    this.isNew=true;
-                    this.personaNatural = {} as PersonaNatural;
-                    this.btnCreateDisabled=false;
-                    // this.buildForm(this.personaNatural);
-                    this.loadingDataForm.next(false);
-                    this.search.identificacion.setErrors({ notexists: true });
-                    this.loaded$.next(false);
-                    this.cdr.detectChanges();
-                })
-            }
-        });
+        //             }
+
+        //         }, err => {
+        //             //console.log(err);
+        //             if (this.itemForm) {
+        //                 this.itemForm.reset({});
+        //             }
+        //             this.isNew = true;
+        //             this.personaNatural = {} as PersonaNatural;
+        //             this.btnCreateDisabled = false;
+        //             // this.buildForm(this.personaNatural);
+        //             this.loadingDataForm.next(false);
+        //             this.search.identificacion.setErrors({ notexists: true });
+        //             this.loaded$.next(false);
+        //             this.cdr.detectChanges();
+        //         })
+        //     }
+        // });
 
     }
 
     buildForm(personaNatural: PersonaNatural) {
         // 
-        
+
         this.itemForm = this.fb.group({
             tipoDocumento: new FormControl(personaNatural.tipoDocumento || undefined, [Validators.required]),
             identificacion: new FormControl(personaNatural.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
@@ -263,7 +287,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
         this.f.actividadEconomica.valueChanges.subscribe(value => {
-            if(value){
+            if (value) {
                 this.f.actividadEspecifica.setValue('');
 
                 this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
@@ -274,25 +298,55 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
 
         this.f.estadoCivil.valueChanges.subscribe(val => {
-            if(val){
+            if (val) {
 
                 this.estado_civil = val;
-                if(!this.evaluarEstadoCivil()){
+                if (!this.evaluarEstadoCivil()) {
                     // si esta evaluacion retorna false , es que no es casado, ni union estable
-                    this.addOrRemoveFieldValidator('tipoDocumentoConyuge',false)
-                    this.addOrRemoveFieldValidator('identificacionConyuge',false,'')
-                    this.addOrRemoveFieldValidator('nombreConyuge',false,'')
-                    this.addOrRemoveFieldValidator('fuenteIngreso',false)
-    
-    
-    
+                    this.addOrRemoveFieldValidator('tipoDocumentoConyuge', false)
+                    this.addOrRemoveFieldValidator('identificacionConyuge', false, '')
+                    this.addOrRemoveFieldValidator('nombreConyuge', false, '')
+                    this.addOrRemoveFieldValidator('fuenteIngreso', false)
+
+
+
                     this.cdr.detectChanges();
-    
+
                 }
             }
 
         })
 
+    }
+
+
+    addPerson(event) {
+        console.log('create ', event);
+        console.log('add new person');
+        this.isNew = true;
+        this.updateDataFromValues(this.personaNatural,event);
+        this.buildForm(this.personaNatural);
+        this.loaded$.next(true);
+        // if(this.itemForm){
+            //     this.f.tipoDocumento.setValue(this.personaNatural.tipoDocumento);
+        //     this.f.identificacion.setValue(this.personaNatural.identificacion);
+        // }
+        
+    }
+    
+    updatePerson(event) {
+        console.log('update ', event);
+        this.loaded$.next(false);
+
+        this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
+    }
+
+    queryResult(event){
+        // this.loaded$.next(false);
+        if(!event.id &&  !event.numper){
+            this.personaNatural= {} as PersonaNatural;
+            this.isNew=true;            
+        }
     }
 
     save() {
@@ -310,14 +364,14 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         if (this.isNew) {
 
-            this.personaNaturalService.save(this.personaNatural).subscribe(data => {                
+            this.personaNaturalService.save(this.personaNatural).subscribe(data => {
                 console.log(data);
-                
-                this.personaNatural= data;
-                this.successResponse('La persona', 'creada' );
+
+                this.personaNatural = data;
+                this.successResponse('La persona', 'creada');
                 this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
-                
+
             }, error => this.errorResponse(true));
 
         } else {
@@ -326,7 +380,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                 this.successResponse('La persona', 'actualizada');
             }, error => this.errorResponse(false));
         }
-        
+
     }
 
     send() {
@@ -334,15 +388,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         console.log('send data al banco');
     }
 
-    add() {
-        console.log('add new person');
-        this.buildForm(this.personaNatural);
-        this.loaded$.next(true);
-    }
 
 
-    evaluarEstadoCivil():boolean {
-        return this.estado_civil == this.constante.CASADO || this.estado_civil == this.constante.UNION_ESTABLE;
+    evaluarEstadoCivil(): boolean {
+        return this.estado_civil == this.constants.CASADO || this.estado_civil == this.constants.UNION_ESTABLE;
     }
 
     private codigoExists(id) {
@@ -356,23 +405,23 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
     }
 
-    
-//openAddress() {
+
+    //openAddress() {
     openInformacionLaboral() {
         console.log('pruebas procesp');
-        
-        this.showInformacionLaboral=!this.showInformacionLaboral; 
+
+        this.showInformacionLaboral = !this.showInformacionLaboral;
         this.cdr.detectChanges();
     }
 
     openPep() {
         console.log('pruebas procesp');
-        
-        this.showPep=!this.showPep; 
+
+        this.showPep = !this.showPep;
         this.cdr.detectChanges();
     }
     openAddress() {
-        this.showAddress=!this.showAddress; 
+        this.showAddress = !this.showAddress;
         this.cdr.detectChanges();
     }
 

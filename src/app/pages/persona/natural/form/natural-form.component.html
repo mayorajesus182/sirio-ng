@@ -30,8 +30,10 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
+                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
 
-                    <div fxLayout="column" [formGroup]="searchForm">
+
+                    <!-- <div fxLayout="column" [formGroup]="searchForm">
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <sirio-select-simple fxFlex="30" [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                 formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
@@ -63,7 +65,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> -->
 
                     <ng-container *ngIf="loaded$ | async">
 
@@ -74,7 +76,7 @@
                             <mat-expansion-panel expanded="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        <button mat-icon-button type="button" color="primary">
+                                        <button type="button" mat-icon-button type="button" color="primary">
                                             <mat-icon>person</mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">

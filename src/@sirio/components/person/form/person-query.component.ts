@@ -2,7 +2,7 @@ import {
     AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation
 } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
@@ -26,7 +26,7 @@ import { Persona, PersonaService } from "src/@sirio/domain/services/persona/pers
 })
 export class PersonQueryComponent implements OnInit, AfterViewInit {
     searchForm: FormGroup;
-    isNew: boolean = true;
+    isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
     @Input() taquilla: boolean = false;
@@ -71,10 +71,17 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             account: new FormControl('')
         });
 
+        this.search.tipoDocumento.valueChanges.subscribe(val=>{
+            this.persona={} as Persona;
+            this.search.identificacion.setValue('');
+            this.search.identificacion.setErrors(null);
+            
+        });
+
 
     }
 
-    get search() {
+    get search():AbstractControl|any {
         return this.searchForm ? this.searchForm.controls : {};
     }
 
@@ -91,27 +98,35 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.persona = data;
                 this.search.nombre.setValue(data.nombre);
                 this.loading.next(false);
+                this.isNew = false;
                 if(this.result){
 
                     this.result.emit(this.persona);
                 }
+
+
+                this.search.identificacion.setErrors(null);
                 this.cdref.detectChanges();
 
             }, err => {
 
                 this.persona = {} as Persona;
+                this.isNew = true;
                 this.loading.next(false);
                 if(this.result){
                     this.result.emit(this.persona);
                 }
                 this.search.identificacion.setErrors({ notexists: true });
+                this.search.nombre.setValue('');
 
                 this.cdref.detectChanges();
             })
         }else if(!tipoDocumento){
-            console.log('error');
-        
-            this.search.tipoDocumento.setErrors({required:true});
+            
+            // this.search.tipoDocumento.setErrors({required:true});
+            this.searchForm.controls['identificacion'].setErrors({requiredTipoDoc:true});
+            this.searchForm.controls['identificacion'].markAsDirty();
+            console.log('errors ', this.search.identificacion.errors);
             this.cdref.detectChanges();
         }
     }
