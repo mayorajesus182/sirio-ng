@@ -22,6 +22,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import * as moment from 'moment';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { matFormFieldAnimations } from '@angular/material/form-field';
 
 @Component({
     selector: 'app-retiro-form',
@@ -47,6 +48,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     esPagoCheque: boolean = false;
     esPagoChequeGerencia: boolean = false;
     esRetiroEfectivo: boolean = true;
+    esEfectivo: boolean = false;
+    esAbonoCuenta: boolean= false;
     detalleEfectivo: number = 0;
     todayValue: moment.Moment;
 
@@ -81,16 +84,24 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                 this.loadingDataForm.next(false);
 
 
-                
-                
+                   
+                               
+               
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
-                            this.tipoDocumentos.next(data);
-                        });
+                    if (val) {                       
+                                            
+                       
+                    this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+                        this.tipoDocumentos.next(data);
+                    });
 
+                    }else {   
+                        
+                        this.f.numeroCuenta.setErrors({ validacion: true });
                     }
                 });
+               
+               
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
                         this.calculateDifferences();
@@ -165,11 +176,11 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         });
     }
 
- 
-
+   
     calculateDifferences() {
 
         this.f.numeroCuenta.enable()
+
 
         if (this.f.monto.value != this.detalleEfectivo) {
             this.itemForm.controls['monto'].setErrors({
@@ -197,12 +208,12 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
 
             
-           // tipoDocumento: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+          tipoDocumento: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
            // identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
 
 
-            comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
-            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS)]),
+            comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             numper: new FormControl(undefined),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
@@ -210,17 +221,20 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             numeroCuenta: new FormControl('', [Validators.required]),
             moneda: new FormControl(''),
             tipoProducto: new FormControl(''),
-            serialCheque: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl('', [Validators.required,]),
+            serialCheque: new FormControl(undefined, [ Validators.pattern(RegularExpConstants.NUMERIC)]),
+            montoCheque: new FormControl(''),
             fechaEmision: new FormControl(''),
             codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             email: new FormControl(undefined,),
             telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
+            //esEfectivo: new FormControl(false),
+            //esAbonoCuenta: new FormControl(false),
 
         });
 
 
     }
+
 
     updateCashDetail(event) {
         console.log('update cash detail ', event)
@@ -253,8 +267,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
                 this.tipoDocumentos.next(data);              
             });    
-
-            this.f.identificacion.valueChanges.pipe(
+          /*  this.f.identificacion.valueChanges.pipe(
                 distinctUntilChanged(),
                 debounceTime(500)
             ).subscribe(() => {
@@ -279,20 +292,30 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
                     })
                 }
-            });
+            });*/
 
             this.esPagoCheque = false;
             this.esPagoChequeGerencia = false;
             this.itemForm.reset();
+            this.cdr.detectChanges();
 
         }
     }
 
     pagoChequeEvaluate(event) {
         if (event.checked) {
+          
             this.esRetiroEfectivo = false;
             this.esPagoChequeGerencia = false;
             this.itemForm.reset();
+            this.cdr.detectChanges();
+            this.conoActual = [];
+            this.conoAnterior = [];
+            this.detalleEfectivo = 0;           
+            this.f.beneficiario.setValue(false);
+            this.f.comprador.setValue(false);
+            this.f.tipoDocumento.setValue(false);
+            //error": "required", "value": true 
 
         }
     }
@@ -302,10 +325,15 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.esRetiroEfectivo = false;
             this.esPagoCheque = false;
             this.itemForm.reset();
-
+            this.cdr.detectChanges();
+            this.conoActual = [];
+            this.conoAnterior = [];
+            this.detalleEfectivo = 0;
+            this.f.tipoDocumento.setValue(false);
         }
     }
 
+  
 
     save() {
 
@@ -319,7 +347,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
         this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
         this.retiro.tipoDocumentoCheque = this.cuentaBancariaOperacion.tipoDocumento;      
-        this.retiro.fechaEmision = this.retiro.fechaEmision.format('DD/MM/YYYY');       
+        this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
+
         this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
 
         console.log("RETIRO   ", this.retiro);
