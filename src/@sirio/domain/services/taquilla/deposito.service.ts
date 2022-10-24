@@ -11,11 +11,11 @@ export interface Cheque {
     deposito: number;
     entidadFinanciera: number;
     serial: number;
-    numeroCuenta: string;
-    tipoDocumento: string;
+    numeroCuentaCheque: string;
+    tipoDocumentoCheque: string;
     codigoSeguridad: string;
     fechaEmision: any;
-    monto: number;
+    montoCheque: number;
     devolver: number;
     motivoDevolucion: string;
 }
