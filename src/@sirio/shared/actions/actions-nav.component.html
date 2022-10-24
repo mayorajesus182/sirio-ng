@@ -1,10 +1,19 @@
-<button mat-icon-button mat-sm-button [matMenuTriggerFor]="moreMenu" class="">
-  <mat-icon>more_vert</mat-icon>
-</button>
-<mat-menu #moreMenu="matMenu">
-  <div *ngFor="let item of menuItems">
-    <button (click)="callMethod(item)" mat-menu-item class="margin-rigth-xxs" *ngIf="evalCondition(item)" type="button" >
-      <mat-icon [ngClass]="applyColor(item)" [color]="item.color" >{{item.icon}}</mat-icon>&nbsp;{{'action.'+getLabel(item) | translate: {default: 'global.notfound'} | translate }}
-    </button>
-  </div>
-</mat-menu>
+<div  *ngIf="mode==='simple'" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="6px">  
+    <div fxFlex="auto" fxLayout="column" *ngFor="let item of menuItems" >
+      <button mat-icon-button (click)="callMethod(item)"  *ngIf="evalCondition(item)" type="button" [matTooltip]="'action.'+getLabel(item) | translate: {default: 'global.notfound'} | translate">
+        <mat-icon [ngClass]="applyColor(item)" [color]="item.color" >{{item.icon}}</mat-icon>
+      </button>
+    </div>
+</div>
+<div fxFlex="auto" *ngIf="mode==='list'">
+  <button mat-icon-button mat-sm-button [matMenuTriggerFor]="moreMenu" class="">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  <mat-menu #moreMenu="matMenu">
+    <div *ngFor="let item of menuItems">
+      <button (click)="callMethod(item)" mat-menu-item class="margin-rigth-xxs" *ngIf="evalCondition(item)" type="button" >
+        <mat-icon [ngClass]="applyColor(item)" [color]="item.color" >{{item.icon}}</mat-icon>&nbsp;{{'action.'+getLabel(item) | translate: {default: 'global.notfound'} | translate }}
+      </button>
+    </div>
+  </mat-menu>
+</div>

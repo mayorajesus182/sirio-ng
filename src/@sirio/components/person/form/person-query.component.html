@@ -7,7 +7,8 @@
         <div fxLayout="column" [formGroup]="searchForm">
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <sirio-select-simple fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
-                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" [errors]="" [required]="true">
+                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" 
+                    [errors]="search.tipoDireccion?.errors" [required]="true">
                 </sirio-select-simple>
 
                 <mat-form-field fxFlex="20">

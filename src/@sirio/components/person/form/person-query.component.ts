@@ -31,7 +31,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     @Input() tipo_persona: string;
     @Input() taquilla: boolean = false;
     @Input() disabled: boolean = false;
-    @Output('result') result = new EventEmitter<any>();
+    @Output('result') result:EventEmitter<any> = new EventEmitter<any>();
+    @Output('update') update:EventEmitter<any> = new EventEmitter<any>();
+    @Output('create') create:EventEmitter<any> = new EventEmitter<any>();
 
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     persona: Persona = {} as Persona;
@@ -89,18 +91,28 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.persona = data;
                 this.search.nombre.setValue(data.nombre);
                 this.loading.next(false);
-                this.result.emit(this.persona)
+                if(this.result){
+
+                    this.result.emit(this.persona);
+                }
                 this.cdref.detectChanges();
 
             }, err => {
 
                 this.persona = {} as Persona;
                 this.loading.next(false);
-                this.result.emit(this.persona)
+                if(this.result){
+                    this.result.emit(this.persona);
+                }
                 this.search.identificacion.setErrors({ notexists: true });
 
                 this.cdref.detectChanges();
             })
+        }else if(!tipoDocumento){
+            console.log('error');
+        
+            this.search.tipoDocumento.setErrors({required:true});
+            this.cdref.detectChanges();
         }
     }
 
@@ -109,16 +121,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     add() {
-        console.log('crear persona ', this.searchForm.value);
+        // console.log('crear persona ', this.searchForm.value);
 
-        this.result.emit(this.persona);
+        this.create.emit(this.searchForm.value);
     }
 
 
     edit() {
-        console.log('editar persona ', this.searchForm.value);
+        // console.log('editar persona ', this.searchForm.value);
 
-        this.result.emit(this.persona);
+        this.update.emit(this.persona);
 
     }
 
