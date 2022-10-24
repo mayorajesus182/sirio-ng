@@ -9,6 +9,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 export interface Moneda {
     id: string;
     nombre: string;
+    siglas: string;
     codigoLocal: string;
     esVirtual: number;
     divisor?: number;

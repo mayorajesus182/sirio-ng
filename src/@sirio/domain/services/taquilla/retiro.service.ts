@@ -10,7 +10,7 @@ import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 export interface Retiro {
  
     //institucion: string;
-   // agencia: number;
+   // agencia: string;
     persona: number; 
     numper: string;
     cuentaBancaria: number;   
@@ -33,6 +33,8 @@ export interface Retiro {
     conoAnterior: number;
     telefono: string;
     email:string;
+    comprador: string;
+    beneficiario: string;
     detalles:ConoMonetario[];
     //estatusOperacion: string;
       

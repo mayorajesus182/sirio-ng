@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class MonedaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['moneda_id', 'nombre','esVirtual' ,'activo', 'actions'];
+  displayedColumns = ['moneda_id', 'siglas', 'nombre','esVirtual' ,'activo', 'actions'];
 
   constructor(
     injector: Injector,

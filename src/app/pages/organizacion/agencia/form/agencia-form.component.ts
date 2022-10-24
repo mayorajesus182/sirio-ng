@@ -100,19 +100,19 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(agencia: Agencia) {
         this.itemForm = this.fb.group({
-            codigo: new FormControl({value: agencia.codigo || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            nombre:  new FormControl(agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            parroquia: new FormControl(agencia.parroquia || undefined, [Validators.required]),
-            municipio: new FormControl(agencia.municipio || undefined, [Validators.required]),
-            estado: new FormControl(agencia.estado || undefined, [Validators.required]),
-            direccion:  new FormControl(agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            email:  new FormControl(agencia.email || '', [Validators.required]),
-            telefono:  new FormControl(agencia.telefono || '', [Validators.required]),
-            telefonoAlt:  new FormControl(agencia.telefonoAlt || ''),
-            latitud:  new FormControl(agencia.latitud || undefined, [Validators.required]),
-            longitud:  new FormControl(agencia.longitud || undefined, [Validators.required]),
-            zonaPostal: new FormControl(agencia.zonaPostal || undefined, [Validators.required]),
-            horarioExt: new FormControl(agencia.horarioExt===1 || false),
+            id: [agencia.id || '', {disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
+            nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+            parroquia: [agencia.parroquia || undefined, [Validators.required]],
+            municipio: [agencia.municipio || undefined, [Validators.required]],
+            estado: [agencia.estado || undefined, [Validators.required]],
+            direccion:  [agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+            email:  [agencia.email || '', [Validators.required]],
+            telefono:  [agencia.telefono || '', [Validators.required]],
+            telefonoAlt:  [agencia.telefonoAlt || ''],
+            latitud:  [agencia.latitud || undefined, [Validators.required]],
+            longitud:  [agencia.longitud || undefined, [Validators.required]],
+            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]],
+            horarioExt: [agencia.horarioExt===1 || false],
         });
 
         this.f.estado.valueChanges.subscribe(value => {
@@ -138,8 +138,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             });
         });
 
-        this.f.codigo.valueChanges.subscribe(value => {
-            if (!this.f.codigo.errors && this.f.codigo.value.length > 0) {
+        this.f.id.valueChanges.subscribe(value => {
+            if (!this.f.id.errors && this.f.id.value.length > 0) {
                 this.codigoExists(value);
             }
         });
@@ -156,10 +156,10 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         this.saveOrUpdate(this.agenciaService, this.agencia, 'La Agencia', this.isNew);
     }
 
-    private codigoExists(codigo) {
-        this.agenciaService.exists(codigo).subscribe(data => {
+    private codigoExists(id) {
+        this.agenciaService.exists(id).subscribe(data => {
             if (data.exists) {
-                this.itemForm.controls['codigo'].setErrors({
+                this.itemForm.controls['id'].setErrors({
                     exists: this.translateService.instant('error.codeExists')
                 });
                 this.cdr.detectChanges();

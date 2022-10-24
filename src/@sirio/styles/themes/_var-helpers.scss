@@ -9,7 +9,7 @@ $theme-warn-map: map-get($config, warn);
 
 $theme-text: mat.get-color-from-palette($theme-foreground-map, text);
 $theme-hint-text: mat.get-color-from-palette($theme-foreground-map, hint-text);
-$theme-secondary-text: mat.get-color-from-palette($theme-foreground-map, secondary-text);
+$theme-secondary-text: lighten(mat.get-color-from-palette($theme-foreground-map, secondary-text),10%);
 $theme-divider: mat.get-color-from-palette($theme-foreground-map, divider);
 $theme-icon: mat.get-color-from-palette($theme-foreground-map, icon);
 $theme-elevation: mat.get-color-from-palette($theme-foreground-map, elevation);

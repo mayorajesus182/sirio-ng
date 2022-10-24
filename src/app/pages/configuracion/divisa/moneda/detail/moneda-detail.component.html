@@ -31,7 +31,13 @@
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="70">
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'coin.acronym' | translate: {default: 'global.acronym'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.siglas" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="60">
                                 <mat-label>{{'coin.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>

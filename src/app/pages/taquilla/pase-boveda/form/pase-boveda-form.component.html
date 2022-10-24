@@ -36,7 +36,7 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="30">
+                                <mat-form-field fxFlex.gt-xs="25">
                                     <mat-label>{{'passToVault.movementType' | translate: {default: 'global.movementType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="movimientoEfectivo.nombre" readonly>
@@ -53,12 +53,14 @@
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
+                                <mat-form-field fxFlex="25">
+                                    <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.availableBalance' |
+                                        translate }} {{saldoDisponible}}) </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.balance">{{'error.insufficientBalance' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
 
                             </div>

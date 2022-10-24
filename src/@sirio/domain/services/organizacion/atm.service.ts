@@ -8,8 +8,9 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Atm {
     id: string;
     codigo: string;
+    moneda: string;
     tipoAtm: string;
-    agencia: number;
+    agencia: string;
     transportista: string;
     fechaCreacion?: any;
     activo?: number;
@@ -31,7 +32,7 @@ export class AtmService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    activesByAgencia(agencia: number): Observable<Atm[]> {
+    activesByAgencia(agencia: string): Observable<Atm[]> {
         return this.apiService.config(this.apiConfig).get(`/${agencia}/byagencia/actives`);
     }
 
