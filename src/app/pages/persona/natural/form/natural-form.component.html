@@ -55,7 +55,7 @@
 
                             <div fxFlex="15">
                                 <button color="accent" class="btn-create" (click)="add()" mat-raised-button [disabled]="btnCreateDisabled">
-                                    
+
                                     <i class="fa-light fa-user-plus fa-lg"></i>
                                     {{'button.add' | translate: {default:
                                     'global.notfound'} | translate }}
@@ -74,14 +74,15 @@
                             <mat-expansion-panel expanded="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        <span class="mt-10">
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>person</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">
                                             Datos Básicos
                                         </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                            <mat-icon>person</mat-icon>
-                                        </button>
+
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div fxLayout="column" [formGroup]="itemForm">
@@ -286,13 +287,13 @@
                                                 translate}}
                                             </mat-error>
                                         </mat-form-field>
-    
+
                                         <sirio-select-search fxFlex="45"
                                             [label]="'naturalPerson.sourceIncomeSpouse' | translate: {default: 'global.sourceIncomeSpouse'} | translate"
                                             formControlName="fuenteIngreso" [required]="evaluarEstadoCivil()" [elements]="actividadesEconomicas.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.fuenteIngreso?.errors">
                                         </sirio-select-search>
-    
+
                                     </div>
 
 
@@ -309,7 +310,7 @@
                                             'global.notfound'} | translate }}
                                         </button>
                                     </div>
-                                     <!-- {{printErrors() | json}}  -->
+                                    <!-- {{printErrors() | json}}  -->
                                 </div>
 
 
@@ -318,21 +319,26 @@
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress()" (closed)="openAddress()">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        {{'personAddress.table' | translate}}
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>location_on</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'2'"></span>
+                                        <span class="margin-top-sm semi-bold">
+                                            {{'personAddress.table' | translate}}
+
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'2'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
 
-                                    
 
-                                    <sirio-persona-direccion-table [persona]="personaNatural.id" [onRefresh]="refreshDirecciones"></sirio-persona-direccion-table>
+
+                                    <sirio-persona-direccion-table [persona]="personaNatural.id" [onRefresh]="refreshDirecciones">
+                                    </sirio-persona-direccion-table>
 
 
                                 </div>
@@ -341,16 +347,15 @@
                             <mat-expansion-panel *ngIf="hasBasicData">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Telefonos
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>phone</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'2'"></span>
+                                        <span class="margin-top-sm semi-bold">Télefonos</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'2'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
-
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
@@ -368,39 +373,38 @@
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInformacionLaboral()" (closed)="openInformacionLaboral()">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Información Laboral
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>factory</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">Información Laboral</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
-                                            <mat-icon>factory</mat-icon>
-                                            <!-- <span class="notification-number mat-bg-warn "></span> -->
-                                        </button>
+                                        <!-- <span class="notification-number mat-bg-warn "></span> -->
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showInformacionLaboral">
 
-
                                     <sirio-persona-informacionLaboral-table [persona]="personaNatural.id"></sirio-persona-informacionLaboral-table>
-
 
                                 </div>
 
 
                             </mat-expansion-panel>
-                            
+
 
                             <mat-expansion-panel *ngIf="hasBasicData">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Referencias Bancarias
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>account_balance</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'3'"></span>
+                                        <span class="margin-top-sm semi-bold">Referencias Bancarias</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'3'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
@@ -420,13 +424,13 @@
                             <mat-expansion-panel *ngIf="hasBasicData">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Referencias Personales
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>contacts</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'2'"></span>
+                                        <span class="margin-top-sm semi-bold">Referencias Personales</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'2'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
@@ -446,19 +450,20 @@
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPep()" (closed)="openPep()">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        Persona Expuesta Políticamente (PEP)
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                        <span class="margin-top-sm semi-bold"> Persona Expuesta Políticamente (PEP)</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showPep">
 
-                                    
+
 
                                     <sirio-persona-pep-table [persona]="personaNatural.id"></sirio-persona-pep-table>
 
@@ -471,13 +476,13 @@
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <!-- TODO: INTERNACIONALIZACION -->
-                                        Representante Legal
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                        <span class="margin-top-sm semi-bold">Representante Legal</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
@@ -499,13 +504,14 @@
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <!-- TODO: INTERNACIONALIZACION -->
-                                        Apoderados
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                        <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                        <span class="margin-top-sm semi-bold">Apoderados</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                       
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 

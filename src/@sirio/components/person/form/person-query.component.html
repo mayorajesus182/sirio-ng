@@ -1,4 +1,4 @@
-<sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp] fxFlex="grow">
+<sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
     <sirio-card-header>
         <sirio-card-header-heading>Consultar Persona</sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
@@ -7,7 +7,7 @@
         <div fxLayout="column" [formGroup]="searchForm">
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <sirio-select-simple fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
-                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" [errors]="">
+                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" [errors]="" [required]="true">
                 </sirio-select-simple>
 
                 <mat-form-field fxFlex="20">

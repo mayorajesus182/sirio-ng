@@ -26,15 +26,15 @@ import { Persona, PersonaService } from "src/@sirio/domain/services/persona/pers
 })
 export class PersonQueryComponent implements OnInit, AfterViewInit {
     searchForm: FormGroup;
-    isNew:boolean=true;
+    isNew: boolean = true;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
-    @Input() taquilla: boolean=false;
+    @Input() taquilla: boolean = false;
     @Input() disabled: boolean = false;
     @Output('result') result = new EventEmitter<any>();
 
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
-    persona:Persona={} as Persona;
+    persona: Persona = {} as Persona;
 
     private loading = new BehaviorSubject<boolean>(false);
 
@@ -42,7 +42,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     private _onDestroy = new Subject<void>();
 
     constructor(private dialog: MatDialog,
-        private fb: FormBuilder,        
+        private fb: FormBuilder,
         private tipoDocumentoService: TipoDocumentoService,
         private cuentaBancariaService: CuentaBancariaService,
         private personaService: PersonaService,
@@ -76,40 +76,51 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         return this.searchForm ? this.searchForm.controls : {};
     }
 
-    add(){
 
-    }
-
-    public queryByPerson(){
+    public queryByPerson() {
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
-        
+
         this.loading.next(true);
 
         if (tipoDocumento && identificacion) {
             this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                console.log("result query:", data);
-                this.persona=data;
+                // console.log("result query:", data);
+                this.persona = data;
                 this.search.nombre.setValue(data.nombre);
                 this.loading.next(false);
+                this.result.emit(this.persona)
                 this.cdref.detectChanges();
-                
+
             }, err => {
-                
+
                 this.persona = {} as Persona;
-                
                 this.loading.next(false);
+                this.result.emit(this.persona)
                 this.search.identificacion.setErrors({ notexists: true });
-                
+
                 this.cdref.detectChanges();
             })
         }
     }
 
-    public queryByAccount(){
+    public queryByAccount() {
 
     }
 
+    add() {
+        console.log('crear persona ', this.searchForm.value);
+
+        this.result.emit(this.persona);
+    }
+
+
+    edit() {
+        console.log('editar persona ', this.searchForm.value);
+
+        this.result.emit(this.persona);
+
+    }
 
     private showPopup(popupComponent, data: any, withDialog = '60%'): MatDialogRef<any> {
         let data_aux = { payload: undefined, isNew: undefined };

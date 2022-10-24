@@ -136,6 +136,11 @@ export class HelpComponentsComponent implements OnInit {
   //   this.showFormPopup(CashFormPopupComponent, { desgloseConoActual: this.conoActual, desgloseConoAnterior: this.conoActual, moneda: this.moneda }, '40%')
   // }
 
+  personQueryResult(event){
+    console.log('query result ',event);
+    
+  }
+
   updateCashDetail(event) {
     console.log('update cash detail ',event)
     if(!event){
