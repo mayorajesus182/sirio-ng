@@ -9,6 +9,8 @@
         </mat-option>
     </mat-select>
     <mat-icon matSuffix class="secondary-text" *ngIf="icon">{{icon}}</mat-icon>
-    <mat-error *ngIf="selectControl.errors?.required && !readonly">Requerido!</mat-error>
+    <mat-error *ngIf="selectControl.errors?.required ">Requerido!</mat-error>
+
+    <!-- {{selectControl?.errors | json}}  -->
     <input matInput [value]="selectControl.value[attributeName]" readonly *ngIf="readonly">
 </mat-form-field>

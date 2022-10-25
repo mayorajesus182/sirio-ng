@@ -1,5 +1,4 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.interface';
 
@@ -12,6 +11,7 @@ import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.in
 export class ActionsNavComponent implements OnInit {
   @Input('items') public items: Observable<SidenavItem[]>;
   @Input('element') public element: any = {};
+  @Input('mode') public mode: 'simple' | 'list'='list';
   @Output() eventActionClicked = new EventEmitter();
 
   @Input('method') private method: MethodComponentApi

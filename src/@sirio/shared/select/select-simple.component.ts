@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, forwardRef, HostListener, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { MatSelect } from '@angular/material/select';
 import { Observable, ReplaySubject, Subject } from "rxjs";
 import { take, takeUntil } from "rxjs/operators";
@@ -16,9 +16,9 @@ import { take, takeUntil } from "rxjs/operators";
         }
     ]
 })
-export class SelectSimpleComponent implements ControlValueAccessor, OnInit,AfterViewInit, OnDestroy {
+export class SelectSimpleComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy,  OnInit, ControlValueAccessor, Validator{
 
-    @Input() errors;
+    @Input() errors: any[];
     @Input() label: string;
     @Input() icon: string;
     @Input() attributeName: string;
@@ -26,11 +26,11 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
     @Input() readonly: boolean = false;
     @Input('elements') public items: Observable<any[]>;
     public disabled: boolean = false;
-    
+
     public selected: any | null = null;
 
     public selectControl: FormControl;
-    
+
 
     @ViewChild('singleSelect') singleSelect: MatSelect;
 
@@ -40,14 +40,14 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
 
     @HostListener('change', ['$event'])
     changeSelect(event: any) {
-        // console.log(event);
+        console.log('on change select', event);
 
         // const file = event && event.item(0);
         // this.onChange(file);
         // this.selected = file;
     }
 
-    constructor(private host: ElementRef<HTMLInputElement>,private cdr: ChangeDetectorRef) {
+    constructor(private host: ElementRef<HTMLInputElement>, private cdr: ChangeDetectorRef) {
         // Si el componente se está usando como control de formulario
         // if (this.ngControl) {
         //     this.ngControl.valueAccessor = this;
@@ -60,7 +60,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
             .subscribe(() => {
 
                 // this.singleSelect.compareWith = (a: any, b: any) => { return a && b && a.id === b.id };
-                
+
                 this.singleSelect.compareWith = (a: any, b: any) => {
 
                     if (!a || !b) {
@@ -81,39 +81,11 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
                     return a === b;
                 };
                 //this.multiSelect.compareWith = (a: Bank, b: Bank) => a.id === b.id;
-            
+
             });
 
 
-            setTimeout(()=>{
 
-                this.selectControl.clearValidators();
-                this.selectControl.markAsPristine();
-
-                if(this.errors&&this.errors.length>0){
-                    this.selectControl.markAsTouched();
-                    this.selectControl.setErrors({'invalid':true});
-                    this.selectControl.markAsDirty();
-                    this.cdr.markForCheck()
-                }
-                // console.log('errors ',this.errors);
-                
-            },3000)
-
-            this.selectControl.valueChanges.subscribe((data) => {
-    
-                if (!this.disabled) {
-                    // console.log('propagar', data);
-    
-                    this.propagateChange(data);
-                }
-    
-    
-                if (data == '' || data== undefined) {
-                    this.selectControl.clearValidators();
-                    // this.selectControl.updateValueAndValidity();
-                }
-            });
 
     }
     ngOnInit(): void {
@@ -135,7 +107,26 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
             });
 
         }
-        
+
+        this.selectControl.valueChanges.subscribe((data) => {
+
+            if (!this.disabled) {
+                // console.log('propagar', data);
+
+                this.propagateChange(data);
+            }
+
+
+            if (data == '' || data == undefined) {
+                // this.selectControl.clearValidators();
+                this.selectControl.markAsTouched();
+                // if(this.required){
+                //     this.selectControl.markAsDirty();
+                // }
+                // this.selectControl.updateValueAndValidity();
+            }
+        });
+
 
     }
 
@@ -164,9 +155,9 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
     writeValue(value: any): void {
         if (value) {
             this.selectControl.setValue(value);
-        }            
-       
-        if (value === null || value== undefined) {
+        }
+
+        if (value === null || value == undefined) {
             this.selectControl.reset();
         }
     }
@@ -176,19 +167,32 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit,After
         this.propagateChange = fn;
     }
 
-    
+
     registerOnTouched(fn) {
         this.propagateTouched = fn;
     }
 
-   
+
 
     setDisabledState?(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
 
-    validate(_: FormControl) {
-        return this.selectControl.valid ? null : { profile: { valid: false } };
+    // validate(_: FormControl) {
+    //     return this.selectControl.valid ? null : { profile: { valid: false } };
+    // }
+
+    validate(control: AbstractControl): ValidationErrors | null {
+        if (!this.selectControl.value || this.selectControl.value?.trim().length == 0) {
+            this.selectControl.setErrors({ invalid: true });
+            return {
+                invalid: true,
+            };
+        }
+
+
+        this.selectControl.setErrors(null);
+        return null;
     }
 
 }
