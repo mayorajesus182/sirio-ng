@@ -10,7 +10,7 @@ export interface Cheque {
     id: number;
     deposito: number;
     entidadFinanciera: number;
-    serial: number;
+    serial: string;
     numeroCuentaCheque: string;
     tipoDocumentoCheque: string;
     codigoSeguridad: string;
