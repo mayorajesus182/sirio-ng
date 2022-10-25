@@ -39,12 +39,10 @@ export class ArqueoAtmTableComponent extends TableBaseComponent implements OnIni
   }
 
 
-  add(path:string) {
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
-  }
-
-  edit(data:any) {   
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  add(data:any) {   
+    // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/add`]);
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/add`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
   }
 
   boxes(data:any) { 

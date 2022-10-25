@@ -9,6 +9,7 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface ConoMonetario {
     id: number;
     moneda: string;
+    nombreMoneda?: string;
     denominacion: number;
     esBillete: number;
     cantidad?: number;    
@@ -34,6 +35,10 @@ export class ConoMonetarioService {
 
     activesByMoneda(moneda:string): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/actives`);
+    }
+
+    activesBilletesByMoneda(moneda:string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/billetes/actives`);
     }
 
     exists(id: string): Observable<any> {

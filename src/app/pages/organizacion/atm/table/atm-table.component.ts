@@ -31,7 +31,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   ngOnInit() {
-    this.init(this.atmService, 'atm_id');
+    this.init(this.atmService, 'fcreacion');
   }
 
   ngAfterViewInit() {

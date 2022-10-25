@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { ArqueoAtmFormComponent } from './form/arqueo-atm-form.component';
 import { ArqueoAtmTableComponent } from './table/arqueo-atm-table.component';
 
 
@@ -12,16 +13,11 @@ const arqueoAtmRoutes: Routes = [
         component: ArqueoAtmTableComponent,
         data: { title: 'Arqueo ATM' }
     },
-    // {
-    //     path: 'add',
-    //     component: AtmFormComponent,
-    //     data: { title: 'Crear ATM' }
-    // },
-    // {
-    //     path: ':id/edit',
-    //     component: AtmFormComponent,
-    //     data: { title: 'Editar ATM' }
-    // },
+    {
+        path: ':id/add',
+        component: ArqueoAtmFormComponent,
+        data: { title: 'Editar ATM' }
+    },
     // {
     //     path: ':id/boxes',
     //     component: CajetinTableComponent,

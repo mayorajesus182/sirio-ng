@@ -196,9 +196,6 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             return;
 
         this.updateData(this.bovedaAgencia);
-
-        console.log('this.bovedaAgencia  ', this.bovedaAgencia);
-
         this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
     }
 

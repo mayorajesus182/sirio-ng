@@ -1,0 +1,225 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['action.boxes']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+
+            <sirio-card-header>
+                <sirio-card-header-heading>{{'documentType.form'|translate}}</sirio-card-header-heading>
+                <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                <sirio-card-header-actions>
+                    <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                        <mat-icon>save</mat-icon>
+                    </button>
+
+                    <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                    {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </sirio-card-header-actions>
+            </sirio-card-header>
+
+            <sirio-card-content fxLayout="column">
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                    <mat-form-field fxFlex="60">
+                        <mat-label>{{'ATM' | translate: {default: 'ATM'} | translate }}</mat-label>
+                        <input matInput [value]="atmId+' - '+atm" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="40">
+                        <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}</mat-label>
+                        <input matInput [value]="moneda.nombre" readonly>
+                    </mat-form-field>
+
+                </div>
+
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                    <mat-form-field fxFlex="20">
+                        <mat-label>{{'Último Arqueo' | translate: {default: 'Último Arqueo'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.fecha" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="20">
+                        <mat-label>{{'Secuencia' | translate: {default: 'Secuencia'} | translate }}</mat-label>
+                        <input matInput [(ngModel)]="arqueoAtm.secuencia">
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="20">
+                        <mat-label>{{'Monto Total' | translate: {default: 'Monto Total'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.monto | number:'1.2'" readonly class="text-right">
+                    </mat-form-field>
+                </div>
+
+
+            <div fxLayout="column" class="margin-h padding-v">
+                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
+
+                    <ngx-datatable-column [flexGrow]="1.5" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'boxes.name' | translate: {default: 'global.name'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <span style="white-space: break-spaces; font-size: 12px;">
+                                {{ row?.descripcion }}
+                            </span>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Denominación' | translate: {default: 'Denominación'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content">
+                                <p class="fullwidth text-right "> {{ row?.denominacion | number:'1.2'}}
+                                </p>
+                            </div>
+                            <!-- <input class="mat-input" *ngIf="editing[rowIndex+ '-sobrante']" [(ngModel)]="row.sobrante" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-sobrante'] = false" currencyMask [options]="{precision:0}" /> -->
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Contador Anterior' | translate: {default: 'Contador Anterior'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content">
+                                <p class="fullwidth text-right "> {{ row?.anterior | number:'1.0'}}
+                                </p>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Dispensado' | translate: {default: 'Dispensado'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <input class="mat-input" [(ngModel)]="row.dispensado" autofocus matInput type="text" currencyMask [options]="{precision:0}"  (ngModelChange)="updateValuesErrors(row)"/>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Rechazado' | translate: {default: 'Rechazado'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <input class="mat-input" [(ngModel)]="row.rechazado" autofocus matInput type="text" currencyMask [options]="{precision:0}" (ngModelChange)="updateValuesErrors(row)" />
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Físico' | translate: {default: 'Físico'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <input class="mat-input" [(ngModel)]="row.fisico" autofocus matInput type="text" currencyMask [options]="{precision:0}" />
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Sobrante' | translate: {default: 'Sobrante'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content">
+                                <p class="fullwidth text-right "> {{ row?.sobrante | number:'1.0'}}
+                                </p>
+                            </div>
+                            <!-- <input class="mat-input" *ngIf="editing[rowIndex+ '-sobrante']" [(ngModel)]="row.sobrante" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-sobrante'] = false" currencyMask [options]="{precision:0}" /> -->
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Faltante' | translate: {default: 'Faltante'} |
+                                translate}} </span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content">
+                                <p class="fullwidth text-right "> {{ row?.faltante| number:'1.0'}} </p>
+                            </div>
+                            <!-- <input class="mat-input" *ngIf="editing[rowIndex+ '-faltante']" [(ngModel)]="row.faltante" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-faltante'] = false" currencyMask [options]="{precision:0}" /> -->
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Incremento' | translate: {default: 'Incremento'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <input class="mat-input" [(ngModel)]="row.incremento" autofocus matInput type="text" currencyMask [options]="{precision:0}" (ngModelChange)="updateValuesErrors(row)"/>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Retiro' | translate: {default: 'Retiro'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <input class="mat-input" [(ngModel)]="row.retiro" autofocus matInput type="text" currencyMask [options]="{precision:0}" (ngModelChange)="updateValuesErrors(row)"/>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Contador Actual' | translate: {default: 'Contador Actual'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content">
+                                <p class="fullwidth text-right "> {{ row?.actual | number:'1.0'}}
+                                </p>
+                            </div>
+                            <!-- <input class="mat-input" *ngIf="editing[rowIndex+ '-actual']" [(ngModel)]="row.actual" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-actual'] = false" currencyMask [options]="{precision:0}" readonly/>  -->
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'Monto' | translate: {default: 'Monto'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                            <div class="fullwidth input-content">
+                                <p class="fullwidth text-right "> {{ row?.monto | number:'1.2'}}
+                                </p>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+
+            </div>
+        </sirio-card-content>
+            <mat-toolbar>
+                <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                    <button type="button" mat-button (click)="back()">
+                        {{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}
+                    </button>
+                    <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                        'global.notfound'} | translate }}
+                    </button>
+                </div>
+            </mat-toolbar>
+        </sirio-card>
+    </sirio-page-layout-content>
+</sirio-page-layout>
