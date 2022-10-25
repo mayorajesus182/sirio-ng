@@ -135,26 +135,43 @@
                                     <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
                                   </mat-form-field>
                             </div>
+
+
+                            <mat-divider *ngIf="f.esCheque.value  && chequeForm" class="margin-bottom-sm margin-top-sm"></mat-divider>
+
                             <!-- Quinta Fila del Formula Nota: borrar este comentario al final -->
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"*ngIf="f.esCheque.value">
-                                <mat-form-field  fxFlex.gt-xs="auto"> 
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.esCheque.value"> 
                                     <mat-label>{{'deposit.ownChecks' | translate: {default: 'global.ownChecks'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" name="chequePropio" formControlName="chequePropio" currencyMask [options]="{precision:2}" [required]="!f.chequeOtros.value">
                                     <mat-error *ngIf="f.chequePropio.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                     <mat-error *ngIf="f.chequePropio.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                    <mat-error *ngIf="f.chequePropio.errors?.difference">No coinciden los montos</mat-error>
+                                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio">No coinciden los montos</mat-error>
                                 </mat-form-field> 
 
-                                <mat-form-field  fxFlex.gt-xs="auto"> 
+                                <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.esCheque.value"> 
                                     <mat-label>{{'deposit.checksOtherBanks' | translate: {default: 'global.checksOtherBanks'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" name="chequeOtros" formControlName="chequeOtros" currencyMask [options]="{precision:2}" [required]="!f.chequePropio.value">
                                     <mat-error *ngIf="f.chequeOtros.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                     <mat-error *ngIf="f.chequeOtros.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                    <mat-error *ngIf="f.chequeOtros.errors?.difference">No coinciden los montos</mat-error>
+                                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No coinciden los montos</mat-error>
                                 </mat-form-field> 
+
+                                <div fxFlex.gt-xs="auto" *ngIf="(f.esEfectivo.value || f.esCheque.value) && f.cuentaBancaria.value != undefined " >
+                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="libreta" name="libreta" (change)="libretaEvaluate($event)">
+                                    Con Libreta
+                                    </mat-slide-toggle>
+                                </div>
+
+                                <div fxFlex.gt-xs="auto" *ngIf="(f.esEfectivo.value || f.esCheque.value) && f.cuentaBancaria.value != undefined " >
+                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="movimiento" name="movimiento" (change)="movimientoEvaluate($event)">
+                                    Con Movimiento
+                                    </mat-slide-toggle>
+                                </div>   
                             </div>
+
                             <!--SEXTA FILA  -->
-                            <div fxLayout="column" fxLayoutGap.gt-sm="10px"*ngIf="f.esCheque.value  && chequeForm" [formGroup]="chequeForm" >
+                            <div fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="f.esCheque.value  && chequeForm" [formGroup]="chequeForm" >
                                 <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px">
                                     <mat-form-field fxFlex.gt-xs="15">
                                         <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}
@@ -223,58 +240,58 @@
                                         
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Serial</span>
+                                            <div class="text-center">Serial</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.serial}}</span>
+                                            <div style="white-space: break-spaces;" class="text-center"> {{ row?.serial}}</div>
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Código Cta Bancaria</span>
+                                            <div class="text-center">Código Cta Bancaria</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.numeroCuentaCheque }}</span>
+                                            <div style="white-space: break-spaces;" class="text-center">{{ row?.numeroCuentaCheque }}</div>
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Tip. Doc.</span>
+                                            <div class="text-center">Tip. Doc.</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.tipoDocumentoCheque }}</span>
+                                            <div style="white-space: break-spaces;" class="text-center">{{ row?.tipoDocumentoCheque }}</div>
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Monto</span>
+                                            <div class="text-center">Monto</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.montoCheque | number:'1.2'}}</span>
+                                            <div style="white-space: break-spaces;" class="text-center">{{ row?.montoCheque | number:'1.2'}}</div>
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Fecha Emisión</span>
+                                            <div class="text-center">Fecha Emisión</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.fechaEmision }}</span>
+                                            <div style="white-space: break-spaces;" class="text-center">{{ row?.fechaEmision }}</div>
                                         </ng-template>
                                     </ngx-datatable-column>
 
                                     <ngx-datatable-column [flexGrow]="2" [sortable]="true" class="text-center">
                                         <ng-template ngx-datatable-header-template class="text-center">
-                                            <span class="text-center">Motivo Devolución</span>
+                                            <div class="text-center">Motivo Devolución</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                            <mat-form-field  style="margin-top: -10px;font-size: 11px;" >
-                                                <select class="text-center"  matNativeControl (change)="selectMotivoDevolucion($event,row)" >
-                                                    <option value="Seleccione un Motivo">Seleccione un Motivo</option>
-                                                    <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id">{{item.nombre}}</option>
+                                            <mat-form-field  style="margin-top: -10px;font-size: 11px; width: 350px; align-items: center;" >
+                                                <select matNativeControl (change)="selectMotivoDevolucion($event,row)" >
+                                                    <option value="" class="text-center">Seleccione un Motivo</option>
+                                                    <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id" class="text-center">{{item.nombre}}</option>
                                                 </select>
                                             </mat-form-field>
                                         </ng-template>
@@ -282,16 +299,16 @@
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Código de Seguridad</span>
+                                            <div class="text-center">Código de Seguridad</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
-                                            <span style="white-space: break-spaces;">{{ row?.codigoSeguridad }}</span>
+                                            <div style="white-space: break-spaces;" class="text-center">{{ row?.codigoSeguridad }}</div>
                                         </ng-template>
                                     </ngx-datatable-column>
                                     
                                     <ngx-datatable-column name="" [flexGrow]="0.5">
                                         <ng-template ngx-datatable-header-template>
-                                            <span>Eliminar</span>
+                                            <div class="text-center">Eliminar</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
@@ -398,52 +415,52 @@
                                         
                                             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Serial</span>
+                                                    <div>Serial</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <span style="white-space: break-spaces;">{{ row?.serial}}</span>
+                                                    <div style="white-space: break-spaces;">{{ row?.serial}}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
 
                                             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Código Cta Bancaria</span>
+                                                    <div>Código Cta Bancaria</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <span style="white-space: break-spaces;">{{ row?.numeroCuentaCheque }}</span>
+                                                    <div style="white-space: break-spaces;">{{ row?.numeroCuentaCheque }}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
 
                                             <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Tip. Doc.</span>
+                                                    <div>Tip. Doc.</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <span style="white-space: break-spaces;">{{ row?.tipoDocumentoCheque }}</span>
+                                                    <div style="white-space: break-spaces;">{{ row?.tipoDocumentoCheque }}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
 
                                             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Monto</span>
+                                                    <div>Monto</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <span style="white-space: break-spaces;">{{ row?.montoCheque | number:'1.2'}}</span>
+                                                    <div style="white-space: break-spaces;">{{ row?.montoCheque | number:'1.2'}}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
 
                                             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Fecha Emisión</span>
+                                                    <div>Fecha Emisión</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <span style="white-space: break-spaces;">{{ row?.fechaEmision }}</span>
+                                                    <div style="white-space: break-spaces;">{{ row?.fechaEmision }}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
 
                                             <ngx-datatable-column [flexGrow]="1.3" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Motivo Devolución</span>
+                                                    <div>Motivo Devolución</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                                                     <mat-form-field  style="margin-top: -10px;font-size: 11px;" >
@@ -457,16 +474,16 @@
 
                                             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Código de Seguridad</span>
+                                                    <div>Código de Seguridad</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <span style="white-space: break-spaces;">{{ row?.codigoSeguridad }}</span>
+                                                    <div style="white-space: break-spaces;">{{ row?.codigoSeguridad }}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
                                             
                                             <ngx-datatable-column name="" [flexGrow]="0.5">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <span>Eliminar</span>
+                                                    <div>Eliminar</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                                     <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
