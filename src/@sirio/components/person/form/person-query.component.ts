@@ -68,7 +68,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             tipoDocumento: new FormControl(undefined),
             identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombre: new FormControl(''),
-            account: new FormControl('')
+            cuenta: new FormControl('')
         });
 
         this.search.tipoDocumento.valueChanges.subscribe(val=>{
@@ -118,6 +118,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 }
                 this.search.identificacion.setErrors({ notexists: true });
                 this.search.nombre.setValue('');
+                this.search.cuenta.setValue('');
 
                 this.cdref.detectChanges();
             })
@@ -132,6 +133,47 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     public queryByAccount() {
+        const cuenta:string = this.search.cuenta.value;
+        if(cuenta.trim().length ==0){
+            return;
+        }
+
+        this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
+            // this.cuentaBancariaOperacion = data;
+            //const moneda = data.moneda;
+            // const monedaNombre = data.monedaNombre;
+           /*
+           identificacion:"123"
+            moneda:"928"
+            monedaNombre:"BOLÍVAR SOBERANO"
+            nombre:"Johander Javier Salcedo Delgado"
+            numper:"0198"
+            persona:1
+            tipoDocumento:"V" 
+           this.moneda.id = data.moneda;
+            this.moneda.nombre = data.monedaNombre;*/
+            //this.f.monto.disable();
+            this.search.tipoDocumento.setValue(data.tipoDocumento);
+            this.search.identificacion.setValue(data.identificacion);
+            this.search.nombre.setValue(data.nombre);
+            this.persona={id:data.id,numper:data.numper} as Persona;
+
+
+            console.log("resultado consulta by cuenta", data);
+            this.result.emit(data);
+
+        }, err => {
+            //console.log(err);
+            this.search.cuenta.setErrors({ notexists: true });
+            this.persona = {} as Persona;
+
+            this.cdref.detectChanges();
+
+            this.search.tipoDocumento.setValue('');
+            this.search.identificacion.setValue('');
+            this.search.nombre.setValue('');
+            this.result.emit(this.persona);
+        })
 
     }
 

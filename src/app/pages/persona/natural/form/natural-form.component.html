@@ -30,7 +30,8 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
+                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" taquilla="true"
+                                    (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
 
 
                     <!-- <div fxLayout="column" [formGroup]="searchForm">
@@ -307,7 +308,7 @@
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
                                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
                                             <!-- <mat-icon class="margin-bottom-xxs">save</mat-icon> -->
-                                            <i class="fa-light fa-floppy-disk margin-bottom-xxs"></i>
+                                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
                                             {{'button.save' | translate: {default:
                                             'global.notfound'} | translate }}
                                         </button>

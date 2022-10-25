@@ -108,46 +108,28 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     ngOnInit() {
 
         // let id = this.route.snapshot.params['id'];
-        
+
         // SI ESTOY EN EDICIÓM ME VIENE UN ID, DEBEO OBTENER LA INFORMACIÓN BASICA
-        
-        this.route.paramMap.subscribe(params => {
-            const id = params.get('id');
-            this.isNew = id == undefined;
-            this.loadingDataForm.next(true);//TODO: CON ESTO, LUEGO DEBEMOS MANEJAR LOS EVENTOS DE CARGA DE DATA
-            if (id) {
-                
-                if(this.f.tipoDocumento){
-                    this.itemForm.reset({});
-                }
-                this.isNew = false;
-                console.log('current loaded ',this.loaded$.value);
-                
-                this.loaded$.next(false);
-                this.loadingDataForm.next(true);
-                this.personaNaturalService.get(Number.parseInt(id)).subscribe(val => {
-                    
-                    this.personaNatural = val;
-                    
-                    console.log('PERSONAAAA: ', val);
-                    
-                    //TODO: OJO REVISAR ESTO LUEGO
-                    // this.itemForm.reset({});
-                    this.buildForm(this.personaNatural);
-                    this.loadingDataForm.next(false);
-                    this.loaded$.next(true);
-                        this.applyFieldsDirty();
-                    this.cdr.detectChanges();
-                });
-            }
-    
+
+        // this.route.paramMap.subscribe(params => {
+        //     const id = params.get('id');
+            // this.isNew = id == undefined;
+            // this.loadingDataForm.next(true);//TODO: CON ESTO, LUEGO DEBEMOS MANEJAR LOS EVENTOS DE CARGA DE DATA
+            // if (id) {
+
+            //     if(this.f.tipoDocumento){
+            //         this.itemForm.reset({});
+            //     }
+
+            // }
 
 
 
-        });
+
+        // });
 
 
-        
+
         // else {
         // TODO: REVISAR LUEGO
         // this.buildForm(this.personaNatural);
@@ -324,28 +306,51 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         console.log('create ', event);
         console.log('add new person');
         this.isNew = true;
-        this.updateDataFromValues(this.personaNatural,event);
+        this.updateDataFromValues(this.personaNatural, event);
         this.buildForm(this.personaNatural);
         this.loaded$.next(true);
         // if(this.itemForm){
-            //     this.f.tipoDocumento.setValue(this.personaNatural.tipoDocumento);
+        //     this.f.tipoDocumento.setValue(this.personaNatural.tipoDocumento);
         //     this.f.identificacion.setValue(this.personaNatural.identificacion);
         // }
-        
+
     }
-    
+
     updatePerson(event) {
         console.log('update ', event);
+        if(!event.id){
+            return;
+        }
         this.loaded$.next(false);
 
-        this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
+        this.loadingDataForm.next(true);
+        this.isNew = false;
+        console.log('current loaded ', this.loaded$.value);
+
+        this.loaded$.next(false);
+        this.loadingDataForm.next(true);
+        this.personaNaturalService.get(Number.parseInt(event.id)).subscribe(val => {
+            this.personaNatural = val;
+            console.log('PERSONAAAA: ', val);
+            //TODO: OJO REVISAR ESTO LUEGO
+            // this.itemForm.reset({});
+            this.buildForm(this.personaNatural);
+            this.loadingDataForm.next(false);
+            this.loaded$.next(true);
+            this.applyFieldsDirty();
+            this.cdr.detectChanges();
+        });
+        // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
     }
 
-    queryResult(event){
-        // this.loaded$.next(false);
-        if(!event.id &&  !event.numper){
-            this.personaNatural= {} as PersonaNatural;
-            this.isNew=true;            
+    queryResult(event) {
+        console.log('event result ',event);
+        
+        if (!event.id && !event.numper) {
+            this.loaded$.next(false);
+            this.personaNatural = {} as PersonaNatural;
+            this.isNew = true;
+            this.cdr.detectChanges();
         }
     }
 

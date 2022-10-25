@@ -12,7 +12,7 @@
                 </sirio-select-simple>
 
 
-                <mat-form-field fxFlex="20">
+                <mat-form-field fxFlex="15">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
                         formControlName="identificacion">
@@ -28,9 +28,12 @@
                 </mat-form-field>
                 
 
-                <mat-form-field fxFlex="20" *ngIf="taquilla">
-                    <mat-label>{{'global.account' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="cuenta" formControlName="cuenta" (keyup.enter)="queryByAccount()">
+                <mat-form-field fxFlex="25" *ngIf="taquilla">
+                    <mat-label>{{'global.bankAccount' | translate }} </mat-label>
+                    <input matInput autocomplete="off" class="text-center" name="cuenta" 
+                    formControlName="cuenta" (keyup.enter)="queryByAccount()">
+                    <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="auto">
