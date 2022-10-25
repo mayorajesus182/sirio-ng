@@ -354,7 +354,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         let cheque = {} as Cheque;
         this.updateDataFromValues(cheque, this.chequeForm.value);
-        this.cf.fechaEmision = this.cheque.fechaEmision.format('DD/MM/YYYY');
+        this.cheque.fechaEmision = this.cheque.fechaEmision?this.cheque.fechaEmision.format('DD/MM/YYYY'):undefined;  
         this.chequeList.push(cheque);
         this.cheques.next(this.chequeList.slice());
         this.chequeForm.reset({});

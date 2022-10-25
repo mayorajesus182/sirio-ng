@@ -236,11 +236,11 @@
                                     </div>
                                 </div>
                                 <!-- TABLA DE CHEQUES  -->
-                                <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md text-center" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="cheques | async">
+                                <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md text-center" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async">
                                         
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Serial</div>
+                                            <div class="text-center">{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <div style="white-space: break-spaces;" class="text-center"> {{ row?.serial}}</div>
@@ -249,7 +249,8 @@
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Código Cta Bancaria</div>
+                                            <div class="text-center">{{'form.bankAccount' | translate: {default: 'global.bankAccount'} |
+                                                translate }}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <div style="white-space: break-spaces;" class="text-center">{{ row?.numeroCuentaCheque }}</div>
@@ -258,7 +259,7 @@
 
                                     <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Tip. Doc.</div>
+                                            <div class="text-center">{{'deposit.docType' | translate: {default: 'global.docType'} | translate }}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <div style="white-space: break-spaces;" class="text-center">{{ row?.tipoDocumentoCheque }}</div>
@@ -267,7 +268,7 @@
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Monto</div>
+                                            <div class="text-center">{{'deposit.amount' | translate: {default: 'global.amount'} | translate }}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <div style="white-space: break-spaces;" class="text-center">{{ row?.montoCheque | number:'1.2'}}</div>
@@ -276,7 +277,7 @@
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Fecha Emisión</div>
+                                            <div class="text-center">{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <div style="white-space: break-spaces;" class="text-center">{{ row?.fechaEmision }}</div>
@@ -299,7 +300,7 @@
 
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Código de Seguridad</div>
+                                            <div class="text-center">{{'deposit.securityCode' | translate: {default: 'global.securityCode'} | translate }}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <div style="white-space: break-spaces;" class="text-center">{{ row?.codigoSeguridad }}</div>
@@ -308,7 +309,7 @@
                                     
                                     <ngx-datatable-column name="" [flexGrow]="0.5">
                                         <ng-template ngx-datatable-header-template>
-                                            <div class="text-center">Eliminar</div>
+                                            <div class="text-center">{{'action.delete'| translate}}</div>
                                         </ng-template>
                                         <ng-template let-row="row" ngx-datatable-cell-template>
                                             <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
