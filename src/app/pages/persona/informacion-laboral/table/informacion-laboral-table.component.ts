@@ -68,7 +68,7 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+    this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
       console.log(event);
       
         if(event){

@@ -360,7 +360,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         this.updateData(this.personaNatural);
 
-
         // console.log(this.personaNatural);
         this.personaNatural.fechaNacimiento = this.personaNatural.fechaNacimiento.format('DD/MM/YYYY');
 
@@ -412,21 +411,21 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
     //openAddress() {
-    openInformacionLaboral() {
+    openInformacionLaboral(opened:boolean) {
         console.log('pruebas procesp');
 
-        this.showInformacionLaboral = !this.showInformacionLaboral;
+        this.showInformacionLaboral = opened;
         this.cdr.detectChanges();
     }
 
-    openPep() {
+    openPep(opened:boolean) {
         console.log('pruebas procesp');
 
-        this.showPep = !this.showPep;
+        this.showPep = opened;
         this.cdr.detectChanges();
     }
-    openAddress() {
-        this.showAddress = !this.showAddress;
+    openAddress(opened:boolean) {
+        this.showAddress = opened;
         this.cdr.detectChanges();
     }
 

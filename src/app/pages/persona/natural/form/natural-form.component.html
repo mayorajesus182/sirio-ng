@@ -19,7 +19,7 @@
                         </button>
                         <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>clear_all</mat-icon>
+                            <mat-icon>backspace</mat-icon>
 
                         </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -30,7 +30,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" taquilla="true"
+                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" 
                                     (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
 
 
@@ -319,7 +319,7 @@
 
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress()" (closed)="openAddress()">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -373,7 +373,7 @@
 
 
                             <!-- <mat-expansion-panel *ngIf="hasBasicData"> -->
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInformacionLaboral()" (closed)="openInformacionLaboral()">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInformacionLaboral(true)" (closed)="openInformacionLaboral(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">

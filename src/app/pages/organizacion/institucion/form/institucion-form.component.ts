@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -103,7 +103,7 @@ export class InstitucionFormComponent extends FormBaseComponent implements OnIni
             estado: [institucion.estado || undefined, [Validators.required]],
             zonaPostal: [institucion.zonaPostal || undefined, [Validators.required]],
             direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email: [institucion.email || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+            email: [institucion.email || '', []],
             web: [institucion.web || ''],
             telefono: [institucion.telefono || '', [Validators.required]],
             telefono_alt: [institucion.telefono_alt || ''],
