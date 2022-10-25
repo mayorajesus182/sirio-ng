@@ -39,7 +39,7 @@
                             <div fxFlex="15">
                                 <mat-slide-toggle class="margin-top-md" [color]="'primary'"
                                     [(ngModel)]="esRetiroEfectivo" (change)="retiroEfectivoEvaluate($event)">
-                                    {{'checkPayment.retiroEfectivo' | translate: {default: 'global.retiroEfectivo'} |
+                                    {{'withdrawal.cashWithdrawal' | translate: {default: 'global.cashWithdrawal'} |
                                     translate }}
                                 </mat-slide-toggle>
                             </div>
@@ -47,7 +47,7 @@
                             <div fxFlex="15">
                                 <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque"
                                     (change)="pagoChequeEvaluate($event)">
-                                    {{'checkPayment.checkPayment' | translate: {default: 'global.checkPayment'} |
+                                    {{'withdrawal.checkPayment' | translate: {default: 'global.checkPayment'} |
                                     translate }}
                                 </mat-slide-toggle>
                             </div>
@@ -55,7 +55,7 @@
                             <div fxFlex="15">
                                 <mat-slide-toggle class="margin-top-md" [color]="'primary'"
                                     [(ngModel)]="esPagoChequeGerencia" (change)="pagoChequeGerenciaEvaluate($event)">
-                                    {{'certifiedCheckPayment.certifiedCheckPayment' | translate: {default:
+                                    {{'withdrawal.certifiedCheckPayment' | translate: {default:
                                     'global.certifiedCheckPayment'} | translate }}
                                 </mat-slide-toggle>
                             </div>
@@ -72,7 +72,7 @@
                                 *ngIf="esPagoCheque || esPagoChequeGerencia">
 
                                 <mat-form-field fxFlex.gt-sm="25">
-                                    <mat-label>{{'form.checkAccount' | translate: {default: 'global.checkAccount'} |
+                                    <mat-label>{{'withdrawal.checkAccount' | translate: {default: 'global.checkAccount'} |
                                         translate }}
                                     </mat-label>
                                     <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
@@ -87,7 +87,7 @@
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-sm="15">
-                                    <mat-label>{{'withdrawal.serial' | translate: {default: 'global.serial'} | translate
+                                    <mat-label>{{(esPagoChequeGerencia ? 'withdrawal.checkNumber' : 'withdrawal.serial'  | translate: {default: 'global.serial'} )  | translate: {default: 'global.checkNumber'} |  translate
                                         }}
                                     </mat-label>
                                     <input matInput maxlength="10"  minlength="8" name="serialCheque"
@@ -101,8 +101,8 @@
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-sm="25">
-                                    <mat-label>{{'withdrawal.checkAmountPayable' | translate: {default:
-                                        'global.checkAmountPayable'} | translate }}
+                                    <mat-label>{{'withdrawal.checkAmount' | translate: {default:
+                                        'global.checkAmount'} | translate }}
                                     </mat-label>
                                     <input matInput max="999999999999999.99" min="0.01" autocomplete="off"
                                         name="montoCheque" formControlName="montoCheque" currencyMask
@@ -134,10 +134,11 @@
                                     <mat-label>{{'withdrawal.securityCode' | translate: {default: 'global.securityCode'}
                                         | translate }}
                                     </mat-label>
-                                    <input matInput maxlength="10" name="codSeguridad" autocomplete="off"
+                                    <input matInput maxlength="10"  minlength="8" name="codSeguridad" autocomplete="off"
                                         formControlName="codSeguridad">
                                     <mat-error *ngIf="f.codSeguridad.errors?.pattern">{{'error.invalidCharacter' |
                                         translate}}</mat-error>
+                                        <mat-error *ngIf="f.codSeguridad.errors?.minlength">Debe tener al menos 8 digitos</mat-error>    
                                 </mat-form-field>
                             </div>
 
@@ -145,7 +146,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
                                 *ngIf="esPagoChequeGerencia">
                                 <mat-form-field fxFlex.gt-sm="50">
-                                    <mat-label>{{'withdrawal.comprador' | translate: {default: 'global.comprador'} |
+                                    <mat-label>{{'withdrawal.buyer' | translate: {default: 'global.buyer'} |
                                         translate
                                         }}
                                     </mat-label>
@@ -180,7 +181,7 @@
                                 *ngIf="esPagoCheque || esPagoChequeGerencia">                               
 
                                 <mat-form-field fxFlex="20">
-                                    <mat-label>{{'checkPayment.amount' | translate: {default: 'global.amount'} |
+                                    <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
                                         translate }}
                                     </mat-label>
                                     <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
@@ -198,7 +199,7 @@
                                 </sirio-cash-button>  
                                
                              
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'"  
+                              <!--   <mat-slide-toggle class="margin-top-md" [color]="'primary'"  
                                formControlName ="esEfectivo" *ngIf="esPagoChequeGerencia" [required]="esPagoChequeGerencia">
                                 {{'withdrawal.cash' | translate: {default: 'global.cash'} | translate }}
                                 </mat-slide-toggle>                           
@@ -207,17 +208,17 @@
                                 <mat-slide-toggle class="margin-top-md" [color]="'primary'" *ngIf="esPagoChequeGerencia" [required]="esPagoChequeGerencia" [(ngModel)]="esAbonoCuenta">
                                     {{'withdrawal.account' | translate: {default: 'global.account'} | translate }}
                                     </mat-slide-toggle>       
-                                                      
+                                  -->                    
                                                              
-                                <sirio-select-simple fxFlex="25"
+                                <sirio-select-simple fxFlex="35"
                                     [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
-                                    formControlName="tipoDocumentoBeneficiario" [required]="esPagoCheque"
+                                    formControlName="tipoDocumentoBeneficiario" [required]="esPagoCheque || esPagoChequeGerencia"
                                     [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.tipoDocumentoBeneficiario?.errors">
                                 </sirio-select-simple>
 
-                                <mat-form-field fxFlex.gt-xs="40">
-                                    <mat-label>{{'deposit.identification' | translate: {default:
+                                <mat-form-field fxFlex.gt-xs="auto">
+                                    <mat-label>{{'withdrawal.identification' | translate: {default:
                                         'global.identification'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="8" name="identificacionBeneficiario"
@@ -282,8 +283,7 @@
 
                         </div>
                     </form>
-                   <!-- {{printErrors() | json}}-->
-
+                  <!--  {{printErrors() | json}}-->
                 </sirio-card-content>
 
                 <mat-toolbar>
