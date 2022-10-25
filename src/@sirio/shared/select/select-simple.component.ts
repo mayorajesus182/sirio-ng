@@ -24,6 +24,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     @Input() attributeName: string;
     @Input() required: boolean = false;
     @Input() readonly: boolean = false;
+    @Input() autofocus: boolean = false;
     @Input('elements') public items: Observable<any[]>;
     public disabled: boolean = false;
 
@@ -84,6 +85,11 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
 
             });
 
+            if(this.singleSelect && this.autofocus){
+
+                this.singleSelect.focus();
+            } 
+
 
 
 
@@ -126,6 +132,8 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
                 // this.selectControl.updateValueAndValidity();
             }
         });
+
+      
 
 
     }

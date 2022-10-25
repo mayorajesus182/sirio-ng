@@ -23,6 +23,13 @@ export interface InformacionLaboral {
     fecha:  any;
 
     actividadIndependiente?: String;
+
+    ramo?: String;
+    registro?: String;
+    tomo?: String;
+    folio?: String;
+
+    cargo?: String;
     
     direccion: String;
 }

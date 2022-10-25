@@ -20,7 +20,7 @@
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>clear_all</mat-icon>
+                            <mat-icon>backspace</mat-icon>
 
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -103,7 +103,8 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="60">
                                 <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}  </mat-label>
-                                <input type="email" matInput maxlength="60" autocomplete="off" name="email" formControlName="email" email-validate uppercase>
+                                <input type="email"  matInput maxlength="60" autocomplete="off" name="email" formControlName="email" 
+                                email-validate uppercase>
                                 <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
                             </mat-form-field>
