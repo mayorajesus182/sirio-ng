@@ -6,69 +6,67 @@
 // $theme-accent:  mat-palette($mat-light-blue, 500, 200, 700);
 
 $orange-novum: (
-    50 : #fff0e4,
-    100 : #fedabc,
-    200 : #fec190,
-    300 : #fea863,
-    400 : #fd9641,
-    500 : #fd8320,
-    600 : #fd7b1c,
-    700 : #fc7018,
-    800 : #fc6613,
-    900 : #fc530b,
-    A100 : #ffffff,
-    A200 : #fff6f2,
-    A400 : #ffd0bf,
-    A700 : #ffbda6,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #000000,
-        400 : #000000,
-        500 : #ffffff,
-        600 : #000000,
-        700 : #000000,
-        800 : #000000,
-        900 : #ffffff,
-        A100 : #000000,
-        A200 : #000000,
-        A400 : #000000,
-        A700 : #000000,
-    )
+  50 : #fff0e4,
+  100 : #fedabc,
+  200 : #fec190,
+  300 : #fea863,
+  400 : #fd9641,
+  500 : #fd8320,
+  600 : #fd7b1c,
+  700 : #fc7018,
+  800 : #fc6613,
+  900 : #fc530b,
+  A100 : #ffffff,
+  A200 : #fff6f2,
+  A400 : #ffd0bf,
+  A700 : #ffbda6,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #000000,
+    400 : #000000,
+    500 : #ffffff,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #ffffff,
+    A100 : #000000,
+    A200 : #000000,
+    A400 : #000000,
+    A700 : #000000,
+  )
 );
 
 $dark-blue-novum: (
-    50 : #e3e4e6,
-    100 : #b9bac0,
-    200 : #8a8d97,
-    300 : #5b5f6d,
-    400 : #373c4d,
-    500 : #141a2e,
-    600 : #121729,
-    700 : #0e1323,
-    800 : #0b0f1d,
-    900 : #060812,
-    A100 : #546aff,
-    A200 : #213eff,
-    A400 : #001fed,
-    A700 : #001bd4,
-    contrast: (
-        50 : #000000,
-        100 : #000000,
-        200 : #000000,
-        300 : #ffffff,
-        400 : #ffffff,
-        500 : #ffffff,
-        600 : #ffffff,
-        700 : #ffffff,
-        800 : #ffffff,
-        900 : #ffffff,
-        A100 : #ffffff,
-        A200 : #ffffff,
-        A400 : #ffffff,
-        A700 : #ffffff,
-    )
+  50 : #e3e4e6,
+  100 : #b9bac0,
+  200 : #8a8d97,
+  300 : #5b5f6d,
+  400 : #373c4d,
+  500 : #141a2e,
+  600 : #121729,
+  700 : #0e1323,
+  800 : #0b0f1d,
+  900 : #060812,
+  A100 : #546aff,
+  A200 : #213eff,
+  A400 : #001fed,
+  A700 : #001bd4,
+  contrast: (50 : #000000,
+    100 : #000000,
+    200 : #000000,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+  )
 );
 
 $theme-primary-hue: 500;
@@ -90,20 +88,12 @@ $theme-accent: mat.define-palette($dark-blue-novum, $theme-accent-hue);
 $theme-warn: mat.define-palette(mat.$red-palette, $theme-warn-hue);
 
 
-$theme: mat.define-light-theme((
-  color: (
-    primary: $theme-primary,
-    accent: $theme-accent,
-    warn: $theme-warn
-  )
-));
-$dark-theme: mat.define-dark-theme((
-  color: (
-    primary: $theme-primary,
-    accent: $theme-accent,
-    warn: $theme-warn
-  )
-));
+$theme: mat.define-light-theme((color: (primary: $theme-primary,
+        accent: $theme-accent,
+        warn: $theme-warn )));
+$dark-theme: mat.define-dark-theme((color: (primary: $theme-primary,
+        accent: $theme-accent,
+        warn: $theme-warn )));
 @include mat.all-component-themes($theme);
 
 .sirio-default {
@@ -116,6 +106,19 @@ $dark-theme: mat.define-dark-theme((
   // @import "./pages/apps/chat/chat.component.theme";
   @import "./pages/coming-soon/coming-soon.component.theme";
   @import "../app/layout/config-panel/config-panel.component.theme";
+
+
+  .mat-expansion-panel-header-title {
+    color: #5e5e5e !important;
+  }
+
+  .sirio-card-header-heading {
+    font-weight: 500 !important;
+    color: #686868;
+  }
+  .simplebar-scrollbar:before {
+    background-color: #7781a3;
+  }
 }
 
 .sirio-light {
@@ -128,6 +131,18 @@ $dark-theme: mat.define-dark-theme((
   // @import "./pages/apps/chat/chat.component.theme";
   @import "./pages/coming-soon/coming-soon.component.theme";
   @import "../app/layout/config-panel/config-panel.component.theme";
+
+  .mat-expansion-panel-header-title {
+    color: #5e5e5e !important;
+  }
+
+  .sirio-card-header-heading {
+    font-weight: 500 !important;
+    color: #5e5e5e;
+  }
+  .simplebar-scrollbar:before {
+    background-color:  #7781a3;
+  }
 }
 
 .sirio-dark {

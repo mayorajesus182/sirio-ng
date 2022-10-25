@@ -18,7 +18,8 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <sirio-select-simple fxFlex="33" [label]="'personAddress.addressType' | translate: {default: 'global.addressType'} | translate"
-        formControlName="tipoDireccion" [required]="true" [elements]="tiposDirecciones.asObservable()" [attributeName]="'nombre'" [errors]="">
+        formControlName="tipoDireccion" [required]="true" [elements]="tiposDirecciones.asObservable()" [attributeName]="'nombre'" 
+        [errors]="f.tipoDireccion?.errors">
       </sirio-select-simple>
 
       <!--  <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.country' | translate: {default: 'global.country'} | translate"

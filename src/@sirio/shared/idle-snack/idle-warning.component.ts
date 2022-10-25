@@ -37,7 +37,7 @@ export class IdleWarningComponent {
     this.userIdle.onTimeoutWarning.subscribe((countdown) => {
       this.seconds = countdown;
       // this.idleState = 'You will time out in ' + countdown + ' seconds!'
-      console.log('You will time out in ' + countdown + ' seconds!');
+      // console.log('You will time out in ' + countdown + ' seconds!');
     });
 
 

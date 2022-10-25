@@ -1,16 +1,18 @@
-<sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp] fxFlex="grow">
+<sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
     <sirio-card-header>
-        <sirio-card-header-heading>Consultar Persona</sirio-card-header-heading>
+        <sirio-card-header-heading><mat-icon>search</mat-icon> &nbsp;Consultar Persona</sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
     </sirio-card-header>
     <sirio-card-content fxLayout="column">
         <div fxLayout="column" [formGroup]="searchForm">
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <sirio-select-simple fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
-                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" [errors]="">
+                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" 
+                    [errors]="search.tipoDocumento?.errors" [required]="true">
                 </sirio-select-simple>
 
-                <mat-form-field fxFlex="20">
+
+                <mat-form-field fxFlex="15">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
                         formControlName="identificacion">
@@ -20,11 +22,18 @@
                     </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe!
                     </mat-error>
+                    <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido!
+                    </mat-error>
+                    <!-- {{search.tipoDocumento.errors| json}} -->
                 </mat-form-field>
+                
 
-                <mat-form-field fxFlex="20" *ngIf="taquilla">
-                    <mat-label>{{'global.account' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="cuenta" formControlName="cuenta" (keyup.enter)="queryByAccount()">
+                <mat-form-field fxFlex="25" *ngIf="taquilla">
+                    <mat-label>{{'global.bankAccount' | translate }} </mat-label>
+                    <input matInput autocomplete="off" class="text-center" name="cuenta" 
+                    formControlName="cuenta" (keyup.enter)="queryByAccount()">
+                    <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="auto">
@@ -33,7 +42,7 @@
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">
-                    <button color="accent" class="btn-create" (click)="add()" *ngIf="!persona.id" mat-raised-button [disabled]="!persona.id && !persona.numper">
+                    <button color="accent" class="btn-create" (click)="add()" *ngIf="!persona.id" mat-raised-button [disabled]="!isNew">
                         <i class="fa-light fa-user-plus fa-lg"></i>
                         {{'button.add' | translate: {default:'global.notfound'} | translate }}
                     </button>

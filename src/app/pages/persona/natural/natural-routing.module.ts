@@ -10,6 +10,11 @@ const naturalRoutes: Routes = [
         component: NaturalFormComponent,
         data: { title: 'Persona Natural' }
     },
+    {
+        path: ':id/edit',
+        component: NaturalFormComponent,
+        data: { title: 'Persona Natural' }
+    },
 ];
 
 
