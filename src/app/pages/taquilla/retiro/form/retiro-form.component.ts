@@ -37,8 +37,6 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     retiro: Retiro = {} as Retiro;
     public tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
     cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-    // public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);   
-    //public tipoDocumentosactivos = new BehaviorSubject<TipoDocumento[]>([]);
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     persona: Persona = {} as Persona;
@@ -127,11 +125,10 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
                     if (numeroCuenta) {
                         this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
                             this.cuentaBancariaOperacion = data;
-                            //const moneda = data.moneda;
+                             //const moneda = data.moneda;
                             // const monedaNombre = data.monedaNombre;
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
-                            this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                            //this.f.monto.disable();
+                            this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;                            
                             console.log("DATOS", data);
                             this.cdr.markForCheck();
 
@@ -205,12 +202,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm() {
 
-        this.itemForm = this.fb.group({
-
-            
-          tipoDocumento: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-           // identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-
+        this.itemForm = this.fb.group({   
+          
 
             comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
@@ -226,9 +219,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             fechaEmision: new FormControl(''),
             codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             email: new FormControl(undefined,),
-            telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            //esEfectivo: new FormControl(false),
-            //esAbonoCuenta: new FormControl(false),
+            telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),       
 
         });
 
@@ -237,7 +228,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
 
 
     updateCashDetail(event) {
-        console.log('update cash detail ', event)
+       // console.log('update cash detail ', event)
         if (!event) {
             return;
         }
@@ -262,37 +253,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     }
 
     retiroEfectivoEvaluate(event) {
-        if (event.checked) {
-
-            this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
-                this.tipoDocumentos.next(data);              
-            });    
-          /*  this.f.identificacion.valueChanges.pipe(
-                distinctUntilChanged(),
-                debounceTime(500)
-            ).subscribe(() => {
-                // se busca los dato que el usuario suministro
-                const tipoDocumento = this.f.tipoDocumento.value;
-                const identificacion = this.f.identificacion.value;
-                if (tipoDocumento && identificacion) {
-                    this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                        this.persona = data;
-                        const numper = data.numper;
-
-                        //this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
-                            //this.cuentaBancariaOperacion.next(cuenta);
-                       // });
-
-                        this.cdr.markForCheck();
-                    }, err => {
-                        this.f.identificacion.setErrors({ notexists: true });
-                        this.persona = {} as Persona;
-                       // this.cuentasBancarias.next([]);
-                        this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-
-                    })
-                }
-            });*/
+        if (event.checked) {         
 
             this.esPagoCheque = false;
             this.esPagoChequeGerencia = false;
@@ -314,8 +275,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.detalleEfectivo = 0;           
             this.f.beneficiario.setValue(null);
             this.f.comprador.setValue(null);
-            this.f.tipoDocumento.setValue(undefined);
-            //error": "required", "value": true 
+            //this.f.tipoDocumento.setValue(undefined);            
 
         }
     }
@@ -350,7 +310,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
         this.retiro.codSeguridad = this.retiro.codSeguridad;
         this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-
+        this.retiro.telefono= "04".concat(this.retiro.telefono);
         console.log("RETIRO   ", this.retiro);
 
         this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
