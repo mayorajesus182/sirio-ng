@@ -21,7 +21,7 @@
 
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>clear_all</mat-icon>
+                            <mat-icon>backspace</mat-icon>
 
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -265,12 +265,10 @@
                                 <mat-form-field fxFlex.gt-sm="auto">
                                     <mat-label>{{'withdrawal.sms' | translate: {default: 'global.sms'} | translate }}
                                     </mat-label>
-                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono"
-                                        prefix="04" mask="00 000 00 00" placeholder="" [required]="!f.email.value">
-                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}
-                                    </mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}</mat-error>
+                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00"
+                                        placeholder="" [required]="!f.email.value">
+                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
                             </div>
 

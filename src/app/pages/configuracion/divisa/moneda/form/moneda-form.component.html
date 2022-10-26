@@ -21,7 +21,7 @@
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>clear_all</mat-icon>
+                            <mat-icon>backspace</mat-icon>
 
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -48,7 +48,16 @@
                                         <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="70">
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label>{{'coin.acronym' | translate: {default: 'global.acronym'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" maxlength="4" name="siglas" formControlName="siglas" uppercase required
+                                        class="text-center">
+                                        <mat-error *ngIf="f.siglas.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.siglas.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="60">
                                     <mat-label>{{'coin.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="30" name="nombre" formControlName="nombre" uppercase

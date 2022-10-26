@@ -1,5 +1,23 @@
 @import "var";
 
-.fa-lg{
-    font-size: 1.60em;
+.fa-lg {
+    font-size: 1.35em !important;
+}
+
+// .mat-button-wrapper{
+//     font-size: 1.2em;
+// }
+.sirio-card-header{
+    padding: 15px 15px 15px 24px !important;
+}
+
+// .sirio-card-header-heading{
+//     font-weight: 500 !important;
+//     color: #5e5e5e;
+// }
+
+.btn-create {
+    height: 50px;
+    width: 100%;
+    top: 4px;
 }

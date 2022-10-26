@@ -24,19 +24,25 @@
 
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex.gt-xs="20" >
+                            <mat-form-field fxFlex.gt-xs="10" >
                                 <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="20" >
+                            <mat-form-field fxFlex.gt-xs="15" >
                                 <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.codigo" readonly class="text-center">
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="20" >
+                                <mat-label>{{'atm.coin' | translate: {default: 'global.coin'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.moneda" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15" >
                                 <mat-label>{{'atm.atmType' | translate: {default: 'global.atmType'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.tipoAtm" readonly class="text-center">
@@ -45,13 +51,13 @@
                             <mat-form-field fxFlex="40" *ngIf="d.tipoAtm == remoto">
                                 <mat-label>{{'atm.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.nombre" readonly>
+                                <input matInput [value]="d.transportista" readonly>
                             </mat-form-field>  
                             
                             <mat-form-field fxFlex="40" *ngIf="d.tipoAtm != remoto" >
                                 <mat-label>{{'atm.agency' | translate: {default: 'global.agency'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.zona" readonly>
+                                <input matInput [value]="d.agencia" readonly>
                             </mat-form-field>   
                         </div>
 

@@ -12,13 +12,13 @@ export interface Pep {
 
     tipoPep: String;
 
-    nombre: String
+    nombre: String;
     
-    ente: String
+    ente: String;
 
-    cargo: String
+    cargo: String;
 
-    pais?: String 
+    pais?: String;
 }
 
 

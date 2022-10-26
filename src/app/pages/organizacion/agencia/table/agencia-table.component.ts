@@ -19,7 +19,7 @@ import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion
 
 export class AgenciaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['codigo', 'nombre', 'horarioExt',  'activo', 'actions'];
+  displayedColumns = ['agencia_id', 'nombre', 'horarioExt',  'activo', 'actions'];
 
   constructor(
     injector: Injector,
@@ -32,7 +32,7 @@ export class AgenciaTableComponent extends TableBaseComponent implements OnInit,
   }
 
   ngOnInit() {
-    this.init(this.agenciaService, 'codigo');
+    this.init(this.agenciaService, 'agencia_id');
   }
 
   ngAfterViewInit() {

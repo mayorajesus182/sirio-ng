@@ -1,0 +1,53 @@
+<!-- Informacion Laboral -->
+<div fxLayout="row" fxLayout="column">
+    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+        <button color="default" (click)="popup()" mat-button class="margin-bottom-sm">
+            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+            'global.notfound'} | translate }}
+        </button>
+    </div>
+</div>
+
+
+<ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
+    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="informacionLaboralList| async">
+
+    <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>#</span>
+        </ng-template>
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{ rowIndex+1 }}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>Tipo Ingreso</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span style="white-space: break-spaces;">{{ row?.tipoIngreso }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [flexGrow]="5" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>Descripción</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+            {{row.nombre}}
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="" [flexGrow]="0.5">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
+                <mat-icon>edit</mat-icon>
+            </button> 
+            <!-- <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row,$event)" matTooltip="Actualizar">
+                <mat-icon>trash</mat-icon>
+            </button> -->
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>
+<!-- /PEP -->

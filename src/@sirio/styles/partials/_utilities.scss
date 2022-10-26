@@ -77,14 +77,40 @@ a {
   color: $theme-text
 }
 
-.notification-number {  
+.notification-number {
   position: relative;
   top: 12px;
   right: 5px;
-  font-size: 12px;  
+  font-size: 12px;
   margin-left: auto;
   margin-right: auto;
 }
+
+.ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
+  border-right: 1px solid rgba(170, 170, 170, 0.22);
+  border-left: 1px solid rgba(170, 170, 170, 0.22);
+  border-top: 1px solid rgba(170, 170, 170, 0.22);
+
+  &.text-center {
+    text-align: center;
+  }
+
+  &.text-right {
+    text-align: right;
+  }
+}
+
+.datatable-header-cell {
+  
+  align-items: center !important;
+  .datatable-header-cell-template-wrap{
+    text-align: center;
+  }
+}
+
+// .ngx-datatable .datatable-body .datatable-body-row > div {
+//   align-items: center;
+// }
 
 
 blockquote {
@@ -223,12 +249,13 @@ blockquote {
   // right:-24px;
 }
 
-.close-icon{
+.close-icon {
   margin-top: -6px;
 }
 
-.swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
-  background: rgba(0,0,0,.40)!important;
+.swal2-container.swal2-backdrop-show,
+.swal2-container.swal2-noanimation {
+  background: rgba(0, 0, 0, .40) !important;
 }
 
 .dialog-frame {
