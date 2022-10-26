@@ -11,17 +11,18 @@ import { ActividadIndependiente, ActividadIndependienteService } from 'src/@siri
 import { TipoIngreso, TipoIngresoService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-ingreso.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { InformacionLaboral, InformacionLaboralService } from 'src/@sirio/domain/services/persona/informacion-laboral/informacion-laboral.service';
+import { ReferenciaBancaria, ReferenciaBancariaService } from 'src/@sirio/domain/services/persona/referencia-bancaria/referencia-bancaria.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 @Component({
-  selector: 'sirio-informacion-laboral-form.popup',
-  templateUrl: './informacion-laboral-form.popup.component.html',
-  styleUrls: ['./informacion-laboral-form.popup.component.scss']
+  selector: 'sirio-referencia-bancaria-form.popup',
+  templateUrl: './referencia-bancaria-form.popup.component.html',
+  styleUrls: ['./referencia-bancaria-form.popup.component.scss']
 })
 
-export class InformacionLaboralFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
+export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
-  informacionLaboral: InformacionLaboral = {} as InformacionLaboral;
+  referencia: ReferenciaBancaria = {} as ReferenciaBancaria;
 
   public tipoingresoList = new BehaviorSubject<TipoIngreso[]>([]);
   public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
@@ -33,8 +34,8 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
-    dialogRef: MatDialogRef<InformacionLaboralFormPopupComponent>,
-    private informacionLaboralService: InformacionLaboralService,
+    dialogRef: MatDialogRef<ReferenciaBancariaFormPopupComponent>,
+    private referenciaBancariaService: ReferenciaBancariaService,
     private tipoIngresoService: TipoIngresoService,
     private tipoDocumentoService: TipoDocumentoService,
     private actividadIndependienteService: ActividadIndependienteService,
@@ -93,16 +94,16 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
-      this.informacionLaboralService.get(this.defaults.payload.id).subscribe(data => {
+      this.referenciaBancariaService.get(this.defaults.payload.id).subscribe(data => {
         this.mode = 'global.edit';
-        this.informacionLaboral = data;
+        this.referencia = data;
         this.buildForm();
         this.loadingDataForm.next(false);
         this.cdr.detectChanges();
 
       })
     } else {
-      this.informacionLaboral = {} as InformacionLaboral;
+      this.referencia = {} as ReferenciaBancaria;
       this.buildForm();
       this.loadingDataForm.next(false);
     }
@@ -131,21 +132,21 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     //validar carcteres especiales
 
     this.itemForm = this.fb.group({
-      tipoIngreso: new FormControl(this.informacionLaboral.tipoIngreso || undefined, [Validators.required]),
+      tipoIngreso: new FormControl(this.referencia.tipoIngreso || undefined, [Validators.required]),
 
-      actividadIndependiente: new FormControl(this.informacionLaboral.actividadIndependiente || undefined),
-      ramo: new FormControl(this.informacionLaboral.ramo || undefined),
-      registro: new FormControl(this.informacionLaboral.registro || undefined),
-      numero: new FormControl(this.informacionLaboral.numero || undefined),
-      tomo: new FormControl(this.informacionLaboral.tomo || undefined),
-      folio: new FormControl(this.informacionLaboral.folio || undefined),
+      actividadIndependiente: new FormControl(this.referencia.actividadIndependiente || undefined),
+      ramo: new FormControl(this.referencia.ramo || undefined),
+      registro: new FormControl(this.referencia.registro || undefined),
+      numero: new FormControl(this.referencia.numero || undefined),
+      tomo: new FormControl(this.referencia.tomo || undefined),
+      folio: new FormControl(this.referencia.folio || undefined),
 
-      identificacion: new FormControl(this.informacionLaboral.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-      empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : ''),
-      direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
-      cargo: new FormControl(this.informacionLaboral.cargo || undefined, [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined)
+      identificacion: new FormControl(this.referencia.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+
+      fecha: new FormControl(this.referencia.fecha ? moment(this.referencia.fecha, 'DD/MM/YYYY') : ''),
+      direccion: new FormControl(this.referencia.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
+      cargo: new FormControl(this.referencia.cargo || undefined, [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      remuneracion: new FormControl(this.referencia.remuneracion || undefined)
     });
 
     this.f.tipoIngreso.valueChanges.subscribe(val => {
@@ -175,7 +176,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     this.informacionLaboral.fecha = this.informacionLaboral.fecha ? this.informacionLaboral.fecha.format('DD/MM/YYYY') : '';
     console.log(this.informacionLaboral);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.informacionLaboralService, this.informacionLaboral, 'Información Laboral', this.informacionLaboral.id == undefined);
+    this.saveOrUpdate(this.referenciaBancariaService, this.informacionLaboral, 'Información Laboral', this.informacionLaboral.id == undefined);
 
   }
 

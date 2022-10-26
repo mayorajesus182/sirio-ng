@@ -65,26 +65,28 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             .subscribe(() => {
 
                 // this.singleSelect.compareWith = (a: any, b: any) => { return a && b && a.id === b.id };
+                if(this.singleSelect){
 
-                this.singleSelect.compareWith = (a: any, b: any) => {
-                    // console.log('A ',a);
-                    // console.log('B ',b);
-
-                    if (!a || !b) {
-                        return false;
-                    }
-                    // if(Object.keys(a.id).length > 0 && Object.keys(b.id).length > 0){
-                    //     // console.log('A keys ',Object.keys(a.id));
-                    //     // console.log('B keys',Object.keys(b.id));
-                    //     const key1 = Object.keys(a.id)[0]; 
-                    //     const key2 = Object.keys(a.id)[1]; 
-
-                    //     // asumo que la clave compuesta es de 2 campos
-                    //     return Object.keys(a.id)[0]==Object.keys(b.id)[0] && a.id[key1]== b.id[key1] && Object.keys(a.id)[1]==Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
-                    // }    
-                    return a === b;
-
-                };
+                    this.singleSelect.compareWith = (a: any, b: any) => {
+                        // console.log('A ',a);
+                        // console.log('B ',b);
+    
+                        if (!a || !b) {
+                            return false;
+                        }
+                        // if(Object.keys(a.id).length > 0 && Object.keys(b.id).length > 0){
+                        //     // console.log('A keys ',Object.keys(a.id));
+                        //     // console.log('B keys',Object.keys(b.id));
+                        //     const key1 = Object.keys(a.id)[0]; 
+                        //     const key2 = Object.keys(a.id)[1]; 
+    
+                        //     // asumo que la clave compuesta es de 2 campos
+                        //     return Object.keys(a.id)[0]==Object.keys(b.id)[0] && a.id[key1]== b.id[key1] && Object.keys(a.id)[1]==Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
+                        // }    
+                        return a === b;
+    
+                    };
+                }
             });
 
 
@@ -206,6 +208,15 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
         this.filteredElements.next(
             data.filter(elem => elem[this.attributeName].toLowerCase().indexOf(search) >= 0)
         );
+    }
+
+
+    showName(valSelected:any){
+        let name = '';
+        if(valSelected){
+            this.items.subscribe(data=>name =data.filter(d=>d.id===valSelected).map(d=>d[this.attributeName])[0]);
+        }
+        return name;
     }
 
 }

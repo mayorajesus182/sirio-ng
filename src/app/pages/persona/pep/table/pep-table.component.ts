@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -18,6 +18,7 @@ import { PepFormPopupComponent } from '../popup/pep-form.popup.component';
 
 export class PepTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
+  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   pepList:ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
@@ -34,9 +35,9 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   private loadList(){
     this.pepService.allByPersonaId(this.persona).subscribe((data) => {
-      console.log(data);
-      
+            
       this.pepList.next(data.slice());
+      this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }

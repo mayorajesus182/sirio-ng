@@ -10,7 +10,7 @@
 
 
 <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="informacionLaboralList| async">
+    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="referenciaBancariaList| async">
 
     <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
         <ng-template ngx-datatable-header-template>

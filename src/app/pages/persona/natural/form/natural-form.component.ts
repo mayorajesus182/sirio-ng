@@ -1,11 +1,9 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
@@ -22,7 +20,6 @@ import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { DireccionFormPopupComponent } from '../../direccion/popup/direccion-form.popup.component';
 
 @Component({
     selector: 'app-natural-form',
@@ -34,6 +31,11 @@ import { DireccionFormPopupComponent } from '../../direccion/popup/direccion-for
 
 export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
+    totalAddress: number;
+    totalInfoLab: number;
+    totalPep: number;
+    totalPhone: number;
+    totalContact: number;
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
@@ -409,6 +411,20 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
     }
 
+    updateAddress(event){
+        console.log('address', event);
+        this.totalAddress= event;
+    }
+    
+    updateInfoLaboral(event){
+        console.log('info lab', event);
+        this.totalInfoLab= event;
+    }
+    
+    updatePep(event){
+        console.log('peps', event);
+        this.totalPep= event;
+    }
 
     //openAddress() {
     openInformacionLaboral(opened:boolean) {
