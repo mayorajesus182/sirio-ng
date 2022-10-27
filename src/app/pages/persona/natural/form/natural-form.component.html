@@ -521,10 +521,35 @@
 
 
                             </mat-expansion-panel>
+
+                            <mat-expansion-panel *ngIf="hasBasicData">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <!-- TODO: INTERNACIONALIZACION -->
+                                        Clientes y Proveedores
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <button mat-icon-button type="button" color="primary" class="topbar-button-right">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="notification-number " [matBadge]="'1'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" (click)="addElement()" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </mat-expansion-panel>
+
                             <!-- <form [formGroup]="itemForm" *ngIf="itemForm">
-    
-                           
-    
     
                         </form> -->
                         </mat-accordion>

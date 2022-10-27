@@ -10,14 +10,11 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { DireccionModule } from '../direccion/direccion.module';
+import { EmpresaRelacionadaModule } from '../empresa-relacionada/empresa-relacionada.module';
 import { InformacionLaboralModule } from '../informacion-laboral/informacion-laboral.module';
 import { PepModule } from '../pep/pep.module';
 import { NaturalFormComponent } from './form/natural-form.component';
 import { NaturalRoutingModule } from './natural-routing.module';
-
-
-
-
 
 @NgModule({
     imports: [
@@ -36,6 +33,7 @@ import { NaturalRoutingModule } from './natural-routing.module';
         DireccionModule,
         InformacionLaboralModule,
         PepModule,
+        EmpresaRelacionadaModule,
         NaturalRoutingModule
     ],
     declarations: [
