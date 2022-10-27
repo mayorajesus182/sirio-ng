@@ -14,4 +14,6 @@ export class GlobalConstants {
   public static TAQUILLA_BOVEDA = 'PTB';
   public static REMOTO = 'R';
   public static OFICINA = 'O';
+  public static CHEQUE = '90';
+  public static CHEQUE_GERENCIA = '96';
 };
