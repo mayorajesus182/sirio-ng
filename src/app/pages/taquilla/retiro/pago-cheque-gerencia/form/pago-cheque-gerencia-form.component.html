@@ -33,7 +33,7 @@
                 <sirio-card-content fxLayout="column">
 
 
-                    <div fxLayout="column">
+                    <!-- <div fxLayout="column">
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px">
 
                             <div fxFlex="15">
@@ -61,7 +61,7 @@
                             </div>
 
                         </div>
-                    </div>
+                    </div> -->
 
                     <form [formGroup]="itemForm" *ngIf="itemForm">
 
@@ -199,13 +199,22 @@
                                 </sirio-cash-button>  
                                
                              
-                                             
+                              <!--   <mat-slide-toggle class="margin-top-md" [color]="'primary'"  
+                               formControlName ="esEfectivo" *ngIf="esPagoChequeGerencia" [required]="esPagoChequeGerencia">
+                                {{'withdrawal.cash' | translate: {default: 'global.cash'} | translate }}
+                                </mat-slide-toggle>                           
+                            
+
+                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" *ngIf="esPagoChequeGerencia" [required]="esPagoChequeGerencia" [(ngModel)]="esAbonoCuenta">
+                                    {{'withdrawal.account' | translate: {default: 'global.account'} | translate }}
+                                    </mat-slide-toggle>       
+                                  -->                    
                                                              
                                 <sirio-select-simple fxFlex="35"
                                     [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                     formControlName="tipoDocumentoBeneficiario" [required]="esPagoCheque || esPagoChequeGerencia"
-                                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"  
-                                    [errors]="f.tipoDocumentoBeneficiario?.errors" required>
+                                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.tipoDocumentoBeneficiario?.errors">
                                 </sirio-select-simple>
 
                                 <mat-form-field fxFlex.gt-xs="auto">
@@ -222,33 +231,18 @@
                                 </mat-form-field>
                             </div>
 
-                            
-                        <!-- quinta fila retiroEfectivoEvaluate  Nota: Borrar este comentario al Final -->
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                           *ngIf="esRetiroEfectivo">
-
-                           <mat-form-field fxFlex="20">
-                               <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
-                                   translate }}
-                               </mat-label>
-                               <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
-                                   formControlName="monto" currencyMask [options]="{precision:2}"  readonly>
-                               <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                               <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
-                               <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
-                               <mat-error *ngIf="f.monto.errors?.difference">existe diferencia</mat-error>
-                           </mat-form-field>
-
-                            <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
-                                   [disabled]="f.numeroCuenta.value <= 0" class="margin-top-md"
-                                   (update)="updateCashDetail($event)" [cono_actual]="conoActual"
-                                   [cono_anterior]="conoAnterior">
-                           </sirio-cash-button>                                               
-                           </div>
+                            <!--
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esEfectivo">
+                                <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
+                                [disabled]="f.numeroCuenta.value <= 0" class="margin-top-md"  [required]="esPagoChequeGerencia"
+                                (update)="updateCashDetail($event)" [cono_actual]="conoActual"
+                                [cono_anterior]="conoAnterior">
+                                </sirio-cash-button>  
+                            </div>-->
 
                             <!-- Cuarta fila email y telef Nota: Borrar este comentario al Final -->
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                                *ngIf="esPagoCheque || esPagoChequeGerencia || esRetiroEfectivo">
+                                *ngIf="esPagoCheque || esPagoChequeGerencia">
 
                                 <mat-form-field fxFlex.gt-sm="50">
                                     <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
@@ -270,7 +264,18 @@
                                     <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
-                            </div>                       
+                            </div>
+
+                            <!-- quinta fila retiroEfectivoEvaluate  Nota: Borrar este comentario al Final -->
+                           <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
+                                *ngIf="esRetiroEfectivo">
+                                <sirio-select-search fxFlex.gt-xs="20"
+                                    [label]="'deposit.documentType' | translate: {default: 'global.documentType'} | translate"
+                                    formControlName="tipoDocumento" [required]="esRetiroEfectivo"
+                                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.tipoDocumento?.errors">
+                                </sirio-select-search>                         
+                            </div>
 
 
 
@@ -282,7 +287,7 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid ">
-                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
 

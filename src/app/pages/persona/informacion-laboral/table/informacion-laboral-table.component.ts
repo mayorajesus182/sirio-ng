@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -6,6 +6,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { InformacionLaboral, InformacionLaboralService } from 'src/@sirio/domain/services/persona/informacion-laboral/informacion-laboral.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
+
 import { InformacionLaboralFormPopupComponent } from '../popup/informacion-laboral-form.popup.component';
 
 @Component({
@@ -20,6 +21,7 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
 
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   informacionLaboralList:ReplaySubject<InformacionLaboral[]> = new ReplaySubject<InformacionLaboral[]>();
 
   constructor(
@@ -34,9 +36,9 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
   
   private loadList(){
     this.informacionLaboralService.allByPersonaId(this.persona).subscribe((data) => {
-      console.log(data);
-      
+           
       this.informacionLaboralList.next(data.slice());
+      this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }

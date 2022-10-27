@@ -30,12 +30,21 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="5" [sortable]="true">
+    <ngx-datatable-column [flexGrow]="3" [sortable]="true">
         <ng-template ngx-datatable-header-template>
             <span>Descripción</span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-            {{row.nombre}}
+            <div class="text-left" [innerHTML]="row.nombre"> </div>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>Ingresos/Remuneración</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+          <div class="text-right">{{row.remuneracion|number:'1.2'}}</div>  
         </ng-template>
     </ngx-datatable-column>
 
