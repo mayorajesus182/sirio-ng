@@ -6,8 +6,8 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface Persona{
     id: number;
-    numper: string;
     nombre: string;
+    numper: string;
     tipoDocumento: string;
 }
 
@@ -15,7 +15,7 @@ export interface Persona{
     providedIn:'root'
 })
 export class PersonaService {
-    searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService

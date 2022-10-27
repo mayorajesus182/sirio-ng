@@ -2,7 +2,7 @@
   <sirio-dialog-header-heading>
     <h1> <i class="fa-light fa-money-bill-transfer"></i> {{'coin.form'|translate}} </h1> &nbsp; <h4>({{moneda.nombre}})</h4> <span> Desglosar</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
-      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+      <button mat-icon-button class="close-button" (click)="close()">
         <mat-icon class="close-icon">close</mat-icon>
       </button>
     </div>
@@ -42,7 +42,7 @@
     (cono_actual_update)="updateConoActual($event)" (cono_anterior_update)="updateConoAnterior($event)" [total]="total" labelPrefix="Bs."></sirio-cash-detail>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-raised-button (click)="dialogRef.close(false)">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button (click)="clearAll()">{{'button.clean'|translate}}</button>
     <button mat-raised-button color="primary" (click)="save()">{{'button.save'|translate}}</button>
   </mat-dialog-actions>
 

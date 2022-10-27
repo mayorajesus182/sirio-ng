@@ -7,13 +7,13 @@
         <sirio-list [name]="'agency.table' | translate: {default: 'global.notfound'}" placeholder="agency.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="codigo" matSortDirection="asc">
+                matSortActive="agencia_id" matSortDirection="asc">
 
-                <ng-container matColumnDef="codigo">
+                <ng-container matColumnDef="agencia_id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'agency.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p >{{element.codigo}}</p>
+                        <p >{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 

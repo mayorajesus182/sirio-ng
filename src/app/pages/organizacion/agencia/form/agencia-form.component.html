@@ -20,7 +20,7 @@
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>clear_all</mat-icon>
+                            <mat-icon>backspace</mat-icon>
 
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -34,21 +34,20 @@
                     <form [formGroup]="itemForm" *ngIf="itemForm">
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="15">
-                                <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
-                                </mat-label>
-                                <input matInput minlength="4" maxlength="4" autocomplete="off" name="codigo" formControlName="codigo" uppercase required>
-                                <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}
+                                <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }} </mat-label>
+                                <input matInput minlength="4" maxlength="4" autocomplete="off" name="id" formControlName="id" uppercase required>
+                                <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}
                                 </mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharater' | translate}}
+                                <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharater' | translate}}
                                 </mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}
                                 </mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.minlength">Debe tener 4 caracteres</mat-error>
+                                <mat-error *ngIf="f.id.errors?.minlength">Debe tener 4 caracteres</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="70">
                                 <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }} </mat-label>
-                                <input matInput maxlength="200" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
+                                <input matInput maxlength="200" autocomplete="off" name="nombre" formControlName="nombre" required>
                                 <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
                                 </mat-error>
                                 <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharater' | translate}}
@@ -94,66 +93,49 @@
                             </sirio-select-search>
 
                             <mat-form-field fxFlex="40">
-                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate
-                                    }}
-                                </mat-label>
-                                <input matInput maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase required>
-                                <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}
-                                </mat-error>
-                                <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}}
-                                </mat-error>
+                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }} </mat-label>
+                                <input matInput maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" >
+                                <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}} </mat-error>
+                                <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
                             </mat-form-field>
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="60">
-                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
-                                </mat-label>
-                                <input type="text" matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase
-                                    required email-validate>
+                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}  </mat-label>
+                                <input type="email"  matInput maxlength="60" autocomplete="off" name="email" formControlName="email" 
+                                email-validate uppercase>
                                 <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="20">
-                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
-                                </mat-label>
-                                <input matInput maxlength="15" autocomplete="off" name="telefono" formControlName="telefono" uppercase required>
-                                <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}
-                                </mat-error>
-                                <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}}
-                                </mat-error>
+                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }} </mat-label>
+                                <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="">
+                                <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
+                                <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="20">
-                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'}
-                                    | translate }}
-                                </mat-label>
-                                <input matInput maxlength="15" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase>
-                                <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}}
-                                </mat-error>
+                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }} </mat-label>
+                                <input matInput name="telefonoAlt" autocomplete="off" formControlName="telefonoAlt" prefix="04" mask="00 000 00 00" placeholder="">
                             </mat-form-field>
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="50">
-                                <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
-                                </mat-label>
-                                <input matInput autocomplete="off" name="latitud" formControlName="latitud" uppercase currencyMask [options]="{precision:8}"
-                                    max="999.99999999" required>
+                                <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }} </mat-label>
+                                <input matInput autocomplete="off" name="latitud" formControlName="latitud"  currencyMask [options]="{precision:8}" max="999.99999999" required>
                                 <mat-error *ngIf="f.latitud.errors?.required">{{'error.required' | translate}}</mat-error>
-                                <mat-error *ngIf="f.latitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
+                                <mat-error *ngIf="f.latitud.errors?.max">{{'error.beLessThan' | translate}} 999.99999999</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="50">
-                                <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
-                                </mat-label>
-                                <input matInput autocomplete="off" name="longitud" formControlName="longitud" uppercase currencyMask [options]="{precision:8}"
-                                    max="999.99999999" required>
+                                <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }} </mat-label>
+                                <input matInput autocomplete="off" name="longitud" formControlName="longitud"  currencyMask [options]="{precision:2}" max="999.99999999" >
                                 <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
-                                <mat-error *ngIf="f.longitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
+                                <mat-error *ngIf="f.longitud.errors?.max">{{'error.beLessThan' | translate}} 999.99999999</mat-error>
                             </mat-form-field>
-
                         </div>
                     </form>
 
@@ -165,7 +147,7 @@
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
-                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>

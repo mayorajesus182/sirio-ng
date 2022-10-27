@@ -21,14 +21,14 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div class="result" fxLayout="column" *ngIf="d.codigo">
+                    <div class="result" fxLayout="column" *ngIf="d.id">
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex="20">
                                 <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.codigo" readonly>
+                                <input matInput [value]="d.id" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="80">

@@ -369,7 +369,6 @@ export class FormBaseComponent {
     }
 
 
-
     protected addOrRemoveFieldValidator(fieldName: string, isAdd: boolean, value?: any, moreValidator?: any[]) {
         let validators = [Validators.required];
         if (moreValidator) {

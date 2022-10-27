@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   direcciones:ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
   direccionList:Direccion[] = [];
 
@@ -37,6 +38,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   private loadList(){
     this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
       this.direcciones.next(data.slice());
+      this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }

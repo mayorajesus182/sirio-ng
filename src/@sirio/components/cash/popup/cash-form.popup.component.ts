@@ -25,7 +25,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   public totalActual = 0;
   public totalAnterior = 0;
   public total = 0;
-  private divisor=1;
+  private divisor = 1;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -64,10 +64,10 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
     this.moneda = this.defaults.payload.moneda;
 
-    this.preferenciaService.get().subscribe(data =>{
+    this.preferenciaService.get().subscribe(data => {
       this.preferencia.next(data);
-      this.divisor=data.divisorConoAnterior;
-    } );
+      this.divisor = data.divisorConoAnterior;
+    });
 
     if (this.defaults.id) {
       this.mode = 'global.edit';
@@ -90,6 +90,18 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   }
 
+
+  close() {
+
+    this.dialogRef.close(
+      {
+        desgloseConoActual: this.valuesCono1,
+        desgloseConoAnterior: this.valuesCono2,
+        montoTotal: this.montoTotal
+      });
+
+  }
+
   updateConoActual(list: ConoMonetario[]) {
     this.totalActual = 0;
     if (list && list.length > 0) {
@@ -97,7 +109,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
       this.valuesCono1 = list;
       // calculo de totales para el cono actual
-      this.totalActual = list.map(e => e.count * e.denominacion).reduce((a, b) => a + b);
+      this.totalActual = list.map(e => e.cantidad * e.denominacion).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
     }
@@ -111,11 +123,16 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
       this.valuesCono2 = list;
       // calculo de totale para el cono anterior
-      this.totalAnterior = list.map(e => e.count * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
+      this.totalAnterior = list.map(e => e.cantidad * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
     }
 
+  }
+
+  clearAll() {
+    this.updateConoActual([]);
+    this.updateConoAnterior([]);
   }
 
 

@@ -100,7 +100,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(agencia: Agencia) {
         this.itemForm = this.fb.group({
-            codigo: [agencia.codigo || '', {disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
+            id: [agencia.id || '', {disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
             nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
             parroquia: [agencia.parroquia || undefined, [Validators.required]],
             municipio: [agencia.municipio || undefined, [Validators.required]],
@@ -138,8 +138,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             });
         });
 
-        this.f.codigo.valueChanges.subscribe(value => {
-            if (!this.f.codigo.errors && this.f.codigo.value.length > 0) {
+        this.f.id.valueChanges.subscribe(value => {
+            if (!this.f.id.errors && this.f.id.value.length > 0) {
                 this.codigoExists(value);
             }
         });
@@ -156,10 +156,10 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         this.saveOrUpdate(this.agenciaService, this.agencia, 'La Agencia', this.isNew);
     }
 
-    private codigoExists(codigo) {
-        this.agenciaService.exists(codigo).subscribe(data => {
+    private codigoExists(id) {
+        this.agenciaService.exists(id).subscribe(data => {
             if (data.exists) {
-                this.itemForm.controls['codigo'].setErrors({
+                this.itemForm.controls['id'].setErrors({
                     exists: this.translateService.instant('error.codeExists')
                 });
                 this.cdr.detectChanges();

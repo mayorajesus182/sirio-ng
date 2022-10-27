@@ -76,7 +76,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                             let index = this.cono_actual.findIndex(ca => ca.id == c.id);
                             if (index >= 0) {
 
-                                c.count = this.cono_actual[index].count;
+                                c.cantidad = this.cono_actual[index].cantidad;
                             }
                             return c;
                         })
@@ -93,7 +93,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                                 let index = this.cono_anterior.findIndex(ca => ca.id == c.id);
                                 if (index >= 0) {
 
-                                    c.count = this.cono_anterior[index].count;
+                                    c.cantidad = this.cono_anterior[index].cantidad;
                                 }
                                 return c;
                             })
@@ -120,7 +120,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
         const ix = this.listActual.findIndex(e => e.denominacion == elem.denominacion);
         // console.log('index ',ix);
 
-        if (elem.count <= 0 || !elem.count) {
+        if (elem.cantidad <= 0 || !elem.cantidad) {
             if (ix >= 0) {
                 this.listActual.splice(ix, 1);
                 // console.log('remove ', this.listActual);
@@ -129,7 +129,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
         } else {
             if (ix >= 0) {
-                this.listActual[ix].count = elem.count;
+                this.listActual[ix].cantidad = elem.cantidad;
             } else {
                 this.listActual.push(elem);
             }
@@ -142,7 +142,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
         const ix = this.listAnterior.findIndex(e => e.denominacion == elem.denominacion);
         // console.log('index ',ix);
 
-        if (elem.count <= 0 || !elem.count) {
+        if (elem.cantidad <= 0 || !elem.cantidad) {
             if (ix >= 0) {
                 this.listAnterior.splice(ix, 1);
                 // console.log('remove ', this.listAnterior);
@@ -151,7 +151,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
         } else {
             if (ix >= 0) {
-                this.listAnterior[ix].count = elem.count;
+                this.listAnterior[ix].cantidad = elem.cantidad;
             } else {
                 this.listAnterior.push(elem);
             }

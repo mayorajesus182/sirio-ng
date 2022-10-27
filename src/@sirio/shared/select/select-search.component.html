@@ -3,11 +3,7 @@
 
     <mat-select [formControl]="selectSearchControl" #searchSelect [multiple]="multiple" *ngIf="!readonly"
         (change)="propagateChange($event.target.value)" (blur)="propagateTouched($event)" [required]="required">
-        <!-- <mat-option>
-      <ngx-mat-select-search [formControl]="filterCtrl" [placeholderLabel]="'Buscar...' " [noEntriesFoundLabel]="'busqueda sin resultados'">
-        <mat-icon ngxMatSelectSearchClear>delete</mat-icon>
-      </ngx-mat-select-search>
-    </mat-option> -->
+   
         <mat-option>
             <ngx-mat-select-search *ngIf="true" [formControl]="filterCtrl"
                 [placeholderLabel]="'global.search' | translate: {default: 'global.notfound'} | translate"
@@ -24,9 +20,6 @@
     </mat-select>
     <mat-error *ngIf="selectSearchControl.errors?.invalid&&!readonly">Requerido</mat-error>
     <!-- {{errors|json}} -->
-    <input matInput [value]="selectSearchControl.value[attributeName]" readonly *ngIf="readonly">
-
-
+    <input matInput [value]="showName(selectSearchControl.value)" readonly *ngIf="readonly">
 
 </mat-form-field>
-<!--{{elementName}} {{formCtrlElement.controls[elementName]}} appearance="outline"-->

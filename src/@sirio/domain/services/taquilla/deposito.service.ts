@@ -4,12 +4,26 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
+export interface Cheque {
+    id: number;
+    deposito: number;
+    entidadFinanciera: number;
+    serial: number;
+    numeroCuenta: string;
+    tipoDocumento: string;
+    codigoSeguridad: string;
+    fechaEmision: any;
+    monto: number;
+    devolver: number;
+    motivoDevolucion: string;
+}
 
 export interface Deposito {
     id: number;
     // institucion: string;
-    // agencia: number;
+    // agencia: string;
     // persona:number;
     numper: string;
     cuentaBancaria: number;
@@ -32,9 +46,10 @@ export interface Deposito {
     telefono: string;
     email: string;
     estatusOperacion: string;
+    detalles:ConoMonetario[];
+    cheques: Cheque[];
     
 }
-
 @Injectable({
     providedIn:'root'
 })
@@ -52,6 +67,5 @@ export class DepositoService {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
-
    
 }

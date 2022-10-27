@@ -28,8 +28,8 @@ export class SweetAlertService {
 
     let opts_warning = {
       title: this.translate.instant(title),
-      confirmButtonText: this.translate.instant('button.alert.confirm'),
-      cancelButtonText: this.translate.instant('button.alert.cancel'),
+      confirmButtonText: this.translate.instant('button.confirm'),
+      cancelButtonText: this.translate.instant('button.cancel'),
       text: txt ? this.translate.instant(txt) : ''
     }
     let options = {};
@@ -40,7 +40,7 @@ export class SweetAlertService {
 
       let opts_success = {
         title: this.translate.instant(title),
-        confirmButtonText: this.translate.instant('button.alert.ok'),
+        confirmButtonText: this.translate.instant('button.ok'),
         text: txt ? this.translate.instant(txt) : ''
       }
       options = Object.assign({}, opts_success, opts);

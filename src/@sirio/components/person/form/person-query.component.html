@@ -1,0 +1,68 @@
+<sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
+    <sirio-card-header>
+        <sirio-card-header-heading><mat-icon>search</mat-icon> &nbsp;Consultar Persona</sirio-card-header-heading>
+        <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
+        <sirio-card-header-actions>
+            <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+            {default: 'global.notfound'} | translate }}" type="button" (click)="resetAll()">
+                <mat-icon>backspace</mat-icon>
+            </button>
+        </sirio-card-header-actions>
+    </sirio-card-header>
+    <sirio-card-content fxLayout="column">
+        <div fxLayout="column" [formGroup]="searchForm">
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                <sirio-select-simple autofocus="true" fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
+                    [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" 
+                    [errors]="search.tipoDocumento?.errors" [required]="true">
+                </sirio-select-simple>
+
+
+                <mat-form-field fxFlex="15">
+                    <mat-label>{{'global.identification' | translate }} </mat-label>
+                    <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
+                        formControlName="identificacion">
+
+                    <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                        translate}}
+                    </mat-error>
+                    <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe!
+                    </mat-error>
+                    <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido!
+                    </mat-error>
+                    <!-- {{search.tipoDocumento.errors| json}} -->
+                </mat-form-field>
+                
+
+                <mat-form-field fxFlex="20" *ngIf="taquilla">
+                    <mat-label>{{'global.bankAccount' | translate }} </mat-label>
+                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" num-account-validate
+                    formControlName="cuenta" (keyup.enter)="queryByAccount()" mask="0000 0000 00 00 00000000">
+                    <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="auto">
+                    <mat-label>{{'global.name' | translate }} </mat-label>
+                    <input matInput autocomplete="off" class="text-center" name="nombre" formControlName="nombre" readonly="">
+                </mat-form-field>
+
+                <div fxFlex="15" *ngIf="!taquilla">
+                    <button color="accent" class="btn-create" (click)="add()" *ngIf="!persona.id" mat-raised-button [disabled]="!isNew">
+                        <i class="fa-light fa-user-plus fa-lg"></i>
+                        {{'button.add' | translate: {default:'global.notfound'} | translate }}
+                    </button>
+                    <button color="accent" class="btn-create" (click)="edit()" *ngIf="persona.id || persona.numper" mat-raised-button
+                        [disabled]="!persona.id && !persona.numper">
+                        <i class="fa-light fa-user-pen fa-lg"></i>
+                        {{'button.update' | translate: {default:'global.notfound'} | translate }}
+                    </button>
+                </div>
+                <!-- {{persona| json}} -->
+
+            </div>
+        </div>
+    </sirio-card-content>
+</sirio-card>
+
+<!-- <mat-divider class="margin-bottom-md"></mat-divider> -->

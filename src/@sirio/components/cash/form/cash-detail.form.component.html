@@ -8,7 +8,7 @@
                 <mat-form-field *ngFor="let item of listConoActual | async" fxFlex="100">
                     <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
                     </mat-label>
-                    <input matInput class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number" (blur)="onChangeConoActual(item)" />
+                    <input matInput class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number" (blur)="onChangeConoActual(item)" />
                 </mat-form-field>
 
             </div>
@@ -21,7 +21,7 @@
                 <mat-form-field *ngFor="let item of listConoAnterior | async" fxFlex="100">
                     <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
                     </mat-label>
-                    <input matInput (blur)="onChangeConoAnterior(item)" class="text-right" [(ngModel)]="item.count" min="0" autocomplete="off" matInput type="number"  />
+                    <input matInput (blur)="onChangeConoAnterior(item)" class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number"  />
                 </mat-form-field>
 
             </div>

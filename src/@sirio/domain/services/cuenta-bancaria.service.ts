@@ -10,6 +10,8 @@ export interface CuentaBancariaOperacion extends CuentaBancaria{
     persona: number;
     tipoProductoNombre: string;
     tipoDocumento: string;
+    moneda: string;
+    monedaNombre: string;
 
 }
 
