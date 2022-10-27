@@ -25,14 +25,14 @@ import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquill
 import { matFormFieldAnimations } from '@angular/material/form-field';
 
 @Component({
-    selector: 'app-retiro-form',
-    templateUrl: './retiro-form.component.html',
-    styleUrls: ['./retiro-form.component.scss'],
+    selector: 'app-pago-cheque-form',
+    templateUrl: './pago-cheque-form.component.html',
+    styleUrls: ['./pago-cheque-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class RetiroFormComponent extends FormBaseComponent implements OnInit {
+export class PagoChequeFormComponent extends FormBaseComponent implements OnInit {
 
     retiro: Retiro = {} as Retiro;
     public tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
@@ -45,9 +45,9 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
     agencia: Agencia = {} as Agencia;
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
-    esPagoCheque: boolean = false;
+    esPagoCheque: boolean = true;
     esPagoChequeGerencia: boolean = false;
-    esRetiroEfectivo: boolean = true;
+    esRetiroEfectivo: boolean = false;
     esEfectivo: boolean = false;
     esAbonoCuenta: boolean= false;
     detalleEfectivo: number = 0;

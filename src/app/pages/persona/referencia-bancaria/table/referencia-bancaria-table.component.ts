@@ -37,7 +37,9 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   private loadList(){
     this.referenciaBancariaService.allByPersonaId(this.persona).subscribe((data) => {
            
+      console.log(data);
       this.referenciaBancariaList.next(data.slice());
+      
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
