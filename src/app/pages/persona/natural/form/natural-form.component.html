@@ -20,7 +20,6 @@
                         <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
-
                         </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
@@ -119,7 +118,7 @@
                                             <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
                                             </mat-datepicker-toggle>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse">
-                                                Fecha Invalidad
+                                                Fecha Invalida
                                             </mat-error>
                                         </mat-form-field>
                                         <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
@@ -204,7 +203,7 @@
                                             <mat-label>{{'naturalPerson.familyBurden' | translate: {default:
                                                 'global.familyBurden'} | translate }}
                                             </mat-label>
-                                            <input matInput max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar"
+                                            <input matInput class="text-center" max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar"
                                                 formControlName="cargaFamiliar" required>
                                             <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
                                             <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10</mat-error>
@@ -386,13 +385,12 @@
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showInformacionLaboral">
 
-                                    <sirio-persona-informacionLaboral-table [persona]="personaNatural.id" (propagar)="updateInfoLaboral($event)"></sirio-persona-informacionLaboral-table>
+                                    <sirio-persona-informacionLaboral-table [persona]="personaNatural.id" (propagar)="updateWorkingInfo($event)"></sirio-persona-informacionLaboral-table>
 
                                 </div>
 
 
                             </mat-expansion-panel>
-
 
                             <mat-expansion-panel *ngIf="hasBasicData">
                                 <mat-expansion-panel-header>
@@ -404,18 +402,13 @@
                                     </mat-panel-title>
                                     <mat-panel-description>
 
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'3'"></span>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalBankReference"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
 
                                 <div fxLayout="row" fxLayout="column">
-                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="default" (click)="addElement()" mat-button>
-                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                            'global.notfound'} | translate }}
-                                        </button>
-                                    </div>
+                                    <sirio-persona-referencia-bancaria-table [persona]="personaNatural.id"></sirio-persona-referencia-bancaria-table>
                                 </div>
 
 

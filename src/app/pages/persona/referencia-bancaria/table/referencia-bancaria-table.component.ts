@@ -44,10 +44,10 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   }
 
   ngOnInit() {
-    console.log('informacionLaboral table');
+    console.log('referencia bancaria table');
     
     if(this.persona){
-      console.log('buscando Informacion Laboral en el servidor dado el id persona');
+      
       this.loadList();
 
       this.onRefresh.subscribe(val=>{
@@ -70,9 +70,8 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
-      console.log(event);
-      
+    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona}:data,'40%').afterClosed().subscribe(event=>{
+            
         if(event){
             this.onRefresh.next(true);
         }

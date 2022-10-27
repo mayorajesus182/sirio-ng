@@ -6,28 +6,29 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface ReferenciaBancaria {
-    id: number;
+    id: string;    
     persona: string,
-    entidadFinanciera: string,
-    tipoProducto: string,
-    numeroCuenta: string,
-    cifraPromedio: string
+    nombre: string,
+    tipDocumento: string,
+    identificacion: string,
+    telefonoFijo: string,
+    telefonoMovil: string  
 }
 
 
 @Injectable({
-    providedIn: 'root'
+    providedIn:'root'
 })
-export class ReferenciaBancariaService {
-
+export class ReferenciaPersonalService {
+    
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_PERSONA, prefix: '/referencia-bancaria' };
+        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/referencia-personal'};
     }
 
-    allByPersonaId(id: number): Observable<ReferenciaBancaria[]> {
+    allByPersonaId(id:number): Observable<ReferenciaBancaria[]> {
         return this.apiService.config(this.apiConfig).get(`/${id}/all`);
     }
 

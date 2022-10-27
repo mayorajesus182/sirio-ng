@@ -1,4 +1,4 @@
-<!-- Informacion Laboral -->
+<!-- Referencia Bancaria -->
 <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
         <button color="default" (click)="popup()" mat-button class="margin-bottom-sm">
@@ -21,30 +21,30 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>Tipo Ingreso</span>
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.tipoIngreso }}</span>
-        </ng-template>
-    </ngx-datatable-column>
-
     <ngx-datatable-column [flexGrow]="3" [sortable]="true">
         <ng-template ngx-datatable-header-template>
-            <span>Descripción</span>
+            <span>Entidad Financiera</span>
         </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-            <div class="text-left" [innerHTML]="row.nombre"> </div>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="text-left">{{ row?.entidadFinanciera }}</div>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
         <ng-template ngx-datatable-header-template>
-            <span>Ingresos/Remuneración</span>
+            <span>Tipo Producto</span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-          <div class="text-right">{{row.remuneracion|number:'1.2'}}</div>  
+            <div class="text-center" [innerHTML]="row.tipoProducto"> </div>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>Cuenta</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+          <div class="text-center">{{row.cuenta}}</div>  
         </ng-template>
     </ngx-datatable-column>
 
@@ -59,4 +59,4 @@
         </ng-template>
     </ngx-datatable-column>
 </ngx-datatable>
-<!-- /PEP -->
+<!-- /Referencia Bancaria -->

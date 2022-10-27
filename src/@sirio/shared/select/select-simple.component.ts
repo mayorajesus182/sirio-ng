@@ -16,7 +16,7 @@ import { take, takeUntil } from "rxjs/operators";
         }
     ]
 })
-export class SelectSimpleComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy,  OnInit, ControlValueAccessor, Validator{
+export class SelectSimpleComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, Validator{
 
     @Input() errors: any[];
     @Input() label: string;

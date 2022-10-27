@@ -2,7 +2,7 @@
   <sirio-dialog-header-heading>
     <!-- TODO: PENDIENTE IN18 -->
 
-    <h1>Información Laboral</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <h1>Referencia Bancaria</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -22,127 +22,32 @@
         formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
       </sirio-select-simple> -->
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Ingreso'" [readonly]="!isNew"  formControlName="tipoIngreso" [required]="true"
-        [elements]="tipoingresoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoingreso?.errors">
+      <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Producto'"  formControlName="tipoProducto" required="true"
+        [elements]="tipoProductoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoProducto?.errors">
       </sirio-select-search>
 
-
-      <!-- TODO: PENDIENTE I18n -->
-      <mat-form-field fxFlex="20" *ngIf="isRdOrNp()">
-        <mat-label>{{'RIF'}} </mat-label>
-        <input matInput maxlength="80" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
-          [required]="isRdOrNp()">
-        <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-          translate}}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="50" *ngIf="isRdOrNp()">
-        <mat-label>{{'Nombre Empresa' | translate: {default:
-          'global.companyName'} | translate }} </mat-label>
-        <input matInput maxlength="200" minlength="1" autocomplete="off" name="empresa" formControlName="empresa" uppercase [required]="isRdOrNp()">
-        <mat-error *ngIf="f.empresa.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.empresa.errors?.pattern">{{'error.invalidCharacter' |
-          translate}}
-        </mat-error>
-      </mat-form-field>
-
-    </div>
-
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!isRdOrNp()">
-      <sirio-select-search fxFlex.gt-xs="100" [label]="'Actividad Independiente'" formControlName="actividadIndependiente" [required]="!isRdOrNp()"
-        [elements]="actinDependienteList.asObservable()" [attributeName]="'nombre'" [errors]="f.actindependiente?.errors">
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Entidad Financiera'"  formControlName="entidadFinanciera" 
+      required="true"  [elements]="entidadFinancieraList.asObservable()" [attributeName]="'nombre'" [errors]="f.entidadFinanciera?.errors">        
       </sirio-select-search>
-    </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isRdOrNp()">
-      <sirio-select-search fxFlex.gt-xs="100" [label]="'Ramo'" formControlName="ramo" [required]="isRdOrNp()" [elements]="ramoList.asObservable()"
-        [attributeName]="'nombre'" [errors]="f.actindependiente?.errors">
-      </sirio-select-search>
     </div>
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <mat-form-field fxFlex="50">
-        <mat-label>{{ 'Registro' }} </mat-label>
-        <input matInput autocomplete="off" name="registro" formControlName="registro" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
-        <mat-error *ngIf="f.registro.errors?.required">{{'error.required' | translate}}
-        </mat-error>
+        <mat-label>{{'Numero de Cuenta'}}</mat-label>
+        <input autocomplete="off" class="text-center" mask="0000 0000 00 00 00000000" matInput name="numeroCuenta" num-account-validate maxlength="24"
+          formControlName="numeroCuenta"  required>
+        <mat-error *ngIf="f.numeroCuenta.errors?.notIsEntidad">La cuenta debe perternecer a la entidad financiera!</mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="auto">
-        <mat-label>{{ 'Numero' }} </mat-label>
-        <input matInput autocomplete="off" name="numero"  formControlName="numero" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
-        <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="auto">
-        <mat-label>{{ 'Tomo' }} </mat-label>
-        <input matInput autocomplete="off" name="tomo"  formControlName="tomo" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
-        <mat-error *ngIf="f.tomo.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="auto">
-        <mat-label>{{ 'Folio' }} </mat-label>
-        <input matInput autocomplete="off" name="folio"  formControlName="folio" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
-        <mat-error *ngIf="f.folio.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <!--  -->
-
-      <mat-form-field fxFlex="auto">
-        <mat-label>{{f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA? 'Remuneración' : 'Ingreso Mensuales' }} </mat-label>
-        <input matInput autocomplete="off" name="remuneracion" currencyMask [options]="{precision:2}" formControlName="remuneracion" [required]="">
-        <mat-error *ngIf="f.remuneracion.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-      </mat-form-field>
-
-      <div fxFlex="20" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-
-        <mat-form-field fxFlex="100">
-          <mat-label>{{'Fecha Ingreso'}}</mat-label>
-          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
-            [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-          <mat-datepicker-toggle matSuffix [for]="fechaPicker">
-          </mat-datepicker-toggle>
-          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
-            Fecha Invalida
-          </mat-error>
-        </mat-form-field>
-        <mat-datepicker #fechaPicker></mat-datepicker>
-
-      </div>
-
-
-      <mat-form-field fxFlex="auto" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-        <mat-label>{{'Cargo'}}</mat-label>
-        <input autocomplete="off" matInput name="cargo" formControlName="cargo" uppercase [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-      </mat-form-field>
-
-
+      <sirio-select-simple fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" required="true"
+        [elements]="cifrasPromedioList.asObservable()" [attributeName]="'nombre'" [errors]="f.cifraPromedio?.errors">
+      </sirio-select-simple>
 
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isRdOrNp()">
-      <mat-form-field fxFlex="100">
-        <mat-label>{{f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA? 'Dirección Empresa' : 'Dirección Fizcal' }} </mat-label>
-        <input matInput maxlength="100" minlength="1" autocomplete="off" name="direccion" formControlName="direccion" uppercase [required]="isRdOrNp()">
-        <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharacter' |
-          translate}}
-        </mat-error>
-      </mat-form-field>
-    </div>
+
+
 
   </mat-dialog-content>
   <!-- {{printErrors() | json}} -->
