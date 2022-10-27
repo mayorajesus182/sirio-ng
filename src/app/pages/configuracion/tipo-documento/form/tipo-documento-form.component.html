@@ -19,7 +19,7 @@
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>clear_all</mat-icon>
+                            <mat-icon>backspace</mat-icon>
 
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -77,7 +77,7 @@
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
-                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>

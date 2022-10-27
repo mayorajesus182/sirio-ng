@@ -2,12 +2,18 @@
     <sirio-card-header>
         <sirio-card-header-heading><mat-icon>search</mat-icon> &nbsp;Consultar Persona</sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
+        <sirio-card-header-actions>
+            <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+            {default: 'global.notfound'} | translate }}" type="button" (click)="resetAll()">
+                <mat-icon>backspace</mat-icon>
+            </button>
+        </sirio-card-header-actions>
     </sirio-card-header>
     <sirio-card-content fxLayout="column">
         <div fxLayout="column" [formGroup]="searchForm">
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                <sirio-select-simple fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
-                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'" 
+                <sirio-select-simple autofocus="true" fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
+                    [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" 
                     [errors]="search.tipoDocumento?.errors" [required]="true">
                 </sirio-select-simple>
 
@@ -28,17 +34,17 @@
                 </mat-form-field>
                 
 
-                <mat-form-field fxFlex="25" *ngIf="taquilla">
+                <mat-form-field fxFlex="20" *ngIf="taquilla">
                     <mat-label>{{'global.bankAccount' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="cuenta" 
-                    formControlName="cuenta" (keyup.enter)="queryByAccount()">
+                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" num-account-validate
+                    formControlName="cuenta" (keyup.enter)="queryByAccount()" mask="0000 0000 00 00 00000000">
                     <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
                     </mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="auto">
-                    <mat-label>{{'global.name' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="nombre" formControlName="nombre" readonly="">
+                    <mat-label>{{'global.fullName' | translate }} </mat-label>
+                    <input matInput autocomplete="off" class="text-center" name="nombre" formControlName="nombre" readonly>
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">

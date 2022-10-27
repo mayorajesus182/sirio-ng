@@ -11,7 +11,8 @@ import { PersonaRoutingModule } from './persona.routing';
     SirioSharedModule,
     SharedComponentModule,
     BreadcrumbsModule,
-    PersonaRoutingModule
+    PersonaRoutingModule,
+    
   ],
   declarations: [
   ],

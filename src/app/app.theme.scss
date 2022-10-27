@@ -119,6 +119,10 @@ $dark-theme: mat.define-dark-theme((color: (primary: $theme-primary,
   .simplebar-scrollbar:before {
     background-color: #7781a3;
   }
+
+  .ngx-datatable.material .empty-row{
+    color: #686868;
+  }
 }
 
 .sirio-light {
@@ -142,6 +146,9 @@ $dark-theme: mat.define-dark-theme((color: (primary: $theme-primary,
   }
   .simplebar-scrollbar:before {
     background-color:  #7781a3;
+  }
+  .ngx-datatable.material .empty-row{
+    color: #686868;
   }
 }
 

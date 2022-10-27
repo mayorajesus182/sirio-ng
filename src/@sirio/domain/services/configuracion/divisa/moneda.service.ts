@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 
 export interface Moneda {
@@ -73,11 +72,11 @@ export class MonedaService {
     }
 
     fisicaActives(): Observable<Moneda[]> {
-        return this.apiService.config(this.apiConfig).get('/actives/fisicas');
+        return this.apiService.config(this.apiConfig).get('/fisicas/actives');
     }
     
     virtualActives(): Observable<Moneda[]> {
-        return this.apiService.config(this.apiConfig).get('/actives/virtuales');
+        return this.apiService.config(this.apiConfig).get('/virtuales/actives');
     }
 
 }
