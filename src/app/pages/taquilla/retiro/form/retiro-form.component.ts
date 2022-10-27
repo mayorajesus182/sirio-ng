@@ -273,8 +273,8 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.conoActual = [];
             this.conoAnterior = [];
             this.detalleEfectivo = 0;           
-            this.f.beneficiario.setValue(null);
-            this.f.comprador.setValue(null);
+            this.f.beneficiario.setValue(undefined);
+            this.f.comprador.setValue(undefined);
             //this.f.tipoDocumento.setValue(undefined);            
 
         }
@@ -289,7 +289,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
             this.conoActual = [];
             this.conoAnterior = [];
             this.detalleEfectivo = 0;
-            this.f.tipoDocumento.setValue(false);
+          
         }
     }
 
@@ -310,7 +310,7 @@ export class RetiroFormComponent extends FormBaseComponent implements OnInit {
         this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
         this.retiro.codSeguridad = this.retiro.codSeguridad;
         this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-        this.retiro.telefono= "04".concat(this.retiro.telefono);
+        this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
         console.log("RETIRO   ", this.retiro);
 
         this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
