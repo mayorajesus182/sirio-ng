@@ -17,7 +17,7 @@
             <span>#</span>
         </ng-template>
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            {{ rowIndex+1 }}
+            <div class="text-center">{{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
 
@@ -44,7 +44,7 @@
             <span>Cuenta</span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-          <div class="text-center">{{row.cuenta}}</div>  
+          <div class="text-center">{{row.numeroCuenta}}</div>  
         </ng-template>
     </ngx-datatable-column>
 

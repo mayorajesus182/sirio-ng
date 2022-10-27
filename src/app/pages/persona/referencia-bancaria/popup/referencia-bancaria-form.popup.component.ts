@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
+
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
@@ -11,7 +12,8 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 @Component({
   selector: 'sirio-referencia-bancaria-form.popup',
   templateUrl: './referencia-bancaria-form.popup.component.html',
-  styleUrls: ['./referencia-bancaria-form.popup.component.scss']
+  styleUrls: ['./referencia-bancaria-form.popup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
@@ -62,6 +64,8 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     });
 
+    console.log('ref bancaria',this.defaults.payload);
+    
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
@@ -70,14 +74,15 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         this.referencia = data;
         this.buildForm();
         this.loadingDataForm.next(false);
+        this.cdr.detectChanges();
         
       })
     } else {
       this.referencia = {} as ReferenciaBancaria;
       this.buildForm();
       this.loadingDataForm.next(false);
+      this.cdr.detectChanges();
     }
-    // this.cdr.markForCheck();
   }
 
 
@@ -96,21 +101,29 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
       console.log('cuenta ',val);
       
       if (val && this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
-        this.itemForm.controls['numeroCuenta'].setErrors({ notIsEntidad: true });
+        this.f.numeroCuenta.setErrors({ notIsEntidad: true });
+        this.f.numeroCuenta.markAsDirty();
         this.cdr.detectChanges();
-      } else {
-        this.itemForm.controls['numeroCuenta'].setErrors(null);
-        this.cdr.detectChanges();
-      }
+      } 
+      
+      // else {
+      
+      //   this.itemForm.controls['numeroCuenta'].setErrors(null);
+      //   this.cdr.detectChanges();
+      // }
     });
     
     this.f.entidadFinanciera.valueChanges.subscribe((val: string) => {
-      console.log('entidad financiera ',val);
+      console.log('entidad financiera **'+val+'**');
       if (val && this.f.numeroCuenta.value && !this.f.numeroCuenta.value.startsWith(val)) {
-        this.itemForm.controls['numeroCuenta'].setErrors({ notIsCuenta: true });
+        console.log(' la cuenta no pertenece a la entidad');
+        
+        this.f.numeroCuenta.setErrors({ notIsEntidad: true });
+        this.f.numeroCuenta.markAsDirty();
         this.cdr.detectChanges();
       } else {
         this.itemForm.controls['numeroCuenta'].setErrors(null);
+        // this.f.numeroCuenta.clearValidators();
         this.cdr.detectChanges();
       }
     });
