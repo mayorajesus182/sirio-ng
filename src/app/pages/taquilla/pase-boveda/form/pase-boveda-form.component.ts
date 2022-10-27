@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { CajaTaquilla, CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
@@ -29,6 +30,8 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
     public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
+    public conos = new BehaviorSubject<ConoMonetario[]>([]);
+    public conoSave: ConoMonetario[] = [];
     saldoDisponible: number = 0;
 
     constructor(
@@ -41,6 +44,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
         private saldoTaquillaService: SaldoTaquillaService,
+        private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -88,18 +92,26 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
             monto: new FormControl(cajaTaquilla.monto || undefined, Validators.required),
         });
 
-        this.f.moneda.valueChanges.subscribe(value => {
+        this.f.moneda.valueChanges.subscribe(val => {
             this.obtenerSaldo();
+            this.conoMonetarioService.activesByMoneda(val).subscribe(data => {
+                this.conos.next(data);
+                this.cdr.detectChanges();
+            });
         });
 
-        this.f.monto.valueChanges.subscribe(value => {
-            this.validarBalance(value);
+        this.f.monto.valueChanges.subscribe(val => {
+            if (val) {
+                this.validarBalance(val);
+            }
+ 
         });
     }
 
     obtenerSaldo() {
 
         this.saldoDisponible = 0;
+        this.f.monto.setValue(undefined);
 
         this.saldoTaquillaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
             this.saldoDisponible = data;
@@ -114,9 +126,15 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
                 balance: true
             });
             this.cdr.detectChanges();
-        } else {
-            this.f.monto.setErrors(undefined);
-        }
+        } 
+    }
+
+    updateValuesErrors() {
+        this.conos.subscribe(c => {
+            this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+            this.conoSave = c.filter(c => c.cantidad > 0);
+            this.cdr.detectChanges();
+        });
     }
 
     save() {
@@ -126,10 +144,12 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         this.updateData(this.cajaTaquilla);
         this.cajaTaquilla.taquilla = this.taquilla.id;
         this.cajaTaquilla.movimientoEfectivo = this.movimientoEfectivo.id;
-
-        console.log('  this.cajaTaquilla   ', this.cajaTaquilla);
+        this.cajaTaquilla.detalleEfectivo = this.conoSave;
 
         this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
+
+        console.log(this.cajaTaquilla);
+
     }
 
 }

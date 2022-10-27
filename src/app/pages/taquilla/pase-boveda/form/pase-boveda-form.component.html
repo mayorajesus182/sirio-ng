@@ -56,15 +56,35 @@
                                 <mat-form-field fxFlex="25">
                                     <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.availableBalance' |
                                         translate }} {{saldoDisponible}}) </mat-label>
-                                    <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
-                                        [options]="{precision:2}" required>
+                                    <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
+                                        [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.balance">{{'error.insufficientBalance' | translate}}</mat-error>
+                                    <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
-
                             </div>
                         </form>
+
+                        <div fxLayout="column" *ngIf="f.moneda.value">
+                            <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
+                                <div fxLayout="column" fxFlex="10">
+                                    <h3>{{'cashPass.monetaryCone' | translate: {default: 'global.monetaryCone'} | translate }}</h3>
+                                </div>
+                                <div fxLayout="column" fxFlex="auto">
+                                    <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+                                        <mat-form-field fxLayout="column" *ngFor="let item of conos | async" fxFlex="32">
+                                            <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                                'global.coin') | translate }}
+                                            </mat-label>
+                                            <input matInput class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number"
+                                                (ngModelChange)="updateValuesErrors()" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </sirio-card-content>
                 <mat-toolbar>

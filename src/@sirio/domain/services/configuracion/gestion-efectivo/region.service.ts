@@ -29,7 +29,7 @@ export class RegionService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    activesByTipoPersona(zona: string): Observable<Region[]> {
+    activesByZona(zona: string): Observable<Region[]> {
         return this.apiService.config(this.apiConfig).get(`/${zona}/byzona/actives`);
     }
 

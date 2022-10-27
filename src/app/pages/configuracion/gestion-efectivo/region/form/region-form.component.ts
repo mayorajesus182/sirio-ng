@@ -70,7 +70,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
     buildForm(region: Region) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: region.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             zona: new FormControl(region.zona || undefined, [Validators.required]),
         });
     }

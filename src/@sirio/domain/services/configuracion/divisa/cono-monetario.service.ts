@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
-
 export interface ConoMonetario {
     id: number;
     moneda: string;
@@ -13,6 +12,7 @@ export interface ConoMonetario {
     denominacion: number;
     esBillete: number;
     cantidad?: number;    
+    disponible?: number;    
     activo?: number;
 }
 

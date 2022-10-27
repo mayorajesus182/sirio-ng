@@ -64,6 +64,14 @@ export class MonedaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 
+    paraOperacionesActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/foroperation/actives');
+    }
+
+    paraAtmActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/foratm/actives');
+    }
+
     fisicaActives(): Observable<Moneda[]> {
         return this.apiService.config(this.apiConfig).get('/actives/fisicas');
     }
