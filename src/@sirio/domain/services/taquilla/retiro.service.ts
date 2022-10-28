@@ -36,6 +36,7 @@ export interface Retiro {
     comprador: string;
     beneficiario: string;
     detalles:ConoMonetario[];
+    operacion?:'efectivo' | 'cheque' | 'cheque-gerencia';
     //estatusOperacion: string;
       
 }
@@ -55,7 +56,7 @@ export class RetiroService {
     
 
     save(data: Retiro): Observable<any> {       
-        return this.apiService.config(this.apiConfig).post('/create', data)
+        return this.apiService.config(this.apiConfig).post(`/${data.operacion}/create`, data)
             .pipe(map(res => data));
     }
 
