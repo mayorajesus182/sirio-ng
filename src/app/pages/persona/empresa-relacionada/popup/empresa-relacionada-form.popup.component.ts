@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
-import { RelacionEmpresa, RelacionEmpresaService } from 'src/@sirio/domain/services/configuracion/persona-natural/relacion-empresa.service';
+import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { EmpresaRelacionada, EmpresaRelacionadaService } from 'src/@sirio/domain/services/persona/empresa-relacionada/empresa-relacionada.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
@@ -17,7 +17,7 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
 
   empresaRelacionada: EmpresaRelacionada = {} as EmpresaRelacionada;
 
-  public relacionEmpresaList = new BehaviorSubject<RelacionEmpresa[]>([]);
+  public tipoRelacionList = new BehaviorSubject<TipoRelacion[]>([]);
 
   
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -25,9 +25,7 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
     dialogRef: MatDialogRef<EmpresaRelacionadaFormPopupComponent>,
 
     private empresaRelacionadaService: EmpresaRelacionadaService,        
-                      
-    private relacionEmpresaService: RelacionEmpresaService,
-    
+    private tipoRelacionService: TipoRelacionService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
 
@@ -41,10 +39,10 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   ngOnInit() {
 
     
-    this.relacionEmpresaService.actives().subscribe(data => {
+    this.tipoRelacionService.actives().subscribe(data => {
       console.log(data);
       
-      this.relacionEmpresaList.next(data);
+      this.tipoRelacionList.next(data);
       this.cdr.detectChanges();
     })
 
@@ -69,7 +67,7 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
 //validar carcteres especiales
     this.itemForm = this.fb.group({
       
-      relacionEmpresa: new FormControl(this.empresaRelacionada.relacionempresa || undefined, [Validators.required]),
+      relacionEmpresa: new FormControl(this.empresaRelacionada.relacionEmpresa || undefined, [Validators.required]),
       empresa: new FormControl(this.empresaRelacionada.empresa || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       direccion: new FormControl(this.empresaRelacionada.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)])
     });
@@ -79,13 +77,14 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   }
 
   save() {
-
+    
     console.log('mode ', this.mode);
-    this.updateData(this.empresaRelacionada);// aca actualizamos Informacion Laboral
+    this.updateData(this.empresaRelacionada);// aca actualizamos Empresas Relacionadas
     this.empresaRelacionada.persona=this.defaults.payload.persona;
     console.log(this.empresaRelacionada);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.empresaRelacionada,this.empresaRelacionada,'EmpresaRelacionada',this.empresaRelacionada.id==undefined);
-
+    this.saveOrUpdate(this.empresaRelacionadaService,this.empresaRelacionada,'EmpresaRelacionada',this.empresaRelacionada.id==undefined);
+    console.log(this.empresaRelacionada);
+    console.log(this.empresaRelacionadaService);
   }
 }

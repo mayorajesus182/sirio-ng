@@ -9,11 +9,13 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { ApoderadoModule } from '../apoderado/apoderado.module';
 import { DireccionModule } from '../direccion/direccion.module';
 import { EmpresaRelacionadaModule } from '../empresa-relacionada/empresa-relacionada.module';
 import { InformacionLaboralModule } from '../informacion-laboral/informacion-laboral.module';
 import { PepModule } from '../pep/pep.module';
 import { ReferenciaBancariaModule } from '../referencia-bancaria/referencia-bancaria.module';
+import { TelefonoModule } from '../telefono/telefono.module';
 import { NaturalFormComponent } from './form/natural-form.component';
 import { NaturalRoutingModule } from './natural-routing.module';
 
@@ -33,6 +35,8 @@ import { NaturalRoutingModule } from './natural-routing.module';
 
         DireccionModule,
         InformacionLaboralModule,
+        ApoderadoModule,
+        TelefonoModule,
         PepModule,
         EmpresaRelacionadaModule,
         ReferenciaBancariaModule,

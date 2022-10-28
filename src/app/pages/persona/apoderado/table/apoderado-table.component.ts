@@ -4,61 +4,49 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { EmpresaRelacionada, EmpresaRelacionadaService } from 'src/@sirio/domain/services/persona/empresa-relacionada/empresa-relacionada.service';
+import { Apoderado, ApoderadoService } from 'src/@sirio/domain/services/persona/apoderado/apoderado.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { EmpresaRelacionadaFormPopupComponent } from '../popup/empresa-relacionada-form.popup.component';
+import { ApoderadoFormPopupComponent } from '../popup/apoderado-form.popup.component';
 
 @Component({
-  selector: 'sirio-persona-empresa-relacionada-table',
-  templateUrl: './empresa-relacionada-table.component.html',
-  styleUrls: ['./empresa-relacionada-table.component.scss'],
+  selector: 'sirio-persona-apoderado-table',
+  templateUrl: './apoderado-table.component.html',
+  styleUrls: ['./apoderado-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
-export class EmpresaRelacionadaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class ApoderadoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  empresaRelacionadaList:ReplaySubject<EmpresaRelacionada[]> = new ReplaySubject<EmpresaRelacionada[]>();
+  apoderadoList:ReplaySubject<Apoderado[]> = new ReplaySubject<Apoderado[]>();
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
-    protected empresaRelacionadaService: EmpresaRelacionadaService,
+    protected apoderadoService: ApoderadoService,
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
   }
-  
-  // private loadList(){
-  //   this.empresaRelacionadaService.allByPersonaId(this.persona).subscribe((data) => {
-  //     console.log(data);
-      
-  //     this.empresaRelacionadaList.next(data.slice());
-  //     this.cdr.detectChanges();
-  //   });
-  // }
 
   private loadList(){
-    this.empresaRelacionadaService.allByPersonaId(this.persona).subscribe((data) => {
+    this.apoderadoService.allByPersonaId(this.persona).subscribe((data) => {
             
-      this.empresaRelacionadaList.next(data.slice());
-      console.log('empresa relacionadas',data);
-      
-      // this.propagar.emit(data.length);
+      this.apoderadoList.next(data.slice());
+      this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
 
-  
   ngOnInit() {
-    console.log('empresaRelacionada table');
+    console.log('apoderado table');
     
     if(this.persona){
-      console.log('buscando Relacion Empresa en el servidor dado el id persona');
+      console.log('buscando apoderado en el servidor dado el id persona');
       this.loadList();
 
       this.onRefresh.subscribe(val=>{
@@ -74,12 +62,30 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
 
   }
 
-  popup(data?:EmpresaRelacionada) {
+
+  edit(data: Apoderado) {
+    //console.log('data event click ', data);
+
+  }
+
+  delete(data: Apoderado) {
+    //console.log('data event click ', data);
+    // if(data){
+
+    // }
+  }
+
+  view(data: any) {
+
+
+  }
+
+  popup(data?:Apoderado) {
     console.log(data);
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
       console.log(event);
       
         if(event){
