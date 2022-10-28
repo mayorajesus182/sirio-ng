@@ -62,7 +62,12 @@ const configuracionRoutes: Routes = [
         path: 'telefono',
         data: { title: 'Teléfono' },
         loadChildren: () => import('./telefono/telefono.module').then(m => m.TelefonoModule), 
-    }
+    },
+    {
+        path: 'gestion-efectivo',
+        data: { title: 'Producto' },
+        loadChildren: () => import('./gestion-efectivo/gestion-efectivo.module').then(m => m.GestionEfectivoModule),
+    },
    
 ];
 

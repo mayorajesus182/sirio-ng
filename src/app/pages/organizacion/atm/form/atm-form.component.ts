@@ -65,7 +65,6 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
 
         if (!id) {
             this.f.id.valueChanges.subscribe(value => {
-                console.log('identificacioooooooooooooooonnnn ');
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.identificacionExists(value);
                 }

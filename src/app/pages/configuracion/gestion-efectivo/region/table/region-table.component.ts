@@ -3,35 +3,35 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
+import { RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
 
 @Component({
-  selector: 'app-zona-table',
-  templateUrl: './zona-table.component.html',
-  styleUrls: ['./zona-table.component.scss'],
+  selector: 'app-region-table',
+  templateUrl: './region-table.component.html',
+  styleUrls: ['./region-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ZonaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
+export class RegionTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
-  displayedColumns = ['zona_id', 'nombre','activo', 'actions'];
+  displayedColumns = ['region_id', 'nombre', 'zona_id', 'activo', 'actions'];
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
     private cdr: ChangeDetectorRef,
-    private zonaService: ZonaService,
+    private regionService: RegionService,
   ) {
     super(undefined,  injector);
   }
 
   ngOnInit() {
-    this.init(this.zonaService, 'zona_id');
+    this.init(this.regionService, 'region_id');
   }
 
   ngAfterViewInit() {
@@ -39,11 +39,11 @@ export class ZonaTableComponent extends TableBaseComponent implements OnInit, Af
   }
 
 
-  add(path:string) {  
+  add(path:string) {
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(data:any) { 
+  edit(data:any) {   
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
@@ -52,7 +52,7 @@ export class ZonaTableComponent extends TableBaseComponent implements OnInit, Af
   }
 
   activateOrInactivate(data:any) {
-    this.applyChangeStatus(this.zonaService, data.element, data.element.nombre, this.cdr);
+    this.applyChangeStatus(this.regionService, data.element, data.element.nombre, this.cdr);
   }
 
 }

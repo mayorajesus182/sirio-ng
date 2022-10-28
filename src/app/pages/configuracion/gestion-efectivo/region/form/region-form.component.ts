@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Region, RegionService } from 'src/@sirio/domain/services/organizacion/region.service';
-import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
+import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
+import { Zona, ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -70,7 +70,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
     buildForm(region: Region) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: region.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             zona: new FormControl(region.zona || undefined, [Validators.required]),
         });
     }

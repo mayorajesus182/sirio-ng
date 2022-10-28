@@ -6,7 +6,6 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { Zona, ZonaService } from 'src/@sirio/domain/services/organizacion/zona.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -21,7 +20,6 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class TransportistaFormComponent extends FormBaseComponent implements OnInit {
 
     transportista: Transportista = {} as Transportista;
-    public zonas = new BehaviorSubject<Zona[]>([]);
 
     constructor(
         injector: Injector,
@@ -29,7 +27,6 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private transportistaService: TransportistaService,
-        private zonaService: ZonaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -62,10 +59,6 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
             });
         }
 
-        this.zonaService.actives().subscribe(data => {
-            this.zonas.next(data);
-            this.cdr.detectChanges();
-        });
     }
 
     buildForm(transportista: Transportista) {
@@ -73,7 +66,6 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
             id: new FormControl({value: transportista.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(transportista.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             rif: new FormControl(transportista.rif || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            zona: [transportista.zona || undefined, [Validators.required]],
             direccion:  [transportista.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
             email:  [transportista.email || '', [Validators.required]],
             telefono:  [transportista.telefono || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],

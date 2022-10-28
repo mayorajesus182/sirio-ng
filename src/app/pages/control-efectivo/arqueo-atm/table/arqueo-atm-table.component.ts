@@ -9,14 +9,14 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 
 @Component({
-  selector: 'app-atm-table',
-  templateUrl: './atm-table.component.html',
-  styleUrls: ['./atm-table.component.scss'],
+  selector: 'app-arqueo-atm-table',
+  templateUrl: './arqueo-atm-table.component.html',
+  styleUrls: ['./arqueo-atm-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class AtmTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class ArqueoAtmTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['atm_id', 'codigo', 'moneda_id', 'tipatm_id', 'responsable', 'activo', 'actions'];
 
@@ -31,7 +31,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   ngOnInit() {
-    this.init(this.atmService, 'fcreacion');
+    this.init(this.atmService, 'atm_id', 'pageByAgencia');
   }
 
   ngAfterViewInit() {
@@ -39,12 +39,10 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
 
-  add(path:string) {
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
-  }
-
-  edit(data:any) {   
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  add(data:any) {   
+    // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/add`]);
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/add`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
   }
 
   boxes(data:any) { 

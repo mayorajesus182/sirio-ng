@@ -23,16 +23,6 @@ const organizacionRoutes: Routes = [
         data: { title: 'atm.table' },
         loadChildren: () => import('./atm/atm.module').then(m => m.AtmModule),
     },
-    {
-        path: 'zona',
-        data: { title: 'zone.table' },
-        loadChildren: () => import('./zona/zona.module').then(m => m.ZonaModule),
-    },
-    {
-        path: 'region',
-        data: { title: 'region.table' },
-        loadChildren: () => import('./region/region.module').then(m => m.RegionModule),
-    },
 
 ];
 

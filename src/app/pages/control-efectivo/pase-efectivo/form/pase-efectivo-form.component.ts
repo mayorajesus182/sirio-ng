@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { MovimientoEfectivoConstants } from 'src/@sirio/constants/movimiento.efectivo.constants';
+import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
@@ -30,10 +31,12 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public atms = new BehaviorSubject<Atm[]>([]);
+    public conos = new BehaviorSubject<ConoMonetario[]>([]);
     saldoDisponible: number = 0;
     movimiento = MovimientoEfectivoConstants;
     atmSeleccionado: Atm = {} as Atm;
     monedaAtm: Moneda = {} as Moneda;
+    public conoSave: ConoMonetario[] = [];
 
     constructor(
         injector: Injector,
@@ -47,6 +50,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
         private atmService: AtmService,
+        private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -80,7 +84,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             this.taquillas.next(data);
         });
 
-        this.monedaService.actives().subscribe(data => {
+        this.monedaService.paraOperacionesActives().subscribe(data => {
             this.monedas.next(data);
         });
 
@@ -128,11 +132,17 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.f.moneda.valueChanges.subscribe(val => {
             if (val) {
                 this.obtenerSaldo();
+                this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(val).subscribe(data => {
+                    this.conos.next(data);
+                    this.cdr.detectChanges();
+                });
             }
         });
 
         this.f.monto.valueChanges.subscribe(val => {
-            this.validarBalance(val);
+            if (val) {
+                this.validarBalance(val);
+            }
         });
 
     }
@@ -141,11 +151,6 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
 
         this.saldoDisponible = 0;
         this.f.monto.setValue(undefined);
-
-        console.log('this.f.movimientoEfectivo.value   ', this.f.movimientoEfectivo.value);
-        console.log('this.f.moneda.value   ', this.f.moneda.value);
-        console.log('this.f.taquilla.value   ', this.f.taquilla.value);
-        console.log('this.f.atm.value   ', this.f.atm.value);
 
         if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
 
@@ -160,7 +165,6 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
                         this.saldoDisponible = data;
                         this.validarBalance(this.f.monto.value);
                         this.cdr.detectChanges();
-
                     });
 
                 } else if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.TAQUILLA_BOVEDA) {
@@ -191,14 +195,31 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         }
     }
 
+
+    updateValuesErrors(item: ConoMonetario) {
+
+        if (item.cantidad > item.disponible) {
+            this.itemForm.controls['monto'].setErrors({
+                cantidad: true
+            });
+            this.cdr.detectChanges();
+        }
+
+        this.conos.subscribe(c=>{
+            this.f.monto.setValue(c.filter(c1=>c1.cantidad>0).map(c2=> c2.cantidad* c2.denominacion).reduce((a,b)=>a+b));
+            this.conoSave = c.filter(c=>c.cantidad>0);
+            this.cdr.detectChanges();   
+         });
+    }
+
+
+
+
     save() {
         if (this.itemForm.invalid)
             return;
-
         this.updateData(this.bovedaAgencia);
-
-        console.log('this.bovedaAgencia  ', this.bovedaAgencia);
-
+        this.bovedaAgencia.detalleEfectivo = this.conoSave;
         this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
     }
 

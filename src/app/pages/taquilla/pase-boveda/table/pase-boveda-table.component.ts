@@ -37,7 +37,7 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   ngOnInit() {
 
     this.taquillaService.isOpen().subscribe(isOpen => {
-      if (!isOpen) {
+      if (isOpen) {
         this.init(this.cajaTaquillaService, 'cajtaquilla_id');
       } else {
         this.router.navigate(['/sirio/welcome']);
@@ -49,7 +49,7 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   }
 
   ngAfterViewInit() {
-    this.afterInit();
+  //  this.afterInit();
   }
 
 

@@ -63,8 +63,6 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             if (!data) {
                 return;
             }
-            console.log(this.moneda);
-            console.log(data);
 
             if (data.monedaConoActual) {
                 this.label_cono_actual = this.moneda == data.monedaConoActual ? data.monedaConoActual : this.moneda;
@@ -118,12 +116,11 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
     onChangeConoActual(elem: ConoMonetario) {
         const ix = this.listActual.findIndex(e => e.denominacion == elem.denominacion);
-        // console.log('index ',ix);
 
         if (elem.cantidad <= 0 || !elem.cantidad) {
             if (ix >= 0) {
                 this.listActual.splice(ix, 1);
-                // console.log('remove ', this.listActual);
+
                 this.conoActual.emit(this.listActual.slice());
             }
 
@@ -133,14 +130,13 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             } else {
                 this.listActual.push(elem);
             }
-            // console.log('push',this.listActual);
+
             this.conoActual.emit(this.listActual.slice());
         }
     }
 
     onChangeConoAnterior(elem: ConoMonetario) {
         const ix = this.listAnterior.findIndex(e => e.denominacion == elem.denominacion);
-        // console.log('index ',ix);
 
         if (elem.cantidad <= 0 || !elem.cantidad) {
             if (ix >= 0) {
@@ -155,7 +151,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             } else {
                 this.listAnterior.push(elem);
             }
-            // console.log('push',this.listActual);
+
             this.conoAnterior.emit(this.listAnterior.slice());
         }
     }

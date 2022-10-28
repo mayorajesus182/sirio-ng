@@ -6,6 +6,8 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Agencia {
     id: string;
     nombre: string;
+    zona: string;
+    region: string;
     estado: string;
     municipio: string;
     parroquia: string;
@@ -20,6 +22,8 @@ export interface Agencia {
     activo?: number;
     institucion: string;
     horarioExt: number;
+    taquillas: number;
+    operativas: number;
 }
 
 @Injectable({

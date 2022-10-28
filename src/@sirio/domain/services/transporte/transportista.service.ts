@@ -8,7 +8,6 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Transportista {
     id: string;
-    zona:string;
     rif: string;
     nombre: string;
     direccion: string;

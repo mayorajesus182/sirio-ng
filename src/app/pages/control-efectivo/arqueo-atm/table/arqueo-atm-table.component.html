@@ -8,7 +8,7 @@
             (filterChange)="onFilterChange($event)">
 
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="fcreacion" matSortDirection="desc">
+                matSortActive="atm_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="atm_id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'atm.identification' | translate:
