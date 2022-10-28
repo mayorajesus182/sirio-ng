@@ -5,11 +5,11 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
-export interface ReferenciaBancaria {
+export interface ReferenciaPersonal {
     id: string;    
     persona: string,
     nombre: string,
-    tipDocumento: string,
+    tipoDocumento: string,
     identificacion: string,
     telefonoFijo: string,
     telefonoMovil: string  
@@ -28,26 +28,26 @@ export class ReferenciaPersonalService {
         this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/referencia-personal'};
     }
 
-    allByPersonaId(id:number): Observable<ReferenciaBancaria[]> {
+    allByPersonaId(id:number): Observable<ReferenciaPersonal[]> {
         return this.apiService.config(this.apiConfig).get(`/${id}/all`);
     }
 
 
-    get(id: number): Observable<ReferenciaBancaria> {
+    get(id: number): Observable<ReferenciaPersonal> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<ReferenciaBancaria> {
+    detail(id: string): Observable<ReferenciaPersonal> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
 
-    save(data: ReferenciaBancaria): Observable<any> {
+    save(data: ReferenciaPersonal): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: ReferenciaBancaria): Observable<any> {
+    update(data: ReferenciaPersonal): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }

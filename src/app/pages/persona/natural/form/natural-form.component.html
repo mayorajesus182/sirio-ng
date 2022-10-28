@@ -429,12 +429,7 @@
 
 
                                 <div fxLayout="row" fxLayout="column">
-                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="default" (click)="addElement()" mat-button>
-                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                            'global.notfound'} | translate }}
-                                        </button>
-                                    </div>
+                                    <sirio-persona-referencia-personal-table [persona]="personaNatural.id"></sirio-persona-referencia-personal-table>
                                 </div>
 
 

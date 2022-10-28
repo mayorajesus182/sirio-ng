@@ -4,6 +4,7 @@ export class RegularExpConstants {
     public static ALPHA_DATE= '[dDmMyY]*';
     public static ALPHA_ACCENTS= '[a-zA-Z\u00C0-\u017F]*';
     public static ALPHA_ACCENTS_SPACE= '[a-zA-Z\u00C0-\u017F\u0020]*';
+    public static ALPHA_SPACE= '[a-zA-Z\u00C0-\u0020]*';
     public static NUMERIC= '[0-9]*';
     public static NUMERIC_PLUS_LESS= '[0-9\u002B\u002D]*';
     public static NUMERIC_POINT= '[0-9\u002E\uFE52]*';
