@@ -114,7 +114,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.loading.next(false);
                 this.isNew = false;
                 if (this.result) {
-
+                    this.persona.identificacion=identificacion;
                     this.result.emit(this.persona);
                 }
 
