@@ -204,8 +204,8 @@
                                 <sirio-select-simple fxFlex="35"
                                     [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                     formControlName="tipoDocumentoBeneficiario" [required]="esPagoCheque || esPagoChequeGerencia"
-                                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.tipoDocumentoBeneficiario?.errors">
+                                    [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"  
+                                    [errors]="f.tipoDocumentoBeneficiario?.errors" required>
                                 </sirio-select-simple>
 
                                 <mat-form-field fxFlex.gt-xs="auto">
@@ -270,9 +270,7 @@
                                     <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
-                            </div>
-
-                         
+                            </div>                       
 
 
 

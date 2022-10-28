@@ -40,7 +40,7 @@ export class CuentaBancariaService {
     
     }
 
-    activesByPersona(persona: string): Observable<CuentaBancaria[]> {
+    activesByPersona(persona: number): Observable<CuentaBancaria[]> {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/all`);
     }
 
