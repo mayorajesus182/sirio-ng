@@ -78,20 +78,6 @@
                             <div *ngIf="f.cuentaBancaria.value">
                                 <h2 fxFlex.gt-xs="20" >Información Financiera</h2>
                                 
-                                
-                                <!-- <div fxFlex.gt-xs="20"  *ngIf="(f.esEfectivo.value || f.esCheque.value)  " >
-                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="libreta" name="libreta" (change)="libretaEvaluate($event)">
-                                    Con Libreta
-                                    </mat-slide-toggle>
-                                </div>
-
-                                <div fxFlex.gt-xs="20"  *ngIf="(f.esEfectivo.value || f.esCheque.value)  " >
-                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="movimiento" name="movimiento" (change)="movimientoEvaluate($event)">
-                                    Con Movimiento
-                                    </mat-slide-toggle>
-                                </div>  
-                                 -->
-                                <!-- <mat-radio-group [(ngModel)]="labelPosition"> -->
                                 <div fxFlex.gt-xs="20">
                                     <mat-checkbox class="margin-top-md" fxFlex.gt-xs="auto" [color]="'primary'" formControlName="conLibreta" name="conLibreta" >Con Libreta</mat-checkbox>
                                 </div>  
@@ -199,8 +185,8 @@
                             </div>
 
                             <!--SEXTA FILA  -->
-                            <div fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="f.esCheque.value  && chequeForm" [formGroup]="chequeForm" >
-                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px">
+                            <div fxLayout="column" fxLayoutGap.gt-sm="10px"  >
+                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" *ngIf="f.esCheque.value  && chequeForm" [formGroup]="chequeForm">
                                     <mat-form-field fxFlex.gt-xs="15">
                                         <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}
                                         </mat-label>
@@ -264,35 +250,39 @@
                                     </div>
                                 </div>
 
-                                 <!-- <mat-divider *ngIf="f.cuentaBancaria.value" class="margin-bottom-sm margin-top-sm"></mat-divider> -->
+                                 <mat-divider *ngIf="(f.cuentaBancaria.value != undefined) && f.esEfectivo.value" class="margin-bottom-sm margin-top-sm"></mat-divider>
 
-                            <div *ngIf="f.cuentaBancaria.value">
-                                <h2 fxFlex.gt-xs="20" >Información Financiera</h2>
-                                
-                                
-                                <!-- <div fxFlex.gt-xs="20"  *ngIf="(f.esEfectivo.value || f.esCheque.value)  " >
-                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="libreta" name="libreta" (change)="libretaEvaluate($event)">
-                                    Con Libreta
-                                    </mat-slide-toggle>
-                                </div>
+                                <div *ngIf="(f.cuentaBancaria.value != undefined) && f.esEfectivo.value">
+                                    <div>
+                                        <h2>Información del Depositante</h2>
+                                    </div>
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <sirio-select-search
+                                            fxFlex.gt-xs="20"
+                                            [label]="'deposit.documentType' | translate: {default: 'global.documentType'} | translate"
+                                            formControlName="tipoDocumento" [required]="true" [elements]="tiposDocumentos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors" required>
+                                            </sirio-select-search>
+                        
+                                            <mat-form-field fxFlex.gt-xs="10">
+                                                <mat-label>Nro. Documento
+                                                </mat-label>
+                                                <input matInput autocomplete="off" maxlength="15" id="identificacion" name="identificacion" formControlName="identificacion" uppercase  class="text-center" required>
+                                                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                                <mat-error *ngIf="f.identificacion.errors?.notexists">{{'error.notExistsClient' | translate}}</mat-error>  
+                                            </mat-form-field>
 
-                                <div fxFlex.gt-xs="20"  *ngIf="(f.esEfectivo.value || f.esCheque.value)  " >
-                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="movimiento" name="movimiento" (change)="movimientoEvaluate($event)">
-                                    Con Movimiento
-                                    </mat-slide-toggle>
-                                </div>  
-                                 -->
-                                <!-- <mat-radio-group [(ngModel)]="labelPosition"> -->
-                                <div fxFlex.gt-xs="20">
-                                    <mat-checkbox class="margin-top-md" fxFlex.gt-xs="auto" [color]="'primary'" formControlName="conLibreta" name="conLibreta" >Con Libreta</mat-checkbox>
-                                </div>  
-                                <div fxFlex.gt-xs="10">
-                                    <mat-checkbox class="margin-top-md" fxFlex.gt-xs="auto" [color]="'primary'" formControlName="conMovimiento" name="conMovimiento" >Con Movimiento</mat-checkbox>
+                                            <mat-form-field fxFlex.gt-xs="70">
+                                                <mat-label>Nombres y Apellidos/Razón Social
+                                                    <!-- {{'deposit.name' | translate: {default: 'global.name'} | translate }} -->
+                                                </mat-label>
+                                                <input matInput autocomplete="off" [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}" readonly  name="nombre">
+                                            </mat-form-field> 
+                                    </div>
                                 </div>
-                                  <!-- </mat-radio-group> -->
-                            </div>
                                 <!-- TABLA DE CHEQUES  -->
-                                <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async">
+                                <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async" *ngIf="f.esCheque.value  && chequeForm">
                                         
                                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                         <ng-template ngx-datatable-header-template>
