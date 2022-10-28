@@ -37,4 +37,12 @@ export class SaldoAgenciaService {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/${agencia}/agencia/saldo`);
     }
 
+    allByAgencia(agencia: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${agencia}/agencia/list`);
+    }
+
+    all(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/list`);
+    }
+
 }

@@ -37,4 +37,13 @@ export class SaldoTaquillaService {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/${taquilla}/taquilla/saldo`);
     }
 
+    allByTaquilla(taquilla: number): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${taquilla}/taquilla/list`);
+    }
+
+    all(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/list`);
+    }
+    
+
 }
