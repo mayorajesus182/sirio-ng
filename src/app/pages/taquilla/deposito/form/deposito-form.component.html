@@ -123,7 +123,6 @@
                                     <input matInput max="9999999999999.99" readonly min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask [options]="{precision:2}">
                                     <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                     <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                    <!-- <mat-error *ngIf="f.efectivo.errors?.difference">diferencia</mat-error> -->
                                 </mat-form-field>   
                                 <!-- Botón Moneda -->
                                 <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.monto.value" [disabled]="f.esEfectivo.value <= 0"  [moneda]="moneda" (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
@@ -136,13 +135,13 @@
                                     <mat-error *ngIf="f.monto.errors?.totalDifference">Monto Incorrecto</mat-error>
                                 </mat-form-field>   
 
-                                <mat-form-field fxFlex.gt-xs="auto">
+                                <!-- <mat-form-field fxFlex.gt-xs="auto">
                                     <mat-label>{{'deposit.reference' | translate: {default: 'global.reference'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="10" id="referencia" name="referencia" formControlName="referencia" uppercase  class="text-center" required>
                                     <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                </mat-form-field>
+                                </mat-form-field> -->
                                 <mat-form-field fxFlex.gt-sm="50">
                                     <mat-label>
                                         Email
@@ -184,14 +183,14 @@
                                     <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No coinciden los montos</mat-error>
                                 </mat-form-field> 
 
-                                <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.conLibreta.value"> 
+                                <mat-form-field  fxFlex.gt-xs="20" *ngIf="f.conLibreta.value"> 
                                     <mat-label>Número de Libreta </mat-label>
                                     <input matInput maxlength="8" autocomplete="off" name="libreta" formControlName="libreta" 
                                     [required]="f.conLibreta.value">  
                                     <mat-error *ngIf="f.libreta.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field> 
 
-                                <mat-form-field  fxFlex.gt-xs="auto" *ngIf="f.conLibreta.value"> 
+                                <mat-form-field  fxFlex.gt-xs="10" *ngIf="f.conLibreta.value"> 
                                     <mat-label>Número de Linea</mat-label>
                                     <input matInput maxlength="2" autocomplete="off" name="linea" formControlName="linea" 
                                     [required]="f.conLibreta.value">
@@ -264,6 +263,34 @@
                                         </button>
                                     </div>
                                 </div>
+
+                                 <!-- <mat-divider *ngIf="f.cuentaBancaria.value" class="margin-bottom-sm margin-top-sm"></mat-divider> -->
+
+                            <div *ngIf="f.cuentaBancaria.value">
+                                <h2 fxFlex.gt-xs="20" >Información Financiera</h2>
+                                
+                                
+                                <!-- <div fxFlex.gt-xs="20"  *ngIf="(f.esEfectivo.value || f.esCheque.value)  " >
+                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="libreta" name="libreta" (change)="libretaEvaluate($event)">
+                                    Con Libreta
+                                    </mat-slide-toggle>
+                                </div>
+
+                                <div fxFlex.gt-xs="20"  *ngIf="(f.esEfectivo.value || f.esCheque.value)  " >
+                                    <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="movimiento" name="movimiento" (change)="movimientoEvaluate($event)">
+                                    Con Movimiento
+                                    </mat-slide-toggle>
+                                </div>  
+                                 -->
+                                <!-- <mat-radio-group [(ngModel)]="labelPosition"> -->
+                                <div fxFlex.gt-xs="20">
+                                    <mat-checkbox class="margin-top-md" fxFlex.gt-xs="auto" [color]="'primary'" formControlName="conLibreta" name="conLibreta" >Con Libreta</mat-checkbox>
+                                </div>  
+                                <div fxFlex.gt-xs="10">
+                                    <mat-checkbox class="margin-top-md" fxFlex.gt-xs="auto" [color]="'primary'" formControlName="conMovimiento" name="conMovimiento" >Con Movimiento</mat-checkbox>
+                                </div>
+                                  <!-- </mat-radio-group> -->
+                            </div>
                                 <!-- TABLA DE CHEQUES  -->
                                 <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async">
                                         

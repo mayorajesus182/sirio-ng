@@ -279,7 +279,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            referencia: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
             esEfectivo: new FormControl(true),
             esCheque: new FormControl(false),
             // btnEfectivo: new FormControl(true),
