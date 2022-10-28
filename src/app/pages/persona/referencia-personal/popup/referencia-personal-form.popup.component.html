@@ -1,0 +1,67 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <!-- TODO: PENDIENTE IN18 -->
+
+    <h1>Referencia Bancaria</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
+        [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+      </sirio-select-search>
+
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Identificación'}}</mat-label>
+        <input autocomplete="off" class="text-center" matInput name="identificacion" maxlength="15" formControlName="identificacion" required>
+        <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+      </mat-form-field>
+
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Nombre(s) y Apellido(s)'}}</mat-label>
+        <input autocomplete="off" class="text-left" matInput name="nombre" maxlength="24" uppercase formControlName="nombre" required>
+        
+        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}!</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Telefono Fijo'}}</mat-label>
+        <input [required]="!f.telefonoMovil.value" autocomplete="off" [imask]="{mask: '0200 000 00 00'}"  class="text-center" matInput name="telefonoFijo" maxlength="14" formControlName="telefonoFijo" >
+        <mat-error *ngIf="f.telefonoFijo.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.telefonoFijo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Telefono Movil'}}</mat-label>
+        <input [required]="!f.telefonoFijo.value" autocomplete="off" [imask]="{mask: '0406 000 00 00'}"  class="text-center" matInput name="telefonoMovil" maxlength="14" formControlName="telefonoMovil" >
+        <mat-error *ngIf="f.telefonoMovil.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.telefonoMovil.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+  <!-- {{printErrors() | json}} -->
+  {{f.telefonoMovil.value}}
+  {{f.telefonoMovil.errors | json}}
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

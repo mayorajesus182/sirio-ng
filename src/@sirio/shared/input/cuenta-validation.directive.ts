@@ -64,7 +64,7 @@ export class NumAccountValidator implements Validator {
         // console.log('value 2 ',value2);
         
         if (value1 != value2) {
-            console.log(' error ', value1, value2);
+            // console.log(' error ', value1, value2);
             
             return { account: 'Número verificador inválido' };
         }
