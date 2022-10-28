@@ -1,0 +1,60 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <!-- TODO: PENDIENTE IN18 -->
+
+    <h1>Referencia Bancaria</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button"  [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <!-- <sirio-select-simple fxFlex="50" [label]="'pepType.pepType' | translate: {default: 'global.pepType'} | translate"
+        formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
+      </sirio-select-simple> -->
+
+      <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Producto'"  formControlName="tipoProducto" [required]="true"
+        [elements]="tipoProductoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoProducto?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Entidad Financiera'"  formControlName="entidadFinanciera" 
+      [required]="true"  [elements]="entidadFinancieraList.asObservable()" [attributeName]="'nombre'" [errors]="f.entidadFinanciera?.errors">        
+      </sirio-select-search>
+
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="50">
+        <mat-label>{{'Numero de Cuenta'}}</mat-label>
+        <input autocomplete="off" class="text-center" mask="0000 0000 00 00 00000000" matInput name="numeroCuenta" num-account-validate maxlength="24"
+          formControlName="numeroCuenta"  required>
+        <mat-error *ngIf="f.numeroCuenta.errors?.notIsEntidad">La cuenta debe perternecer a la entidad financiera!</mat-error>
+        <mat-error *ngIf="f.numeroCuenta.errors?.account">Debe indicar un numero de cuenta correcto!</mat-error>
+      </mat-form-field>
+
+      <sirio-select-simple fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" [required]="true"
+        [elements]="cifrasPromedioList.asObservable()" [attributeName]="'nombre'" [errors]="f.cifraPromedio?.errors">
+      </sirio-select-simple>
+
+    </div>
+
+
+
+
+  </mat-dialog-content>
+  <!-- {{printErrors() | json}} -->
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

@@ -6,7 +6,7 @@
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
-        <mat-icon class="close-icon">close</mat-icon>
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
       </button>
     </div>
   </sirio-dialog-header-heading>
@@ -22,7 +22,7 @@
         formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
       </sirio-select-simple> -->
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Ingreso'" formControlName="tipoIngreso" [required]="true"
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Ingreso'" [readonly]="!isNew"  formControlName="tipoIngreso" [required]="true"
         [elements]="tipoingresoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoingreso?.errors">
       </sirio-select-search>
 
@@ -75,6 +75,13 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="auto">
+        <mat-label>{{ 'Numero' }} </mat-label>
+        <input matInput autocomplete="off" name="numero"  formControlName="numero" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+        <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="auto">
         <mat-label>{{ 'Tomo' }} </mat-label>
         <input matInput autocomplete="off" name="tomo"  formControlName="tomo" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.tomo.errors?.required">{{'error.required' | translate}}
@@ -83,7 +90,7 @@
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{ 'Folio' }} </mat-label>
-        <input matInput autocomplete="off" name="folio" currencyMask [options]="{precision:2}" formControlName="folio" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+        <input matInput autocomplete="off" name="folio"  formControlName="folio" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.folio.errors?.required">{{'error.required' | translate}}
         </mat-error>
       </mat-form-field>
@@ -118,7 +125,7 @@
 
       <mat-form-field fxFlex="auto" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
         <mat-label>{{'Cargo'}}</mat-label>
-        <input autocomplete="off" matInput name="cargo" formControlName="cargo" [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
+        <input autocomplete="off" matInput name="cargo" formControlName="cargo" uppercase [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
       </mat-form-field>
 
 
@@ -138,7 +145,7 @@
     </div>
 
   </mat-dialog-content>
-  {{printErrors() | json}}
+  <!-- {{printErrors() | json}} -->
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>

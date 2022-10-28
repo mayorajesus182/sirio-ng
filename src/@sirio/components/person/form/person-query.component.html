@@ -40,11 +40,13 @@
                     formControlName="cuenta" (keyup.enter)="queryByAccount()" mask="0000 0000 00 00 00000000">
                     <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
                     </mat-error>
+                    <mat-error *ngIf="search.cuenta.errors?.account">Debe indicar una cuenta válida!
+                    </mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="auto">
-                    <mat-label>{{'global.name' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="nombre" formControlName="nombre" readonly="">
+                    <mat-label>{{'global.fullName' | translate }} </mat-label>
+                    <input matInput autocomplete="off" class="text-center" name="nombre" formControlName="nombre" readonly>
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">

@@ -94,6 +94,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
     public queryByPerson() {
+
+        console.log(this.search.identificacion.errors);        
+
+        if(this.search.identificacion.errors){
+            return;
+        }
+
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
@@ -142,7 +149,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByAccount() {
         const cuenta: string = this.search.cuenta.value;
-        if (cuenta.trim().length == 0) {
+
+        
+        if (cuenta.trim().length == 0 || this.search.cuenta.errors) {
             return;
         }
 

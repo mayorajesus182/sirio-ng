@@ -12,6 +12,8 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { DireccionModule } from '../direccion/direccion.module';
 import { InformacionLaboralModule } from '../informacion-laboral/informacion-laboral.module';
 import { PepModule } from '../pep/pep.module';
+import { ReferenciaBancariaModule } from '../referencia-bancaria/referencia-bancaria.module';
+import { ReferenciaPersonalModule } from '../referencia-personal/referencia-personal.module';
 import { NaturalFormComponent } from './form/natural-form.component';
 import { NaturalRoutingModule } from './natural-routing.module';
 
@@ -26,6 +28,7 @@ import { NaturalRoutingModule } from './natural-routing.module';
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
+        NaturalRoutingModule,
         // Core
         MaterialModule,
         SirioSharedModule,
@@ -36,7 +39,8 @@ import { NaturalRoutingModule } from './natural-routing.module';
         DireccionModule,
         InformacionLaboralModule,
         PepModule,
-        NaturalRoutingModule
+        ReferenciaBancariaModule,
+        ReferenciaPersonalModule
     ],
     declarations: [
         NaturalFormComponent,

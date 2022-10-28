@@ -1,5 +1,5 @@
 import { Component, Input, HostListener, ElementRef, OnInit, AfterViewInit, forwardRef, ViewChild, ChangeDetectionStrategy, OnDestroy } from "@angular/core";
-import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl } from "@angular/forms";
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl, Validator, AbstractControl, ValidationErrors } from "@angular/forms";
 import { MatSelect } from '@angular/material/select';
 import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
@@ -19,7 +19,7 @@ import { take, takeUntil } from 'rxjs/operators';
         }
     ]
 })
-export class SelectSearchComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy {
+export class SelectSearchComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy,Validator {
 
     @Input() errors;
     @Input() label: string;
@@ -48,7 +48,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
     @HostListener('change', ['$event'])
     changeSelect(event: any) {
-        console.log(event);
+        console.log('select search event ',event);
 
         // const file = event && event.item(0);
         // this.onChange(file);
@@ -65,28 +65,40 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             .subscribe(() => {
 
                 // this.singleSelect.compareWith = (a: any, b: any) => { return a && b && a.id === b.id };
+                if(this.singleSelect){
 
-                this.singleSelect.compareWith = (a: any, b: any) => {
-                    // console.log('A ',a);
-                    // console.log('B ',b);
-
-                    if (!a || !b) {
-                        return false;
-                    }
-                    // if(Object.keys(a.id).length > 0 && Object.keys(b.id).length > 0){
-                    //     // console.log('A keys ',Object.keys(a.id));
-                    //     // console.log('B keys',Object.keys(b.id));
-                    //     const key1 = Object.keys(a.id)[0]; 
-                    //     const key2 = Object.keys(a.id)[1]; 
-
-                    //     // asumo que la clave compuesta es de 2 campos
-                    //     return Object.keys(a.id)[0]==Object.keys(b.id)[0] && a.id[key1]== b.id[key1] && Object.keys(a.id)[1]==Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
-                    // }    
-                    return a === b;
-
-                };
+                    this.singleSelect.compareWith = (a: any, b: any) => {
+                        // console.log('A ',a);
+                        // console.log('B ',b);
+    
+                        if (!a || !b) {
+                            return false;
+                        }
+                        // if(Object.keys(a.id).length > 0 && Object.keys(b.id).length > 0){
+                        //     // console.log('A keys ',Object.keys(a.id));
+                        //     // console.log('B keys',Object.keys(b.id));
+                        //     const key1 = Object.keys(a.id)[0]; 
+                        //     const key2 = Object.keys(a.id)[1]; 
+    
+                        //     // asumo que la clave compuesta es de 2 campos
+                        //     return Object.keys(a.id)[0]==Object.keys(b.id)[0] && a.id[key1]== b.id[key1] && Object.keys(a.id)[1]==Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
+                        // }    
+                        return a === b;
+    
+                    };
+                }
             });
 
+
+      
+
+
+    }
+    ngOnInit(): void {
+
+        const validators = [];
+
+        this.selectSearchControl = new FormControl('');
 
         if (this.items) {
 
@@ -130,17 +142,10 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
             if (data == '') {
                 this.selectSearchControl.clearValidators();
+                this.selectSearchControl.markAsTouched();
                 // this.selectControl.updateValueAndValidity();
             }
         });
-
-
-    }
-    ngOnInit(): void {
-
-        const validators = [];
-
-        this.selectSearchControl = new FormControl('');
 
     }
 
@@ -171,9 +176,9 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     }
 
     // communicate the inner form validation to the parent form
-    validate(_: FormControl) {
-        return this.selectSearchControl.valid ? null : { profile: { valid: false } };
-    }
+    // validate(_: FormControl) {
+    //     return this.selectSearchControl.valid ? null : { profile: { valid: false } };
+    // }
 
     /**
      * Function registered to propagate a change to the parent
@@ -206,6 +211,29 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
         this.filteredElements.next(
             data.filter(elem => elem[this.attributeName].toLowerCase().indexOf(search) >= 0)
         );
+    }
+
+
+    showName(valSelected:any){
+        let name = '';
+        if(valSelected){
+            this.items.subscribe(data=>name =data.filter(d=>d.id===valSelected).map(d=>d[this.attributeName])[0]);
+        }
+        return name;
+    }
+
+
+    validate(control: AbstractControl): ValidationErrors | null {
+        if (!this.selectSearchControl.value || this.selectSearchControl.value?.trim().length == 0) {
+            this.selectSearchControl.setErrors({ invalid: true });
+            return {
+                invalid: true,
+            };
+        }
+
+
+        this.selectSearchControl.setErrors(null);
+        return null;
     }
 
 }

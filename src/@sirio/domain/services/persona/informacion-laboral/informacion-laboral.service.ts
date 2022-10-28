@@ -6,32 +6,22 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface InformacionLaboral {
-    id: string;
-   
-    persona: String;
-
-    tipoIngreso: String;
-
-    remuneracion: String;
-
-    empresa: String;
-
-    tipoDocumento?: String;
-
-    identificacion: String;
-
+    id: string;   
+    persona: string;
+    tipoIngreso: string;
+    remuneracion: string;
+    empresa: string;
+    tipoDocumento?: string;
+    identificacion: string;
     fecha:  any;
-
-    actividadIndependiente?: String;
-
-    ramo?: String;
-    registro?: String;
-    tomo?: String;
-    folio?: String;
-
-    cargo?: String;
-    
-    direccion: String;
+    actividadIndependiente?: string;
+    ramo?: string;
+    registro?: string;
+    numero?: string;
+    tomo?: string;
+    folio?: string;
+    cargo?: string;    
+    direccion: string;
 }
 
 

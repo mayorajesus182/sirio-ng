@@ -5,7 +5,7 @@
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
-        <mat-icon class="close-icon">close</mat-icon>
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
       </button>
     </div>
   </sirio-dialog-header-heading>
@@ -23,14 +23,14 @@
         formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
       </sirio-select-simple> -->
 
-      <sirio-select-search fxFlex.gt-xs="33" [label]="'tipoPep'"
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Relación'" [readonly]="!isNew"
           formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'"
           [errors]="f.tipoPep?.errors">
       </sirio-select-search>
 
       
       <!-- TODO: PENDIENTE IN18 -->
-      <mat-form-field fxFlex="50">
+      <mat-form-field fxFlex="auto">
           <mat-label>{{'Nombre' | translate: {default:
               'global.name'} | translate }} </mat-label>
           <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
@@ -47,7 +47,7 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
 
-      <mat-form-field fxFlex="33">
+      <mat-form-field fxFlex="20">
           <mat-label>{{'Ente' | translate: {default:
               'Ente'} | translate }} </mat-label>
           <input matInput maxlength="200" minlength="1" autocomplete="off" name="ente" formControlName="ente"
@@ -59,7 +59,7 @@
           </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="33">
+      <mat-form-field fxFlex="30">
           <mat-label>{{'Cargo' | translate: {default:
               'Cargo'} | translate }} </mat-label>
           <input matInput maxlength="100" minlength="1" autocomplete="off" name="cargo" formControlName="cargo"
@@ -71,7 +71,7 @@
           </mat-error>
       </mat-form-field>
 
-      <sirio-select-search fxFlex.gt-xs="33" [label]="'pais'"
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'pais'"
           formControlName="pais" [required]="true" [elements]="paisList.asObservable()" [attributeName]="'nombre'"
           [errors]="f.pais?.errors">
       </sirio-select-search>
