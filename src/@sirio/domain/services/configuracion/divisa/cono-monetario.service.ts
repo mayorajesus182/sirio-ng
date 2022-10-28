@@ -11,13 +11,13 @@ export interface ConoMonetario {
     nombreMoneda?: string;
     denominacion: number;
     esBillete: number;
-    cantidad?: number;    
-    disponible?: number;    
+    cantidad?: number;
+    disponible?: number;
     activo?: number;
 }
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class ConoMonetarioService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -25,7 +25,7 @@ export class ConoMonetarioService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/divisa/cono-monetario'};
+        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/divisa/cono-monetario' };
     }
 
 
@@ -33,11 +33,19 @@ export class ConoMonetarioService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    activesByMoneda(moneda:string): Observable<ConoMonetario[]> {
+    activesByMoneda(moneda: string): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/actives`);
     }
 
-    activesBilletesByMoneda(moneda:string): Observable<ConoMonetario[]> {
+    activesWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/actives`);
+    }
+
+    activesWithDisponibleSaldoTaquillaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldotaquilla/actives`);
+    }
+
+    activesBilletesByMoneda(moneda: string): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/billetes/actives`);
     }
 
@@ -58,7 +66,7 @@ export class ConoMonetarioService {
     }
 
     save(data: ConoMonetario): Observable<any> {
-        
+
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }

@@ -69,7 +69,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
             this.loadingDataForm.next(false);
         }
 
-        this.monedaService.actives().subscribe(data => {
+        this.monedaService.paraOperacionesActives().subscribe(data => {
             this.monedas.next(data);
         });
 
@@ -94,7 +94,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
 
         this.f.moneda.valueChanges.subscribe(val => {
             this.obtenerSaldo();
-            this.conoMonetarioService.activesByMoneda(val).subscribe(data => {
+            this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(val).subscribe(data => {
                 this.conos.next(data);
                 this.cdr.detectChanges();
             });

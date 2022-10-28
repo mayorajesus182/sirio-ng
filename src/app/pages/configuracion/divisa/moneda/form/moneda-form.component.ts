@@ -65,6 +65,8 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
             id: new FormControl({value: moneda.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             siglas: new FormControl(moneda.siglas || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(moneda.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            usoOperacion: new FormControl(moneda.usoOperacion || false),
+            usoAtm: new FormControl(moneda.usoAtm || false),
             esVirtual: new FormControl(moneda.esVirtual || false),
             codigoLocal: new FormControl(moneda.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
@@ -75,6 +77,8 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.moneda);
+        this.moneda.usoOperacion = this.moneda.usoOperacion ? 1 : 0;
+        this.moneda.usoAtm = this.moneda.usoAtm ? 1 : 0;
         this.moneda.esVirtual = this.moneda.esVirtual ? 1 : 0;
         this.saveOrUpdate(this.monedaService, this.moneda, 'La  Moneda', this.isNew);
        

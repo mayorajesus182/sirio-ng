@@ -75,7 +75,7 @@
                                     <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
                                         <mat-form-field fxLayout="column" *ngFor="let item of conos | async" fxFlex="32">
                                             <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
-                                                'global.coin') | translate }}
+                                                'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                             </mat-label>
                                             <input matInput class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number"
                                                 (ngModelChange)="updateValuesErrors()" />

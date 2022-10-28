@@ -84,7 +84,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             this.taquillas.next(data);
         });
 
-        this.monedaService.actives().subscribe(data => {
+        this.monedaService.paraOperacionesActives().subscribe(data => {
             this.monedas.next(data);
         });
 
@@ -132,7 +132,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.f.moneda.valueChanges.subscribe(val => {
             if (val) {
                 this.obtenerSaldo();
-                this.conoMonetarioService.activesByMoneda(val).subscribe(data => {
+                this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(val).subscribe(data => {
                     this.conos.next(data);
                     this.cdr.detectChanges();
                 });
@@ -196,12 +196,20 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     }
 
 
-    updateValuesErrors() {
+    updateValuesErrors(item: ConoMonetario) {
+
+        if (item.cantidad > item.disponible) {
+            this.itemForm.controls['monto'].setErrors({
+                cantidad: true
+            });
+            this.cdr.detectChanges();
+        }
+
         this.conos.subscribe(c=>{
-           this.f.monto.setValue(c.filter(c1=>c1.cantidad>0).map(c2=> c2.cantidad* c2.denominacion).reduce((a,b)=>a+b));
-           this.conoSave = c.filter(c=>c.cantidad>0);
-           this.cdr.detectChanges();   
-        });
+            this.f.monto.setValue(c.filter(c1=>c1.cantidad>0).map(c2=> c2.cantidad* c2.denominacion).reduce((a,b)=>a+b));
+            this.conoSave = c.filter(c=>c.cantidad>0);
+            this.cdr.detectChanges();   
+         });
     }
 
 
@@ -210,7 +218,6 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     save() {
         if (this.itemForm.invalid)
             return;
-
         this.updateData(this.bovedaAgencia);
         this.bovedaAgencia.detalleEfectivo = this.conoSave;
         this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
