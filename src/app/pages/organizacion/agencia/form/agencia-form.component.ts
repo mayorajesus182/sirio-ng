@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
+import { Zona, ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
@@ -27,6 +29,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
     public parroquias = new BehaviorSubject<Parroquia[]>([]);
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
+    public zonas = new BehaviorSubject<Zona[]>([]);
+    public regiones = new BehaviorSubject<Region[]>([]);
 
     constructor(
         injector: Injector,
@@ -37,6 +41,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         private parroquiaService: ParroquiaService,
         private municipioService: MunicipioService,
         private estadoService: EstadoService,        
+        private zonaService: ZonaService,        
+        private regionService: RegionService,        
         private cdr: ChangeDetectorRef) {
         super(undefined,  injector);
     }
@@ -67,6 +73,12 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             this.cdr.detectChanges();
         });
 
+        this.zonaService.actives().subscribe(data => {
+            this.zonas.next(data);
+            this.cdr.detectChanges();
+        });
+
+
     }
 
     ngAfterViewInit(): void {
@@ -93,6 +105,13 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
                         this.cdr.detectChanges();
                     });
                 }
+
+                if (this.f.zona.value) {                    
+                    this.regionService.activesByZona(this.f.zona.value).subscribe(data => {   
+                        this.regiones.next(data);
+                        this.cdr.detectChanges();
+                    });
+                }
             }
         });
 
@@ -100,20 +119,26 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(agencia: Agencia) {
         this.itemForm = this.fb.group({
-            id: [agencia.id || '', {disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
+            id: [{ value: agencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
             nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
             parroquia: [agencia.parroquia || undefined, [Validators.required]],
             municipio: [agencia.municipio || undefined, [Validators.required]],
             estado: [agencia.estado || undefined, [Validators.required]],
+            zona: [agencia.zona || undefined, [Validators.required]],
+            taquillas: [agencia.taquillas || undefined, [Validators.required]],
+            operativas: [agencia.operativas || undefined, [Validators.required]],
+            region: [agencia.region || undefined, [Validators.required]],
             direccion:  [agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email:  [agencia.email || '', [Validators.required]],
+            email:  [agencia.email || undefined],
             telefono:  [agencia.telefono || '', [Validators.required]],
             telefonoAlt:  [agencia.telefonoAlt || ''],
             latitud:  [agencia.latitud || undefined, [Validators.required]],
             longitud:  [agencia.longitud || undefined, [Validators.required]],
             zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]],
-            horarioExt: [agencia.horarioExt===1 || false],
+            horarioExt: [agencia.horarioExt===1],
         });
+
+        
 
         this.f.estado.valueChanges.subscribe(value => {
             this.ciudad='';
@@ -134,6 +159,13 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         this.f.parroquia.valueChanges.subscribe(value => {           
             this.zonaPostalService.activesByParroquia(value).subscribe(data => {
                 this.zonasPostales.next(data);
+                this.cdr.detectChanges();
+            });
+        });
+
+        this.f.zona.valueChanges.subscribe(value => {           
+            this.regionService.activesByZona(value).subscribe(data => {
+                this.regiones.next(data);
                 this.cdr.detectChanges();
             });
         });

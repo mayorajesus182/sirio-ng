@@ -25,37 +25,50 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="20">
+                            <mat-form-field fxFlex="15">
                                 <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.id" readonly>
+                                <input matInput [value]="d.id" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="80">
+                            <mat-form-field fxFlex.gt-xs="70">
                                 <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.horarioExt === 1 ? 'SI' : 'NO'" readonly class="text-center">
+                            </mat-form-field>
+
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="40">
-                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
+                            <mat-form-field fxFlex="35">
+                                <mat-label>{{'agency.zone' | translate: {default: 'global.zone'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.email" readonly>
+                                <input matInput [value]="d.zona" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="40">
-                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
+                            <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'agency.region' | translate: {default: 'global.region'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.telefono" readonly>
+                                <input matInput [value]="d.region" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="40">
-                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.boxOffices' | translate: {default: 'global.boxOffices'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.telefonoAlt" readonly >
+                                <input matInput [value]="d.taquillas" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.operationalBoxOffices' | translate: {default: 'global.operationalBoxOffices'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.operativas" readonly class="text-center">
                             </mat-form-field>
                         </div>
 
@@ -68,18 +81,19 @@
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="30">
-                                <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.ciudad" readonly>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex.gt-xs="30">
                                 <mat-label>{{'agency.municipality' | translate: {default: 'global.municipality'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.municipio" readonly>
                             </mat-form-field>
 
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.ciudad" readonly>
+                            </mat-form-field>
+
                         </div>
+
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -89,39 +103,58 @@
                                 <input matInput [value]="d.parroquia" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="40">
+                            <mat-form-field fxFlex="30">
                                 <mat-label>{{'agency.postalZone' | translate: {default: 'global.postalZone'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.zonaPostal" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="40">
-                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.direccion" readonly>
+                                <input matInput [value]="d.email" readonly>
                             </mat-form-field>
+
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="35">
+                            <mat-form-field fxFlex.gt-xs="70">
+                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.direccion" readonly>
+                            </mat-form-field>
+
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.telefono" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.telefonoAlt" readonly >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="50">
                                 <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.latitud" readonly>
+                                <input matInput [value]="d.latitud" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="35">
+                            <mat-form-field fxFlex.gt-xs="50">
                                 <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.longitud" readonly>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex="30">
-                                <mat-label>{{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} |
-                                    translate }}</mat-label>
-                                <input matInput class="text-center" [value]="d.horarioExt ? 'SI' : 'NO'" readonly>
+                                <input matInput [value]="d.longitud" readonly class="text-center">
                             </mat-form-field>
                         </div>
+
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
                     </div>
 

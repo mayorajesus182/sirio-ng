@@ -10,6 +10,8 @@ export interface Moneda {
     nombre: string;
     siglas: string;
     codigoLocal: string;
+    usoOperacion: number;
+    usoAtm: number;
     esVirtual: number;
     divisor?: number;
     fechaCreacion?: any;
@@ -61,6 +63,14 @@ export class MonedaService {
 
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
+    }
+
+    paraOperacionesActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/foroperation/actives');
+    }
+
+    paraAtmActives(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/foratm/actives');
     }
 
     fisicaActives(): Observable<Moneda[]> {

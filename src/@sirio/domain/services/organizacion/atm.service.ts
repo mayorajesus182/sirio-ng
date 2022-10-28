@@ -60,6 +60,10 @@ export class AtmService {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
+    pageByAgencia(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Atm[]> {
+        return this.apiService.config(this.apiConfig).page('/byagencia/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
     save(data: Atm): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));

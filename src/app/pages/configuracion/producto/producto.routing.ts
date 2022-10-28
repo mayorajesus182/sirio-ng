@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 
-const ProductoRoutes: Routes = [
+const productoRoutes: Routes = [
 
     {
         path: 'tipo-producto',
@@ -25,7 +25,7 @@ const ProductoRoutes: Routes = [
 
 
 @NgModule({
-    imports: [RouterModule.forChild(ProductoRoutes)],
+    imports: [RouterModule.forChild(productoRoutes)],
     exports: [RouterModule]
 })
 export class ProductoRoutingModule {

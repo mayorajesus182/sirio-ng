@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
@@ -9,6 +9,7 @@ export interface Persona{
     nombre: string;
     numper: string;
     tipoDocumento: string;
+    identificacion?: string;
 }
 
 @Injectable({

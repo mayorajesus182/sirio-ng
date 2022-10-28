@@ -3,24 +3,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegionService } from 'src/@sirio/domain/services/organizacion/region.service';
+import { ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-region-detail',
-  templateUrl: './region-detail.component.html',
-  styleUrls: ['./region-detail.component.scss'],
+  selector: 'app-zona-detail',
+  templateUrl: './zona-detail.component.html',
+  styleUrls: ['./zona-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class RegionDetailComponent extends FormBaseComponent implements OnInit {
+export class ZonaDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
     private router: Router,
     private route: ActivatedRoute,
-    private regionService: RegionService) {
+    private zonaService: ZonaService) {
     super(undefined, injector);
   }
 
@@ -29,13 +29,11 @@ export class RegionDetailComponent extends FormBaseComponent implements OnInit {
 
     this.loadingDataForm.next(true);
 
-    this.regionService.detail(id).subscribe(data => {
+    this.zonaService.detail(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
 
   }
-
-
 
 }

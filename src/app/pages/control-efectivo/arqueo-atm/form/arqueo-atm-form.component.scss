@@ -1,0 +1,27 @@
+@import "var";
+
+div.input-content{
+    display: flex !important;
+    align-items: center !important;
+    height: 35px;
+    color: #5e5e5e;
+    mat-icon{
+        height: 25px;
+        width: auto;
+        font-size: 20px;
+        color: #bbb;
+    }
+}
+
+// .mat-form-field-outline{
+//     height: 40px;
+//     top: 0.35em;
+// }
+
+input.mat-input{
+    border: 1px solid;
+    border-color: #cfcdcd;
+    height: 30px;
+    border-radius: 4px;
+    color: #6a6a6a;
+}

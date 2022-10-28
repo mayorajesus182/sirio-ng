@@ -23,7 +23,7 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
 
   public cajetinData: Cajetin[];
   public cajetines: ReplaySubject<Cajetin[]> = new ReplaySubject<Cajetin[]>();
-  public conos:ConoMonetario[] = [];
+  public conos: ConoMonetario[] = [];
   public keywords: string = '';
   atmId: string;
   atm: string;
@@ -47,15 +47,10 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
     this.cajetinService.activesByAtm(this.atmId).subscribe((data) => {
       this.cajetinData = data;
       this.cajetines.next(data.slice());
-      console.log(data);
-      
     });
-    
-    //TODO: ESTO DE USD EN DURO
-    this.conoMonetarioService.activesByMoneda('USD').subscribe((data) => {
-      this.conos= data.slice();
-      console.log(data);      
-    });
+
+
+
   }
 
   ngOnInit() {
@@ -64,18 +59,18 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
 
     const data = history.state.data;
 
-    console.log(' this.atmId ',  this.atmId);
-    console.log('dataaaaaa ', data);
-    
     if (data) {
-      console.log('dataaaaaaaaaaaaaaaaa');
-      
       this.atm = data.codigo;
       sessionStorage.setItem('trans_nombre', data.codigo);
+      sessionStorage.setItem('moneda_atm', data.moneda);
     } else {
-      console.log('no dataaaaaaaaaaaaa', sessionStorage.getItem('trans_nombre'));
       this.atm = sessionStorage.getItem('trans_nombre')
     }
+
+    this.conoMonetarioService.activesBilletesByMoneda(sessionStorage.getItem('moneda_atm')).subscribe((result) => {
+      this.conos = result.slice();
+      console.log(result);
+    });
 
     if (this.atmId) {
       this.loadList();
@@ -123,15 +118,14 @@ export class CajetinTableComponent extends TableBaseComponent implements OnInit,
   }
 
 
-  selectConoMonetario(event,row:Cajetin) {
-    console.log('cono monetario',event);
-    row.conoMonetario = Number.parseInt((event.target as HTMLSelectElement).value);    
+  selectConoMonetario(event, row: Cajetin) {
+    row.conoMonetario = Number.parseInt((event.target as HTMLSelectElement).value);
   }
 
-  denominacion(row:Cajetin){ 
-    if(row){
-      return this.conos.filter(c=> c.id==row.conoMonetario).map(c=>c.denominacion+" - "+c.moneda)[0];
-    }else{
+  denominacion(row: any) {
+    if (row) {
+      return this.conos.filter(c => c.id == row.conoMonetario).map(c => c.denominacion + " - " + c.nombreMoneda)[0];
+    } else {
       return '';
     }
     // retorno la denominacion
