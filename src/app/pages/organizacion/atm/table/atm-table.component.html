@@ -11,18 +11,18 @@
                 matSortActive="fcreacion" matSortDirection="desc">
 
                 <ng-container matColumnDef="atm_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'atm.identification' | translate:
-                        {default: 'global.identification'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'atm.code' | translate:
+                        {default: 'global.code'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="codigo">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'atm.code' | translate:
-                        {default: 'global.code'} | translate }}</mat-header-cell>
+                <ng-container matColumnDef="identificacion">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'atm.identification' | translate:
+                        {default: 'global.identification'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="text-truncate font-weight-600">{{element.codigo}}</p>
+                        <p class="text-truncate font-weight-600">{{element.identificacion}}</p>
                     </mat-cell>
                 </ng-container>
 

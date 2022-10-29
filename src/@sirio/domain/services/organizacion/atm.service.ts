@@ -3,17 +3,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { Cajetin } from './cajetin.service';
 
 
 export interface Atm {
     id: string;
-    codigo: string;
+    identificacion: string;
     moneda: string;
     tipoAtm: string;
     agencia: string;
     transportista: string;
     fechaCreacion?: any;
     activo?: number;
+    cajetines: Cajetin[];
 }
 
 @Injectable({
@@ -44,8 +46,12 @@ export class AtmService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    existsByCodigo(codigo: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${codigo}/bycodigo/exists`);
+    existsByIdentificacion(identificacion: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${identificacion}/byidentificacion/exists`);
+    }
+
+    getCajetines(): Observable<Cajetin[]> {
+        return this.apiService.config(this.apiConfig).get(`/cajetines`);
     }
 
     get(id: string): Observable<Atm> {

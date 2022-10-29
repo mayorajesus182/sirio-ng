@@ -206,7 +206,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         }
 
         this.conos.subscribe(c=>{
-            this.f.monto.setValue(c.filter(c1=>c1.cantidad>0).map(c2=> c2.cantidad* c2.denominacion).reduce((a,b)=>a+b));
+            this.f.monto.setValue(c.filter(c1=>c1.cantidad>0).map(c2=> c2.cantidad * c2.denominacion).reduce((a,b)=>a+b));
             this.conoSave = c.filter(c=>c.cantidad>0);
             this.cdr.detectChanges();   
          });

@@ -7,11 +7,11 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 
 export interface Cajetin {
-    id: number;
-    atm: string;    
+    id?: number;
+    atm?: string;    
     nombre:string;
     cantidad: number;
-    conoMonetario: number;
+    conoMonetario?: number;
     fechaCreacion?: any;
 }
 

@@ -1,14 +1,21 @@
-#itemForm {
+@import "var";
 
-  form {
-    min-height: 500px;
-  }
+div.input-content{
+    display: flex !important;
+    align-items: center !important;
+    height: 30px;
+    color: #5e5e5e;
+}
 
-  .mat-toolbar {
-    background: inherit;
-    color: inherit;
+// .mat-form-field-outline{
+//     height: 40px;
+//     top: 0.35em;
+// }
 
-  }
-
-
+input.mat-input{
+    border: 1px solid;
+    border-color: #cfcdcd;
+    height: 35px;
+    border-radius: 4px;
+    color: #6a6a6a;
 }
