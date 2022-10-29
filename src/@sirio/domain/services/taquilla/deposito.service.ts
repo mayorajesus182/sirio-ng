@@ -45,6 +45,9 @@ export interface Deposito {
     linea: string;
     telefono: string;
     email: string;
+    tipoDocumentoDepositante: String ;
+    identificacionDepositante: String ;
+    nombreDepositante: String ;
     estatusOperacion: string;
     detalles:ConoMonetario[];
     cheques: Cheque[];
