@@ -24,7 +24,7 @@ export interface Deposito {
     id: number;
     // institucion: string;
     // agencia: string;
-    // persona:number;
+    persona:number;
     numper: string;
     cuentaBancaria: number;
     tipoDocumento: string;
