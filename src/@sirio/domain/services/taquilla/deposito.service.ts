@@ -10,12 +10,12 @@ export interface Cheque {
     id: number;
     deposito: number;
     entidadFinanciera: number;
-    serial: number;
-    numeroCuenta: string;
-    tipoDocumento: string;
+    serial: string;
+    numeroCuentaCheque: string;
+    tipoDocumentoCheque: string;
     codigoSeguridad: string;
     fechaEmision: any;
-    monto: number;
+    montoCheque: number;
     devolver: number;
     motivoDevolucion: string;
 }
@@ -45,6 +45,9 @@ export interface Deposito {
     linea: string;
     telefono: string;
     email: string;
+    tipoDocumentoDepositante: String ;
+    identificacionDepositante: String ;
+    nombreDepositante: String ;
     estatusOperacion: string;
     detalles:ConoMonetario[];
     cheques: Cheque[];
