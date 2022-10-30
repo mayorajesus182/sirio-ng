@@ -17,9 +17,10 @@
 
       <mat-form-field fxFlex="auto">
         <!-- TODO: KEY INTERNACIONALIZACION -->
-        <mat-label>Total Detalle
+        <mat-label>Monto Total 
         </mat-label>
         <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
+        <mat-hint class="mat-error">{{total != (totalActual+totalAnterior)?'El total desglosado esta descuadrado!':''}}</mat-hint>
       </mat-form-field>
 <!-- 
       <mat-form-field fxFlex="auto">
@@ -28,13 +29,11 @@
         <input matInput class="text-right" [value]="totalAnterior | number:'1.2-2'" readonly currencyMask [options]="{precision:2}">
       </mat-form-field> -->
 
-      <mat-form-field fxFlex="auto">
+      <!-- <mat-form-field fxFlex="auto">
         <mat-label>Monto Total
         </mat-label>
         <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
-        <!-- <mat-error *ngIf="total != (totalActual+totalAnterior)">El total desglosado es diferente al total suministrado</mat-error> -->
-        <mat-hint class="mat-error">{{total != (totalActual+totalAnterior)?'El total desglosado esta descuadrado!':''}}</mat-hint>
-      </mat-form-field>
+      </mat-form-field> -->
 
     </div>
   </div>
