@@ -73,7 +73,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (isOpen) {
+            if (!isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
@@ -332,9 +332,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         this.f.cuentaBancaria.valueChanges.subscribe(val=>{            
             if (val && val !='') {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];   
-                // console.log(cuenta);
-                
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];                   
                 this.moneda.id = cuenta.moneda;              
                 this.moneda.nombre = cuenta.monedaNombre;
                 this.moneda.siglas = cuenta.siglas;
@@ -505,9 +503,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     save() {
         if (this.itemForm.invalid)
-        
         return;
-        console.log("ERORORORORROROR", this.itemForm);
 
         this.updateData(this.deposito);
         this.updateDataFromValues(this.deposito, this.persona);
@@ -518,15 +514,16 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.deposito.numper = this.persona.numper;
         this.deposito.tipoDocumento = this.persona.tipoDocumento;
         this.deposito.identificacion = this.persona.identificacion;
-        
         this.updateDataFromValues(this.deposito, this.cuentaOperacion);
         this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
         this.deposito.cheques = this.chequeList;
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
+
         this.cleanScreen();
     }
 
     cleanScreen() {
+        this.queryResult(this.cuentaOperacion.tipoDocumento)
         this.conoActual = [];
         this.conoAnterior = [];
         this.moneda={} as Moneda;
@@ -536,6 +533,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // this.f.identificacion.disable();
         this.cheque = {} as Cheque;
         this.cheques.next([]);
+        this.loading.next(false);
         this.cdr.detectChanges();
     }
 

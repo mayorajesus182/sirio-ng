@@ -2,33 +2,22 @@
     <sirio-page-layout-header>
         <sirio-breadcrumbs [@fadeInRight] [crumbs]="['deposit.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
-
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
-
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayoutAlign.gt-sm="start stretch">
-            <!--Información del Cliente  -->
             <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'deposit.form'|translate}}</sirio-card-header-heading>
-                    <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
                     <sirio-card-header-actions>
-                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                    {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>backspace</mat-icon>
-                        </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
-
                         </button>
-
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
-
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
                     <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
@@ -89,7 +78,6 @@
                                             <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                         </mat-form-field>
-                                        <!-- Botón Moneda -->
                                         <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.monto.value"
                                             [disabled]="f.esEfectivo.value <= 0" [moneda]="moneda" (update)="updateCashDetail($event)"
                                             [cono_actual]="conoActual" [cono_anterior]="conoAnterior"></sirio-cash-button>
@@ -107,8 +95,7 @@
                                                 name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
                                         </div>
                                         <div fxFlex.gt-xs="20">
-                                            <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conMovimiento"
-                                                name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
+                                            <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conMovimiento" name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
                                         </div>
                                     </div>
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value">
@@ -126,11 +113,9 @@
                                             <mat-error *ngIf="f.linea.errors?.required">{{'error.required' | translate}}</mat-error>
                                         </mat-form-field>
                                     </div>
-                                    {{deposito| json}}
                                 </div>
                             </sirio-card-content>
                         </sirio-card>
-                        <!-- Información del Depositante -->
                         <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp
                             fxFlex="grow" *ngIf="loading | async">
                             <sirio-card-header class="header-bg">
@@ -184,12 +169,10 @@
                                         <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="" [required]="!f.email.value">
                                         <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
                                     </mat-form-field> -->
-                                    {{deposito| json}}
                                 </div>
                             </sirio-card-content>
                         </sirio-card>
                     </div>
-                    <!-- {{printErrors()|json}} -->
                 </sirio-card-content>
                 <mat-toolbar *ngIf="loading | async">
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
