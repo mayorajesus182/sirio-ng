@@ -503,7 +503,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         this.updateData(this.deposito);
         this.updateDataFromValues(this.deposito, this.persona);
-        this.updateDataFromValues(this.deposito, this.cuentaOperacion);
+        // this.updateDataFromValues(this.deposito, this.cuentaOperacion);
         this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
         this.deposito.cheques = this.chequeList;
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
@@ -516,7 +516,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.detalleEfectivo = 0;
         this.sumMontoChequePropio = 0;
         this.sumMontoChequeOtros = 0;
-        this.f.identificacion.disable();
+        // this.f.identificacion.disable();
         this.cheque = {} as Cheque;
         this.cheques.next([]);
         this.cdr.detectChanges();

@@ -58,18 +58,16 @@
                                 </div>
                                 <div fxLayout="column">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                            <div fxFlex.gt-xs="50">
-                                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esEfectivo" name="esEfectivo">
-                                                    {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
-                                                </mat-slide-toggle>
-                                            </div>
+                                        <div fxFlex.gt-xs="50">
+                                            <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esEfectivo" name="esEfectivo">
+                                                {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
+                                            </mat-slide-toggle>
+                                        </div>
 
-                                            <div fxFlex.gt-xs="50">
-                                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esCheque" name="esCheque">
-                                                    {{'deposit.checkDeposit' | translate: {default: 'global.checkDeposit'} | translate }}
-                                                </mat-slide-toggle>
-                                            </div>
+                                        <div fxFlex.gt-xs="50">
+                                            <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esCheque" name="esCheque">
+                                                {{'deposit.checkDeposit' | translate: {default: 'global.checkDeposit'} | translate }}
+                                            </mat-slide-toggle>
                                         </div>
                                     </div>
 
@@ -118,6 +116,7 @@
                                             <mat-error *ngIf="f.linea.errors?.required">{{'error.required' | translate}}</mat-error>
                                         </mat-form-field>
                                     </div>
+                                    {{deposito| json}}
                                 </div>
                             </sirio-card-content>
                         </sirio-card>
@@ -174,12 +173,13 @@
                                         <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="" [required]="!f.email.value">
                                         <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
                                     </mat-form-field> -->
+                                    {{deposito| json}}
                                 </div>
                             </sirio-card-content>
                         </sirio-card>
                     </div>
                 </sirio-card-content>
-                <mat-toolbar>
+                <mat-toolbar *ngIf="loading | async">
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
                             {{'button.cancel' | translate:
