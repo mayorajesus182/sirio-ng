@@ -12,9 +12,19 @@
                     <sirio-card-header-heading>{{'deposit.form'|translate}}</sirio-card-header-heading>
                     <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                     {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
+                        </button> -->
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
@@ -22,13 +32,13 @@
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
                     <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
-                        <sirio-card [fxFlex.gt-sm]="100" *ngIf="loading | async" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md"
-                            @fadeInUp fxFlex="grow">
+                        <sirio-card [fxFlex.gt-sm]="100" *ngIf="loading | async" fxLayout="column"
+                            class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
                             <sirio-card-header class="header-bg">
-                                <sirio-card-header-heading>Información Financiera</sirio-card-header-heading>
+                                <sirio-card-header-heading> <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; Información Financiera</sirio-card-header-heading>
                                 <sirio-card-header-actions>
                                     <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                                    {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfFin()">
+                                    {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfoFinance()">
                                         <mat-icon>backspace</mat-icon>
                                     </button>
                                 </sirio-card-header-actions>
@@ -46,7 +56,7 @@
                                     </mat-form-field>
                                     <sirio-select-search fxFlex="30" *ngIf="!cuentaOperacion"
                                         [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate"
-                                        formControlName="numeroCuenta" [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()"
+                                        formControlName="cuentaBancaria" [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()"
                                         [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
                                     </sirio-select-search>
                                     <mat-form-field fxFlex.gt-xs="10">
@@ -121,26 +131,27 @@
                             </sirio-card-content>
                         </sirio-card>
                         <!-- Información del Depositante -->
-                        <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow" *ngIf="loading | async">
+                        <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp
+                            fxFlex="grow" *ngIf="loading | async">
                             <sirio-card-header class="header-bg">
-                                <sirio-card-header-heading>Información del Depositante</sirio-card-header-heading>
+                                <sirio-card-header-heading><i class="fa-light fa-address-card mat-icon mat-primary fa-lg margin-top-md"></i> &nbsp; Información del Depositante</sirio-card-header-heading>
                                 <sirio-card-header-actions>
                                     <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                                    {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfDep()">
+                                    {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfDeposit()">
                                         <mat-icon>backspace</mat-icon>
                                     </button>
                                 </sirio-card-header-actions>
                             </sirio-card-header>
 
                             <sirio-card-content fxLayout="column">
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >
-                                    <sirio-select-search fxFlex.gt-xs="20"
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <sirio-select-search fxFlex.gt-xs="25"
                                         [label]="'deposit.documentType' | translate: {default: 'global.documentType'} | translate"
                                         formControlName="tipoDocumentoDepositante" [required]="true" [elements]="tiposDocumentoNaturales.asObservable()"
                                         [attributeName]="'nombre'" [errors]="f.tipoDocumentoDepositante?.errors" required>
                                     </sirio-select-search>
-    
-                                    <mat-form-field fxFlex.gt-xs="10">
+
+                                    <mat-form-field fxFlex.gt-xs="15">
                                         <mat-label>Nro. Documento
                                         </mat-label>
                                         <input matInput autocomplete="off" maxlength="8" id="identificacionDepositante" name="identificacionDepositante"
@@ -148,7 +159,7 @@
                                         <mat-error *ngIf="f.identificacionDepositante.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.identificacionDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
-    
+
                                     <mat-form-field fxFlex.gt-xs="30">
                                         <mat-label>Nombres y Apellidos/Razón Social
                                         </mat-label>
@@ -156,7 +167,7 @@
                                             formControlName="nombreDepositante" uppercase class="text-center" required>
                                         <mat-error *ngIf="f.nombreDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
-    
+
                                     <mat-form-field fxFlex.gt-sm="auto">
                                         <mat-label>
                                             Email
@@ -178,6 +189,7 @@
                             </sirio-card-content>
                         </sirio-card>
                     </div>
+                    <!-- {{printErrors()|json}} -->
                 </sirio-card-content>
                 <mat-toolbar *ngIf="loading | async">
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

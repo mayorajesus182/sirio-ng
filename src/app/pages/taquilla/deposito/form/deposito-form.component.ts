@@ -278,11 +278,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
             nombre: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            cuentaBancaria: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            cuentaBancaria: new FormControl(undefined, []),
             tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             numeroCuenta: new FormControl(undefined),
-            moneda: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            moneda: new FormControl('', []),
             efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
@@ -330,12 +330,17 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         })
 
-        this.f.numeroCuenta.valueChanges.subscribe(val=>{            
+        this.f.cuentaBancaria.valueChanges.subscribe(val=>{            
             if (val && val !='') {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];      
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];   
+                // console.log(cuenta);
+                
                 this.moneda.id = cuenta.moneda;              
                 this.moneda.nombre = cuenta.monedaNombre;
                 this.moneda.siglas = cuenta.siglas;
+                this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
+                this.f.moneda.setValue(this.moneda.id);
+                this.f.tipoProducto.setValue(cuenta.tipoProducto);
                 this.cdr.detectChanges();
             }
         })
@@ -471,6 +476,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             this.loaded$.next(false);
             this.persona = {} as Persona;
             this.cuentaOperacion = undefined;
+            this.itemForm.reset({});
             this.loading.next(false);
             this.cdr.detectChanges();
         } else {
@@ -485,6 +491,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             } else {
                 this.persona = data;
                 this.cuentaOperacion = undefined;
+                this.f.identificacion.setValue(this.persona.identificacion)
+                this.f.tipoDocumento.setValue(this.persona.tipoDocumento)
                 this.loading.next(true);
                 //lista de las cuentas bancarias de la persona
                 this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {                    
@@ -504,6 +512,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.updateData(this.deposito);
         this.updateDataFromValues(this.deposito, this.persona);
         // this.updateDataFromValues(this.deposito, this.cuentaOperacion);
+        // this.updateDataFromValues(this.deposito, this.persona);
+        this.deposito.persona = this.persona.id;
+        this.deposito.nombre = this.persona.nombre;
+        this.deposito.numper = this.persona.numper;
+        this.deposito.tipoDocumento = this.persona.tipoDocumento;
+        this.deposito.identificacion = this.persona.identificacion;
+        
+        this.updateDataFromValues(this.deposito, this.cuentaOperacion);
         this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
         this.deposito.cheques = this.chequeList;
         this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
@@ -513,6 +529,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     cleanScreen() {
         this.conoActual = [];
         this.conoAnterior = [];
+        this.moneda={} as Moneda;
         this.detalleEfectivo = 0;
         this.sumMontoChequePropio = 0;
         this.sumMontoChequeOtros = 0;
@@ -544,7 +561,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         return this.chequeList.find(c => c.serial === serial && c.numeroCuentaCheque === numeroCuentaCheque) == undefined;
     }
 
-    resetInfFin() {
+    resetInfoFinance() {
         this.f.efectivo.reset({});
         this.f.monto.reset({});
         this.f.esEfectivo.setValue(true);
@@ -553,7 +570,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.f.conMovimiento.setValue('');
     }
 
-    resetInfDep() {
+    resetInfDeposit() {
         this.f.tipoDocumentoDepositante.reset({});
         this.f.identificacionDepositante.setValue('');
         this.f.nombreDepositante.setValue('');
