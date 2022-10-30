@@ -488,37 +488,85 @@
                             </mat-expansion-panel>
 
 
-                            <mat-expansion-panel *ngIf="hasBasicData">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openApoderado(true)" (closed)="openApoderado(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
-                                        <!-- TODO: INTERNACIONALIZACION -->
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Apoderados</span>
+                                        <span class="margin-top-sm semi-bold"> Apoderados </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                       
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalApoderado"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
+                                <div fxLayout="row" fxLayout="column" *ngIf="showApoderado">
 
-                                <div fxLayout="row" fxLayout="column">
-                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="default" (click)="addElement()" mat-button>
-                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                            'global.notfound'} | translate }}
+
+                                    <sirio-persona-apoderado-table [persona]="personaNatural.id" (propagar)="updateApoderado($event)"></sirio-persona-apoderado-table>
+
+
+                                </div>
+
+                            </mat-expansion-panel>
+
+
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openApoderado(true)" (closed)="openApoderado(false)">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>peoples</mat-icon>
                                         </button>
-                                    </div>
+                                        <span class="margin-top-sm semi-bold"> Apoderados </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalApoderado"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showApoderado">
+
+
+                                    <sirio-persona-apoderado-table [persona]="personaNatural.id" (propagar)="updateApoderado($event)"></sirio-persona-apoderado-table>
+
+
                                 </div>
 
 
                             </mat-expansion-panel>
+
+                            
+                                                                                                                        
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openEmpresaRelacionada(true)" (closed)="openEmpresaRelacionada(false)">
+
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold"> Clientes y Proveedores </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalEmpresaRelacionada"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
+
+                                   <!-- {{'holaaaa'}} -->
+
+                                    <sirio-persona-empresa-relacionada-table [persona]="personaNatural.id" ></sirio-persona-empresa-relacionada-table>
+                                   
+
+                                </div>
+
+                            </mat-expansion-panel>
+
                             <!-- <form [formGroup]="itemForm" *ngIf="itemForm">
-    
-                           
-    
     
                         </form> -->
                         </mat-accordion>

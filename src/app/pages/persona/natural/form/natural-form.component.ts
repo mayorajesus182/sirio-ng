@@ -33,6 +33,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     totalAddress: number;
     totalInfoLab: number;
     totalPep: number;
+    totalApoderado: number;
+
     totalPhone: number;
     totalBankReference: number;
     totalPersonalReference: number;
@@ -43,6 +45,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     showPersonalReference = false;
     showBankReference = false;
     showPep = false;
+    showApoderado = false;
+    
+    showEmpresaRelacionada = false;
+
     showInformacionLaboral = false;
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
@@ -341,6 +347,16 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.totalPep= event;
     }
 
+    updateApoderado(event){
+        console.log('apoderado', event);
+        this.totalApoderado= event;
+    }
+
+    updateEmpresaRelacionada(event){
+        console.log('peps', event);
+        this.totalPep= event;
+    }
+
     //openAddress() {
     openInformacionLaboral(opened:boolean) {
         console.log('pruebas procesp');
@@ -355,6 +371,21 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.showPep = opened;
         this.cdr.detectChanges();
     }
+    
+    openApoderado(opened:boolean) {
+        console.log('Apoderado');
+
+        this.showApoderado = opened;
+        this.cdr.detectChanges();
+    }
+
+    openEmpresaRelacionada(opened:boolean) {
+        console.log('pruebas open empresa');
+        
+        this.showEmpresaRelacionada=opened; 
+        this.cdr.detectChanges();
+    }
+  
     openAddress(opened:boolean) {
         this.showAddress = opened;
         this.cdr.detectChanges();
@@ -363,6 +394,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.showBankReference = opened;
         this.cdr.detectChanges();
     }
+
     openPersonalReference(opened:boolean) {
         this.showPersonalReference = opened;
         this.cdr.detectChanges();
