@@ -45,8 +45,18 @@
                                         [ngModelOptions]="{standalone: true}" readonly name="numeroCuenta" [required]="cuentaBancariaOperacion">  
                                     <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
                                </mat-form-field>
+                              
+                               <mat-form-field fxFlex.gt-xs="10" *ngIf="cuentaBancariaOperacion">
+                                <mat-label>{{'withdrawal.coin' | translate: {default: 'global.coin'} | translate }}
+                                </mat-label>
+                                <input matInput autocomplete="off" [(ngModel)]="moneda.siglas" [required]="cuentaBancariaOperacion" [ngModelOptions]="{standalone: true}" readonly
+                                    name="moneda" class="text-center">
+                            </mat-form-field>
 
-                                <sirio-select-simple *ngIf="!cuentaBancariaOperacion" fxFlex="30" 
+
+                                
+                               
+                               <sirio-select-simple *ngIf="!cuentaBancariaOperacion" fxFlex="30" 
                                 [label]="'withdrawal.accountNumber' | translate: {default: 'global.accountNumber'} | translate"
                                     formControlName="cuenta" [required]="!cuentaBancariaOperacion" 
                                     [elements]="cuentasBancarias.asObservable()"  [attributeName]="'descripcion'"
@@ -83,17 +93,16 @@
                                 <mat-error *ngIf="f.monto.errors?.difference">existe diferencia</mat-error>
                             </mat-form-field>
 
-                             <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
-                                     class="margin-top-md" [disabled]="f.numeroCuenta.value <= 0 && f.numeroCuenta.value != undefined" 
+                             <sirio-cash-button [moneda]="moneda" [total]="f.monto.value" 
+                                     class="margin-top-md" [disabled]="f.cuenta.value <= 0 && f.numeroCuenta.value != undefined" 
                                     (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                     [cono_anterior]="conoAnterior">
-                            </sirio-cash-button>  
+                            </sirio-cash-button>         
 
-                               
                             </div>
 
                             <!-- Cuarta fila email y telef Nota: Borrar este comentario al Final -->
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="esRetiroEfectivo">
 
                                 <mat-form-field fxFlex.gt-sm="50">
                                     <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
@@ -121,7 +130,7 @@
 
                         </div>
                     </form>
-                   <!-- {{printErrors() | json}}--> 
+                   {{printErrors() | json}}
                 </sirio-card-content>
 
                 <mat-toolbar>

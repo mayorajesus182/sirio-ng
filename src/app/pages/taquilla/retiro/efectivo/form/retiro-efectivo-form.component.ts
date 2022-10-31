@@ -44,7 +44,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     tipoProductos: TipoProducto = {} as TipoProducto;
     esPagoCheque: boolean = false;
     esPagoChequeGerencia: boolean = false;
-    esRetiroEfectivo: boolean = true;
+    esRetiroEfectivo: boolean = false;
     esEfectivo: boolean = false;
     esAbonoCuenta: boolean = false;
     detalleEfectivo: number = 0;
@@ -70,7 +70,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (isOpen) {
+            if (!isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
@@ -137,28 +137,15 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.itemForm = this.fb.group({
 
             tipoDocumento: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            // identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-
-
-          //  comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
-          //  beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
-            numper: new FormControl(undefined),
-           // tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
-           // identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),          
+            numper: new FormControl(undefined),         
             monto: new FormControl('', [Validators.required]),
-            numeroCuenta: new FormControl(undefined, [Validators.required]),
+           numeroCuenta: new FormControl(undefined),
             cuenta: new FormControl(undefined),
             moneda: new FormControl(''),
-            tipoProducto: new FormControl(''),
-            //serialCheque: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            totalRetiro: new FormControl(''),
-            //fechaEmision: new FormControl(''),
-           // codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            email: new FormControl(undefined,),
-           // telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            //esEfectivo: new FormControl(false),
-            //esAbonoCuenta: new FormControl(false),
-
+            tipoProducto: new FormControl(''),           
+            totalRetiro: new FormControl(''),         
+            email: new FormControl(undefined,),        
         });
 
 
@@ -167,17 +154,18 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             
             if (val && val !='') {
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                // console.log('cuenta', cuenta);                
+                 console.log('cuentaselec', cuenta);                
 
-                this.moneda.id = cuenta.moneda;
-                //console.log("monedaid", this.moneda.id);                
+                this.moneda.id = cuenta.moneda;                            
                 this.moneda.nombre = cuenta.monedaNombre;
 
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
-                this.f.numeroCuenta.setValue(cuenta.numeroCuenta); 
+               // this.f.cuenta.setValue(cuenta.numeroCuenta); 
+               // console.log("numeroCuenta", this.f.cuenta);   
             }
         });
 
+     
 
     }
 
@@ -262,18 +250,25 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.cdr.detectChanges();
         } else {
 
+             this.esRetiroEfectivo = true;
             if (data.moneda) {
                 console.log("aqui-consulto por NroCuenta");   
                 this.cuentaBancariaOperacion = data;
+                this.moneda.id = this.cuentaBancariaOperacion.moneda;              
+                this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
+                this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;
+               // this.f.numeroCuenta.setValue(this.cuentaBancariaOperacion.cuenta);
+                //console.log("numeroCuenta", this.f.numeroCuenta);   
                 
                 console.log("DATAcuentaBancaria", data);
                 //let tipoProducto= this.cuentaBancariaOperacion.tipoProducto;
 
             } else {
-
+                this.esRetiroEfectivo = true;
                 console.log("consulta por persona");
                 this.persona = data;
-
+                this.f.identificacion.setValue(this.persona.identificacion)
+               // console.log("identificacion: ", this.persona.identificacion);
                 this.cuentaBancariaOperacion = undefined;
                 console.log("DATAPersona", data);
 
@@ -304,14 +299,13 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                this.retiro.persona= this.persona.id;
                this.retiro.numper= this.persona.numper;
                this.retiro.tipoDocumento=this.persona.tipoDocumento;
-              // this.retiro.identificacion =this.persona.
+               this.retiro.identificacion = this.persona.identificacion;
                this.retiro.nombre = this.persona.nombre;
 
-               //this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+               this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+             // this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
         }
-        // this.updateDataFromValues(this.retiro, this.persona)
-
-    
+       
 
       
         if(this.cuentaBancariaOperacion){
