@@ -49,6 +49,8 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         super(undefined, injector);
     }
 
+    // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML (desglose de efectivo)
+
     ngOnInit() {
 
         let id = this.route.snapshot.params['id'];
@@ -104,7 +106,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
             if (val) {
                 this.validarBalance(val);
             }
- 
+
         });
     }
 
@@ -126,7 +128,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
                 balance: true
             });
             this.cdr.detectChanges();
-        } 
+        }
     }
 
     updateValuesErrors() {

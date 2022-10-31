@@ -36,22 +36,22 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-sm="10">
-                                <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
+                                <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
                                 <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                <mat-error *ngIf="f.id.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-sm="15">
-                                <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
+                                <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
                                 </mat-label>
-                                <input matInput minlength="1" maxlength="10" autocomplete="off" name="codigo" formControlName="codigo" uppercase required
+                                <input matInput maxlength="10" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required
                                     class="text-center">
-                                <mat-error *ngIf="f.codigo.errors?.required">{{'error.required' | translate}}</mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                <mat-error *ngIf="f.codigo.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                <mat-error *ngIf="f.identificacion.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
                             </mat-form-field>
 
                             <sirio-select-search fxFlex="20" [label]="'atm.coin' | translate: {default: 'global.coin'} | translate"
@@ -76,6 +76,56 @@
 
                         </div>
                     </form>
+
+                    <div fxLayout="column" class="margin-h padding-v">
+                        <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                            [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                            [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
+        
+                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                <ng-template ngx-datatable-header-template>
+                                    <span>{{'boxes.name' | translate: {default: 'global.name'} |
+                                        translate}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template >
+                                    <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+        
+                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                <ng-template ngx-datatable-header-template>
+                                    <span>{{'boxes.billsQuantity' | translate: {default: 'global.billsQuantity'} |
+                                        translate}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                    <input class="mat-input text-right"  [(ngModel)]="row.cantidad" autofocus matInput type="number"  />
+                                </ng-template>
+                            </ngx-datatable-column>
+        
+                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                <ng-template ngx-datatable-header-template >
+                                    <span>{{'boxes.denomination' | translate: {default: 'global.denomination'} |
+                                        translate}}</span>
+                                </ng-template>
+                                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                    <mat-form-field  style="margin-top: -10px;font-size: 12px;" >
+                                        <select class="text-center"  matNativeControl (change)="selectConoMonetario($event,row)">
+                                            <option value=""></option>
+                                            <option *ngFor="let item of conos" [value]="item.id" [selected]="row.conoMonetario===item.id">{{item.denominacion}} - {{item.nombreMoneda}}</option>
+                                        </select>
+                                    </mat-form-field>
+                                </ng-template>
+                            </ngx-datatable-column>
+        
+                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                            </ngx-datatable-column>
+
+                        </ngx-datatable>
+        
+                    </div>
 
                 </sirio-card-content>
                 <mat-toolbar>

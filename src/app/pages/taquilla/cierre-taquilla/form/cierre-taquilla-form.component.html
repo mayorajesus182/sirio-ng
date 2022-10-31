@@ -1,0 +1,103 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Cierre de Taquilla']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'Cierre de Taquilla'|translate}} </sirio-card-header-heading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid ">
+                            <mat-icon>outbox</mat-icon>
+
+                        </button>
+                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+                        </button> -->
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                
+
+                    <ng-container >
+
+                        <!-- Put the component which needs to be destroyed + rerendered inside -->
+
+                        <mat-accordion class="expansion-headers-align">
+
+                            
+
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <!-- TODO: INTERNACIONALIZACION -->
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">Representante Legal</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default"  mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </mat-expansion-panel>
+
+
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <!-- TODO: INTERNACIONALIZACION -->
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">Apoderados</span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                       
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="default" mat-button>
+                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
+                                </div>
+
+
+                            </mat-expansion-panel>
+
+                        </mat-accordion>
+                    </ng-container>
+                </sirio-card-content>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
