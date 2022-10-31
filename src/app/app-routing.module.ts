@@ -84,6 +84,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/workflow/workflow.module').then(m => m.WorkflowModule),
         data:{title:'menu.cashControl'}
       },
+      {
+        path: 'estadistica',
+        loadChildren: () => import('./pages/estadistica/estadistica.module').then(m => m.EstadisticaModule),
+        data:{title:'Estadisticas'}
+      },
     ]
   },
   {

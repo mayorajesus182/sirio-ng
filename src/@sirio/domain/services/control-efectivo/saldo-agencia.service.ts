@@ -29,6 +29,10 @@ export class SaldoAgenciaService {
         this.apiConfig = {name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/saldo-agencia'};
     }
 
+    getSaldo(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get('/list');
+    }
+
     getSaldoByMoneda(moneda: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldo`);
     }
