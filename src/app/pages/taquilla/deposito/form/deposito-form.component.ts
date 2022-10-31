@@ -1,3 +1,4 @@
+import { formatNumber } from '@angular/common';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -180,47 +181,47 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 //     distinctUntilChanged(),
                 //     debounceTime(500)
                 // ).subscribe(() => {
-                    // se busca los dato que el usuario suministro      
-                    // const tipoDocumento = this.f.tipoDocumento.value;
-                    // const identificacion = this.f.identificacion.value;
-                    // if (tipoDocumento && identificacion) {
-                    //     this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                    //         this.persona = data;
-                    //         const numper = data.numper;
+                // se busca los dato que el usuario suministro      
+                // const tipoDocumento = this.f.tipoDocumento.value;
+                // const identificacion = this.f.identificacion.value;
+                // if (tipoDocumento && identificacion) {
+                //     this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                //         this.persona = data;
+                //         const numper = data.numper;
 
-                    //         this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
-                    //             this.cuentasBancarias.next(cuenta);
-                    //         });
+                //         this.cuentaBancariaService.activesByNumper(numper).subscribe(cuenta => {
+                //             this.cuentasBancarias.next(cuenta);
+                //         });
 
-                    //         this.cdr.markForCheck();
-                    //     }, err => {
-                    //         this.f.identificacion.setErrors({ notexists: true });
-                    //         this.persona = {} as Persona;
-                    //         this.cuentasBancarias.next([]);
-                    //         this.cuentaOperacion = {} as CuentaBancariaOperacion;
-                    //         this.f.cuentaBancaria.setValue(undefined);
-                    //         this.f.esEfectivo.enable();
-                            // this.f.esEfectivo.setValue(true);
-                            // this.f.esCheque.disable();
-                            // this.f.esCheque.setValue(false);
-                            // this.cdr.detectChanges();
+                //         this.cdr.markForCheck();
+                //     }, err => {
+                //         this.f.identificacion.setErrors({ notexists: true });
+                //         this.persona = {} as Persona;
+                //         this.cuentasBancarias.next([]);
+                //         this.cuentaOperacion = {} as CuentaBancariaOperacion;
+                //         this.f.cuentaBancaria.setValue(undefined);
+                //         this.f.esEfectivo.enable();
+                // this.f.esEfectivo.setValue(true);
+                // this.f.esCheque.disable();
+                // this.f.esCheque.setValue(false);
+                // this.cdr.detectChanges();
 
-                            // prueba------------------------------------------------------------------------
-                            // this.f.monto.setValue('');
-                            // this.f.efectivo.setValue(undefined);
-                            // this.f.referencia.setValue('');
-                            // this.f.email.setValue('');
-                            // this.f.telefono.setValue('');
-                            // Chequeeeees
-                            // this.f.chequeOtros.setValue(undefined);
-                            // this.f.chequePropio.setValue(undefined);
-                            // this.f.numeroCuentaCheque.setValue('');
-                            // this.cf.serial.setValue(undefined);
-                            // this.cf.fechaEmision.setValue(undefined);
-                            // this.cf.tipoDocumentoCheque.setValue(undefined);
-                            // this.cf.codigoSeguridad.setValue(undefined);
-                            // this.cf.montoCheque.setValue(undefined);
-                            // fin-----------------------------------------------------------------------------
+                // prueba------------------------------------------------------------------------
+                // this.f.monto.setValue('');
+                // this.f.efectivo.setValue(undefined);
+                // this.f.referencia.setValue('');
+                // this.f.email.setValue('');
+                // this.f.telefono.setValue('');
+                // Chequeeeees
+                // this.f.chequeOtros.setValue(undefined);
+                // this.f.chequePropio.setValue(undefined);
+                // this.f.numeroCuentaCheque.setValue('');
+                // this.cf.serial.setValue(undefined);
+                // this.cf.fechaEmision.setValue(undefined);
+                // this.cf.tipoDocumentoCheque.setValue(undefined);
+                // this.cf.codigoSeguridad.setValue(undefined);
+                // this.cf.montoCheque.setValue(undefined);
+                // fin-----------------------------------------------------------------------------
                 //         })
                 //     }
                 // });
@@ -265,15 +266,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         if (valorEfectivo + valorChequePropio + valorChequeOtros != this.f.monto.value) {
             this.itemForm.controls['monto'].setErrors({
-                totalDifference: true
+                totalDifference: true,
             });
-            // this.itemForm.controls['efectivo'].setErrors({
-            //     difference: true
-            // });
             this.cdr.detectChanges();
         } else {
             this.f.monto.setErrors(undefined);
-            // this.f.efectivo.setErrors(undefined);
             this.cdr.detectChanges();
         }
     }
@@ -335,10 +332,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         })
 
-        this.f.cuentaBancaria.valueChanges.subscribe(val=>{            
-            if (val && val !='') {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];                   
-                this.moneda.id = cuenta.moneda;              
+        this.f.cuentaBancaria.valueChanges.subscribe(val => {
+            if (val && val != '') {
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+                this.moneda.id = cuenta.moneda;
                 this.moneda.nombre = cuenta.monedaNombre;
                 this.moneda.siglas = cuenta.siglas;
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
@@ -478,71 +475,48 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     }
 
     queryResult(data: any) {
-        if (!data.id && !data.numper) {
-            this.loaded$.next(false);
-            this.persona = {} as Persona;
-            this.cuentaOperacion = undefined;
-            this.itemForm.reset({});
-            this.loading.next(false);
-            this.cdr.detectChanges();
-        } else {
-            if (data.moneda) {
-                this.cuentaOperacion = data;        
-                console.log("prueba de cuenta por cuenta",data);                   
-                this.moneda.id = this.cuentaOperacion.moneda;              
-                this.moneda.nombre = this.cuentaOperacion.monedaNombre;
-                this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
-                this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
-                // this.cuentaOperacion.numeroCuenta = this.cuentaOperacion.numeroCuenta;
-
-                this.f.esEfectivo.setValue(true);
-                this.loading.next(true);
-                //let tipoProducto= this.cuentaBancariaOperacion.tipoProducto;
-
-            } else {
-                this.persona = data;
-                console.log("prueba de cuenta por persona",data);
-                
+        if (data) {
+            if (!data.id && !data.numper) {
+                this.loaded$.next(false);
+                this.persona = {} as Persona;
                 this.cuentaOperacion = undefined;
-                this.moneda.siglas = undefined;
-                this.f.identificacion.setValue(this.persona.identificacion);
-                this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
-                this.f.esEfectivo.setValue(true);
-                this.loading.next(true);
-                //lista de las cuentas bancarias de la persona
-                this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {                    
-                    this.cuentasBancarias.next(data);
-                });
-            
+                this.itemForm.reset({});
+                this.loading.next(false);
+                this.cdr.detectChanges();
+            } else {
+                if (data.moneda) {
+                    this.cuentaOperacion = data;
+                    this.moneda.id = this.cuentaOperacion.moneda;
+                    this.moneda.nombre = this.cuentaOperacion.monedaNombre;
+                    this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
+                    this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
+                    this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
+                    this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
+                    this.f.esEfectivo.setValue(true);
+                    this.loading.next(true);
+                } else {
+                    this.persona = data;
+                    this.cuentaOperacion = undefined;
+                    this.moneda.siglas = undefined;
+                    this.f.identificacion.setValue(this.persona.identificacion);
+                    this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
+                    this.f.esEfectivo.setValue(true);
+                    this.loading.next(true);
+                    this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
+                        this.cuentasBancarias.next(data);
+                    });
+
+                }
             }
         }
-    }
 
-    save() {
-        if (this.itemForm.invalid)
-        return;
-
-        this.updateData(this.deposito);
-        this.updateDataFromValues(this.deposito, this.persona);
-        this.deposito.persona = this.persona.id;
-        this.deposito.nombre = this.persona.nombre;
-        this.deposito.numper = this.persona.numper;
-        this.deposito.tipoDocumento = this.persona.tipoDocumento;
-        this.deposito.identificacion = this.persona.identificacion;
-        this.updateDataFromValues(this.deposito, this.cuentaOperacion);
-        this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
-        this.deposito.cheques = this.chequeList;
-        // this.deposito.numeroCuenta = this.cuentaOperacion.numeroCuenta;
-        this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
-
-        this.cleanScreen();
     }
 
     cleanScreen() {
         this.queryResult(this.cuentaOperacion.tipoDocumento)
         this.conoActual = [];
         this.conoAnterior = [];
-        this.moneda={} as Moneda;
+        this.moneda = {} as Moneda;
         this.detalleEfectivo = 0;
         this.sumMontoChequePropio = 0;
         this.sumMontoChequeOtros = 0;
@@ -578,7 +552,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.f.cuentaBancaria.setValue(undefined);
         // this.moneda.nombre = undefined;
         this.moneda.siglas = undefined;
-        this.f.efectivo.reset({});
+        this.f.efectivo.setValue(undefined);
         this.f.esEfectivo.disable()
         this.f.monto.reset({});
         this.f.esEfectivo.setValue(false);
@@ -604,6 +578,34 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         if (event.checked) {
             this.f.conLibreta.setValue(false);
         }
+    }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.deposito);
+
+        let montoFormat = formatNumber(this.deposito.monto, 'es', '1.2');
+
+        this.swalService.show('¿Desea Realizar el Deposito?', undefined, {'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de <b>' + montoFormat + ' ' + this.moneda.siglas+'</b>'} ).then((resp) => {
+            if (!resp.dismiss) {
+                this.updateDataFromValues(this.deposito, this.persona);
+                this.deposito.persona = this.persona.id;
+                this.deposito.nombre = this.persona.nombre;
+                this.deposito.numper = this.persona.numper;
+                this.deposito.tipoDocumento = this.persona.tipoDocumento;
+                this.deposito.identificacion = this.persona.identificacion;
+                this.updateDataFromValues(this.deposito, this.cuentaOperacion);
+                this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
+                this.deposito.cheques = this.chequeList;
+                this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
+                //this.cleanScreen();
+                this.router.navigate(['/sirio/welcome']).then(data => { });
+            }
+        })
+
+
     }
 }
 
