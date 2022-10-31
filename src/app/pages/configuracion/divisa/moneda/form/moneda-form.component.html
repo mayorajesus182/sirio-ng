@@ -78,7 +78,7 @@
                                     <mat-slide-toggle [color]="'primary'" formControlName="usoOperacion" name="usoOperacion">
                                         {{'coin.useOperations' | translate: {default: 'global.useOperations'} | translate }}
                                     </mat-slide-toggle>
-                                    <mat-error *ngIf="f.usoOperacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <!-- <mat-error *ngIf="f.usoOperacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error> -->
                                 </div>
 
                                 <div fxFlex="100" fxFlex.gt-xs="20" class="text-right margin-top-md">
