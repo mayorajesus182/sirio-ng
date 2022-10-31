@@ -22,6 +22,7 @@ export class SweetAlertService {
     confirmButtonText: '',
     cancelButtonText: '',
     html: undefined,
+    backdrop: false,
   };
 
   show(title: string, txt?: string, opts: any = {}) {
