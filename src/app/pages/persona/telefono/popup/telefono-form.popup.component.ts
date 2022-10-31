@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { RegularExpConstants } from 'src/@sirio/constants';
+import { ClaseTelefono, ClaseTelefonoService } from 'src/@sirio/domain/services/configuracion/telefono/clase-telefono.service';
 import { TipoTelefono, TipoTelefonoService } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
 import { Telefono, TelefonoService } from 'src/@sirio/domain/services/persona/telefono/telefono.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -18,13 +19,16 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
   telefono: Telefono = {} as Telefono;
   
   public tipoTelefonoList = new BehaviorSubject<TipoTelefono[]>([]);
+  public claseTelefonoList = new BehaviorSubject<ClaseTelefono[]>([]);
+  
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<TelefonoFormPopupComponent>,
     private telefonoService: TelefonoService,
-
     private tipoTelefonoService: TipoTelefonoService,
+    private claseTelefonoService: ClaseTelefonoService,
+    // private prefijoService: Prefijoser,
 
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
@@ -43,6 +47,13 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       console.log(data);
       
       this.tipoTelefonoList.next(data);
+      this.cdr.detectChanges();
+    })
+
+    this.claseTelefonoService.actives().subscribe(data => {
+      console.log(data);
+      
+      this.claseTelefonoList.next(data);
       this.cdr.detectChanges();
     })
     
@@ -70,12 +81,11 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       
       claseTelefono: new FormControl(this.telefono.claseTelefono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       
-      prefijo: new FormControl(this.telefono.prefijo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      // prefijo: new FormControl(this.telefono.prefijo || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
      
-      numero: new FormControl(this.telefono.numero || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      numero: new FormControl(this.telefono.numero || '', [Validators.required]),
 
-      principal: new FormControl(this.telefono.principal || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-    
+      principal: new FormControl(this.telefono.principal===1?true:false) 
     
     });
 
@@ -88,9 +98,11 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     console.log('mode ', this.mode);
     this.updateData(this.telefono);// aca actualizamos la direccion
     this.telefono.persona=this.defaults.payload.persona;
+    this.telefono.numero = this.telefono.numero.split('-').join('');
+    this.telefono.principal = this.telefono.principal? 1 : 0;
     console.log(this.telefono);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.telefonoService,this.telefono,'TELEFONO',this.telefono.id==undefined);
+    this.saveOrUpdate(this.telefonoService,this.telefono,'Télefono',this.telefono.id==undefined);
 
   }
 }

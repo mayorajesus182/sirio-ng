@@ -18,7 +18,7 @@ export interface Telefono {
 
     numero: String;
 
-    principal: String;
+    principal: number;
 }
 
 

@@ -46,6 +46,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     showBankReference = false;
     showPep = false;
     showApoderado = false;
+    showPhone = false;
     
     showEmpresaRelacionada = false;
 
@@ -321,29 +322,16 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         return this.estado_civil == this.constants.CASADO || this.estado_civil == this.constants.UNION_ESTABLE;
     }
 
-    private codigoExists(id) {
-        this.personaNaturalService.exists(id).subscribe(data => {
-            if (data.exists) {
-                this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
-                });
-                this.cdr.detectChanges();
-            }
-        });
-    }
 
     updateAddress(event){
-        console.log('address', event);
         this.totalAddress= event;
     }
     
     updateWorkingInfo(event){
-        console.log('info lab', event);
         this.totalInfoLab= event;
     }
     
     updatePep(event){
-        console.log('peps', event);
         this.totalPep= event;
     }
 
@@ -359,28 +347,30 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     //openAddress() {
     openInformacionLaboral(opened:boolean) {
-        console.log('pruebas procesp');
-
+       
         this.showInformacionLaboral = opened;
         this.cdr.detectChanges();
     }
 
     openPep(opened:boolean) {
-        console.log('pruebas procesp');
-
+       
         this.showPep = opened;
         this.cdr.detectChanges();
     }
     
     openApoderado(opened:boolean) {
-        console.log('Apoderado');
-
+       
         this.showApoderado = opened;
+        this.cdr.detectChanges();
+    }
+    
+    openPhones(opened:boolean) {
+       
+        this.showPhone = opened;
         this.cdr.detectChanges();
     }
 
     openEmpresaRelacionada(opened:boolean) {
-        console.log('pruebas open empresa');
         
         this.showEmpresaRelacionada=opened; 
         this.cdr.detectChanges();
@@ -399,5 +389,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.showPersonalReference = opened;
         this.cdr.detectChanges();
     }
+
 
 }

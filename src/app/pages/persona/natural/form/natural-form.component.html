@@ -343,7 +343,7 @@
                                 </div>
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPhones(true)" (closed)="openPhones(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -356,7 +356,12 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-                                <sirio-persona-telefono-table></sirio-persona-telefono-table>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showPhone">
+                                    <sirio-persona-telefono-table [persona]="personaNatural.id"></sirio-persona-telefono-table>
+
+                                    </div>
+                                    
 
                             </mat-expansion-panel>
 
