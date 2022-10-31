@@ -71,7 +71,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (isOpen) {
+            if (!isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
@@ -205,8 +205,8 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
         this.itemForm = this.fb.group({   
           
 
-            comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
-            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+            //comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+           // beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             numper: new FormControl(undefined),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
@@ -216,10 +216,10 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             tipoProducto: new FormControl(''),
             serialCheque: new FormControl(undefined, [ Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(''),
-            fechaEmision: new FormControl(''),
-            codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
+            //fechaEmision: new FormControl(''),
+            //codSeguridad: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             email: new FormControl(undefined,),
-            telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),       
+            //telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),       
 
         });
 
@@ -306,12 +306,14 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
         this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
         this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
-        this.retiro.tipoDocumentoCheque = this.cuentaBancariaOperacion.tipoDocumento;      
-        this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
-        this.retiro.codSeguridad = this.retiro.codSeguridad;
+        this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE;      
+        //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
+       // this.retiro.codSeguridad = this.retiro.codSeguridad;
         this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-        this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
+        //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
         console.log("RETIRO   ", this.retiro);
+
+        this.retiro.operacion='cheque';
 
         this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
         this.conoActual = [];
