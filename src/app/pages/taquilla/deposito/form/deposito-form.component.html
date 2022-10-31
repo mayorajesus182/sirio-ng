@@ -25,7 +25,7 @@
                             class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
                             <sirio-card-header class="header-bg">
                                 <sirio-card-header-heading> <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; Información Financiera</sirio-card-header-heading>
-                                <sirio-card-header-actions>
+                                <sirio-card-header-actions *ngIf="!cuentaOperacion">
                                     <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                                     {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfoFinance()">
                                         <mat-icon>backspace</mat-icon>
@@ -43,7 +43,7 @@
                                             [ngModelOptions]="{standalone: true}" readonly name="numeroCuenta" >
                                         <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
                                     </mat-form-field>
-                                    <sirio-select-search fxFlex="30" *ngIf="!cuentaOperacion"
+                                    <sirio-select-search fxFlex="30" *ngIf="!cuentaOperacio"
                                         [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate"
                                         formControlName="cuentaBancaria" [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()"
                                         [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
@@ -77,7 +77,7 @@
                                                 formControlName="efectivo" currencyMask [options]="{precision:2}">
                                             <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                            <!-- <mat-error *ngIf="f.efectivo.errors?.difference"></mat-error> -->
+                                            <mat-error *ngIf="f.efectivo.errors?.difference"></mat-error>
                                         </mat-form-field>
 
                                         <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.monto.value"

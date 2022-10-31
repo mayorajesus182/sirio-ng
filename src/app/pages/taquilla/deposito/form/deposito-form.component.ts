@@ -261,18 +261,32 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     calculateDifferences() {
 
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
-        let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
-        let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
+        // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
+        // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
 
-        if (valorEfectivo + valorChequePropio + valorChequeOtros != this.f.monto.value) {
+        if (valorEfectivo != this.f.monto.value) {
+            console.log("pruebaaaaaaaa", this.f.monto.value);
+            
             this.itemForm.controls['monto'].setErrors({
                 totalDifference: true,
             });
+            this.itemForm.controls['efectivo'].setErrors({
+                difference: true,
+            });
+            // this.f.monto.setErrors({ totalDifference: true });
+            // this.f.efectivo.setErrors({ difference: true });
             this.cdr.detectChanges();
         } else {
-            this.f.monto.setErrors(undefined);
+            this.f.monto.setErrors( undefined);
+            this.f.efectivo.setErrors(undefined);
             this.cdr.detectChanges();
         }
+
+        
+
+
+
+
     }
 
     buildForm() {
@@ -314,7 +328,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.efectivo.setErrors(undefined);
                 this.conoActual = [];
                 this.conoAnterior = [];
-                this.f.monto.setValue('');
+                this.f.monto.setValue(undefined);
                 this.f.referencia.setValue('');
                 // this.applyFieldsDirty();
             }
@@ -333,7 +347,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         })
 
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
-            if (val && val != '') {
+            if (val && (val != '')) {
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                 this.moneda.id = cuenta.moneda;
                 this.moneda.nombre = cuenta.monedaNombre;
@@ -348,9 +362,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.cdr.detectChanges();
             }
         })
-
-
-
     }
 
     buildChequeForm() {
@@ -475,12 +486,13 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     }
 
     queryResult(data: any) {
+        this.itemForm.reset({});
         if (data) {
             if (!data.id && !data.numper) {
                 this.loaded$.next(false);
                 this.persona = {} as Persona;
                 this.cuentaOperacion = undefined;
-                this.itemForm.reset({});
+                // this.itemForm.reset({});
                 this.loading.next(false);
                 this.cdr.detectChanges();
             } else {
@@ -504,6 +516,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.loading.next(true);
                     this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
                         this.cuentasBancarias.next(data);
+                        if(data.length === 1){                    
+                            this.f.cuentaBancaria.setValue(data[0].id);
+                        }
                     });
 
                 }
@@ -588,7 +603,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
         let montoFormat = formatNumber(this.deposito.monto, 'es', '1.2');
 
-        this.swalService.show('¿Desea Realizar el Deposito?', undefined, {'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de <b>' + montoFormat + ' ' + this.moneda.siglas+'</b>'} ).then((resp) => {
+        this.swalService.show('¿Desea Realizar el Deposito?', undefined, 
+        {'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.moneda.siglas+'</b>'} 
+        ).then((resp) => {
             if (!resp.dismiss) {
                 this.updateDataFromValues(this.deposito, this.persona);
                 this.deposito.persona = this.persona.id;

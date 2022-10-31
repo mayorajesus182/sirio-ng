@@ -22,7 +22,8 @@ export class SweetAlertService {
     confirmButtonText: '',
     cancelButtonText: '',
     html: undefined,
-    backdrop: false,
+    backdrop: undefined,
+    background: undefined
   };
 
   show(title: string, txt?: string, opts: any = {}) {
@@ -31,7 +32,8 @@ export class SweetAlertService {
       title: this.translate.instant(title),
       confirmButtonText: this.translate.instant('button.confirm'),
       cancelButtonText: this.translate.instant('button.cancel'),
-      text: txt ? this.translate.instant(txt) : ''
+      text: txt ? this.translate.instant(txt) : '',
+      
     }
     let options = {};
     if (opts.icon != 'success' && opts.icon!='error') {
