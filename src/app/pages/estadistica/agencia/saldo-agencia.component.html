@@ -1,18 +1,29 @@
 <sirio-page [fxLayoutGap]="gap" class="dashboard" fxLayout="column">
 
   <!-- FIRST ROW -->
-  <div fxFlex="noshrink" fxLayout="column" [fxLayoutGap]="gap" fxLayout.gt-lg="row">
-    <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)" fxLayout.gt-sm="row">
+  <div fxLayout="column">
+    <div fxLayout.gt-sm="row"  fxLayoutGap.gt-sm="8px">
+      <div fxLayout="column" fxFlex="100"  [fxLayoutGap]="gap" [fxFlex]="70">
 
-      <div fxFlex="auto" [fxFlex.gt-sm]="col(4)">
-        <sirio-bar-chart-widget class="widget route-animations-elements"></sirio-bar-chart-widget>
+        <div   fxFlex.gt-xs="100" [fxFlex]="col(1)">
+          <sirio-bar-chart-widget class="widget route-animations-elements"></sirio-bar-chart-widget>
+        </div>
+
+        <div fxFlex.gt-xs="100" [fxFlex]="col(1)">
+          <sirio-bar-chart-widget class="widget route-animations-elements"></sirio-bar-chart-widget>
+        </div>
+
+      </div>
+      <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="30">
+        
+        <sirio-taquilla-widget></sirio-taquilla-widget>
+
+
       </div>
 
-
     </div>
+
   </div>
-  <!-- END FIRST ROW -->
-  
+
+
 </sirio-page>
-
-

@@ -5,7 +5,8 @@ import { SaldoAgenciaComponent } from './agencia/saldo-agencia.component';
 const routes: Routes = [
   {
     path: 'agencia/saldos',
-    component: SaldoAgenciaComponent
+    component: SaldoAgenciaComponent,
+    data:{title:'Saldo Agencia'}
   }
 ];
 

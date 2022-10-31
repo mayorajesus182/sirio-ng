@@ -106,12 +106,26 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     this.totalActual = 0;
     if (list && list.length > 0) {
       // console.log('update cono actual ', list);
-
       this.valuesCono1 = list;
       // calculo de totales para el cono actual
       this.totalActual = list.map(e => e.cantidad * e.denominacion).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
+    } else {
+
+      // esta vacio
+      this.valuesCono1 = this.valuesCono1.map(e => {
+        if (e.cantidad > 0) {
+          e.cantidad = 0;
+        }
+        return e;
+      });
+      this.valuesCono2 = this.valuesCono2.map(e => {
+        if (e.cantidad > 0) {
+          e.cantidad = 0;
+        }
+        return e;
+      });
     }
 
   }

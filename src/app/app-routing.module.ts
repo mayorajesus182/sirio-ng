@@ -87,7 +87,7 @@ const routes: Routes = [
       {
         path: 'estadistica',
         loadChildren: () => import('./pages/estadistica/estadistica.module').then(m => m.EstadisticaModule),
-        data:{title:'Estadisticas'}
+        data:{title:'Estadísticas'}
       },
     ]
   },
