@@ -174,6 +174,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.search.identificacion.setValue(data.identificacion);
             this.search.nombre.setValue(data.nombre);
             this.persona = { id: data.id, numper: data.numper } as Persona;
+            data.numeroCuenta = cuenta;
 
 
             // console.log("resultado consulta by cuenta", data);
