@@ -53,6 +53,9 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
         this.mode = 'global.edit';
         this.apoderado = data;
         this.buildForm();
+
+        console.log('mode ', this.mode);
+
         this.loadingDataForm.next(false);
        
       })
@@ -82,6 +85,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : '', [Validators.required])
+      
 
     });
 
