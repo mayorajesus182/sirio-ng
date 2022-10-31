@@ -1,0 +1,71 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+     <!-- TODO: PENDIENTE IN18 -->
+     
+    <h1>Clientes y Proveedores</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <sirio-select-search
+        fxFlex="30"
+        [label]="'Relacion Empresa'"
+        formControlName="relacionEmpresa" [required]="true" [elements]="tipoRelacionList.asObservable()"
+        [attributeName]="'nombre'" [errors]="f.relacionEmpresa?.errors">
+      </sirio-select-search>
+
+
+      <mat-form-field fxFlex="70">
+        <mat-label>{{'Nombre Empresa' | translate: {default:
+            'empresa'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="empresa" formControlName="empresa"
+            uppercase required>
+        <mat-error *ngIf="f.empresa.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.empresa.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="100">
+        <mat-label>{{'Direccion' | translate: {default:
+              'Direccion'} | translate }} </mat-label>
+          <input matInput maxlength="100" minlength="1" autocomplete="off" name="direccion" formControlName="direccion"
+              uppercase required>
+          <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- {{printErrors() | json}}  -->
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+
+  
+</form>
+
+      

@@ -95,7 +95,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
-        console.log(this.search.identificacion.errors);        
+        // console.log(this.search.identificacion.errors);        
 
         if(this.search.identificacion.errors){
             return;
@@ -142,7 +142,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // this.search.tipoDocumento.setErrors({required:true});
             this.searchForm.controls['identificacion'].setErrors({ requiredTipoDoc: true });
             this.searchForm.controls['identificacion'].markAsDirty();
-            console.log('errors ', this.search.identificacion.errors);
+            // console.log('errors ', this.search.identificacion.errors);
             this.cdref.detectChanges();
         }
     }
@@ -174,9 +174,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.search.identificacion.setValue(data.identificacion);
             this.search.nombre.setValue(data.nombre);
             this.persona = { id: data.id, numper: data.numper } as Persona;
+            data.numeroCuenta = cuenta;
 
 
-            console.log("resultado consulta by cuenta", data);
+            // console.log("resultado consulta by cuenta", data);
             this.result.emit(data);
 
         }, err => {

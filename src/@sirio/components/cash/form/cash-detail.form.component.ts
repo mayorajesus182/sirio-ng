@@ -79,7 +79,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                             return c;
                         })
                     }
-                    this.listConoActual.next(data.slice());
+                    this.listConoActual.next(data);
                 });
                 if (this.moneda == data.monedaConoActual) {
 
@@ -97,7 +97,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                             })
                         }
 
-                        this.listConoAnterior.next(data.slice());
+                        this.listConoAnterior.next(data);
                     });
                 }
 

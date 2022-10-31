@@ -33,6 +33,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     totalAddress: number;
     totalInfoLab: number;
     totalPep: number;
+    totalApoderado: number;
+
     totalPhone: number;
     totalBankReference: number;
     totalPersonalReference: number;
@@ -43,6 +45,11 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     showPersonalReference = false;
     showBankReference = false;
     showPep = false;
+    showApoderado = false;
+    showPhone = false;
+    
+    showEmpresaRelacionada = false;
+
     showInformacionLaboral = false;
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
@@ -315,46 +322,60 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         return this.estado_civil == this.constants.CASADO || this.estado_civil == this.constants.UNION_ESTABLE;
     }
 
-    private codigoExists(id) {
-        this.personaNaturalService.exists(id).subscribe(data => {
-            if (data.exists) {
-                this.itemForm.controls['id'].setErrors({
-                    exists: "El código existe"
-                });
-                this.cdr.detectChanges();
-            }
-        });
-    }
 
     updateAddress(event){
-        console.log('address', event);
         this.totalAddress= event;
     }
     
     updateWorkingInfo(event){
-        console.log('info lab', event);
         this.totalInfoLab= event;
     }
     
     updatePep(event){
+        this.totalPep= event;
+    }
+
+    updateApoderado(event){
+        console.log('apoderado', event);
+        this.totalApoderado= event;
+    }
+
+    updateEmpresaRelacionada(event){
         console.log('peps', event);
         this.totalPep= event;
     }
 
     //openAddress() {
     openInformacionLaboral(opened:boolean) {
-        console.log('pruebas procesp');
-
+       
         this.showInformacionLaboral = opened;
         this.cdr.detectChanges();
     }
 
     openPep(opened:boolean) {
-        console.log('pruebas procesp');
-
+       
         this.showPep = opened;
         this.cdr.detectChanges();
     }
+    
+    openApoderado(opened:boolean) {
+       
+        this.showApoderado = opened;
+        this.cdr.detectChanges();
+    }
+    
+    openPhones(opened:boolean) {
+       
+        this.showPhone = opened;
+        this.cdr.detectChanges();
+    }
+
+    openEmpresaRelacionada(opened:boolean) {
+        
+        this.showEmpresaRelacionada=opened; 
+        this.cdr.detectChanges();
+    }
+  
     openAddress(opened:boolean) {
         this.showAddress = opened;
         this.cdr.detectChanges();
@@ -363,9 +384,11 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.showBankReference = opened;
         this.cdr.detectChanges();
     }
+
     openPersonalReference(opened:boolean) {
         this.showPersonalReference = opened;
         this.cdr.detectChanges();
     }
+
 
 }

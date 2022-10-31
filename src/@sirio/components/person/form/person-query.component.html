@@ -1,6 +1,8 @@
 <sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
     <sirio-card-header class="header-bg">
-        <sirio-card-header-heading><mat-icon color="primary">search</mat-icon> &nbsp;Consultar Persona</sirio-card-header-heading>
+        <sirio-card-header-heading>
+            <!-- <mat-icon color="primary">search</mat-icon>  -->
+            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;Consultar Persona</sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
         <sirio-card-header-actions>
             <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
@@ -18,7 +20,7 @@
                 </sirio-select-simple>
 
 
-                <mat-form-field fxFlex="15">
+                <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
                         formControlName="identificacion">

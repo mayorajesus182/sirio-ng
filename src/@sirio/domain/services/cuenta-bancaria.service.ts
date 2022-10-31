@@ -12,6 +12,7 @@ export interface CuentaBancariaOperacion extends CuentaBancaria{
     tipoDocumento: string;
     moneda: string;
     monedaNombre: string;
+    monedaSiglas : string;
 
 }
 
@@ -23,6 +24,7 @@ export interface CuentaBancaria {
     monedaNombre: string;
     tipoProducto: string;
     numper : string;
+    siglas : string;
 
    
 }
