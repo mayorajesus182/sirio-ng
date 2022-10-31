@@ -55,6 +55,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         super(undefined, injector);
     }
 
+          // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML (desglose de efectivo)
 
     ngOnInit() {
 
