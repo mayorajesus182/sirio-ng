@@ -18,6 +18,11 @@ const taquillaRoutes: Routes = [
         data: { title: 'Pases a Bóveda' },
         loadChildren: () => import('./pase-boveda/pase-boveda.module').then(m => m.PaseABovedaModule),
     },
+    {
+        path: 'cierre-taquilla',
+        data: { title: 'Pases a Bóveda' },
+        loadChildren: () => import('./cierre-taquilla/cierre-taquilla.module').then(m => m.CierreTaquillaModule),
+    },
 ];
 
 

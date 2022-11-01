@@ -63,11 +63,12 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             if (!data) {
                 return;
             }
+            console.log('PREFERENCIA: ', data);
 
             if (data.monedaConoActual) {
-                this.label_cono_actual = this.moneda == data.monedaConoActual ? data.monedaConoActual : this.moneda;
-                this.label_cono_anterior = data.monedaConoAnterior || '';
-                this.conoService.activesByMoneda(this.label_cono_actual).subscribe(data => {
+                this.label_cono_actual = this.moneda == data.monedaConoActual ? data.monedaSiglasConoActual : this.moneda;
+                this.label_cono_anterior = data.monedaSiglasConoAnterior || '';
+                this.conoService.activesByMoneda(data.monedaConoActual).subscribe(data => {
 
                     if (this.cono_actual) {
                         data.map(c => {

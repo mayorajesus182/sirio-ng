@@ -54,7 +54,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
         this.apoderado = data;
         this.buildForm();
 
-        console.log('mode ', this.mode);
+        // console.log('mode ', this.mode);
 
         this.loadingDataForm.next(false);
        
@@ -84,7 +84,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
-      fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : '', [Validators.required])
+      // fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : '', [Validators.required])
+      fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : ''),
       
 
     });
@@ -95,10 +96,12 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
   save() {
 
-    console.log('mode ', this.mode);
+    // console.log('mode ', this.mode);
     this.updateData(this.apoderado);// aca actualizamos la direccion
     this.apoderado.persona = this.defaults.payload.persona;
-    this.apoderado.fecha=this.apoderado.fecha.format('DD/MM/YYYY');
+    //this.apoderado.fecha=this.apoderado.fecha.format('DD/MM/YYYY');
+    this.apoderado.fecha = this.apoderado.fecha ? this.apoderado.fecha.format('DD/MM/YYYY') : '';
+
     console.log(this.apoderado);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.apoderadoService,this.apoderado,'APODERADO',this.apoderado.id==undefined);

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sirio-toolbar-quickpanel-toggle',
@@ -9,10 +10,10 @@ export class ToolbarQuickpanelToggleComponent {
 
   @Output() openQuickPanel = new EventEmitter();
 
-  constructor() {
+  constructor(private router:Router) {
   }
 
   goStatistics(){
-
+    this.router.navigate(['/sirio/estadistica/agencia/saldos']);
   }
 }

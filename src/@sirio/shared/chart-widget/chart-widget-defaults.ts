@@ -8,7 +8,8 @@ export const defaultChartOptions: ChartOptions = {
   },
   maintainAspectRatio: false,
   legend: {
-    display: false
+    display: true,
+    position: 'top',
   },
   scales: {
     xAxes: [{
