@@ -15,6 +15,7 @@ export class TaquillaWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(private saldoTaquillaService: SaldoTaquillaService) {
+    
   }
 
   ngOnInit(): void {

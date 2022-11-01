@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ChartsModule } from 'ng2-charts';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
 import { LoadingOverlayModule } from 'src/@sirio/shared/loading-overlay/loading-overlay.module';
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
@@ -21,6 +22,7 @@ import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget
     MaterialModule,
     SirioCardModule,
     ScrollbarModule,
+    ChartsModule,
     LoadingOverlayModule
   ],
   declarations: [SaldoAgenciaComponent,BarChartWidgetComponent, TaquillaWidgetComponent],
