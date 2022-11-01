@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['withdrawal.form']" current="{{isNew?'action.add':'action.edit'}}">
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['checkPayment.form']" current="{{isNew?'action.add':'action.edit'}}">
         </sirio-breadcrumbs>
     </sirio-page-layout-header>
 
@@ -11,7 +11,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'withdrawal.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'checkPayment.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}
                     </sirio-card-header-subheading>
                     <sirio-card-header-subheading></sirio-card-header-subheading>
@@ -67,12 +67,17 @@
 
 
                         <!-- primera Fila del Formulario  Nota: Borrar este comentario al Final -->
-                        <div fxLayout="column">
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                                *ngIf="esPagoCheque || esPagoChequeGerencia">
+                        <div fxLayout="column">              
+                           
+                            <div fxLayout="column" *ngIf="esPagoCheque || esPagoChequeGerencia">
+                                <div fxLayout.gt-sm="row">
+                                    <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; <h3>Información Financiera</h3>
+                                </div>
 
-                                <mat-form-field fxFlex.gt-sm="25">
-                                    <mat-label>{{'withdrawal.checkAccount' | translate: {default: 'global.checkAccount'} |
+                             
+                            <div fxLayoutGap.gt-sm="10px">
+                               <mat-form-field fxFlex.gt-sm="25">
+                                    <mat-label>{{'checkPayments.checkAccount' | translate: {default: 'global.checkAccount'} |
                                         translate }}
                                     </mat-label>
                                     <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
@@ -86,17 +91,17 @@
                                     <mat-error *ngIf="f.numeroCuenta.errors?.validacion">{{'debe indicar el numero de cuenta'}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-sm="15">
+                                <mat-form-field fxFlex.gt-sm="20">
                                     <mat-label>{{(esPagoChequeGerencia ? 'withdrawal.checkNumber' : 'withdrawal.serial'  | translate: {default: 'global.serial'} )  | translate: {default: 'global.checkNumber'} |  translate
                                         }}
                                     </mat-label>
-                                    <input matInput maxlength="10"  minlength="8" name="serialCheque"
+                                    <input matInput maxlength="8"  minlength="8" name="serialCheque"
                                         autocomplete="off" formControlName="serialCheque" 
                                         [required]="esPagoChequeGerencia || esPagoCheque">
                                     <mat-error *ngIf="f.serialCheque.errors?.pattern">{{'error.invalidCharacter' |
                                         translate}}</mat-error>
                                     <mat-error *ngIf="f.serialCheque.errors?.required">Es requerido</mat-error>
-                                    <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener al menos 8 digitos</mat-error>
+                                    <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener 8 digitos</mat-error>
                                     
                                 </mat-form-field>
 
@@ -116,71 +121,6 @@
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="25">
-                                    <mat-label>{{'withdrawal.issueDate' | translate: {default:
-                                        'global.issueDate'} | translate }}
-                                    </mat-label>
-                                    <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY"
-                                        [max]="todayValue" name="fechaEmision" formControlName="fechaEmision"
-                                        [matDatepicker]="fechaEmisionPicker">
-                                    <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
-                                    </mat-datepicker-toggle>
-                                    <mat-error *ngIf="f.fechaEmision.errors?.matDatepickerParse">
-                                        Fecha Invalidad
-                                    </mat-error>
-                                </mat-form-field>
-                                <mat-datepicker #fechaEmisionPicker></mat-datepicker>
-
-                                <mat-form-field fxFlex.gt-sm="25">
-                                    <mat-label>{{'withdrawal.securityCode' | translate: {default: 'global.securityCode'}
-                                        | translate }}
-                                    </mat-label>
-                                    <input matInput maxlength="10"  minlength="8" name="codSeguridad" autocomplete="off"
-                                        formControlName="codSeguridad">
-                                    <mat-error *ngIf="f.codSeguridad.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}</mat-error>
-                                        <mat-error *ngIf="f.codSeguridad.errors?.minlength">Debe tener al menos 8 digitos</mat-error>    
-                                </mat-form-field>
-                            </div>
-
-                            <!-- segunda fila beneficiario y comprador  Nota: Borrar este comentario al Final -->
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                                *ngIf="esPagoChequeGerencia">
-                                <mat-form-field fxFlex.gt-sm="50">
-                                    <mat-label>{{'withdrawal.buyer' | translate: {default: 'global.buyer'} |
-                                        translate
-                                        }}
-                                    </mat-label>
-                                    <input matInput maxlength="50" name="comprador" autocomplete="off"
-                                        formControlName="comprador" [required]="esPagoChequeGerencia">
-                                    <mat-error *ngIf="f.comprador.errors?.required">{{'error.required'
-                                        | translate}}</mat-error>
-                                    <mat-error *ngIf="f.comprador.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}</mat-error>
-
-                                </mat-form-field>
-
-                                <mat-form-field fxFlex.gt-sm="50">
-                                    <mat-label>{{'withdrawal.beneficiary' | translate: {default: 'global.beneficiary'} |
-                                        translate
-                                        }}
-                                    </mat-label>
-                                    <input matInput maxlength="50" name="beneficiario" autocomplete="off"
-                                        formControlName="beneficiario" [required]="esPagoChequeGerencia">
-                                    <mat-error *ngIf="f.beneficiario.errors?.required">{{'error.required'
-                                        | translate}}</mat-error>
-                                    <mat-error *ngIf="f.beneficiario.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}</mat-error>
-
-                                </mat-form-field>
-                            </div>
-                            
-
-
-                            <!-- Tercera monto y cono monentario  Nota: Borrar este comentario al Final -->
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                                *ngIf="esPagoCheque || esPagoChequeGerencia">                               
-
-                                <mat-form-field fxFlex="20">
                                     <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
                                         translate }}
                                     </mat-label>
@@ -197,10 +137,49 @@
                                         (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                         [cono_anterior]="conoAnterior">
                                 </sirio-cash-button>  
+
                                
+                               <!--  <mat-form-field fxFlex="25">
+                                    <mat-label>{{'withdrawal.issueDate' | translate: {default:
+                                        'global.issueDate'} | translate }}
+                                    </mat-label>
+                                    <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY"
+                                        [max]="todayValue" name="fechaEmision" formControlName="fechaEmision"
+                                        [matDatepicker]="fechaEmisionPicker">
+                                    <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
+                                    </mat-datepicker-toggle>
+                                    <mat-error *ngIf="f.fechaEmision.errors?.matDatepickerParse">
+                                        Fecha Invalidad
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-datepicker #fechaEmisionPicker></mat-datepicker>
                              
+
+                                <mat-form-field fxFlex.gt-sm="25">
+                                    <mat-label>{{'withdrawal.securityCode' | translate: {default: 'global.securityCode'}
+                                        | translate }}
+                                    </mat-label>
+                                    <input matInput maxlength="10"  minlength="8" name="codSeguridad" autocomplete="off"
+                                        formControlName="codSeguridad">
+                                    <mat-error *ngIf="f.codSeguridad.errors?.pattern">{{'error.invalidCharacter' |
+                                        translate}}</mat-error>
+                                        <mat-error *ngIf="f.codSeguridad.errors?.minlength">Debe tener al menos 8 digitos</mat-error>    
+                                </mat-form-field>
+                                   -->
+                            </div>                        
+                        </div>
+
+                            
+
+
+                            <!-- Tercera monto y cono monentario  Nota: Borrar este comentario al Final -->
+                            <div fxLayout="column" *ngIf="esPagoCheque || esPagoChequeGerencia">                               
+
+                                    <div fxLayout.gt-sm="row">
+                                        <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; <h3>Información Beneficiario</h3>
+                                    </div>
                                              
-                                                             
+                                    <div fxLayoutGap.gt-sm="10px">                          
                                 <sirio-select-simple fxFlex="35"
                                     [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                     formControlName="tipoDocumentoBeneficiario" [required]="esPagoCheque || esPagoChequeGerencia"
@@ -220,63 +199,32 @@
                                         {{'error.invalidCharacter' | translate}}</mat-error>
                                     <!--TODO: Cambiar-->
                                 </mat-form-field>
+                              </div>
                             </div>
 
-                            
-                        <!-- quinta fila retiroEfectivoEvaluate  Nota: Borrar este comentario al Final -->
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                           *ngIf="esRetiroEfectivo">
-
-                           <mat-form-field fxFlex="20">
-                               <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
-                                   translate }}
-                               </mat-label>
-                               <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
-                                   formControlName="monto" currencyMask [options]="{precision:2}"  readonly>
-                               <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                               <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
-                               <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
-                               <mat-error *ngIf="f.monto.errors?.difference">existe diferencia</mat-error>
-                           </mat-form-field>
-
-                            <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
-                                   [disabled]="f.numeroCuenta.value <= 0" class="margin-top-md"
-                                   (update)="updateCashDetail($event)" [cono_actual]="conoActual"
-                                   [cono_anterior]="conoAnterior">
-                           </sirio-cash-button>                                               
-                           </div>
+             
 
                             <!-- Cuarta fila email y telef Nota: Borrar este comentario al Final -->
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                                *ngIf="esPagoCheque || esPagoChequeGerencia || esRetiroEfectivo">
+                                *ngIf="esPagoCheque">
 
-                                <mat-form-field fxFlex.gt-sm="50">
+                                <mat-form-field fxFlex.gt-sm="auto">
                                     <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
                                         }}
                                     </mat-label>
                                     <input matInput name="email" autocomplete="off" email-validate name="email"
-                                        formControlName="email" placeholder="" [required]="!f.telefono.value">
+                                        formControlName="email" placeholder="" [required]="true">
                                     <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
                                     <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                         | translate}}</mat-error>
-                                </mat-form-field>
-
-
-                                <mat-form-field fxFlex.gt-sm="auto">
-                                    <mat-label>{{'withdrawal.sms' | translate: {default: 'global.sms'} | translate }}
-                                    </mat-label>
-                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00"
-                                        placeholder="" [required]="!f.email.value">
-                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                </mat-form-field>
+                                </mat-form-field>                               
                             </div>                       
 
 
 
                         </div>
                     </form>
-                  <!--  {{printErrors() | json}}-->
+                  <!--  {{printErrors() | json}} -->
                 </sirio-card-content>
 
                 <mat-toolbar>

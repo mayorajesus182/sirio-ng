@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
-import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
-import { TranslateService } from '@ngx-translate/core';
+import { DEFAULT_INTERRUPTSOURCES, DocumentInterruptSource, Idle, StorageInterruptSource } from '@ng-idle/core';
 
 import { filter, map } from 'rxjs/operators';
 import { GlobalConstants } from 'src/@sirio/constants';
@@ -16,13 +15,19 @@ import { checkRouterChildsData } from '../../@sirio/utils/check-router-childs-da
 import { SidenavItem } from './sidenav/sidenav-item/sidenav-item.interface';
 import { SidenavService } from './sidenav/sidenav.service';
 
+
+
 @Component({
   selector: 'sirio-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-
+  
+    private createCustomInterruptSources = [
+        new DocumentInterruptSource('keydown mousedown mouseup touchstart touchmove scroll', null),
+        new StorageInterruptSource(null)
+    ];
   // @ViewChild('configPanel', { static: true }) configPanel: SidebarDirective;
   private snackIdle: MatSnackBarRef<any>;
   sidenavOpen$ = this.sidenavService.open$;
@@ -52,9 +57,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private matDialogRef: MatDialog,
     private router: Router) {
 
-
-
-
   }
 
 
@@ -66,7 +68,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.userIdle.setTimeout(GlobalConstants.IDLE_TIMEOUT);
 
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
-    this.userIdle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    // this.userIdle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    this.userIdle.setInterrupts(this.createCustomInterruptSources);
 
     this.userIdle.watch();
 

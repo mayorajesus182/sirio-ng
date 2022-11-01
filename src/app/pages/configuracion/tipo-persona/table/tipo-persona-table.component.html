@@ -41,7 +41,7 @@
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
                         <div fxFlex="row" fxLayoutAlign="end center">
                             <!-- TODO: DEBEMOS DEVOLVER EL MODE -->
-                            <sirio-actions-nav [element]="element" [mode]="'simple'" [items]="actions.asObservable()" 
+                            <sirio-actions-nav [element]="element"  [items]="actions.asObservable()" 
                             [method]="actionAPI()"></sirio-actions-nav>
                         </div>
                     </mat-cell>
