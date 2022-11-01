@@ -43,7 +43,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
 
     if (data && data.username) {
       console.log("User session", data);
-      this.officeName = data.organizationId;
+      this.officeName = data.organization;
       this.fullName = data.fullName.split(" ")[0];
       this.logonedAt = data.prevLogin;
       // this.cdr.markForCheck();

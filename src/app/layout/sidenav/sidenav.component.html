@@ -31,7 +31,7 @@
     <div *ngIf="sidenavUserVisible$ | async" class="sidenav-user">
       <img class="sidenav-user-image" src="assets/img/avatars/default.jpg" matTooltip="data.username">
       <h4 class="sidenav-user-name">{{(this.fullName || 'Name Not Found') | titlecase}}</h4>
-      <h5 class="sidenav-user-text">{{officeName}} - {{''}}</h5>
+      <h5 class="sidenav-user-text">{{officeName | titlecase}}</h5>
       <h6 class="sidenav-user-text">{{logonedAt | date:'medium'}}</h6>
 
       <div class="sidenav-user-icons" fxLayout="row">
