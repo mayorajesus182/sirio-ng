@@ -32,6 +32,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     public chequeForm: FormGroup;
+    public itemForm: FormGroup;
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     public motivosDevoluciones: MotivoDevolucion[] = [];
@@ -264,23 +265,13 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
 
-        if (valorEfectivo != this.f.monto.value) {
-            console.log("pruebaaaaaaaa", this.f.monto.value);
-            
-            this.itemForm.controls['monto'].setErrors({
-                totalDifference: true,
-            });
-            this.itemForm.controls['efectivo'].setErrors({
-                difference: true,
-            });
-            // this.f.monto.setErrors({ totalDifference: true });
-            // this.f.efectivo.setErrors({ difference: true });
+        if (valorEfectivo != this.f.monto.value) {                       
+            // this.itemForm.controls['monto'].setErrors({
+            //     totalDifference: true,
+            // });
+            this.itemForm.controls['monto'].setErrors({"totalDifference": true});
             this.cdr.detectChanges();
-        } else {
-            this.f.monto.setErrors( undefined);
-            this.f.efectivo.setErrors(undefined);
-            this.cdr.detectChanges();
-        }
+        } 
 
         
 
@@ -305,7 +296,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
             esEfectivo: new FormControl(true),
             esCheque: new FormControl(false),
-            // btnEfectivo: new FormControl(true),
             tipoDocumentoDepositante: new FormControl('', Validators.required),
             identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
