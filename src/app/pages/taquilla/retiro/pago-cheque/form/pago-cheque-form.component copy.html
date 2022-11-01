@@ -69,24 +69,19 @@
                         <!-- primera Fila del Formulario  Nota: Borrar este comentario al Final -->
                         <div fxLayout="column">              
                            
-                            <sirio-card [fxFlex.gt-sm]="100" *ngIf="esPagoCheque" fxLayout="column"
-                                class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
+                            <div fxLayout="column" *ngIf="esPagoCheque">
                                 <sirio-card-header class="header-bg">
-                                    <sirio-card-header-heading> <i
-                                            class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp;
-                                        Información Financiera</sirio-card-header-heading>
+                                    <sirio-card-header-heading> <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; Información Financiera</sirio-card-header-heading>
                                     <sirio-card-header-actions>
                                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                                    {default: 'global.notfound'} | translate }}" type="button"
-                                            (click)="resetInfoFinance()">
+                                        {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfoFinance()">
                                             <mat-icon>backspace</mat-icon>
                                         </button>
                                     </sirio-card-header-actions>
                                 </sirio-card-header>
 
-
-                            <sirio-card-content fxLayout="column">
-                              <div fxLayoutGap.gt-sm="10px">
+                             
+                            <div fxLayoutGap.gt-sm="10px">
                                <mat-form-field fxFlex.gt-sm="25">
                                     <mat-label>{{'checkPayments.checkAccount' | translate: {default: 'global.checkAccount'} |
                                         translate }}
@@ -177,30 +172,25 @@
                                         <mat-error *ngIf="f.codSeguridad.errors?.minlength">Debe tener al menos 8 digitos</mat-error>    
                                 </mat-form-field>
                                    -->
-                                    </div>
-                                </sirio-card-content>
-                            </sirio-card>                       
-                      
+                            </div>                        
+                        </div>
 
                             
 
 
                             <!-- Tercera monto y cono monentario  Nota: Borrar este comentario al Final -->
-                            <sirio-card [fxFlex.gt-sm]="100" *ngIf="esPagoCheque" fxLayout="column"
-                                class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
-                            <sirio-card-header class="header-bg">  
-                                    <sirio-card-header-heading><i class="fa-light fa-address-card mat-icon mat-primary fa-lg margin-top-md"></i> &nbsp; Información del Beneficiario</sirio-card-header-heading>
-                                <sirio-card-header-actions>
-                                    <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                            {default: 'global.notfound'} | translate }}" type="button"
-                                        (click)="resetInfoFinance()">
-                                        <mat-icon>backspace</mat-icon>
-                                    </button>
-                                </sirio-card-header-actions>
-                            </sirio-card-header>
+                            <div fxLayout="column" *ngIf="esPagoCheque">                               
+
+                                <sirio-card-header class="header-bg">
+                                    <sirio-card-header-heading> <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; Información Beneficiario</sirio-card-header-heading>
+                                    <sirio-card-header-actions>
+                                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                                        {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfobeneficiary()">
+                                            <mat-icon>backspace</mat-icon>
+                                        </button>
+                                    </sirio-card-header-actions>
+                                </sirio-card-header>
                                              
-                                
-                            <sirio-card-content fxLayout="column">
                                 <div fxLayoutGap.gt-sm="10px">                          
                                     <sirio-select-simple fxFlex="35"
                                         [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
@@ -209,7 +199,7 @@
                                         [errors]="f.tipoDocumentoBeneficiario?.errors" required>
                                     </sirio-select-simple>
 
-                                    <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-form-field fxFlex.gt-xs="auto">
                                         <mat-label>{{'withdrawal.identification' | translate: {default:
                                             'global.identification'} | translate }}
                                         </mat-label>
@@ -221,21 +211,31 @@
                                             {{'error.invalidCharacter' | translate}}</mat-error>
                                         <!--TODO: Cambiar-->
                                     </mat-form-field>
-                                    <mat-form-field fxFlex.gt-sm="auto">
-                                        <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
-                                            }}
-                                        </mat-label>
-                                        <input matInput name="email" autocomplete="off" email-validate name="email"
-                                            formControlName="email" placeholder="" [required]="true">
-                                        <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
-                                        <mat-error *ngIf="f.email.errors?.required">{{'error.required'
-                                            | translate}}</mat-error>
-                                    </mat-form-field>  
                               </div>
-                            </sirio-card-content>
-                        </sirio-card>                          
-                    </div>
-                </form>
+                            </div>
+
+             
+
+                            <!-- Cuarta fila email y telef Nota: Borrar este comentario al Final -->
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
+                                *ngIf="esPagoCheque">
+
+                                <mat-form-field fxFlex.gt-sm="auto">
+                                    <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
+                                        }}
+                                    </mat-label>
+                                    <input matInput name="email" autocomplete="off" email-validate name="email"
+                                        formControlName="email" placeholder="" [required]="true">
+                                    <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.required">{{'error.required'
+                                        | translate}}</mat-error>
+                                </mat-form-field>                               
+                            </div>                       
+
+
+
+                        </div>
+                    </form>
                   <!--  {{printErrors() | json}} -->
                 </sirio-card-content>
 

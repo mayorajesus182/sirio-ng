@@ -252,6 +252,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.f.totalRetiro.reset(0);
             this.f.monto.reset(0);
             this.f.email.reset();
+            this.esRetiroEfectivo = false;
+
             this.cdr.detectChanges();
         } else {
 
@@ -326,5 +328,17 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.detalleEfectivo = 0;
         this.cuentasBancarias.next([]);
 
+    }
+
+
+
+    resetInfoFinance() {
+        this.moneda.siglas = undefined;
+        this.f.monto.reset({});       
+        this.f.totalRetiro.reset({});          
+        this.f.email.setValue('');
+        this.cuentasBancarias.next([]);
+        //this.f.numeroCuenta.reset();
+        this.cuentaBancariaOperacion.tipoProductoNombre =undefined;
     }
 }
