@@ -5,8 +5,10 @@ import defaultsDeep from 'lodash-es/defaultsDeep';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { defaultChartOptions } from '../../../../../@sirio/shared/chart-widget/chart-widget-defaults';
 import { BarChartWidgetOptions } from './bar-chart-widget-options.interface';
+import * as Highcharts from 'highcharts';
 
 @Component({
+
   selector: 'sirio-bar-chart-widget',
   templateUrl: './bar-chart-widget.component.html',
   styleUrls: ['./bar-chart-widget.component.scss']
@@ -14,6 +16,9 @@ import { BarChartWidgetOptions } from './bar-chart-widget-options.interface';
 export class BarChartWidgetComponent implements OnInit {
 
   // data: Observable<ChartData>;
+
+  Highcharts = Highcharts;
+  barChart: any = undefined;
 
   data: ChartData;
   options: BarChartWidgetOptions = {
@@ -69,18 +74,18 @@ export class BarChartWidgetComponent implements OnInit {
       let series = [];
       Object.keys(dat.data).forEach(key => {
         // dat.data[key];
-        console.log(key);
-        
-        if (key.indexOf('serie-') === 0 && series.length==0) {
-          console.log('push key ',key);
-          console.log('dataset key ',dat.data[key]);
-          series.push(key); 
-          dataset.push(dat.data[key].map(e=>e.data));
+        // console.log(key);
+
+        if (key.indexOf('serie-') === 0 && series.length == 0) {
+          // console.log('push key ', key);
+          // console.log('dataset key ', dat.data[key]);
+          series.push(key);
+          dataset.push(dat.data[key].map(e => e.data));
         }
       });
 
-      console.log('dataset ',dataset);
-      
+      console.log('dataset ', dataset);
+
 
       this.data = {
         labels: dat.labels,
@@ -93,6 +98,34 @@ export class BarChartWidgetComponent implements OnInit {
           }
         ]
       } as ChartData;
+
+
+      this.barChart = {
+        series: [
+          {
+            name: 'Montos',
+            data: dataset,
+          },
+        ],
+        chart: {
+          type: 'column',
+        },
+        title: {
+          text: 'Movimientos de Efectivo',
+        },
+        xAxis: {
+          categories: dat.labels
+        },
+
+        yAxis: {
+          title: {
+            text: 'Montos ( Mill. Bs. )'
+          }
+        },
+      };
+
+      console.log(this.data);
+
 
       this.cdref.detectChanges();
     })
