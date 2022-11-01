@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface SaldoTaquilla {
     id: number;
@@ -15,6 +16,7 @@ export interface SaldoTaquilla {
     diferencia: number;
     moneda: string;
     cerrado: any;
+    detalleEfectivo: ConoMonetario[];
 }
 
 @Injectable({

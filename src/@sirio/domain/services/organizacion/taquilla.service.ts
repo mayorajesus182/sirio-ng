@@ -10,6 +10,7 @@ export interface Taquilla {
     id: number;
     nombre: string;
     usuario: string;
+    abierta: number;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -68,5 +69,10 @@ export class TaquillaService {
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
+
+    open(id: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/open`);
+    }
+    
 
 }
