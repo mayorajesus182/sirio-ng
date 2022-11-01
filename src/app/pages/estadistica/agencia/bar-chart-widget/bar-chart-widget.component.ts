@@ -50,21 +50,19 @@ export class BarChartWidgetComponent implements OnInit {
   constructor(private saldoAgencia: SaldoAgenciaService) {
   }
   ngOnInit(): void {
-    
-    this.saldoAgencia.getSaldo().subscribe(data=>{
-      console.log('@@@@ saldo: ');
-      console.log(data);
-      
-    })
-
+ 
+    this.reload();
 
   }
 
   reload() {
     this.isLoading = true;
+   
+    this.saldoAgencia.getSaldo().subscribe(data=>{
+      console.log('@@@@ saldo agencia: ');
+      console.log(data);
+      this.isLoading=false;      
+    })
 
-    setTimeout(() => {
-      this.isLoading = false;
-    }, 2000);
   }
 }

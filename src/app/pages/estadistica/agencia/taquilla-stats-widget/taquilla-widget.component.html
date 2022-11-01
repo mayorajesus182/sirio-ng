@@ -1,9 +1,7 @@
 <sirio-card >
   <sirio-card-header class="header">
     <sirio-card-header-heading >Taquillas</sirio-card-header-heading>
-    <sirio-card-header-subheading  class="subheading">      
-      Estadísticas
-    </sirio-card-header-subheading>
+    <sirio-card-header-subheading  class="subheading">Estatus Actual</sirio-card-header-subheading>
     <sirio-card-header-actions>
       <button (click)="reload()" mat-icon-button>
         <mat-icon>refresh</mat-icon>
@@ -17,45 +15,12 @@
     
     <sirio-scrollbar class="overflow-container">
       <mat-nav-list>
-        <h3 matSubheader>FRIENDS</h3>
-        <a href="javascript:" mat-list-item>
-          <img mat-list-avatar src="assets/img/avatars/1.jpg">
-          <h3 matLine> Sophie </h3>
+        <h3 matSubheader>Saldos</h3>
+        <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
+          <h3 matLine>{{elem.taquillaNombre}}</h3>
           <p matLine>
-            <span> Dinner? </span>
-            <span class=""> -- Are we still going out tonight? </span>
-          </p>
-        </a>
-        <a href="javascript:" mat-list-item>
-          <img mat-list-avatar src="assets/img/avatars/4.jpg">
-          <h3 matLine> Jack </h3>
-          <p matLine>
-            <span> Golf weekend </span>
-            <span class=""> -- Hey! You wanted to go play Golf? </span>
-          </p>
-        </a>
-        <a href="javascript:" mat-list-item>
-          <img mat-list-avatar src="assets/img/avatars/9.jpg">
-          <h3 matLine> Cody </h3>
-          <p matLine>
-            <span> Code Quality </span>
-            <span class=""> -- Love your newest theme, so clean and slick! </span>
-          </p>
-        </a>
-        <a href="javascript:" mat-list-item>
-          <img mat-list-avatar src="assets/img/avatars/16.jpg">
-          <h3 matLine> James </h3>
-          <p matLine>
-            <span> Gaming? </span>
-            <span class=""> -- You wanna throw a party this weekend? </span>
-          </p>
-        </a>
-        <a href="javascript:" mat-list-item>
-          <img mat-list-avatar src="assets/img/avatars/19.jpg">
-          <h3 matLine> Jessica </h3>
-          <p matLine>
-            <span> Love you... </span>
-            <span class=""> -- Hope we can see us again soon :) </span>
+            <span> Usuario: {{elem.taquillaUsuario}} </span>
+            <span class=""> Saldo: {{elem.moneda}} <strong>{{elem.saldo | number:'1.2-2'}}</strong> </span>
           </p>
         </a>
 

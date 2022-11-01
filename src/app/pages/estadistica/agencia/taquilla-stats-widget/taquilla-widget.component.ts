@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
+import { BehaviorSubject } from 'rxjs';
+import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 
 
 @Component({
@@ -9,24 +10,26 @@ import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo
 })
 export class TaquillaWidgetComponent implements OnInit {
   
-  data: any;
+  taquillas = new BehaviorSubject<SaldoTaquilla[]>([]);
 
   isLoading: boolean;
 
-  constructor(private saldoAgencia: SaldoAgenciaService) {
+  constructor(private saldoTaquillaService: SaldoTaquillaService) {
   }
 
   ngOnInit(): void {
         
+    this.reload();
 
   }
 
   reload() {
     this.isLoading = true;
-    this.saldoAgencia.getSaldo().subscribe(data=>{
-      console.log('@@@@ saldo: ');
+    this.saldoTaquillaService.allByAgencia().subscribe(data=>{
+      console.log('@@@@ saldo taquilla: ');
       console.log(data);
-      data = data;
+      this.taquillas.next(data);
+      this.isLoading=false;
       
     })
 
