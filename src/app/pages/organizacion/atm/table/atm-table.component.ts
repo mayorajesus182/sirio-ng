@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class AtmTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['atm_id', 'codigo', 'moneda_id', 'tipatm_id', 'responsable', 'activo', 'actions'];
+  displayedColumns = ['atm_id', 'identificacion', 'moneda_id', 'tipatm_id', 'responsable', 'activo', 'actions'];
 
   constructor(
     injector: Injector,

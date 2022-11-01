@@ -1,0 +1,54 @@
+<sirio-card >
+  <sirio-card-header class="header">
+    <sirio-card-header-heading >Taquillas</sirio-card-header-heading>
+    <sirio-card-header-subheading  class="subheading">Estatus Actual</sirio-card-header-subheading>
+    <sirio-card-header-actions>
+      <button (click)="reload()" mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </sirio-card-header-actions>
+  </sirio-card-header>
+  <!-- [labels]="data.labels"
+  [legend]="false" -->
+
+  <sirio-card-content class="card-content">
+    
+    <sirio-scrollbar class="overflow-container">
+      <mat-nav-list>
+        <h3 matSubheader>Saldos</h3>
+        <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
+          <h3 matLine>{{elem.taquillaNombre}}</h3>
+          <p matLine>
+            <span> Usuario: {{elem.taquillaUsuario}} </span>
+            <span class=""> Saldo: {{elem.moneda}} <strong>{{elem.saldo | number:'1.2-2'}}</strong> </span>
+          </p>
+        </a>
+
+        <!-- <mat-divider></mat-divider>
+
+        <h3 matSubheader>SERVER STATISTICS</h3>
+        <a mat-list-item>
+          <p matLine>CPU Load (71% / 100%)</p>
+          <p class="progress-bar" matLine>
+            <mat-progress-bar mode="determinate" color="primary" value="71"></mat-progress-bar>
+          </p>
+        </a>
+        <a mat-list-item>
+          <p matLine>RAM Usage (6,175 MB / 16,384 MB)</p>
+          <p class="progress-bar" matLine>
+            <mat-progress-bar mode="determinate" color="accent" value="34"></mat-progress-bar>
+          </p>
+        </a>
+        <a mat-list-item>
+          <p matLine>CPU Temp (43° / 80°)</p>
+          <p class="progress-bar" matLine>
+            <mat-progress-bar mode="determinate" color="warn" value="54"></mat-progress-bar>
+          </p>
+        </a> -->
+      </mat-nav-list>
+    </sirio-scrollbar>
+    
+  </sirio-card-content>
+
+  <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
+

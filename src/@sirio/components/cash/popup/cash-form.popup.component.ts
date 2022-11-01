@@ -64,7 +64,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
     this.moneda = this.defaults.payload.moneda;
 
-    this.preferenciaService.get().subscribe(data => {
+    this.preferenciaService.detail().subscribe(data => {
       this.preferencia.next(data);
       this.divisor = data.divisorConoAnterior;
     });
@@ -74,6 +74,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     } else {
       this.defaults = {} as any;
     }
+
+    this.cdref.markForCheck();
 
 
   }
@@ -106,11 +108,20 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     this.totalActual = 0;
     if (list && list.length > 0) {
       // console.log('update cono actual ', list);
-
       this.valuesCono1 = list;
       // calculo de totales para el cono actual
       this.totalActual = list.map(e => e.cantidad * e.denominacion).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
+      this.cdref.detectChanges();
+    } else {
+      
+      // esta vacio
+      this.valuesCono1 = this.valuesCono1.map(e => {
+        if (e.cantidad > 0) {
+          e.cantidad = 0;
+        }
+        return e;
+      });
       this.cdref.detectChanges();
     }
 
@@ -126,6 +137,16 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.totalAnterior = list.map(e => e.cantidad * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
+    }else {
+      
+   
+      this.valuesCono2 = this.valuesCono2.map(e => {
+        if (e.cantidad > 0) {
+          e.cantidad = 0;
+        }
+        return e;
+      });
+      this.cdref.detectChanges();
     }
 
   }
@@ -133,6 +154,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   clearAll() {
     this.updateConoActual([]);
     this.updateConoAnterior([]);
+    this.cdref.detectChanges();
   }
 
 

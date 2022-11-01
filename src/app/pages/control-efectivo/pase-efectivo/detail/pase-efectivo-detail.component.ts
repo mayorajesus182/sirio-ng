@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -14,6 +15,8 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 })
 
 export class PaseEfectivoDetailComponent extends FormBaseComponent implements OnInit {
+
+  public conos: ConoMonetario[] = [];
 
   constructor(
     spinner: NgxSpinnerService,
@@ -31,6 +34,12 @@ export class PaseEfectivoDetailComponent extends FormBaseComponent implements On
 
     this.bovedaAgenciaService.detail(id).subscribe(data => {
       this.data = data;
+
+      // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML
+
+
+      this.conos = data.detalleEfectivo;
+
       this.loadingDataForm.next(false);
     });
 

@@ -5,10 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
-import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
-import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { MovimientoEfectivo } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
+import { Taquilla } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
@@ -28,6 +29,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
+    public conos = new BehaviorSubject<ConoMonetario[]>([]);
     workflow: string = undefined;
 
     constructor(
@@ -38,9 +40,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         private router: Router,
         private bovedaAgenciaService: BovedaAgenciaService,
         private workflowService: WorkflowService,
-        private movimientoEfectivoService: MovimientoEfectivoService,
-        private monedaService: MonedaService,
-        private taquillaService: TaquillaService,
+        private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -57,6 +57,18 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
                 this.bovedaAgenciaService.getByExpediente(exp).subscribe(data => {
                     this.bovedaAgencia = data;
                     this.buildForm(this.bovedaAgencia);
+
+                    this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
+                        this.conos.next(conoData);
+
+
+
+                    //    conoData.forEach(function (conoVacio) { data.detalleEfectivo.forEach(function (conoregistrado) { console.log('aquiiiiiiii') }) });
+
+
+                        this.cdr.detectChanges();
+                    });
+
                     this.cdr.markForCheck();
                     this.loadingDataForm.next(false);
                     this.applyFieldsDirty();

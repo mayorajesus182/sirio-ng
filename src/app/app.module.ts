@@ -6,18 +6,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Needed for Touch functionality of Material Components
 import { MissingTranslationHandler, TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { AppTranslateLoader } from 'src/@sirio/i18n/app-translate.loader';
 import { AppTranslateMissingHandler } from 'src/@sirio/i18n/app-translate.missinghandler';
 import { HttpErrorInterceptor } from 'src/@sirio/interceptors/http.error.interceptor';
 import { HttpRequestInterceptor } from 'src/@sirio/interceptors/http.request.interceptor';
 import { HttpTokenInterceptor } from 'src/@sirio/interceptors/http.token.interceptor';
 import { ApiService } from 'src/@sirio/services/api';
-import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { LayoutModule } from './layout/layout.module';
 import { PendingInterceptorModule } from '../@sirio/shared/loading-indicator/pending-interceptor.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { LayoutModule } from './layout/layout.module';
 
 @NgModule({
   imports: [
@@ -68,9 +67,8 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     },
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },
-    
-    // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpRequestInterceptor, multi: true },    
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
