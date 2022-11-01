@@ -124,6 +124,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.itemForm.controls['totalRetiro'].setErrors({
                 differenceMonto: true
             });
+            this.itemForm.controls['monto'].setErrors({
+                required: true
+            });
             this.cdr.detectChanges();
         } else {
             this.f.totalRetiro.setErrors(undefined);

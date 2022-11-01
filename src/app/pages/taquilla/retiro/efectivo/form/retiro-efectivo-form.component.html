@@ -128,7 +128,8 @@
                                             </mat-error>
                                             <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01
                                             </mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.difference">verifique monto</mat-error>
+                                            <!-- <mat-error *ngIf="f.monto.errors?.difference">verifique monto</mat-error> -->
+                                            <mat-error *ngIf="f.monto.errors?.required"> </mat-error>
                                         </mat-form-field>
 
                                         <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
