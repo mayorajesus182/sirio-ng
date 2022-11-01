@@ -92,11 +92,11 @@
                                             <mat-error *ngIf="f.monto.errors?.totalDifference">Monto Incorrecto</mat-error>
                                         </mat-form-field>
 
-                                        <div fxFlex.gt-xs="10">
+                                        <div fxFlex.gt-xs="10" >
                                             <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
                                                 name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
                                         </div>
-                                        <div fxFlex.gt-xs="20">
+                                        <div fxFlex.gt-xs="20" >
                                             <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conMovimiento" name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
                                         </div>
                                     </div>

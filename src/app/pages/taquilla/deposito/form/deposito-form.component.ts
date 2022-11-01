@@ -75,7 +75,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (!isOpen) {
+            if (isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
@@ -498,6 +498,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             } else {
                 if (data.moneda) {
                     this.cuentaOperacion = data;
+                    console.log("Pruebaaaaaaaaaaa 2222222", this.cuentaOperacion);
                     this.moneda.id = this.cuentaOperacion.moneda;
                     this.moneda.nombre = this.cuentaOperacion.monedaNombre;
                     this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
@@ -507,7 +508,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.f.esEfectivo.setValue(true);
                     this.loading.next(true);
                 } else {
+
                     this.persona = data;
+                    console.log("Pruebaaaaaaaaaaa", this.persona);
+                    
                     this.cuentaOperacion = undefined;
                     this.moneda.siglas = undefined;
                     this.f.identificacion.setValue(this.persona.identificacion);
