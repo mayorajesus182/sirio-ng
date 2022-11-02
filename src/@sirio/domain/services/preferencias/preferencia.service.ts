@@ -7,8 +7,10 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Preferencia {    
     
     monedaConoActual:string;
+    monedaSiglasConoActual:string;
 
     monedaConoAnterior:string;
+    monedaSiglasConoAnterior:string;
 
     divisorConoAnterior:number;
 }
@@ -31,6 +33,10 @@ export class PreferenciaService {
 
     get(): Observable<Preferencia> {
         return this.apiService.config(this.apiConfig).get(`/get`);
+    }
+
+    detail(): Observable<Preferencia> {
+        return this.apiService.config(this.apiConfig).get(`/detail`);
     }
 
 

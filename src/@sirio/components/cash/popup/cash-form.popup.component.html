@@ -20,8 +20,10 @@
         <mat-label>Monto Total 
         </mat-label>
         <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
-        <mat-hint class="mat-error">{{total != (totalActual+totalAnterior)?'El total desglosado esta descuadrado!':''}}</mat-hint>
+        <mat-hint class="mat-error">{{total != (totalActual+(totalAnterior?totalAnterior:0))?'El total tiene diferencias!':''}}</mat-hint>
+        
       </mat-form-field>
+
 <!-- 
       <mat-form-field fxFlex="auto">
         <mat-label>Total Cono Anterior

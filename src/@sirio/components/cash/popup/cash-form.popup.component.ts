@@ -53,18 +53,16 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   ngOnInit() {
 
-    console.log(this.defaults.payload.desgloseConoActual);
-    console.log(this.defaults.payload.desgloseConoAnterior);
+    // console.log(this.defaults.payload.desgloseConoActual);
+    // console.log(this.defaults.payload.desgloseConoAnterior);
 
-    // this.valuesCono1 = ;
-    // this.valuesCono2 = ;
-    this.updateConoActual(this.defaults.payload.desgloseConoActual);
-    this.updateConoAnterior(this.defaults.payload.desgloseConoAnterior);
+    this.updateConoActual([]);
+    this.updateConoAnterior([]);
     this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
 
-    this.preferenciaService.get().subscribe(data => {
+    this.preferenciaService.detail().subscribe(data => {
       this.preferencia.next(data);
       this.divisor = data.divisorConoAnterior;
     });
@@ -74,6 +72,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     } else {
       this.defaults = {} as any;
     }
+
+    this.cdref.markForCheck();
 
 
   }
@@ -112,7 +112,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
     } else {
-
+      
       // esta vacio
       this.valuesCono1 = this.valuesCono1.map(e => {
         if (e.cantidad > 0) {
@@ -120,12 +120,9 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
         }
         return e;
       });
-      this.valuesCono2 = this.valuesCono2.map(e => {
-        if (e.cantidad > 0) {
-          e.cantidad = 0;
-        }
-        return e;
-      });
+      this.totalActual =0;
+      this.montoTotal=0;
+      this.cdref.detectChanges();
     }
 
   }
@@ -140,6 +137,18 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.totalAnterior = list.map(e => e.cantidad * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
+    }else {
+      
+   
+      this.valuesCono2 = this.valuesCono2.map(e => {
+        if (e.cantidad > 0) {
+          e.cantidad = 0;
+        }
+        return e;
+      });
+      this.totalAnterior-0
+      this.montoTotal=0;
+      this.cdref.detectChanges();
     }
 
   }
@@ -147,6 +156,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   clearAll() {
     this.updateConoActual([]);
     this.updateConoAnterior([]);
+    this.cdref.detectChanges();
   }
 
 

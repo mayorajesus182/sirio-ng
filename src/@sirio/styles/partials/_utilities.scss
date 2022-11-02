@@ -111,6 +111,13 @@ a {
 // .ngx-datatable .datatable-body .datatable-body-row > div {
 //   align-items: center;
 // }
+.swal2-styled.swal2-confirm {
+  background-color: #fc7018 !important;
+}
+
+.swal2-styled.swal2-confirm:focus {
+  box-shadow: 0 0 0 2px lighten(#fc7018, 60%);
+}
 
 
 blockquote {
