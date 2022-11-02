@@ -1,6 +1,5 @@
 import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as Chart from 'chart.js';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ChartData, ChartOptions } from 'chart.js';
 import * as Highcharts from 'highcharts';
 import HCMore from "highcharts/highcharts-more";
