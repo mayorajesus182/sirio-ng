@@ -24,6 +24,7 @@ export interface Agencia {
     horarioExt: number;
     taquillas: number;
     operativas: number;
+    cupo: number;
 }
 
 @Injectable({

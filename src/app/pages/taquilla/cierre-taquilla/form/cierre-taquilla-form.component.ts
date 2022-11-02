@@ -38,6 +38,8 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     }
 
     ngOnInit() {
+        this.isNew = false;
+
         this.loadingDataForm.next(false);
 
         this.saldoTaquillaService.all().subscribe(data => {
@@ -46,13 +48,14 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     }
 
     updateValuesErrors(saldoUpdate: SaldoTaquilla) {
-        saldoUpdate.diferencia = saldoUpdate.detalleEfectivo.filter(c => c.cantidad != undefined && c.cantidad > 0).map(c1 => c1.cantidad * c1.denominacion).reduce((a, b) => a + b);
+        saldoUpdate.diferencia = saldoUpdate.detalleEfectivo.filter(c => c.declarado != undefined && c.declarado > 0).map(c1 => c1.declarado     * c1.denominacion).reduce((a, b) => a + b) - saldoUpdate.saldo;
     }
 
     save(saldoSave: SaldoTaquilla) {
-        saldoSave.diferencia -= saldoSave.saldo;
-        console.log('this.saldos   ', saldoSave);
+        this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
     }
 
-
+    send(
+        
+    ) {}
 }

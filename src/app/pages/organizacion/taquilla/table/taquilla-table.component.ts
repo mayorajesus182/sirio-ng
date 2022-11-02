@@ -52,34 +52,22 @@ export class TaquillaTableComponent extends TableBaseComponent implements OnInit
   }
 
   activateOrInactivate(data: any) {
-
-    console.log('allaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa    ', data);
     this.applyChangeStatus(this.taquillaService, data.element, data.element.nombre, this.cdr);
   }
 
   // TODO: REVISAR ETIQUETAS
-
-
   open(data: any) {
 
-console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii    ', data);
-
-    this.swalService.show('¿Desea Abrir La Taquilla Para La Jornada De Hoy?', 'rrrrr').then((resp) => {
-
-
+    this.swalService.show('¿Desea Abrir La Taquilla Para La Jornada De Hoy?', undefined, { 'html': data.element.nombre + '<br/> Asignada a: ' + data.element.usuario }).then((resp) => {
       if (!resp.dismiss) {
 
-        console.log('Respuesta del Open');
-        
-
-        // this.taquillaService.open(data.element.id).subscribe(data => {
-        //   this.snack.show({ message: 'Taquilla Abierta Para La Jornada!', verticalPosition: 'bottom' });
-        //   data.element.abierta = true;
-        //   this.cdr.detectChanges()
-        // });
+        this.taquillaService.open(data.element.id).subscribe(data => {
+          this.snack.show({ message: 'Taquilla Abierta Para La Jornada!', verticalPosition: 'bottom' });
+          data.element.abierta = true;
+          this.cdr.detectChanges();
+        });
       }
-
-    });
+    })
 
   }
 

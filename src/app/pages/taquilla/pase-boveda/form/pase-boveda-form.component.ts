@@ -150,8 +150,6 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
 
         this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
 
-        console.log(this.cajaTaquilla);
-
     }
 
 }

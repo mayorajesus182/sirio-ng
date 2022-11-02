@@ -43,7 +43,7 @@
                                     <mat-panel-description>
                                         <span class="margin-top-sm semi-bold margin-right-sm"> SALDO: {{item.saldo | number: '1.2'}}</span>
                                         <span class="margin-top-sm semi-bold">&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> DIFERENCIA: {{(item.diferencia-item.saldo) | number: '1.2'}} </b>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> DIFERENCIA: {{(item.diferencia == 0 ? item.diferencia-item.saldo : item.diferencia) | number: '1.2'}} </b>
                                         </span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
@@ -93,7 +93,7 @@
                                                     (det.esBillete?'global.bill':
                                                     'global.coin') | translate }} ({{'Cantidad en Caja' | translate }} {{det.disponible | number: '1.0'}})
                                                 </mat-label>
-                                                <input matInput class="text-right" [(ngModel)]="det.cantidad" min="0" autocomplete="off" matInput type="number"
+                                                <input matInput class="text-right" [(ngModel)]="det.declarado" min="0" autocomplete="off" matInput type="number"
                                                     (ngModelChange)="updateValuesErrors(item)" />
                                             </mat-form-field>
                                         </div>
@@ -107,15 +107,25 @@
                                             {{'button.save' | translate: {default:'global.notfound'} | translate }}
                                         </button>
                                     </div>
-                                    <!-- {{printErrors() | json}}  -->
                                 </div>
-
+         <!-- {{printErrors() | json}}  -->
                             </mat-expansion-panel>
 
                         </mat-accordion>
+
+                        
                     </ng-container>
                 </sirio-card-content>
 
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button color="primary" (click)="send()" mat-raised-button >
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.send' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+                
             </sirio-card>
         </div>
     </sirio-page-layout-content>
