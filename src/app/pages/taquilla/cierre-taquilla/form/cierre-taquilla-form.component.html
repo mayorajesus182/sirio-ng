@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Cierre de Taquilla']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Cierre de Taquilla']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -27,76 +27,105 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                
-
-                    <ng-container >
-
-                        <!-- Put the component which needs to be destroyed + rerendered inside -->
+                    <ng-container>
 
                         <mat-accordion class="expansion-headers-align">
 
-                            
-
-                            <mat-expansion-panel>
+                            <mat-expansion-panel *ngFor="let item of saldos | async">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <!-- TODO: INTERNACIONALIZACION -->
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Representante Legal</span>
+                                        <span class="margin-top-sm semi-bold">{{item.moneda + ' - '+ item.nombreMoneda}}</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> SALDO: {{item.saldo | number: '1.2'}}</span>
+                                        <span class="margin-top-sm semi-bold">&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> DIFERENCIA: {{(item.diferencia == 0 ? item.diferencia-item.saldo : item.diferencia) | number: '1.2'}} </b>
+                                        </span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'Entradas de Efectivo' | translate: {default: 'Entradas de Efectivo'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.ingreso" currencyMask [options]="{precision:2}" readonly>
+                                    </mat-form-field>
 
-                                <div fxLayout="row" fxLayout="column">
-                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="default"  mat-button>
-                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                            'global.notfound'} | translate }}
-                                        </button>
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'Salidas de Efectivo' | translate: {default: 'Salidas de Efectivo'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.egreso" currencyMask [options]="{precision:2}" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'En Tránsito' | translate: {default: 'En Tránsito'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.transito" currencyMask [options]="{precision:2}" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'Depósitos' | translate: {default: 'Depósitos'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.deposito" currencyMask [options]="{precision:2}" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'Retiros' | translate: {default: 'Retiros'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.retiro" currencyMask [options]="{precision:2}" readonly>
+                                    </mat-form-field>
+                                </div>
+
+                                <mat-divider></mat-divider>
+
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <div fxLayout="column" fxFlex="10">
+                                        <h3>{{'Declaración de Efectivo' | translate: {default: 'Declaración de Efectivo'} | translate }}</h3>
+                                    </div>
+                                    <div fxLayout="column" fxFlex="auto">
+                                        <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+                                            <mat-form-field fxLayout="column" *ngFor="let det of item.detalleEfectivo" fxFlex="32">
+                                                <mat-label>{{det.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{
+                                                    (det.esBillete?'global.bill':
+                                                    'global.coin') | translate }} ({{'Cantidad en Caja' | translate }} {{det.disponible | number: '1.0'}})
+                                                </mat-label>
+                                                <input matInput class="text-right" [(ngModel)]="det.declarado" min="0" autocomplete="off" matInput type="number"
+                                                    (ngModelChange)="updateValuesErrors(item)" />
+                                            </mat-form-field>
+                                        </div>
                                     </div>
                                 </div>
 
-
-                            </mat-expansion-panel>
-
-
-                            <mat-expansion-panel>
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        <!-- TODO: INTERNACIONALIZACION -->
-                                        <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>peoples</mat-icon>
-                                        </button>
-                                        <span class="margin-top-sm semi-bold">Apoderados</span>
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                       
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="'1'"></span>
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-
-
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="default" mat-button>
-                                            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-                                            'global.notfound'} | translate }}
+                                        <button color="primary" (click)="save(item)" mat-raised-button>
+                                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
+                                            {{'button.save' | translate: {default:'global.notfound'} | translate }}
                                         </button>
                                     </div>
                                 </div>
-
-
+         <!-- {{printErrors() | json}}  -->
                             </mat-expansion-panel>
 
                         </mat-accordion>
+
+                        
                     </ng-container>
                 </sirio-card-content>
 
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button color="primary" (click)="send()" mat-raised-button >
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.send' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+                
             </sirio-card>
         </div>
     </sirio-page-layout-content>

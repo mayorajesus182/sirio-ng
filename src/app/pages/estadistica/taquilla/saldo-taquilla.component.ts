@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-chart-widget-options.interface';
 
 @Component({
-  selector: 'sirio-saldo-agencia-statics',
-  templateUrl: './saldo-agencia.component.html',
-  styleUrls: ['./saldo-agencia.component.scss']
+  selector: 'sirio-saldo-taquilla-statics',
+  templateUrl: './saldo-taquilla.component.html',
+  styleUrls: ['./saldo-taquilla.component.scss']
 })
-export class SaldoAgenciaComponent implements OnInit {
+export class SaldoTaquillaComponent implements OnInit {
 
   private static isInitialLoad = true;
   salesData$: Observable<ChartData>;
@@ -34,12 +34,12 @@ export class SaldoAgenciaComponent implements OnInit {
      * Navigate anywhere and on Promise right back
      */
     if (/Edge/.test(navigator.userAgent)) {
-      if (SaldoAgenciaComponent.isInitialLoad) {
+      if (SaldoTaquillaComponent.isInitialLoad) {
         this.router.navigate(['/apps/chat']).then(() => {
           this.router.navigate(['/']);
         });
 
-        SaldoAgenciaComponent.isInitialLoad = false;
+        SaldoTaquillaComponent.isInitialLoad = false;
       }
     }
 

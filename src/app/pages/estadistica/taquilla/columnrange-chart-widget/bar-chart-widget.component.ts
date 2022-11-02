@@ -1,15 +1,12 @@
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as Chart from 'chart.js';
 import { ChartData, ChartOptions } from 'chart.js';
+import * as Highcharts from 'highcharts';
+import HCMore from "highcharts/highcharts-more";
 import defaultsDeep from 'lodash-es/defaultsDeep';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { defaultChartOptions } from '../../../../../@sirio/shared/chart-widget/chart-widget-defaults';
 import { BarChartWidgetOptions } from './bar-chart-widget-options.interface';
-import * as Highcharts from 'highcharts';
-import * as more from 'highcharts/highcharts-more.src';
-import * as exporting from 'highcharts/modules/exporting.src';
-import HCMore from "highcharts/highcharts-more";
-import { formatNumber } from '@angular/common';
 
 @Component({
 
@@ -17,7 +14,7 @@ import { formatNumber } from '@angular/common';
   templateUrl: './bar-chart-widget.component.html',
   styleUrls: ['./bar-chart-widget.component.scss']
 })
-export class BarChartWidgetComponent implements OnInit {
+export class BarChartTaquillaWidgetComponent implements OnInit {
 
   // data: Observable<ChartData>;
 
@@ -71,41 +68,40 @@ export class BarChartWidgetComponent implements OnInit {
     this.isLoading = true;
 
     this.saldoAgencia.getSaldo().subscribe(dat => {
-      console.log('@@@@ saldo agencia: ');
+      console.log('@@@@ Bar Column Range saldo agencia: ');
       console.log(dat);
       this.isLoading = false;
 
       let datasets_aument = [];
-      // let datasets_desmin = [];
+      let datasets_desmin = [];
       let series = [];
-      // Object.keys(dat.data).forEach(key => {
-      //   // dat.data[key];
-      //   // console.log(key);
-      //   if (key.indexOf('aumento-') === 0 && !series.includes("aumento")) {
-      //     // console.log('push key ', key);
-      //     // console.log('dataset key ', dat.data[key]);
-      //     series.push("aumento");
-      //     datasets_aument = dat.data[key].map(e => e.data);
-      //   }else if(key.indexOf('disminucion-') === 0 && !series.includes("disminucion")){
-          
-      //     series.push("disminucion");
-      //     datasets_desmin = dat.data[key].map(e => e.data);
-      //   }
-
       Object.keys(dat.data).forEach(key => {
-          // dat.data[key];
-          // console.log(key);
-          if (key.indexOf('serie-') === 0 && !series.includes("serie")) {
-            // console.log('push key ', key);
-            console.log('dataset key ', dat.data[key]);
-            series.push("serie");
-            datasets_aument = dat.data[key];
-          }
-
-
+        // dat.data[key];
+        // console.log(key);
+        if (key.indexOf('aumento-928') === 0 && !series.includes("aumento")) {
+          // console.log('push key ', key);
+          // console.log('dataset key ', dat.data[key]);
+          // series.push("aumento");
+          datasets_aument = dat.data[key];
+        }else if(key.indexOf('disminucion-928') === 0 && !series.includes("disminucion")){
+          
+          // series.push("disminucion");
+          datasets_desmin = dat.data[key];
+        }
       });
 
-      console.log('datasets ', datasets_aument);
+      // Object.keys(dat.data).forEach(key => {
+      //     // dat.data[key];
+      //     // console.log(key);
+      //     if (key.indexOf('serie-') === 0 && !series.includes("serie")) {
+      //       // console.log('push key ', key);
+      //       console.log('dataset key ', dat.data[key]);
+      //       series.push("serie");
+      //       datasets_aument = dat.data[key];
+      //     }
+      // });
+
+      // console.log('datasets aumento', datasets_aument);
       // console.log('dataset disminucion', datasets_desmin);
 
 
@@ -122,6 +118,7 @@ export class BarChartWidgetComponent implements OnInit {
       // } as ChartData;
 
       const labels = dat.data.labels;
+      const monedas = dat.data.monedas;
       // this.data = {
       //   labels: labels,
       //   datasets: [
@@ -154,17 +151,17 @@ export class BarChartWidgetComponent implements OnInit {
             data: datasets_aument,
             color: '#90ed7d'
           },
-          // {
-          //   name: 'Desminuir',
-          //   data: datasets_desmin,
-          //   color:'#f45b5b'
-          // },
+          {
+            name: 'Desminuir',
+            data: datasets_desmin,
+            color:'#f45b5b'
+          },
         ],
         chart: {
           type: 'columnrange',
         },
         title: {
-          text: 'Movimientos de Efectivo',
+          text: monedas[0].nombre+' - '+monedas[0].siglas,
         },
         xAxis: {
           categories: labels
@@ -175,19 +172,19 @@ export class BarChartWidgetComponent implements OnInit {
             text: 'Montos ( Mill. VES )'
           }
         },
-        plotOptions: {
-          columnrange: {
-            dataLabels: {
-              enabled: true,
-              // format: '{y} VES',
-              formatter: function () {
-              console.log(this.y);
+        // plotOptions: {
+        //   columnrange: {
+        //     dataLabels: {
+        //       enabled: true,
+        //       // format: '{y} VES',
+        //       formatter: function () {
+        //       console.log(this.y);
               
-                return formatNumber(this.y,'es','1.2');
-             }
-            }
-          }
-        },
+        //         return formatNumber(this.y,'es','1.2');
+        //      }
+        //     }
+        //   }
+        // },
       } as Highcharts.ChartOptions;
 
 

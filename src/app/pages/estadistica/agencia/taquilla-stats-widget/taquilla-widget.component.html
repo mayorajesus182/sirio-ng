@@ -15,12 +15,12 @@
     
     <sirio-scrollbar class="overflow-container">
       <mat-nav-list>
-        <h3 matSubheader>Saldos</h3>
+        <!-- <h3 matSubheader>Saldos</h3> -->
         <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
-          <h3 matLine>{{elem.taquillaNombre}}</h3>
+          <h3 matLine>{{elem.taquilla}}</h3>
           <p matLine>
-            <span> Usuario: {{elem.taquillaUsuario}} </span>
-            <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span>
+            <span> Usuario: {{elem.usuario}} </span>
+            <!-- <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span> -->
           </p>
         </a>
 

@@ -67,6 +67,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             this.buildForm(this.agencia);
             this.loadingDataForm.next(false);
         }
+
+// TODO: EL PAIS DEBE PROCEDER DE LA INSTITUCION        
     
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
             this.estados.next(data);
@@ -138,8 +140,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             horarioExt: [agencia.horarioExt===1],
         });
 
-        
-
         this.f.estado.valueChanges.subscribe(value => {
             this.ciudad='';
             this.municipioService.activesByEstado(value).subscribe(data => {
@@ -177,7 +177,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         });
 
         this.cdr.detectChanges();
-        this.printErrors()
+        //this.printErrors()
     }
 
     save() {

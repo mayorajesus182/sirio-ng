@@ -63,34 +63,81 @@
                             </div>
 
 
+
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex.gt-xs="100">
-                                    <mat-label>{{'carrierCompany.address' | translate: {default: 'global.address'} | translate }} </mat-label>
-                                    <input matInput autocomplete="off" maxlength="200" name="direccion" formControlName="direccion" uppercase required>
-                                        <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                </mat-form-field>
+
+                                <sirio-select-search fxFlex="50" [label]="'carrierCompany.zone' | translate: {default: 'global.zone'} | translate"
+                                    formControlName="zona" [required]="true" [elements]="zonas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.zona?.errors">
+                                </sirio-select-search>
+    
+                                <sirio-select-search fxFlex="50" [label]="'carrierCompany.region' | translate: {default: 'global.region'} | translate"
+                                    formControlName="region" [required]="true" [elements]="regiones.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.region?.errors">
+                                </sirio-select-search>
+    
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="60">
-                                    <mat-label>{{'carrierCompany.email' | translate: {default: 'global.email'} | translate }}</mat-label>
-                                    <input matInput type="text" maxlength="60" autocomplete="off" email-validate name="email" formControlName="email" required>
+                                <sirio-select-search fxFlex="40" [label]="'carrierCompany.state' | translate: {default: 'global.state'} | translate"
+                                    formControlName="estado" [required]="true" [elements]="estados.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.estado?.errors">
+                                </sirio-select-search>
+    
+                                <sirio-select-search fxFlex="30" [label]="'carrierCompany.municipality' | translate: {default: 'global.municipality'} | translate"
+                                    formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.municipio?.errors">
+                                </sirio-select-search>
+    
+                                <mat-form-field fxFlex.gt-xs="30">
+                                    <mat-label>{{'carrierCompany.city' | translate: {default: 'global.city'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="ciudad" readonly>
+                                </mat-form-field>
+    
+                            </div>
+
+
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                <sirio-select-search fxFlex="30" [label]="'carrierCompany.parish' | translate: {default: 'global.parish'} | translate"
+                                    formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.parroquia?.errors">
+                                </sirio-select-search>
+    
+                                <sirio-select-search fxFlex="30" [label]="'carrierCompany.postalZone' | translate: {default: 'global.postalZone'} | translate"
+                                    formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.zonaPostal?.errors">
+                                </sirio-select-search>
+    
+                                <mat-form-field fxFlex="40">
+                                    <mat-label>{{'carrierCompany.email' | translate: {default: 'global.email'} | translate }}  </mat-label>
+                                    <input type="text"  matInput maxlength="60" autocomplete="off" name="email" formControlName="email" 
+                                    email-validate uppercase>
                                     <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
                                 </mat-form-field>
-
-                                <mat-form-field fxFlex="20">
-                                    <mat-label>{{'carrierCompany.phone' | translate: {default: 'global.phone'} | translate }}</mat-label>
-                                    <input  matInput maxlength="15" autocomplete="off" name="telefono" formControlName="telefono" uppercase required class="text-center">
-                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                            </div>
+    
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex="70">
+                                    <mat-label>{{'carrierCompany.direction' | translate: {default: 'global.direction'} | translate }} </mat-label>
+                                    <input matInput maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase required>
+                                    <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}} </mat-error>
+                                    <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
                                 </mat-form-field>
-
-                                <mat-form-field fxFlex="20">
-                                    <mat-label>{{'carrierCompany.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}</mat-label>
-                                    <input  matInput maxlength="15" autocomplete="off" name="telefonoAlt" formControlName="telefonoAlt" uppercase class="text-center">
-                                    <mat-error *ngIf="f.telefonoAlt.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+    
+                                <mat-form-field fxFlex="15">
+                                    <mat-label>{{'carrierCompany.phone' | translate: {default: 'global.phone'} | translate }} </mat-label>
+                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="">
+                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
+                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
+                                </mat-form-field>
+    
+                                <mat-form-field fxFlex="15">
+                                    <mat-label>{{'carrierCompany.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }} </mat-label>
+                                    <input matInput name="telefonoAlt" autocomplete="off" formControlName="telefonoAlt" prefix="04" mask="00 000 00 00" placeholder="">
                                 </mat-form-field>
                             </div>
 

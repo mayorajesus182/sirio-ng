@@ -52,6 +52,10 @@ export class AgenciaTableComponent extends TableBaseComponent implements OnInit,
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
+  assign(data:any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/assign`]);
+  }
+
   activateOrInactivate(data:any) {
     this.applyChangeStatus(this.agenciaService, data.element, data.element.nombre, this.cdr);
   }

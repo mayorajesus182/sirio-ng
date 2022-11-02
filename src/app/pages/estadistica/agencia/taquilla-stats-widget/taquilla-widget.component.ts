@@ -9,31 +9,50 @@ import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/
   styleUrls: ['./taquilla-widget.component.scss']
 })
 export class TaquillaWidgetComponent implements OnInit {
-  
-  taquillas = new BehaviorSubject<SaldoTaquilla[]>([]);
+
+  taquillas = new BehaviorSubject<any[]>([]);
 
   isLoading: boolean;
 
+
   constructor(private saldoTaquillaService: SaldoTaquillaService) {
-    
+
   }
 
   ngOnInit(): void {
-        
+
     this.reload();
 
   }
 
   reload() {
     this.isLoading = true;
-    this.saldoTaquillaService.allByAgencia().subscribe(data=>{
+    this.saldoTaquillaService.allByAgencia().subscribe(data => {
       console.log('@@@@ saldo taquilla: ');
       console.log(data);
-      this.taquillas.next(data);
-      this.isLoading=false;
+      // data.map(e => {
+      //   let p = { taquilla: e.taquillaNombre, usuario: e.taquillaUsuario };
+      //   return p;
+      // });
+      let lista = data.map(e => {
+        let p = { taquilla: e.taquillaNombre, usuario: e.taquillaUsuario };
+        return p;
+      }).filter(this.onlyUnique);
+
+      console.log(lista);
       
+
+      this.taquillas.next(lista);
+      this.isLoading = false;
     })
 
-    
+
   }
+
+  private onlyUnique(value, index, self) {
+    console.log('value ',value);
+    
+    return self.findIndex(v=> value.taquillaNombre==v.taquillaNombre) === index;
+  }
+
 }

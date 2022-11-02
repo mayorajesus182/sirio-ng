@@ -1,24 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
-import { Tenencia, TenenciaService } from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
-import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
-import { ActividadEconomica, ActividadEconomicaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-economica.service';
-import { ActividadEspecifica, ActividadEspecificaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-especifica.service';
-import { CategoriaEspecial, CategoriaEspecialService } from 'src/@sirio/domain/services/configuracion/persona-juridica/categoria-especial.service';
-import { EstadoCivil, EstadoCivilService } from 'src/@sirio/domain/services/configuracion/persona-natural/estado-civil.service';
-import { Genero, GeneroService } from 'src/@sirio/domain/services/configuracion/persona-natural/genero.service';
-import { Profesion, ProfesionService } from 'src/@sirio/domain/services/configuracion/persona-natural/profesion.service';
-import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
-import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -32,6 +20,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class CierreTaquillaFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     saldos = new BehaviorSubject<SaldoTaquilla[]>([]);
+    diferencia: number = 0
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
@@ -45,23 +34,28 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
         super(dialog, injector);
     }
 
-
     ngAfterViewInit(): void {
     }
 
     ngOnInit() {
+        this.isNew = false;
+
         this.loadingDataForm.next(false);
 
         this.saldoTaquillaService.all().subscribe(data => {
-            // this.saldos.next(data);
-           // console.log('aquiiiiiiiiiiiiiii  ', data);
+            this.saldos.next(data);
         });
     }
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
+    updateValuesErrors(saldoUpdate: SaldoTaquilla) {
+        saldoUpdate.diferencia = saldoUpdate.detalleEfectivo.filter(c => c.declarado != undefined && c.declarado > 0).map(c1 => c1.declarado     * c1.denominacion).reduce((a, b) => a + b) - saldoUpdate.saldo;
     }
 
+    save(saldoSave: SaldoTaquilla) {
+        this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
+    }
 
+    send(
+        
+    ) {}
 }
