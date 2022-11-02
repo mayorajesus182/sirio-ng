@@ -10,6 +10,7 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { DepositoFormComponent } from './form/deposito-form.component';
 import { DepositoRoutingModule } from './deposito-routing.module';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 
 
@@ -35,6 +36,7 @@ import { DepositoRoutingModule } from './deposito-routing.module';
       
     ],
     exports: [],
+    providers:[ { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }]
 })
 
 export class DepositoModule {
