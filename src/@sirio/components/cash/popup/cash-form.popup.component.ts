@@ -53,13 +53,11 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   ngOnInit() {
 
-    console.log(this.defaults.payload.desgloseConoActual);
-    console.log(this.defaults.payload.desgloseConoAnterior);
+    // console.log(this.defaults.payload.desgloseConoActual);
+    // console.log(this.defaults.payload.desgloseConoAnterior);
 
-    // this.valuesCono1 = ;
-    // this.valuesCono2 = ;
-    this.updateConoActual(this.defaults.payload.desgloseConoActual);
-    this.updateConoAnterior(this.defaults.payload.desgloseConoAnterior);
+    this.updateConoActual([]);
+    this.updateConoAnterior([]);
     this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
@@ -122,6 +120,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
         }
         return e;
       });
+      this.totalActual =0;
+      this.montoTotal=0;
       this.cdref.detectChanges();
     }
 
@@ -146,6 +146,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
         }
         return e;
       });
+      this.totalAnterior-0
+      this.montoTotal=0;
       this.cdref.detectChanges();
     }
 
