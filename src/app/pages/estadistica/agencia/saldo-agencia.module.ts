@@ -12,7 +12,7 @@ import { EstadisticaRoutingModule } from '../estadistica-routing.module';
 import { BarChartWidgetComponent } from './bar-chart-widget/bar-chart-widget.component';
 import { SaldoAgenciaComponent } from './saldo-agencia.component';
 import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget.component';
-
+// import { ChartModule, HIGHCHARTS_MODULES } from 'highcharts-angular';
 
 @NgModule({
   imports: [
