@@ -1,7 +1,7 @@
-<sirio-card >
+<sirio-card>
   <sirio-card-header class="header">
-    <sirio-card-header-heading >Taquillas</sirio-card-header-heading>
-    <sirio-card-header-subheading  class="subheading">Estatus Actual</sirio-card-header-subheading>
+    <sirio-card-header-heading>Taquillas</sirio-card-header-heading>
+    <sirio-card-header-subheading class="subheading">Estatus Actual</sirio-card-header-subheading>
     <sirio-card-header-actions>
       <button (click)="reload()" mat-icon-button>
         <mat-icon>refresh</mat-icon>
@@ -12,17 +12,38 @@
   [legend]="false" -->
 
   <sirio-card-content class="card-content">
-    
+
     <sirio-scrollbar class="overflow-container">
       <mat-nav-list>
         <!-- <h3 matSubheader>Saldos</h3> -->
-        <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
+        <!-- <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
           <h3 matLine>{{elem.taquilla}}</h3>
           <p matLine>
             <span> Usuario: {{elem.usuario}} </span>
-            <!-- <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span> -->
           </p>
-        </a>
+        </a> -->
+        <!-- <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span> -->
+
+        <mat-accordion class="expansion-headers-align">
+
+          <mat-expansion-panel *ngFor="let elem of taquillas | async" >
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <button type="button" mat-icon-button type="button" color="primary">
+                  <!-- <mat-icon>person</mat-icon> -->
+                </button>
+                <span class="margin-top-sm semi-bold">
+                  {{elem.taquilla}}
+                </span>
+              </mat-panel-title>
+              <mat-panel-description>Usuario: {{elem.usuario}}</mat-panel-description>
+            </mat-expansion-panel-header>
+              
+
+          </mat-expansion-panel>
+
+        </mat-accordion>
+
 
         <!-- <mat-divider></mat-divider>
 
@@ -47,8 +68,7 @@
         </a> -->
       </mat-nav-list>
     </sirio-scrollbar>
-    
+
   </sirio-card-content>
 
   <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
-
