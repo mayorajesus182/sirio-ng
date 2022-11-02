@@ -27,6 +27,7 @@ export class SidenavComponent implements OnInit, OnDestroy {
   items$: Observable<SidenavItem[]>;
 
   fullName: string;
+  officeName: string;
   logonedAt: any;
 
   constructor(private router: Router,
@@ -41,8 +42,8 @@ export class SidenavComponent implements OnInit, OnDestroy {
     const data = this.sessionService.getUser();
 
     if (data && data.username) {
-      // console.log("User session", data);
-
+      console.log("User session", data);
+      this.officeName = data.organization;
       this.fullName = data.fullName.split(" ")[0];
       this.logonedAt = data.prevLogin;
       // this.cdr.markForCheck();

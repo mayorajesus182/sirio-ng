@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartsModule } from 'ng2-charts';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
 import { LoadingOverlayModule } from 'src/@sirio/shared/loading-overlay/loading-overlay.module';
@@ -11,7 +12,7 @@ import { EstadisticaRoutingModule } from '../estadistica-routing.module';
 import { BarChartWidgetComponent } from './bar-chart-widget/bar-chart-widget.component';
 import { SaldoAgenciaComponent } from './saldo-agencia.component';
 import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget.component';
-
+// import { ChartModule, HIGHCHARTS_MODULES } from 'highcharts-angular';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget
     SirioCardModule,
     ScrollbarModule,
     ChartsModule,
+    HighchartsChartModule,
     LoadingOverlayModule
   ],
   declarations: [SaldoAgenciaComponent,BarChartWidgetComponent, TaquillaWidgetComponent],

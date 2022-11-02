@@ -13,13 +13,22 @@
   <!-- [labels]="data.labels"
   [legend]="false" -->
 
-  <sirio-card-content class="card-content">
-    <canvas *ngIf="data"
+  <sirio-card-content class="card-content container">
+    <!-- <canvas *ngIf="data"
             [datasets]="data.datasets"
+            [labels]="data.labels"
             [options]="chartOptions"
             baseChart
             chartType="bar">
-    </canvas>
+    </canvas> -->
+
+    <highcharts-chart *ngIf="barChart"
+  [Highcharts]="highcharts"
+  [options]="barChart"
+  
+>
+</highcharts-chart>
+    
   </sirio-card-content>
 
   <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
