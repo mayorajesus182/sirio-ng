@@ -14,9 +14,7 @@ export class ToolbarUserComponent implements OnInit {
   username: string;
 
   constructor(
-    
-    public translate: TranslateService,
-    public sessionService: SessionService,
+     public sessionService: SessionService,
 
   ) { }
 

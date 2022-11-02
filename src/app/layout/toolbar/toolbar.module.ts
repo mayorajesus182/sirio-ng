@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { SirioCardModule } from '../../../@sirio/shared/card/card.module';
 import { ClickOutsideModule } from '../../../@sirio/shared/click-outside/click-outside.module';
 import { MaterialModule } from '../../../@sirio/shared/material-components.module';
@@ -20,6 +21,7 @@ import { ToolbarComponent } from './toolbar.component';
   imports: [
     CommonModule,
     MaterialModule,
+    TranslateModule,
     RouterModule,
     ScrollbarModule,
     FormsModule,
