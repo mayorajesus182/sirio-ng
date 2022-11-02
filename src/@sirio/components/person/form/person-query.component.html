@@ -37,7 +37,7 @@
                 
 
                 <mat-form-field fxFlex="20" *ngIf="taquilla">
-                    <mat-label>{{'global.bankAccount' | translate }} </mat-label>
+                    <mat-label>{{'global.accountNumber' | translate }} </mat-label>
                     <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" num-account-validate
                     formControlName="cuenta" (keyup.enter)="queryByAccount()" mask="0000 0000 00 00 00000000">
                     <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
@@ -48,7 +48,7 @@
 
                 <mat-form-field fxFlex="auto">
                     <mat-label>{{'global.fullName' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="nombre" formControlName="nombre" readonly>
+                    <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="true" formControlName="nombre" >
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">

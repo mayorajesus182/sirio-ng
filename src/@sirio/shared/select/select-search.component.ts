@@ -24,6 +24,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     @Input() errors;
     @Input() label: string;
     @Input() icon: string;
+    @Input() autofocus: boolean = false;
     @Input() attributeName: string;
     @Input() required: boolean = false;
     @Input() readonly: boolean = false;
@@ -89,6 +90,10 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
                 }
             });
 
+            if(this.singleSelect && this.autofocus){
+
+                this.singleSelect.focus();
+            }
 
       
 

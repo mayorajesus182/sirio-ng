@@ -86,6 +86,10 @@ a {
   margin-right: auto;
 }
 
+.highcharts-credits{
+  display: none;
+}
+
 .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
   border-right: 1px solid rgba(170, 170, 170, 0.22);
   border-left: 1px solid rgba(170, 170, 170, 0.22);

@@ -74,7 +74,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.searchForm = this.fb.group({
             tipoDocumento: new FormControl(undefined),
             identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            nombre: new FormControl(''),
+            nombre: new FormControl({value:'',disabled: true}),
             cuenta: new FormControl('')
         });
 
