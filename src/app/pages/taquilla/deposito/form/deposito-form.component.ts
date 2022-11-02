@@ -53,7 +53,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     editing: any[] = [];
     sumMontoChequePropio: number = 0;
     sumMontoChequeOtros: number = 0;
-
     loading = new BehaviorSubject<boolean>(false);
 
     constructor(
@@ -120,11 +119,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 // })
 
 
-                this.f.efectivo.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.calculateDifferences();
-                    }
-                })
+                // this.f.efectivo.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.calculateDifferences();
+                //     }
+                // })
 
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
@@ -168,7 +167,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                         this.buildChequeForm();
                     }
                     else {
-                        this.f.monto.setValue('');
+                        this.f.monto.setValue(undefined);
                         this.f.referencia.setValue('');
                         this.f.chequePropio.setValue(undefined);
                         this.f.chequePropio.setErrors(undefined);
@@ -258,27 +257,38 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             this.cdr.detectChanges();
         })
     }
-
-    calculateDifferences() {
+    calculateDifferences(event?:any) {
 
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
-
-        if (valorEfectivo != this.f.monto.value) {                       
-            // this.itemForm.controls['monto'].setErrors({
-            //     totalDifference: true,
-            // });
-            this.itemForm.controls['monto'].setErrors({"totalDifference": true});
-            this.cdr.detectChanges();
-        } 
-
+        // (event?event.montoTotal:this.f.monto.value)
         
+        if (valorEfectivo != (event?event.montoTotal:this.f.monto.value)) {   
+            this.f.monto.setErrors({
+                totalDifference: true
+            });
+            this.f.efectivo.setErrors({
+                difference: true
+            });
+            this.f.monto.setValue(event?event.montoTotal:this.f.monto.value);
+            this.f.monto.markAsDirty();
+            this.f.efectivo.markAsDirty();
+            
+        } else{
+            this.f.monto.setValue(event?event.montoTotal:this.f.monto.value);
+            this.f.monto.setErrors(undefined);
+            this.f.efectivo.setErrors(undefined);
+            // this.f.monto.updateValueAndValidity();
+            // this.f.efectivo.updateValueAndValidity();
+            // this.f.monto.clearValidators();
+            // this.f.efectivo.clearValidators();
+            // this.f.monto.clearValidators();
 
-
-
-
+            // this.cdr.detectChanges();
+        }
     }
+
 
     buildForm() {
         this.itemForm = this.fb.group({
@@ -291,7 +301,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             numeroCuenta: new FormControl(undefined),
             moneda: new FormControl('', []),
             efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
             esEfectivo: new FormControl(true),
@@ -540,7 +550,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             return;
         }
         // this.f.efectivo.setValue(event.montoTotal);
-        this.f.monto.setValue(event.montoTotal);
+        // this.f.monto.setValue(event.montoTotal);
+        this.calculateDifferences(event)
         this.conoActual = event.desgloseConoActual;
         this.conoAnterior = event.desgloseConoAnterior;
         this.cdr.detectChanges();
@@ -563,7 +574,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.moneda.siglas = undefined;
         this.f.efectivo.setValue(undefined);
         this.f.esEfectivo.disable()
-        this.f.monto.reset({});
+        this.f.monto.setValue(undefined);
         this.f.esEfectivo.setValue(false);
         this.f.esCheque.setValue('');
         this.f.conLibreta.setValue('');

@@ -77,7 +77,7 @@
                                                 formControlName="efectivo" currencyMask [options]="{precision:2}">
                                             <!-- <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error> -->
-                                            <mat-error *ngIf="f.efectivo.errors?.difference"></mat-error>
+                                            <mat-error *ngIf="f.efectivo.errors?.difference">Monto Incorrecto</mat-error>
                                         </mat-form-field>
 
                                         <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.efectivo.value"
