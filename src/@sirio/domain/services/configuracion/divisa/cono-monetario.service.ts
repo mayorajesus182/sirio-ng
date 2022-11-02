@@ -13,6 +13,7 @@ export interface ConoMonetario {
     esBillete: number;
     cantidad?: number;
     disponible?: number;
+    declarado?: number;
     activo?: number;
 }
 

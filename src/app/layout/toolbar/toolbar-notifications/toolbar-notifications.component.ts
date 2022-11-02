@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
+import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 
 @Component({
   selector: 'sirio-toolbar-notifications',
@@ -11,16 +12,24 @@ import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
 export class ToolbarNotificationsComponent implements OnInit {
 
   @Output() openQuickPanel = new EventEmitter();
-  
-  isOpen: boolean;
-  //TODO: esto debo obtenerlo de un colsolidado por usuario de tareas
-  total: number=2;
 
-  constructor() {
+  isOpen: boolean;
+  total: number = 0;
+
+  constructor(
+    injector: Injector,
+    protected workflowService: WorkflowService,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   ngOnInit() {
-   
+
+    this.workflowService.pendingQuantity().subscribe(data => {
+      this.total = data;
+      this.cdr.detectChanges();
+    });
   }
 
 }
+5

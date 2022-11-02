@@ -10,6 +10,12 @@ export interface Transportista {
     id: string;
     rif: string;
     nombre: string;
+    zona: string;
+    region: string;
+    estado: string;
+    municipio: string;
+    parroquia: string;
+    zonaPostal: string;
     direccion: string;
     email: string;
     telefono: number;

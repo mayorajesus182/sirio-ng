@@ -5,7 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
+import { Zona, ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
+import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
+import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
+import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
+import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -19,7 +25,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class TransportistaFormComponent extends FormBaseComponent implements OnInit {
 
+    ciudad:string='';
     transportista: Transportista = {} as Transportista;
+    public zonasPostales = new BehaviorSubject<ZonaPostal[]>([]);
+    public parroquias = new BehaviorSubject<Parroquia[]>([]);
+    public municipios = new BehaviorSubject<Municipio[]>([]);
+    public estados = new BehaviorSubject<Estado[]>([]);
+    public zonas = new BehaviorSubject<Zona[]>([]);
+    public regiones = new BehaviorSubject<Region[]>([]);
 
     constructor(
         injector: Injector,
@@ -27,6 +40,12 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private transportistaService: TransportistaService,
+        private zonaPostalService: ZonaPostalService,
+        private parroquiaService: ParroquiaService,
+        private municipioService: MunicipioService,
+        private estadoService: EstadoService,        
+        private zonaService: ZonaService,        
+        private regionService: RegionService,    
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -51,6 +70,18 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
             this.loadingDataForm.next(false);
         }
 
+// TODO: EL PAIS DEBE PROCEDER DE LA INSTITUCION
+
+        this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
+            this.estados.next(data);
+            this.cdr.detectChanges();
+        });
+
+        this.zonaService.actives().subscribe(data => {
+            this.zonas.next(data);
+            this.cdr.detectChanges();
+        });
+
         if(!id){
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
@@ -61,22 +92,99 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
 
     }
 
+    ngAfterViewInit(): void {
+        this.loading$.subscribe(loading => {
+            if (!loading) {
+                if (this.f.estado.value) {
+                    this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+                        this.municipios.next(data);
+                        this.ciudad=this.municipios.value.filter(m=>m.id===this.f.municipio.value).map(m=>m.ciudad)[0];  
+                        this.cdr.detectChanges();
+                    });
+                }
+
+                if (this.f.municipio.value) {
+                    this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+                        this.parroquias.next(data);
+                        this.cdr.detectChanges();
+                    });
+                }
+
+                if (this.f.parroquia.value) {                    
+                    this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {   
+                        this.zonasPostales.next(data);
+                        this.cdr.detectChanges();
+                    });
+                }
+
+                if (this.f.zona.value) {                    
+                    this.regionService.activesByZona(this.f.zona.value).subscribe(data => {   
+                        this.regiones.next(data);
+                        this.cdr.detectChanges();
+                    });
+                }
+            }
+        });
+
+    }
+
     buildForm(transportista: Transportista) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: transportista.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(transportista.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             rif: new FormControl(transportista.rif || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            direccion:  [transportista.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email:  [transportista.email || '', [Validators.required]],
-            telefono:  [transportista.telefono || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
-            telefonoAlt:  [transportista.telefonoAlt || '', Validators.pattern(RegularExpConstants.NUMERIC)],
-            latitud:  [transportista.latitud || undefined, [Validators.required]],
-            longitud:  [transportista.longitud || undefined, [Validators.required]],
+            zonaPostal: new FormControl(transportista.zonaPostal || undefined, [Validators.required]),
+            parroquia: new FormControl(transportista.parroquia || undefined, [Validators.required]),
+            municipio: new FormControl(transportista.municipio || undefined, [Validators.required]),
+            estado: new FormControl(transportista.estado || undefined, [Validators.required]),
+            region: new FormControl(transportista.region || undefined, [Validators.required]),
+            zona: new FormControl(transportista.zona || undefined, [Validators.required]),
+            direccion:  new FormControl(transportista.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            email:  new FormControl(transportista.email || '', [Validators.required]),
+            telefono:  new FormControl(transportista.telefono || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            telefonoAlt:  new FormControl(transportista.telefonoAlt || '', Validators.pattern(RegularExpConstants.NUMERIC)),
+            latitud:  new FormControl(transportista.latitud || undefined, [Validators.required]),
+            longitud:  new FormControl(transportista.longitud || undefined, [Validators.required]),
         });
+
+        this.f.estado.valueChanges.subscribe(value => {
+            this.ciudad='';
+            this.municipioService.activesByEstado(value).subscribe(data => {
+                this.municipios.next(data);
+                this.cdr.detectChanges();
+            });
+        });
+
+        this.f.municipio.valueChanges.subscribe(value => {  
+            this.ciudad=this.municipios.value.filter(m=>m.id===value).map(m=>m.ciudad)[0];         
+            this.parroquiaService.activesByMunicipio(value).subscribe(data => {
+                this.parroquias.next(data);
+                this.cdr.detectChanges();
+            });
+        });
+
+        this.f.parroquia.valueChanges.subscribe(value => {           
+            this.zonaPostalService.activesByParroquia(value).subscribe(data => {
+                this.zonasPostales.next(data);
+                this.cdr.detectChanges();
+            });
+        });
+
+        this.f.zona.valueChanges.subscribe(value => {           
+            this.regionService.activesByZona(value).subscribe(data => {
+                this.regiones.next(data);
+                this.cdr.detectChanges();
+            });
+        });
+
+        this.f.id.valueChanges.subscribe(value => {
+            if (!this.f.id.errors && this.f.id.value.length > 0) {
+                this.codigoExists(value);
+            }
+        });
+
+        this.cdr.detectChanges();
     }
-
-   
-
 
     save() {
         if (this.itemForm.invalid)

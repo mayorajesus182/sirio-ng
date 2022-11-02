@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { map } from 'rxjs/operators';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface SaldoTaquilla {
     id: number;
@@ -16,6 +18,7 @@ export interface SaldoTaquilla {
     diferencia: number;
     moneda: string;
     cerrado: any;
+    detalleEfectivo: ConoMonetario[];
 }
 
 @Injectable({
@@ -50,5 +53,9 @@ export class SaldoTaquillaService {
         return this.apiService.config(this.apiConfig).get(`/list`);
     }
     
+    update(data: SaldoTaquilla): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
+            .pipe(map(res => data));
+    }
 
 }
