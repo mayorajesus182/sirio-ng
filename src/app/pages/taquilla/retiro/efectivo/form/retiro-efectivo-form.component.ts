@@ -330,7 +330,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 //console.log("RETIRO   ", this.retiro);        
                 this.retiro.operacion = 'efectivo';
         
-                this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
+                this.saveOrUpdate(this.retiroService, this.retiro, 'el retiro en efectivo');
                 this.conoActual = [];
                 this.conoAnterior = [];
                 this.detalleEfectivo = 0;
