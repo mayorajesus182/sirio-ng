@@ -194,18 +194,17 @@
 
 
                 </sirio-card-content>
-
-
-                <!--  {{printErrors() | json}}-->
-
+                <!--  {{printErrors() | json}}-->               
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid ">
-                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate:
-                            {default:
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
-
                     </div>
                 </mat-toolbar>
 

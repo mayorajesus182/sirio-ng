@@ -20,6 +20,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import * as moment from 'moment';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { formatNumber } from '@angular/common';
 
 @Component({
     selector: 'app-retiro-efectivo-form',
@@ -100,7 +101,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                     }
                 });
 
-            
+
             }
         });
     }
@@ -138,39 +139,40 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     buildForm() {
 
         this.itemForm = this.fb.group({
-
+            nombre: new FormControl(''),
             tipoDocumento: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            identificacion: new FormControl(''),          
-            numper: new FormControl(undefined),         
+            identificacion: new FormControl(''),
+            numper: new FormControl(undefined),
             monto: new FormControl('', [Validators.required]),
             numeroCuenta: new FormControl(undefined),
             cuenta: new FormControl(undefined),
             moneda: new FormControl(''),
-            tipoProducto: new FormControl(''),           
-            totalRetiro: new FormControl(''),         
-            email: new FormControl(undefined), 
-            cuentaBancaria: new FormControl(undefined),     
+            tipoProducto: new FormControl(''),
+            totalRetiro: new FormControl(''),
+            email: new FormControl(undefined),
+            cuentaBancaria: new FormControl(undefined),
         });
 
 
         this.f.cuenta.valueChanges.subscribe(val => {
-            console.log('cuenta seleccionada ',val);
-            
-            if (val && val !='') {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                 //console.log('cuentaselec', cuenta);                
+            console.log('cuenta seleccionada ', val);
 
-                this.moneda.id = cuenta.moneda;                            
-                this.moneda.nombre = cuenta.monedaNombre; 
+            if (val && val != '') {
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+                //console.log('cuentaselec', cuenta);                
+
+                this.moneda.id = cuenta.moneda;
+                this.moneda.nombre = cuenta.monedaNombre;
+                this.moneda.siglas = cuenta.siglas;
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
-                this.f.cuentaBancaria.setValue(cuenta.id); 
+                this.f.cuentaBancaria.setValue(cuenta.id);
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
-               
-               
+
+
             }
         });
 
-     
+
 
     }
 
@@ -223,7 +225,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.detalleEfectivo = 0;
             this.f.beneficiario.setValue(null);
             this.f.comprador.setValue(null);
-            this.f.tipoDocumentoBeneficiario.setValue(undefined);           
+            this.f.tipoDocumentoBeneficiario.setValue(undefined);
 
         }
     }
@@ -263,89 +265,133 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.cdr.detectChanges();
         } else {
 
-             this.esRetiroEfectivo = true;
+            this.esRetiroEfectivo = true;
             if (data.moneda) {
-                console.log("aqui-consulto por NroCuenta");   
+                console.log("aqui-consulto por NroCuenta");
                 this.cuentaBancariaOperacion = data;
-                this.moneda.id = this.cuentaBancariaOperacion.moneda;              
+                this.moneda.id = this.cuentaBancariaOperacion.moneda;
                 this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;
+                this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;               
                 this.f.numeroCuenta.setValue(this.cuentaBancariaOperacion.numeroCuenta);
-                this.f.identificacion.setValue(this.cuentaBancariaOperacion.identificacion)      
-                              
-                console.log("DATAcuentaBancaria", data);               
+                this.f.identificacion.setValue(this.cuentaBancariaOperacion.identificacion)
+                this.persona.nombre = this.cuentaBancariaOperacion.nombre;
+                console.log("DATAcuentaBancaria", data);
 
             } else {
-                this.esRetiroEfectivo = true;               
+                this.esRetiroEfectivo = true;
                 this.persona = data;
                 this.cuentaBancariaOperacion = undefined;
-                this.f.identificacion.setValue(this.persona.identificacion)            
-                
+                this.f.identificacion.setValue(this.persona.identificacion)
+                console.log("DATAPersona", data);
+
                 //lista de las cuentas bancarias de la persona
                 this.cuentaBancariaService.activesByPersona(this.persona.id).subscribe(data => {
                     console.log(data);
-                    
+
                     this.cuentasBancarias.next(data);
-                   
+
 
                 })
-            
+
             }
         }
     }
 
 
-    save() {
+    // save() {
 
+    //     if (this.itemForm.invalid)
+    //         return;
+
+    //     this.updateData(this.retiro);
+
+    //     if (this.persona) {
+    //         this.retiro.persona = this.persona.id;
+    //         this.retiro.numper = this.persona.numper;
+    //         this.retiro.tipoDocumento = this.persona.tipoDocumento;
+    //         this.retiro.identificacion = this.persona.identificacion;
+    //         this.retiro.nombre = this.persona.nombre;
+    //     }
+    //     this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+
+    //     if (this.cuentaBancariaOperacion) {
+    //         this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+    //         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
+    //         this.updateDataFromValues(this.retiro, this.persona)
+    //     }
+
+    //     this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
+    //     this.retiro.moneda = this.moneda.id;
+    //     console.log("RETIRO   ", this.retiro);
+
+    //     this.retiro.operacion = 'efectivo';
+
+    //     this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
+    //     this.conoActual = [];
+    //     this.conoAnterior = [];
+    //     this.detalleEfectivo = 0;
+    //     this.cuentasBancarias.next([]);
+
+    // }
+    /******************** */
+
+    save() {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.retiro);         
-       
-        if(this.persona){         
+        this.updateData(this.retiro);
 
-               this.retiro.persona= this.persona.id;
-               this.retiro.numper= this.persona.numper;
-               this.retiro.tipoDocumento=this.persona.tipoDocumento;
-               this.retiro.identificacion = this.persona.identificacion;
-               this.retiro.nombre = this.persona.nombre;         
-              
-             
-        }
-        this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+        let montoFormat = formatNumber(this.retiro.monto, 'es', '1.2');
 
-      
-        if(this.cuentaBancariaOperacion){          
+        this.swalService.show('¿Desea Realizar el Retiro?', undefined,
+            { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
+        ).then((resp) => {
+            if (!resp.dismiss) {
+                if (this.persona) {
+                    this.retiro.persona = this.persona.id;
+                    this.retiro.numper = this.persona.numper;
+                    this.retiro.tipoDocumento = this.persona.tipoDocumento;
+                    this.retiro.identificacion = this.persona.identificacion;
+                    this.retiro.nombre = this.persona.nombre;
+                }
+                this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
 
-            this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
-            this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
-            this.updateDataFromValues(this.retiro, this.persona)
-        }
-      
-        this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-        this.retiro.moneda= this.moneda.id;
-        console.log("RETIRO   ", this.retiro);
+                if (this.cuentaBancariaOperacion) {
+                    this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+                    this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
+                    this.updateDataFromValues(this.retiro, this.persona)
+                }
+                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
+                this.retiro.moneda = this.moneda.id;
+                console.log("RETIRO   ", this.retiro);
+        
+                this.retiro.operacion = 'efectivo';
+        
+                this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
+                this.conoActual = [];
+                this.conoAnterior = [];
+                this.detalleEfectivo = 0;
+                this.cuentasBancarias.next([]);
 
-        this.retiro.operacion='efectivo';
+                this.router.navigate(['/sirio/welcome']).then(data => { });
+            }
 
-        this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
-        this.conoActual = [];
-        this.conoAnterior = [];
-        this.detalleEfectivo = 0;
-        this.cuentasBancarias.next([]);
+        })
+
 
     }
 
 
 
+    /********************** */
     resetInfoFinance() {
         this.moneda.siglas = undefined;
-        this.f.monto.reset({});       
-        this.f.totalRetiro.reset({});          
+        this.f.monto.reset({});
+        this.f.totalRetiro.reset({});
         this.f.email.setValue('');
         this.cuentasBancarias.next([]);
         //this.f.numeroCuenta.reset();
-        this.cuentaBancariaOperacion.tipoProductoNombre =undefined;
+        this.cuentaBancariaOperacion.tipoProductoNombre = undefined;
         this.conoActual = [];
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
