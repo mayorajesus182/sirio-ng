@@ -298,42 +298,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     }
 
 
-    // save() {
-
-    //     if (this.itemForm.invalid)
-    //         return;
-
-    //     this.updateData(this.retiro);
-
-    //     if (this.persona) {
-    //         this.retiro.persona = this.persona.id;
-    //         this.retiro.numper = this.persona.numper;
-    //         this.retiro.tipoDocumento = this.persona.tipoDocumento;
-    //         this.retiro.identificacion = this.persona.identificacion;
-    //         this.retiro.nombre = this.persona.nombre;
-    //     }
-    //     this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
-
-    //     if (this.cuentaBancariaOperacion) {
-    //         this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
-    //         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
-    //         this.updateDataFromValues(this.retiro, this.persona)
-    //     }
-
-    //     this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-    //     this.retiro.moneda = this.moneda.id;
-    //     console.log("RETIRO   ", this.retiro);
-
-    //     this.retiro.operacion = 'efectivo';
-
-    //     this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
-    //     this.conoActual = [];
-    //     this.conoAnterior = [];
-    //     this.detalleEfectivo = 0;
-    //     this.cuentasBancarias.next([]);
-
-    // }
-    /******************** */
 
     save() {
         if (this.itemForm.invalid)
@@ -363,8 +327,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 }
                 this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                 this.retiro.moneda = this.moneda.id;
-                console.log("RETIRO   ", this.retiro);
-        
+                //console.log("RETIRO   ", this.retiro);        
                 this.retiro.operacion = 'efectivo';
         
                 this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');

@@ -23,6 +23,7 @@ import * as moment from 'moment';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { matFormFieldAnimations } from '@angular/material/form-field';
+import { formatNumber } from '@angular/common';
 
 @Component({
     selector: 'app-pago-cheque-form',
@@ -128,7 +129,9 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                              //const moneda = data.moneda;
                             // const monedaNombre = data.monedaNombre;
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
-                            this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;                            
+                            this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre; 
+                            this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
+                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                  
                             console.log("DATOS", data);
                             this.cdr.markForCheck();
 
@@ -299,28 +302,42 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
         if (this.itemForm.invalid)
             return;
-
-
+        
         this.updateData(this.retiro);
-        this.updateDataFromValues(this.retiro, this.persona);
-        this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
-        this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
-        this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
-        this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE;      
-        //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
-       // this.retiro.codSeguridad = this.retiro.codSeguridad;
-        this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-        //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
-        console.log("RETIRO   ", this.retiro);
 
-        this.retiro.operacion='cheque';
+        let montoFormat = formatNumber(this.retiro.monto, 'es', '1.2');
 
-        this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
-        this.conoActual = [];
-        this.conoAnterior = [];
-        this.detalleEfectivo = 0;
 
+        this.swalService.show('¿Desea Realizar el Pago de Cheque?', undefined,
+            { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
+        ).then((resp) => {
+            if (!resp.dismiss) {
+        
+                this.updateDataFromValues(this.retiro, this.persona);
+                this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+                this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
+                this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
+                this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE;      
+                //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
+                //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
+                //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
+               //console.log("RETIRO   ", this.retiro);
+        
+                this.retiro.operacion='cheque';
+        
+                this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
+                this.conoActual = [];
+                this.conoAnterior = [];
+                this.detalleEfectivo = 0;        
+
+                this.router.navigate(['/sirio/welcome']).then(data => { });
+            }
+
+        })       
+       
     }
+
+
     resetInfoFinance() {
         this.f.numeroCuenta.reset();
         this.f.montoCheque.reset({});         
