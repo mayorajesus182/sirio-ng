@@ -55,10 +55,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
 
-        this.cdref.detectChanges();
     }
-
+    
     ngOnInit(): void {
+        
 
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
@@ -85,22 +85,28 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         // });
         
-        // // this.search.identificacion.valueChanges.subscribe(val=>{
-        // //     if(val && val.trim().length > 0){
-        // //         this.search.cuenta.disable();
-        // //     }else{
-        // //         this.search.cuenta.enable();
-        // //     }
-        // // })
-
-
+        this.search.identificacion.valueChanges.subscribe(val=>{
+            if(val && val.trim().length > 0){
+             
+                this.searchForm.controls['cuenta'].disable();      
+            }else{
+                this.searchForm.controls['cuenta'].enable();      
+             
+            }
+            // this.cdref.detectChanges();
+        })
+        
+        
         this.search.cuenta.valueChanges.subscribe(val=>{
             if(val && val.trim().length > 0){
-                this.search.identificacion.disable();
+                this.searchForm.controls['identificacion'].disable();                
             }else{
-                this.search.identificacion.enable();
+                this.searchForm.controls['identificacion'].enable();                
+             
             }
-        })
+        });
+
+        this.cdref.markForCheck();
 
     }
 

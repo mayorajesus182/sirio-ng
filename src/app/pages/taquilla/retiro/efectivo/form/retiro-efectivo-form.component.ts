@@ -223,9 +223,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
         this.calculateDifferences(event);
         // this.f.monto.setValue(event.montoTotal);
-
-       this.f.monto.setValue(event.montoTotal);  
-     
+    
        
 
         // if (this.f.monto.value != this.detalleEfectivo) {
