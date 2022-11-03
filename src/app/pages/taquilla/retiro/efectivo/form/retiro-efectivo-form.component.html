@@ -27,11 +27,11 @@
                 </sirio-card-header>
                
                 <sirio-card-content fxLayout="column">
-
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
 
 
                     <form [formGroup]="itemForm" *ngIf="itemForm">
+                      
 
 
                         <!-- primera Fila del Formulario  Nota: Borrar este comentario al Final -->
@@ -95,25 +95,7 @@
                                             formControlName="cuenta" [required]="!cuentaBancariaOperacion"
                                             [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'"
                                             [errors]="f.numeroCuenta?.errors">
-                                        </sirio-select-simple>
-
-
-                                        <mat-form-field fxFlex.gt-sm="25">
-                                            <mat-label>{{'withdrawal.totalWithdrawal' | translate: {default:
-                                                'global.totalWithdrawal'} | translate }}
-                                            </mat-label>
-                                            <input matInput max="999999999999999.99" min="0.01" autocomplete="off"
-                                                name="totalRetiro" formControlName="totalRetiro" currencyMask
-                                                [options]="{precision:2}" [required]="esRetiroEfectivo">
-                                            <mat-error *ngIf="f.totalRetiro.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.totalRetiro.errors?.max">Debe ser menor que
-                                                99.999.999,99
-                                            </mat-error>
-                                            <mat-error *ngIf="f.totalRetiro.errors?.min">No debe ser menor que 0,01
-                                            </mat-error>
-                                            <mat-error *ngIf="f.totalRetiro.errors?.differenceMonto">verifique monto</mat-error>
-                                        </mat-form-field>
-
+                                        </sirio-select-simple>                                      
 
 
                                         <mat-form-field fxFlex="25">
@@ -138,6 +120,22 @@
                                             (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                             [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
+
+                                        <mat-form-field fxFlex.gt-sm="25">
+                                            <mat-label>{{'withdrawal.totalWithdrawal' | translate: {default:
+                                                'global.totalWithdrawal'} | translate }}
+                                            </mat-label>
+                                            <input matInput max="99999999999999.99" min="0.01" maxlength="17" autocomplete="off"
+                                                name="totalRetiro" formControlName="totalRetiro" currencyMask
+                                                [options]="{precision:2}" [required]="esRetiroEfectivo">
+                                            <mat-error *ngIf="f.totalRetiro.errors?.required">Es requerido</mat-error>
+                                            <mat-error *ngIf="f.totalRetiro.errors?.max">Debe ser menor que
+                                                99.999.999.999,99
+                                            </mat-error>
+                                            <mat-error *ngIf="f.totalRetiro.errors?.min">No debe ser menor que 0,01
+                                            </mat-error>
+                                            <mat-error *ngIf="f.totalRetiro.errors?.differenceMonto">verifique monto</mat-error>
+                                        </mat-form-field>
 
                                     </div>
                                 </sirio-card-content>
@@ -167,7 +165,7 @@
                                             </mat-label>
                                             <input matInput name="email" autocomplete="off" email-validate name="email"
                                                 formControlName="email" placeholder="" [required]="true">
-                                            <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+                                            <mat-error *ngIf="f.email.errors?.email">Email es inválido</mat-error>
                                             <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                                 | translate}}</mat-error>
                                         </mat-form-field>

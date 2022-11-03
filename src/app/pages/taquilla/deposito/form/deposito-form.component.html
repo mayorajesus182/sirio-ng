@@ -87,7 +87,7 @@
                                             <mat-error *ngIf="f.efectivo.errors?.difference">Monto Incorrecto</mat-error>
                                         </mat-form-field>
 
-                                        <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.monto.value"
+                                        <sirio-cash-button class="text-center" *ngIf="f.esEfectivo.value" [total]="f.efectivo.value"
                                             [disabled]="f.efectivo.value  == undefined " [moneda]="moneda" (update)="updateCashDetail($event)"
                                             [cono_actual]="conoActual" [cono_anterior]="conoAnterior"></sirio-cash-button>
 

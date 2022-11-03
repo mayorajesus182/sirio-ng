@@ -15,12 +15,19 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
+
+      <mat-form-field fxFlex="auto">
+        <mat-label> Total Efectivo
+        </mat-label>
+        <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
+      </mat-form-field>
+
       <mat-form-field fxFlex="auto">
         <!-- TODO: KEY INTERNACIONALIZACION -->
-        <mat-label>Monto Total 
+        <mat-label>Monto Total
         </mat-label>
         <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
-        <mat-hint class="mat-error">{{total != (totalActual+(totalAnterior?totalAnterior:0))?'El total tiene diferencias!':''}}</mat-hint>
+        <mat-hint class="mat-error">{{total != (totalActual+(totalAnterior?totalAnterior:0))?'Monto Incorrecto':''}}</mat-hint>
         
       </mat-form-field>
 
@@ -31,11 +38,6 @@
         <input matInput class="text-right" [value]="totalAnterior | number:'1.2-2'" readonly currencyMask [options]="{precision:2}">
       </mat-form-field> -->
 
-      <!-- <mat-form-field fxFlex="auto">
-        <mat-label>Monto Total
-        </mat-label>
-        <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
-      </mat-form-field> -->
 
     </div>
   </div>
