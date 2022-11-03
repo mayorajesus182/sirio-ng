@@ -11,6 +11,8 @@ import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/
 export class TaquillaWidgetComponent implements OnInit {
 
   taquillas = new BehaviorSubject<any[]>([]);
+  saldos: SaldoTaquilla[];
+  // taquillas = new BehaviorSubject<any[]>([]);
 
   isLoading: boolean;
 
@@ -30,6 +32,7 @@ export class TaquillaWidgetComponent implements OnInit {
     this.saldoTaquillaService.allByAgencia().subscribe(data => {
       console.log('@@@@ saldo taquilla: ');
       console.log(data);
+      this.saldos =data;
       // data.map(e => {
       //   let p = { taquilla: e.taquillaNombre, usuario: e.taquillaUsuario };
       //   return p;
@@ -39,7 +42,7 @@ export class TaquillaWidgetComponent implements OnInit {
         return p;
       }).filter(this.onlyUnique);
 
-      console.log(lista);
+      // console.log(lista);
       
 
       this.taquillas.next(lista);
@@ -50,7 +53,7 @@ export class TaquillaWidgetComponent implements OnInit {
   }
 
   private onlyUnique(value, index, self) {
-    console.log('value ',value);
+    // console.log('value ',value);
     
     return self.findIndex(v=> value.taquillaNombre==v.taquillaNombre) === index;
   }
