@@ -1,7 +1,7 @@
-<sirio-card >
+<sirio-card>
   <sirio-card-header class="header">
-    <sirio-card-header-heading >Taquillas</sirio-card-header-heading>
-    <sirio-card-header-subheading  class="subheading">Estatus Actual</sirio-card-header-subheading>
+    <sirio-card-header-heading>Taquillas</sirio-card-header-heading>
+    <sirio-card-header-subheading class="subheading">Estatus Actual</sirio-card-header-subheading>
     <sirio-card-header-actions>
       <button (click)="reload()" mat-icon-button>
         <mat-icon>refresh</mat-icon>
@@ -12,19 +12,53 @@
   [legend]="false" -->
 
   <sirio-card-content class="card-content">
-    
+
     <sirio-scrollbar class="overflow-container">
-      <mat-nav-list>
-        <!-- <h3 matSubheader>Saldos</h3> -->
-        <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
+
+      <!-- <h3 matSubheader>Saldos</h3> -->
+      <!-- <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
           <h3 matLine>{{elem.taquilla}}</h3>
           <p matLine>
             <span> Usuario: {{elem.usuario}} </span>
-            <!-- <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span> -->
           </p>
-        </a>
+        </a> -->
+      <!-- <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span> -->
 
-        <!-- <mat-divider></mat-divider>
+      <mat-accordion class="expansion-headers-align">
+
+        <mat-expansion-panel *ngFor="let elem of taquillas | async">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <button type="button" mat-icon-button type="button" color="primary">
+                <i class="fa-light fa-cash-register fa-lg"></i>
+              </button>
+              <span class="margin-top-sm semi-bold">
+                {{elem.taquilla}}
+              </span>
+            </mat-panel-title>
+            <mat-panel-description>
+              <span class="margin-top-md margin-right-md">
+                Usuario: {{elem.usuario}}
+              </span>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+            <mat-nav-list>
+              <!-- {{el | json}} -->
+              <div  class="margin-bottom-sm" *ngFor="let el of saldos" mat-list-item>
+                <p matLine *ngIf="elem.taquilla==el.taquillaNombre"> <i class="fa-light fa-money-bills fa-md text-success"></i> &nbsp; <b>Saldo en {{el.moneda}} {{el.saldo | number:'1.2-2'}}</b> </p>
+                <span fxFlex></span>
+              </div>
+            </mat-nav-list>
+
+          </div>
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+
+
+      <!-- <mat-divider></mat-divider>
 
         <h3 matSubheader>SERVER STATISTICS</h3>
         <a mat-list-item>
@@ -45,10 +79,9 @@
             <mat-progress-bar mode="determinate" color="warn" value="54"></mat-progress-bar>
           </p>
         </a> -->
-      </mat-nav-list>
+
     </sirio-scrollbar>
-    
+
   </sirio-card-content>
 
   <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
-
