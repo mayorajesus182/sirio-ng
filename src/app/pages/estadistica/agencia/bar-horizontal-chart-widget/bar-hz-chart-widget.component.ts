@@ -3,7 +3,8 @@ import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@an
 import * as Chart from 'chart.js';
 import { ChartData, ChartOptions } from 'chart.js';
 import * as Highcharts from 'highcharts';
-import HCMore from "highcharts/highcharts-more";
+
+import * as exporting from 'highcharts/modules/exporting';
 import defaultsDeep from 'lodash-es/defaultsDeep';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { defaultChartOptions } from '../../../../../@sirio/shared/chart-widget/chart-widget-defaults';
@@ -57,8 +58,7 @@ export class BarHorizontalChartWidgetComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    HCMore(this.highcharts);
-    this.reload();
+        this.reload();
 
   }
 
@@ -71,92 +71,54 @@ export class BarHorizontalChartWidgetComponent implements OnInit {
       this.isLoading = false;
 
 
+      if (dat.data['detail-928']) {
+        const labels = dat.data['detail-928'].map(e => {
 
-      const labels = dat.data['detail-928'].map(e => {
-        // console.log(e);
+          return (e.esBillete === 1 ? 'Billete ' : 'Moneda ') + e.denominacion;
+        });
+        const monedas = dat.data.monedas;
 
-        return (e.esBillete === 1 ? 'Billete ' : 'Moneda ') + e.denominacion;
-      });
-      const monedas = dat.data.monedas;
-      // this.data = {
-      //   labels: labels,
-      //   datasets: [
-      //     {
-      //       label: 'Ingresos',
-      //       data: labels.map(() => {
-      //         return dataset;
-      //       }),
-      //       backgroundColor: '#7cb342',
-      //     },
-      //     {
-      //       label: 'Egresos',
-      //       data: labels.map(() => {
-      //         return [[20, 25], [25, 10]];
-      //       }),
-      //       backgroundColor: '#ffc107',
-      //     },
-      //   ]
-      // } as ChartData;
+        let datasets = dat.data['detail-928'].map(e => e.disponible);
 
-      // console.log(labels);
-
-      // console.log(Highcharts.getOptions().colors);
-      let datasets = dat.data['detail-928'].map(e => e.disponible);
-
-      this.barChart = {
-        series: [
-          {
-            name: 'Disponibilidad',
-            data: datasets,
-            color: '#90ed7d'
-          }
-        ],
-        chart: {
-          type: 'column',
-        },
-        title: {
-          text: monedas[0].nombre + ' - ' + monedas[0].siglas,
-        },
-        xAxis: {
-          categories: labels
-        },
-
-        yAxis: {
-          title: {
-            text: 'Denominacion'
+        this.barChart = {
+          series: [
+            {
+              name: 'Disponibilidad',
+              data: datasets,
+              color: '#90ed7d'
+            }
+          ],
+          chart: {
+            type: 'column',
           },
-          // labels: {
-          //   formatter: function () {
-          //     console.log(formatNumber(this.value,'es','1.2'));
+          title: {
+            text: monedas[0].nombre + ' - ' + monedas[0].siglas,
+          },
+          xAxis: {
+            categories: labels
+          },
 
-          //     return formatNumber(this.value,'es','1.2') ;
-          //   }
-          // }
-        },
-        // plotOptions: {
-        //   columnrange: {
-        //     dataLabels: {
-        //       enabled: true,
-        //       // format: '{y} VES',
-        //       formatter: function () {
-        //       console.log(this.y);
+          yAxis: {
+            title: {
+              text: 'Denominacion'
+            },
+          },
 
-        //         return formatNumber(this.y,'es','1.2');
-        //      }
-        //     }
-        //   }
-        // },
 
-        tooltip: {
-          formatter: function () {
-            let tooltip = '<b>' +this.point.category + '</b><br/>' +
-            'Disponibilidad: ' + formatNumber(this.point.y,'es','1.2');
-            console.log(tooltip);
-            
-            return tooltip;
-          }
-        },
-      } as Highcharts.ChartOptions;
+          tooltip: {
+            formatter: function () {
+              
+              let tooltip = '<b>' + this.point.category + '</b><br/>' +
+                '<b>Cantidad:</b> ' + formatNumber(this.point.y, 'es', '1.2')+'<br/>'+
+                '<b>Monto:</b> ' + formatNumber(this.point.y* this.point.category.split(' ')[1], 'es', '1.2');
+              // console.log(tooltip);
+
+              return tooltip;
+            }
+          },
+        } as Highcharts.ChartOptions;
+
+      }
 
 
       // console.log(this.data);

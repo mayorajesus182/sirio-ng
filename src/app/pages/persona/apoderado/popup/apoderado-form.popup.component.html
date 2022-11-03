@@ -18,7 +18,14 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
          
-      <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew"
+        <div fxFlex.gt-sm="30" class="text-right margin-top-md">
+            <mat-slide-toggle [color]="'primary'" formControlName="activo" name="activo">
+              {{'¿Es Principal?' }}
+            </mat-slide-toggle>
+        </div>
+      
+      
+        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew"
           formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
           [errors]="f.tipoDocumento?.errors">
       </sirio-select-search>

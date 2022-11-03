@@ -143,12 +143,12 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.f.serialCheque.reset();
                             this.f.montoCheque.reset(0);
                             this.f.monto.reset(0);
-                            this.f.fechaEmision.reset();
-                            this.f.codSeguridad.reset();
+                            //this.f.fechaEmision.reset();
+                            //this.f.codSeguridad.reset();
                             this.f.identificacionBeneficiario.reset();
                             this.f.email.reset();
                             this.tipoDocumentos.next([]);
-                            this.f.telefono.reset();
+                           // this.f.telefono.reset();
                             this.f.tipoDocumentoBeneficiario.setValue(undefined)
                             this.cdr.detectChanges();
 
@@ -319,6 +319,22 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
         this.conoActual = [];
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
+
+    }
+    resetInfoFinance() {
+        this.f.numeroCuenta.reset();
+        this.f.montoCheque.reset({});         
+        this.f.monto.reset({});  
+        this.f.serialCheque.reset();  
+        this.tipoDocumentos.next([]);         
+    }
+    
+    
+    resetInfobeneficiary(){
+      
+        this.f.email.setValue('');
+        this.tipoDocumentos.next([]);
+        this.f.identificacionBeneficiario.reset();
 
     }
 }
