@@ -71,7 +71,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (isOpen) {
+            if (!isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
