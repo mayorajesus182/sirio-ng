@@ -62,8 +62,6 @@
 
                             </div>
 
-
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <sirio-select-search fxFlex="50" [label]="'carrierCompany.zone' | translate: {default: 'global.zone'} | translate"
@@ -97,8 +95,6 @@
     
                             </div>
 
-
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <sirio-select-search fxFlex="30" [label]="'carrierCompany.parish' | translate: {default: 'global.parish'} | translate"
@@ -122,7 +118,7 @@
     
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <mat-form-field fxFlex="70">
-                                    <mat-label>{{'carrierCompany.direction' | translate: {default: 'global.direction'} | translate }} </mat-label>
+                                    <mat-label>{{'carrierCompany.address' | translate: {default: 'global.address'} | translate }} </mat-label>
                                     <input matInput maxlength="200" autocomplete="off" name="direccion" formControlName="direccion" uppercase required>
                                     <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}} </mat-error>
                                     <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
@@ -155,7 +151,13 @@
                                     <mat-error *ngIf="f.longitud.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.longitud.errors?.max">Debe ser menor que 999,99999999</mat-error>
                                 </mat-form-field> 
+                            </div>
 
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <sirio-select-search fxFlex="100" [label]="'carrierCompany.statesProvidesServices' | translate: {default: 'global.statesProvidesServices'} | translate"
+                                    formControlName="jurisdiccion" [required]="true" [elements]="estados.asObservable()" [attributeName]="'nombre'"
+                                    [multiple] = "true" [errors]="f.jurisdiccion?.errors">
+                                </sirio-select-search>
                             </div>
 
                         </form>

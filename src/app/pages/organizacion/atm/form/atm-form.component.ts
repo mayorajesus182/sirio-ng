@@ -128,6 +128,8 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
         this.f.tipoAtm.valueChanges.subscribe(value => {
             this.f.agencia.setValue(undefined);
             this.f.transportista.setValue(undefined);
+            this.f.agencia.setErrors(undefined);
+            this.f.transportista.setErrors(undefined);
             this.cdr.detectChanges();
         });
 
