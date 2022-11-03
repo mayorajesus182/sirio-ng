@@ -8,6 +8,11 @@ const personaRoutes: Routes = [
         data: { title: 'Persona Natural' },
         loadChildren: () => import('./natural/natural.module').then(m => m.NaturalModule),
     },
+    {
+        path: 'juridica',
+        data: { title: 'Persona Jurídica' },
+        loadChildren: () => import('./juridico/juridico.module').then(m => m.JuridicoModule),
+    },
 
 ];
 

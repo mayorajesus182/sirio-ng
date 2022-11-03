@@ -78,13 +78,29 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
-        this.search.tipoDocumento.valueChanges.subscribe(val => {
-            this.persona = {} as Persona;
-            this.search.identificacion.setValue('');
-            this.search.identificacion.setErrors(null);
+        // this.search.tipoDocumento.valueChanges.subscribe(val => {
+        //     this.persona = {} as Persona;
+        //     this.search.identificacion.setValue('');
+        //     this.search.identificacion.setErrors(null);
 
-        });
+        // });
+        
+        // // this.search.identificacion.valueChanges.subscribe(val=>{
+        // //     if(val && val.trim().length > 0){
+        // //         this.search.cuenta.disable();
+        // //     }else{
+        // //         this.search.cuenta.enable();
+        // //     }
+        // // })
 
+
+        this.search.cuenta.valueChanges.subscribe(val=>{
+            if(val && val.trim().length > 0){
+                this.search.identificacion.disable();
+            }else{
+                this.search.identificacion.enable();
+            }
+        })
 
     }
 

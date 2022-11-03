@@ -60,4 +60,38 @@ h2 {
   
 }
 
+.text-success{
+  color: $color-success;
+}
+
+.mat-expansion-panel-header {
+  .mat-content {
+      overflow: inherit;
+  }
+}
+
+.expansion-headers-align {
+  flex-basis: 0;
+  .mat-expansion-panel-header-title {
+      max-width: 93.5%;
+  }
+  .mat-expansion-panel-header-description {
+      justify-content: space-between;
+      align-items: center;
+      display: contents;
+  }
+}
+
+@media (max-width: 1370) {
+  .expansion-headers-align {
+      .mat-expansion-panel-header-title {
+          max-width: 125px !important;
+      }
+      .mat-expansion-panel-header-description {
+          font-size: 14px !important;
+      }
+  }
+}
+
+
 

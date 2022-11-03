@@ -22,15 +22,15 @@
 
                 <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
-                    <input matInput maxlength="15" minlength="1" autocomplete="off" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
+                    <input matInput maxlength="15" minlength="1" autocomplete="off" [disabled]="search.cuenta.value && search.cuenta.value.length > 0" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
                         formControlName="identificacion">
 
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
                         translate}}
                     </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe!
+                    <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe
                     </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido!
+                    <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
                     </mat-error>
                     <!-- {{search.tipoDocumento.errors| json}} -->
                 </mat-form-field>
@@ -38,11 +38,11 @@
 
                 <mat-form-field fxFlex="20" *ngIf="taquilla">
                     <mat-label>{{'global.accountNumber' | translate }} </mat-label>
-                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" num-account-validate
+                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" [disabled]="search.identificacion.value && search.identificacion.value.length > 0" name="cuenta" num-account-validate
                     formControlName="cuenta" (keyup.enter)="queryByAccount()" mask="0000 0000 00 00 00000000">
-                    <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe!
+                    <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe
                     </mat-error>
-                    <mat-error *ngIf="search.cuenta.errors?.account">Debe indicar una cuenta válida!
+                    <mat-error *ngIf="search.cuenta.errors?.account">Debe indicar una cuenta válida
                     </mat-error>
                 </mat-form-field>
 

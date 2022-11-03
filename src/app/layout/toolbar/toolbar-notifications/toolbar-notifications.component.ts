@@ -24,10 +24,10 @@ export class ToolbarNotificationsComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    
+    this.cdr.markForCheck();
     this.workflowService.pendingQuantity().subscribe(data => {
       this.total = data;
-      this.cdr.detectChanges();
     });
   }
 

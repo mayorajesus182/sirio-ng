@@ -119,11 +119,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 // })
 
 
-                // this.f.efectivo.valueChanges.subscribe(val => {
-                //     if (val) {
-                //         this.calculateDifferences();
-                //     }
-                // })
+                this.f.efectivo.valueChanges.subscribe(val => {
+                    if (val) {
+                        this.calculateDifferences();
+                    }
+                })
 
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
@@ -131,19 +131,19 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     }
                 })
 
-                this.f.chequePropio.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
-                        this.calculateDifferences();
-                    }
-                })
+                // this.f.chequePropio.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
+                //         this.calculateDifferences();
+                //     }
+                // })
 
-                this.f.chequeOtros.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
-                        this.calculateDifferences();
-                    }
-                })
+                // this.f.chequeOtros.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+                //         this.calculateDifferences();
+                //     }
+                // })
 
                 //TODO: Revisar
                 // this.f.cuentaBancaria.valueChanges.subscribe(val => {
@@ -240,8 +240,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
                     this.cdr.detectChanges();
                 });
-
-
             }
         });
 
@@ -262,30 +260,30 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
-        // (event?event.montoTotal:this.f.monto.value)
-        
-        if (valorEfectivo != (event?event.montoTotal:this.f.monto.value)) {   
+        // (event?event.montoTotal:this.f.monto.value)        
+        //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
+        if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
             this.f.monto.setErrors({
                 totalDifference: true
             });
+            this.f.monto.markAsDirty();
             this.f.efectivo.setErrors({
                 difference: true
             });
-            this.f.monto.setValue(event?event.montoTotal:this.f.monto.value);
-            this.f.monto.markAsDirty();
-            this.f.efectivo.markAsDirty();
+            // this.f.efectivo.markAsDirty();
+            if(event && event.montoTotal > 0){
+                this.f.monto.setValue(event.montoTotal);
+            }
+            // this.cdr.detectChanges();
             
         } else{
-            this.f.monto.setValue(event?event.montoTotal:this.f.monto.value);
+            
+            if(event && event.montoTotal > 0){
+                this.f.monto.setValue(event.montoTotal);
+            }
+            
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
-            // this.f.monto.updateValueAndValidity();
-            // this.f.efectivo.updateValueAndValidity();
-            // this.f.monto.clearValidators();
-            // this.f.efectivo.clearValidators();
-            // this.f.monto.clearValidators();
-
-            // this.cdr.detectChanges();
         }
     }
 
@@ -306,6 +304,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
             esEfectivo: new FormControl(true),
             esCheque: new FormControl(false),
+            esChequeMixto: new FormControl(false),
             tipoDocumentoDepositante: new FormControl('', Validators.required),
             identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
@@ -359,6 +358,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.esEfectivo.enable()
                 this.f.esCheque.enable()
                 this.f.esEfectivo.setValue(true);
+                this.f.esCheque.setValue(false);
                 this.cdr.detectChanges();
             }
         })
@@ -441,12 +441,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     delete(row) {
         this.swalService.show('¿Desea Eliminar El Cheque?', '').then((resp) => {
             if (!resp.dismiss) {
-
                 this.chequeList.forEach((e, index) => {
                     if (e.serial + e.numeroCuentaCheque === row.serial + row.numeroCuentaCheque) {
                         this.chequeList.splice(index, 1);
                         this.cheques.next(this.chequeList.slice());
-
 
                         if (this.sessionService.getUser().organizationId === row.numeroCuentaCheque.substring(0, 4)) {
                             this.sumMontoChequePropio -= row.montoCheque;
@@ -492,13 +490,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.loaded$.next(false);
                 this.persona = {} as Persona;
                 this.cuentaOperacion = undefined;
-                // this.itemForm.reset({});
                 this.loading.next(false);
                 this.cdr.detectChanges();
             } else {
                 if (data.moneda) {
                     this.cuentaOperacion = data;
-                    console.log("Pruebaaaaaaaaaaa 2222222", this.cuentaOperacion);
                     this.moneda.id = this.cuentaOperacion.moneda;
                     this.moneda.nombre = this.cuentaOperacion.monedaNombre;
                     this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
@@ -509,9 +505,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.loading.next(true);
                 } else {
 
-                    this.persona = data;
-                    console.log("Pruebaaaaaaaaaaa", this.persona);
-                    
+                    this.persona = data;                    
                     this.cuentaOperacion = undefined;
                     this.moneda.siglas = undefined;
                     this.f.identificacion.setValue(this.persona.identificacion);
@@ -524,7 +518,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                             this.f.cuentaBancaria.setValue(data[0].id);
                         }
                     });
-
                 }
             }
         }
@@ -570,12 +563,13 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     resetInfoFinance() {
         this.f.cuentaBancaria.setValue(undefined);
-        // this.moneda.nombre = undefined;
         this.moneda.siglas = undefined;
         this.f.efectivo.setValue(undefined);
-        this.f.esEfectivo.disable()
+        this.f.esEfectivo.disable();
+        this.f.esCheque.disable();
         this.f.monto.setValue(undefined);
         this.f.esEfectivo.setValue(false);
+        this.f.escheque.setValue(false);
         this.f.esCheque.setValue('');
         this.f.conLibreta.setValue('');
         this.f.conMovimiento.setValue('');
@@ -605,9 +599,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.deposito);
-
         let montoFormat = formatNumber(this.deposito.monto, 'es', '1.2');
-
         this.swalService.show('¿Desea Realizar el Deposito?', undefined, 
         {'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.moneda.siglas+'</b>'} 
         ).then((resp) => {
@@ -622,12 +614,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
-                //this.cleanScreen();
                 this.router.navigate(['/sirio/welcome']).then(data => { });
             }
         })
-
-
     }
 }
 
