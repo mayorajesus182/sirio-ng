@@ -117,9 +117,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     // cargando el arbol de permisos
     const dashboardItem = {
-      label: 'MENU',
+      label: 'MENÚ',
       type: 'subheading',
-      customClass: 'first-subheading'
+      customClass: 'first-subheading text-menu'
     } as SidenavItem;
 
     menuItems.push(dashboardItem);

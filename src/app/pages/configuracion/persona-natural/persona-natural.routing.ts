@@ -5,11 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 const personaNaturalRoutes: Routes = [
 
     {
-        path: 'cargo',
-        data: { title: 'Cargo' },
-        loadChildren: () => import('./cargo/cargo.module').then(m => m.CargoModule),
-    },
-    {
         path: 'genero',
         data: { title: 'Genéro' },
         loadChildren: () => import('./genero/genero.module').then(m => m.GeneroModule),
