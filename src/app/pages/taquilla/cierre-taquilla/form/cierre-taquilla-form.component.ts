@@ -42,7 +42,7 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
 
         this.loadingDataForm.next(false);
 
-        this.saldoTaquillaService.all().subscribe(data => {
+        this.saldoTaquillaService.allWithMovements().subscribe(data => {
             this.saldos.next(data);
         });
     }
