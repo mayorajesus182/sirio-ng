@@ -34,8 +34,6 @@
                     </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
                     </mat-error>
-                    {{search.cuenta.value | json}}
-                    {{search.identificacion.value | json}}
                 </mat-form-field>
                 
                 <!-- [attr.disabled]="search.identificacion.value && search.identificacion.value.length > 0" -->
