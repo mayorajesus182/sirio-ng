@@ -10,6 +10,7 @@ export interface Persona{
     numper: string;
     tipoDocumento: string;
     identificacion?: string;
+    email?: string;
 }
 
 @Injectable({

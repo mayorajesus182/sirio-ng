@@ -162,18 +162,30 @@
                                 <sirio-card-content fxLayout="column">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <mat-form-field fxFlex.gt-sm="auto">
+                                        <mat-form-field fxFlex.gt-sm="auto" *ngIf="!cuentaBancariaOperacion">
                                             <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
                                                 translate
                                                 }}
                                             </mat-label>
-                                            <input matInput name="email" autocomplete="off" email-validate name="email"
-                                                formControlName="email" placeholder="" [required]="true">
-                                            <mat-error *ngIf="f.email.errors?.email">Email es inválido</mat-error>
-                                            <mat-error *ngIf="f.email.errors?.required">{{'error.required'
-                                                | translate}}</mat-error>
+                                            <input matInput autocomplete="off"
+                                               [(ngModel)]="persona.email" [ngModelOptions]="{standalone: true}" readonly 
+                                               [required]="!cuentaBancariaOperacion">                                            
+                                        </mat-form-field>
+                                        
+                                       
+                                        <mat-form-field fxFlex.gt-sm="auto" *ngIf="cuentaBancariaOperacion">
+                                            <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
+                                                translate
+                                                }}
+                                            </mat-label>
+                                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.email"
+                                            [required]="cuentaBancariaOperacion"
+                                            [ngModelOptions]="{standalone: true}" readonly name="email"
+                                            class="text-left">
+                                         
                                         </mat-form-field>
 
+                                    </div>
                                         <!-- 
                                 <mat-form-field fxFlex.gt-sm="auto">
                                     <mat-label>{{'withdrawal.sms' | translate: {default: 'global.sms'} | translate }}
@@ -182,8 +194,7 @@
                                         placeholder="" [required]="!f.email.value">
                                     <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                </mat-form-field> -->
-                                    </div>
+                                </mat-form-field> -->                    
 
                                 </sirio-card-content>
 

@@ -149,7 +149,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             moneda: new FormControl(''),
             tipoProducto: new FormControl(''),
             totalRetiro: new FormControl(''),
-            email: new FormControl(undefined),
+            email: new FormControl(''),
             cuentaBancaria: new FormControl(undefined),
         });
 
@@ -184,8 +184,11 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         }
         this.detalleEfectivo = event.montoTotal;
 
-        this.f.monto.setValue(event.montoTotal);
+        //console.log('montototal ', this.detalleEfectivo)
 
+       this.f.monto.setValue(event.montoTotal);  
+     
+       
 
         if (this.f.monto.value != this.detalleEfectivo) {
             this.itemForm.controls['monto'].setErrors({
@@ -275,6 +278,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.f.numeroCuenta.setValue(this.cuentaBancariaOperacion.numeroCuenta);
                 this.f.identificacion.setValue(this.cuentaBancariaOperacion.identificacion)
                 this.persona.nombre = this.cuentaBancariaOperacion.nombre;
+                this.f.email.setValue(this.cuentaBancariaOperacion.email);
+
+                
                 console.log("DATAcuentaBancaria", data);
 
             } else {
@@ -282,6 +288,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.persona = data;
                 this.cuentaBancariaOperacion = undefined;
                 this.f.identificacion.setValue(this.persona.identificacion)
+                this.f.email.setValue(this.persona.email);
+                
+
                 console.log("DATAPersona", data);
 
                 //lista de las cuentas bancarias de la persona
