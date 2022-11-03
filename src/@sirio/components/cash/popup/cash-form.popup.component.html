@@ -41,7 +41,7 @@
 
     </div>
   </div>
-  <sirio-cash-detail [preferencia]="preferencia" [cono_actual]="valuesCono1" [cono_anterior]="valuesCono2" [moneda]="moneda.id"
+  <sirio-cash-detail [preferencia]="preferencia" [cono_actual]="valuesCono1" [cono_anterior]="valuesCono2" [moneda]="moneda"
     (cono_actual_update)="updateConoActual($event)" (cono_anterior_update)="updateConoAnterior($event)" [total]="total" labelPrefix="Bs."></sirio-cash-detail>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
