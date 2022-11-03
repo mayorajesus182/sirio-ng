@@ -4,9 +4,9 @@
             <!-- TODO: SE DEBE HACER LA INTERNACIONALIZACION -->
             <h3>Cono Actual ({{label_cono_actual}}) </h3>
             <div fxLayout="row wrap">
-
+                <!-- {{label ||labelPrefix || ''}} -->
                 <mat-form-field *ngFor="let item of listConoActual | async" fxFlex="100">
-                    <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
+                    <mat-label>{{item.denominacion | number:'1.2-2'}}  {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
                     </mat-label>
                     <input matInput class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number" (blur)="onChangeConoActual(item)" />
                 </mat-form-field>

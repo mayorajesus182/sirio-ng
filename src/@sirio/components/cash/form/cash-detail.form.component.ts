@@ -4,6 +4,7 @@ import {
 } from "@angular/core";
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { ConoMonetario, ConoMonetarioService } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
+import { Moneda } from "src/@sirio/domain/services/configuracion/divisa/moneda.service";
 import { Preferencia, PreferenciaService } from "src/@sirio/domain/services/preferencias/preferencia.service";
 import { SweetAlertService } from "src/@sirio/services/swal.service";
 
@@ -22,7 +23,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
     @Input() label: string;
     @Input() labelPrefix: string;
     @Input() total: number;
-    @Input() moneda: string;
+    @Input() moneda: Moneda;
     public label_cono_actual: string = 'VES';
     public label_cono_anterior: string = 'VES';
     @Input() width_column: string = '24';
@@ -66,9 +67,10 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             console.log('PREFERENCIA: ', data);
 
             if (data.monedaConoActual) {
-                this.label_cono_actual = this.moneda == data.monedaConoActual ? data.monedaSiglasConoActual : this.moneda;
+                this.label_cono_actual = this.moneda.id == data.monedaConoActual ? data.monedaSiglasConoActual : this.moneda.siglas;
+                let monedaId = this.moneda.id == data.monedaConoActual ? data.monedaConoActual : this.moneda.id;
                 this.label_cono_anterior = data.monedaSiglasConoAnterior || '';
-                this.conoService.activesByMoneda(data.monedaConoActual).subscribe(data => {
+                this.conoService.activesByMoneda(monedaId).subscribe(data => {
 
                     if (this.cono_actual) {
                         data.map(c => {
@@ -82,7 +84,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                     }
                     this.listConoActual.next(data);
                 });
-                if (this.moneda == data.monedaConoActual) {
+                if (this.moneda.id == data.monedaConoActual) {
 
                     this.conoService.activesByMoneda(data.monedaConoAnterior).subscribe(data => {
 

@@ -55,10 +55,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
 
-        this.cdref.detectChanges();
     }
-
+    
     ngOnInit(): void {
+        
 
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
@@ -78,29 +78,32 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
-        // this.search.tipoDocumento.valueChanges.subscribe(val => {
-        //     this.persona = {} as Persona;
-        //     this.search.identificacion.setValue('');
-        //     this.search.identificacion.setErrors(null);
-
-        // });
-        
-        // // this.search.identificacion.valueChanges.subscribe(val=>{
-        // //     if(val && val.trim().length > 0){
-        // //         this.search.cuenta.disable();
-        // //     }else{
-        // //         this.search.cuenta.enable();
-        // //     }
-        // // })
-
-
-        this.search.cuenta.valueChanges.subscribe(val=>{
-            if(val && val.trim().length > 0){
-                this.search.identificacion.disable();
-            }else{
-                this.search.identificacion.enable();
+            
+        this.search.identificacion.valueChanges.subscribe(val=>{
+            
+            if(val && val.trim().length > 0 &&  !this.searchForm.controls['cuenta'].disabled){
+                
+                this.searchForm.controls['cuenta'].disable();      
+            }else if(val.trim().length ==0 && this.searchForm.controls['cuenta'].disabled){
+                this.searchForm.controls['cuenta'].enable();      
+                
             }
+            // this.cdref.detectChanges();
         })
+        
+        
+        this.search.cuenta.valueChanges.subscribe(val=>{
+            if(val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled){
+                this.searchForm.controls['identificacion'].disable();                
+                // this.searchForm.controls['tipoDocumento'].disable();                
+            }else if(val.trim().length ==0 && this.searchForm.controls['identificacion'].disabled){
+                this.searchForm.controls['identificacion'].enable();                
+                // this.searchForm.controls['tipoDocumento'].enable();                
+             
+            }
+        });
+
+        this.cdref.markForCheck();
 
     }
 
