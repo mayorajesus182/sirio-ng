@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class TaquillaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['nombre', 'usuario_id', 'activo', 'actions'];
+  displayedColumns = ['nombre', 'usuario_id','abierta', 'activo', 'actions'];
 
   constructor(
     injector: Injector,
@@ -58,12 +58,15 @@ export class TaquillaTableComponent extends TableBaseComponent implements OnInit
   // TODO: REVISAR ETIQUETAS
   open(data: any) {
 
+    console.log(data);
+    
+
     this.swalService.show('¿Desea Abrir La Taquilla Para La Jornada De Hoy?', undefined, { 'html': data.element.nombre + '<br/> Asignada a: ' + data.element.usuario }).then((resp) => {
       if (!resp.dismiss) {
 
-        this.taquillaService.open(data.element.id).subscribe(data => {
+        this.taquillaService.open(data.element.id).subscribe(result => {
           this.snack.show({ message: 'Taquilla Abierta Para La Jornada!', verticalPosition: 'bottom' });
-          data.element.abierta = true;
+          data.element.abierta = 1;
           this.cdr.detectChanges();
         });
       }
