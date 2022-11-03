@@ -75,7 +75,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (isOpen) {
+            if (!isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
@@ -261,6 +261,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
         // (event?event.montoTotal:this.f.monto.value)
+        console.log(' event ',event);
+        console.log(' valor  ',valorEfectivo);
+        console.log(' comparacion ',valorEfectivo != (event?event.montoTotal:this.f.monto.value));
+        
         
         if (valorEfectivo != (event?event.montoTotal:this.f.monto.value)) {   
             this.f.monto.setErrors({
@@ -271,11 +275,17 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 difference: true
             });
             this.f.efectivo.markAsDirty();
-            this.f.monto.setValue(event?event.montoTotal:this.f.monto.value);
+            if(event){
+                this.f.monto.setValue(event.montoTotal);
+            }
             // this.cdr.detectChanges();
             
         } else{
-            this.f.monto.setValue(event?event.montoTotal:this.f.monto.value);
+            
+            if(event){
+                this.f.monto.setValue(event.montoTotal);
+            }
+            
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
             // this.f.monto.updateValueAndValidity();

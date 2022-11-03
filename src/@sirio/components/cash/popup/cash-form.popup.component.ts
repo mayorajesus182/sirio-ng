@@ -58,6 +58,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
     this.updateConoActual([]);
     this.updateConoAnterior([]);
+    console.log(this.defaults);
+    
     this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
