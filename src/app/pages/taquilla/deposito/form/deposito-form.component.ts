@@ -265,8 +265,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         console.log(' valor  ',valorEfectivo);
         console.log(' comparacion ',valorEfectivo != (event?event.montoTotal:this.f.monto.value));
         
-        
-        if (valorEfectivo != (event?event.montoTotal:this.f.monto.value)) {   
+        // (event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
+        if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
             this.f.monto.setErrors({
                 totalDifference: true
             });
@@ -275,14 +275,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 difference: true
             });
             this.f.efectivo.markAsDirty();
-            if(event){
+            if(event && event.montoTotal > 0){
                 this.f.monto.setValue(event.montoTotal);
             }
             // this.cdr.detectChanges();
             
         } else{
             
-            if(event){
+            if(event && event.montoTotal > 0){
                 this.f.monto.setValue(event.montoTotal);
             }
             

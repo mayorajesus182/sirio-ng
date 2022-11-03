@@ -4,6 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 const personaJuridicaRoutes: Routes = [
 
+
+    {
+        path: 'cargo',
+        data: { title: 'Cargo' },
+        loadChildren: () => import('./cargo/cargo.module').then(m => m.CargoModule),
+    },
     {
         path: 'ramo',
         data: { title: 'Ramo' },

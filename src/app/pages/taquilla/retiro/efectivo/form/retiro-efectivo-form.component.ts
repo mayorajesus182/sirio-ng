@@ -71,7 +71,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            if (isOpen) {
+            if (!isOpen) {
                 this.router.navigate(['/sirio/welcome']);
                 this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) { }
@@ -107,32 +107,69 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     }
 
 
-    calculateDifferences() {
+    // calculateDifferences() {
 
-        this.f.numeroCuenta.enable()
+    //     this.f.numeroCuenta.enable()
 
 
-        if (this.f.monto.value != this.detalleEfectivo) {
-            this.itemForm.controls['monto'].setErrors({
+    //     if (this.f.monto.value != this.detalleEfectivo) {
+    //         this.itemForm.controls['monto'].setErrors({
+    //             difference: true
+    //         });
+    //         this.cdr.detectChanges();
+    //     } else {
+    //         this.f.monto.setErrors(undefined);
+    //     }
+
+    //     if (this.f.monto.value != this.f.totalRetiro.value) {
+    //         this.itemForm.controls['totalRetiro'].setErrors({
+    //             differenceMonto: true
+    //         });
+    //         this.itemForm.controls['monto'].setErrors({
+    //             required: true
+    //         });
+    //         this.cdr.detectChanges();
+    //     } else {
+    //         this.f.totalRetiro.setErrors(undefined);
+    //     }
+    // }
+
+    calculateDifferences(event?:any) {
+
+        let valorEfectivo = this.f.monto.value > 0 ? this.f.monto.value : 0;
+        // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
+        // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
+        // (event?event.montoTotal:this.f.monto.value)
+        console.log(' event ',event);
+        console.log(' valor  ',valorEfectivo);
+        console.log(' comparacion ',valorEfectivo != (event?event.montoTotal:this.f.totalRetiro.value));
+        
+        
+        if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)) {
+            this.f.totalRetiro.setErrors({
+                totalDifference: true
+            });
+            this.f.totalRetiro.markAsDirty();
+            this.f.monto.setErrors({
                 difference: true
             });
-            this.cdr.detectChanges();
-        } else {
+            this.f.monto.markAsDirty();
+            if(event && event.montoTotal > 0){
+                this.f.totalRetiro.setValue(event.montoTotal);
+            }
+            // this.cdr.detectChanges();
+            
+        } else{
+            
+            if(event && event.montoTotal > 0){
+                this.f.totalRetiro.setValue(event.montoTotal);
+            }
+            
+            this.f.totalRetiro.setErrors(undefined);
             this.f.monto.setErrors(undefined);
         }
-
-        if (this.f.monto.value != this.f.totalRetiro.value) {
-            this.itemForm.controls['totalRetiro'].setErrors({
-                differenceMonto: true
-            });
-            this.itemForm.controls['monto'].setErrors({
-                required: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.totalRetiro.setErrors(undefined);
-        }
     }
+
 
 
 
@@ -148,7 +185,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             cuenta: new FormControl(undefined),
             moneda: new FormControl(''),
             tipoProducto: new FormControl(''),
-            totalRetiro: new FormControl(''),
+            totalRetiro: new FormControl(undefined),
             email: new FormControl(undefined),
             cuentaBancaria: new FormControl(undefined),
         });
@@ -182,19 +219,20 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         if (!event) {
             return;
         }
-        this.detalleEfectivo = event.montoTotal;
+        // this.detalleEfectivo = event.montoTotal;
 
-        this.f.monto.setValue(event.montoTotal);
+        this.calculateDifferences(event);
+        // this.f.monto.setValue(event.montoTotal);
 
 
-        if (this.f.monto.value != this.detalleEfectivo) {
-            this.itemForm.controls['monto'].setErrors({
-                difference: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.monto.setErrors(undefined);
-        }
+        // if (this.f.monto.value != this.detalleEfectivo) {
+        //     this.itemForm.controls['monto'].setErrors({
+        //         difference: true
+        //     });
+        //     this.cdr.detectChanges();
+        // } else {
+        //     this.f.monto.setErrors(undefined);
+        // }
 
 
         this.conoActual = event.desgloseConoActual;
