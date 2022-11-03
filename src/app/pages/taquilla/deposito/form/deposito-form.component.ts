@@ -260,12 +260,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
-        // (event?event.montoTotal:this.f.monto.value)
-        console.log(' event ',event);
-        console.log(' valor  ',valorEfectivo);
-        console.log(' comparacion ',valorEfectivo != (event?event.montoTotal:this.f.monto.value));
-        
-        
+        // (event?event.montoTotal:this.f.monto.value)        
         if (valorEfectivo != (event?event.montoTotal:this.f.monto.value)) {   
             this.f.monto.setErrors({
                 totalDifference: true
@@ -274,7 +269,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             this.f.efectivo.setErrors({
                 difference: true
             });
-            this.f.efectivo.markAsDirty();
+            // this.f.efectivo.markAsDirty();
             if(event){
                 this.f.monto.setValue(event.montoTotal);
             }
@@ -288,13 +283,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
-            // this.f.monto.updateValueAndValidity();
-            // this.f.efectivo.updateValueAndValidity();
-            // this.f.monto.clearValidators();
-            // this.f.efectivo.clearValidators();
-            // this.f.monto.clearValidators();
-
-            // this.cdr.detectChanges();
         }
     }
 
