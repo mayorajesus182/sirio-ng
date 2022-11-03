@@ -63,6 +63,7 @@
                     </div> -->
 
                     <form [formGroup]="itemForm" *ngIf="itemForm">
+                    <!-- <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm"> -->
 
 
                         <!-- primera Fila del Formulario  Nota: Borrar este comentario al Final -->
@@ -87,7 +88,7 @@
                             <sirio-card-content fxLayout="column">
                               <div fxLayoutGap.gt-sm="10px">
                                <mat-form-field fxFlex.gt-sm="25">
-                                    <mat-label>{{'checkPayments.checkAccount' | translate: {default: 'global.checkAccount'} |
+                                    <mat-label>{{'checkPayments.accountNumber' | translate: {default: 'global.accountNumber'} |
                                         translate }}
                                     </mat-label>
                                     <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
@@ -126,8 +127,7 @@
                                     <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 99.999.999,99
                                     </mat-error>
                                     <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>
-                                    <mat-error *ngIf="f.montoCheque.errors?.differenceMonto">existe diferencia con el
-                                        monto a retirar</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.differenceMonto">verifique monto del cheque</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="25">
@@ -139,7 +139,7 @@
                                     <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.difference">existe diferencia</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.difference">verifique monto</mat-error>
                                 </mat-form-field>
 
                                  <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
@@ -226,7 +226,7 @@
                                         </mat-label>
                                         <input matInput name="email" autocomplete="off" email-validate name="email"
                                             formControlName="email" placeholder="" [required]="true">
-                                        <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+                                        <mat-error *ngIf="f.email.errors?.email">Email es inválido</mat-error>
                                         <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                             | translate}}</mat-error>
                                     </mat-form-field>  
@@ -234,17 +234,20 @@
                             </sirio-card-content>
                         </sirio-card>                          
                     </div>
+                <!-- </div>   -->
                 </form>
                   <!--  {{printErrors() | json}} -->
                 </sirio-card-content>
-
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid ">
-                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
-
                     </div>
                 </mat-toolbar>
 
