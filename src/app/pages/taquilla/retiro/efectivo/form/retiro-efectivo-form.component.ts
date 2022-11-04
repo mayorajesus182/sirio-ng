@@ -400,8 +400,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.f.totalRetiro.reset({});
         this.f.email.setValue('');
         this.cuentasBancarias.next([]);
+        this.cuentaBancariaOperacion = undefined;
         //this.f.numeroCuenta.reset();
-        this.cuentaBancariaOperacion.tipoProductoNombre = undefined;
+       // this.cuentaBancariaOperacion.tipoProductoNombre = undefined;
         this.conoActual = [];
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
