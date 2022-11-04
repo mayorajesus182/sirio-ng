@@ -192,7 +192,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
 
         this.f.cuenta.valueChanges.subscribe(val => {
-            console.log('cuenta seleccionada ', val);
+           // console.log('cuenta seleccionada ', val);
 
             if (val && val != '') {
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
