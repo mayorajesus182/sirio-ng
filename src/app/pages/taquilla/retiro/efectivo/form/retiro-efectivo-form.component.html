@@ -108,7 +108,7 @@
                                         </mat-form-field>
 
 
-                                        <sirio-cash-button [moneda]="moneda" [total]="f.monto.value" class="margin-top-md"
+                                        <sirio-cash-button [moneda]="moneda" [total]="f.monto.value" class="margin-top-sm"
                                             [disabled]="f.cuenta.value <= 0 || f.monto.value <= 0 " (update)="updateCashDetail($event)"
                                             [cono_actual]="conoActual" [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
