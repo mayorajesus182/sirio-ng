@@ -21,11 +21,10 @@ import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/pers
 import { Cheque, Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { InformacionDepositanteFormComponent } from "../informacion-depositante/informacion-depositante-form.component";
 @Component({
-    selector: 'app-deposito-form',
-    templateUrl: './deposito-form.component.html',
-    styleUrls: ['./deposito-form.component.scss'],
+    selector: 'app-deposito-mixto-form',
+    templateUrl: './deposito-mixto-form.component.html',
+    styleUrls: ['./deposito-mixto-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation],
 })
