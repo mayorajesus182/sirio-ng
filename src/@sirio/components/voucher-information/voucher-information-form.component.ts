@@ -18,17 +18,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 })
 
 export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
-    itemForm: FormGroup;
+    voucher: FormGroup;
     isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
-    @Input() tipo_persona: string;
     // @Input() taquilla: boolean = false;
     @Input() disabled: boolean = false;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     @Output('update') update: EventEmitter<any> = new EventEmitter<any>();
     @Output('create') create: EventEmitter<any> = new EventEmitter<any>();
-
-
 
     public tiposDocumentoNaturales = new BehaviorSubject<TipoDocumento[]>([]);
     deposito: Deposito = {} as Deposito;
@@ -56,7 +53,7 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
             this.tiposDocumentoNaturales.next(data);
         });
 
-        this.itemForm = this.fb.group({
+        this.voucher = this.fb.group({
             tipoDocumentoDepositante: new FormControl('', Validators.required),
             identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
@@ -65,6 +62,17 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
         });
 
 
+    }
+
+    // add() {
+    //     // console.log('crear persona ', this.searchForm.value);
+
+    //     this.create.emit(this.voucher.value);
+    // }
+
+    resetAll() {
+        this.voucher.reset({});
+        this.result.emit({});
     }
 
 }
