@@ -84,7 +84,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             if(val && val.trim().length > 0 &&  !this.searchForm.controls['cuenta'].disabled){
                 
                 this.searchForm.controls['cuenta'].disable();      
-            }else if(val.trim().length ==0 && this.searchForm.controls['cuenta'].disabled){
+            }else if((!val || val.trim().length ==0) && this.searchForm.controls['cuenta'].disabled){
                 this.searchForm.controls['cuenta'].enable();      
                 
             }
@@ -96,7 +96,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             if(val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled){
                 this.searchForm.controls['identificacion'].disable();                
                 // this.searchForm.controls['tipoDocumento'].disable();                
-            }else if(val.trim().length ==0 && this.searchForm.controls['identificacion'].disabled){
+            }else if((!val || val.trim().length ==0) && this.searchForm.controls['identificacion'].disabled){
                 this.searchForm.controls['identificacion'].enable();                
                 // this.searchForm.controls['tipoDocumento'].enable();                
              

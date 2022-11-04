@@ -284,7 +284,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
 
     queryResult(data: any) {
-        console.log('event result ', data);
+        // console.log('event result ', data);
+        this.itemForm.reset({});
 
         if (!data.id && !data.numper) {
 
@@ -293,9 +294,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.cuentaBancariaOperacion = undefined;
             this.isNew = true;
             this.cuentasBancarias.next([]);
-            this.f.totalRetiro.reset(0);
-            this.f.monto.reset(0);
-            this.f.email.reset();
+            // this.f.totalRetiro.reset(0);
+            // this.f.monto.reset(0);
+            // this.f.email.reset();
             this.esRetiroEfectivo = false;
             this.conoActual = [];
             this.conoAnterior = [];
@@ -311,13 +312,14 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.moneda.id = this.cuentaBancariaOperacion.moneda;
                 this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
                 this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;               
+                this.f.cuenta.setValue(this.cuentaBancariaOperacion.id);
                 this.f.numeroCuenta.setValue(this.cuentaBancariaOperacion.numeroCuenta);
                 this.f.identificacion.setValue(this.cuentaBancariaOperacion.identificacion)
                 this.persona.nombre = this.cuentaBancariaOperacion.nombre;
                 this.f.email.setValue(this.cuentaBancariaOperacion.email);
 
                 
-                console.log("DATAcuentaBancaria", data);
+                // console.log("DATAcuentaBancaria", data);
 
             } else {
                 this.esRetiroEfectivo = true;
@@ -327,7 +329,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.f.email.setValue(this.persona.email);
                 
 
-                console.log("DATAPersona", data);
+                // console.log("DATAPersona", data);
 
                 //lista de las cuentas bancarias de la persona
                 this.cuentaBancariaService.activesByPersona(this.persona.id).subscribe(data => {
