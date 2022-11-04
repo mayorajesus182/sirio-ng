@@ -15,7 +15,9 @@ export interface SaldoTaquilla {
     egreso: number;
     transito: number;
     saldo: number;
-    diferencia: number;
+    declarado: number;
+    ajuste?: number;
+    diferencia?: number;
     moneda: string;
     cerrado: any;
     detalleEfectivo: ConoMonetario[];

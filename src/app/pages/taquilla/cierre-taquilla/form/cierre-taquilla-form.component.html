@@ -43,7 +43,7 @@
                                     <mat-panel-description>
                                         <span class="margin-top-sm semi-bold margin-right-sm"> SALDO: {{item.saldo | number: '1.2'}}</span>
                                         <span class="margin-top-sm semi-bold">&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> DIFERENCIA: {{(item.diferencia == 0 ? item.diferencia-item.saldo : item.diferencia) | number: '1.2'}} </b>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> DECLARADO: {{item.declarado  | number: '1.2'}} </b>
                                         </span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
@@ -102,15 +102,15 @@
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="primary" (click)="save(item)" mat-raised-button>
+                                        <button color="primary" (click)="declare(item)" mat-raised-button>
                                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
                                             {{'button.save' | translate: {default:'global.notfound'} | translate }}
                                         </button>
                                     </div>
                                 </div>
+
          <!-- {{printErrors() | json}}  -->
                             </mat-expansion-panel>
-
                         </mat-accordion>
 
                         
