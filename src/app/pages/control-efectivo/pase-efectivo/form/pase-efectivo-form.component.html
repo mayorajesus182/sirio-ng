@@ -99,7 +99,7 @@
                                             <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible" autocomplete="off" matInput type="number"
                                                 (ngModelChange)="updateValuesErrors(item)" />
 
-                                                <mat-error *ngIf="cantidad.invalid">Cantidad máxima {{item.disponible}}</mat-error>
+                                                <mat-error *ngIf="cantidad.invalid">Cantidad máxima {{item.disponible | number:'1.2'}}</mat-error>
                                             <!-- <div *ngIf="cantidad.invalid"  class="help-block" style="color: #813838">Máximo {{item.disponible}}</div> -->
 
                                                 
