@@ -126,6 +126,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.loading.next(true);
 
         if (tipoDocumento && identificacion) {
+            
             this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
                 // console.log("result query:", data);
                 this.persona = data;
