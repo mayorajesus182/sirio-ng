@@ -40,21 +40,12 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   ngAfterViewInit(): void {
 
-    // this.valuesCono1.subscribe(data=>{
-    //   console.log(' change values cono 1', data);      
-    // })
-
-    // this.valuesCono2.subscribe(data=>{
-    //   console.log(' change values cono 2', data);      
-    // })
     this.cdref.markForCheck();
 
   }
 
   ngOnInit() {
 
-    // console.log(this.defaults.payload.desgloseConoActual);
-    // console.log(this.defaults.payload.desgloseConoAnterior);
 
     this.updateConoActual([]);
     this.updateConoAnterior([]);

@@ -23,6 +23,7 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
     @Input() tooltips: string = 'Desglosar Efectivo';
     @Input() moneda: Moneda;
     @Input() total: number;
+    @Input() operation: 'deposito'|'retiro'='deposito';
 
     @Input() disabled: boolean = false;
 
@@ -48,6 +49,9 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+
+        console.log('operartion ',this.operation);
+        
 
     }
 

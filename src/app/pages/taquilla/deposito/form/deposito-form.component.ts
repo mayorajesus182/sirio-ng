@@ -614,7 +614,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
-                this.router.navigate(['/sirio/welcome']).then(data => { });
+                this.loadingDataForm.subscribe(status=>{
+                    if(!status){
+                        this.router.navigate(['/sirio/welcome']).then(data => { });
+                    }
+                })
             }
         })
     }

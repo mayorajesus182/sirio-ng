@@ -28,6 +28,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
     public label_cono_anterior: string = 'VES';
     @Input() width_column: string = '24';
     @Input() readonly: boolean = false;
+    @Input() operation: 'retiro' | 'deposito' = 'deposito';
     @Input() cono_actual: ConoMonetario[] = [];
     @Input() cono_anterior: ConoMonetario[] = [];
     @Input() preferencia: BehaviorSubject<Preferencia> = new BehaviorSubject<Preferencia>(undefined);
@@ -64,45 +65,88 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             if (!data) {
                 return;
             }
-            console.log('PREFERENCIA: ', data);
+            // console.log('PREFERENCIA: ', data);
 
             if (data.monedaConoActual) {
                 this.label_cono_actual = this.moneda.id == data.monedaConoActual ? data.monedaSiglasConoActual : this.moneda.siglas;
                 let monedaId = this.moneda.id == data.monedaConoActual ? data.monedaConoActual : this.moneda.id;
                 this.label_cono_anterior = data.monedaSiglasConoAnterior || '';
-                this.conoService.activesByMoneda(monedaId).subscribe(data => {
 
-                    if (this.cono_actual) {
-                        data.map(c => {
-                            let index = this.cono_actual.findIndex(ca => ca.id == c.id);
-                            if (index >= 0) {
+                if (this.operation == 'deposito') {
+                    // en el caso que sea una operacion de deposito
+                    this.conoService.activesByMoneda(monedaId).subscribe(data => {
 
-                                c.cantidad = this.cono_actual[index].cantidad;
-                            }
-                            return c;
-                        })
-                    }
-                    this.listConoActual.next(data);
-                });
-                if (this.moneda.id == data.monedaConoActual) {
-
-                    this.conoService.activesByMoneda(data.monedaConoAnterior).subscribe(data => {
-
-
-                        if (this.cono_anterior) {
+                        if (this.cono_actual) {
                             data.map(c => {
-                                let index = this.cono_anterior.findIndex(ca => ca.id == c.id);
+                                let index = this.cono_actual.findIndex(ca => ca.id == c.id);
                                 if (index >= 0) {
 
-                                    c.cantidad = this.cono_anterior[index].cantidad;
+                                    c.cantidad = this.cono_actual[index].cantidad;
                                 }
                                 return c;
                             })
                         }
-
-                        this.listConoAnterior.next(data);
+                        this.listConoActual.next(data);
                     });
+                    if (this.moneda.id == data.monedaConoActual) {
+
+                        this.conoService.activesByMoneda(data.monedaConoAnterior).subscribe(data => {
+
+
+                            if (this.cono_anterior) {
+                                data.map(c => {
+                                    let index = this.cono_anterior.findIndex(ca => ca.id == c.id);
+                                    if (index >= 0) {
+
+                                        c.cantidad = this.cono_anterior[index].cantidad;
+                                    }
+                                    return c;
+                                })
+                            }
+
+                            this.listConoAnterior.next(data);
+                        });
+                    }
+
+                } else {
+                    // esto para el caso que la operacion es de retiro
+                    this.conoService.activesWithDisponibleSaldoTaquillaByMoneda(monedaId).subscribe(data => {
+
+                        if (this.cono_actual) {
+                            data.map(c => {
+                                let index = this.cono_actual.findIndex(ca => ca.id == c.id);
+                                if (index >= 0) {
+
+                                    c.cantidad = this.cono_actual[index].cantidad;
+                                }
+                                return c;
+                            })
+                        }
+                        this.listConoActual.next(data);
+                    });
+                    if (this.moneda.id == data.monedaConoActual) {
+
+                        this.conoService.activesWithDisponibleSaldoTaquillaByMoneda(data.monedaConoAnterior).subscribe(data => {
+
+
+                            if (this.cono_anterior) {
+                                data.map(c => {
+                                    let index = this.cono_anterior.findIndex(ca => ca.id == c.id);
+                                    if (index >= 0) {
+
+                                        c.cantidad = this.cono_anterior[index].cantidad;
+                                    }
+                                    return c;
+                                })
+                            }
+
+                            this.listConoAnterior.next(data);
+                        });
+                    }
+
+
                 }
+
 
             } else {
                 this.listConoActual.next([]);
