@@ -215,7 +215,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
 
     updateCashDetail(event) {
-        console.log('update cash detail ', event)
+        // console.log('update cash detail ', event)
         if (!event) {
             return;
         }

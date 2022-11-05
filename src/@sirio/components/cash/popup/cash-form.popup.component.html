@@ -45,7 +45,7 @@
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="clearAll()">{{'button.clean'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()">{{'button.save'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()"[disabled]="notValidate()">{{'button.save'|translate}}</button>
   </mat-dialog-actions>
 
 </div>

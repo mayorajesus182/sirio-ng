@@ -8,7 +8,7 @@
                 <mat-form-field *ngFor="let item of listConoActual | async; let i = index; let c = count" fxFlex="100">
                     <mat-label>{{item.denominacion | number:'1.2-2'}}  {{ (item.esBillete?'global.bill': 'global.coin') | translate }} {{item.disponible==0?'Cantidad Insuficiente':(item.disponible? 'Max.'+(item.disponible | number:'1.0') :'') }}
                     </mat-label>
-                    <input matInput id="input_{{i}}" class="text-right" [disabled]="item.disponible==0" [max]="item.disponible" [(ngModel)]="item.cantidad" min="0" autocomplete="off" #cantidad="ngModel" matInput type="number" (keyup.enter)="onChangeConoActual(item,c,$event)" (blur)="onChangeConoActual(item)" />
+                    <input matInput id="input_{{i}}" class="text-right" [disabled]="item.disponible==0" [max]="item.disponible" [(ngModel)]="item.cantidad" min="0" autocomplete="off" #cantidad="ngModel" matInput type="number" (keyup.enter)="onChangeConoActual(item,cantidad,c,$event)" (blur)="onChangeConoActual(item,cantidad)" />
                     <mat-error *ngIf="cantidad.invalid && item.disponible">Cantidad máxima {{item.disponible | number:'1.0'}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}s </mat-error>
                 </mat-form-field>
 
