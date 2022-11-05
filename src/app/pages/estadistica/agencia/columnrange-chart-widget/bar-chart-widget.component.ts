@@ -124,19 +124,19 @@ export class BarChartWidgetComponent implements OnInit {
              text: 'Montos ( Mill. VES )'
            }
          },
-         plotOptions: {
-           columnrange: {
-             dataLabels: {
-               enabled: true,
-               // format: '{y} VES',
-               formatter: function () {
-               console.log(this.y);
+        //  plotOptions: {
+        //    columnrange: {
+        //      dataLabels: {
+        //        enabled: true,
+        //        // format: '{y} VES',
+        //        formatter: function () {
+        //        console.log(this.y);
                
-                 return formatNumber(this.y,'es','1.2');
-              }
-             }
-           }
-         },
+        //          return formatNumber(this.y,'es','1.2');
+        //       }
+        //      }
+        //    }
+        //  },
        } as Highcharts.ChartOptions;
      }
        
