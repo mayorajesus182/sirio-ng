@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChartData } from 'chart.js';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-columnrange-chart-widget-options.interface';
@@ -14,7 +14,7 @@ import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-columnrang
 export class SaldoAgenciaComponent implements OnInit {
 
   private static isInitialLoad = true;
-  salesData$: Observable<ChartData>;
+  dataAgencia: Subject<any>;
   totalSalesOptions: BarChartWidgetOptions = {
     title: 'Total Sales',
     gain: 16.3,
@@ -32,21 +32,9 @@ export class SaldoAgenciaComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private saldoAgencia: SaldoAgenciaService,
+    private saldoAgenciaService: SaldoAgenciaService,
     private saldoTaquilla: SaldoTaquillaService) {
-    /**
-     * Edge wrong drawing fix
-     * Navigate anywhere and on Promise right back
-     */
-    if (/Edge/.test(navigator.userAgent)) {
-      if (SaldoAgenciaComponent.isInitialLoad) {
-        this.router.navigate(['/apps/chat']).then(() => {
-          this.router.navigate(['/']);
-        });
-
-        SaldoAgenciaComponent.isInitialLoad = false;
-      }
-    }
+    
 
   }
 
@@ -54,12 +42,13 @@ export class SaldoAgenciaComponent implements OnInit {
     return `1 1 calc(${100 / colAmount}% - ${this._gap - (this._gap / colAmount)}px)`;
   }
 
-  /**
-   * Everything implemented here is purely for Demo-Demonstration and can be removed and replaced with your implementation
-   */
   ngOnInit() {
    
-
+    this.saldoAgenciaService.all().subscribe(data=>{
+      console.log(data);
+      
+        this.dataAgencia.next(data);
+    })
 
 
   }
