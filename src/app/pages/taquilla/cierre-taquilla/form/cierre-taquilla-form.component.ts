@@ -69,19 +69,18 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
         let tipo = undefined;
 
         if (Math.abs(saldoSave.declarado - saldoSave.saldo) > this.preferencias.ajusteTaquilla) {
-            tipo = 'Se Genera Una Diferencia De: ';
+            tipo = 'Se Generará Una Diferencia De: '.concat(ajusteDiferenciaFormat);
         } else if (Math.abs(saldoSave.declarado - saldoSave.saldo) > 0 && Math.abs(saldoSave.declarado - saldoSave.saldo) < this.preferencias.ajusteTaquilla) {
-            tipo = 'Se Genera Un Ajuste De: ';
+            tipo = 'Se Generará Un Ajuste De: '.concat(ajusteDiferenciaFormat);
+        } else if (Math.abs(saldoSave.declarado - saldoSave.saldo) == 0) {
+            tipo = 'No Existen Diferencias Ni Ajustes'
         }
 
-        this.swalService.show('Monto Declarado ' + declaradoFormat, tipo.concat(ajusteDiferenciaFormat)).then((resp) => {
+        this.swalService.show('Monto Declarado ' + declaradoFormat, tipo).then((resp) => {
             if (!resp.dismiss) {
                 this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
             }
         })
-
-
-        
     }
 
     send() {
