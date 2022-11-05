@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Observable } from 'rxjs';
+import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-chart-widget-options.interface';
 
 @Component({
@@ -28,7 +29,9 @@ export class SaldoAgenciaComponent implements OnInit {
   private _gap = 16;
   gap = `${this._gap}px`;
 
-  constructor(    private router: Router) {
+  constructor(
+    private router: Router,
+    private saldoAgencia: SaldoAgenciaService) {
     /**
      * Edge wrong drawing fix
      * Navigate anywhere and on Promise right back
