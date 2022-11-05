@@ -1,56 +1,24 @@
-import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as Chart from 'chart.js';
-import { ChartData, ChartOptions } from 'chart.js';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChartData } from 'chart.js';
 import * as Highcharts from 'highcharts';
 import HCMore from "highcharts/highcharts-more";
-import defaultsDeep from 'lodash-es/defaultsDeep';
+import { Observable } from 'rxjs';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
-import { defaultChartOptions } from '../../../../../@sirio/shared/chart-widget/chart-widget-defaults';
-import { BarChartWidgetOptions } from './bar-chart-widget-options.interface';
 
 @Component({
 
-  selector: 'sirio-bar-chart-widget',
-  templateUrl: './bar-chart-widget.component.html',
-  styleUrls: ['./bar-chart-widget.component.scss']
+  selector: 'sirio-bar-columnrange-chart-widget',
+  templateUrl: './bar-columnrange-chart-widget.component.html',
+  styleUrls: ['./bar-columnrange-chart-widget.component.scss']
 })
-export class BarChartWidgetComponent implements OnInit {
+export class BarColumnRangeChartWidgetComponent implements OnInit {
 
-  // data: Observable<ChartData>;
+  @Input() data: Observable<any>;
+  // @Input() data: ChartData;
+  @Input() options: any;
 
   highcharts = Highcharts;
-  barChart: any = undefined;
-
-  data: ChartData;
-  options: BarChartWidgetOptions = {
-    title: 'Total Sales',
-    gain: 16.3,
-    subTitle: 'compared to last month',
-    background: '#3F51B5',
-    color: '#FFFFFF'
-  };
-  chartOptions: ChartOptions = defaultsDeep({
-    layout: {
-      padding: {
-        left: 24,
-        right: 24,
-        top: 16,
-        bottom: 24
-      }
-    },
-    tooltips: {
-      mode: 'index',
-      intersect: false,
-    },
-    hover: {
-      intersect: true
-    }
-  }, defaultChartOptions);
-
-  @ViewChild('canvas', { read: ElementRef, static: true }) canvas: ElementRef;
-
-  chart: Chart;
+  barColumnRangeChart: any = undefined;
 
   isLoading: boolean;
 
@@ -96,7 +64,7 @@ export class BarChartWidgetComponent implements OnInit {
       const monedas = dat.data.monedas;
      if(labels && monedas && monedas.length > 0){
 
-       this.barChart = {
+       this.barColumnRangeChart = {
          series: [
            {
              name: 'Aumentar',

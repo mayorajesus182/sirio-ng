@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import { ChartData } from 'chart.js';
 import { Observable } from 'rxjs';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
-import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-chart-widget-options.interface';
+import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
+import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-columnrange-chart-widget-options.interface';
 
 @Component({
   selector: 'sirio-saldo-agencia-statics',
@@ -31,7 +32,8 @@ export class SaldoAgenciaComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private saldoAgencia: SaldoAgenciaService) {
+    private saldoAgencia: SaldoAgenciaService,
+    private saldoTaquilla: SaldoTaquillaService) {
     /**
      * Edge wrong drawing fix
      * Navigate anywhere and on Promise right back

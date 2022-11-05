@@ -1,0 +1,35 @@
+<sirio-card >
+  <sirio-card-header class="header">
+    <sirio-card-header-heading >Disponibilidad de Efectivo</sirio-card-header-heading>
+    <!-- <sirio-card-header-subheading [style.color]="options.color" class="subheading">      
+      Estadística
+    </sirio-card-header-subheading> -->
+    <sirio-card-header-actions>
+      <button (click)="reload()" mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </sirio-card-header-actions>
+  </sirio-card-header>
+  <!-- [labels]="data.labels"
+  [legend]="false" -->
+
+  <sirio-card-content class="card-content container">
+    <!-- <canvas *ngIf="data"
+            [datasets]="data.datasets"
+            [labels]="data.labels"
+            [options]="chartOptions"
+            baseChart
+            chartType="bar">
+    </canvas> -->
+
+    <highcharts-chart *ngIf="barChart"
+  [Highcharts]="highcharts"
+  [options]="barChart"
+  
+>
+</highcharts-chart>
+    
+  </sirio-card-content>
+
+  <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
+</sirio-card>

@@ -113,11 +113,17 @@ export class PopupBaseComponent {
             element.disabled = false;
         });
 
+        // this.snack.show({
+        //     message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
+        //     verticalPosition: 'bottom',
+        //     type: 'danger'
+
+        // });
         this.snack.show({
-            message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
+            // message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
+            message: `¡Operación rechazada!`,
             verticalPosition: 'bottom',
             type: 'danger'
-
         });
     }
 
@@ -196,8 +202,13 @@ export class PopupBaseComponent {
             this.dialogRef.close(true);
         }
 
+        // this.snack.show({
+        //     message: `${entityName} fue ${event} satisfactoriamente!`,
+        //     verticalPosition: 'bottom'
+        // });
         this.snack.show({
-            message: `${entityName} fue ${event} satisfactoriamente!`,
+            // message: `${entityName} fue ${event} satisfactoriamente!`,
+            message: `¡Operación realizada satisfactoriamente!`,
             verticalPosition: 'bottom'
         });
 
@@ -216,8 +227,14 @@ export class PopupBaseComponent {
             this.dialogRef.close(true);
         }
 
+        // this.snack.show({
+        //     message: `${entityName} fue ${event} satisfactoriamente!`,
+        //     verticalPosition: 'bottom'
+        // });
+
         this.snack.show({
-            message: `${entityName} fue ${event} satisfactoriamente!`,
+            // message: `${entityName} fue ${event} satisfactoriamente!`,
+            message: `¡Operación realizada satisfactoriamente!`,
             verticalPosition: 'bottom'
         });
 
