@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HCMore from "highcharts/highcharts-more";
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 
@@ -35,10 +35,13 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
   }
 
   reload() {
+    if(!this.data){
+      return;
+    }
     this.isLoading = true;
 
     this.data.subscribe(dataset => {
-      console.log('@@@@ Bar Column Range saldo agencia: ');
+      console.log('@@@@ Bar Column Range saldo agencia ');
       console.log(dataset);
       this.isLoading = false;
 

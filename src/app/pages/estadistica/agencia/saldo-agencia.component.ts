@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChartData } from 'chart.js';
-import { Observable, Subject } from 'rxjs';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { SaldoAgencia, SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-columnrange-chart-widget-options.interface';
 
@@ -14,7 +14,7 @@ import { BarChartWidgetOptions } from './columnrange-chart-widget/bar-columnrang
 export class SaldoAgenciaComponent implements OnInit {
 
   private static isInitialLoad = true;
-  dataAgencia: Subject<any>;
+  dataAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   totalSalesOptions: BarChartWidgetOptions = {
     title: 'Total Sales',
     gain: 16.3,
@@ -22,8 +22,8 @@ export class SaldoAgenciaComponent implements OnInit {
     background: '#3F51B5',
     color: '#FFFFFF'
   };
-  
-  
+
+
   /**
    * Needed for the Layout
    */
@@ -34,7 +34,7 @@ export class SaldoAgenciaComponent implements OnInit {
     private router: Router,
     private saldoAgenciaService: SaldoAgenciaService,
     private saldoTaquilla: SaldoTaquillaService) {
-    
+
 
   }
 
@@ -43,11 +43,47 @@ export class SaldoAgenciaComponent implements OnInit {
   }
 
   ngOnInit() {
-   
-    this.saldoAgenciaService.all().subscribe(data=>{
-      console.log(data);
-      
-        this.dataAgencia.next(data);
+
+    this.saldoAgenciaService.all().subscribe(result => {
+      console.log("%% saldo agencia %%");
+      console.log(result);
+
+
+      let datasets_aument = [];
+      let datasets_desmin = [];
+      let series = [];
+      Object.keys(result.data).forEach(key => {
+        // dat.data[key];
+        // console.log(key);
+        if (key.indexOf('aumento-928') === 0 && !series.includes("aumento")) {
+          // console.log('push key ', key);
+          // console.log('dataset key ', dat.data[key]);
+          series.push("aumento");
+          datasets_aument = result.data[key];
+        } else if (key.indexOf('disminucion-928') === 0 && !series.includes("disminucion")) {
+
+          series.push("disminucion");
+          datasets_desmin = result.data[key];
+        }
+      });
+      let datasets = { series: [], labels: [] };
+
+      datasets.series = [
+        {
+          name: 'Aumentar',
+          data: datasets_aument,
+          color: '#90ed7d'
+        },
+        {
+          name: 'Desminuir',
+          data: datasets_desmin,
+          color: '#f45b5b'
+        },
+      ]
+
+      datasets.labels = result.labels;
+
+      this.dataAgencia.next(datasets);
     })
 
 

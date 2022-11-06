@@ -12,7 +12,7 @@ import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo
 })
 export class BarHorizChartWidgetComponent implements OnInit {
 
-  @Input() data:  BehaviorSubject<any> = new BehaviorSubject<any>({});
+  @Input() data:  Observable<any>;
   @Input() title: string='Estadísticas';
 
   highcharts = Highcharts;
@@ -32,6 +32,11 @@ export class BarHorizChartWidgetComponent implements OnInit {
   }
 
   reload() {
+
+    if(!this.data){
+      return;
+    }
+
     this.isLoading = true;
 
     // this.saldoAgencia.getSaldo().subscribe(dat => {
