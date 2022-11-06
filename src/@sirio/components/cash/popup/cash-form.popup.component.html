@@ -27,8 +27,7 @@
         <mat-label>Monto Total
         </mat-label>
         <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
-        <mat-hint class="mat-error">{{total != (totalActual+(totalAnterior?totalAnterior:0))?'Monto Incorrecto':''}}</mat-hint>
-        
+        <mat-hint class="mat-error">{{total != (totalActual+(totalAnterior?totalAnterior:0))?'Monto Incorrecto':''}}</mat-hint>        
       </mat-form-field>
 
 <!-- 
@@ -41,12 +40,12 @@
 
     </div>
   </div>
-  <sirio-cash-detail [preferencia]="preferencia" [cono_actual]="valuesCono1" [cono_anterior]="valuesCono2" [moneda]="moneda"
+  <sirio-cash-detail [preferencia]="preferencia" [operation]="operation" [cono_actual]="valuesCono1" [cono_anterior]="valuesCono2" [moneda]="moneda"
     (cono_actual_update)="updateConoActual($event)" (cono_anterior_update)="updateConoAnterior($event)" [total]="total" labelPrefix="Bs."></sirio-cash-detail>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="clearAll()">{{'button.clean'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()">{{'button.save'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()"[disabled]="notValidate()">{{'button.save'|translate}}</button>
   </mat-dialog-actions>
 
 </div>

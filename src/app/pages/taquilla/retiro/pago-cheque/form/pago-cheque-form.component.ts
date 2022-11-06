@@ -131,7 +131,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre; 
                             this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
-                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                  
+                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                                       
                             console.log("DATOS", data);
                             this.cdr.markForCheck();
 

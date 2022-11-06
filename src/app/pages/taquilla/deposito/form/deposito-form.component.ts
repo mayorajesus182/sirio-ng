@@ -604,7 +604,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         {'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.moneda.siglas+'</b>'} 
         ).then((resp) => {
             if (!resp.dismiss) {
-                this.updateDataFromValues(this.deposito, this.persona);
+                // this.updateDataFromValues(this.deposito, this.persona);
+                this.deposito.identificacion = this.persona.identificacion;
+                this.deposito.tipoDocumento = this.persona.tipoDocumento;
                 this.deposito.persona = this.persona.id;
                 this.deposito.nombre = this.persona.nombre;
                 this.deposito.numper = this.persona.numper;
@@ -614,7 +616,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
-                this.router.navigate(['/sirio/welcome']).then(data => { });
+                this.loadingDataForm.subscribe(status=>{
+                    if(!status){
+                        this.router.navigate(['/sirio/welcome']).then(data => { });
+                    }
+                })
             }
         })
     }

@@ -274,6 +274,11 @@ blockquote {
   width: 100%;
 }
 
+.swal2-icon.swal2-warning {
+  border-color: darken($theme-color-warn, 0.02) ;
+  color: $theme-color-warn;
+}
+
 .dialog-frame {
   top: 8%;
 

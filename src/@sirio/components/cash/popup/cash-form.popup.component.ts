@@ -18,6 +18,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   public valuesCono1: ConoMonetario[] = [];
   public valuesCono2: ConoMonetario[] = [];
   public moneda: Moneda = {} as Moneda;
+  public operation: string;
   public preferencia = new BehaviorSubject<Preferencia>(undefined);
   // private divisor:number=1;
 
@@ -40,21 +41,12 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   ngAfterViewInit(): void {
 
-    // this.valuesCono1.subscribe(data=>{
-    //   console.log(' change values cono 1', data);      
-    // })
-
-    // this.valuesCono2.subscribe(data=>{
-    //   console.log(' change values cono 2', data);      
-    // })
     this.cdref.markForCheck();
 
   }
 
   ngOnInit() {
 
-    // console.log(this.defaults.payload.desgloseConoActual);
-    // console.log(this.defaults.payload.desgloseConoAnterior);
 
     this.updateConoActual([]);
     this.updateConoAnterior([]);
@@ -63,6 +55,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
+
+    this.operation = this.defaults.payload.operation;
 
     this.preferenciaService.detail().subscribe(data => {
       this.preferencia.next(data);
@@ -161,6 +155,13 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     this.cdref.detectChanges();
   }
 
+  notValidate(){
+    // console.log(this.valuesCono1);
+    // console.log(this.valuesCono2);
+    // console.log(this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length);
+    
+    return this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length > 0 || this.valuesCono2.map(c=>c.errors).filter(e=>e!=null).length > 0;
+  }
 
 
 }
