@@ -7,7 +7,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
 import { fadeInUpAnimation } from "src/@sirio/animations/fade-in-up.animation";
-import { RegularExpConstants } from "src/@sirio/constants";
+import { GlobalConstants, RegularExpConstants } from "src/@sirio/constants";
 import { TipoDocumento, TipoDocumentoService } from "src/@sirio/domain/services/configuracion/tipo-documento.service";
 import { CuentaBancariaService } from "src/@sirio/domain/services/cuenta-bancaria.service";
 import { Persona, PersonaService } from "src/@sirio/domain/services/persona/persona.service";
@@ -56,9 +56,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     ngAfterViewInit(): void {
 
     }
-    
+
     ngOnInit(): void {
-        
+
 
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
@@ -72,34 +72,34 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         }
 
         this.searchForm = this.fb.group({
-            tipoDocumento: new FormControl(undefined),
+            tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT),
             identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            nombre: new FormControl({value:'',disabled: true}),
+            nombre: new FormControl({ value: '', disabled: true }),
             cuenta: new FormControl('')
         });
 
-            
-        this.search.identificacion.valueChanges.subscribe(val=>{
-            
-            if(val && val.trim().length > 0 &&  !this.searchForm.controls['cuenta'].disabled){
-                
-                this.searchForm.controls['cuenta'].disable();      
-            }else if((!val || val.trim().length ==0) && this.searchForm.controls['cuenta'].disabled){
-                this.searchForm.controls['cuenta'].enable();      
-                
+
+        this.search.identificacion.valueChanges.subscribe(val => {
+
+            if (val && val.trim().length > 0 && !this.searchForm.controls['cuenta'].disabled) {
+
+                this.searchForm.controls['cuenta'].disable();
+            } else if ((!val || val.trim().length == 0) && this.searchForm.controls['cuenta'].disabled) {
+                this.searchForm.controls['cuenta'].enable();
+
             }
             // this.cdref.detectChanges();
         })
-        
-        
-        this.search.cuenta.valueChanges.subscribe(val=>{
-            if(val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled){
-                this.searchForm.controls['identificacion'].disable();                
+
+
+        this.search.cuenta.valueChanges.subscribe(val => {
+            if (val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled) {
+                this.searchForm.controls['identificacion'].disable();
                 // this.searchForm.controls['tipoDocumento'].disable();                
-            }else if((!val || val.trim().length ==0) && this.searchForm.controls['identificacion'].disabled){
-                this.searchForm.controls['identificacion'].enable();                
+            } else if ((!val || val.trim().length == 0) && this.searchForm.controls['identificacion'].disabled) {
+                this.searchForm.controls['identificacion'].enable();
                 // this.searchForm.controls['tipoDocumento'].enable();                
-             
+
             }
         });
 
@@ -116,7 +116,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         // console.log(this.search.identificacion.errors);        
 
-        if(this.search.identificacion.errors){
+        if (this.search.identificacion.errors) {
             return;
         }
 
@@ -126,7 +126,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.loading.next(true);
 
         if (tipoDocumento && identificacion) {
-            
+
             this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
                 // console.log("result query:", data);
                 this.persona = data;
@@ -134,7 +134,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.loading.next(false);
                 this.isNew = false;
                 if (this.result) {
-                    this.persona.identificacion=identificacion;
+                    this.persona.identificacion = identificacion;
                     this.result.emit(this.persona);
                 }
 
@@ -170,7 +170,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     public queryByAccount() {
         const cuenta: string = this.search.cuenta.value;
 
-        
+
         if (cuenta.trim().length == 0 || this.search.cuenta.errors) {
             return;
         }
