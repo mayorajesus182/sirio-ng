@@ -411,12 +411,18 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.retiro.operacion = 'efectivo';
         
                 this.saveOrUpdate(this.retiroService, this.retiro, 'el retiro en efectivo');
-                this.conoActual = [];
-                this.conoAnterior = [];
-                this.detalleEfectivo = 0;
-                this.cuentasBancarias.next([]);
+                this.loadingDataForm.subscribe(status=>{
 
-                this.router.navigate(['/sirio/welcome']).then(data => { });
+                    if(!status){
+
+                        this.conoActual = [];
+                        this.conoAnterior = [];
+                        this.detalleEfectivo = 0;
+                        this.cuentasBancarias.next([]);
+        
+                        this.router.navigate(['/sirio/welcome']).then(data => { });
+                    }
+                })
             }
 
         })
