@@ -92,23 +92,21 @@
                                 <div fxLayout="column" fxFlex="auto">
                                     <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
                                         <mat-form-field fxLayout="column" *ngFor="let item of conos | async;let i = index" fxFlex="32">
-                                            
+
                                             <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
                                                 'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                             </mat-label>
-                                            <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible" autocomplete="off" matInput type="number"
-                                                (ngModelChange)="updateValuesErrors(item)" />
+                                            <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                                autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)" />
 
-                                                <mat-error *ngIf="cantidad.invalid">Cantidad máxima {{item.disponible}}</mat-error>
-                                            <!-- <div *ngIf="cantidad.invalid"  class="help-block" style="color: #813838">Máximo {{item.disponible}}</div> -->
+                                            <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible}}</mat-error>
 
-                                                
                                         </mat-form-field>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
                     <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
@@ -119,7 +117,7 @@
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="save()" mat-raised-button
-                            [disabled]="itemForm?.invalid || (saldoDisponible <= 0  && f.movimientoEfectivo.value !== movimiento.ATM_BOVEDA)">
+                            [disabled]="itemForm?.invalid || f.monto.value <= 0 || (saldoDisponible <= 0  && f.movimientoEfectivo.value !== movimiento.ATM_BOVEDA)">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

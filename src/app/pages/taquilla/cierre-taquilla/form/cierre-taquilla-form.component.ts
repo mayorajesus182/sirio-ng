@@ -1,15 +1,15 @@
+import { formatNumber } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
-import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { formatNumber } from '@angular/common';
 
 @Component({
     selector: 'app-cierre-taquilla-form',
@@ -25,8 +25,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     preferencias: Preferencia = {} as Preferencia;
     diferencia: number = 0
 
-    public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -34,6 +32,7 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
         protected router: Router,
         private saldoTaquillaService: SaldoTaquillaService,
         private preferenciaService: PreferenciaService,
+        private taquillaService: TaquillaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -48,49 +47,109 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     }
 
     ngOnInit() {
-        this.isNew = false;
 
-        this.preferenciaService.get().subscribe(data => {
-            this.preferencias = data;
-        });
+        this.taquillaService.isOpen().subscribe(isOpen => {
+            if (isOpen) {
+                
+                this.isNew = false;
 
-        this.loadingDataForm.next(false);
-        this.loadSaldos();
+                this.preferenciaService.get().subscribe(data => {
+                    this.preferencias = data;
+                });
+        
+                this.loadingDataForm.next(false);
+                this.loadSaldos();
+
+            } else {
+                
+              this.router.navigate(['/sirio/welcome']);
+              this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) {}
+              });
+            }
+          });
     }
 
     updateValuesErrors(saldo: SaldoTaquilla) {
         saldo.declarado = saldo.detalleEfectivo.filter(c => c.declarado != undefined && c.declarado > 0).map(c1 => c1.declarado * c1.denominacion).reduce((a, b) => a + b);
     }
 
+    // TODO: FALTAN  ETIQUETAS
+
+    calculateDifferences(saldoTaquilla: SaldoTaquilla) {
+
+        let mensaje = '';
+
+        if (saldoTaquilla.moneda === this.preferencias.monedaConoActual) {
+
+            if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > this.preferencias.ajusteTaquilla) {
+
+                let ajuste = saldoTaquilla.declarado > saldoTaquilla.saldo ? (this.preferencias.ajusteTaquilla * -1) : this.preferencias.ajusteTaquilla;
+                let ajusteTaquillaFormat = formatNumber(ajuste, 'es', '1.2');
+                let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste, 'es', '1.2');
+                mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteTaquillaFormat).concat(' <br/> ');
+                mensaje = mensaje + (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Y Una Diferencia Sobrante De: ' : 'Y Una Diferencia Faltante De: ').concat(diferenciaGeneradaFormat);
+                saldoTaquilla.ajuste = ajuste;
+                saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste;
+
+            } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > 0 && Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= this.preferencias.ajusteTaquilla) {
+
+                let ajusteGeneradoFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
+                mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteGeneradoFormat);
+                saldoTaquilla.ajuste = saldoTaquilla.saldo - saldoTaquilla.declarado;
+                saldoTaquilla.diferencia = 0;
+
+            } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) == 0) {
+                mensaje = 'No Existen Diferencias Ni Ajustes'
+                saldoTaquilla.ajuste = 0;
+                saldoTaquilla.diferencia = 0;
+            }
+
+        } else {
+
+            if (saldoTaquilla.saldo != saldoTaquilla.declarado) {
+                let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
+                mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Y Una Diferencia Sobrante De: ' : 'Y Una Diferencia Faltante De: ').concat(diferenciaGeneradaFormat);
+                saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado;
+                saldoTaquilla.ajuste = 0;
+            } else {
+                mensaje = 'No Existen Diferencias'
+                saldoTaquilla.ajuste = 0;
+                saldoTaquilla.diferencia = 0;
+            }
+        }
+        return mensaje;
+    }
+
     declare(saldoSave: SaldoTaquilla) {
 
         let declaradoFormat = formatNumber(saldoSave.declarado, 'es', '1.2');
-        let ajusteDiferenciaFormat = formatNumber(Math.abs(saldoSave.declarado - saldoSave.saldo), 'es', '1.2');
-        let tipo = undefined;
 
-        if (Math.abs(saldoSave.declarado - saldoSave.saldo) > this.preferencias.ajusteTaquilla) {
-            tipo = 'Se Generará Una Diferencia De: '.concat(ajusteDiferenciaFormat);
-        } else if (Math.abs(saldoSave.declarado - saldoSave.saldo) > 0 && Math.abs(saldoSave.declarado - saldoSave.saldo) < this.preferencias.ajusteTaquilla) {
-            tipo = 'Se Generará Un Ajuste De: '.concat(ajusteDiferenciaFormat);
-        } else if (Math.abs(saldoSave.declarado - saldoSave.saldo) == 0) {
-            tipo = 'No Existen Diferencias Ni Ajustes'
-        }
-
-        this.swalService.show('Monto Declarado ' + declaradoFormat, tipo).then((resp) => {
+        this.swalService.show('Monto Declarado ' + declaradoFormat, undefined, { 'html': this.calculateDifferences(saldoSave) }).then((resp) => {
             if (!resp.dismiss) {
                 this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
+            } else {
+                this.loadSaldos();
             }
         })
     }
 
-    send() {
-        this.loadSaldos();
+    closeDay() {
 
+        let taquilla;
+        let mensaje = '';
         this.saldos.value.forEach(saldo => {
-            console.log('saldo ', saldo);
-
+            taquilla = saldo.taquilla;
+            mensaje = mensaje + '<b> '.concat(saldo.siglasMoneda).concat(' - ').concat(saldo.nombreMoneda).concat(' </b> <br/> ').concat(this.calculateDifferences(saldo)).concat(' <br/>  ');
         });
 
-        console.log(this.saldos);
+        this.swalService.show('¿Desea Cerrar La Jornada?', undefined, { 'html': mensaje }).then((resp) => {
+            if (!resp.dismiss) {
+                this.taquillaService.close(taquilla).subscribe(result => {
+                    this.snack.show({ message: 'Taquilla Cerrada Exitosamente Para La Jornada!', verticalPosition: 'bottom' });
+                    this.router.navigate(['/sirio/welcome']);
+                });
+            }
+        });
     }
 }

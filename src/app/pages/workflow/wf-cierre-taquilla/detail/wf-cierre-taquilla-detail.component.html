@@ -1,0 +1,115 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Cierre de Taquilla']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{this.rol.nombre}} </sirio-card-header-heading>
+                    <sirio-card-header-actions>
+                        <mat-card-title class="mat-bg-grey">
+                            <div class="card-title-text">            
+                                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                                    <mat-icon class="">more_vert</mat-icon>
+                                </button>
+                    
+                                <mat-menu #userMenu="matMenu">
+                                    <button mat-menu-item class="mr-1" (click)="approveTask()">
+                                        <mat-icon color="primary">check_circle</mat-icon>
+                                        {{'action.approve' | translate }}
+                                    </button>
+                                    <button mat-menu-item class="mr-1" (click)="overrideTask()">
+                                        <mat-icon color="primary">cancel</mat-icon>
+                                        {{'action.override' | translate }}
+                                    </button>
+                                </mat-menu>
+                    
+                            </div>
+                            <mat-divider></mat-divider>
+                        </mat-card-title>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+
+                <sirio-card-content fxLayout="column">
+
+                    <ng-container>
+
+                        <mat-accordion class="expansion-headers-align">
+
+                            <mat-expansion-panel *ngFor="let item of saldos | async">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <!-- TODO: INTERNACIONALIZACION -->
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">{{item.siglasMoneda + ' - '+ item.nombreMoneda}}</span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'Fecha' | translate: {default: 'Fecha'} |
+                                            translate }}</mat-label>
+                                        <input matInput [value]="item.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="20">
+                                        <mat-label>{{'Taquilla' | translate: {default: 'Taquilla'} |
+                                            translate }}</mat-label>
+                                        <input matInput [value]="item.nombreTaquilla" readonly class="text-center">
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex.gt-xs="20">
+                                        <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }}
+                                        </mat-label>
+                                        <input matInput [value]="item.monto | number: '1.2'" readonly class="text-center">
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="20" *ngIf="item.moneda === this.preferencias.monedaConoActual">
+                                        <mat-label>{{'Ajuste en Taquilla' | translate: {default: 'Ajuste en Taquilla'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.ajuste  | number: '1.2'" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="auto">
+                                        <mat-label>{{'Diferencia en Taquilla' | translate: {default: 'Diferencia en Taquilla'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.diferencia | number: '1.2'" readonly>
+                                    </mat-form-field>
+                                </div>
+
+                                <mat-divider class="margin-bottom-md"></mat-divider>
+
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <div fxLayout="column" fxFlex="10">
+                                        <h3>{{'Declaración de Efectivo' | translate: {default: 'Declaración de Efectivo'} | translate }}</h3>
+                                    </div>
+                                    <div fxLayout="column" fxFlex="auto">
+                                        <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+                                            <mat-form-field fxLayout="column" *ngFor="let det of item.detalleEfectivo" fxFlex="32">
+                                                <mat-label>{{det.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{
+                                                    (det.esBillete?'global.bill':
+                                                    'global.coin') | translate }}
+                                                </mat-label>
+                                                <input matInput class="text-right" [(ngModel)]="det.cantidad" min="0" autocomplete="off" matInput type="number"
+                                                    (ngModelChange)="updateValuesErrors(item)" />
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+
+                    </ng-container>
+                </sirio-card-content>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

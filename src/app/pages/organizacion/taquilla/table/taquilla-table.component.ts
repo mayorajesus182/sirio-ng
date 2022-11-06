@@ -65,7 +65,7 @@ export class TaquillaTableComponent extends TableBaseComponent implements OnInit
       if (!resp.dismiss) {
 
         this.taquillaService.open(data.element.id).subscribe(result => {
-          this.snack.show({ message: 'Taquilla Abierta Para La Jornada!', verticalPosition: 'bottom' });
+          this.snack.show({ message: 'Taquilla Abierta Exitosamente Para La Jornada!', verticalPosition: 'bottom' });
           data.element.abierta = 1;
           this.cdr.detectChanges();
         });
