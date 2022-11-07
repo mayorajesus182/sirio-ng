@@ -111,7 +111,7 @@
                                         translate}}</span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                    <mat-form-field  style="margin-top: -10px;font-size: 12px;" >
+                                    <mat-form-field  style="margin-top: -10px;font-size: 12px;" fxFlex="100">
                                         <select class="text-center"  matNativeControl (change)="selectConoMonetario($event,row)">
                                             <option value=""></option>
                                             <option *ngFor="let item of conos" [value]="item.id" [selected]="row.conoMonetario===item.id">{{item.denominacion}} - {{item.nombreMoneda}}</option>
