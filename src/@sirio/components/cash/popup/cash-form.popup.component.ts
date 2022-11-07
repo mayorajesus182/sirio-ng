@@ -155,6 +155,13 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     this.cdref.detectChanges();
   }
 
+  notValidate(){
+    // console.log(this.valuesCono1);
+    // console.log(this.valuesCono2);
+    // console.log(this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length);
+    
+    return this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length > 0 || this.valuesCono2.map(c=>c.errors).filter(e=>e!=null).length > 0;
+  }
 
 
 }

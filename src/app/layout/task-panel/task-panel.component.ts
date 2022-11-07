@@ -46,7 +46,7 @@ export class QuickpanelComponent implements OnInit {
     this.workflowService.assigned().subscribe(data => {
       this.tasks.next(data);
       console.log(data);
-      
+
     });
 
     this.router.events.subscribe((routeChange) => {
@@ -94,28 +94,32 @@ export class QuickpanelComponent implements OnInit {
 
   private wfPaseBovedaTaquilla(task: Workflow) {
     if (task.rol === TaskConstants.CONF_PASE_BOVEDA_TAQUILLA) {
-      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
+      this.router.navigate(['/sirio/workflow/pase-efectivo/' + task.id + '/' + task.expediente + '/view']);
     } else if (task.rol === TaskConstants.MOD_ANUL_PASE_BOVEDA_TAQUILLA) {
-      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/edit']);
+      this.router.navigate(['/sirio/workflow/pase-efectivo/' + task.id + '/' + task.expediente + '/edit']);
     }
   }
 
   private wfSolicitudPaseTaquillaBoveda(task: Workflow) {
     if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
-      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/view']);
+      this.router.navigate(['/sirio/workflow/pase-efectivo/' + task.id + '/' + task.expediente + '/view']);
     } else if (task.rol === TaskConstants.MOD_ANUL_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
-      this.router.navigate(['/sirio/workflow/pase-efectivo/'+task.id+'/'+task.expediente+'/edit']);
+      this.router.navigate(['/sirio/workflow/pase-efectivo/' + task.id + '/' + task.expediente + '/edit']);
     }
   }
 
   private wfPaseTaquillaBoveda(task: Workflow) {
     if (task.rol === TaskConstants.CONF_PASE_TAQUILLA_BOVEDA) {
-      this.router.navigate(['/sirio/workflow/pase-boveda/'+task.id+'/'+task.expediente+'/view']);
+      this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/view']);
     } else if (task.rol === TaskConstants.MOD_ANUL_PASE_TAQUILLA_BOVEDA) {
-      this.router.navigate(['/sirio/workflow/pase-boveda/'+task.id+'/'+task.expediente+'/edit']);
+      this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/edit']);
     }
   }
-  
+
+  private wfCierreTaquilla(task: Workflow) {
+    this.router.navigate(['/sirio/workflow/cierre-taquilla/' + task.id + '/' + task.expediente + '/view']);
+  }
+
 
   // private wfDesincorporacion(id: string) {
   //   this.router.navigate([`workflow/${id}/desincorporacion`]);

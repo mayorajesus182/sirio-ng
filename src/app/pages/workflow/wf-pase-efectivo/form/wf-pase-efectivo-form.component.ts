@@ -10,6 +10,7 @@ import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.s
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
 import { Taquilla } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
@@ -30,6 +31,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
+    rol: Rol = {} as Rol;
     workflow: string = undefined;
 
     constructor(
@@ -40,6 +42,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         private router: Router,
         private bovedaAgenciaService: BovedaAgenciaService,
         private workflowService: WorkflowService,
+        private rolService: RolService,
         private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -54,18 +57,18 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
             this.loadingDataForm.next(true);
 
             if (exp) {
+
+                this.rolService.getByWorkflow(this.workflow).subscribe(data => {
+                    this.rol = data;
+                  });
+
                 this.bovedaAgenciaService.getByExpediente(exp).subscribe(data => {
                     this.bovedaAgencia = data;
                     this.buildForm(this.bovedaAgencia);
 
                     this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
                         this.conos.next(conoData);
-
-
-
                     //    conoData.forEach(function (conoVacio) { data.detalleEfectivo.forEach(function (conoregistrado) { console.log('aquiiiiiiii') }) });
-
-
                         this.cdr.detectChanges();
                     });
 
@@ -79,7 +82,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
 
         this.opt_swal = {};
         this.opt_swal.input = 'text';
-        this.opt_swal.inputPlaceholder = 'Ingrese la observación';
+        this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
         this.opt_swal.preConfirm = this.preConfirmFunt;
     }
 
@@ -107,7 +110,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     }
 
     resendTask() {
-        this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
+        this.swalService.show('message.resendTask', this.rol.nombre, this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
@@ -122,8 +125,8 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         });
     }
 
-    annularTask() {
-        this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
+    overrideTask() {
+        this.swalService.show('message.overrideTask', this.rol.nombre, this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };

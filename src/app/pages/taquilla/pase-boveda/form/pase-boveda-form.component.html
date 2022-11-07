@@ -66,6 +66,8 @@
                             </div>
                         </form>
 
+                        <mat-divider class="margin-bottom-md"></mat-divider> 
+
                         <div fxLayout="column" *ngIf="f.moneda.value">
                             <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
                                 <div fxLayout="column" fxFlex="10">
@@ -77,8 +79,9 @@
                                             <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
                                                 'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                             </mat-label>
-                                            <input matInput class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number"
-                                                (ngModelChange)="updateValuesErrors()" />
+                                            <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                                autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)" />
+                                            <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -93,7 +96,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || f.monto.value <= 0 ">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

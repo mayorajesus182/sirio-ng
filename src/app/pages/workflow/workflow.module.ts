@@ -9,6 +9,7 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { WFCierreTaquillaDetailComponent } from './wf-cierre-taquilla/detail/wf-cierre-taquilla-detail.component';
 import { WFPaseABovedaDetailComponent } from './wf-pase-boveda/detail/wf-pase-boveda-detail.component';
 import { WFPaseABovedaFormComponent } from './wf-pase-boveda/form/wf-pase-boveda-form.component';
 import { WFPaseEfectivoDetailComponent } from './wf-pase-efectivo/detail/wf-pase-efectivo-detail.component';
@@ -37,6 +38,7 @@ import { WorkflowRoutingModule } from './workflow.routing';
     WFPaseEfectivoFormComponent,
     WFPaseABovedaDetailComponent,
     WFPaseABovedaFormComponent,
+    WFCierreTaquillaDetailComponent,
   ],
   exports: []
 })

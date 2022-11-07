@@ -6,6 +6,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
+import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
@@ -22,6 +23,7 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
   private opt_swal: SweetAlertOptions;
   public conos: ConoMonetario[] = [];
   workflow: string = undefined;
+  rol: Rol = {} as Rol;
 
   constructor(
     spinner: NgxSpinnerService,
@@ -29,6 +31,7 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
     private router: Router,
     private route: ActivatedRoute,
     private workflowService: WorkflowService,
+    private rolService: RolService,
     private bovedaAgenciaService: BovedaAgenciaService,
     private cdr: ChangeDetectorRef) {
     super(undefined, injector);
@@ -43,6 +46,11 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
       this.loadingDataForm.next(true);
 
       if (exp) {
+
+        this.rolService.getByWorkflow(this.workflow).subscribe(data => {
+          this.rol = data;
+        });
+
         this.bovedaAgenciaService.detailByExpediente(exp).subscribe(data => {
           this.data = data;
           console.log('data  ', data);
@@ -56,7 +64,7 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
 
     this.opt_swal = {};
     this.opt_swal.input = 'text';
-    this.opt_swal.inputPlaceholder = 'Ingrese la observación';
+    this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
     this.opt_swal.preConfirm = this.preConfirmFunt;
 
   }
@@ -72,14 +80,14 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
 
 
   approveTask() {
-    this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
+    this.swalService.show('message.approveTask', this.rol.nombre, this.opt_swal).then((resp) => {
 
       if (resp.value) {
         let data = { id: this.workflow, observacion: resp.value };
         this.workflowService.approved(data).subscribe(resp => {
           this.workflowService.notify.next(true);
           this.router.navigate(['/sirio/welcome']).then(data => {
-            this.successResponse('La tarea', 'reenviada');
+            this.successResponse('La tarea', 'aprobada');
           });
         });
       }
@@ -88,7 +96,7 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
   }
 
   rollbackTask() {
-    this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
+    this.swalService.show('message.returnTask', this.rol.nombre, this.opt_swal).then((resp) => {
 
       if (resp.value) {
 

@@ -6,6 +6,8 @@ export const environment = {
   api: {
     public: config.apiProUrl+'/api/public',
     default: config.apiProUrl+'/api',
+    default_secure: config.apiDevUrl+'/api',
+    calendar: config.apiProUrl+'/api/calendar',
     auth: config.apiProUrl+'/api',
     autorizacion: config.apiProUrl+'/api/autorizacion',
     comun: config.apiProUrl+'/api/comun',
@@ -23,5 +25,6 @@ export const environment = {
     preferencia: config.apiProUrl+'/api/preferencia',
     pasivo: config.apiProUrl+'/api/pasivo',
     taquilla: config.apiProUrl+'/api/taquilla',
+
   }
 };

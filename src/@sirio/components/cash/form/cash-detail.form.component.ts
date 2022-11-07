@@ -163,9 +163,11 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
     }
 
-    onChangeConoActual(elem: ConoMonetario, total?: number, event?: any) {
+    onChangeConoActual(elem: ConoMonetario,cantidad:any, total?: number, event?: any) {
 
-        console.log('update cantidad', event, total);
+        // console.log('update cantidad', event, total);
+        // console.log('cantidad', cantidad);
+        // console.log('cantidad', cantidad.errors);
 
         const ix = this.listActual.findIndex(e => e.denominacion == elem.denominacion);
 
@@ -178,7 +180,9 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
         } else {
             if (ix >= 0) {
                 this.listActual[ix].cantidad = elem.cantidad;
+                this.listActual[ix].errors = cantidad.errors;
             } else {
+                elem.errors=cantidad.errors
                 this.listActual.push(elem);
             }
 
