@@ -15,9 +15,10 @@ import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.s
 export class BarHorizChartWidgetComponent implements OnInit {
 
   @Input() data: Observable<any>;
-  @Input() moneda: Moneda;
+  @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
-
+  currentMoneda: Moneda;
+  availableCoins: Moneda[] = [];
   highcharts = Highcharts;
   barChart: any = undefined;
 
@@ -30,7 +31,13 @@ export class BarHorizChartWidgetComponent implements OnInit {
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
-    this.reload();
+    this.monedas.subscribe(list => {
+
+      this.currentMoneda = list[0];
+      this.availableCoins = list;
+      this.reload();
+
+    });
 
   }
 
@@ -52,8 +59,8 @@ export class BarHorizChartWidgetComponent implements OnInit {
       }
 
 
-      let serie = { name: dataset.name, data: dataset.data[this.moneda.id].map(d => d.disponible), color: dataset.color }
-      let labels = dataset.data[this.moneda.id].map(d => {
+      let serie = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
+      let labels = dataset.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
@@ -64,7 +71,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
           type: 'bar',
         },
         title: {
-          text: this.moneda.nombre + ' - ' + this.moneda.siglas,
+          text: this.currentMoneda.nombre + ' - ' + this.currentMoneda.siglas,
         },
         xAxis: {
           type: 'category',
@@ -110,9 +117,13 @@ export class BarHorizChartWidgetComponent implements OnInit {
       } as Highcharts.ChartOptions;
 
 
-
       this.cdref.detectChanges();
     })
 
+  }
+
+
+  changeMoneda(val) {
+    this.currentMoneda = val;
   }
 }
