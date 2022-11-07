@@ -21,7 +21,6 @@ import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/pers
 import { Cheque, Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { InformacionDepositanteFormComponent } from "../informacion-depositante/informacion-depositante-form.component";
 @Component({
     selector: 'app-deposito-form',
     templateUrl: './deposito-form.component.html',
@@ -31,6 +30,10 @@ import { InformacionDepositanteFormComponent } from "../informacion-depositante/
 })
 
 export class DepositoFormComponent extends FormBaseComponent implements OnInit {
+
+    esEfectivo: boolean = false;
+    esCheque: boolean = false;
+    esMixto: boolean = false;
 
     public chequeForm: FormGroup;
     public itemForm: FormGroup;
@@ -84,18 +87,18 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
             } else {
 
-                this.isNew = true;
+                // this.isNew = true;
                 // this.loadingDataForm.next(true);
-                this.buildForm();
+                // this.buildForm();
                 // this.loadingDataForm.next(false);
                 // this.applyFieldsDirty();
                 // this.tipoDocumentoService.actives().subscribe(data => {
                 //     this.tiposDocumentos.next(data);
                 // });
 
-                this.tipoDocumentoService.activesNaturales().subscribe(data => {
-                    this.tiposDocumentoNaturales.next(data);
-                });
+                // this.tipoDocumentoService.activesNaturales().subscribe(data => {
+                //     this.tiposDocumentoNaturales.next(data);
+                // });
 
                 // if (this.f.tipoDocumento.value == "") {
                 //     this.f.identificacion.disable();
@@ -120,17 +123,17 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 // })
 
 
-                this.f.efectivo.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.calculateDifferences();
-                    }
-                })
+                // this.f.efectivo.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.calculateDifferences();
+                //     }
+                // })
 
-                this.f.monto.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.calculateDifferences();
-                    }
-                })
+                // this.f.monto.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.calculateDifferences();
+                //     }
+                // })
 
                 // this.f.chequePropio.valueChanges.subscribe(val => {
                 //     if (val) {
@@ -163,19 +166,19 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 //     }
                 // })
 
-                this.f.esCheque.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.buildChequeForm();
-                    }
-                    else {
-                        this.f.monto.setValue(undefined);
-                        this.f.referencia.setValue('');
-                        this.f.chequePropio.setValue(undefined);
-                        this.f.chequePropio.setErrors(undefined);
-                        this.f.chequeOtros.setValue(undefined);
-                        this.f.chequeOtros.setErrors(undefined);
-                    }
-                })
+                // this.f.esCheque.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.buildChequeForm();
+                //     }
+                //     else {
+                //         this.f.monto.setValue(undefined);
+                //         this.f.referencia.setValue('');
+                //         this.f.chequePropio.setValue(undefined);
+                //         this.f.chequePropio.setErrors(undefined);
+                //         this.f.chequeOtros.setValue(undefined);
+                //         this.f.chequeOtros.setErrors(undefined);
+                //     }
+                // })
 
                 // manejo de escritura en el campo identificacion
                 // this.f.identificacion.valueChanges.pipe(
@@ -227,265 +230,265 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 //     }
                 // });
 
-                this.loading$.subscribe(val => {
-                    if (val) {
-                        this.persona = {} as Persona;
-                        this.cuentaOperacion = {} as CuentaBancariaOperacion;
-                        this.cuentasBancarias.next([]);
-                        this.f.esEfectivo.enable();
-                        this.f.esCheque.disable();
-                    }
-                });
+                // this.loading$.subscribe(val => {
+                //     if (val) {
+                //         this.persona = {} as Persona;
+                //         this.cuentaOperacion = {} as CuentaBancariaOperacion;
+                //         this.cuentasBancarias.next([]);
+                //         this.f.esEfectivo.enable();
+                //         this.f.esCheque.disable();
+                //     }
+                // });
 
-                this.calendarioService.today().subscribe(data => {
-                    this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-                    this.cdr.detectChanges();
-                });
+                // this.calendarioService.today().subscribe(data => {
+                //     this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+                //     this.cdr.detectChanges();
+                // });
             }
         });
 
 
-        this.motivoDevolucionService.actives().subscribe(data => {
-            this.motivosDevoluciones = data;
-        });
+        // this.motivoDevolucionService.actives().subscribe(data => {
+        //     this.motivosDevoluciones = data;
+        // });
 
-        this.cheques.subscribe(data => {
-            if (!data || data.length == 0) {
-                this.chequeList = [];
-            }
-            this.cdr.detectChanges();
-        })
+        // this.cheques.subscribe(data => {
+        //     if (!data || data.length == 0) {
+        //         this.chequeList = [];
+        //     }
+        //     this.cdr.detectChanges();
+        // })
     }
-    calculateDifferences(event?:any) {
+    // calculateDifferences(event?:any) {
 
-        let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
-        // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
-        // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
-        // (event?event.montoTotal:this.f.monto.value)        
-        //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
-        if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
-            this.f.monto.markAsDirty();
-            this.f.efectivo.setErrors({
-                difference: true
-            });
-            // this.f.efectivo.markAsDirty();
-            if(event && event.montoTotal > 0){
-                this.f.monto.setValue(event.montoTotal);
-            }
-            // this.cdr.detectChanges();
+    //     let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
+    //     // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
+    //     // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
+    //     // (event?event.montoTotal:this.f.monto.value)        
+    //     //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
+    //     if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
+    //         this.f.monto.setErrors({
+    //             totalDifference: true
+    //         });
+    //         this.f.monto.markAsDirty();
+    //         this.f.efectivo.setErrors({
+    //             difference: true
+    //         });
+    //         // this.f.efectivo.markAsDirty();
+    //         if(event && event.montoTotal > 0){
+    //             this.f.monto.setValue(event.montoTotal);
+    //         }
+    //         // this.cdr.detectChanges();
             
-        } else{
+    //     } else{
             
-            if(event && event.montoTotal > 0){
-                this.f.monto.setValue(event.montoTotal);
-            }
+    //         if(event && event.montoTotal > 0){
+    //             this.f.monto.setValue(event.montoTotal);
+    //         }
             
-            this.f.monto.setErrors(undefined);
-            this.f.efectivo.setErrors(undefined);
-        }
-    }
+    //         this.f.monto.setErrors(undefined);
+    //         this.f.efectivo.setErrors(undefined);
+    //     }
+    // }
 
 
-    buildForm() {
-        this.itemForm = this.fb.group({
+    // buildForm() {
+        // this.itemForm = this.fb.group({
 
-            nombre: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            cuentaBancaria: new FormControl(undefined, []),
-            tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            numeroCuenta: new FormControl(undefined),
-            moneda: new FormControl('', []),
-            efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
-            esEfectivo: new FormControl(true),
-            esCheque: new FormControl(false),
-            esChequeMixto: new FormControl(false),
-            tipoDocumentoDepositante: new FormControl('', Validators.required),
-            identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            telefono: new FormControl(''),
-            email: new FormControl(''),
-            // cantidadPropio: new FormControl(deposito. undefined, [Validators.required]),
-            // cantidadOtros: new FormControl(deposito undefined, [Validators.required]),
-            conLibreta: new FormControl(false),
-            conMovimiento: new FormControl(false),
-            libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
-            linea: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
-            chequeOtros: new FormControl(undefined),
-            chequePropio: new FormControl(undefined),
+        //     nombre: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+        //     numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+        //     cuentaBancaria: new FormControl(undefined, []),
+        //     tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+        //     identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+        //     numeroCuenta: new FormControl(undefined),
+        //     moneda: new FormControl('', []),
+        //     efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+        //     monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+        //     tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+        //     referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
+        //     // esEfectivo: new FormControl(true),
+        //     // esCheque: new FormControl(false),
+        //     // esChequeMixto: new FormControl(false),
+        //     tipoDocumentoDepositante: new FormControl('', Validators.required),
+        //     identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+        //     nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+        //     telefono: new FormControl(''),
+        //     email: new FormControl(''),
+        //     // cantidadPropio: new FormControl(deposito. undefined, [Validators.required]),
+        //     // cantidadOtros: new FormControl(deposito undefined, [Validators.required]),
+        //     conLibreta: new FormControl(false),
+        //     conMovimiento: new FormControl(false),
+        //     libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
+        //     linea: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
+        //     chequeOtros: new FormControl(undefined),
+        //     chequePropio: new FormControl(undefined),
 
-        });
+        // });
 
-        this.f.esEfectivo.valueChanges.subscribe(val => {
-            if (!val) {
-                this.f.efectivo.setValue(undefined);
-                this.f.efectivo.setErrors(undefined);
-                this.conoActual = [];
-                this.conoAnterior = [];
-                this.f.monto.setValue(undefined);
-                this.f.referencia.setValue('');
-                // this.applyFieldsDirty();
-            }
-            // this.applyFieldsDirty();
-        })
+    //     this.f.esEfectivo.valueChanges.subscribe(val => {
+    //         if (!val) {
+    //             this.f.efectivo.setValue(undefined);
+    //             this.f.efectivo.setErrors(undefined);
+    //             this.conoActual = [];
+    //             this.conoAnterior = [];
+    //             this.f.monto.setValue(undefined);
+    //             this.f.referencia.setValue('');
+    //             // this.applyFieldsDirty();
+    //         }
+    //         // this.applyFieldsDirty();
+    //     })
 
-        this.f.conLibreta.valueChanges.subscribe(val => {
-            if (!val) {
-                this.f.libreta.setValue(undefined);
-                this.f.libreta.setErrors(undefined);
-                this.f.linea.setValue(undefined);
-                this.f.linea.setErrors(undefined);
-                this.cdr.detectChanges();
-            }
+    //     this.f.conLibreta.valueChanges.subscribe(val => {
+    //         if (!val) {
+    //             this.f.libreta.setValue(undefined);
+    //             this.f.libreta.setErrors(undefined);
+    //             this.f.linea.setValue(undefined);
+    //             this.f.linea.setErrors(undefined);
+    //             this.cdr.detectChanges();
+    //         }
 
-        })
+    //     })
 
-        this.f.cuentaBancaria.valueChanges.subscribe(val => {
-            if (val && (val != '')) {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                this.moneda.id = cuenta.moneda;
-                this.moneda.nombre = cuenta.monedaNombre;
-                this.moneda.siglas = cuenta.siglas;
-                this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
-                this.f.moneda.setValue(this.moneda.id);
-                this.f.tipoProducto.setValue(cuenta.tipoProducto);
-                // Revisaaaaaaaaaaaaaaaaaaaaaaar JJSD
-                this.f.esEfectivo.enable()
-                this.f.esCheque.enable()
-                this.f.esEfectivo.setValue(true);
-                this.f.esCheque.setValue(false);
-                this.cdr.detectChanges();
-            }
-        })
-    }
+    //     this.f.cuentaBancaria.valueChanges.subscribe(val => {
+    //         if (val && (val != '')) {
+    //             let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+    //             this.moneda.id = cuenta.moneda;
+    //             this.moneda.nombre = cuenta.monedaNombre;
+    //             this.moneda.siglas = cuenta.siglas;
+    //             this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
+    //             this.f.moneda.setValue(this.moneda.id);
+    //             this.f.tipoProducto.setValue(cuenta.tipoProducto);
+    //             // Revisaaaaaaaaaaaaaaaaaaaaaaar JJSD
+    //             this.f.esEfectivo.enable()
+    //             this.f.esCheque.enable()
+    //             this.f.esEfectivo.setValue(true);
+    //             this.f.esCheque.setValue(false);
+    //             this.cdr.detectChanges();
+    //         }
+    //     })
+    // }
 
-    buildChequeForm() {
+    // buildChequeForm() {
 
-        this.chequeForm = this.fb.group({
-            numeroCuentaCheque: new FormControl(undefined, Validators.required),
-            montoCheque: new FormControl(undefined),
-            serial: new FormControl(undefined, Validators.pattern(RegularExpConstants.NUMERIC)),
-            fechaEmision: new FormControl(undefined),
-            motivoDevolucion: new FormControl(undefined),
-            tipoDocumentoCheque: new FormControl(undefined, Validators.pattern(RegularExpConstants.NUMERIC)),
-            codigoSeguridad: new FormControl(undefined, Validators.pattern(RegularExpConstants.NUMERIC)),
-        })
-
-
-        this.cf.serial.valueChanges.subscribe(val => {
-            if (val) {
-                if (!this.validateSerialAccountUnique(val, this.cf.numeroCuentaCheque.value)) {
-                    this.cf.serial.setErrors({ uniqueSerial: true })
-                } else {
-                    this.cf.serial.setErrors(null)
-                    this.cf.numeroCuentaCheque.setErrors(null)
-                }
-            }
-        });
+    //     this.chequeForm = this.fb.group({
+    //         numeroCuentaCheque: new FormControl(undefined, Validators.required),
+    //         montoCheque: new FormControl(undefined),
+    //         serial: new FormControl(undefined, Validators.pattern(RegularExpConstants.NUMERIC)),
+    //         fechaEmision: new FormControl(undefined),
+    //         motivoDevolucion: new FormControl(undefined),
+    //         tipoDocumentoCheque: new FormControl(undefined, Validators.pattern(RegularExpConstants.NUMERIC)),
+    //         codigoSeguridad: new FormControl(undefined, Validators.pattern(RegularExpConstants.NUMERIC)),
+    //     })
 
 
-        this.cf.numeroCuentaCheque.valueChanges.subscribe(val => {
-            if (val) {
-                if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
-                    this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true })
-                } else {
-                    this.cf.serial.setErrors(null)
-                    this.cf.numeroCuentaCheque.setErrors(null)
-                }
-            }
-        });
-
-        this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
-            if (val) {
-                if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
-                    this.cf.tipoDocumentoCheque.setErrors(undefined)
-                    this.cdr.detectChanges();
-                } else {
-                    this.cf.tipoDocumentoCheque.setErrors({ tipDocCheque: true })
-                    this.cdr.detectChanges();
-                }
-            }
-        })
-    }
-
-    get cf() {
-        return this.chequeForm ? this.chequeForm.controls : {};
-    }
-
-    add() {
-        if (this.chequeForm.invalid)
-            return;
-
-        let cheque = {} as Cheque;
-        this.updateDataFromValues(cheque, this.chequeForm.value);
-        this.chequeList.push(cheque);
-        this.cheques.next(this.chequeList.slice());
-        this.chequeForm.reset({});
-        if (this.sessionService.getUser().organizationId === cheque.numeroCuentaCheque.substring(0, 4)) {
-            this.sumMontoChequePropio += cheque.montoCheque;
-            this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
-            this.cdr.detectChanges();
-        } else {
-            this.sumMontoChequeOtros += cheque.montoCheque;
-            this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
-            this.cdr.detectChanges();
-        }
-        this.cdr.detectChanges();
-    }
-
-    delete(row) {
-        this.swalService.show('¿Desea Eliminar El Cheque?', '').then((resp) => {
-            if (!resp.dismiss) {
-                this.chequeList.forEach((e, index) => {
-                    if (e.serial + e.numeroCuentaCheque === row.serial + row.numeroCuentaCheque) {
-                        this.chequeList.splice(index, 1);
-                        this.cheques.next(this.chequeList.slice());
-
-                        if (this.sessionService.getUser().organizationId === row.numeroCuentaCheque.substring(0, 4)) {
-                            this.sumMontoChequePropio -= row.montoCheque;
-                            this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
-                        } else {
-                            this.sumMontoChequeOtros -= row.montoCheque;
-                            this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
-                        }
-                    }
-                    this.cdr.detectChanges();
-                });
-            }
-        });
-    }
+    //     this.cf.serial.valueChanges.subscribe(val => {
+    //         if (val) {
+    //             if (!this.validateSerialAccountUnique(val, this.cf.numeroCuentaCheque.value)) {
+    //                 this.cf.serial.setErrors({ uniqueSerial: true })
+    //             } else {
+    //                 this.cf.serial.setErrors(null)
+    //                 this.cf.numeroCuentaCheque.setErrors(null)
+    //             }
+    //         }
+    //     });
 
 
-    errorDiferenciaChequesOtros(val: number) {
-        if (val != this.f.chequeOtros.value) {
-            this.itemForm.controls['chequeOtros'].setErrors({
-                differenceOtros: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.chequeOtros.setErrors(undefined);
-        }
-    }
+    //     this.cf.numeroCuentaCheque.valueChanges.subscribe(val => {
+    //         if (val) {
+    //             if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
+    //                 this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true })
+    //             } else {
+    //                 this.cf.serial.setErrors(null)
+    //                 this.cf.numeroCuentaCheque.setErrors(null)
+    //             }
+    //         }
+    //     });
 
-    errorDiferenciaChequesPropios(val: number) {
-        if (val != this.f.chequePropio.value) {
-            this.itemForm.controls['chequePropio'].setErrors({
-                differencePropio: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.chequePropio.setErrors(undefined);
-        }
-    }
+    //     this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
+    //         if (val) {
+    //             if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
+    //                 this.cf.tipoDocumentoCheque.setErrors(undefined)
+    //                 this.cdr.detectChanges();
+    //             } else {
+    //                 this.cf.tipoDocumentoCheque.setErrors({ tipDocCheque: true })
+    //                 this.cdr.detectChanges();
+    //             }
+    //         }
+    //     })
+    // }
+
+    // get cf() {
+    //     return this.chequeForm ? this.chequeForm.controls : {};
+    // }
+
+    // add() {
+    //     if (this.chequeForm.invalid)
+    //         return;
+
+    //     let cheque = {} as Cheque;
+    //     this.updateDataFromValues(cheque, this.chequeForm.value);
+    //     this.chequeList.push(cheque);
+    //     this.cheques.next(this.chequeList.slice());
+    //     this.chequeForm.reset({});
+    //     if (this.sessionService.getUser().organizationId === cheque.numeroCuentaCheque.substring(0, 4)) {
+    //         this.sumMontoChequePropio += cheque.montoCheque;
+    //         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
+    //         this.cdr.detectChanges();
+    //     } else {
+    //         this.sumMontoChequeOtros += cheque.montoCheque;
+    //         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+    //         this.cdr.detectChanges();
+    //     }
+    //     this.cdr.detectChanges();
+    // }
+
+    // delete(row) {
+    //     this.swalService.show('¿Desea Eliminar El Cheque?', '').then((resp) => {
+    //         if (!resp.dismiss) {
+    //             this.chequeList.forEach((e, index) => {
+    //                 if (e.serial + e.numeroCuentaCheque === row.serial + row.numeroCuentaCheque) {
+    //                     this.chequeList.splice(index, 1);
+    //                     this.cheques.next(this.chequeList.slice());
+
+    //                     if (this.sessionService.getUser().organizationId === row.numeroCuentaCheque.substring(0, 4)) {
+    //                         this.sumMontoChequePropio -= row.montoCheque;
+    //                         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
+    //                     } else {
+    //                         this.sumMontoChequeOtros -= row.montoCheque;
+    //                         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+    //                     }
+    //                 }
+    //                 this.cdr.detectChanges();
+    //             });
+    //         }
+    //     });
+    // }
+
+
+    // errorDiferenciaChequesOtros(val: number) {
+    //     if (val != this.f.chequeOtros.value) {
+    //         this.itemForm.controls['chequeOtros'].setErrors({
+    //             differenceOtros: true
+    //         });
+    //         this.cdr.detectChanges();
+    //     } else {
+    //         this.f.chequeOtros.setErrors(undefined);
+    //     }
+    // }
+
+    // errorDiferenciaChequesPropios(val: number) {
+    //     if (val != this.f.chequePropio.value) {
+    //         this.itemForm.controls['chequePropio'].setErrors({
+    //             differencePropio: true
+    //         });
+    //         this.cdr.detectChanges();
+    //     } else {
+    //         this.f.chequePropio.setErrors(undefined);
+    //     }
+    // }
 
     queryResult(data: any) {
-        this.itemForm.reset({});
+        // this.itemForm.reset({});
         if (data) {
             if (!data.id && !data.numper) {
                 this.loaded$.next(false);
@@ -496,104 +499,104 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             } else {
                 if (data.moneda) {
                     this.cuentaOperacion = data;
-                    this.moneda.id = this.cuentaOperacion.moneda;
-                    this.moneda.nombre = this.cuentaOperacion.monedaNombre;
-                    this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
-                    this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
-                    this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
-                    this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
-                    this.f.esEfectivo.setValue(true);
+                    // this.moneda.id = this.cuentaOperacion.moneda;
+                    // this.moneda.nombre = this.cuentaOperacion.monedaNombre;
+                    // this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
+                    // this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
+                    // this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
+                    // this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
+                    // this.f.esEfectivo.setValue(true);
                     this.loading.next(true);
                 } else {
 
                     this.persona = data;                    
-                    this.cuentaOperacion = undefined;
-                    this.moneda.siglas = undefined;
-                    this.f.identificacion.setValue(this.persona.identificacion);
-                    this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
-                    this.f.esEfectivo.setValue(true);
+                    // this.cuentaOperacion = undefined;
+                    // this.moneda.siglas = undefined;
+                    // this.f.identificacion.setValue(this.persona.identificacion);
+                    // this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
+                    // this.f.esEfectivo.setValue(true);
                     this.loading.next(true);
-                    this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
-                        this.cuentasBancarias.next(data);
-                        if(data.length === 1){                    
-                            this.f.cuentaBancaria.setValue(data[0].id);
-                        }
-                    });
+                    // this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
+                    //     this.cuentasBancarias.next(data);
+                    //     if(data.length === 1){                    
+                    //         this.f.cuentaBancaria.setValue(data[0].id);
+                    //     }
+                    // });  
                 }
             }
         }
 
     }
 
-    cleanScreen() {
-        this.queryResult(this.cuentaOperacion.tipoDocumento)
-        this.conoActual = [];
-        this.conoAnterior = [];
-        this.moneda = {} as Moneda;
-        this.detalleEfectivo = 0;
-        this.sumMontoChequePropio = 0;
-        this.sumMontoChequeOtros = 0;
-        this.cheque = {} as Cheque;
-        this.cheques.next([]);
-        this.loading.next(false);
-        this.cdr.detectChanges();
-    }
+    // cleanScreen() {
+    //     this.queryResult(this.cuentaOperacion.tipoDocumento)
+    //     this.conoActual = [];
+    //     this.conoAnterior = [];
+    //     this.moneda = {} as Moneda;
+    //     this.detalleEfectivo = 0;
+    //     this.sumMontoChequePropio = 0;
+    //     this.sumMontoChequeOtros = 0;
+    //     this.cheque = {} as Cheque;
+    //     this.cheques.next([]);
+    //     this.loading.next(false);
+    //     this.cdr.detectChanges();
+    // }
 
-    updateCashDetail(event) {
-        if (!event) {
-            return;
-        }
-        // this.f.efectivo.setValue(event.montoTotal);
-        // this.f.monto.setValue(event.montoTotal);
-        this.calculateDifferences(event)
-        this.conoActual = event.desgloseConoActual;
-        this.conoAnterior = event.desgloseConoAnterior;
-        this.cdr.detectChanges();
-    }
+    // updateCashDetail(event) {
+    //     if (!event) {
+    //         return;
+    //     }
+    //     // this.f.efectivo.setValue(event.montoTotal);
+    //     // this.f.monto.setValue(event.montoTotal);
+    //     this.calculateDifferences(event)
+    //     this.conoActual = event.desgloseConoActual;
+    //     this.conoAnterior = event.desgloseConoAnterior;
+    //     this.cdr.detectChanges();
+    // }
 
-    selectMotivoDevolucion(event, row: Cheque) {
-        row.motivoDevolucion = (event.target as HTMLSelectElement).value;
-    }
+    // selectMotivoDevolucion(event, row: Cheque) {
+    //     row.motivoDevolucion = (event.target as HTMLSelectElement).value;
+    // }
 
-    validateSerialAccountUnique(serial: string, numeroCuentaCheque: string) {
-        if (!serial || !numeroCuentaCheque) {
-            return true;
-        }
-        return this.chequeList.find(c => c.serial === serial && c.numeroCuentaCheque === numeroCuentaCheque) == undefined;
-    }
+    // validateSerialAccountUnique(serial: string, numeroCuentaCheque: string) {
+    //     if (!serial || !numeroCuentaCheque) {
+    //         return true;
+    //     }
+    //     return this.chequeList.find(c => c.serial === serial && c.numeroCuentaCheque === numeroCuentaCheque) == undefined;
+    // }
 
-    resetInfoFinance() {
-        this.f.cuentaBancaria.setValue(undefined);
-        this.moneda.siglas = undefined;
-        this.f.efectivo.setValue(undefined);
-        this.f.esEfectivo.disable();
-        this.f.esCheque.disable();
-        this.f.monto.setValue(undefined);
-        this.f.esEfectivo.setValue(false);
-        this.f.escheque.setValue(false);
-        this.f.esCheque.setValue('');
-        this.f.conLibreta.setValue('');
-        this.f.conMovimiento.setValue('');
-    }
+    // resetInfoFinance() {
+    //     this.f.cuentaBancaria.setValue(undefined);
+    //     this.moneda.siglas = undefined;
+    //     this.f.efectivo.setValue(undefined);
+    //     this.f.esEfectivo.disable();
+    //     this.f.esCheque.disable();
+    //     this.f.monto.setValue(undefined);
+    //     this.f.esEfectivo.setValue(false);
+    //     this.f.escheque.setValue(false);
+    //     this.f.esCheque.setValue('');
+    //     this.f.conLibreta.setValue('');
+    //     this.f.conMovimiento.setValue('');
+    // }
 
-    resetInfDeposit() {
-        this.f.tipoDocumentoDepositante.reset({});
-        this.f.identificacionDepositante.setValue('');
-        this.f.nombreDepositante.setValue('');
-        this.f.email.setValue('');
-    }
+    // resetInfDeposit() {
+    //     this.f.tipoDocumentoDepositante.reset({});
+    //     this.f.identificacionDepositante.setValue('');
+    //     this.f.nombreDepositante.setValue('');
+    //     this.f.email.setValue('');
+    // }
 
-    libretaEvaluate(event) {
-        if (event.checked) {
-            this.f.conMovimiento.setValue(false);
-        }
-    }
+    // libretaEvaluate(event) {
+    //     if (event.checked) {
+    //         this.f.conMovimiento.setValue(false);
+    //     }
+    // }
 
-    movimientoEvaluate(event) {
-        if (event.checked) {
-            this.f.conLibreta.setValue(false);
-        }
-    }
+    // movimientoEvaluate(event) {
+    //     if (event.checked) {
+    //         this.f.conLibreta.setValue(false);
+    //     }
+    // }
 
     save() {
         if (this.itemForm.invalid)

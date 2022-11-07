@@ -20,7 +20,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
-                    <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
+                    <div fxLayout="column" >
                         <sirio-card [fxFlex.gt-sm]="100" *ngIf="loading | async" fxLayout="column"
                             class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
                             <sirio-card-header class="header-bg">
@@ -35,8 +35,28 @@
                             </sirio-card-header>
 
                             <sirio-card-content fxLayout="column">
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxLayoutAlign="center">
+                                        <!-- (f.numeroCuenta.value != undefined) || -->
+                                        <div fxLayoutAlign="33" class="margin-top-md" >
+                                            <mat-slide-toggle [color]="'primary'" [(ngModel)]="esEfectivo" >
+                                                {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
+                                            </mat-slide-toggle>
+                                        </div>
+                                        <!-- <div fxFlex.gt-xs="33" class="margin-top-md">
+                                            <mat-slide-toggle [color]="'primary'" formControlName="esCheque" name="esCheque">
+                                                {{'deposit.checkDeposit' | translate: {default: 'global.checkDeposit'} | translate }}
+                                            </mat-slide-toggle>
+                                        </div>
+
+                                        <div fxFlex.gt-xs="33" class="margin-top-md">
+                                            <mat-slide-toggle [color]="'primary'" formControlName="esChequeMixto" name="esChequeMixto">
+                                                Cheque Mixto
+                                            </mat-slide-toggle> -->
+                                        <!-- </div> -->
+                                </div>
+                                
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                    <mat-form-field fxFlex.gt-sm="30" *ngIf="cuentaOperacion">
+                                    <!-- <mat-form-field fxFlex.gt-sm="30" *ngIf="cuentaOperacion">
                                         <mat-label>{{'deposit.productType' | translate: {default: 'global.productType'} |
                                             translate }}
                                         </mat-label>
@@ -54,38 +74,16 @@
                                         </mat-label>
                                         <input matInput autocomplete="off" [(ngModel)]="moneda.siglas" [ngModelOptions]="{standalone: true}" readonly
                                             name="moneda" class="text-center">
-                                    </mat-form-field>
+                                    </mat-form-field> -->
+                                    <sirio-deposito-efectivo *ngIf="(loading | async)" [required]="esEfectivo"></sirio-deposito-efectivo>
                                 </div>
-                                <div fxLayout="column" *ngIf="(f.numeroCuenta.value != undefined) || (cuentaOperacion) ">
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <div fxLayoutAlign="end center">
-                                            <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esEfectivo" name="esEfectivo">
-                                                {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
-                                            </mat-slide-toggle>
-                                        </div>
-                                        <!-- 
-                                        <div fxFlex.gt-xs="40" fxLayoutAlign="center">
-                                            <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esCheque" name="esCheque">
-                                                {{'deposit.checkDeposit' | translate: {default: 'global.checkDeposit'} | translate }}
-                                            </mat-slide-toggle>
-                                        </div>
-
-                                        <div fxFlex.gt-xs="30" fxLayoutAlign="start center">
-                                            <mat-slide-toggle  class="margin-top-md" [color]="'primary'" formControlName="esChequeMixto" name="esChequeMixto">
-                                                Cheque Mixto
-                                            </mat-slide-toggle>
-                                        </div> -->
-                                    </div>
-                                    <!-- Injectar componente -->
+                                <!-- Se injectan los componentes -->
                                     
-
-                                    <!-- Fin del Componente -->
-                                    
-                                </div>
                             </sirio-card-content>
                         </sirio-card>
                         <!-- Injectar componente -->
-                    
+                        <sirio-voucher-information *ngIf="((loading | async) && ((f.numeroCuenta.value != undefined) || (cuentaOperacion)))"
+                            [taquillaDeposito]="true"></sirio-voucher-information>
 
                         <!-- Fin del Componente -->
 

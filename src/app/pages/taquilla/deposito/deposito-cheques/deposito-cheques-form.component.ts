@@ -29,7 +29,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
     animations: [fadeInUpAnimation, fadeInRightAnimation],
 })
 
-export class DepositoFormComponent extends FormBaseComponent implements OnInit {
+export class DepositoChequeFormComponent extends FormBaseComponent implements OnInit {
 
     public chequeForm: FormGroup;
     public itemForm: FormGroup;

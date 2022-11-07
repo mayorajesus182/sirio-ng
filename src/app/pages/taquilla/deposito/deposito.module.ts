@@ -11,6 +11,9 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { DepositoFormComponent } from './form/deposito-form.component';
 import { DepositoRoutingModule } from './deposito-routing.module';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { DepositoEfectivoFormComponent } from './deposito-efectivo/deposito-efectivo-form.component';
+import { DepositoChequeFormComponent } from './deposito-cheques/deposito-cheques-form.component';
+import { DepositoMixtoFormComponent } from './deposito-mixto/deposito-mixto-form.component';
 
 
 
@@ -32,6 +35,9 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     ],
     declarations: [
         DepositoFormComponent,
+        DepositoEfectivoFormComponent,
+        DepositoChequeFormComponent,
+        DepositoMixtoFormComponent,
       
       
     ],
