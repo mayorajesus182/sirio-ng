@@ -14,6 +14,7 @@ export interface ConoMonetario {
     cantidad?: number;
     disponible?: number;
     declarado?: number;
+    errors?: any;
     activo?: number;
 }
 

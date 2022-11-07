@@ -112,33 +112,35 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                     // esto para el caso que la operacion es de retiro
                     this.conoService.activesWithDisponibleSaldoTaquillaByMoneda(monedaId).subscribe(data => {
 
-                        if (this.cono_actual) {
-                            data.map(c => {
-                                let index = this.cono_actual.findIndex(ca => ca.id == c.id);
-                                if (index >= 0) {
+                        // if (this.cono_actual) {
+                        //     data.map(c => {
+                        //         let index = this.cono_actual.findIndex(ca => ca.id == c.id);
+                        //         if (index >= 0) {
 
-                                    c.cantidad = this.cono_actual[index].cantidad;
-                                }
-                                return c;
-                            })
-                        }
+                        //             c.cantidad = this.cono_actual[index].cantidad;
+                        //         }
+                        //         return c;
+                        //     })
+                        // }\
+                        console.log(data);
+
                         this.listConoActual.next(data);
                     });
                     if (this.moneda.id == data.monedaConoActual) {
 
                         this.conoService.activesWithDisponibleSaldoTaquillaByMoneda(data.monedaConoAnterior).subscribe(data => {
 
+                            // if (this.cono_anterior) {
+                            //     data.map(c => {
+                            //         let index = this.cono_anterior.findIndex(ca => ca.id == c.id);
+                            //         if (index >= 0) {
 
-                            if (this.cono_anterior) {
-                                data.map(c => {
-                                    let index = this.cono_anterior.findIndex(ca => ca.id == c.id);
-                                    if (index >= 0) {
-
-                                        c.cantidad = this.cono_anterior[index].cantidad;
-                                    }
-                                    return c;
-                                })
-                            }
+                            //             c.cantidad = this.cono_anterior[index].cantidad;
+                            //         }
+                            //         return c;
+                            //     })
+                            // }
+                            console.log(data);
 
                             this.listConoAnterior.next(data);
                         });
@@ -161,7 +163,12 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
     }
 
-    onChangeConoActual(elem: ConoMonetario) {
+    onChangeConoActual(elem: ConoMonetario,cantidad:any, total?: number, event?: any) {
+
+        // console.log('update cantidad', event, total);
+        // console.log('cantidad', cantidad);
+        // console.log('cantidad', cantidad.errors);
+
         const ix = this.listActual.findIndex(e => e.denominacion == elem.denominacion);
 
         if (elem.cantidad <= 0 || !elem.cantidad) {
@@ -170,11 +177,12 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
                 this.conoActual.emit(this.listActual.slice());
             }
-
         } else {
             if (ix >= 0) {
                 this.listActual[ix].cantidad = elem.cantidad;
+                this.listActual[ix].errors = cantidad.errors;
             } else {
+                elem.errors=cantidad.errors
                 this.listActual.push(elem);
             }
 
@@ -201,6 +209,17 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
             this.conoAnterior.emit(this.listAnterior.slice());
         }
+    }
+
+    public focusNext(i, total) {
+        let nextElementSiblingId = 'input_' + i + 1;
+        if (i < total) {
+            console.log('next ', nextElementSiblingId);
+
+            console.log(document.querySelector(`#${nextElementSiblingId}`));
+
+        }
+
     }
 
 

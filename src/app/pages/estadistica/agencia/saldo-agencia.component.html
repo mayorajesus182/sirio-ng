@@ -3,14 +3,17 @@
   <!-- FIRST ROW -->
   <div fxLayout="column">
     <div fxLayout.gt-sm="row"  fxLayoutGap.gt-sm="8px">
-      <div fxLayout="column" fxFlex="100"  [fxLayoutGap]="gap" [fxFlex]="60">
+      <div fxLayout="column " fxFlex="100"  [fxLayoutGap]="gap" [fxFlex]="60" >
 
-        <div   fxFlex.gt-xs="100" [fxFlex]="col(1)">
-          <sirio-bar-chart-widget class="widget route-animations-elements"></sirio-bar-chart-widget>
-        </div>
-
-        <div fxFlex.gt-xs="100" [fxFlex]="col(1)">
-          <sirio-bar-hz-chart-widget class="widget route-animations-elements"></sirio-bar-hz-chart-widget>
+        <div fxLayout="row wrap" *ngFor="let m of monedas" class="margin-bottom-sm">
+          <div   fxFlex.gt-xs="100" [fxFlex]="col(1)" class="margin-bottom-sm">
+            <!-- <sirio-bar-columnrange-chart-widget [data]="dataAgencia.asObservable()" [moneda]="m" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-columnrange-chart-widget> -->
+            <sirio-bar-vert-chart-widget [data]="dataAgencia.asObservable()" [moneda]="m" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
+          </div>
+  
+          <div fxFlex.gt-xs="100" [fxFlex]="col(1)" >
+            <sirio-bar-horiz-chart-widget [data]="detailAgencia.asObservable()" [moneda]="m" title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget>
+          </div>
         </div>
 
       </div>

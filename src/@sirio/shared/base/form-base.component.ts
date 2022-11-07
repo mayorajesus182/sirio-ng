@@ -222,10 +222,10 @@ export class FormBaseComponent {
     protected errorResponse(errors, isNew: boolean = false) {
         this.loadingDataForm.next(false);
         this.snack.show({
-            message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
+            // message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
+            message: `¡Operación rechazada!`,
             verticalPosition: 'bottom',
             type: 'danger'
-
         });
     }
 
@@ -233,7 +233,8 @@ export class FormBaseComponent {
 
         this.loadingDataForm.next(false);
         this.snack.show({
-            message: `${entityName} fue ${event} satisfactoriamente!`,
+            // message: `${entityName} fue ${event} satisfactoriamente!`,
+            message: `¡Operación realizada satisfactoriamente!`,
             verticalPosition: 'bottom'
         });
     }
@@ -250,7 +251,7 @@ export class FormBaseComponent {
             if (!resp.dismiss) {
 
                 service['changeStatus'](element.id, !element.activo).subscribe(data => {
-                    this.snack.show({ message: 'Estatus actualizado satisfactoriamente!', verticalPosition: 'bottom' });
+                    this.snack.show({ message: '¡Estatus actualizado satisfactoriamente!', verticalPosition: 'bottom' });
                     element.activo = !element.activo;
                     changeDetector.detectChanges();
                 });

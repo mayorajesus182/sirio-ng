@@ -1,9 +1,9 @@
 <sirio-card >
   <sirio-card-header class="header">
-    <sirio-card-header-heading >Disponibilidad de Efectivo</sirio-card-header-heading>
-    <sirio-card-header-subheading [style.color]="options.color" class="subheading">      
+    <sirio-card-header-heading >{{title}}</sirio-card-header-heading>
+    <!-- <sirio-card-header-subheading [style.color]="options.color" class="subheading">      
       Estadística
-    </sirio-card-header-subheading>
+    </sirio-card-header-subheading> -->
     <sirio-card-header-actions>
       <button (click)="reload()" mat-icon-button>
         <mat-icon>refresh</mat-icon>
@@ -22,9 +22,9 @@
             chartType="bar">
     </canvas> -->
 
-    <highcharts-chart *ngIf="barChart"
+    <highcharts-chart *ngIf="barColumnRangeChart"
   [Highcharts]="highcharts"
-  [options]="barChart"
+  [options]="barColumnRangeChart"
   
 >
 </highcharts-chart>

@@ -29,6 +29,10 @@
       <button type="button" color="primary" mat-raised-button (click)="send()" [disabled]="form.invalid">
         INGRESAR
       </button>
+      <p  class="secondary-text text-center other" >
+        ¿Quieres Ingresar con otro Usuario?<br/>
+        <a [routerLink]="['/user/login']">Ingresa Aquí</a>
+      </p>
     </div>
   </div>
 </div>

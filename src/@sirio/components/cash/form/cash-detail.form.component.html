@@ -2,19 +2,19 @@
     <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
         <div fxLayout="column" fxFlex="auto">
             <!-- TODO: SE DEBE HACER LA INTERNACIONALIZACION -->
-            <h3>Cono Actual ({{label_cono_actual}}) </h3>
+            <h3>Cono ({{label_cono_actual}}) </h3>
             <div fxLayout="row wrap">
                 <!-- {{label ||labelPrefix || ''}} -->
-                <mat-form-field *ngFor="let item of listConoActual | async" fxFlex="100">
-                    <mat-label>{{item.denominacion | number:'1.2-2'}}  {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
+                <mat-form-field *ngFor="let item of listConoActual | async; let i = index; let c = count" fxFlex="100">
+                    <mat-label>{{item.denominacion | number:'1.2-2'}}  {{ (item.esBillete?'global.bill': 'global.coin') | translate }} {{item.disponible==0?'Cantidad Insuficiente':(item.disponible? 'Cant. Max.'+(item.disponible | number:'1.0') :'') }}
                     </mat-label>
-                    <input matInput class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number" (blur)="onChangeConoActual(item)" />
+                    <input matInput id="input_{{i}}" class="text-right" [disabled]="item.disponible==0" [max]="item.disponible" [(ngModel)]="item.cantidad" min="0" autocomplete="off" #cantidad="ngModel" matInput type="number" (keyup.enter)="onChangeConoActual(item,cantidad,c,$event)" (blur)="onChangeConoActual(item,cantidad)" />
+                    <mat-error *ngIf="cantidad.invalid && item.disponible">Cantidad máxima {{item.disponible | number:'1.0'}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}s </mat-error>
                 </mat-form-field>
 
             </div>
         </div>
-<!-- 
-        <div *ngIf="listConoAnterior | async" fxFlex="50" fxLayout="column">
+<!--   <div *ngIf="listConoAnterior | async" fxFlex="50" fxLayout="column">
             <h3>Cono Anterior ({{label_cono_anterior}}) </h3>
             <div fxLayout="row wrap">
 

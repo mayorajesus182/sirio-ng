@@ -61,7 +61,8 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
             desgloseConoActual: this.cono_actual,
             desgloseConoAnterior: this.cono_anterior, 
             moneda: this.moneda,
-            total:this.total
+            total:this.total,
+            operation: this.operation
         }, '40%').afterClosed().subscribe(e => {
             console.log('close dialog ', e);
             if(e){
