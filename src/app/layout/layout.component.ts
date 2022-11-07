@@ -62,8 +62,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   private idleConfig(): void {
 
-    // sets an idle timeout of 15 seconds.
-    this.userIdle.setIdle(GlobalConstants.TIMEOUT_CONVERT);
+    // sets an idle 15min seconds.
+    this.userIdle.setIdle(GlobalConstants.TIMEOUT_IDLE);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     this.userIdle.setTimeout(GlobalConstants.IDLE_TIMEOUT);
 

@@ -2,8 +2,11 @@ import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HCMore from "highcharts/highcharts-more";
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
-
+import exporting from 'highcharts/modules/exporting';
+import exportData from 'highcharts/modules/export-data';
+import { formatNumber } from '@angular/common';
 @Component({
 
   selector: 'sirio-bar-vert-chart-widget',
@@ -14,6 +17,7 @@ export class BarVertChartWidgetComponent implements OnInit {
 
   @Input() data: Observable<any>;
   @Input() title: string = 'Estadísticas';
+  @Input() moneda: Moneda;
   // @Input() data: ChartData;
   @Input() options: any;
 
@@ -28,7 +32,8 @@ export class BarVertChartWidgetComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    HCMore(this.highcharts);
+    exporting(Highcharts);
+    exportData(this.highcharts);
     this.reload();
   }
 
@@ -39,42 +44,7 @@ export class BarVertChartWidgetComponent implements OnInit {
     }
     this.isLoading = true;
 
-    // this.saldoAgencia.getSaldo().subscribe(dat => {
-    //   console.log('@@@@ Bar Vertical  ');
-    //   console.log(dat);
 
-    let series = [];
-    // Object.keys(dat.data).forEach(key => {
-    //   // dat.data[key];
-    //   // console.log(key);
-    //   if (key.indexOf('aumento-928') === 0 && !series.includes("aumento")) {
-    //     // console.log('push key ', key);
-    //     // console.log('dataset key ', dat.data[key]);
-    //     // series.push("aumento");
-    //     datasets_aument = dat.data[key];
-    //   }else if(key.indexOf('disminucion-928') === 0 && !series.includes("disminucion")){
-
-    //     // series.push("disminucion");
-    //     datasets_desmin = dat.data[key];
-    //   }
-    // });
-
-
-    // const labels = dat.data.labels;
-    // const monedas = dat.data.monedas;
-    //  if(labels && monedas && monedas.length > 0){
-    // [
-    //   {
-    //     name: 'Aumentar',
-    //     data: datasets_aument,
-    //     color: '#90ed7d'
-    //   },
-    //   {
-    //     name: 'Desminuir',
-    //     data: datasets_desmin,
-    //     color: '#f45b5b'
-    //   },
-    // ]
     this.data.subscribe(dataset => {
       this.isLoading = false;
 
@@ -82,21 +52,61 @@ export class BarVertChartWidgetComponent implements OnInit {
         return;
       }
 
+
+      console.log('dataset', dataset);
+      // let series = [{ color: dataset.color, data: dataset.data[this.moneda.id], name: dataset.name }]
+      // let labels = dataset.data[this.moneda.id].map(d => {
+
+      //   return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
+      // })
+
+
+      //TODO: MEJORAS ESTO LUEGO
+      let series = dataset.series.map(s => {
+
+        return { color: s.color, data: s.data[this.moneda.id], name: s.name }
+      })
+
+      let labels = dataset.labels;
+
+      console.log('series', series);
+      console.log('label', labels);
+      
+
       this.barChart = {
-        series: dataset.series,
+        series: series,
         chart: {
           type: 'column',
         },
         title: {
-          text: dataset.moneda.nombre + ' - ' + dataset.moneda.siglas,
+          text: this.moneda.nombre + ' - ' + this.moneda.siglas,
         },
         xAxis: {
-          categories: dataset.labels
+          categories: labels,
+          title: {
+            text: 'Movimientos'
+          }
         },
 
         yAxis: {
           title: {
-            text: 'Montos ( Mill. VES )'
+            text: 'Montos'
+          }
+        },
+        dataLabels: {
+          enabled: true,
+        },
+
+        plotOptions: {
+          series: {
+            // borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              formatter: function () {
+                return this.point.y ? formatNumber(this.point.y, 'es', '1.2') : '';
+              }
+              // '{point.y:.1f}'
+            }
           }
         },
         //  plotOptions: {
@@ -114,7 +124,7 @@ export class BarVertChartWidgetComponent implements OnInit {
         //  },
       } as Highcharts.ChartOptions;
 
-      this.cdref.markForCheck();
+      // this.cdref.markForCheck();
 
     })
     //  }
