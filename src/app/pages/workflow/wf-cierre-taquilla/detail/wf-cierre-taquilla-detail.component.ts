@@ -86,10 +86,10 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
 
 
     approveTask() {
-        this.swalService.show('message.approveTask', this.rol.nombre, this.opt_swal).then((resp) => {
+        this.swalService.show('message.approveTask', this.rol.nombre).then((resp) => {
 
             if (resp.value) {
-              let data = { id: this.workflow, observacion: resp.value };
+              let data = { id: this.workflow, observacion: 'Conforme' };
               this.workflowService.approved(data).subscribe(resp => {
                 this.workflowService.notify.next(true);
                 this.router.navigate(['/sirio/welcome']).then(data => {
