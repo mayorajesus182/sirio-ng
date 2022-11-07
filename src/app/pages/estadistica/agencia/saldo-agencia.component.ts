@@ -17,6 +17,7 @@ export class SaldoAgenciaComponent implements OnInit {
   dataAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   monedas:Moneda[]=[];
+  coinAvailables:BehaviorSubject<Moneda[]>= new BehaviorSubject<any>({});
   totalSalesOptions: BarChartWidgetOptions = {
     title: 'Total Sales',
     gain: 16.3,
@@ -50,7 +51,6 @@ export class SaldoAgenciaComponent implements OnInit {
       // console.log("%% saldo agencia %%");
       // console.log(result);
 
-
       let datasets_aument = {  };
       let datasets_desmin = {  };
       let datasets_final = {  };
@@ -58,6 +58,8 @@ export class SaldoAgenciaComponent implements OnInit {
       let series = [];
 
       this.monedas=result.data.monedas;
+
+      this.coinAvailables.next(this.monedas);
 
       this.monedas.forEach(m => {
 
@@ -107,6 +109,7 @@ export class SaldoAgenciaComponent implements OnInit {
       ]
 
       datasets.labels = result.data.labels;
+      
 
       this.dataAgencia.next(datasets);
       this.detailAgencia.next(datasetDetail);
