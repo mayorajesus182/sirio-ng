@@ -367,8 +367,10 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 //lista de las cuentas bancarias de la persona
                 this.cuentaBancariaService.activesByPersona(this.persona.id).subscribe(data => {
                     console.log(data);
-
                     this.cuentasBancarias.next(data);
+                    if(data.length === 1){                    
+                        this.f.cuenta.setValue(data[0].id);
+                    }
 
 
                 })

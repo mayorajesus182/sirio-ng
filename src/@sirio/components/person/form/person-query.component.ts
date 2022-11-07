@@ -73,7 +73,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.searchForm = this.fb.group({
             tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT),
-            identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
+            identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl({ value: '', disabled: true }),
             cuenta: new FormControl('')
         });

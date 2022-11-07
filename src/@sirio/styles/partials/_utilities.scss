@@ -86,8 +86,12 @@ a {
   margin-right: auto;
 }
 
-.highcharts-credits{
+.highcharts-credits {
   display: none;
+}
+
+.highlight.mat-form-field-appearance-outline .mat-form-field-outline {
+    color: #080517;
 }
 
 .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
@@ -105,9 +109,10 @@ a {
 }
 
 .datatable-header-cell {
-  
+
   align-items: center !important;
-  .datatable-header-cell-template-wrap{
+
+  .datatable-header-cell-template-wrap {
     text-align: center;
   }
 }
@@ -275,7 +280,7 @@ blockquote {
 }
 
 .swal2-icon.swal2-warning {
-  border-color: darken($theme-color-warn, 0.02) ;
+  border-color: darken($theme-color-warn, 0.02);
   color: $theme-color-warn;
 }
 
