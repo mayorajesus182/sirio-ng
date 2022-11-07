@@ -90,12 +90,12 @@ export class SaldoAgenciaComponent implements OnInit {
 
       datasets.series = [
         {
-          name: 'Aumentar',
+          name: 'Aumenta',
           data: datasets_aument,
           color: '#90ed7d'
         },
         {
-          name: 'Desminuir',
+          name: 'Disminuye',
           data: datasets_desmin,
           color: '#f45b5b'
         },
