@@ -126,9 +126,12 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 })
 
                 this.f.monto.valueChanges.subscribe(val => {
+                    // console.log("Pruiebaaaaaaaaaaaaa", val);
+                    
                     if (val) {
                         this.calculateDifferences();
                     }
+
                 })
 
                 // this.f.chequePropio.valueChanges.subscribe(val => {
@@ -162,19 +165,19 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 //     }
                 // })
 
-                this.f.esCheque.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.buildChequeForm();
-                    }
-                    else {
-                        this.f.monto.setValue(undefined);
-                        this.f.referencia.setValue('');
-                        this.f.chequePropio.setValue(undefined);
-                        this.f.chequePropio.setErrors(undefined);
-                        this.f.chequeOtros.setValue(undefined);
-                        this.f.chequeOtros.setErrors(undefined);
-                    }
-                })
+                // this.f.esCheque.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         this.buildChequeForm();
+                //     }
+                //     else {
+                //         this.f.monto.setValue(undefined);
+                //         this.f.referencia.setValue('');
+                //         this.f.chequePropio.setValue(undefined);
+                //         this.f.chequePropio.setErrors(undefined);
+                //         this.f.chequeOtros.setValue(undefined);
+                //         this.f.chequeOtros.setErrors(undefined);
+                //     }
+                // })
 
                 // manejo de escritura en el campo identificacion
                 // this.f.identificacion.valueChanges.pipe(
@@ -262,23 +265,23 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
         // (event?event.montoTotal:this.f.monto.value)        
         //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
-        if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
+        if (valorEfectivo != (event?((event.montoTotal > 0) ? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
             this.f.monto.setErrors({
                 totalDifference: true
             });
-            this.f.monto.markAsDirty();
             this.f.efectivo.setErrors({
                 difference: true
             });
             // this.f.efectivo.markAsDirty();
-            if(event && event.montoTotal > 0){
+            if(event && (event.montoTotal > 0)){
                 this.f.monto.setValue(event.montoTotal);
             }
+            this.f.monto.markAsDirty();
             // this.cdr.detectChanges();
             
         } else{
             
-            if(event && event.montoTotal > 0){
+            if(event && (event.montoTotal > 0)){
                 this.f.monto.setValue(event.montoTotal);
             }
             
@@ -615,6 +618,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.updateDataFromValues(this.deposito, this.cuentaOperacion);
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
+                // return;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
                 this.loadingDataForm.subscribe(status=>{
                     if(!status){
