@@ -264,7 +264,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
         // (event?event.montoTotal:this.f.monto.value)        
-        //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
+        //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)n
         if (valorEfectivo != (event?((event.montoTotal > 0) ? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
             this.f.monto.setErrors({
                 totalDifference: true
@@ -308,7 +308,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             esEfectivo: new FormControl(true),
             esCheque: new FormControl(false),
             esChequeMixto: new FormControl(false),
-            tipoDocumentoDepositante: new FormControl('', Validators.required),
+            tipoDocumentoDepositante: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
             identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             telefono: new FormControl(''),
@@ -522,6 +522,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                         }
                     });
                 }
+                this.f.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
             }
         }
 
@@ -618,7 +619,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.updateDataFromValues(this.deposito, this.cuentaOperacion);
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
-                // return;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
                 this.loadingDataForm.subscribe(status=>{
                     if(!status){
