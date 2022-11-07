@@ -91,11 +91,11 @@
 
 
                                         <!--total retiro -->
-                                        <mat-form-field fxFlex="25">
+                                        <mat-form-field fxFlex="25" class="highlight">
                                             <mat-label>{{'withdrawal.totalCash' | translate: {default: 'global.totalCash'} |
                                                 translate }}
                                             </mat-label>
-                                            <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto" 
+                                            <input matInput max="999999999999999.99" min="0.01" maxlength="17"  autocomplete="off" name="monto" 
                                             formControlName="monto"
                                                 currencyMask [options]="{precision:2}" >
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
@@ -114,7 +114,7 @@
                                         </sirio-cash-button>
 
                                         <!--total efectivo -->
-                                        <mat-form-field fxFlex.gt-sm="25">
+                                        <mat-form-field fxFlex.gt-sm="25" class="highlight">
                                             <mat-label>{{'withdrawal.totalWithdrawal' | translate: {default:
                                                 'global.totalWithdrawal'} | translate }}
                                             </mat-label>
