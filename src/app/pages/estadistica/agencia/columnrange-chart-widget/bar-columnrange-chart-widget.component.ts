@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import HCMore from "highcharts/highcharts-more";
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 
 @Component({
 
@@ -16,6 +15,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   // @Input() data: ChartData;
   @Input() options: any;
+  @Input() title: string;
   @Input() moneda: Moneda;
 
   highcharts = Highcharts;
@@ -24,7 +24,6 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(
-    private saldoAgencia: SaldoAgenciaService,
     private cdref: ChangeDetectorRef) {
   }
   ngOnInit(): void {
@@ -41,51 +40,26 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
     this.isLoading = true;
 
     this.data.subscribe(dataset => {
-      console.log('@@@@ Bar Column Range saldo agencia ');
-      console.log(dataset);
+      // console.log('@@@@ Bar Column Range saldo agencia ');
+      // console.log(dataset);
       this.isLoading = false;
 
       if(!dataset.series){
         return;
       }
 
+      //TODO: MEJORAS ESTO LUEGO
+      let series = dataset.series.map(s=>{
 
-      // let datasets_aument = [];
-      // let datasets_desmin = [];
-      // let series = [];
-      // Object.keys(dat.data).forEach(key => {
-      //   // dat.data[key];
-      //   // console.log(key);
-      //   if (key.indexOf('aumento-928') === 0 && !series.includes("aumento")) {
-      //     // console.log('push key ', key);
-      //     // console.log('dataset key ', dat.data[key]);
-      //     // series.push("aumento");
-      //     datasets_aument = dat.data[key];
-      //   }else if(key.indexOf('disminucion-928') === 0 && !series.includes("disminucion")){
-          
-      //     // series.push("disminucion");
-      //     datasets_desmin = dat.data[key];
-      //   }
-      // });
+        return {color: s.color,data: s.data[this.moneda.id],name:s.name}
+      })
+  
 
-
-      // [
-      //   {
-      //     name: 'Aumentar',
-      //     data: dataset.ranges.range1,
-      //     color: '#90ed7d'
-      //   },
-      //   {
-      //     name: 'Desminuir',
-      //     data: dataset.ranges.range2,
-      //     color:'#f45b5b'
-      //   },
-      // ]
       const labels = dataset.labels;
      if(labels ){
 
        this.barColumnRangeChart = {
-         series: dataset.series,
+         series: series,
          chart: {
            type: 'columnrange',
          },

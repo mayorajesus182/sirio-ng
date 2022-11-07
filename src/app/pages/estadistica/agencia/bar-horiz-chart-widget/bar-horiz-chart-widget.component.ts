@@ -1,9 +1,11 @@
 import { formatNumber } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import exporting from 'highcharts/modules/exporting';
 
-import { BehaviorSubject, Observable } from 'rxjs';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
+import exportData from 'highcharts/modules/export-data';
+import { Observable } from 'rxjs';
+import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 
 @Component({
   selector: 'sirio-bar-horiz-chart-widget',
@@ -12,101 +14,101 @@ import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo
 })
 export class BarHorizChartWidgetComponent implements OnInit {
 
-  @Input() data:  Observable<any>;
-  @Input() title: string='Estadísticas';
+  @Input() data: Observable<any>;
+  @Input() moneda: Moneda;
+  @Input() title: string = 'Estadísticas';
 
   highcharts = Highcharts;
   barChart: any = undefined;
 
-  
+
   isLoading: boolean;
 
   constructor(
-    private saldoAgencia: SaldoAgenciaService,
     private cdref: ChangeDetectorRef) {
   }
   ngOnInit(): void {
-
-        this.reload();
+    exporting(Highcharts);
+    exportData(this.highcharts);
+    this.reload();
 
   }
 
   reload() {
 
-    if(!this.data){
+    if (!this.data) {
       return;
     }
 
     this.isLoading = true;
 
-    // this.saldoAgencia.getSaldo().subscribe(dat => {
-    //   console.log('@@@@ Bar Horizontal ');
-    //   console.log(dat);
-    //   this.isLoading = false;
+
+    this.data.subscribe(dataset => {
+      this.isLoading = false;
 
 
-    //   if (dat.data['detail-928']) {
-    //     const labels = dat.data['detail-928'].map(e => {
+      if (!dataset.data) {
+        return;
+      }
 
-    //       return (e.esBillete === 1 ? 'Billete ' : 'Moneda ') + e.denominacion;
-    //     });
-    //     const monedas = dat.data.monedas;
 
-    //     let datasets = dat.data['detail-928'].map(e => e.disponible);
-/*
- [
-            {
-              name: 'Disponibilidad',
-              data: datasets,
-              color: '#90ed7d'
+      let serie = { name: dataset.name, data: dataset.data[this.moneda.id].map(d => d.disponible), color: dataset.color }
+      let labels = dataset.data[this.moneda.id].map(d => {
+
+        return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
+      })
+
+      this.barChart = {
+        series: [serie],
+        chart: {
+          type: 'bar',
+        },
+        title: {
+          text: this.moneda.nombre + ' - ' + this.moneda.siglas,
+        },
+        xAxis: {
+          type: 'category',
+          categories: labels,
+          title: {
+            text: 'Denominación'
+          },
+        },
+
+        yAxis: {
+          title: {
+            text: 'Cantidad'
+          },
+        },
+        // dataLabels: {
+        //   enabled: true,
+        // },
+
+        plotOptions: {
+          series: {
+            borderWidth: 0,
+            dataLabels: {
+              enabled: true,
+              formatter: function () {
+                return this.point.y ? formatNumber(this.point.y, 'es', '1.0') : '';
+              }
+              // '{point.y:.1f}'
             }
-          ]
-*/
-          this.data.subscribe(dataset=>{
-            this.isLoading = false;
-            if(!dataset.series){
-              return;
-            }
+          }
+        },
 
+        tooltip: {
+          formatter: function () {
 
-            this.barChart = {
-              series:dataset.series,
-              chart: {
-                type: 'column',
-              },
-              title: {
-                text: dataset.moneda.nombre + ' - ' + dataset.moneda.siglas,
-              },
-              xAxis: {
-                categories: dataset.labels
-              },
-    
-              yAxis: {
-                title: {
-                  text: 'Cantidades'
-                },
-              },
-    
-    
-              tooltip: {
-                formatter: function () {
-                  
-                  let tooltip = '<b>' + this.point.category + '</b><br/>' +
-                    '<b>Cantidad:</b> ' + formatNumber(this.point.y, 'es', '1.2')+'<br/>'+
-                    '<b>Monto:</b> ' + formatNumber(this.point.y* this.point.category.split(' ')[1], 'es', '1.2');
-                  // console.log(tooltip);
-    
-                  return tooltip;
-                }
-              },
-            } as Highcharts.ChartOptions;
+            let tooltip = '<b>' + this.point.category + '</b><br/>' +
+              '<b>Cantidad:</b> ' + formatNumber(this.point.y, 'es', '1.2') + '<br/>' +
+              '<b>Monto:</b> ' + formatNumber(this.point.y * this.point.category.split(' ')[1], 'es', '1.2');
+            // console.log(tooltip);
 
-          // });
+            return tooltip;
+          }
+        },
+      } as Highcharts.ChartOptions;
 
-      // }
-
-
-      // console.log(this.data);
 
 
       this.cdref.detectChanges();
