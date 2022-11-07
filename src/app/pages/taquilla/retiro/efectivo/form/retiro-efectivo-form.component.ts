@@ -319,7 +319,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
     queryResult(data: any) {
         // console.log('event result ', data);
-        this.itemForm.reset({});
+       this.itemForm.reset({});
 
         if (!data.id && !data.numper) {
 
@@ -438,7 +438,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.detalleEfectivo = 0;
     }
     resetInfoBenef(){
-        this.f.email.setValue('');
+        this.f.email.reset({});
 
 
     }
