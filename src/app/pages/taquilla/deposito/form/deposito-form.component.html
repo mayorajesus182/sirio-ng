@@ -69,7 +69,7 @@
                                         [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
                                     </sirio-select-search>
 
-                                    <mat-form-field fxFlex.gt-xs="auto" *ngIf="((f.numeroCuenta.value != undefined) && f.esEfectivo.value) || (cuentaOperacion) ">
+                                    <mat-form-field fxFlex.gt-xs="auto" *ngIf="((f.numeroCuenta.value != undefined) && f.esEfectivo.value) || (cuentaOperacion) " class="highlight">
                                         <mat-label>{{'deposit.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
                                         <input matInput maxlength="20"  min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo"
                                             currencyMask [options]="{precision:2}">
@@ -83,7 +83,7 @@
                                         [cono_actual]="conoActual" [cono_anterior]="conoAnterior">
                                     </sirio-cash-button>
 
-                                    <mat-form-field fxFlex.gt-xs="auto" *ngIf="(f.numeroCuenta.value != undefined) || (cuentaOperacion) ">
+                                    <mat-form-field fxFlex.gt-xs="auto" *ngIf="(f.numeroCuenta.value != undefined) || (cuentaOperacion) " class="highlight"> 
                                         <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
                                         <input matInput maxlength="20"  readonly min="0.01" autocomplete="off" name="monto" formControlName="monto"
                                             currencyMask [options]="{precision:2}">

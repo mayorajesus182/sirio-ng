@@ -124,12 +124,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.efectivo.valueChanges.subscribe(val => {
                     if (val) {
                         this.calculateDifferences();
+                        // this.f.efectivo.markAsDirty();
                     }
                 })
 
                 this.f.monto.valueChanges.subscribe(val => {
-                    // console.log("Pruiebaaaaaaaaaaaaa", val);
-                    
                     if (val) {
                         this.calculateDifferences();
                     }
@@ -268,18 +267,23 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // (event?event.montoTotal:this.f.monto.value)        
         //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)n
         if (valorEfectivo != (event?((event.montoTotal > 0) ? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
-            this.f.efectivo.setErrors({
-                difference: true
-            });
             // this.f.efectivo.markAsDirty();
             if(event && (event.montoTotal > 0)){
                 this.f.monto.setValue(event.montoTotal);
+            }else{
+                this.f.monto.setErrors({
+                    totalDifference: true
+                });
+                this.f.monto.markAsDirty();
+                this.f.efectivo.setErrors({
+                    difference: true
+                });
+                this.f.efectivo.markAsDirty();
             }
-            this.f.monto.markAsDirty();
-            // this.cdr.detectChanges();
+            
+            
+           
+            this.cdr.detectChanges();
             
         } else{
             
