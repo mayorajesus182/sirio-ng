@@ -4,14 +4,14 @@
 
 
 .menu-widget {
-  color: #e0e0e0;
-  &.blue-bg{
-    background: #f58a32;
+  color: #eeeeee;
+  &.orange-bg{
+    background: #f5b81e;
     color: white;
   }
   
   .title{
-    
+    font-size: 1.4em;
     color: #f0f0f0;
   }
   
@@ -20,18 +20,25 @@
     color: white;
   }
   
+  &.purple-bg{
+    background: #ab47bc;
+    color: white;
+  }
+  
   &.green-bg{
     background: #43d348;
     color: white;
   }
   
-  &.teal-bg{
+  &.red-bg{
     background: #f44336;
     color: white;
   }
   .header {
     .value {
       font: var(--font-display-2);
+      font-size: 2.5em;
+      color: hsla(0, 0%, 22%, 0.2);
       font-weight: 300;
       margin-top: math.div($spacing, 2);
     }
@@ -65,7 +72,7 @@
     }
 
     .pages {
-      height: 100px;
+      height: 120px;
       padding-top: 6px;
       cursor: pointer;
       .page {
