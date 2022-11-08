@@ -1,0 +1,27 @@
+<sirio-card class="menu-widget {{class_bg}}">
+  <sirio-card-header class="header" fxLayout="column">
+    <sirio-card-header-heading class="title">{{name}}</sirio-card-header-heading>
+
+    <div class="value">{{ total }}</div>
+  </sirio-card-header>
+
+  <sirio-card-content>
+    <div class="section">
+      <!-- <div class="heading">Módulo</div> -->
+      <div class="icon-content">
+        <i class="{{icon}}"></i>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="heading">Accesos Directos</div>
+      <sirio-scrollbar class="pages">
+        <div  *ngFor="let page of pages$ | async">
+          <ng-container *ngFor="let a of page.subpermisos">
+            <div class="page" *ngIf="availablePage(a.view)" [routerLink]="['/sirio/'+a.view]" matTooltip="{{'menu.'+a.label| translate: {default: 'global.notfound'} | translate}}" > <i class="fa-light fa-link-simple"></i> {{'/'+a.view}}</div>
+          </ng-container>          
+        </div>
+      </sirio-scrollbar>
+    </div>
+  </sirio-card-content>
+</sirio-card>

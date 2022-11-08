@@ -15,9 +15,10 @@ import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.s
 export class BarHorizChartWidgetComponent implements OnInit {
 
   @Input() data: Observable<any>;
-  @Input() moneda: Moneda;
+  @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
-
+  currentMoneda: Moneda;
+  availableCoins: Moneda[] = [];
   highcharts = Highcharts;
   barChart: any = undefined;
 
@@ -30,7 +31,13 @@ export class BarHorizChartWidgetComponent implements OnInit {
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
-    this.reload();
+    this.monedas.subscribe(list => {
+
+      this.currentMoneda = list[0];
+      this.availableCoins = list;
+      this.reload();
+
+    });
 
   }
 
@@ -52,11 +59,17 @@ export class BarHorizChartWidgetComponent implements OnInit {
       }
 
 
-      let serie = { name: dataset.name, data: dataset.data[this.moneda.id].map(d => d.disponible), color: dataset.color }
-      let labels = dataset.data[this.moneda.id].map(d => {
+      let serie = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
+      let labels = dataset.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
+      
+      console.log( '%%%%%');
+      console.log(dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion));
+      let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
+
+      
 
       this.barChart = {
         series: [serie],
@@ -64,7 +77,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
           type: 'bar',
         },
         title: {
-          text: this.moneda.nombre + ' - ' + this.moneda.siglas,
+          text: this.currentMoneda.nombre + ' ( <b>' + ` ${formatNumber(montoTotal, 'es', '1.2')} </b> )`,
         },
         xAxis: {
           type: 'category',
@@ -79,10 +92,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
             text: 'Cantidad'
           },
         },
-        // dataLabels: {
-        //   enabled: true,
-        // },
-
+    
         plotOptions: {
           series: {
             borderWidth: 0,
@@ -91,7 +101,6 @@ export class BarHorizChartWidgetComponent implements OnInit {
               formatter: function () {
                 return this.point.y ? formatNumber(this.point.y, 'es', '1.0') : '';
               }
-              // '{point.y:.1f}'
             }
           }
         },
@@ -110,9 +119,15 @@ export class BarHorizChartWidgetComponent implements OnInit {
       } as Highcharts.ChartOptions;
 
 
-
       this.cdref.detectChanges();
     })
 
+  }
+
+
+  changeMoneda(val) {
+    this.barChart=undefined;
+    this.currentMoneda = val;
+    this.reload();
   }
 }

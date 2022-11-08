@@ -18,14 +18,24 @@ export class SessionService {
   public static STATUS_LOCKED = 'lockscreen';
   public static USER = 'user';
   public static USER_LOCKED = 'user-locked';
-
+  private success = 'message.successfulLogout';
+  private error = 'message.logoutError';
   constructor(
 
     private authService: AuthService,
     private jwtService: JwtService,
     private router: Router,
-    private snack: SnackbarService
+    private snack: SnackbarService,
   ) {
+
+    // this.translate.get('message.successfulLogout').subscribe(txt=>{
+    //   this.success=txt;
+    //  });
+
+    //  this.translate.get('message.logoutError').subscribe(txt=>{
+    //   this.error=txt;
+    //  });
+
 
   }
 
@@ -92,12 +102,12 @@ export class SessionService {
         this.destroy();
         this.router.navigate(['/user/login']);
         //TODO: DEBO LLAMAR A TRANSLATE ACA
-        this.snack.show({ message: 'Sesión cerrada satisfactoriamente!', horizontalPosition: 'right' });
+        this.snack.show({ message: this.success, horizontalPosition: 'right' });
       },
       err => {
         this.destroy()
         //console.log('error ',err.error);
-        this.snack.show({ message: 'Problemas para cerrar la sesión!', type: 'danger' });
+        this.snack.show({ message: this.error, type: 'danger' });
 
       }
     );

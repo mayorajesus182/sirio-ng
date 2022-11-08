@@ -17,6 +17,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { HomeRoutingModule } from './home-routing.module';
+import { MenuWidgetModule } from './welcome/realtime-widget/menu-widget.module';
 
 
 import { WelcomeComponent } from './welcome/welcome.component';
@@ -41,6 +42,7 @@ import { WelcomeComponent } from './welcome/welcome.component';
     FlexLayoutModule,
     SirioSharedModule,
     HomeRoutingModule,
+    MenuWidgetModule
   ],
   declarations: [ 
     WelcomeComponent
