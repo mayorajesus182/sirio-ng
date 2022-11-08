@@ -19,4 +19,5 @@ export class GlobalConstants {
   public static OFICINA = 'O';
   public static CHEQUE = '90';
   public static CHEQUE_GERENCIA = '96';
+  // public static TIPO_PRODUCTO= '01';
 };
