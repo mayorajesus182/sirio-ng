@@ -60,7 +60,7 @@ export class BarVertChartWidgetComponent implements OnInit {
       }
 
 
-      console.log('dataset', dataset);
+      // console.log('dataset', dataset);
       // let series = [{ color: dataset.color, data: dataset.data[this.moneda.id], name: dataset.name }]
       // let labels = dataset.data[this.moneda.id].map(d => {
 
@@ -76,8 +76,8 @@ export class BarVertChartWidgetComponent implements OnInit {
 
       let labels = dataset.labels;
 
-      console.log('series', series);
-      console.log('label', labels);
+      // console.log('series', series);
+      // console.log('label', labels);
       
 
       this.barChart = {
@@ -86,7 +86,7 @@ export class BarVertChartWidgetComponent implements OnInit {
           type: 'column',
         },
         title: {
-          text: this.currentMoneda.nombre + ' - ' + this.currentMoneda.siglas,
+          text: this.currentMoneda.nombre,
         },
         xAxis: {
           categories: labels,
@@ -142,6 +142,8 @@ export class BarVertChartWidgetComponent implements OnInit {
   }
 
   changeMoneda(val){
+    this.barChart=undefined;
     this.currentMoneda=val;
+    this.reload();
   }
 }

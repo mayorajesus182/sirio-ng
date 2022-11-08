@@ -98,8 +98,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 // this.searchForm.controls['tipoDocumento'].disable();                
             } else if ((!val || val.trim().length == 0) && this.searchForm.controls['identificacion'].disabled) {
                 this.searchForm.controls['identificacion'].enable();
-                // this.searchForm.controls['tipoDocumento'].enable();                
-
+                // this.searchForm.controls['tipoDocumento'].enable();
             }
         });
 
@@ -141,6 +140,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
                 this.search.identificacion.setErrors(null);
                 this.search.cuenta.setValue('');
+                this.searchForm.controls['identificacion'].disable();
+                this.searchForm.controls['cuenta'].disable();
+                this.searchForm.controls['tipoDocumento'].disable();
                 this.cdref.detectChanges();
 
             }, err => {
@@ -195,7 +197,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.search.nombre.setValue(data.nombre);
             this.persona = { id: data.id, numper: data.numper } as Persona;
             data.numeroCuenta = cuenta;
-
+            this.searchForm.controls['identificacion'].disable();
+            this.searchForm.controls['cuenta'].disable();
+            this.searchForm.controls['tipoDocumento'].disable();
 
             // console.log("resultado consulta by cuenta", data);
             this.result.emit(data);
