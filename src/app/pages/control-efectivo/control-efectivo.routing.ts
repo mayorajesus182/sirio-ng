@@ -13,6 +13,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Arqueos de ATM' },
         loadChildren: () => import('./arqueo-atm/arqueo-atm.module').then(m => m.ArqueoAtmModule),
     },
+    {
+        path: 'cierre-agencia',
+        data: { title: 'Cierre de Agencia' },
+        loadChildren: () => import('./cierre-agencia/cierre-agencia.module').then(m => m.CierreAgenciaModule),
+    },
 ];
 
 

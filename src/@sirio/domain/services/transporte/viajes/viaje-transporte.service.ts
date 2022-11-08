@@ -32,10 +32,15 @@ export class ViajeTransporteService {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/bytransportista/actives`);
     }
 
-    update(data: ViajeTransporte): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.viaje}/${data.transportista}/update`, data)
+    update(data: ViajeTransporte[]): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/update`, data)
             .pipe(map(res => data));
     }
+
+    // update(data: ViajeTransporte): Observable<any> {
+    //     return this.apiService.config(this.apiConfig).put(`/${data.viaje}/${data.transportista}/update`, data)
+    //         .pipe(map(res => data));
+    // }
 
 }
 
