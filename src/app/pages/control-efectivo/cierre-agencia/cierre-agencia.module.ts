@@ -8,8 +8,8 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { CierreTaquillaRoutingModule } from './cierre-agencia-routing.module';
-import { CierreTaquillaFormComponent } from './form/cierre-agencia-form.component';
+import { CierreAgenciaRoutingModule } from './cierre-agencia-routing.module';
+import { CierreAgenciaFormComponent } from './form/cierre-agencia-form.component';
 
 
 
@@ -27,14 +27,14 @@ import { CierreTaquillaFormComponent } from './form/cierre-agencia-form.componen
                
         HighlightModule,
         SirioCardModule,
-        CierreTaquillaRoutingModule
+        CierreAgenciaRoutingModule
     ],
     declarations: [
-        CierreTaquillaFormComponent,      
+        CierreAgenciaFormComponent      
     ],
     exports: [],
 })
 
-export class CierreTaquillaModule {
+export class CierreAgenciaModule {
 
 }
