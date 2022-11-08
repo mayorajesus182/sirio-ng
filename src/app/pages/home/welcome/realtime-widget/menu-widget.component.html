@@ -18,7 +18,7 @@
       <sirio-scrollbar class="pages">
         <div  *ngFor="let page of pages$ | async">
           <ng-container *ngFor="let a of page.subpermisos">
-            <div class="page" *ngIf="availablePage(a.view)" [routerLink]="['/sirio/'+a.view]" matTooltip="{{'menu.'+a.label| translate: {default: 'global.notfound'} | translate}}" > <i class="fa-light fa-link-simple"></i> {{'/'+a.view}}</div>
+            <a  *ngIf="availablePage(a.view)" [routerLinkActiveOptions]="{ exact: a.pathMatchExact || false }" [routerLink]="'/sirio/'+a.view" class="page"   matTooltip="{{'menu.'+a.label| translate: {default: 'global.notfound'} | translate}}" > <i class="fa-light fa-link-simple"></i> {{'/'+a.view}}</a>
           </ng-container>          
         </div>
       </sirio-scrollbar>
