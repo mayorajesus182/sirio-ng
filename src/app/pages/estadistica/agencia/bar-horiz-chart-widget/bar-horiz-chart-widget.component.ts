@@ -64,6 +64,12 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
+      
+      console.log( '%%%%%');
+      console.log(dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion));
+      let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
+
+      
 
       this.barChart = {
         series: [serie],
@@ -71,7 +77,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
           type: 'bar',
         },
         title: {
-          text: this.currentMoneda.nombre + ' - ' + this.currentMoneda.siglas,
+          text: this.currentMoneda.nombre + ' ( <b>' + ` ${formatNumber(montoTotal, 'es', '1.2')} </b> )`,
         },
         xAxis: {
           type: 'category',
@@ -86,10 +92,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
             text: 'Cantidad'
           },
         },
-        // dataLabels: {
-        //   enabled: true,
-        // },
-
+    
         plotOptions: {
           series: {
             borderWidth: 0,
@@ -98,7 +101,6 @@ export class BarHorizChartWidgetComponent implements OnInit {
               formatter: function () {
                 return this.point.y ? formatNumber(this.point.y, 'es', '1.0') : '';
               }
-              // '{point.y:.1f}'
             }
           }
         },
@@ -124,6 +126,8 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
 
   changeMoneda(val) {
+    this.barChart=undefined;
     this.currentMoneda = val;
+    this.reload();
   }
 }
