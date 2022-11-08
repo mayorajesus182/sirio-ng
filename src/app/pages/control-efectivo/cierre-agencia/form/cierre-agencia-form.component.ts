@@ -6,36 +6,32 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { SaldoAgencia, SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
-import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-cierre-taquilla-form',
-    templateUrl: './cierre-taquilla-form.component.html',
-    styleUrls: ['./cierre-taquilla-form.component.scss'],
+    selector: 'app-cierre-agencia-form',
+    templateUrl: './cierre-agencia-form.component.html',
+    styleUrls: ['./cierre-agencia-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class CierreTaquillaFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
+export class CierreAgenciaFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
-    saldos = new BehaviorSubject<SaldoTaquilla[]>([]);
-    preferencias: Preferencia = {} as Preferencia;
+    saldos = new BehaviorSubject<SaldoAgencia[]>([]);
     diferencia: number = 0
-    isOpen: boolean = false;
 
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
         protected router: Router,
-        private saldoTaquillaService: SaldoTaquillaService,
-        private preferenciaService: PreferenciaService,
+        private saldoAgenciaService: SaldoAgenciaService,
         private taquillaService: TaquillaService,
-        private workflowService: WorkflowService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -44,7 +40,7 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     }
 
     loadSaldos() {
-        this.saldoTaquillaService.allWithMovements().subscribe(data => {
+        this.saldoAgenciaService.allWithMovements().subscribe(data => {
             this.saldos.next(data);
         });
     }
@@ -52,26 +48,25 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            // if (isOpen) {
+            if (isOpen) {
+                
+                this.isNew = false;
 
-            this.isNew = false;
-            this.isOpen = isOpen;
+                this.preferenciaService.get().subscribe(data => {
+                    this.preferencias = data;
+                });
+        
+                this.loadingDataForm.next(false);
+                this.loadSaldos();
 
-            this.preferenciaService.get().subscribe(data => {
-                this.preferencias = data;
-            });
-
-            this.loadingDataForm.next(false);
-            this.loadSaldos();
-
-            // } else {
-
-            //   this.router.navigate(['/sirio/welcome']);
-            //   this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
-            //     if (!resp.dismiss) {}
-            //   });
-            // }
-        });
+            } else {
+                
+              this.router.navigate(['/sirio/welcome']);
+              this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) {}
+              });
+            }
+          });
     }
 
     updateValuesErrors(saldo: SaldoTaquilla) {
@@ -140,35 +135,18 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
 
     closeDay() {
 
+        let taquilla;
+        let mensaje = '';
+        this.saldos.value.forEach(saldo => {
+            taquilla = saldo.taquilla;
+            mensaje = mensaje + '<b> '.concat(saldo.siglasMoneda).concat(' - ').concat(saldo.nombreMoneda).concat(' </b> <br/> ').concat(this.calculateDifferences(saldo)).concat(' <br/>  ');
+        });
 
-        this.workflowService.existsAnyOpen().subscribe(isOpen => {
-
-            let mensaje = '';         
-
-            if (isOpen) {
-
-                mensaje = 'Cierre Sus Tareas Pendientes Y Verifique Que No Existan Pases En Transito Pendientes Por Aprobación De La Bóveda';
-                this.swalService.show('No Puede Cerrar La Taquilla', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
-                    if (!resp.dismiss) {}
-                });
-
-
-            } else {
-
-                let taquilla;
-
-                this.saldos.value.forEach(saldo => {
-                    taquilla = saldo.taquilla;
-                    mensaje = mensaje + '<b> '.concat(saldo.siglasMoneda).concat(' - ').concat(saldo.nombreMoneda).concat(' </b> <br/> ').concat(this.calculateDifferences(saldo)).concat(' <br/>  ');
-                });
-
-                this.swalService.show('¿Desea Cerrar La Jornada?', undefined, { html: mensaje }).then((resp) => {
-                    if (!resp.dismiss) {
-                        this.taquillaService.close(taquilla).subscribe(result => {
-                            this.snack.show({ message: 'Taquilla Cerrada Exitosamente Para La Jornada!', verticalPosition: 'bottom' });
-                            this.router.navigate(['/sirio/welcome']);
-                        });
-                    }
+        this.swalService.show('¿Desea Cerrar La Jornada?', undefined, { 'html': mensaje }).then((resp) => {
+            if (!resp.dismiss) {
+                this.taquillaService.close(taquilla).subscribe(result => {
+                    this.snack.show({ message: 'Taquilla Cerrada Exitosamente Para La Jornada!', verticalPosition: 'bottom' });
+                    this.router.navigate(['/sirio/welcome']);
                 });
             }
         });

@@ -11,25 +11,25 @@
                 matSortActive="fcreacion" matSortDirection="desc">
 
                 <ng-container matColumnDef="atm_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'atm.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'atm.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="identificacion">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'atm.identification' | translate:
-                        {default: 'global.identification'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'atm.atmIdentification' | translate:
+                        {default: 'global.atmIdentification'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="text-truncate font-weight-600">{{element.identificacion}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="moneda_id">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'atm.coin' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'atm.coin' | translate:
                         {default: 'global.coin'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
                         <p class="text-truncate font-weight-600">{{element.moneda}}</p>
                     </mat-cell>
                 </ng-container>
@@ -43,9 +43,9 @@
                 </ng-container>
 
                 <ng-container matColumnDef="responsable">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'atm.responsible' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'">{{'atm.responsible' | translate:
                         {default: 'global.responsible'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
                         <p class="text-truncate font-weight-600">{{element.agencia}}{{element.transportista}}</p>
                     </mat-cell>
                 </ng-container>

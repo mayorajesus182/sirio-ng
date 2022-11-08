@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
 
-                                <div *ngIf="isOpen" fxLayout="row" fxLayout="column">
+                                <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
                                         <button color="primary" (click)="declare(item)" mat-raised-button>
                                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
@@ -129,7 +129,7 @@
                     </ng-container>
                 </sirio-card-content>
 
-                <mat-toolbar *ngIf="isOpen">
+                <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button color="primary" (click)="closeDay()" mat-raised-button >
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.closeDay' | translate: {default:
