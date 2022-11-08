@@ -21,7 +21,7 @@
   </div>
 
   <sirio-scrollbar class="sidenav-items" fxFlex="auto">
-    <div *ngIf="sidenavUserVisible$ | async" class="sidenav-user">
+    <div *ngIf="(sidenavUserVisible$ | async) && expanded" class="sidenav-user">
       <img class="sidenav-user-image" src="assets/img/avatars/default.jpg" [matTooltip]="fullName">
       <h4 class="sidenav-user-name">{{(this.fullName || 'Name Not Found') | titlecase}}</h4>
       <h5 class="sidenav-user-text">{{officeName | titlecase}}</h5>
