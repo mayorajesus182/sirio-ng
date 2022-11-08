@@ -35,8 +35,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     retiro: Retiro = {} as Retiro;
     public tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
     cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-    public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
-    //public tipoDocumentosactivos = new BehaviorSubject<TipoDocumento[]>([]);
+    public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);    
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     persona: Persona = {} as Persona;
@@ -50,6 +49,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     esAbonoCuenta: boolean = false;
     detalleEfectivo: number = 0;
     todayValue: moment.Moment;
+  
 
     constructor(
         injector: Injector,
@@ -107,32 +107,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     }
 
 
-    // calculateDifferences() {
-
-    //     this.f.numeroCuenta.enable()
-
-
-    //     if (this.f.monto.value != this.detalleEfectivo) {
-    //         this.itemForm.controls['monto'].setErrors({
-    //             difference: true
-    //         });
-    //         this.cdr.detectChanges();
-    //     } else {
-    //         this.f.monto.setErrors(undefined);
-    //     }
-
-    //     if (this.f.monto.value != this.f.totalRetiro.value) {
-    //         this.itemForm.controls['totalRetiro'].setErrors({
-    //             differenceMonto: true
-    //         });
-    //         this.itemForm.controls['monto'].setErrors({
-    //             required: true
-    //         });
-    //         this.cdr.detectChanges();
-    //     } else {
-    //         this.f.totalRetiro.setErrors(undefined);
-    //     }
-    // }
+  
 
     calculateDifferences(event?:any) {
 
@@ -140,9 +115,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
         // (event?event.montoTotal:this.f.monto.value)
-        console.log(' event ',event);
-        console.log(' valor  ',valorEfectivo);
-        console.log(' comparacion ',valorEfectivo != (event?event.montoTotal:this.f.totalRetiro.value));
+       // console.log(' event ',event);
+       // console.log(' valor  ',valorEfectivo);
+       // console.log(' comparacion ',valorEfectivo != (event?event.montoTotal:this.f.totalRetiro.value));
         
         
         if (valorEfectivo != (event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)) {
@@ -157,7 +132,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             if(event && event.montoTotal > 0){
                 this.f.totalRetiro.setValue(event.montoTotal);
             }
-            // this.cdr.detectChanges();
+          
             
         } else{
             
@@ -186,7 +161,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             moneda: new FormControl(''),
             tipoProducto: new FormControl(''),
             totalRetiro: new FormControl(undefined),
-            email: new FormControl(undefined),
+            email: new FormControl(undefined, [Validators.required]),           
             cuentaBancaria: new FormControl(undefined),
         });
 
@@ -195,11 +170,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
            // console.log('cuenta seleccionada ', val);
 
             if (val && val != '') {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                console.log('cuentaselec', cuenta);                
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];                        
 
-                this.moneda.id = cuenta.moneda;
-               // console.log('moneda',  this.moneda.id);  
+                this.moneda.id = cuenta.moneda;              
                 this.moneda.nombre = cuenta.monedaNombre;
                 this.moneda.siglas = cuenta.siglas;
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
@@ -210,37 +183,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             }
         });
 
-                   //console.log('cuenta seleccionada ', val);
- 
-           //  if (this.f.cuentaBancariaOperacion ) {
-                // let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                // console.log('tiene emal por busqueda cuenta',val );                
- 
-                //this.f.email.value 
-                 //  this.moneda.id = cuenta.moneda;
-                //  this.moneda.nombre = cuenta.monedaNombre;
-                //  this.moneda.siglas = cuenta.siglas;
-                //  this.f.tipoProducto.setValue(cuenta.tipoProducto);
-                //  this.f.cuentaBancaria.setValue(cuenta.id);
-                //  this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
+     
  
  
-          //   }else{  !this.f.cuentaBancariaOperacion  //busca por persona
-                   
-                //    this.f.email.valueChanges.subscribe(val => {
-                //     console.log('emal por bus pers', val);  
-                //        if (this.f.email.value  != ''){
-                //         console.log('emal1', this.f.email.value);  
-                //         this.f.email.disabled                      
-                //     }else {
-                //         console.log('emal2', this.f.email.value);  
-                //         this.f.email.enable}
-                // });
-             
-           //     }
-
-      
-
 
 
 
@@ -251,23 +196,12 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     updateCashDetail(event) {
         // console.log('update cash detail ', event)
         if (!event) {
-            return;
-        }
-        // this.detalleEfectivo = event.montoTotal;
+            return;       
+         }
+      
 
         this.calculateDifferences(event);
-        // this.f.monto.setValue(event.montoTotal);
-    
-       
-
-        // if (this.f.monto.value != this.detalleEfectivo) {
-        //     this.itemForm.controls['monto'].setErrors({
-        //         difference: true
-        //     });
-        //     this.cdr.detectChanges();
-        // } else {
-        //     this.f.monto.setErrors(undefined);
-        // }
+        
 
 
         this.conoActual = event.desgloseConoActual;
@@ -320,6 +254,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     queryResult(data: any) {
         // console.log('event result ', data);
        this.itemForm.reset({});
+       this.f.email.enable();
 
         if (!data.id && !data.numper) {
 
@@ -327,10 +262,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.persona = {} as Persona;
             this.cuentaBancariaOperacion = undefined;
             this.isNew = true;
-            this.cuentasBancarias.next([]);
-            // this.f.totalRetiro.reset(0);
-            // this.f.monto.reset(0);
-            // this.f.email.reset();
+            this.cuentasBancarias.next([]);         
             this.esRetiroEfectivo = false;
             this.conoActual = [];
             this.conoAnterior = [];
@@ -351,7 +283,10 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.f.cuentaBancaria.setValue(this.cuentaBancariaOperacion.id);
                 this.f.identificacion.setValue(this.cuentaBancariaOperacion.identificacion)
                 this.persona.nombre = this.cuentaBancariaOperacion.nombre;
-                this.f.email.setValue(this.cuentaBancariaOperacion.email);                
+                this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                if (this.cuentaBancariaOperacion.email ){
+                    this.f.email.disable();
+                }             
                 //console.log("DATAcuentaBancaria", data);
 
             } else {
@@ -360,13 +295,14 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.cuentaBancariaOperacion = undefined;
                 this.f.identificacion.setValue(this.persona.identificacion)
                 this.f.email.setValue(this.persona.email);
-                
-
-                console.log("DATAPersona", data);
+                if (this.persona.email ){
+                    this.f.email.disable();
+                }                  
+                //console.log("DATAPersona", data);
 
                 //lista de las cuentas bancarias de la persona
                 this.cuentaBancariaService.activesByPersona(this.persona.id).subscribe(data => {
-                    console.log(data);
+                   
                     this.cuentasBancarias.next(data);
                     if(data.length === 1){                    
                         this.f.cuenta.setValue(data[0].id);
@@ -438,9 +374,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.f.monto.reset({});
         this.f.totalRetiro.reset({});
         this.cuentasBancarias.next([]);
-        this.cuentaBancariaOperacion = undefined;
-        //this.f.numeroCuenta.reset();
-       // this.cuentaBancariaOperacion.tipoProductoNombre = undefined;
+        this.cuentaBancariaOperacion = undefined;      
         this.conoActual = [];
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
