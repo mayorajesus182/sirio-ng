@@ -524,7 +524,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.loading.next(true);
                     this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
                         this.cuentasBancarias.next(data);
-                        console.log('Cuentaaaaaaaaaaaaas', data);                
+                        // console.log('Cuentaaaaaaaaaaaaas', data);                
                         if(data.length === 1){    
                             
                             this.f.cuentaBancaria.setValue(data[0].id);
