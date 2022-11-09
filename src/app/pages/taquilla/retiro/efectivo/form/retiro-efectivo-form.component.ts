@@ -191,8 +191,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
         this.calculateDifferences(event);
 
-
-
         this.conoActual = event.desgloseConoActual;
         this.conoAnterior = event.desgloseConoAnterior;
         this.cdr.detectChanges();

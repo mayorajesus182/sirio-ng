@@ -127,9 +127,16 @@
                                     <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 99.999.999,99
                                     </mat-error>
                                     <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>
-                                    <mat-error *ngIf="f.montoCheque.errors?.differenceMonto">verifique monto del cheque</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.difference">verifique monto del cheque</mat-error>
                                 </mat-form-field>
 
+                                <sirio-cash-button operation="retiro" [moneda]="moneda" [total]="f.monto.value"
+                                [disabled]="f.numeroCuenta.value <= 0" class="margin-top-md"
+                                (update)="updateCashDetail($event)" [cono_actual]="conoActual"
+                                [cono_anterior]="conoAnterior">
+                        </sirio-cash-button> 
+                              
+                              
                                 <mat-form-field fxFlex="25">
                                     <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
                                         translate }}
@@ -139,15 +146,12 @@
                                     <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.difference">verifique monto</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.totalDifference">verifique monto</mat-error>
                                 </mat-form-field>
 
-                                 <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
-                                        [disabled]="f.numeroCuenta.value <= 0" class="margin-top-md"
-                                        (update)="updateCashDetail($event)" [cono_actual]="conoActual"
-                                        [cono_anterior]="conoAnterior">
-                                </sirio-cash-button>  
+                               
 
+                              
                                
                                <!--  <mat-form-field fxFlex="25">
                                     <mat-label>{{'withdrawal.issueDate' | translate: {default:
@@ -192,7 +196,7 @@
                                 <sirio-card-header-actions>
                                     <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                             {default: 'global.notfound'} | translate }}" type="button"
-                                        (click)="resetInfoFinance()">
+                                        (click)="resetInfobeneficiary()">
                                         <mat-icon>backspace</mat-icon>
                                     </button>
                                 </sirio-card-header-actions>
