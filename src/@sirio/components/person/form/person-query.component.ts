@@ -39,6 +39,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     persona: Persona = {} as Persona;
 
     private loading = new BehaviorSubject<boolean>(false);
+    disable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
     private _onDestroy = new Subject<void>();
@@ -55,6 +56,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
 
+        this.disable.subscribe(val => {
+            if (val) {
+                this.searchForm.controls['identificacion'].disable();
+                this.searchForm.controls['cuenta'].disable();
+                this.searchForm.controls['tipoDocumento'].disable();
+            }
+        })
     }
 
     ngOnInit(): void {
@@ -79,30 +87,30 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         });
 
 
-        this.search.identificacion.valueChanges.subscribe(val => {
+        // this.search.identificacion.valueChanges.subscribe(val => {
 
-            if (val && val.trim().length > 0 && !this.searchForm.controls['cuenta'].disabled) {
+        //     if (val && val.trim().length > 0 && !this.searchForm.controls['cuenta'].disabled) {
 
-                this.searchForm.controls['cuenta'].disable();
-            } else if ((!val || val.trim().length == 0) && this.searchForm.controls['cuenta'].disabled) {
-                this.searchForm.controls['cuenta'].enable();
+        //         this.searchForm.controls['cuenta'].disable();
+        //     } else if ((!val || val.trim().length == 0) && this.searchForm.controls['cuenta'].disabled) {
+        //         this.searchForm.controls['cuenta'].enable();
 
-            }
-            // this.cdref.detectChanges();
-        })
+        //     }
+        //     // this.cdref.detectChanges();
+        // })
 
 
-        this.search.cuenta.valueChanges.subscribe(val => {
-            if (val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled) {
-                this.searchForm.controls['identificacion'].disable();
-                // this.searchForm.controls['tipoDocumento'].disable();                
-            } else if ((!val || val.trim().length == 0) && this.searchForm.controls['identificacion'].disabled) {
-                this.searchForm.controls['identificacion'].enable();
-                // this.searchForm.controls['tipoDocumento'].enable();
-            }
-        });
+        // this.search.cuenta.valueChanges.subscribe(val => {
+        //     if (val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled) {
+        //         this.searchForm.controls['identificacion'].disable();
+        //         // this.searchForm.controls['tipoDocumento'].disable();                
+        //     } else if ((!val || val.trim().length == 0) && this.searchForm.controls['identificacion'].disabled) {
+        //         this.searchForm.controls['identificacion'].enable();
+        //         // this.searchForm.controls['tipoDocumento'].enable();
+        //     }
+        // });
 
-        this.cdref.markForCheck();
+        // this.cdref.markForCheck();
 
     }
 
@@ -140,9 +148,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
                 this.search.identificacion.setErrors(null);
                 this.search.cuenta.setValue('');
-                this.searchForm.controls['identificacion'].disable();
-                this.searchForm.controls['cuenta'].disable();
-                this.searchForm.controls['tipoDocumento'].disable();
+                // this.searchForm.controls['identificacion'].disable();
+                // this.searchForm.controls['cuenta'].disable();
+                // this.searchForm.controls['tipoDocumento'].disable();
+                this.disable.next(true);
                 this.cdref.detectChanges();
 
             }, err => {
@@ -197,11 +206,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.search.nombre.setValue(data.nombre);
             this.persona = { id: data.id, numper: data.numper } as Persona;
             data.numeroCuenta = cuenta;
-            this.searchForm.controls['identificacion'].disable();
-            this.searchForm.controls['cuenta'].disable();
-            this.searchForm.controls['tipoDocumento'].disable();
+            // this.searchForm.controls['identificacion'].disable();
+            // this.searchForm.controls['cuenta'].disable();
+            // this.searchForm.controls['tipoDocumento'].disable();
 
             // console.log("resultado consulta by cuenta", data);
+            this.disable.next(true);
+            this.cdref.detectChanges();
             this.result.emit(data);
 
         }, err => {
@@ -235,6 +246,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     resetAll() {
         this.searchForm.reset({});
+        this.disable.next(false);
+        this.searchForm.controls['cuenta'].enable();
+        this.searchForm.controls['identificacion'].enable();
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.result.emit({});
     }
@@ -255,8 +269,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isDisabled() {
         console.log('this.persona.numper != undefined || this.persona.numper != null');
         console.log(this.persona.numper != undefined || this.persona.numper != null);
-        
-        return this.persona.numper != undefined || this.persona.numper != null;
+
+        return this.persona.numper != undefined || this.persona.numper != null || this.search.cuenta.value != undefined;
     }
 
 
