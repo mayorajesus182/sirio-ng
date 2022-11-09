@@ -252,5 +252,12 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         });
     }
 
+    isDisabled() {
+        console.log('this.persona.numper != undefined || this.persona.numper != null');
+        console.log(this.persona.numper != undefined || this.persona.numper != null);
+        
+        return this.persona.numper != undefined || this.persona.numper != null;
+    }
+
 
 }

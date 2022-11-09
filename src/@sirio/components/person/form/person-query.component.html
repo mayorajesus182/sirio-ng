@@ -24,7 +24,7 @@
                 <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
-                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" 
+                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="isDisabled()"
                         formControlName="identificacion">
 
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
