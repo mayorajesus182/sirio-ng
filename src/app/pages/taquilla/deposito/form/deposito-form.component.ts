@@ -20,6 +20,7 @@ import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquill
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Cheque, Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
+import { SplashScreenService } from 'src/@sirio/services/splash-screen.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 @Component({
     selector: 'app-deposito-form',
@@ -68,7 +69,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         private taquillaService: TaquillaService,
         private sessionService: SessionService,
         private motivoDevolucionService: MotivoDevolucionService,
-        private cdr: ChangeDetectorRef) {
+        private cdr: ChangeDetectorRef,
+        private splashScreenService: SplashScreenService) {
         super(undefined, injector);
     }
 
@@ -122,12 +124,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.efectivo.valueChanges.subscribe(val => {
                     if (val) {
                         this.calculateDifferences();
+                        // this.f.efectivo.markAsDirty();
                     }
                 })
 
                 this.f.monto.valueChanges.subscribe(val => {
-                    // console.log("Pruiebaaaaaaaaaaaaa", val);
-                    
                     if (val) {
                         this.calculateDifferences();
                     }
@@ -264,20 +265,25 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         // let valorChequePropio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
         // let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
         // (event?event.montoTotal:this.f.monto.value)        
-        //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)
+        //(event?(event.montoTotal > 0? event.montoTotal:this.f.totalRetiro.value):this.f.totalRetiro.value)n
         if (valorEfectivo != (event?((event.montoTotal > 0) ? event.montoTotal:this.f.monto.value):this.f.monto.value)) {   
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
-            this.f.efectivo.setErrors({
-                difference: true
-            });
             // this.f.efectivo.markAsDirty();
             if(event && (event.montoTotal > 0)){
                 this.f.monto.setValue(event.montoTotal);
+            }else{
+                this.f.monto.setErrors({
+                    totalDifference: true
+                });
+                this.f.monto.markAsDirty();
+                this.f.efectivo.setErrors({
+                    difference: true
+                });
+                this.f.efectivo.markAsDirty();
             }
-            this.f.monto.markAsDirty();
-            // this.cdr.detectChanges();
+            
+            
+           
+            this.cdr.detectChanges();
             
         } else{
             
@@ -308,7 +314,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             esEfectivo: new FormControl(true),
             esCheque: new FormControl(false),
             esChequeMixto: new FormControl(false),
-            tipoDocumentoDepositante: new FormControl('', Validators.required),
+            tipoDocumentoDepositante: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
             identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             telefono: new FormControl(''),
@@ -349,15 +355,16 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         })
 
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
+            this.f.esEfectivo.disable();
+            this.f.esEfectivo.setValue(false);
             if (val && (val != '')) {
-                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0]; 
                 this.moneda.id = cuenta.moneda;
                 this.moneda.nombre = cuenta.monedaNombre;
                 this.moneda.siglas = cuenta.siglas;
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
                 this.f.moneda.setValue(this.moneda.id);
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
-                // Revisaaaaaaaaaaaaaaaaaaaaaaar JJSD
                 this.f.esEfectivo.enable()
                 this.f.esCheque.enable()
                 this.f.esEfectivo.setValue(true);
@@ -497,31 +504,35 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.cdr.detectChanges();
             } else {
                 if (data.moneda) {
-                    this.cuentaOperacion = data;
+                    this.cuentaOperacion = data;                    
                     this.moneda.id = this.cuentaOperacion.moneda;
                     this.moneda.nombre = this.cuentaOperacion.monedaNombre;
                     this.moneda.siglas = this.cuentaOperacion.monedaSiglas;
                     this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
                     this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
                     this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
-                    this.f.esEfectivo.setValue(true);
+                    this.f.esEfectivo.setValue(false);
                     this.loading.next(true);
                 } else {
 
-                    this.persona = data;                    
+                    this.persona = data;    
                     this.cuentaOperacion = undefined;
                     this.moneda.siglas = undefined;
                     this.f.identificacion.setValue(this.persona.identificacion);
                     this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
-                    this.f.esEfectivo.setValue(true);
+                    this.f.esEfectivo.setValue(false);
                     this.loading.next(true);
                     this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
                         this.cuentasBancarias.next(data);
-                        if(data.length === 1){                    
+                        // console.log('Cuentaaaaaaaaaaaaas', data);                
+                        if(data.length === 1){    
+                            
                             this.f.cuentaBancaria.setValue(data[0].id);
                         }
                     });
                 }
+
+                this.f.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
             }
         }
 
@@ -579,7 +590,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     }
 
     resetInfDeposit() {
-        this.f.tipoDocumentoDepositante.reset({});
         this.f.identificacionDepositante.setValue('');
         this.f.nombreDepositante.setValue('');
         this.f.email.setValue('');
@@ -618,7 +628,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.updateDataFromValues(this.deposito, this.cuentaOperacion);
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
-                // return;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
                 this.loadingDataForm.subscribe(status=>{
                     if(!status){

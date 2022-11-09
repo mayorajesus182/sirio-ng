@@ -18,6 +18,16 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Cierre de Agencia' },
         loadChildren: () => import('./cierre-agencia/cierre-agencia.module').then(m => m.CierreAgenciaModule),
     },
+    {
+        path: 'pase-boveda',
+        data: { title: 'Pases a Bóveda' },
+        loadChildren: () => import('./pase-boveda/pase-boveda.module').then(m => m.PaseABovedaModule),
+    },
+    {
+        path: 'cierre-taquilla',
+        data: { title: 'Pases a Bóveda' },
+        loadChildren: () => import('./cierre-taquilla/cierre-taquilla.module').then(m => m.CierreTaquillaModule),
+    },
 ];
 
 

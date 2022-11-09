@@ -28,10 +28,10 @@ export class MenuWidgetComponent implements  AfterViewInit {
    
     let first = true;
 
-    this.pages$.subscribe(data=>{
-      // console.log(' data widget ',data);
+    // this.pages$.subscribe(data=>{
+    //   // console.log(' data widget ',data);
       
-    });
+    // });
    
   }
 
@@ -39,7 +39,6 @@ export class MenuWidgetComponent implements  AfterViewInit {
     if(!view){
       return;
     }
-    console.log(view+' '+view.indexOf(this.prefix_page));
     
     return view.indexOf(this.prefix_page) == 0;
   }

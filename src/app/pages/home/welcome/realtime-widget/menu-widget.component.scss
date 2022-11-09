@@ -5,13 +5,13 @@
 
 .menu-widget {
   color: #e0e0e0;
-  &.blue-bg{
-    background: #f58a32;
+  &.orange-bg{
+    background: #fd8320;
     color: white;
   }
   
   .title{
-    
+    font-size: 1.4em;
     color: #f0f0f0;
   }
   
@@ -20,18 +20,30 @@
     color: white;
   }
   
+  &.purple-bg{
+    background: #ab47bc;
+    color: white;
+  }
+  
   &.green-bg{
     background: #43d348;
     color: white;
   }
   
-  &.teal-bg{
+  &.red-bg{
     background: #f44336;
+    color: white;
+  }
+  
+  &.teal-bg{
+    background: #26a69a;
     color: white;
   }
   .header {
     .value {
       font: var(--font-display-2);
+      font-size: 2.5em;
+      color: hsla(0, 0%, 22%, 0.2);
       font-weight: 300;
       margin-top: math.div($spacing, 2);
     }
@@ -58,19 +70,26 @@
       padding-top: math.div($spacing, 2);
       padding-bottom: math.div($spacing, 2);
       i{
-        font-size: 5em;
+        font-size: 5.3em;
         margin-left: auto;
         margin-right: auto;
+        // color: rgba(48, 48, 48, 0.3);
+        color: rgba(253, 253, 253, 0.8);
       }
     }
 
     .pages {
-      height: 100px;
+      height: 120px;
       padding-top: 6px;
-      cursor: pointer;
-      .page {
-        color: #eeeeee;
+      // cursor: pointer;
+      
+      .page {        
+        color: #f5f5f5;
+        text-align: left;
+        text-decoration: none;
         & + .page {
+          display: flex;
+          width: 100%;
           padding-top: math.div($spacing, 3);
         }
       }
