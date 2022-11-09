@@ -191,8 +191,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
         this.calculateDifferences(event);
 
-
-
         this.conoActual = event.desgloseConoActual;
         this.conoAnterior = event.desgloseConoAnterior;
         this.cdr.detectChanges();
@@ -287,6 +285,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.f.email.setValue(this.persona.email);
                 if (this.persona.email) {
                     this.f.email.disable();
+                }else{
+                    this.f.email.enable();
                 }
                 //console.log("DATAPersona", data);
 
@@ -360,7 +360,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
             if (saldo == 0) {
 
-                let mensaje = 'Para La Moneda <b>' + moneda.nombre + '</b> <br> No Existe Disponibilidad en su Caja'
+                let mensaje = 'Para la Moneda <b>' + moneda.nombre + '</b> <br> No Existe Disponibilidad en su Caja'
                 this.swalService.show('No Hay Disponibilidad De Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) {
                         this.router.navigate(['/sirio/welcome']);
@@ -382,11 +382,26 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.conoActual = [];
         this.conoAnterior = [];
         this.detalleEfectivo = 0;
+        this.f.email.reset('');
     }
+   
     resetInfoBenef() {
-        this.f.email.reset({});
-
-
-    }
-
+      
+       // this.f.email.enable(); 
+        
+        if (this.f.email.disable){    
+        
+            return;           
+        }
+        if (this.f.email.enable && this.f.email == undefined){   
+        console.log("dsfsdds");
+        
+            this.f.email.reset('');
+           // return;
+        }
+        
+    
+           
+       }
+  
 }
