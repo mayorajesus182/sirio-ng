@@ -43,6 +43,10 @@ export class TaquillaService {
         return this.apiService.config(this.apiConfig).get('/isopen');
     }
 
+    isOpenByAgencia(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get('/byagencia/isopen');
+    }
+
     getByUsuario(): Observable<Taquilla> {
         return this.apiService.config(this.apiConfig).get('/byusuario/get');
     }

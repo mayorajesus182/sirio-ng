@@ -183,8 +183,6 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
         if (!existsDifference) {
             this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
         } else {
-console.log(this.cajaTaquilla);
-
             this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
                 if (!resp.dismiss) { }
             });
