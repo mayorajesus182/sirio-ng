@@ -32,6 +32,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
     rol: Rol = {} as Rol;
+    public conoSave: ConoMonetario[] = [];
     workflow: string = undefined;
 
     constructor(
@@ -58,17 +59,28 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
 
             if (exp) {
 
+                this.isNew = false;
+
                 this.rolService.getByWorkflow(this.workflow).subscribe(data => {
                     this.rol = data;
-                  });
+                });
 
                 this.bovedaAgenciaService.getByExpediente(exp).subscribe(data => {
                     this.bovedaAgencia = data;
                     this.buildForm(this.bovedaAgencia);
 
                     this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
+
+                        conoData =  conoData.map(c=> {
+                            let val = data.detalleEfectivo.filter(c1=>c1.id.cono==c.id)[0];
+                            c.cantidad= val?val.cantidad:0;
+                            c.disponible = val? c.disponible+val.cantidad : c.disponible;
+                            return c;
+                        })
+                        
                         this.conos.next(conoData);
-                    //    conoData.forEach(function (conoVacio) { data.detalleEfectivo.forEach(function (conoregistrado) { console.log('aquiiiiiiii') }) });
+
+                        this.updateValuesErrors(this.conos[0]);
                         this.cdr.detectChanges();
                     });
 
@@ -88,16 +100,25 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
+            monto: new FormControl(bovedaAgencia.monto || undefined),
         });
     }
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
+    updateValuesErrors(item: ConoMonetario) {
 
-        this.updateData(this.bovedaAgencia);
-        this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', false);
+        this.conos.subscribe(c => {
+            this.f.monto.setValue(c.filter(c1 => c1.cantidad != undefined).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+            this.conoSave = c.filter(c => c.cantidad > 0);
+            this.cdr.detectChanges();
+        });
+
+        if (item && item.cantidad > item.disponible) {
+            this.itemForm.controls['monto'].setErrors({
+                cantidad: true
+            });
+            this.f.monto.setValue(0.0);
+            this.cdr.detectChanges();
+        }
     }
 
     preConfirmFunt(obs: string) {
@@ -139,6 +160,30 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
             }
 
         });
+    }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.bovedaAgencia);
+        this.bovedaAgencia.detalleEfectivo = this.conoSave;
+
+
+        let existsDifference = false;
+
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
+
+        if (!existsDifference) {
+            this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
+        } else {
+
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) { }
+            });
+
+        }
+
     }
 
 }

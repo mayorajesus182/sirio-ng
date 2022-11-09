@@ -161,8 +161,15 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         this.cajaTaquilla.movimientoEfectivo = this.movimientoEfectivo.id;
         this.cajaTaquilla.detalleEfectivo = this.conoSave;
 
-        this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
+        let existsDifference = false;
+
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
+
+
+console.log(existsDifference);
+
+
+       // this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
 
     }
-
 }
