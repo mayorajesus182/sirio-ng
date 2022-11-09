@@ -367,9 +367,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.moneda.setValue(this.moneda.id);
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
                 this.f.esEfectivo.enable()
-                this.f.esCheque.enable()
                 this.f.esEfectivo.setValue(true);
-                this.f.esCheque.setValue(false);
                 this.cdr.detectChanges();
             }
         })
