@@ -144,10 +144,6 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
                 cantidad: true
             });
             this.f.monto.setValue(0.0);
-
-            // TODO: NO DEBERIA DEJAR GUARDAR SI LA CANTIDAD ES MAYOR AL DISPONIBLE
-            // console.log(this.itemForm.controls['monto'].getError);
-
             this.cdr.detectChanges();
         }
     }
@@ -165,11 +161,16 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
 
         this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
 
+        if (!existsDifference) {
+            this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
+        } else {
 
-console.log(existsDifference);
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) { }
+            });
 
-
-       // this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
-
+        }
     }
+
 }
+

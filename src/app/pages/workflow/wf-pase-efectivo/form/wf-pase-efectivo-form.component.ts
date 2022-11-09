@@ -71,13 +71,13 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
 
                     this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
 
-                        conoData =  conoData.map(c=> {
-                            let val = data.detalleEfectivo.filter(c1=>c1.id.cono==c.id)[0];
-                            c.cantidad= val?val.cantidad:0;
-                            c.disponible = val? c.disponible+val.cantidad : c.disponible;
+                        conoData = conoData.map(c => {
+                            let val = data.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                            c.cantidad = val ? val.cantidad : 0;
+                            c.disponible = val ? c.disponible + val.cantidad : c.disponible;
                             return c;
                         })
-                        
+
                         this.conos.next(conoData);
 
                         this.updateValuesErrors(this.conos[0]);
@@ -178,12 +178,9 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
             this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
         } else {
 
-            this.swalService.show('Sobrepasó una de las Cantidades Disponibles', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
                 if (!resp.dismiss) { }
             });
-
         }
-
     }
-
 }

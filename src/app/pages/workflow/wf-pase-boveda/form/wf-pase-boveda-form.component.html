@@ -78,12 +78,12 @@
                             </div>
                             <div fxLayout="column" fxFlex="auto">
                                 <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
-                                    <mat-form-field fxLayout="column" *ngFor="let item of conos" fxFlex="32">
+                                    <mat-form-field fxLayout="column" *ngFor="let item of conos | async" fxFlex="32">
                                         <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
                                             'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                         </mat-label>
                                         <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
-                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)" />
+                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)" [disabled]="item.disponible==0"/>
                                         <mat-error *ngIf="cantidad.invalid">Cantidad máxima {{item.disponible}}</mat-error>
                                     </mat-form-field>
                                 </div>

@@ -230,7 +230,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
         } else {
 
-            this.swalService.show('Sobrepasó una de las Cantidades Disponibles', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
                 if (!resp.dismiss) { }
             });
 
