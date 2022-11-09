@@ -51,11 +51,11 @@
             </mat-form-field> -->
         </div>
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="taquillaDeposito">
-            <div fxFlex.gt-xs="10">
+            <div fxFlex.gt-xs="9">
                 <mat-checkbox class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
                     name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
             </div>
-            <div fxFlex.gt-xs="10">
+            <div fxFlex.gt-xs="12">
                 <mat-checkbox  class="margin-top-md" [color]="'primary'" formControlName="conMovimiento"
                     name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
             </div>

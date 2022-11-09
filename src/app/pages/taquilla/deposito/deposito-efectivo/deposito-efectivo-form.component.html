@@ -1,4 +1,4 @@
-<div fxLayout="column" formGroup]="itemForm" *ngIf="itemForm">
+<div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
         <mat-form-field fxFlex.gt-sm="30" *ngIf="cuentaOperacion">
             <mat-label>{{'deposit.productType' | translate: {default: 'global.productType'} |
@@ -8,18 +8,12 @@
                 [ngModelOptions]="{standalone: true}" readonly name="numeroCuenta">
             <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
         </mat-form-field>
-        <sirio-select-search fxFlex="30" *ngIf="!cuentaOperacion"
+        <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
             [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate"
             formControlName="cuentaBancaria" [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()"
             [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
         </sirio-select-search>
-        <mat-form-field fxFlex.gt-xs="10">
-            <mat-label>{{'deposit.coin' | translate: {default: 'global.coin'} | translate }}
-            </mat-label>
-            <input matInput autocomplete="off" [(ngModel)]="moneda.siglas" [ngModelOptions]="{standalone: true}" readonly
-                name="moneda" class="text-center">
-        </mat-form-field>
-        
+
         <mat-form-field fxFlex.gt-xs="auto">
             <mat-label>{{'deposit.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
             <input matInput max="9999999999999.99" min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask
@@ -33,7 +27,6 @@
         [disabled]="f.efectivo.value  == undefined " [moneda]="moneda" (update)="updateCashDetail($event)"
         [cono_actual]="conoActual" [cono_anterior]="conoAnterior"></sirio-cash-button>
 
-
         <mat-form-field fxFlex.gt-xs="auto">
             <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
             <input matInput max="9999999999999.99" readonly min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask
@@ -42,29 +35,5 @@
             <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
             <mat-error *ngIf="f.monto.errors?.totalDifference">Monto Incorrecto</mat-error>
         </mat-form-field>
-
-        <!-- <div fxFlex.gt-xs="10">
-            <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
-                name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
-        </div>
-        <div fxFlex.gt-xs="20">
-            <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conMovimiento"
-                name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
-        </div> -->
     </div>
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="cash.conLibreta.value">
-        <mat-form-field fxFlex.gt-xs="20">
-            <mat-label>Número de Libreta </mat-label>
-            <input matInput maxlength="8" autocomplete="off" name="libreta" formControlName="libreta"
-                [required]="cash.conLibreta.value">
-            <mat-error *ngIf="cash.libreta.errors?.required">{{'error.required' | translate}}</mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex.gt-xs="10">
-            <mat-label>Número de Linea</mat-label>
-            <input matInput maxlength="2" autocomplete="off" name="linea" formControlName="linea"
-                [required]="cash.conLibreta.value">
-            <mat-error *ngIf="cash.linea.errors?.required">{{'error.required' | translate}}</mat-error>
-        </mat-form-field>
-    </div> -->
 </div>

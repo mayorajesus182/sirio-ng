@@ -28,10 +28,9 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
 
     isNew: boolean = false;
     // capturar la busqueda de cuenta y persona
-    @Input() cuenta: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+    @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     
-
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
@@ -64,21 +63,24 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         super(undefined, injector);
     }
 
-    ngOnInit() {
-        // this.f.monto.valueChanges.subscribe(val => {
-        //     if (val) {
-        //         this.calculateDifferences();
-        //     }
-        // })
-        
+    ngOnInit() {        
 
         this.itemForm = this.fb.group({
+            numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            cuentaBancaria: new FormControl(undefined, []),
+            numeroCuenta: new FormControl(undefined),
             moneda: new FormControl('', []),
             efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
         });
 
         this.f.efectivo.valueChanges.subscribe(val => {
+            if (val) {
+                this.calculateDifferences();
+            }
+        });
+
+        this.f.monto.valueChanges.subscribe(val => {
             if (val) {
                 this.calculateDifferences();
             }
@@ -101,12 +103,12 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                 totalDifference: true
             });
 
-            this.f.monto.markAsDirty();
             this.f.efectivo.setErrors({
                 difference: true
             });
-
+            
             this.validarMonto(event);
+            this.f.monto.markAsDirty();
         } else {
 
             this.validarMonto(event);
@@ -163,17 +165,6 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     //         this.f.monto.setValue(undefined);
     //         this.f.referencia.setValue('');
     //     }
-    // })
-
-    // this.f.conLibreta.valueChanges.subscribe(val => {
-    //     if (!val) {
-    //         this.f.libreta.setValue(undefined);
-    //         this.f.libreta.setErrors(undefined);
-    //         this.f.linea.setValue(undefined);
-    //         this.f.linea.setErrors(undefined);
-    //         this.cdr.detectChanges();
-    //     }
-
     // })
 
     // this.f.cuentaBancaria.valueChanges.subscribe(val => {

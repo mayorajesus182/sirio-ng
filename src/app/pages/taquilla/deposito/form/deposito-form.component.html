@@ -36,23 +36,11 @@
 
                             <sirio-card-content fxLayout="column">
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxLayoutAlign="center">
-                                        <!-- (f.numeroCuenta.value != undefined) || -->
-                                        <div fxLayoutAlign="33" class="margin-top-md" >
-                                            <mat-slide-toggle [color]="'primary'" [(ngModel)]="esEfectivo" >
-                                                {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
-                                            </mat-slide-toggle>
-                                        </div>
-                                        <!-- <div fxFlex.gt-xs="33" class="margin-top-md">
-                                            <mat-slide-toggle [color]="'primary'" formControlName="esCheque" name="esCheque">
-                                                {{'deposit.checkDeposit' | translate: {default: 'global.checkDeposit'} | translate }}
-                                            </mat-slide-toggle>
-                                        </div>
-
-                                        <div fxFlex.gt-xs="33" class="margin-top-md">
-                                            <mat-slide-toggle [color]="'primary'" formControlName="esChequeMixto" name="esChequeMixto">
-                                                Cheque Mixto
-                                            </mat-slide-toggle> -->
-                                        <!-- </div> -->
+                                    <div fxLayoutAlign="33" class="margin-top-md" >
+                                        <mat-slide-toggle [color]="'primary'" [(ngModel)]="esEfectivo" >
+                                            {{'deposit.cashDeposit' | translate: {default: 'global.cashDeposit'} | translate }}
+                                        </mat-slide-toggle>
+                                    </div>
                                 </div>
                                 
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -75,14 +63,14 @@
                                         <input matInput autocomplete="off" [(ngModel)]="moneda.siglas" [ngModelOptions]="{standalone: true}" readonly
                                             name="moneda" class="text-center">
                                     </mat-form-field> -->
-                                    <sirio-deposito-efectivo *ngIf="(loading | async)" [required]="esEfectivo"></sirio-deposito-efectivo>
+                                    <sirio-deposito-efectivo *ngIf="(loading | async)"></sirio-deposito-efectivo>
                                 </div>
                                 <!-- Se injectan los componentes -->
                                     
                             </sirio-card-content>
                         </sirio-card>
                         <!-- Injectar componente -->
-                        <sirio-voucher-information *ngIf="((loading | async) && ((f.numeroCuenta.value != undefined) || (cuentaOperacion)))"
+                        <sirio-voucher-information *ngIf="(cuentaOperacion)"
                             [taquillaDeposito]="true"></sirio-voucher-information>
 
                         <!-- Fin del Componente -->
