@@ -16,7 +16,9 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
   // @Input() data: ChartData;
   @Input() options: any;
   @Input() title: string;
-  @Input() moneda: Moneda;
+  @Input() monedas: Moneda[]=[];
+  currentMoneda: Moneda;
+  availableCoins: Moneda[] = [];
 
   highcharts = Highcharts;
   barColumnRangeChart: any = undefined;
@@ -27,7 +29,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
     private cdref: ChangeDetectorRef) {
   }
   ngOnInit(): void {
-
+    this.currentMoneda= this.monedas[0];
     HCMore(this.highcharts);
     this.reload();
 
@@ -51,7 +53,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
       //TODO: MEJORAS ESTO LUEGO
       let series = dataset.series.map(s=>{
 
-        return {color: s.color,data: s.data[this.moneda.id],name:s.name}
+        return {color: s.color,data: s.data[this.currentMoneda.id],name:s.name}
       })
   
 
@@ -64,7 +66,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
            type: 'columnrange',
          },
          title: {
-           text: this.moneda.nombre+' - '+this.moneda.siglas,
+           text: this.currentMoneda.nombre+' - '+this.currentMoneda.siglas,
          },
          xAxis: {
            categories: labels
@@ -72,7 +74,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
   
          yAxis: {
            title: {
-             text: `Montos ( Mill. ${this.moneda.siglas} )`
+             text: `Montos ( Mill. ${this.currentMoneda.siglas} )`
            }
          },
         //  plotOptions: {
@@ -96,5 +98,9 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
       this.cdref.detectChanges();
     })
 
+  }
+
+  onchangeMoneda(val){
+    this.currentMoneda=val;
   }
 }

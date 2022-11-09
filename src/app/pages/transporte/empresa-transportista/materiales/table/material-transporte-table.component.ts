@@ -50,13 +50,13 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
   ngOnInit() {
 
     this.transportistaId = this.route.snapshot.params['id'];
-    
+
     const data = history.state.data;
 
-    if(data){
+    if (data) {
       this.transportista = data.nombre;
-      sessionStorage.setItem('trans_nombre',data.nombre);
-    }else{
+      sessionStorage.setItem('trans_nombre', data.nombre);
+    } else {
       this.transportista = sessionStorage.getItem('trans_nombre')
     }
 
@@ -93,14 +93,23 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
   }
 
 
-  update(current: MaterialTransporte, event) {
+  // update(current: MaterialTransporte, event) {
+  //   this.btnState = true;
+  //   this.materialTransporteService.update(current).subscribe(data => {
+  //     this.btnState = false;
+  //     this.successResponse('Avaluo', 'Actualizar')
+  //   }, err => {
+  //     this.btnState = false;
+  //     this.errorResponse(undefined, false)
+  //   });
+  // }
+
+  update() {
 
     this.btnState = true;
-
-
-    this.materialTransporteService.update(current).subscribe(data => {
+    this.materialTransporteService.update(this.materialData).subscribe(data => {
       this.btnState = false;
-      this.successResponse('Avaluo', 'Actualizar')
+      this.successResponse('El Registro se', 'Actualizó')
     }, err => {
       this.btnState = false;
       this.errorResponse(undefined, false)

@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import {MatSnackBar, MatSnackBarVerticalPosition, MatSnackBarConfig, MatSnackBarHorizontalPosition, MatSnackBarRef} from '@angular/material/snack-bar';
+import { TranslateService } from '@ngx-translate/core';
 
 interface SnackMessage {
   message: string,
@@ -18,7 +19,10 @@ interface SnackMessage {
 )
 export class SnackbarService {
 
-  constructor(private snack: MatSnackBar ) { }
+  constructor(
+    private snack: MatSnackBar, 
+    private translate: TranslateService 
+    ) { }
 
   public show(data: SnackMessage,component?:any):MatSnackBarRef<any> {
     let config = new MatSnackBarConfig();
@@ -39,7 +43,7 @@ export class SnackbarService {
     }
     if(!component){
 
-      return this.snack.open(data.message, data.action, config);
+      return this.snack.open(this.translate.instant(data.message), data.action, config);
     }else{
       return this.snack.openFromComponent(component,  config);
 

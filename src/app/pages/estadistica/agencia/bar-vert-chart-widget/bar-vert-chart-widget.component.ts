@@ -1,12 +1,11 @@
+import { formatNumber } from '@angular/common';
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import * as Highcharts from 'highcharts';
-import HCMore from "highcharts/highcharts-more";
-import { BehaviorSubject, Observable } from 'rxjs';
+import exportData from 'highcharts/modules/export-data';
+import exporting from 'highcharts/modules/exporting';
+import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
-import exporting from 'highcharts/modules/exporting';
-import exportData from 'highcharts/modules/export-data';
-import { formatNumber } from '@angular/common';
 @Component({
 
   selector: 'sirio-bar-vert-chart-widget',
@@ -17,8 +16,9 @@ export class BarVertChartWidgetComponent implements OnInit {
 
   @Input() data: Observable<any>;
   @Input() title: string = 'Estadísticas';
-  @Input() moneda: Moneda;
-  // @Input() data: ChartData;
+  @Input() monedas: Observable<Moneda[]>;
+  currentMoneda: Moneda;
+  availableCoins: Moneda[] = [];
   @Input() options: any;
 
   highcharts = Highcharts;
@@ -31,10 +31,16 @@ export class BarVertChartWidgetComponent implements OnInit {
     private cdref: ChangeDetectorRef) {
   }
   ngOnInit(): void {
-
+    
+    
     exporting(Highcharts);
     exportData(this.highcharts);
-    this.reload();
+    this.monedas.subscribe(list=>{
+      console.log('monedas',list);
+      this.currentMoneda= list[0];
+      this.availableCoins = list;
+      this.reload();
+    });
   }
 
   reload() {
@@ -45,6 +51,7 @@ export class BarVertChartWidgetComponent implements OnInit {
     this.isLoading = true;
 
 
+
     this.data.subscribe(dataset => {
       this.isLoading = false;
 
@@ -53,7 +60,7 @@ export class BarVertChartWidgetComponent implements OnInit {
       }
 
 
-      console.log('dataset', dataset);
+      // console.log('dataset', dataset);
       // let series = [{ color: dataset.color, data: dataset.data[this.moneda.id], name: dataset.name }]
       // let labels = dataset.data[this.moneda.id].map(d => {
 
@@ -64,13 +71,13 @@ export class BarVertChartWidgetComponent implements OnInit {
       //TODO: MEJORAS ESTO LUEGO
       let series = dataset.series.map(s => {
 
-        return { color: s.color, data: s.data[this.moneda.id], name: s.name }
+        return { color: s.color, data: s.data[this.currentMoneda.id], name: s.name }
       })
 
       let labels = dataset.labels;
 
-      console.log('series', series);
-      console.log('label', labels);
+      // console.log('series', series);
+      // console.log('label', labels);
       
 
       this.barChart = {
@@ -79,7 +86,7 @@ export class BarVertChartWidgetComponent implements OnInit {
           type: 'column',
         },
         title: {
-          text: this.moneda.nombre + ' - ' + this.moneda.siglas,
+          text: this.currentMoneda.nombre,
         },
         xAxis: {
           categories: labels,
@@ -132,5 +139,11 @@ export class BarVertChartWidgetComponent implements OnInit {
     // this.cdref.detectChanges();
     // })
 
+  }
+
+  changeMoneda(val){
+    this.barChart=undefined;
+    this.currentMoneda=val;
+    this.reload();
   }
 }

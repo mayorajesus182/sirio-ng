@@ -93,11 +93,10 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
   }
 
 
-  update(current: AvaluoTransporte, event) {
+  update() {
+
     this.btnState = true;
-
-
-    this.avaluoTransporteService.update(current).subscribe(data => {
+    this.avaluoTransporteService.update(this.avaluoData).subscribe(data => {
       this.btnState = false;
       this.successResponse('El Registro se', 'Actualizó')
     }, err => {

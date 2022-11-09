@@ -1,3 +1,73 @@
-<p class="m-333">
-  {{'global.welcome'| translate: {default: 'global.notfound'} | translate}}
-</p>
+<!-- <div fxFlex="noshrink" fxLayout="column"  fxLayout.gt-sm="row">
+  <div fxLayout="column"   fxLayout.gt-sm="row">
+
+    <div class="m-333"  fxFlex="100" >
+      {{'global.welcome'| translate: {default: 'global.notfound'} | translate}}
+    </div>
+  </div>
+</div> -->
+<sirio-page [fxLayoutGap]="gap" class="dashboard" fxLayout="column" fxLayout.gt-lg="row">
+  <div fxFlex="noshrink" fxLayout="column" [fxLayoutGap]="gap" fxLayout.gt-sm="row">
+    <!-- <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(1)"> -->
+
+    <div fxFlex="25" fxLayout="column">
+      <sirio-menu-widget [pages$]="items$" name="Clientes" prefix_page="persona" icon="fa-light fa-users" total="9M"></sirio-menu-widget>
+    </div>
+    
+    <div fxFlex="25" fxLayout="column">
+      <sirio-menu-widget [pages$]="items$" name="Gestión de Efectivo" prefix_page="control-efectivo" icon="fa-light fa-money-bill-trend-up" class_bg="orange-bg"
+      total="25M"></sirio-menu-widget>
+    </div>
+    
+    <div fxFlex="25" fxLayout="column">
+      <sirio-menu-widget [pages$]="items$" name="Biometría" prefix_page="biometria" icon="fa-light fa-fingerprint" class_bg="teal-bg"
+      total="25M"></sirio-menu-widget>
+    </div>
+<!-- 
+    <div fxFlex="25" fxLayout="column">
+      <sirio-menu-widget [pages$]="items$" name="Depositos" prefix_page="taquilla/deposito" class_bg="green-bg" icon="fa-light fa-coins" total="10M">
+      </sirio-menu-widget>
+
+    </div> -->
+
+    <div fxFlex="25" fxLayout="column">
+      <sirio-menu-widget [pages$]="items$" name="Taquilla" prefix_page="taquilla" class_bg="green-bg" icon="fa-light fa-money-bill-wave" total="50M">
+      </sirio-menu-widget>
+
+    </div>
+    <!-- </div> -->
+
+    <!-- <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)">
+      
+    </div> -->
+
+    <!-- <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)">
+
+    </div> -->
+  </div>
+
+</sirio-page>
+
+<!-- <div fxFlex="noshrink" fxLayout="column" [fxLayoutGap]="gap" fxLayout.gt-lg="row">
+  <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)" fxLayout.gt-sm="row">
+    <div [fxFlex.gt-sm]="col(4)" [fxLayoutGap]="gap" fxLayout="column"> -->
+<!-- <fury-sales-summary-widget [data]="salesSummaryData$ | async"
+      [options]="salesSummaryOptions"
+      class="fullheight"></fury-sales-summary-widget> -->
+<!-- 
+        <fury-quick-info-widget class="route-animations-elements"  value="234" label="Customers"
+        [background]="'#009688'" color="white"
+        icon="people"></fury-quick-info-widget> -->
+
+<!-- </div> -->
+<!-- <div [fxFlex.gt-sm]="col(3)" [fxLayoutGap]="gap" fxFlex="grow" fxLayout="column"> -->
+<!-- 
+    </div>
+
+  </div> -->
+
+<!-- 
+  <fury-realtime-users-widget [data$]="realtimeUsersData$" [fxFlex.gt-sm]="col(2)" [pages$]="realtimeUsersPages$"
+                              fxFlex="grow"></fury-realtime-users-widget> -->
+
+<!-- </div> -->

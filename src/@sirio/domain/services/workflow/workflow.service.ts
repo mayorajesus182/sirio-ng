@@ -43,6 +43,10 @@ export class WorkflowService {
         return this.apiService.config(this.apiConfig).get('/assigned');
     }
 
+    existsAnyOpen(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/anyopen/exists`);
+    }
+
     listByExpediente(expediente: any): Observable<Workflow[]> {
         return this.apiService.config(this.apiConfig).get(`/expediente/${expediente}/list`);
     }

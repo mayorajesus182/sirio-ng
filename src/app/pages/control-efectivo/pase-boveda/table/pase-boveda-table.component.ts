@@ -22,6 +22,7 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
 
   displayedColumns = ['cajtaquilla_id', 'tipoMovimiento', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
+  isOpen: boolean = false;
 
   constructor(
     injector: Injector,
@@ -37,14 +38,22 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   ngOnInit() {
 
     this.taquillaService.isOpen().subscribe(isOpen => {
-      if (isOpen) {
+      // if (isOpen) {
+      this.isOpen = isOpen;
+
+
         this.init(this.cajaTaquillaService, 'cajtaquilla_id');
-      } else {
-        this.router.navigate(['/sirio/welcome']);
-        this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
-          if (!resp.dismiss) {}
-        });
-      }
+
+
+
+      // } else {
+      //   this.router.navigate(['/sirio/welcome']);
+      //   this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
+      //     if (!resp.dismiss) {}
+      //   });
+      // }
+
+
     });
   }
 

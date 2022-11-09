@@ -3,24 +3,24 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
+import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-pase-boveda-detail',
-  templateUrl: './pase-boveda-detail.component.html',
-  styleUrls: ['./pase-boveda-detail.component.scss'],
+  selector: 'app-telefonica-detail',
+  templateUrl: './telefonica-detail.component.html',
+  styleUrls: ['./telefonica-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class PaseABovedaDetailComponent extends FormBaseComponent implements OnInit {
+export class TelefonicaDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
     private router: Router,
     private route: ActivatedRoute,
-    private cajaTaquillaService: CajaTaquillaService) {
+    private telefonicaService: TelefonicaService) {
     super(undefined, injector);
   }
 
@@ -29,11 +29,13 @@ export class PaseABovedaDetailComponent extends FormBaseComponent implements OnI
 
     this.loadingDataForm.next(true);
 
-    this.cajaTaquillaService.detail(id).subscribe(data => {
+    this.telefonicaService.detail(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
 
   }
+
+
 
 }

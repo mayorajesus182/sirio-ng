@@ -20,11 +20,11 @@
                     
                                 <mat-menu #userMenu="matMenu">
                                     <button mat-menu-item class="mr-1" (click)="resendTask()">
-                                        <mat-icon color="primary">cancel</mat-icon>
+                                        <mat-icon color="primary">check_circle</mat-icon>
                                         {{'action.resend' | translate }}
                                     </button>
                                     <button mat-menu-item class="mr-1" (click)="overrideTask()">
-                                        <mat-icon color="primary">check_circle</mat-icon>
+                                        <mat-icon color="accent">cancel</mat-icon>
                                         {{'action.override' | translate }}
                                     </button>
                                 </mat-menu>

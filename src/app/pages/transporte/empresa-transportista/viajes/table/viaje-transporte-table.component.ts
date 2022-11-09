@@ -93,11 +93,25 @@ export class ViajeTransporteTableComponent extends TableBaseComponent implements
   }
 
 
-  update(current: ViajeTransporte, event) {
+  // update(current: ViajeTransporte, event) {
+  //   this.btnState = true;
+
+
+  //   this.viajeTransporteService.update(current).subscribe(data => {
+  //     this.btnState = false;
+  //     this.successResponse('El Registro se', 'Actualizó')
+  //   }, err => {
+  //     this.btnState = false;
+  //     this.errorResponse(undefined, false)
+  //   });
+
+  // }
+
+
+  update() {
+
     this.btnState = true;
-
-
-    this.viajeTransporteService.update(current).subscribe(data => {
+    this.viajeTransporteService.update(this.viajeData).subscribe(data => {
       this.btnState = false;
       this.successResponse('El Registro se', 'Actualizó')
     }, err => {

@@ -20,6 +20,6 @@
     </mat-select>
     <mat-error *ngIf="selectSearchControl.errors?.invalid&&!readonly">Requerido</mat-error>
     <!-- {{errors|json}} -->
-    <input matInput [value]="showName(selectSearchControl.value)" readonly *ngIf="readonly">
+    <input matInput [value]="showName(selectSearchControl.value)" readonly *ngIf="readonly" [disabled]="disabled">
 
 </mat-form-field>
