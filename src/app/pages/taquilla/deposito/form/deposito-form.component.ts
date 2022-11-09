@@ -338,6 +338,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.conoAnterior = [];
                 this.f.monto.setValue(undefined);
                 this.f.referencia.setValue('');
+                this.cdr.detectChanges();
                 // this.applyFieldsDirty();
             }
             // this.applyFieldsDirty();

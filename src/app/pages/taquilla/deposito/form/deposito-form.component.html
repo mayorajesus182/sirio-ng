@@ -8,10 +8,10 @@
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'deposit.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
-                        </button>
+                        </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
@@ -83,7 +83,7 @@
                                         [cono_actual]="conoActual" [cono_anterior]="conoAnterior">
                                     </sirio-cash-button>
 
-                                    <mat-form-field fxFlex.gt-xs="auto" *ngIf="(f.numeroCuenta.value != undefined) || (cuentaOperacion) " class="highlight"> 
+                                    <mat-form-field fxFlex.gt-xs="auto" *ngIf="((f.numeroCuenta.value != undefined) && f.esEfectivo.value) || (cuentaOperacion) " class="highlight"> 
                                         <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
                                         <input matInput maxlength="20"  readonly min="0.01" autocomplete="off" name="monto" formControlName="monto"
                                             currencyMask [options]="{precision:2}">
