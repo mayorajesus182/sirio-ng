@@ -6,13 +6,19 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface SaldoAgencia {
     id: number;
-    taquilla: number;
+    agencia: string;
     fecha: any;
+    saldoInicial: number;
     ingreso: number;  
     egreso: number;
     transito: number;
-    saldo: number;
-    diferencia: number;
+    deposito: number;
+    retiro: number;
+    remesaRecibida: number;
+    remesaEnviada: number;
+    retiroAtm: number;
+    incrementoAtm: number;
+    saldoFinal: number;
     moneda: string;
     cerrado: any;
 }

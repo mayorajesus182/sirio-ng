@@ -8,6 +8,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { SaldoAgencia, SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoTaquilla, SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
+import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -23,6 +24,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class CierreAgenciaFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     saldos = new BehaviorSubject<SaldoAgencia[]>([]);
+    agencia: Agencia = {} as Agencia;
     diferencia: number = 0
 
     constructor(
@@ -31,7 +33,7 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
         private fb: FormBuilder,
         protected router: Router,
         private saldoAgenciaService: SaldoAgenciaService,
-        private taquillaService: TaquillaService,
+        private agenciaService: AgenciaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -50,24 +52,25 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
     ngOnInit() {
 
 
+        this.agenciaService.getWithUsuario().subscribe(data => {
+            this.agencia = data;
+        });
 
         this.saldoAgenciaService.allWithMovements().subscribe(data => {
             this.saldos.next(data);
-
-            console.log('data    ', data)
         });
 
 
         // this.taquillaService.isOpen().subscribe(isOpen => {
         //     if (isOpen) {
-                
+
         //         this.isNew = false;
-        
+
         //         this.loadingDataForm.next(false);
         //         this.loadSaldos();
 
         //     } else {
-                
+
         //       this.router.navigate(['/sirio/welcome']);
         //       this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
         //         if (!resp.dismiss) {}
@@ -76,9 +79,9 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
         //   });
     }
 
-    updateValuesErrors(saldo: SaldoTaquilla) {
-        saldo.declarado = saldo.detalleEfectivo.filter(c => c.declarado != undefined && c.declarado > 0).map(c1 => c1.declarado * c1.denominacion).reduce((a, b) => a + b);
-    }
+    // updateValuesErrors(saldo: SaldoTaquilla) {
+    //     saldo.declarado = saldo.detalleEfectivo.filter(c => c.declarado != undefined && c.declarado > 0).map(c1 => c1.declarado * c1.denominacion).reduce((a, b) => a + b);
+    // }
 
     // TODO: FALTAN  ETIQUETAS
 
@@ -144,6 +147,14 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
 
         // let taquilla;
         let mensaje = '';
+
+
+        this.agenciaService.close(this.agencia.id).subscribe(result => {
+            this.snack.show({ message: 'Agencia Cerrada Exitosamente Para La Jornada!', verticalPosition: 'bottom' });
+            this.router.navigate(['/sirio/welcome']);
+        });
+
+
         // this.saldos.value.forEach(saldo => {
         //     taquilla = saldo.taquilla;
         //     mensaje = mensaje + '<b> '.concat(saldo.siglasMoneda).concat(' - ').concat(saldo.nombreMoneda).concat(' </b> <br/> ').concat(this.calculateDifferences(saldo)).concat(' <br/>  ');
