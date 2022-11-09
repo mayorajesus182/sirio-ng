@@ -20,6 +20,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import * as moment from 'moment';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 
 @Component({
     selector: 'app-pago-cheque-gerencia-form',
@@ -62,6 +63,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         private personaService: PersonaService,
         private calendarioService: CalendarioService,
         private taquillaService: TaquillaService,
+        private saldoTaquillaService: SaldoTaquillaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -122,12 +124,12 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
 
                     if (numeroCuenta) {
                         this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
-                            this.cuentaBancariaOperacion = data;
-                            //const moneda = data.moneda;
-                            // const monedaNombre = data.monedaNombre;
+                            this.cuentaBancariaOperacion = data;                      
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                            //this.f.monto.disable();
+                            this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
+                            //Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
+                              this.saldoByMoneda(this.moneda);                          
                             console.log("DATOS", data);
                             this.cdr.markForCheck();
 
@@ -173,11 +175,9 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     }
 
    
-    calculateDifferences() {
+    calculateDifferences(event?: any) {
 
-        this.f.numeroCuenta.enable()
-
-
+     /*   this.f.numeroCuenta.enable()
         if (this.f.monto.value != this.detalleEfectivo) {
             this.itemForm.controls['monto'].setErrors({
                 difference: true
@@ -202,7 +202,35 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         } else {
             this.f.montoCheque.setErrors(undefined);
             this.f.monto.setErrors(undefined);
-        }    
+        }    */
+        let valorEfectivo = this.f.montoCheque.value > 0 ? this.f.montoCheque.value : 0;
+        console.log('valoref',valorEfectivo);
+        
+
+        if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.monto.value) : this.f.monto.value)) {
+            this.f.monto.setErrors({
+                totalDifference: true
+            });
+            this.f.monto.markAsDirty();
+            this.f.montoCheque.setErrors({
+                difference: true
+            });
+            this.f.montoCheque.markAsDirty();
+            if (event && event.montoTotal > 0) {
+                this.f.monto.setValue(event.montoTotal);
+            }
+
+
+        } else {
+
+            if (event && event.montoTotal > 0) {
+                this.f.monto.setValue(event.montoTotal);
+            }
+
+            this.f.monto.setErrors(undefined);
+            this.f.montoCheque.setErrors(undefined);
+        }
+     
       
 
     }
@@ -266,20 +294,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         if (!event) {
             return;
         }
-        this.detalleEfectivo = event.montoTotal;
-
-        this.f.monto.setValue(event.montoTotal);
-
-
-        if (this.f.monto.value != this.detalleEfectivo) {
-            this.itemForm.controls['monto'].setErrors({
-                difference: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.monto.setErrors(undefined);
-        }
-
+        this.calculateDifferences(event);
 
         this.conoActual = event.desgloseConoActual;
         this.conoAnterior = event.desgloseConoAnterior;
@@ -425,6 +440,23 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
             }
         }
     }
+
+    saldoByMoneda(moneda: Moneda) {
+        this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
+            if (saldo == 0) {
+
+                let mensaje = 'Para La Moneda <b>' + moneda.nombre + '</b> <br> No Existe Disponibilidad en su Caja'
+                this.swalService.show('No hay Disponibilidad de Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
+                    if (!resp.dismiss) {
+                        this.router.navigate(['/sirio/welcome']);
+                    }
+                });
+
+            }
+        })
+
+
+    }
   
 
     save() {
@@ -451,6 +483,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         this.detalleEfectivo = 0;
 
     }
+
     resetInfoFinance() {
         this.f.numeroCuenta.reset();
         this.f.montoCheque.reset({});         

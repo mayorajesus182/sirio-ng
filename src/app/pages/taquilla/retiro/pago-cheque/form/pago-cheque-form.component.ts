@@ -127,9 +127,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
                     if (numeroCuenta) {
                         this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
-                            this.cuentaBancariaOperacion = data;
-                             //const moneda = data.moneda;
-                            // const monedaNombre = data.monedaNombre;
+                            this.cuentaBancariaOperacion = data;                         
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre; 
                             this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
@@ -211,24 +209,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             this.f.montoCheque.setErrors(undefined);
         }
      
-        /*  this.f.numeroCuenta.enable()
-        if (this.f.monto.value != this.detalleEfectivo) {
-            this.itemForm.controls['monto'].setErrors({
-                difference: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.monto.setErrors(undefined);
-        }
-
-        if (this.f.monto.value != this.f.montoCheque.value) {
-            this.itemForm.controls['montoCheque'].setErrors({
-                differenceMonto: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.montoCheque.setErrors(undefined);
-        }*/
+     
     }
 
 
