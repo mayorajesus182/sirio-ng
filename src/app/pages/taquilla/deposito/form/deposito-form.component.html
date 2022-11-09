@@ -238,7 +238,7 @@
                                         </mat-label>
                                         <input matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
                                             [required]="!f.telefono.value" uppercase>
-                                        <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+                                        <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                         <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                             | translate}}</mat-error>
                                     </mat-form-field>
