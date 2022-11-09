@@ -360,7 +360,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
             if (saldo == 0) {
 
-                let mensaje = 'Para La Moneda <b>' + moneda.nombre + '</b> <br> No existe Disponibilidad En Su Caja'
+                let mensaje = 'Para La Moneda <b>' + moneda.nombre + '</b> <br> No Existe Disponibilidad en su Caja'
                 this.swalService.show('No Hay Disponibilidad De Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
                     if (!resp.dismiss) {
                         this.router.navigate(['/sirio/welcome']);

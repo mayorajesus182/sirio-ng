@@ -80,7 +80,7 @@
                   </mat-label>
                   <input matInput type="text" autocomplete="off" email-validate name="email" formControlName="email" required>
                   <mat-error *ngIf="form.email.errors?.required ">Es requerido</mat-error>
-                  <mat-error *ngIf="form.email.errors?.email">Email es invalido</mat-error>
+                  <mat-error *ngIf="form.email.errors?.email">Email es Inválido</mat-error>
                 </mat-form-field>
 
                 <!-- {{form.email.errors|json}} -->
@@ -156,7 +156,7 @@
                       placeholder="">
                     <mat-hint>Ingrese el numero de cuenta</mat-hint>
                     <mat-error *ngIf="form2.cuenta.errors?.required">Es requerido</mat-error>
-                    <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es invalido</mat-error>
+                    <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es Inválido</mat-error>
                   </mat-form-field>
 
                   <mat-form-field fxFlex="auto">

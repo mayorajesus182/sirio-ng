@@ -46,6 +46,7 @@
             <mat-nav-list>
               <!-- {{el | json}} -->
               <div  class="margin-bottom-sm" *ngFor="let el of saldos" mat-list-item>
+                
                 <p matLine *ngIf="elem.taquilla==el.taquillaNombre"> <i class="fa-light fa-money-bills fa-md text-success"></i> &nbsp; <b>Saldo en {{el.moneda}} {{el.saldo | number:'1.2-2'}}</b> </p>
                 <span fxFlex></span>
               </div>

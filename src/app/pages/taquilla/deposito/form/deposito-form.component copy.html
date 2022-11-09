@@ -134,7 +134,7 @@
                                     </mat-label>
                                     <input matInput name="email" autocomplete="off" email-validate name="email"
                                         formControlName="email" placeholder="" [required]="!f.telefono.value" uppercase>
-                                    <mat-error *ngIf="f.email.errors?.email">Email es invalido</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                     <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                         | translate}}</mat-error>
                                 </mat-form-field>
@@ -202,7 +202,7 @@
                                         <mat-error *ngIf="cf.numeroCuentaCheque.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuanta ya estan suministrados</mat-error>
                                         <!-- <mat-error *ngIf="!cf.numeroCuentaCheque.errors?.required&&cf.numeroCuentaCheque.errors?.account">
-                                            El num. de cuenta es invalido</mat-error> -->
+                                            El num. de cuenta es Inválido</mat-error> -->
                                         <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.notexists">{{'no existe numero de cuenta'}}</mat-error> -->
                                     </mat-form-field>
 
