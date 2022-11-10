@@ -227,11 +227,12 @@
                                     <mat-form-field fxFlex.gt-xs="30">
                                         <mat-label>Nombre y Apellido/Razón Social
                                         </mat-label>
-                                        <input matInput autocomplete="off" maxlength="30" id="nombreDepositante" name="nombreDepositante"
+                                        <input matInput autocomplete="off" maxlength="80" id="nombreDepositante" name="nombreDepositante"
                                             formControlName="nombreDepositante" uppercase class="text-center" required>
                                         <mat-error *ngIf="f.nombreDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.nombreDepositante.errors?.max">{{'error.beLessThan' | translate}} 0</mat-error>
                                     </mat-form-field>
-
+                                    {{f.nombreDepositante.errors | json}}
                                     <mat-form-field fxFlex.gt-sm="auto">
                                         <mat-label>
                                             Email
@@ -250,7 +251,7 @@
                                     </mat-form-field> -->
                                 </div>
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                    <div fxFlex.gt-xs="13" *ngIf="((f.tipoProducto.value == 01) && (f.identificacion.value == f.identificacionDepositante.value))" >
+                                    <div fxFlex.gt-xs="12" *ngIf="((f.tipoProducto.value == 01) && (f.identificacion.value == f.identificacionDepositante.value))" >
                                         <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
                                             name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
                                     </div>
@@ -259,22 +260,19 @@
                                             name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
                                     </div>
 
-                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value"> -->
-                                        <mat-form-field fxFlex.gt-xs="10" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value" class="text-center">
-                                            <mat-label>Número de Libreta </mat-label>
-                                            <input matInput maxlength="8" autocomplete="off" name="libreta" formControlName="libreta"
-                                                [required]="f.conLibreta.value">
-                                            <mat-error *ngIf="f.libreta.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        </mat-form-field>
+                                    <mat-form-field fxFlex.gt-xs="15" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value" class="text-center">
+                                        <mat-label>Número de Libreta </mat-label>
+                                        <input matInput maxlength="8" autocomplete="off" name="libreta" formControlName="libreta"
+                                            [required]="f.conLibreta.value">
+                                        <mat-error *ngIf="f.libreta.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    </mat-form-field>
 
-                                        <mat-form-field fxFlex.gt-xs="10" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value" class="text-center">
-                                            <mat-label>Número de Linea</mat-label>
-                                            <input matInput maxlength="2" autocomplete="off" name="linea" formControlName="linea"
-                                                [required]="f.conLibreta.value">
-                                            <mat-error *ngIf="f.linea.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        </mat-form-field>
-                                    <!-- </div> -->
-
+                                    <mat-form-field fxFlex.gt-xs="15" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value" class="text-center">
+                                        <mat-label>Número de Linea</mat-label>
+                                        <input matInput maxlength="2" autocomplete="off" name="linea" formControlName="linea"
+                                            [required]="f.conLibreta.value">
+                                        <mat-error *ngIf="f.linea.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    </mat-form-field>
                                 </div>
                             </sirio-card-content>
                             {{cuentaBancaria | json}}
