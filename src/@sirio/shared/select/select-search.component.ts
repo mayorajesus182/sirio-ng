@@ -146,9 +146,14 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             }
 
 
-            if (data == '') {
+            if (data == '' || data  == undefined) {                
                 this.selectSearchControl.clearValidators();
                 this.selectSearchControl.markAsTouched();
+             
+                // if(this.singleSelect && this.autofocus){
+
+                //     this.singleSelect.focus();
+                // }
                 // this.selectControl.updateValueAndValidity();
             }
         });
