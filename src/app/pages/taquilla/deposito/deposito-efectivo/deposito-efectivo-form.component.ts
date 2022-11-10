@@ -35,10 +35,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     public conoAnterior: ConoMonetario[] = [];
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
-    // public tiposDocumentoNaturales = new BehaviorSubject<TipoDocumento[]>([]);
-    // cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     deposito: Deposito = {} as Deposito;
-    // persona: Persona = {} as Persona;
     moneda: Moneda = {} as Moneda;
     numCuenta: string = "";
     tipoProducto: string = "";
