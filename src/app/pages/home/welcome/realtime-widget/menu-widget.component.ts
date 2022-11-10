@@ -19,6 +19,7 @@ export class MenuWidgetComponent implements  AfterViewInit {
   @Input() total: number;
   @Input() class_bg: 'blue-bg'|'indigo-bg'|'green-bg'|'teal-bg'='indigo-bg';
 
+  app = "Sirio";
   constructor(
     translate:TranslateService,
     private cdref: ChangeDetectorRef) {
