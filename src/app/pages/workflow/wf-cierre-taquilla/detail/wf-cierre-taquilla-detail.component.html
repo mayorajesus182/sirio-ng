@@ -49,6 +49,10 @@
                                         </button>
                                         <span class="margin-top-sm semi-bold">{{item.siglasMoneda + ' - '+ item.nombreMoneda}}</span>
                                     </mat-panel-title>
+                                    <mat-panel-description>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> MONTO DECLARADO: {{item.monto  | number: '1.2'}} </b>
+                                        </span>
+                                    </mat-panel-description>
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
