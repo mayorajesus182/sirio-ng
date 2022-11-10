@@ -207,7 +207,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         }
     }
 
-    pagoChequeEvaluate(event) {
+   pagoChequeEvaluate(event) {
         if (event.checked) {
 
             this.esRetiroEfectivo = false;
@@ -282,11 +282,21 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.persona = data;
                 this.cuentaBancariaOperacion = undefined;
                 this.f.identificacion.setValue(this.persona.identificacion)
+               
+              /*  if (this.persona.email){
+                this.f.email.setValue(this.persona.email);
+                this.f.email.disable();
+               }else{
+                this.f.email.setValue(this.f.email);
+               }*/
+               
                 this.f.email.setValue(this.persona.email);
                 if (this.persona.email) {
                     this.f.email.disable();
                 }else{
                     this.f.email.enable();
+                    this.f.email.value;
+                    console.log('email',this.f.email.value);                    
                 }
                 //console.log("DATAPersona", data);
 
@@ -322,7 +332,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                     this.retiro.tipoDocumento = this.persona.tipoDocumento;
                     this.retiro.identificacion = this.persona.identificacion;
                     this.retiro.nombre = this.persona.nombre;
-                    this.retiro.email = this.persona.email;
+                    this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email ;
                 }
                 this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
 
@@ -385,22 +395,15 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.f.email.reset('');
     }
    
-    resetInfoBenef() {
-      
-       // this.f.email.enable(); 
-        
-        if (this.f.email.disable){    
-        
+    resetInfoBenef() {    
+           
+        if (this.f.email.disable){            
             return;           
         }
-        if (this.f.email.enable && this.f.email == undefined){   
-        console.log("dsfsdds");
-        
+        if (this.f.email.enable && this.f.email == undefined){          
             this.f.email.reset('');
-           // return;
+           
         }
-        
-    
            
        }
   
