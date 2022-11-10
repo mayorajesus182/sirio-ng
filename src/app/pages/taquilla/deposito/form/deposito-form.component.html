@@ -232,7 +232,6 @@
                                         <mat-error *ngIf="f.nombreDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                         <mat-error *ngIf="f.nombreDepositante.errors?.max">{{'error.beLessThan' | translate}} 0</mat-error>
                                     </mat-form-field>
-                                    {{f.nombreDepositante.errors | json}}
                                     <mat-form-field fxFlex.gt-sm="auto">
                                         <mat-label>
                                             Email
@@ -275,7 +274,6 @@
                                     </mat-form-field>
                                 </div>
                             </sirio-card-content>
-                            {{cuentaBancaria | json}}
                         </sirio-card>
                     </div>
                     
