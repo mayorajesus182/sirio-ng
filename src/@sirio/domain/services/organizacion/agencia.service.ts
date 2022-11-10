@@ -51,6 +51,10 @@ export class AgenciaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    getWithUsuario(): Observable<Agencia> {
+        return this.apiService.config(this.apiConfig).get(`/withusuario/get`);
+    }
+
     detail(id: string): Observable<Agencia> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
@@ -72,6 +76,10 @@ export class AgenciaService {
 
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
+    }
+
+    close(id: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/close`);
     }
 
 

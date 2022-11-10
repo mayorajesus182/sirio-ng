@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,8 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
                     <sirio-card-header-actions>
                         <mat-card-title class="mat-bg-grey">
                             <div class="card-title-text">            
@@ -20,12 +19,12 @@
                     
                                 <mat-menu #userMenu="matMenu">
                                     <button mat-menu-item class="mr-1" (click)="resendTask()">
-                                        <mat-icon color="primary">cancel</mat-icon>
+                                        <mat-icon color="primary">check_circle</mat-icon>
                                         {{'action.resend' | translate }}
                                     </button>
-                                    <button mat-menu-item class="mr-1" (click)="annularTask()">
-                                        <mat-icon color="primary">check_circle</mat-icon>
-                                        {{'action.annular' | translate }}
+                                    <button mat-menu-item class="mr-1" (click)="overrideTask()">
+                                        <mat-icon color="accent">cancel</mat-icon>
+                                        {{'action.override' | translate }}
                                     </button>
                                 </mat-menu>
                     
@@ -63,14 +62,37 @@
                                 <mat-form-field fxFlex="auto">
                                     <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
-                                        [options]="{precision:2}" required>
+                                        [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
 
                             </div>
                         </form>
+
+                        <mat-divider class="margin-bottom-md"></mat-divider> 
+
+                        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
+                            <div fxLayout="column" fxFlex="10">
+                                <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+                            </div>
+                            <div fxLayout="column" fxFlex="auto">
+                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+                                    <mat-form-field fxLayout="column" *ngFor="let item of conos | async" fxFlex="32">
+                                        <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                        </mat-label>
+                                        <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)" [disabled]="item.disponible==0"/>
+                                        <mat-error *ngIf="cantidad.invalid">Cantidad máxima {{item.disponible}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
+
+                    
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

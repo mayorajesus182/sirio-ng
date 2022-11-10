@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['workflow.form']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,8 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
                     <sirio-card-header-actions>
                         <mat-card-title class="mat-bg-grey">
                             <div class="card-title-text">            
@@ -24,7 +23,7 @@
                                         {{'action.approve' | translate }}
                                     </button>
                                     <button mat-menu-item class="mr-1" (click)="rollbackTask()">
-                                        <mat-icon color="primary">cancel</mat-icon>
+                                        <mat-icon color="accent">cancel</mat-icon>
                                         {{'action.rollback' | translate }}
                                     </button>
                                 </mat-menu>

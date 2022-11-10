@@ -55,7 +55,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         super(undefined, injector);
     }
 
-          // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML (desglose de efectivo)
+    // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML (desglose de efectivo)
 
     ngOnInit() {
 
@@ -199,20 +199,20 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
 
     updateValuesErrors(item: ConoMonetario) {
 
+        this.conos.subscribe(c => {
+            this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+            this.conoSave = c.filter(c => c.cantidad > 0);
+            this.cdr.detectChanges();
+        });
+
         if (item.cantidad > item.disponible) {
             this.itemForm.controls['monto'].setErrors({
                 cantidad: true
             });
+            this.f.monto.setValue(0.0);
             this.cdr.detectChanges();
         }
-
-        this.conos.subscribe(c=>{
-            this.f.monto.setValue(c.filter(c1=>c1.cantidad>0).map(c2=> c2.cantidad * c2.denominacion).reduce((a,b)=>a+b));
-            this.conoSave = c.filter(c=>c.cantidad>0);
-            this.cdr.detectChanges();   
-         });
     }
-
 
 
 
@@ -221,7 +221,20 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             return;
         this.updateData(this.bovedaAgencia);
         this.bovedaAgencia.detalleEfectivo = this.conoSave;
-        this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
+
+        let existsDifference = false;
+
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
+
+        if (!existsDifference) {
+            this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
+        } else {
+
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) { }
+            });
+
+        }
     }
 
 }

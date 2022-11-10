@@ -22,6 +22,7 @@ export interface Transportista {
     telefonoAlt: number;
     latitud: number;
     longitud: number;
+    jurisdiccion: string[];
     fechaCreacion?: any;
     activo?: number;
 }

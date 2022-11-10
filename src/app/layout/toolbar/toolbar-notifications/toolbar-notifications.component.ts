@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
-import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
+import { LIST_FADE_ANIMATION } from '../../../../@sirio/shared/list.animation';
 
 @Component({
   selector: 'sirio-toolbar-notifications',
@@ -14,7 +15,7 @@ export class ToolbarNotificationsComponent implements OnInit {
   @Output() openQuickPanel = new EventEmitter();
 
   isOpen: boolean;
-  total: number = 0;
+  total: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
   constructor(
     injector: Injector,
@@ -25,9 +26,9 @@ export class ToolbarNotificationsComponent implements OnInit {
 
   ngOnInit() {
     
-    this.cdr.markForCheck();
     this.workflowService.pendingQuantity().subscribe(data => {
-      this.total = data;
+      this.total.next(data);
+      this.cdr.detectChanges();
     });
   }
 

@@ -28,9 +28,10 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     @Input() attributeName: string;
     @Input() required: boolean = false;
     @Input() readonly: boolean = false;
+    @Input() disabled: boolean = false;
     @Input() multiple: boolean = false;
     @Input('elements') public items: Observable<any[]>;
-    public disabled: boolean = false;
+    // public disabled: boolean = false;
     
     public selected: any | null = null;
 
@@ -145,9 +146,14 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             }
 
 
-            if (data == '') {
+            if (data == '' || data  == undefined) {                
                 this.selectSearchControl.clearValidators();
                 this.selectSearchControl.markAsTouched();
+             
+                // if(this.singleSelect && this.autofocus){
+
+                //     this.singleSelect.focus();
+                // }
                 // this.selectControl.updateValueAndValidity();
             }
         });

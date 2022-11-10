@@ -45,7 +45,7 @@
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-sm="15">
-                                <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
+                                <mat-label>{{'atm.atmIdentification' | translate: {default: 'global.atmIdentification'} | translate }}
                                 </mat-label>
                                 <input matInput maxlength="10" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required
                                     class="text-center">
@@ -111,7 +111,7 @@
                                         translate}}</span>
                                 </ng-template>
                                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                    <mat-form-field  style="margin-top: -10px;font-size: 12px;" >
+                                    <mat-form-field  style="margin-top: -10px;font-size: 12px;" fxFlex="100">
                                         <select class="text-center"  matNativeControl (change)="selectConoMonetario($event,row)">
                                             <option value=""></option>
                                             <option *ngFor="let item of conos" [value]="item.id" [selected]="row.conoMonetario===item.id">{{item.denominacion}} - {{item.nombreMoneda}}</option>
@@ -126,7 +126,7 @@
                         </ngx-datatable>
         
                     </div>
-
+                <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

@@ -1,0 +1,33 @@
+<sirio-card>
+  <sirio-card-header class="header">
+    <sirio-card-header-heading>{{title}}</sirio-card-header-heading>
+
+    <sirio-card-header-actions>
+      <button mat-button [matMenuTriggerFor]="coin">
+        <span ></span>
+        <span>&nbsp;{{currentMoneda?.siglas}}</span>
+        <mat-icon class="icon" fxHide fxShow.gt-sm>keyboard_arrow_down</mat-icon>
+      </button>
+      <mat-menu #coin="matMenu">
+        <button mat-menu-item *ngFor="let coin of availableCoins" (click)="changeMoneda(coin)">
+          <span ></span>
+          <span>&nbsp;{{coin.siglas}} - {{coin.nombre}}</span>
+        </button>
+      </mat-menu>
+      <button (click)="reload()" mat-icon-button>
+        <mat-icon>refresh</mat-icon>
+      </button>
+    </sirio-card-header-actions>
+  </sirio-card-header>
+
+
+  <sirio-card-content class="card-content container">
+
+
+    <highcharts-chart *ngIf="barColumnRangeChart" [Highcharts]="highcharts" [options]="barColumnRangeChart">
+    </highcharts-chart>
+
+  </sirio-card-content>
+
+  <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
+</sirio-card>

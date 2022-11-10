@@ -13,6 +13,10 @@ export interface Preferencia {
     monedaSiglasConoAnterior:string;
 
     divisorConoAnterior:number;
+    restriccionEquipo:number;
+    cajetinesATM:number;
+    movimientosImprimir:number;
+    ajusteTaquilla:number;
 }
 
 @Injectable({

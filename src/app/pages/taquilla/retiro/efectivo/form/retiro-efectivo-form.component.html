@@ -27,24 +27,9 @@
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
 
-
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
-
-
-
-                        <!-- primera Fila del Formulario  Nota: Borrar este comentario al Final -->
+                    <form [formGroup]="itemForm" *ngIf="itemForm">                      
                         <div fxLayout="column">
 
-                            <!-- <div fxLayout="column"  >
-                                <sirio-card-header class="header-bg">
-                                    <sirio-card-header-heading> <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; Información Financiera</sirio-card-header-heading>
-                                    <sirio-card-header-actions>
-                                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                                        {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfoFinance()">
-                                            <mat-icon>backspace</mat-icon>
-                                        </button>
-                                    </sirio-card-header-actions>
-                                </sirio-card-header> -->
                             <sirio-card [fxFlex.gt-sm]="100" *ngIf="esRetiroEfectivo" fxLayout="column"
                                 class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
                                 <sirio-card-header class="header-bg">
@@ -59,7 +44,6 @@
                                 </sirio-card-header>
 
                                 <sirio-card-content fxLayout="column">
-
 
                                     <div fxLayoutGap.gt-sm="10px">
 
@@ -91,46 +75,42 @@
 
 
                                         <!--total retiro -->
-                                        <mat-form-field fxFlex="25">
+                                        <mat-form-field fxFlex="25" class="highlight">
                                             <mat-label>{{'withdrawal.totalCash' | translate: {default: 'global.totalCash'} |
                                                 translate }}
                                             </mat-label>
-                                            <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto" 
+                                            <input matInput max="99999999999999999.99" min="0.01" maxlength="20"  autocomplete="off" name="monto" 
                                             formControlName="monto"
                                                 currencyMask [options]="{precision:2}" >
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99
+                                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que  9.999.999.999.999,99
                                             </mat-error>
                                             <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01
                                             </mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.difference">Verifique monto</mat-error>
-                                            <!-- <mat-error *ngIf="f.monto.errors?.required"> </mat-error>-->
+                                            <mat-error *ngIf="f.monto.errors?.difference">Verifique Monto</mat-error>                                          
                                         </mat-form-field>
 
 
-                                        <sirio-cash-button [moneda]="moneda" [total]="f.monto.value" class="margin-top-md"
-                                            [disabled]="f.cuenta.value <= 0 && f.monto.value <= 0 " (update)="updateCashDetail($event)"
+                                        <sirio-cash-button operation="retiro" [moneda]="moneda" [total]="f.monto.value" class="margin-top-sm"
+                                            [disabled]="f.cuenta.value <= 0 || f.monto.value <= 0 " (update)="updateCashDetail($event)"
                                             [cono_actual]="conoActual" [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 
                                         <!--total efectivo -->
-                                        <mat-form-field fxFlex.gt-sm="25">
+                                        <mat-form-field fxFlex.gt-sm="25" class="highlight">
                                             <mat-label>{{'withdrawal.totalWithdrawal' | translate: {default:
                                                 'global.totalWithdrawal'} | translate }}
                                             </mat-label>
-                                            <input matInput readonly max="99999999999999.99" min="0.01" maxlength="17" autocomplete="off" name="totalRetiro"
+                                            <input matInput readonly max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="totalRetiro"
                                                 formControlName="totalRetiro" currencyMask [options]="{precision:2}" [required]="esRetiroEfectivo">
                                             <mat-error *ngIf="f.totalRetiro.errors?.required">Es requerido</mat-error>
                                             <mat-error *ngIf="f.totalRetiro.errors?.max">Debe ser menor que
-                                                99.999.999.999,99
+                                                9.999.999.999.999,99
                                             </mat-error>
                                             <mat-error *ngIf="f.totalRetiro.errors?.min">No debe ser menor que 0,01
                                             </mat-error>
-                                            <mat-error *ngIf="f.totalRetiro.errors?.totalDifference">Verifique monto</mat-error>
+                                            <mat-error *ngIf="f.totalRetiro.errors?.totalDifference">Verifique Monto</mat-error>
                                         </mat-form-field>
-
-
-
                                     </div>
                                 </sirio-card-content>
                             </sirio-card>
@@ -142,49 +122,37 @@
                                     <sirio-card-header-heading><i class="fa-light fa-address-card mat-icon mat-primary fa-lg margin-top-md"></i> &nbsp;
                                         Información del Beneficiario</sirio-card-header-heading>
                                     <sirio-card-header-actions>
-                                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
-                                {default: 'global.notfound'} | translate }}" type="button" (click)="resetInfoFinance()">
+                                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                                {default: 'global.notfound'} | translate }}"  type="button" (click)="resetInfoBenef()">
                                             <mat-icon>backspace</mat-icon>
-                                        </button>
+                                        </button> 
                                     </sirio-card-header-actions>
                                 </sirio-card-header>
 
                                 <sirio-card-content fxLayout="column">
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">                                       
+                                        <mat-form-field fxFlex.gt-sm="auto"  *ngIf="!cuentaBancariaOperacion">
+                                                <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
+                                                    translate  }}   </mat-label>
+                                            <input id="element" matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
+                                                uppercase >
+                                            <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                            <mat-error *ngIf="f.email.errors?.required">{{'error.required'
+                                                | translate}}</mat-error>                              
+                                        </mat-form-field>    
 
-                                        <mat-form-field fxFlex.gt-sm="auto" *ngIf="!cuentaBancariaOperacion">
-                                            <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
-                                                translate
-                                                }}
-                                            </mat-label>
-                                            <input matInput autocomplete="off"
-                                               [(ngModel)]="persona.email" [ngModelOptions]="{standalone: true}" readonly 
-                                               [required]="!cuentaBancariaOperacion">                                            
+                                        <mat-form-field fxFlex.gt-sm="auto"  *ngIf="cuentaBancariaOperacion"> <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
+                                                    translate }}
+                                        </mat-label>
+                                            <input  id="element" matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
+                                                uppercase> 
+                                            <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                            <mat-error *ngIf="f.email.errors?.required">{{'error.required'
+                                                | translate}}</mat-error>                              
                                         </mat-form-field>
                                         
-                                       
-                                        <mat-form-field fxFlex.gt-sm="auto" *ngIf="cuentaBancariaOperacion">
-                                            <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
-                                                translate
-                                                }}
-                                            </mat-label>
-                                            <input matInput autocomplete="off" [(ngModel)]="cuentaBancariaOperacion.email"
-                                            [required]="cuentaBancariaOperacion"
-                                            [ngModelOptions]="{standalone: true}" readonly name="email"
-                                            class="text-left">
-                                         
-                                        </mat-form-field>
-
-                                    </div>
-                                        <!-- 
-                                <mat-form-field fxFlex.gt-sm="auto">
-                                    <mat-label>{{'withdrawal.sms' | translate: {default: 'global.sms'} | translate }}
-                                    </mat-label>
-                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00"
-                                        placeholder="" [required]="!f.email.value">
-                                    <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                </mat-form-field> -->                    
+                                    </div>                                
+                                          
 
                                 </sirio-card-content>
 
@@ -194,10 +162,8 @@
 
                     </form>
 
-
-
                 </sirio-card-content>
-                <!--  {{printErrors() | json}}-->
+                  <!-- {{printErrors() | json}} -->
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
@@ -205,7 +171,8 @@
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
-                            <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.send' | translate: {default:
+                            <!-- <mat-icon class="margin-bottom-xxs">save</mat-icon>  -->
+                            {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>

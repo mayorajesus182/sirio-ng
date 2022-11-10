@@ -1,5 +1,6 @@
 @import "@angular/material/core/style/variables";
 @import "@angular/material/core/theming/palette";
+@import '../../../node_modules/@angular/material/theming';
 
 /**
 Genearal
@@ -26,6 +27,7 @@ $page-load-background: #141a2e;
 $elevation: 2;
 
 $color-success: #7cb342;
+$color-warn: #ef5350;
 
 $spacing: 24px;
 $spacing-md: 16px;

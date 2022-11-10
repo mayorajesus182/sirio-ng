@@ -1,13 +1,13 @@
 <div id="notfound" class="background-pattern">
   <div class="notfound">
     <div class="notfound-404">
-      <h3>Oops! Page not found</h3>
+      <h3>{{'error.404Title'| translate}}</h3>
       <h1><span>4</span><span>0</span><span>4</span></h1>
     </div>
-    <h2>we are sorry, but the page you requested was not found</h2>
+    <h2>{{'error.403Message' | translate}}</h2>
     <button 
     mat-raised-button 
-    color="primary" (click)="location.back()"
+    color="primary" [routerLink]="['/sirio/welcome']"
       >Regresar</button>
   </div>
 </div>

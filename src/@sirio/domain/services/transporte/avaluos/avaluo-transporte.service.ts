@@ -32,8 +32,8 @@ export class AvaluoTransporteService {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/bytransportista/actives`);
     }
 
-    update(data: AvaluoTransporte): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.avaluo}/${data.transportista}/update`, data)
+    update(data: AvaluoTransporte[]): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/update`, data)
             .pipe(map(res => data));
     }
 

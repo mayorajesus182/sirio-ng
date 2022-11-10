@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Idle } from '@ng-idle/core';
+import { TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from 'src/@sirio/domain/services/security/auth.service';
 import { SessionService } from 'src/@sirio/services/session.service';
@@ -21,6 +22,8 @@ export class LoginComponent implements OnInit {
 
   inputType = 'password';
   visible = false;
+  success = '';
+  error = '';
 
   constructor(
     private userIdle: Idle,
@@ -28,6 +31,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
+    private translate: TranslateService,
     private authService: AuthService,
 
     private sessionService: SessionService
@@ -37,6 +41,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     this.userIdle.stop();
+
+    this.success = this.translate.instant('message.successfulLogin');
+
+    this.error=this.translate.instant('message.loginError');
 
     this.form = this.fb.group({
       username: ['', Validators.required],
@@ -67,7 +75,7 @@ export class LoginComponent implements OnInit {
         data => {
           this.submitButton.disabled = false;
           this.router.navigateByUrl('/sirio/welcome');
-          this.snackbar.open('Authentication Success', 'Close', {
+          this.snackbar.open(this.success, 'Close', {
             duration: 8000,
             horizontalPosition: 'center',
             panelClass: 'success-snackbar'
@@ -78,7 +86,7 @@ export class LoginComponent implements OnInit {
         },
         err => {
 
-          this.snackbar.open('Authentication Faild', 'Close', {
+          this.snackbar.open(this.error, 'Close', {
             duration: 8000,
             horizontalPosition: 'center',
             panelClass: 'danger-snackbar'

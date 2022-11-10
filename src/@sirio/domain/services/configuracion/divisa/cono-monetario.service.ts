@@ -14,6 +14,7 @@ export interface ConoMonetario {
     cantidad?: number;
     disponible?: number;
     declarado?: number;
+    errors?: any;
     activo?: number;
 }
 
@@ -40,6 +41,10 @@ export class ConoMonetarioService {
 
     activesWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/actives`);
+    }
+
+    activesWorkflowWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/workflow/actives`);
     }
 
     activesWithDisponibleSaldoTaquillaByMoneda(moneda: string): Observable<ConoMonetario[]> {

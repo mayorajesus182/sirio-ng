@@ -10,6 +10,7 @@ import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.s
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
 import { Taquilla } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
@@ -30,6 +31,8 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
+    rol: Rol = {} as Rol;
+    public conoSave: ConoMonetario[] = [];
     workflow: string = undefined;
 
     constructor(
@@ -40,6 +43,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         private router: Router,
         private bovedaAgenciaService: BovedaAgenciaService,
         private workflowService: WorkflowService,
+        private rolService: RolService,
         private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -54,18 +58,29 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
             this.loadingDataForm.next(true);
 
             if (exp) {
+
+                this.isNew = false;
+
+                this.rolService.getByWorkflow(this.workflow).subscribe(data => {
+                    this.rol = data;
+                });
+
                 this.bovedaAgenciaService.getByExpediente(exp).subscribe(data => {
                     this.bovedaAgencia = data;
                     this.buildForm(this.bovedaAgencia);
 
                     this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
+
+                        conoData = conoData.map(c => {
+                            let val = data.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                            c.cantidad = val ? val.cantidad : 0;
+                            c.disponible = val ? c.disponible + val.cantidad : c.disponible;
+                            return c;
+                        })
+
                         this.conos.next(conoData);
 
-
-
-                    //    conoData.forEach(function (conoVacio) { data.detalleEfectivo.forEach(function (conoregistrado) { console.log('aquiiiiiiii') }) });
-
-
+                        this.updateValuesErrors(this.conos[0]);
                         this.cdr.detectChanges();
                     });
 
@@ -79,22 +94,31 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
 
         this.opt_swal = {};
         this.opt_swal.input = 'text';
-        this.opt_swal.inputPlaceholder = 'Ingrese la observación';
+        this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
         this.opt_swal.preConfirm = this.preConfirmFunt;
     }
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
+            monto: new FormControl(bovedaAgencia.monto || undefined),
         });
     }
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
+    updateValuesErrors(item: ConoMonetario) {
 
-        this.updateData(this.bovedaAgencia);
-        this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', false);
+        this.conos.subscribe(c => {
+            this.f.monto.setValue(c.filter(c1 => c1.cantidad != undefined).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+            this.conoSave = c.filter(c => c.cantidad > 0);
+            this.cdr.detectChanges();
+        });
+
+        if (item && item.cantidad > item.disponible) {
+            this.itemForm.controls['monto'].setErrors({
+                cantidad: true
+            });
+            this.f.monto.setValue(0.0);
+            this.cdr.detectChanges();
+        }
     }
 
     preConfirmFunt(obs: string) {
@@ -107,7 +131,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     }
 
     resendTask() {
-        this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
+        this.swalService.show('message.resendTask', this.rol.nombre, this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
@@ -122,8 +146,8 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         });
     }
 
-    annularTask() {
-        this.swalService.show('title.alert.workflow.return', 'text.warning.message', this.opt_swal).then((resp) => {
+    overrideTask() {
+        this.swalService.show('message.overrideTask', this.rol.nombre, this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
@@ -138,4 +162,25 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         });
     }
 
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.bovedaAgencia);
+        this.bovedaAgencia.detalleEfectivo = this.conoSave;
+
+
+        let existsDifference = false;
+
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
+
+        if (!existsDifference) {
+            this.saveOrUpdate(this.bovedaAgenciaService, this.bovedaAgencia, 'El Pase de Efectivo', this.isNew);
+        } else {
+
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) { }
+            });
+        }
+    }
 }

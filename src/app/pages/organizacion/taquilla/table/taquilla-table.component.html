@@ -10,18 +10,28 @@
                 matSortActive="nombre" matSortDirection="asc">
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'boxOffice.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'boxOffice.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="usuario_id">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'boxOffice.boxOfficeOperator' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'" mat-sort-header>{{'boxOffice.boxOfficeOperator' | translate:
                         {default: 'global.boxOfficeOperator'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
                         <p class="text-truncate font-weight-600">{{element.usuario}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abierta">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'boxOffice.opened' | translate:
+                        {default: 'global.opened'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
+                        <mat-chip mat-sm-chip [color]="element.abierta ? 'accent' : 'warn'" [selected]="element.abierta">
+                            {{element.abierta ? 'SI' : 'NO'}}
+                        </mat-chip>
                     </mat-cell>
                 </ng-container>
 

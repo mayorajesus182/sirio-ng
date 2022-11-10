@@ -15,8 +15,12 @@ export interface SaldoTaquilla {
     egreso: number;
     transito: number;
     saldo: number;
+    declarado: number;
+    ajuste: number;
     diferencia: number;
     moneda: string;
+    nombreMoneda?: string;
+    siglasMoneda?: string;
     cerrado: any;
     detalleEfectivo: ConoMonetario[];
 }
@@ -41,12 +45,16 @@ export class SaldoTaquillaService {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/${taquilla}/taquilla/saldo`);
     }
 
-    allByTaquilla(taquilla: number): Observable<SaldoTaquilla> {
+    allByTaquilla(taquilla: number): Observable<SaldoTaquilla[]> {
         return this.apiService.config(this.apiConfig).get(`/${taquilla}/taquilla/list`);
     }
 
     allByAgencia(): Observable<SaldoTaquilla[]> {
         return this.apiService.config(this.apiConfig).get(`/byagencia/list`);
+    }
+
+    allWithMovements(): Observable<SaldoTaquilla[]> {
+        return this.apiService.config(this.apiConfig).get(`/conmovimiento/list`);
     }
 
     all(): Observable<SaldoTaquilla[]> {

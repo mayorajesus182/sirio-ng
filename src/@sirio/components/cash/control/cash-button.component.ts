@@ -23,6 +23,7 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
     @Input() tooltips: string = 'Desglosar Efectivo';
     @Input() moneda: Moneda;
     @Input() total: number;
+    @Input() operation: 'deposito'|'retiro'='deposito';
 
     @Input() disabled: boolean = false;
 
@@ -49,6 +50,9 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
+        console.log('operartion ',this.operation);
+        
+
     }
 
     open() {
@@ -57,7 +61,8 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
             desgloseConoActual: this.cono_actual,
             desgloseConoAnterior: this.cono_anterior, 
             moneda: this.moneda,
-            total:this.total
+            total:this.total,
+            operation: this.operation
         }, '40%').afterClosed().subscribe(e => {
             console.log('close dialog ', e);
             if(e){

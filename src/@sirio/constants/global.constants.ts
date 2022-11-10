@@ -1,7 +1,10 @@
 export class GlobalConstants {
   public static IDLE_TIMEOUT = 15;
-  public static TIMEOUT_CONVERT = 60 * 3;
+  public static TIMEOUT_IDLE = 60 * 10;
   public static ACTIVO = true;
+  public static PERSON_TIPO_DOC_DEFAULT ='V';
+  public static PN_TIPO_DOC_DEFAULT ='V';
+  public static PJ_TIPO_DOC_DEFAULT ='J';
   public static PAIS_LOCAL = 'VEN';//TODO: ESTO DEBERIAMOS OBTENER DEL USUARIO
   public static PERSONA_NATURAL = 'N';
   public static PERSONA_JURIDICA = 'J';
@@ -16,4 +19,5 @@ export class GlobalConstants {
   public static OFICINA = 'O';
   public static CHEQUE = '90';
   public static CHEQUE_GERENCIA = '96';
+  // public static TIPO_PRODUCTO= '01';
 };

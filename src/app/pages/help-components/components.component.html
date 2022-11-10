@@ -80,7 +80,7 @@
                   </mat-label>
                   <input matInput type="text" autocomplete="off" email-validate name="email" formControlName="email" required>
                   <mat-error *ngIf="form.email.errors?.required ">Es requerido</mat-error>
-                  <mat-error *ngIf="form.email.errors?.email">Email es invalido</mat-error>
+                  <mat-error *ngIf="form.email.errors?.email">Email es Inválido</mat-error>
                 </mat-form-field>
 
                 <!-- {{form.email.errors|json}} -->
@@ -90,7 +90,8 @@
               <div fxLayout="row" fxLayout="column">
                 <div fxLayoutAlign="end center" fxFlex="1 1 0%">
                   <button color="primary" (click)="save()" mat-raised-button [disabled]="formData?.invalid  ">
-                    <mat-icon class="margin-bottom-xxs">save</mat-icon> {{'button.save' | translate: {default:
+                    <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
+                     {{'button.save' | translate: {default:
                     'global.notfound'} | translate }}
                   </button>
                 </div>
@@ -155,7 +156,7 @@
                       placeholder="">
                     <mat-hint>Ingrese el numero de cuenta</mat-hint>
                     <mat-error *ngIf="form2.cuenta.errors?.required">Es requerido</mat-error>
-                    <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es invalido</mat-error>
+                    <mat-error *ngIf="form2.cuenta.errors?.account">El num. de cuenta es Inválido</mat-error>
                   </mat-form-field>
 
                   <mat-form-field fxFlex="auto">

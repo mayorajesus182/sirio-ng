@@ -3,7 +3,7 @@
   <button (click)="openQuickPanel.emit()"  class="button"
           fxFlex="grow" mat-button type="button">
           <!-- TODO: CARGAR EL NUMERO DE TAREAS -->
-    <mat-icon [matBadgeHidden]="total === 0" [matBadge]="total" class="icon">
+    <mat-icon [matBadgeHidden]="(total | async)=== 0" [matBadge]="total.value" class="icon">
       notifications_active
     </mat-icon>
   </button>

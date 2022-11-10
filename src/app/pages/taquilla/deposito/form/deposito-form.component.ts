@@ -20,6 +20,7 @@ import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquill
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Cheque, Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
+import { SplashScreenService } from 'src/@sirio/services/splash-screen.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 @Component({
     selector: 'app-deposito-form',
@@ -72,7 +73,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         private taquillaService: TaquillaService,
         private sessionService: SessionService,
         private motivoDevolucionService: MotivoDevolucionService,
-        private cdr: ChangeDetectorRef) {
+        private cdr: ChangeDetectorRef,
+        private splashScreenService: SplashScreenService) {
         super(undefined, injector);
     }
 
@@ -100,6 +102,23 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 //     this.tiposDocumentoNaturales.next(data);
                 // });
 
+                this.f.identificacionDepositante.valueChanges.subscribe(val => {
+                    if(val){
+                        if(this.f.identificacionDepositante.value === this.f.identificacion.value){
+                            // this.f.tipoDocumentoDepositante.setValue(this.f.tipoDocumento);
+                            this.f.nombreDepositante.setValue(this.persona.nombre);
+                            this.f.email.setValue(this.persona.email);
+                            this.cdr.detectChanges();
+                        }else{
+                            this.f.nombreDepositante.setValue('');
+                            this.f.email.setValue('');
+                            this.cdr.detectChanges();
+                        }
+                    }
+                })
+
+                
+
                 // if (this.f.tipoDocumento.value == "") {
                 //     this.f.identificacion.disable();
                 //     this.f.esEfectivo.enable();
@@ -123,9 +142,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 // })
 
 
+
                 // this.f.efectivo.valueChanges.subscribe(val => {
                 //     if (val) {
                 //         this.calculateDifferences();
+                //         // this.f.efectivo.markAsDirty();
                 //     }
                 // })
 
@@ -133,6 +154,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 //     if (val) {
                 //         this.calculateDifferences();
                 //     }
+
                 // })
 
                 // this.f.chequePropio.valueChanges.subscribe(val => {
@@ -279,12 +301,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     //             this.f.monto.setValue(event.montoTotal);
     //         }
     //         // this.cdr.detectChanges();
+
             
     //     } else{
             
     //         if(event && event.montoTotal > 0){
     //             this.f.monto.setValue(event.montoTotal);
     //         }
+
             
     //         this.f.monto.setErrors(undefined);
     //         this.f.efectivo.setErrors(undefined);
@@ -323,6 +347,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         //     chequeOtros: new FormControl(undefined),
         //     chequePropio: new FormControl(undefined),
 
+
         // });
 
     //     this.f.esEfectivo.valueChanges.subscribe(val => {
@@ -337,6 +362,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     //         }
     //         // this.applyFieldsDirty();
     //     })
+
 
     //     this.f.conLibreta.valueChanges.subscribe(val => {
     //         if (!val) {
@@ -367,6 +393,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     //         }
     //     })
     // }
+
 
     // buildChequeForm() {
 
@@ -522,7 +549,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     //         this.f.cuentaBancaria.setValue(data[0].id);
                     //     }
                     // });  
+
                 }
+
+                this.f.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
             }
         }
 
@@ -586,6 +616,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     //     this.f.email.setValue('');
     // }
 
+
     // libretaEvaluate(event) {
     //     if (event.checked) {
     //         this.f.conMovimiento.setValue(false);
@@ -608,7 +639,9 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         {'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.moneda.siglas+'</b>'} 
         ).then((resp) => {
             if (!resp.dismiss) {
-                this.updateDataFromValues(this.deposito, this.persona);
+                // this.updateDataFromValues(this.deposito, this.persona);
+                this.deposito.identificacion = this.persona.identificacion;
+                this.deposito.tipoDocumento = this.persona.tipoDocumento;
                 this.deposito.persona = this.persona.id;
                 this.deposito.nombre = this.persona.nombre;
                 this.deposito.numper = this.persona.numper;
@@ -618,7 +651,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
-                this.router.navigate(['/sirio/welcome']).then(data => { });
+                this.loadingDataForm.subscribe(status=>{
+                    if(!status){
+                        this.router.navigate(['/sirio/welcome']).then(data => { });
+                    }
+                })
             }
         })
     }

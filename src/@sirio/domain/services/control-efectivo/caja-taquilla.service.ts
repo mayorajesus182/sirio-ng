@@ -8,13 +8,17 @@ import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 export interface CajaTaquilla {
     id: number;
     taquilla: number;
+    nombreTaquilla?: string;
     movimientoEfectivo: string;     
     monto: number;
     moneda: string;
+    siglasMoneda?: string;
+    nombreMoneda?: string;
+    diferencia?: number;
+    ajuste?: number;
     fechaCreacion?: any;
-    detalleEfectivo: ConoMonetario[];
+    detalleEfectivo: any[];
 }
-
 
 @Injectable({
     providedIn:'root'
@@ -46,6 +50,10 @@ export class CajaTaquillaService {
 
     detailByExpediente(expediente: string): Observable<CajaTaquilla> {
         return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/detail`);
+    }
+
+    allByExpediente(expediente: string): Observable<CajaTaquilla[]> {
+        return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/list`);
     }
 
     save(data: CajaTaquilla): Observable<any> {

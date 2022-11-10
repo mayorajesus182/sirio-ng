@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { WFCierreTaquillaDetailComponent } from './wf-cierre-taquilla/detail/wf-cierre-taquilla-detail.component';
 import { WFPaseABovedaDetailComponent } from './wf-pase-boveda/detail/wf-pase-boveda-detail.component';
 import { WFPaseABovedaFormComponent } from './wf-pase-boveda/form/wf-pase-boveda-form.component';
 import { WFPaseEfectivoDetailComponent } from './wf-pase-efectivo/detail/wf-pase-efectivo-detail.component';
@@ -26,6 +27,11 @@ const workflowRoutes: Routes = [
         path: 'pase-boveda/:wf/:exp/view',
         component: WFPaseABovedaDetailComponent,
         data: { title: 'Workflow Pase a Bóveda' }
+    },
+    {
+        path: 'cierre-taquilla/:wf/:exp/view',
+        component: WFCierreTaquillaDetailComponent,
+        data: { title: 'Workflow Cierre de Taquilla' }
     }
 
 ];

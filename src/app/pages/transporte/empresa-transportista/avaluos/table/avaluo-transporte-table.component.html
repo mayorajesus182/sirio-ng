@@ -49,11 +49,13 @@
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-costo'] = true" *ngIf="!editing[rowIndex + '-costo']">
+                            <!-- <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-costo'] = true" *ngIf="!editing[rowIndex + '-costo']">
                                 <p class="fullwidth text-right " > {{ row?.costo | number:'1.2-2'}} <mat-icon  matTooltip="Clic Editar">edit</mat-icon></p>
-                            </div>
-                            <input class="mat-input" *ngIf="editing[rowIndex+ '-costo']"  [(ngModel)]="row.costo" autofocus 
-                                 matInput type="text" (blur)="editing[rowIndex + '-costo'] = false"  currencyMask [options]="{precision:2}" />
+                            </div> -->
+                            <!-- <input class="mat-input" *ngIf="editing[rowIndex+ '-costo']"  [(ngModel)]="row.costo" autofocus 
+                                 matInput type="text" (blur)="editing[rowIndex + '-costo'] = false"  currencyMask [options]="{precision:2}" /> -->
+
+                            <input class="mat-input" [(ngModel)]="row.costo" autofocus matInput type="text" currencyMask [options]="{precision:2}" />
                         </ng-template>
                     </ngx-datatable-column>
 
@@ -63,25 +65,42 @@
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <div  class="fullwidth input-content"  (click)="editing[rowIndex + '-costoDivisa'] = true" *ngIf="!editing[rowIndex + '-costoDivisa']">
-                                <p class="fullwidth text-right " > {{ row?.costoDivisa | number:'1.2-2'}} <mat-icon  matTooltip="Clic Editar">edit</mat-icon></p>
+
+                            <!-- <div class="fullwidth input-content" (click)="editing[rowIndex + '-costoDivisa'] = true"
+                                *ngIf="!editing[rowIndex + '-costoDivisa']">
+                                <p class="fullwidth text-right "> {{ row?.costoDivisa | number:'1.2-2'}} <mat-icon matTooltip="Clic Editar">edit</mat-icon>
+                                </p>
                             </div>
-                            <input class="mat-input" *ngIf="editing[rowIndex+ '-costoDivisa']"  [(ngModel)]="row.costoDivisa" autofocus 
-                                 matInput type="text" (blur)="editing[rowIndex + '-costoDivisa'] = false"  currencyMask [options]="{precision:2}" />
+                            <input class="mat-input" *ngIf="editing[rowIndex+ '-costoDivisa']" [(ngModel)]="row.costoDivisa" autofocus matInput type="text"
+                                (blur)="editing[rowIndex + '-costoDivisa'] = false" currencyMask [options]="{precision:2}" /> -->
+
+                            <input class="mat-input" [(ngModel)]="row.costoDivisa" autofocus matInput type="text" currencyMask [options]="{precision:2}" />
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column name="" [flexGrow]="1">
+                    <!-- <ngx-datatable-column name="" [flexGrow]="1">
                         <ng-template let-row="row" ngx-datatable-cell-template>
                             <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
                                 [disabled]="row.costoDivisa+row.costo <= 0 || btnState" (click)="update(row,$event)" matTooltip="Actualizar">
                                 <mat-icon>save</mat-icon>
                             </button>
                         </ng-template>
-                    </ngx-datatable-column>
+                    </ngx-datatable-column> -->
                 </ngx-datatable>
 
+
+                <div fxLayout="row" fxLayout="column">
+                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                        <button color="primary" (click)="update()" mat-raised-button>
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
+                            {{'button.save' | translate: {default:'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </div>
+
             </div>
+
+
 
 
         </sirio-list-simple>

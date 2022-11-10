@@ -1,20 +1,19 @@
-import { Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { SessionService } from 'src/@sirio/services/session.service';
+import { ThemeService } from '../../../@sirio/services/theme.service';
 import { SidenavItem } from './sidenav-item/sidenav-item.interface';
 import { SidenavService } from './sidenav.service';
-import { ThemeService } from '../../../@sirio/services/theme.service';
-import { SessionService } from 'src/@sirio/services/session.service';
 
 @Component({
   selector: 'sirio-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss']
 })
-export class SidenavComponent implements OnInit, OnDestroy {
+export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
-  sidenavUserVisible$ = this.themeService.config$.pipe(map(config => config.sidenavUserVisible));
+  sidenavUserVisible$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true)//this.themeService.config$.pipe(map(config => config.sidenavUserVisible));
 
   @Input()
   @HostBinding('class.collapsed')
@@ -33,11 +32,18 @@ export class SidenavComponent implements OnInit, OnDestroy {
   constructor(private router: Router,
     private sessionService: SessionService,
     private sidenavService: SidenavService,
-    private themeService: ThemeService) {
+    private themeService: ThemeService,
+    private cdref : ChangeDetectorRef) {
+  }
+  ngAfterViewChecked(): void {
+    
+    // this.sidenavUserVisible$.next(!this.collapsed);
+    this.cdref.detectChanges();
   }
 
   ngOnInit() {
     this.items$ = this.sidenavService.items$
+    // this.toggleCollapsed();
 
     const data = this.sessionService.getUser();
 
@@ -46,25 +52,49 @@ export class SidenavComponent implements OnInit, OnDestroy {
       this.officeName = data.organization;
       this.fullName = data.fullName.split(" ")[0];
       this.logonedAt = data.prevLogin;
-      // this.cdr.markForCheck();
     }
 
+
+    // this.sidenavUserVisible$.subscribe(status=>{
+
+    //   console.log('show ',status);
+    // })
+    
+    // this.sidenavService.expanded$.subscribe(expanded=>{
+    //   // console.log('expanded',expanded);
+    //   if(!this.collapsed){
+    //     this.sidenavUserVisible$.next(expanded);
+    //   }
+      
+    // });
+
+    // this.sidenavService.collapsed$.subscribe(collapsed=>{
+    //     if(!this.expanded){
+    //       this.sidenavUserVisible$.next(collapsed);
+    //     }
+      
+    // });
+    // this.cdref.markForCheck();
   }
 
   toggleCollapsed() {
-    this.sidenavService.toggleCollapsed();
+    this.sidenavService.toggleCollapsed();    
   }
 
   @HostListener('mouseenter')
   @HostListener('touchenter')
   onMouseEnter() {
     this.sidenavService.setExpanded(true);
+    // this.sidenavUserVisible$.next(true);
+    // this.cdref.detectChanges();
   }
 
   @HostListener('mouseleave')
   @HostListener('touchleave')
   onMouseLeave() {
     this.sidenavService.setExpanded(false);
+    // this.sidenavUserVisible$.next(false);
+    // this.cdref.detectChanges();
   }
 
   ngOnDestroy() {

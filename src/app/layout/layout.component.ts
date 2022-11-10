@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
-import { DEFAULT_INTERRUPTSOURCES, DocumentInterruptSource, Idle, StorageInterruptSource } from '@ng-idle/core';
+import { DocumentInterruptSource, Idle, StorageInterruptSource } from '@ng-idle/core';
 
 import { filter, map } from 'rxjs/operators';
 import { GlobalConstants } from 'src/@sirio/constants';
@@ -62,8 +62,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
   private idleConfig(): void {
 
-    // sets an idle timeout of 15 seconds.
-    this.userIdle.setIdle(GlobalConstants.TIMEOUT_CONVERT);
+    // sets an idle 15min seconds.
+    this.userIdle.setIdle(GlobalConstants.TIMEOUT_IDLE);
     // sets a timeout period of 5 seconds. after 10 seconds of inactivity, the user will be considered timed out.
     this.userIdle.setTimeout(GlobalConstants.IDLE_TIMEOUT);
 
@@ -110,6 +110,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       }
       if (event.data === `Sorry! Already open`) {
         console.log("Duplicate Tab");
+        // this.router.navigate(['/user/login'])
       }
     };
 

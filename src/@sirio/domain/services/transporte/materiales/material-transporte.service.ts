@@ -32,10 +32,15 @@ export class MaterialTransporteService {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/bytransportista/actives`);
     }
 
-    update(data: MaterialTransporte): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.material}/${data.transportista}/update`, data)
+    update(data: MaterialTransporte[]): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/update`, data)
             .pipe(map(res => data));
     }
+
+    // update(data: MaterialTransporte): Observable<any> {
+    //     return this.apiService.config(this.apiConfig).put(`/${data.material}/${data.transportista}/update`, data)
+    //         .pipe(map(res => data));
+    // }
 
 }
 
