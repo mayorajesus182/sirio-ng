@@ -91,9 +91,9 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
     this.dialogRef.close(
       {
-        desgloseConoActual: this.valuesCono1,
-        desgloseConoAnterior: this.valuesCono2,
-        montoTotal: this.montoTotal
+        desgloseConoActual: [],
+        desgloseConoAnterior: [],
+        montoTotal: 0
       });
 
   }
@@ -162,6 +162,5 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     
     return this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length > 0 || this.valuesCono2.map(c=>c.errors).filter(e=>e!=null).length > 0;
   }
-
 
 }

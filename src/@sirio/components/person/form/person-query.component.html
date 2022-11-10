@@ -2,7 +2,7 @@
     <sirio-card-header class="header-bg">
         <sirio-card-header-heading>
             <!-- <mat-icon color="primary">search</mat-icon>  -->
-            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;Información Cliente</sirio-card-header-heading>
+            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;Información del Cliente</sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
         <sirio-card-header-actions>
             <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
@@ -16,15 +16,16 @@
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <sirio-select-search autofocus="true" fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
                     [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" 
-                    [errors]="search.tipoDocumento?.errors" [required]="true" [disabled]="search.cuenta.value && search.cuenta.value.length" [readonly]="search.cuenta.value && search.cuenta.value.length > 0">
+                    [errors]="search.tipoDocumento?.errors" [required]="true" [disabled]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value" 
+                    [readonly]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value" >
                 </sirio-select-search>
-
+                    
                 <!-- [attr.disabled]="search.cuenta.value && search.cuenta.value.length > 0" -->
 
                 <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
-                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" 
+                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="disable | async"
                         formControlName="identificacion">
 
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -41,7 +42,7 @@
                 <mat-form-field fxFlex="20" *ngIf="taquilla">
                     <mat-label>{{'global.accountNumber' | translate }} </mat-label>
                     <input matInput autocomplete="off" [maxLength]="24" class="text-center" 
-                     name="cuenta" num-account-validate
+                     name="cuenta" num-account-validate [disabled]="disable | async"
                     formControlName="cuenta" (keyup.enter)="queryByAccount()" (blur)="queryByAccount()" mask="0000 0000 00 00 00000000">
                     <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe
                     </mat-error>

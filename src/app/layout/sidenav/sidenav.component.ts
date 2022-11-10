@@ -43,7 +43,7 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit() {
     this.items$ = this.sidenavService.items$
-    this.toggleCollapsed();
+    // this.toggleCollapsed();
 
     const data = this.sessionService.getUser();
 

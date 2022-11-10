@@ -110,6 +110,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
       }
       if (event.data === `Sorry! Already open`) {
         console.log("Duplicate Tab");
+        // this.router.navigate(['/user/login'])
       }
     };
 

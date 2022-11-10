@@ -11,7 +11,7 @@
   }
   
   .title{
-    font-size: 1.4em;
+    font-size: 2em;
     color: #f0f0f0;
   }
   
@@ -22,6 +22,11 @@
   
   &.purple-bg{
     background: #ab47bc;
+    color: white;
+  }
+
+  &.yellow-bg{
+    background: #ffb300;
     color: white;
   }
   
@@ -39,13 +44,31 @@
     background: #26a69a;
     color: white;
   }
+  
+  
+  &.brown-bg{
+    background: #8d685a;
+    color: white;
+  }
+  
+  &.lima-bg{
+    background: #c0ca33;
+    color: white;
+  }
+  
+  &.cyan-bg{
+    background: #00acc1;
+    color: white;
+  }
+
   .header {
+    padding: 24px 24px 0px 24px;
     .value {
       font: var(--font-display-2);
       font-size: 2.5em;
       color: hsla(0, 0%, 22%, 0.2);
       font-weight: 300;
-      margin-top: math.div($spacing, 2);
+      // margin-top: math.div($spacing, 2);
     }
   }
 
@@ -56,8 +79,10 @@
 
     .heading {
       font: var(--font-caption);
-      font-size: 14px;
-      color: $light-secondary-text;
+      font-size: 18px;
+      // color: $light-secondary-text;
+      color: rgba(253, 253, 253, 0.7);
+      font-weight: 100;
       border-bottom: 1px solid $light-dividers;
     }
 
@@ -73,20 +98,22 @@
         font-size: 5.3em;
         margin-left: auto;
         margin-right: auto;
+        margin-bottom: 30px;
         // color: rgba(48, 48, 48, 0.3);
         color: rgba(253, 253, 253, 0.8);
       }
     }
 
     .pages {
-      height: 120px;
+      height: 162px;
       padding-top: 6px;
       // cursor: pointer;
       
       .page {        
-        color: #f5f5f5;
+        color: #ffffff;
         text-align: left;
         text-decoration: none;
+        font-size: 1.2em;
         & + .page {
           display: flex;
           width: 100%;

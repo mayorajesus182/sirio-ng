@@ -42,7 +42,7 @@ export class TaquillaWidgetComponent implements OnInit {
         return p;
       }).filter(this.onlyUnique);
 
-      // console.log(lista);
+      console.log('header taquilla ',lista);
       
 
       this.taquillas.next(lista);
@@ -53,9 +53,11 @@ export class TaquillaWidgetComponent implements OnInit {
   }
 
   private onlyUnique(value, index, self) {
-    // console.log('value ',value);
+    // console.log('index ',index);
+    // console.log('self ',self);
+    // console.log('value ',value, self.findIndex(v=> value.taquilla==v.taquilla));
     
-    return self.findIndex(v=> value.taquillaNombre==v.taquillaNombre) === index;
+    return self.findIndex(v=> value.taquilla==v.taquilla) === index;
   }
 
 }
