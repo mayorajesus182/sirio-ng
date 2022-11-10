@@ -28,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
 
         return next.handle(req).pipe(catchError(error => {
-            //console.log('Response',error);
+            console.log('Response',error);
             if (error instanceof HttpErrorResponse) {
                 // console.log('>> Error response',error.error);
 
@@ -56,7 +56,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         }
                         break;
                     case 403:
-
                         this.router.navigate(['errors/403']);
                         break;
                     case 409:

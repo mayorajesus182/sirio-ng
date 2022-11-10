@@ -220,7 +220,7 @@ export class FormBaseComponent {
 
 
     protected errorResponse(errors, isNew: boolean = false) {
-        this.loadingDataForm.next(false);
+        this.loadingDataForm.next(errors);
         this.snack.show({
             // message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
             message: `¡Operación rechazada!`,
@@ -302,7 +302,6 @@ export class FormBaseComponent {
     protected saveOrUpdate(service, formData = {}, entityName, isNew?): Observable<any> {
         this.loadingDataForm.next(true);
         if (this.isNew) {
-
             const saveRequest = service.save(formData);
             return saveRequest.subscribe(data => {
                 this.itemForm.reset({});
@@ -316,7 +315,7 @@ export class FormBaseComponent {
             return updateRequest.subscribe(data => {
 
                 this.successResponse(entityName, 'actualizad' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
-            }, error => this.errorResponse(false));
+            }, error => this.errorResponse(true));
         }
 
     }
