@@ -249,7 +249,7 @@
                                         <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
                                     </mat-form-field> -->
                                 </div>
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                     <div fxFlex.gt-xs="12" *ngIf="((f.tipoProducto.value == 01) && (f.identificacion.value == f.identificacionDepositante.value))" >
                                         <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
                                             name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
@@ -272,7 +272,7 @@
                                             [required]="f.conLibreta.value">
                                         <mat-error *ngIf="f.linea.errors?.required">{{'error.required' | translate}}</mat-error>
                                     </mat-form-field>
-                                </div>
+                                </div> -->
                             </sirio-card-content>
                         </sirio-card>
                     </div>
