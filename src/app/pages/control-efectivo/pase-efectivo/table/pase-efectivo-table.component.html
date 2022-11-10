@@ -6,6 +6,7 @@
     <sirio-page-layout-content [@fadeInUp]>
         <sirio-list [name]="'cashPass.table' | translate: {default: 'global.notfound'}" placeholder="cashPass.search"
             (filterChange)="onFilterChange($event)">
+
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="fcreacion" matSortDirection="desc">
 
@@ -24,7 +25,7 @@
                         <p class="text-truncate font-weight-600">{{element.movimientoEfectivo}}</p>
                     </mat-cell>
                 </ng-container>
-
+                
                 <ng-container matColumnDef="monto">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.amount' | translate:
                         {default: 'global.amount'} | translate }}</mat-header-cell>

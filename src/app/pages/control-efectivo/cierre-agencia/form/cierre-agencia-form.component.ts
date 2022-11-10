@@ -74,7 +74,6 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
                     if (isOpen) {
 
                         mensaje = 'Existen Taquillas Abiertas, Deben Cerrarlas para Proceder al Cierre de la Agencia';
-                        this.router.navigate(['/sirio/welcome']);
                         this.swalService.show('No se Puede Efectuar el Cierre', mensaje, { showCancelButton: false }).then((resp) => {
                             if (!resp.dismiss) { this.router.navigate(['/sirio/welcome']); }
                         });
