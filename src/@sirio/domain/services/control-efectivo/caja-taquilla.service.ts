@@ -17,7 +17,7 @@ export interface CajaTaquilla {
     diferencia?: number;
     ajuste?: number;
     fechaCreacion?: any;
-    detalleEfectivo: ConoMonetario[];
+    detalleEfectivo: any[];
 }
 
 @Injectable({

@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
-import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { CajaTaquilla, CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
@@ -33,8 +33,9 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
     public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
+    public conos = new BehaviorSubject<ConoMonetario[]>([]);
     rol: Rol = {} as Rol;
-    public conos: ConoMonetario[] = [];
+    public conoSave: ConoMonetario[] = [];
     workflow: string = undefined;
 
     constructor(
@@ -48,6 +49,7 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
         private workflowService: WorkflowService,
+        private conoMonetarioService: ConoMonetarioService,
         private rolService: RolService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -64,6 +66,7 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
 
             if (exp) {
 
+                this.isNew = false; 
 
                 this.rolService.getByWorkflow(this.workflow).subscribe(data => {
                     this.rol = data;
@@ -71,9 +74,22 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
 
                 this.cajaTaquillaService.getByExpediente(exp).subscribe(data => {
                     this.cajaTaquilla = data;
-                    // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML
-                    this.conos = data.detalleEfectivo;
                     this.buildForm(this.cajaTaquilla);
+
+                    this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(data.moneda).subscribe(conoData => {
+
+                        conoData = conoData.map(c => {
+                            let val = data.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                            c.cantidad = val ? val.cantidad : 0;
+                            c.disponible = val ? c.disponible + val.cantidad : c.disponible;
+                            return c;
+                        })
+
+                        this.conos.next(conoData);
+                        this.updateValuesErrors(this.conos[0]);
+                        this.cdr.detectChanges();
+                    });
+
                     this.cdr.markForCheck();
                     this.loadingDataForm.next(false);
                     this.applyFieldsDirty();
@@ -95,26 +111,22 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
     }
 
 
-    // updateValuesErrors(item: ConoMonetario) {
+    updateValuesErrors(item: ConoMonetario) {
 
-    //     this.conos.forEach(c => {
-    //         this.f.monto.setValue(this.conos.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
-    //         this.conoSave = c.filter(c => c.cantidad > 0);
-    //         this.cdr.detectChanges();
-    //     });
+        this.conos.subscribe(c => {
+            this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+            this.conoSave = c.filter(c => c.cantidad > 0);
+            this.cdr.detectChanges();
+        });
 
-    //     if (item.cantidad > item.disponible) {
-    //         this.itemForm.controls['monto'].setErrors({
-    //             cantidad: true
-    //         });
-    //         this.f.monto.setValue(0.0);
-
-    //         // TODO: NO DEBERIA DEJAR GUARDAR SI LA CANTIDAD ES MAYOR AL DISPONIBLE
-    //         // console.log(this.itemForm.controls['monto'].getError);
-
-    //         this.cdr.detectChanges();
-    //     }
-    // }
+        if (item && item.cantidad > item.disponible) {
+            this.itemForm.controls['monto'].setErrors({
+                cantidad: true
+            });
+            this.f.monto.setValue(0.0);
+            this.cdr.detectChanges();
+        }
+    }
 
     preConfirmFunt(obs: string) {
 
@@ -162,7 +174,19 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
             return;
 
         this.updateData(this.cajaTaquilla);
-        this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
+        this.cajaTaquilla.detalleEfectivo = this.conoSave;
+
+        let existsDifference = false;
+
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
+
+        if (!existsDifference) {
+            this.saveOrUpdate(this.cajaTaquillaService, this.cajaTaquilla, 'El Pase a Bóveda', this.isNew);
+        } else {
+            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) { }
+            });
+        }
     }
 
 }

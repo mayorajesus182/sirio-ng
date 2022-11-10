@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Cierre de Taquilla']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agencyClosing.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -8,9 +8,9 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'Cierre de Taquilla'|translate}} </sirio-card-header-heading>
+                    <sirio-card-header-heading>{{agencia.id+' - '+agencia.nombre}}</sirio-card-header-heading>
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        <button class="icon"     mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid ">
                             <mat-icon>outbox</mat-icon>
 
@@ -41,21 +41,21 @@
                                         <span class="margin-top-sm semi-bold">{{item.siglasMoneda + ' - '+ item.nombreMoneda}}</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <span class="margin-top-sm semi-bold margin-right-sm"> EFECTIVO EN CAJA: {{item.saldo | number: '1.2'}}</span>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> SALDO INICIAL: {{item.saldoInicial | number: '1.2'}}</span>
                                         <span class="margin-top-sm semi-bold">&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> DECLARADO: {{item.declarado  | number: '1.2'}} </b>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> SALDO FINAL: {{item.saldoFinal  | number: '1.2'}} </b>
                                         </span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                    <mat-form-field fxFlex="15">
+                                    <mat-form-field fxFlex="20">
                                         <mat-label>{{'Entradas de Efectivo' | translate: {default: 'Entradas de Efectivo'} |
                                             translate }}</mat-label>
                                         <input matInput class="text-center" [value]="item.ingreso  | number: '1.2'" readonly>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="15">
+                                    <mat-form-field fxFlex="20">
                                         <mat-label>{{'Salidas de Efectivo' | translate: {default: 'Salidas de Efectivo'} |
                                             translate }}</mat-label>
                                         <input matInput class="text-center" [value]="item.egreso  | number: '1.2'" readonly>
@@ -67,28 +67,42 @@
                                         <input matInput class="text-center" [value]="item.transito  | number: '1.2'" readonly>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="15">
+                                    <mat-form-field fxFlex="20">
                                         <mat-label>{{'Depósitos' | translate: {default: 'Depósitos'} |
                                             translate }}</mat-label>
                                         <input matInput class="text-center" [value]="item.deposito  | number: '1.2'" readonly>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="15">
+                                    <mat-form-field fxFlex="20">
                                         <mat-label>{{'Retiros' | translate: {default: 'Retiros'} |
                                             translate }}</mat-label>
                                         <input matInput class="text-center" [value]="item.retiro  | number: '1.2'" readonly>
                                     </mat-form-field>
+                                </div>
 
-                                    <mat-form-field fxFlex="10" *ngIf="item.moneda === this.preferencias.monedaConoActual">
-                                        <mat-label>{{'Ajuste' | translate: {default: 'Ajuste'} |
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <mat-form-field fxFlex="25">
+                                        <mat-label>{{'Remesas Recibidas' | translate: {default: 'Remesas Recibidas'} |
                                             translate }}</mat-label>
-                                        <input matInput class="text-center" [value]="item.ajuste  | number: '1.2'" readonly>
+                                        <input matInput class="text-center" [value]="item.remesaRecibida  | number: '1.2'" readonly>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="auto">
-                                        <mat-label>{{'Diferencia' | translate: {default: 'Diferencia'} |
+                                    <mat-form-field fxFlex="25">
+                                        <mat-label>{{'Remesas Enviadas' | translate: {default: 'Remesas Enviadas'} |
                                             translate }}</mat-label>
-                                        <input matInput class="text-center" [value]="item.diferencia | number: '1.2'" readonly>
+                                        <input matInput class="text-center" [value]="item.remesaEnviada  | number: '1.2'" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="25">
+                                        <mat-label>{{'Retiros de ATM' | translate: {default: 'Retiros de ATM'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.retiroAtm  | number: '1.2'" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="25">
+                                        <mat-label>{{'Incrementos de ATM' | translate: {default: 'Incrementos de ATM'} |
+                                            translate }}</mat-label>
+                                        <input matInput class="text-center" [value]="item.incrementoAtm  | number: '1.2'" readonly>
                                     </mat-form-field>
                                 </div>
 
@@ -96,31 +110,19 @@
 
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                     <div fxLayout="column" fxFlex="10">
-                                        <h3>{{'Declaración de Efectivo' | translate: {default: 'Declaración de Efectivo'} | translate }}</h3>
+                                        <h3>{{'Cantidad en Bóveda' | translate: {default: 'Cantidad en Bóveda'} | translate }}</h3>
                                     </div>
                                     <div fxLayout="column" fxFlex="auto">
                                         <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
                                             <mat-form-field fxLayout="column" *ngFor="let det of item.detalleEfectivo" fxFlex="32">
                                                 <mat-label>{{det.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{
-                                                    (det.esBillete?'global.bill':
-                                                    'global.coin') | translate }} ({{'Cantidad en Caja' | translate }} {{det.disponible | number: '1.0'}})
+                                                    (det.esBillete?'global.bill': 'global.coin') | translate }}
                                                 </mat-label>
-                                                <input matInput class="text-right" [(ngModel)]="det.declarado" min="0" autocomplete="off" matInput type="number"
-                                                    (ngModelChange)="updateValuesErrors(item)" />
+                                                <input matInput [value]="det.disponible | number: '1.0'" readonly class="text-right">
                                             </mat-form-field>
                                         </div>
                                     </div>
                                 </div>
-
-                                <div fxLayout="row" fxLayout="column">
-                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="primary" (click)="declare(item)" mat-raised-button>
-                                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
-                                            {{'button.save' | translate: {default:'global.notfound'} | translate }}
-                                        </button>
-                                    </div>
-                                </div>
-
          <!-- {{printErrors() | json}}  -->
                             </mat-expansion-panel>
                         </mat-accordion>

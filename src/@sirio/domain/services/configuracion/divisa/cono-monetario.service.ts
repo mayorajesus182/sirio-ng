@@ -43,6 +43,10 @@ export class ConoMonetarioService {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/actives`);
     }
 
+    activesWorkflowWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/workflow/actives`);
+    }
+
     activesWithDisponibleSaldoTaquillaByMoneda(moneda: string): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldotaquilla/actives`);
     }

@@ -14,7 +14,7 @@ export interface BovedaAgencia {
     monto: number;
     moneda: string;
     fechaCreacion?: any;
-    detalleEfectivo: ConoMonetario[];
+    detalleEfectivo: any[];
 }
 
 
