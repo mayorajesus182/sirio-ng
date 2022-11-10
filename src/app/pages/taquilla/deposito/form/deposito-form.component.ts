@@ -98,6 +98,23 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.tiposDocumentoNaturales.next(data);
                 });
 
+                this.f.identificacionDepositante.valueChanges.subscribe(val => {
+                    if(val){
+                        if(this.f.identificacionDepositante.value === this.f.identificacion.value){
+                            // this.f.tipoDocumentoDepositante.setValue(this.f.tipoDocumento);
+                            this.f.nombreDepositante.setValue(this.persona.nombre.toUpperCase());
+                            this.f.email.setValue(this.persona.email.toUpperCase());
+                            this.cdr.detectChanges();
+                        }else{
+                            this.f.nombreDepositante.setValue('');
+                            this.f.email.setValue('');
+                            this.cdr.detectChanges();
+                        }
+                    }
+                })
+
+                
+
                 // if (this.f.tipoDocumento.value == "") {
                 //     this.f.identificacion.disable();
                 //     this.f.esEfectivo.enable();
@@ -338,6 +355,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.conoAnterior = [];
                 this.f.monto.setValue(undefined);
                 this.f.referencia.setValue('');
+                this.cdr.detectChanges();
                 // this.applyFieldsDirty();
             }
             // this.applyFieldsDirty();
@@ -366,9 +384,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.moneda.setValue(this.moneda.id);
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
                 this.f.esEfectivo.enable()
-                this.f.esCheque.enable()
                 this.f.esEfectivo.setValue(true);
-                this.f.esCheque.setValue(false);
                 this.cdr.detectChanges();
             }
         })

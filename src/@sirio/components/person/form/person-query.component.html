@@ -2,7 +2,7 @@
     <sirio-card-header class="header-bg">
         <sirio-card-header-heading>
             <!-- <mat-icon color="primary">search</mat-icon>  -->
-            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;Información Cliente</sirio-card-header-heading>
+            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;Información del Cliente</sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
         <sirio-card-header-actions>
             <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
@@ -17,7 +17,7 @@
                 <sirio-select-search autofocus="true" fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
                     [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" 
                     [errors]="search.tipoDocumento?.errors" [required]="true" [disabled]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value" 
-                    [readonly]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value">
+                    [readonly]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value" >
                 </sirio-select-search>
                     
                 <!-- [attr.disabled]="search.cuenta.value && search.cuenta.value.length > 0" -->

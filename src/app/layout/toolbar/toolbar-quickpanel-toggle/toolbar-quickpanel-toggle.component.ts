@@ -14,6 +14,7 @@ export class ToolbarQuickpanelToggleComponent {
   }
 
   goStatistics(){
+    //TODO: ACA DEBO PEDIR EL ROL  Y VER PARA DONDE ME VOY SI AGENCIA O TAQUILLA
     this.router.navigate(['/sirio/estadistica/agencia/saldos']);
   }
 }

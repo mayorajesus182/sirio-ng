@@ -7,44 +7,52 @@
   </div>
 </div> -->
 <sirio-page [fxLayoutGap]="gap" class="dashboard" fxLayout="column" fxLayout.gt-lg="row">
-  <div fxFlex="noshrink" fxLayout="column" [fxLayoutGap]="gap" fxLayout.gt-sm="row">
-    <!-- <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(1)"> -->
+  <div fxLayout="column" fxFlex="100">
+    <div fxFlex="noshrink" fxLayout="column" [fxLayoutGap]="gap" fxLayout.gt-sm="row" class="margin-bottom-sm">
 
-    <div fxFlex="25" fxLayout="column">
-      <sirio-menu-widget [pages$]="items$" name="Clientes" prefix_page="persona" icon="fa-light fa-users" total="9M"></sirio-menu-widget>
-    </div>
-    
-    <div fxFlex="25" fxLayout="column">
-      <sirio-menu-widget [pages$]="items$" name="Gestión de Efectivo" prefix_page="control-efectivo" icon="fa-light fa-money-bill-trend-up" class_bg="orange-bg"
-      total="25M"></sirio-menu-widget>
-    </div>
-    
-    <div fxFlex="25" fxLayout="column">
-      <sirio-menu-widget [pages$]="items$" name="Biometría" prefix_page="biometria" icon="fa-light fa-fingerprint" class_bg="teal-bg"
-      total="25M"></sirio-menu-widget>
-    </div>
-<!-- 
-    <div fxFlex="25" fxLayout="column">
-      <sirio-menu-widget [pages$]="items$" name="Depositos" prefix_page="taquilla/deposito" class_bg="green-bg" icon="fa-light fa-coins" total="10M">
-      </sirio-menu-widget>
 
-    </div> -->
+      <div fxFlex="25" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Personas" prefix_page="persona" icon="fa-light fa-users" total="9M"></sirio-menu-widget>
+      </div>
 
-    <div fxFlex="25" fxLayout="column">
-      <sirio-menu-widget [pages$]="items$" name="Taquilla" prefix_page="taquilla" class_bg="yellow-bg" icon="fa-light fa-money-bill-wave" total="50M">
-      </sirio-menu-widget>
+      <div fxFlex="25" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Gestión de Efectivo" prefix_page="control-efectivo" icon="fa-light fa-money-bill-trend-up"
+          class_bg="orange-bg" total="25M"></sirio-menu-widget>
+      </div>
+
+      <div fxFlex="25" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Biometría" prefix_page="biometria" icon="fa-light fa-fingerprint" class_bg="teal-bg" total="25M">
+        </sirio-menu-widget>
+      </div>
+
+      <div fxFlex="25" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Taquilla" prefix_page="taquilla" class_bg="yellow-bg" icon="fa-light fa-money-bill-wave" total="50M">
+        </sirio-menu-widget>
+
+      </div>
 
     </div>
-    <!-- </div> -->
+    <div fxFlex="noshrink" fxLayout="column" [fxLayoutGap]="gap" fxLayout.gt-sm="row">
 
-    <!-- <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)">
-      
-    </div> -->
 
-    <!-- <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)">
+      <div fxFlex="33" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Negocio"  class_bg="purple-bg" prefix_page="negocio" icon="fa-light fa-handshake" total="9M"></sirio-menu-widget>
+      </div>
 
-    </div> -->
+      <div fxFlex="33" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Afiliaciones y Servicios" prefix_page="afiliaciones-servicios" icon="fa-light fa-link-horizontal"
+          class_bg="lima-bg" total="25M"></sirio-menu-widget>
+      </div>
+
+      <div fxFlex="33" fxLayout="column">
+        <sirio-menu-widget [pages$]="items$" name="Contabilidad" prefix_page="contabilidad" icon="fa-light fa-book-bookmark" class_bg="cyan-bg" total="25M">
+        </sirio-menu-widget>
+      </div>
+
+
+    </div>
   </div>
+
 
 </sirio-page>
 
