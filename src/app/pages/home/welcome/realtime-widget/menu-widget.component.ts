@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/cor
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.interface';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'sirio-menu-widget',
@@ -28,6 +29,10 @@ export class MenuWidgetComponent implements  AfterViewInit {
   ngAfterViewInit() {
    
     let first = true;
+
+    if(!environment.production){
+      this.app='';
+    }
 
     // this.pages$.subscribe(data=>{
     //   // console.log(' data widget ',data);
