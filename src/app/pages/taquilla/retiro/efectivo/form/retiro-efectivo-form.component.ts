@@ -115,7 +115,9 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
         let valorEfectivo = this.f.monto.value > 0 ? this.f.monto.value : 0;
 
-        if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.totalRetiro.value) : this.f.totalRetiro.value)) {
+        // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
+        // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos 
+        if ( Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.totalRetiro.value) : this.f.totalRetiro.value)) >= 1) {
             this.f.totalRetiro.setErrors({
                 totalDifference: true
             });
@@ -400,7 +402,11 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         if (this.f.email.disable){            
             return;           
         }
+       
         if (this.f.email.enable && this.f.email == undefined){          
+        console.log("fffff");
+        
+            
             this.f.email.reset('');
            
         }

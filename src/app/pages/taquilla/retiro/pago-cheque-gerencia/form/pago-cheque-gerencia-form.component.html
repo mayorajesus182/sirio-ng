@@ -36,8 +36,7 @@
                 <form [formGroup]="itemForm" *ngIf="itemForm">
 
 
-                    <div fxLayout="column">    
-
+                    <div fxLayout="column"> 
                             <sirio-card [fxFlex.gt-sm]="100" *ngIf="esPagoChequeGerencia" fxLayout="column"
                              class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
                             <sirio-card-header class="header-bg">
@@ -100,7 +99,7 @@
                                 </mat-form-field>
 
                               </div>
-                           
+                            <!-- swicht de efectivo y abono en cuenta     -->  
                             <div fxFlex.gt-xs="10">   
                                     <div fxFlex.gt-xs="10">
                                         <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conEfectivo"
@@ -111,22 +110,22 @@
                                     </div>
                             </div>
 
-                            <!-- efectivo     -->  
+                            <!--  efectivo     -->  
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.conEfectivo.value">    
                                     <mat-form-field fxFlex.gt-xs="20">
                                         <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
                                             translate }}
                                         </mat-label>
-                                        <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
-                                            formControlName="monto" currencyMask [options]="{precision:2}"  readonly>
+                                        <input readonly matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
+                                            formControlName="monto" currencyMask [options]="{precision:2}">
                                         <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                         <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                                         <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
                                         <mat-error *ngIf="f.monto.errors?.totalDifference">Verifique Monto</mat-error>
                                     </mat-form-field>
     
-                                    <sirio-cash-button [moneda]="moneda" [total]="f.monto.value"
-                                            [disabled]="f.numeroCuenta.value <= 0" class="text-center"
+                                    <sirio-cash-button  operation="retiro" [moneda]="moneda" [total]="f.monto.value"
+                                            [disabled]="f.numeroCuenta.value <= 0 || f.montoCheque.value <= 0" class="text-center"
                                             (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                             [cono_anterior]="conoAnterior">
                                     </sirio-cash-button>  
@@ -181,7 +180,7 @@
                                             </mat-label>
                                             <input matInput autocomplete="off"
                                                 [(ngModel)]="cuentaOperacionAbono.tipoProductoNombre"
-                                                [ngModelOptions]="{standalone: true}" readonly name="cuentaAbono"
+                                                [ngModelOptions]="{standalone: true}" readonly name="cuenta"
                                                 [required]="!cuentaOperacionAbono">
                                         </mat-form-field>
                                         <mat-form-field fxFlex.gt-xs="20" *ngIf="cuentaOperacionAbono">
@@ -195,9 +194,9 @@
                                                 class="text-center">
                                         </mat-form-field>
 
-                                        <sirio-select-simple *ngIf="!cuentaOperacionAbono" fxFlex="45"
+                                        <sirio-select-simple *ngIf="!cuentaOperacionAbono && !f.conEfectivo.value" fxFlex="45"
                                             [label]="'withdrawal.accountNumber' | translate: {default: 'global.accountNumber'} | translate"
-                                            formControlName="cuenta" [required]="cuentaOperacionAbono"
+                                            formControlName="cuenta" [required]="!cuentaOperacionAbono && !f.conEfectivo.value"
                                             [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'"
                                             >
                                         </sirio-select-simple>
@@ -205,15 +204,15 @@
                                             <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
                                                 translate }}
                                             </mat-label>
-                                            <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="17"
-                                                name="monto" formControlName="monto" currencyMask
+                                            <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20"
+                                                name="monto" formControlName="monto"  currencyMask
                                                 [options]="{precision:2}">
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                             <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99
                                             </mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01
+                                            <mat-error *ngIf="f.monto.errors?.min">No debe ser mayor que 0,01
                                             </mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.differenceMonto">Verifique Monto</mat-error>
+                                            <mat-error *ngIf="f.monto.errors?.totalDifference">Verifique Monto</mat-error>
                                         </mat-form-field>
                                     </div>
                             <!-- </div>   -->
@@ -227,7 +226,7 @@
                       <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                              {default: 'global.notfound'} | translate }}" type="button"
-                            (click)="resetInfoFinance()">
+                            (click)="resetInfobeneficiary()">
                             <mat-icon>backspace</mat-icon>
                         </button>
                     </sirio-card-header-actions>
@@ -283,16 +282,10 @@
                         </div>                
                     
                 </sirio-card-content>
-            </sirio-card>   
-                            
-
-
-                         
-
-
-                        </div>
-            </form>
-                     {{printErrors() | json}} 
+               </sirio-card>   
+            </div>
+           </form>
+                     <!-- {{printErrors() | json}}  -->
                 </sirio-card-content>
 
                 <mat-toolbar>

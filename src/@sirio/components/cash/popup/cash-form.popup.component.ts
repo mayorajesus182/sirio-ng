@@ -85,6 +85,11 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       });
 
   }
+  compareValues(totalValue, totalActualValue, totalAnteriorValue){
+
+  return Math.abs(totalValue - (totalActualValue+(totalAnteriorValue?totalAnteriorValue:0)))>=1;
+
+  }
 
 
   close() {
