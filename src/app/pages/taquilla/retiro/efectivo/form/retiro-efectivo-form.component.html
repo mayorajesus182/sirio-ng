@@ -134,7 +134,7 @@
                                         <mat-form-field fxFlex.gt-sm="auto"  *ngIf="!cuentaBancariaOperacion">
                                                 <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
                                                     translate  }}   </mat-label>
-                                            <input id="element" matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
+                                            <input id="element" matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" 
                                                 uppercase >
                                             <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                             <mat-error *ngIf="f.email.errors?.required">{{'error.required'
@@ -144,7 +144,7 @@
                                         <mat-form-field fxFlex.gt-sm="auto"  *ngIf="cuentaBancariaOperacion"> <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} |
                                                     translate }}
                                         </mat-label>
-                                            <input  id="element" matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
+                                            <input  id="element" matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" 
                                                 uppercase> 
                                             <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                             <mat-error *ngIf="f.email.errors?.required">{{'error.required'
