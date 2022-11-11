@@ -27,7 +27,7 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit() {
 
-    this.navService.get().subscribe(data=>{
+    this.navService.get().subscribe(data => {
       this.itemDataSubject.next(data);
     })
 

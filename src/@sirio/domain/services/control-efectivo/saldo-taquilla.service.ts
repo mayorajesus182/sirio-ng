@@ -4,6 +4,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { map } from 'rxjs/operators';
 import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
+import { Moneda } from '../configuracion/divisa/moneda.service';
 
 export interface SaldoTaquilla {
     id: number;
@@ -23,6 +24,11 @@ export interface SaldoTaquilla {
     siglasMoneda?: string;
     cerrado: any;
     detalleEfectivo: ConoMonetario[];
+}
+export interface SaldoTaquillaDataChart {
+    labels: string[];
+    monedas: Moneda[];
+    data: any[];
 }
 
 @Injectable({
@@ -57,7 +63,7 @@ export class SaldoTaquillaService {
         return this.apiService.config(this.apiConfig).get(`/conmovimiento/list`);
     }
 
-    all(): Observable<SaldoTaquilla[]> {
+    all(): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/list`);
     }
     

@@ -16,8 +16,8 @@
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <sirio-select-search autofocus="true" fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
                     [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" 
-                    [errors]="search.tipoDocumento?.errors" [required]="true" [disabled]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value" 
-                    [readonly]="search.cuenta.value && search.cuenta.value.length > 0 || search.identificacion.value" >
+                    [errors]="search.tipoDocumento?.errors" [required]="true" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)" 
+                    [readonly]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)" >
                 </sirio-select-search>
                     
                 <!-- [attr.disabled]="search.cuenta.value && search.cuenta.value.length > 0" -->
@@ -25,8 +25,7 @@
                 <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
-                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="disable | async"
-                        formControlName="identificacion">
+                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
 
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
                         translate}}

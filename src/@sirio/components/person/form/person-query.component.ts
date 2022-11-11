@@ -86,6 +86,18 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
+        this.search.identificacion.valueChanges.subscribe(val => {
+            if(val){
+                this.searchForm.controls['cuenta'].disable();
+            }
+        })
+
+        this.search.cuenta.valueChanges.subscribe(val => {
+            if(val){
+                this.searchForm.controls['identificacion'].disable();
+            }
+        })
+
 
         // this.search.identificacion.valueChanges.subscribe(val => {
 

@@ -102,8 +102,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     if(val){
                         if(this.f.identificacionDepositante.value === this.f.identificacion.value){
                             // this.f.tipoDocumentoDepositante.setValue(this.f.tipoDocumento);
-                            this.f.nombreDepositante.setValue(this.persona.nombre.toUpperCase());
-                            this.f.email.setValue(this.persona.email.toUpperCase());
+                            this.f.nombreDepositante.setValue(this.persona.nombre);
+                            this.f.email.setValue(this.persona.email);
                             this.cdr.detectChanges();
                         }else{
                             this.f.nombreDepositante.setValue('');
