@@ -70,7 +70,7 @@ export class AgenciaCupoFormComponent extends FormBaseComponent implements OnIni
         this.itemForm = this.fb.group({
             id: [agencia.id || ''],
             nombre:  [agencia.nombre || ''],
-            cupo: [agencia.cupo || undefined, [Validators.required]],
+          //  cupo: [agencia.cupo || undefined, [Validators.required]],
         });
 
         this.cdr.detectChanges();
