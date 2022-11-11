@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { RolConstants } from 'src/@sirio/constants';
 import { SessionService } from 'src/@sirio/services/session.service';
 
 @Component({
-  selector: 'sirio-toolbar-quickpanel-toggle',
-  templateUrl: './toolbar-quickpanel-toggle.component.html',
-  styleUrls: ['./toolbar-quickpanel-toggle.component.scss']
+  selector: 'sirio-toolbar-statics-toggle',
+  templateUrl: './toolbar-statics-toggle.component.html',
+  styleUrls: ['./toolbar-statics-toggle.component.scss']
 })
 export class ToolbarQuickpanelToggleComponent {
 
@@ -15,15 +16,14 @@ export class ToolbarQuickpanelToggleComponent {
   }
 
   goStatistics(){
-    //TODO: ACA DEBO PEDIR EL ROL  Y VER PARA DONDE ME VOY SI AGENCIA O TAQUILLA
 
     const user = this.sessionService.getUser();
-
-    if (user && user.username && user.rols && user.rols.length > 0) {
-      console.log("Usuario", user);
-      if(user.rols.include("")){
+//TODO: PONER PARA CUANDO TRATE EL ROL && user.rols && user.rols.length > 0
+    if (user && user.username ) {
+      // console.log("Usuario ROLS", user);
+      if(user.rols.includes(RolConstants.GERENTE_TESORERO_AGENCIA)){
         this.router.navigate(['/sirio/estadistica/agencia/saldos']);        
-      }else if(user.rols.include("")){
+      }else if(user.rols.includes(RolConstants.OPERADOR_TAQUILLA)){
         this.router.navigate(['/sirio/estadistica/taquilla/saldos']);
       }
     }

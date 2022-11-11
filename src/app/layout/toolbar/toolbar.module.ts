@@ -10,7 +10,7 @@ import { ScrollbarModule } from '../../../@sirio/shared/scrollbar/scrollbar.modu
 import { ToolbarFullscreenToggleComponent } from './toolbar-fullscreen-toggle/toolbar-fullscreen-toggle.component';
 import { ToolbarLangComponent } from './toolbar-lang/toolbar-lang.component';
 import { ToolbarNotificationsComponent } from './toolbar-notifications/toolbar-notifications.component';
-import { ToolbarQuickpanelToggleComponent } from './toolbar-quickpanel-toggle/toolbar-quickpanel-toggle.component';
+import { ToolbarQuickpanelToggleComponent } from './toolbar-quickpanel-toggle/toolbar-statics-toggle.component';
 import { ToolbarSearchBarComponent } from './toolbar-search-bar/toolbar-search-bar.component';
 import { ToolbarSearchComponent } from './toolbar-search/toolbar-search.component';
 import { ToolbarSidenavMobileToggleComponent } from './toolbar-sidenav-mobile-toggle/toolbar-sidenav-mobile-toggle.component';

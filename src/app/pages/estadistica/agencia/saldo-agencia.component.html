@@ -6,8 +6,7 @@
       <div fxLayout="column " fxFlex="100"  [fxLayoutGap]="gap" [fxFlex]="60" >
 
         <div fxLayout="row wrap"  class="margin-bottom-sm">
-          <div   fxFlex.gt-xs="100" [fxFlex]="col(1)" class="margin-bottom-sm">
-            <!-- <sirio-bar-columnrange-chart-widget [data]="dataAgencia.asObservable()" [moneda]="m" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-columnrange-chart-widget> -->
+          <div   fxFlex.gt-xs="100" [fxFlex]="col(1)" class="margin-bottom-sm">            
             <sirio-bar-vert-chart-widget [data]="dataAgencia.asObservable()" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
           </div>
   

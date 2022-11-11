@@ -8,16 +8,15 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { EstadisticaRoutingModule } from '../estadistica-routing.module';
-import { BarHorizontalTaquillaChartWidgetComponent } from './bar-horizontal-chart-widget/bar-hz-chart-widget.component';
+import { TaqBarHorizChartWidgetComponent } from './bar-horiz-chart-widget/taqbar-horiz-chart-widget.component';
+import { TaqBarVertChartWidgetComponent } from './bar-vert-chart-widget/taqbar-vert-chart-widget.component';
 
-import { BarChartTaquillaWidgetComponent } from './columnrange-chart-widget/bar-chart-widget.component';
 import { SaldoTaquillaComponent } from './saldo-taquilla.component';
 // import { ChartModule, HIGHCHARTS_MODULES } from 'highcharts-angular';
 
 @NgModule({
   imports: [
     CommonModule,
-    EstadisticaRoutingModule,
     // core
     SirioSharedModule,
     MaterialModule,
@@ -27,8 +26,9 @@ import { SaldoTaquillaComponent } from './saldo-taquilla.component';
     HighchartsChartModule,
     LoadingOverlayModule
   ],
-  declarations: [SaldoTaquillaComponent, BarChartTaquillaWidgetComponent, BarHorizontalTaquillaChartWidgetComponent],
+  declarations: [SaldoTaquillaComponent,TaqBarHorizChartWidgetComponent, TaqBarVertChartWidgetComponent],
+  exports:[SaldoTaquillaComponent]
   // providers: [DashboardService]
 })
-export class SaldoAgenciaModule {
+export class SaldoTaquillaModule {
 }

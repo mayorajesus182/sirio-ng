@@ -19,7 +19,6 @@ import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget
 @NgModule({
   imports: [
     CommonModule,
-    EstadisticaRoutingModule,
     // core
     SirioSharedModule,
     MaterialModule,
@@ -30,6 +29,7 @@ import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget
     LoadingOverlayModule
   ],
   declarations: [SaldoAgenciaComponent,BarColumnRangeChartWidgetComponent,BarHorizChartWidgetComponent, TaquillaWidgetComponent,BarVertChartWidgetComponent],
+  exports:[SaldoAgenciaComponent]
   // providers: [DashboardService]
 })
 export class SaldoAgenciaModule {
