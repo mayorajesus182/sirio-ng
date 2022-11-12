@@ -27,7 +27,7 @@
         <mat-label>Monto Total
         </mat-label>
         <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
-        <mat-hint class="mat-error">{{total != (totalActual+(totalAnterior?totalAnterior:0))?'Monto Incorrecto':''}}</mat-hint>        
+        <mat-hint class="mat-error">{{ compareValues(total, totalActual, totalAnterior)  ? 'Monto Incorrecto' : ''}}</mat-hint>        
       </mat-form-field>
 
 <!-- 

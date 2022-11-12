@@ -89,15 +89,11 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                                
                
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
-                    if (val) {                       
-                                            
-                       
+                    if (val) {     
                     this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
                         this.tipoDocumentos.next(data);
                     });
-
-                    }else {   
-                        
+                    }else {                           
                         this.f.numeroCuenta.setErrors({ validacion: true });
                     }
                 });
@@ -228,7 +224,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             tipoProducto: new FormControl(''),
             serialCheque: new FormControl(undefined, [ Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(''),           
-           email: new FormControl(undefined,),
+            email: new FormControl(undefined,),
                  
 
         });
