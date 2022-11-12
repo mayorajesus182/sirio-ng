@@ -17,14 +17,14 @@
 
 
       <mat-form-field fxFlex="auto">
-        <mat-label> Total Efectivo
+        <mat-label> Monto
         </mat-label>
         <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
       </mat-form-field>
 
       <mat-form-field fxFlex="auto">
         <!-- TODO: KEY INTERNACIONALIZACION -->
-        <mat-label>Monto Total
+        <mat-label>Monto Total Desglose
         </mat-label>
         <input matInput class="text-right" [value]="montoTotal | number:'1.2-2'" readonly>
         <mat-hint class="mat-error">{{ compareValues(total, totalActual, totalAnterior)  ? 'Monto Incorrecto' : ''}}</mat-hint>        
