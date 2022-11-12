@@ -4,6 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 const configuracionRoutes: Routes = [
     {
+        path: 'contabilidad',
+        data: { title: 'Contabilidad' },
+        loadChildren: () => import('./contabilidad/contabilidad.module').then(m => m.ContabilidadModule),
+    },
+    {
         path: 'localizacion',
         data: { title: 'Localización' },
         loadChildren: () => import('./localizacion/localizacion.module').then(m => m.LocalizacionModule),

@@ -161,6 +161,16 @@
                             </mat-form-field>
                         </div>
 
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="100">
+                                <mat-label>{{'agency.ledgerAccount' | translate: {default: 'global.ledgerAccount'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.cuentaContable" readonly>
+                            </mat-form-field>
+
+                        </div>
+
                         <sirio-audit-bar [element]="d"></sirio-audit-bar>
                     </div>
 

@@ -162,6 +162,15 @@
                                 <mat-error *ngIf="f.longitud.errors?.max">{{'error.beLessThan' | translate}} 999.99999999</mat-error>
                             </mat-form-field>
                         </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <sirio-select-search fxFlex="100" [label]="'agency.ledgerAccount' | translate: {default: 'global.ledgerAccount'} | translate"
+                                formControlName="cuentaContable" [required]="true" [elements]="cuentasContables.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.cuentaContable?.errors">
+                            </sirio-select-search>
+                        </div>
+
                     </form>
 
                 </sirio-card-content>
