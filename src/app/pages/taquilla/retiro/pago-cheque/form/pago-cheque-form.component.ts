@@ -84,9 +84,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 this.buildForm();
                 this.loadingDataForm.next(false);
 
-
-                   
-                               
+           
                
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
                     if (val) {     
@@ -97,6 +95,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                         this.f.numeroCuenta.setErrors({ validacion: true });
                     }
                 });
+
                
                
                 this.f.monto.valueChanges.subscribe(val => {
@@ -110,6 +109,8 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                         this.calculateDifferences();
                     }
                 });
+
+
 
 
 
@@ -129,10 +130,11 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
                              this.saldoByMoneda(this.moneda);
-                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                                       
+                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                           
                             
-                            
-                            //console.log("DATOS", data);
+                            console.log("DATOS", data);
+
+                            this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
                             this.cdr.markForCheck();
 
                         }, err => {
@@ -160,6 +162,25 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 });
                 //} //fin
 
+
+                this.f.identificacionBeneficiario.valueChanges.subscribe(val => {
+                    if(val){
+                        console.log('entro ');  
+                        if(this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion){
+
+                            console.log('identif ', this.cuentaBancariaOperacion.identificacion);
+                            // this.f.tipoDocumentoDepositante.setValue(this.f.tipoDocumento);
+                            //this.f.nombreDepositante.setValue(this.persona.nombre);
+                            this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                            this.cdr.detectChanges();
+                        }else{
+                           // this.f.nombreDepositante.setValue('');
+                            this.f.email.setValue('');
+                            this.cdr.detectChanges();
+                        }
+                    }
+                })
+
                 this.loading$.subscribe(val => {
                     if (val) {
                         this.persona = {} as Persona;
@@ -177,32 +198,52 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
     }
 
    
-    calculateDifferences(event?: any) {
-     
-        let valorEfectivo = this.f.montoCheque.value > 0 ? this.f.montoCheque.value : 0;
+    calculateDifferences(event?: any) {  
 
-        if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.monto.value) : this.f.monto.value)) {
-            this.f.monto.setErrors({
+        // let valorEfectivo = this.f.montoCheque.value > 0 ? this.f.montoCheque.value : 0;        
+        // if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.monto.value) : this.f.monto.value)) {
+        //     this.f.monto.setErrors({
+        //         totalDifference: true
+        //     });
+        //     this.f.monto.markAsDirty();
+        //     this.f.montoCheque.setErrors({
+        //         difference: true
+        //     });
+        //     this.f.montoCheque.markAsDirty();
+        //     if (event && event.montoTotal > 0) {
+        //         this.f.monto.setValue(event.montoTotal);
+        //     }
+        // } else {
+        //     if (event && event.montoTotal > 0) {
+        //         this.f.monto.setValue(event.montoTotal);
+        //     }
+        //     this.f.monto.setErrors(undefined);
+        //     this.f.montoCheque.setErrors(undefined);
+        // }
+        let valorEfectivo = this.f.monto.value > 0 ? this.f.monto.value : 0;
+
+        // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
+        // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos 
+        if ( Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.montoCheque.value) : this.f.montoCheque.value)) >= 1) {
+            this.f.montoCheque.setErrors({
                 totalDifference: true
             });
-            this.f.monto.markAsDirty();
-            this.f.montoCheque.setErrors({
+            this.f.montoCheque.markAsDirty();
+            this.f.monto.setErrors({
                 difference: true
             });
-            this.f.montoCheque.markAsDirty();
+            this.f.monto.markAsDirty();
             if (event && event.montoTotal > 0) {
-                this.f.monto.setValue(event.montoTotal);
+                this.f.montoCheque.setValue(event.montoTotal);
             }
-
 
         } else {
 
             if (event && event.montoTotal > 0) {
-                this.f.monto.setValue(event.montoTotal);
+                this.f.montoCheque.setValue(event.montoTotal);
             }
-
-            this.f.monto.setErrors(undefined);
             this.f.montoCheque.setErrors(undefined);
+               this.f.monto.setErrors(undefined);
         }
      
      

@@ -101,7 +101,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.identificacionDepositante.valueChanges.subscribe(val => {
                     if(val){
                         if(this.f.identificacionDepositante.value === this.f.identificacion.value){
-                            // this.f.tipoDocumentoDepositante.setValue(this.f.tipoDocumento);
+                            // this.f.tipoDocumentoDepositante.setValue(this.f.tipoDocumento);   
                             this.f.nombreDepositante.setValue(this.persona.nombre);
                             this.f.email.setValue(this.persona.email);
                             this.cdr.detectChanges();
@@ -276,6 +276,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             this.cdr.detectChanges();
         })
     }
+
     calculateDifferences(event?:any) {
 
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
