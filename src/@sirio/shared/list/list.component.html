@@ -12,8 +12,14 @@
       <input fxFlex class="sirio-filter-input" #filter placeholder="{{placeholder | translate: {default: 'global.search'} | translate }}">
     </div>
 
-    <button class="sirio-column-filter" type="button" mat-icon-button >
+    <!-- <button class="sirio-column-filter" type="button" mat-icon-button >
       <mat-icon>filter_list</mat-icon>
+    </button> -->
+
+    <button class="sirio-column-filter" type="button" mat-icon-button matTooltip="{{'button.cancel' | translate:
+    {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+        <mat-icon>close</mat-icon>
+
     </button>
     <ng-content select=".actions"></ng-content>
   </div>

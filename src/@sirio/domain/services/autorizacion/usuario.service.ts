@@ -29,7 +29,7 @@ export class UsuarioService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    activesWithRol(): Observable<Usuario[]> {
+    taquillaRolAactives(): Observable<Usuario[]> {
         return this.apiService.config(this.apiConfig).get('/with-rol/actives');
     }
 
