@@ -60,7 +60,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         break;
                     case 409:
                         this.jwtService.destroyToken();
-                        this.router.navigate(['errors/forgot']);
+                        this.router.navigate(['errors/session-lost']);
                         break;
                     case 0:
                         // console.warn('Check Your Internet Connection And Try again Later', error);

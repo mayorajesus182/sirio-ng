@@ -17,6 +17,11 @@ const errorsRoutes: Routes = [
         path: "403",
         component: ForbiddenComponent,
         data: { title: "403" }
+      },
+      {
+        path: "session-lost",
+        component: ForbiddenComponent,
+        data: { title: "Sesión Perdida" }
       }
     ]
   }
