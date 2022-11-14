@@ -29,6 +29,10 @@ export class UsuarioService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesWithRol(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/with-rol/actives');
+    }
+
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
