@@ -19,8 +19,8 @@ export class SessionLostComponent implements OnInit {
 
   ngOnInit() {
 
-    this.authService.purgeAuth();
-    this.sessionService.reset();
+    // this.authService.purgeAuth();
+    // this.sessionService.reset();
   }
 
 }

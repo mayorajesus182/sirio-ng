@@ -59,7 +59,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         this.router.navigate(['errors/403']);
                         break;
                     case 409:
-                        this.jwtService.destroyToken();
+                        // this.jwtService.destroyToken();
                         this.router.navigate(['errors/session-lost']);
                         break;
                     case 0:
