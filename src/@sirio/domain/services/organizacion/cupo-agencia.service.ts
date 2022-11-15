@@ -11,7 +11,7 @@ export interface CupoAgencia {
     nombreMoneda: string;    
     agencia:string;
     monto: number;
-    solicitado?: number;
+    solicitado: number;
     fechaCreacion?: any;
     activo?: number;
 }

@@ -48,7 +48,23 @@
                                     <input matInput [value]="taquilla.nombre" readonly>
                                 </mat-form-field> -->
 
-                                <sirio-select-search fxFlex="50" [label]="'remittanceRequest.collectionCenter' | translate: {default: 'global.collectionCenter'} | translate"
+
+                                <mat-form-field fxFlex="30">
+                                    <mat-label>{{'remittanceRequest.date' | translate: {default: 'global.date'} |
+                                        translate }}</mat-label>
+                                    <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha"
+                                        [matDatepicker]="fechaPicker" required>
+                                    <mat-datepicker-toggle matSuffix [for]="fechaPicker">
+                                    </mat-datepicker-toggle>
+                                    <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
+                                        Fecha Invalida
+                                    </mat-error>
+                                </mat-form-field>
+                                <mat-datepicker #fechaPicker></mat-datepicker>
+
+
+                                <sirio-select-search fxFlex="70"
+                                    [label]="'remittanceRequest.collectionCenter' | translate: {default: 'global.collectionCenter'} | translate"
                                     formControlName="transportista" [required]="true" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.transportista?.errors">
                                 </sirio-select-search>
@@ -143,7 +159,8 @@
                                         <mat-form-field fxFlex="35">
                                             <mat-label>{{'Cupo Máximo' | translate }} {{item.monto}}
                                             </mat-label>
-                                            <input matInput type="text" class="text-right" #cantidad="ngModel" [(ngModel)]="item.solicitado"  currencyMask [options]="{precision:2}"/>
+                                            <input matInput type="text" class="text-right" #cantidad="ngModel" [(ngModel)]="item.solicitado"
+                                                (ngModelChange)="setMontoSolicitado()" currencyMask [options]="{precision:2}" />
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -162,7 +179,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || monto <= 0">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

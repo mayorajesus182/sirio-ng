@@ -1,18 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
-import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
-import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service copy';
 import { CupoAgencia, CupoAgenciaService } from 'src/@sirio/domain/services/organizacion/cupo-agencia.service';
-import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -29,15 +23,7 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
     solicitudRemesa: SolicitudRemesa = {} as SolicitudRemesa;
     public detalles = new BehaviorSubject<CupoAgencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
-    
-    movimientoEfectivo: MovimientoEfectivo = {} as MovimientoEfectivo;
-    taquilla: Taquilla = {} as Taquilla;
-    public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
-    public taquillas = new BehaviorSubject<Taquilla[]>([]);
-    public monedas = new BehaviorSubject<Moneda[]>([]);
-    public conos = new BehaviorSubject<ConoMonetario[]>([]);
-    public conoSave: ConoMonetario[] = [];
-    saldoDisponible: number = 0;
+    monto: number = 0;
 
     constructor(
         injector: Injector,
@@ -47,8 +33,6 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
         private solicitudRemesaService: SolicitudRemesaService,
         private transportistaService: TransportistaService,
         private cupoAgenciaService: CupoAgenciaService,
-        private saldoTaquillaService: SaldoTaquillaService,
-        private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -77,12 +61,12 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
 
         this.cupoAgenciaService.activesParaRemesa().subscribe(data => {
             this.detalles.next(data);
-            this.cdr.detectChanges();           
+            this.cdr.detectChanges();
         });
 
         this.transportistaService.allCentrosAcopio().subscribe(data => {
             this.transportistas.next(data);
-            this.cdr.detectChanges();           
+            this.cdr.detectChanges();
         });
     }
 
@@ -90,62 +74,16 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
         this.itemForm = this.fb.group({
             transportista: new FormControl(''),
             fecha: new FormControl(''),
-            // moneda: new FormControl(solicitudRemesa.moneda || undefined, Validators.required),
-            // monto: new FormControl(solicitudRemesa.monto || undefined, Validators.required),
-        });
-
-        // this.f.moneda.valueChanges.subscribe(val => {
-        //     this.obtenerSaldo();
-        //     this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(val).subscribe(data => {
-        //         this.conos.next(data);
-        //         this.cdr.detectChanges();
-        //     });
-        // });
-
-        // this.f.monto.valueChanges.subscribe(val => {
-        //     if (val) {
-        //         this.validarBalance(val);
-        //     }
-
-        // });
-    }
-
-    obtenerSaldo() {
-
-        this.saldoDisponible = 0;
-        this.f.monto.setValue(undefined);
-
-        this.saldoTaquillaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
-            this.saldoDisponible = data;
-            this.validarBalance(this.f.monto.value);
         });
     }
 
-    validarBalance(monto: number) {
 
-        if (this.saldoDisponible < monto) {
-            this.itemForm.controls['monto'].setErrors({
-                balance: true
-            });
-            this.cdr.detectChanges();
-        }
-    }
-
-    updateValuesErrors(item: ConoMonetario) {
-
-        this.conos.subscribe(c => {
-            this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
-            this.conoSave = c.filter(c => c.cantidad > 0);
+    setMontoSolicitado() {
+        this.monto = 0;
+        this.detalles.subscribe(d => {
+            this.monto = d.filter(c1 => c1.solicitado > 0).map(c2 => c2.solicitado).reduce((a, b) => a + b);
             this.cdr.detectChanges();
         });
-
-        if (item.cantidad > item.disponible) {
-            this.itemForm.controls['monto'].setErrors({
-                cantidad: true
-            });
-            this.f.monto.setValue(0.0);
-            this.cdr.detectChanges();
-        }
     }
 
     save() {
@@ -153,23 +91,27 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             return;
 
         this.updateData(this.solicitudRemesa);
-        // this.solicitudRemesa.taquilla = this.taquilla.id;
-        // this.solicitudRemesa.movimientoEfectivo = this.movimientoEfectivo.id;
-        // this.solicitudRemesa.detalleEfectivo = this.conoSave;
+        this.solicitudRemesa.fecha = this.solicitudRemesa.fecha.format('DD/MM/YYYY');
 
-        let existsDifference = false;
+        this.detalles.subscribe(d => {
+            this.solicitudRemesa.detalleSolicitud = d.filter(d1 => d1.solicitado > 0);
+        });
 
-        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
 
-        if (!existsDifference) {
-            this.saveOrUpdate(this.solicitudRemesaService, this.solicitudRemesa, 'El Pase a Bóveda', this.isNew);
-        } else {
+        this.swalService.show('¿Desea Enviar la Solicitud?', '').then((resp) => {
+            if (!resp.dismiss) { }
+        });
 
-            this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
-                if (!resp.dismiss) { }
-            });
 
-        }
+        // if (!existsDifference) {
+        //     this.saveOrUpdate(this.solicitudRemesaService, this.solicitudRemesa, 'El Pase a Bóveda', this.isNew);
+        // } else {
+
+        //     this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
+        //         if (!resp.dismiss) { }
+        //     });
+
+        // }
     }
 
 }
