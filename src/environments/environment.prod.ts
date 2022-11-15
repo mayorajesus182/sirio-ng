@@ -7,7 +7,7 @@ export const environment = {
     public: config.apiProUrl+'/api/public',
     default: config.apiProUrl+'/api',
     default_secure: config.apiDevUrl+'/api',
-    websocket: config.apiSocketDev+'/wsocket',
+    websocket: config.apiSocketPro+'/wsocket',
     calendar: config.apiProUrl+'/api/calendar',
     auth: config.apiProUrl+'/api',
     autorizacion: config.apiProUrl+'/api/autorizacion',
