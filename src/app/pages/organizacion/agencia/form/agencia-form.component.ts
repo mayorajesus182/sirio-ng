@@ -129,24 +129,24 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(agencia: Agencia) {
         this.itemForm = this.fb.group({
-            id: [{ value: agencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]],
-            nombre:  [agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            parroquia: [agencia.parroquia || undefined, [Validators.required]],
-            municipio: [agencia.municipio || undefined, [Validators.required]],
-            estado: [agencia.estado || undefined, [Validators.required]],
-            zona: [agencia.zona || undefined, [Validators.required]],
-            taquillas: [agencia.taquillas || undefined, [Validators.required]],
-            operativas: [agencia.operativas || undefined, [Validators.required]],
-            region: [agencia.region || undefined, [Validators.required]],
-            direccion:  [agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email:  [agencia.email || undefined],
-            telefono:  [agencia.telefono || '', [Validators.required]],
-            telefonoAlt:  [agencia.telefonoAlt || ''],
-            latitud:  [agencia.latitud || undefined, [Validators.required]],
-            longitud:  [agencia.longitud || undefined, [Validators.required]],
-            zonaPostal: [agencia.zonaPostal || undefined, [Validators.required]],
-            cuentaContable: [agencia.cuentaContable || undefined, [Validators.required]],
-            horarioExt: [agencia.horarioExt===1],
+            id: new FormControl([{ value: agencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]]),
+            nombre:  new FormControl([agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]]),
+            parroquia: new FormControl([agencia.parroquia || undefined, [Validators.required]]),
+            municipio: new FormControl([agencia.municipio || undefined, [Validators.required]]),
+            estado: new FormControl([agencia.estado || undefined, [Validators.required]]),
+            zona: new FormControl([agencia.zona || undefined, [Validators.required]]),
+            taquillas: new FormControl([agencia.taquillas || undefined, [Validators.required]]),
+            operativas: new FormControl([agencia.operativas || undefined, [Validators.required]]),
+            region: new FormControl([agencia.region || undefined, [Validators.required]]),
+            direccion:  new FormControl([agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]]),
+            email:  new FormControl([agencia.email || undefined]),
+            telefono:  new FormControl([agencia.telefono || '', [Validators.required]]),
+            telefonoAlt:  new FormControl([agencia.telefonoAlt || '']),
+            latitud:  new FormControl([agencia.latitud || undefined, [Validators.required]]),
+            longitud:  new FormControl([agencia.longitud || undefined, [Validators.required]]),
+            zonaPostal: new FormControl([agencia.zonaPostal || undefined, [Validators.required]]),
+            cuentaContable: new FormControl([agencia.cuentaContable || undefined, [Validators.required]]),
+            horarioExt: new FormControl([agencia.horarioExt===1]),
         });
 
         this.f.estado.valueChanges.subscribe(value => {
@@ -193,7 +193,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
             this.updateData(this.agencia);
-            this.agencia.horarioExt = this.agencia.horarioExt?1:0
+            this.agencia.horarioExt = this.agencia.horarioExt?1:0;
         this.saveOrUpdate(this.agenciaService, this.agencia, 'La Agencia', this.isNew);
     }
 

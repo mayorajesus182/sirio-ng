@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -8,12 +9,11 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { AgenciaRoutingModule } from './agencia-routing.module';
-import { CupoAgenciaTableComponent } from './cupos/table/cupo-agencia-table.component';
+import { SolicitudRemesaDetailComponent } from './detail/solicitud-remesa-detail.component';
+import { SolicitudRemesaFormComponent } from './form/solicitud-remesa-form.component';
+import { SolicitudRemesaRoutingModule } from './solicitud-remesa-routing.module';
+import { SolicitudRemesaTableComponent } from './table/solicitud-remesa-table.component';
 
-import { AgenciaDetailComponent } from './detail/agencia-detail.component';
-import { AgenciaFormComponent } from './form/agencia-form.component';
-import { AgenciaTableComponent } from './table/agencia-table.component';
 
 @NgModule({
     imports: [
@@ -22,24 +22,22 @@ import { AgenciaTableComponent } from './table/agencia-table.component';
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        MaterialModule,
         // Core
+        MaterialModule,
         SirioSharedModule,
         SharedComponentModule,
-               
         HighlightModule,
         SirioCardModule,
-        AgenciaRoutingModule
+        SolicitudRemesaRoutingModule,
     ],
     declarations: [
-        AgenciaFormComponent,
-        AgenciaTableComponent,
-        AgenciaDetailComponent,
-        CupoAgenciaTableComponent
+        SolicitudRemesaTableComponent,
+        SolicitudRemesaFormComponent,
+        SolicitudRemesaDetailComponent
     ],
     exports: [],
 })
 
-export class AgenciaModule {
+export class SolicitudRemesaModule {
 
 }

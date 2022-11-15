@@ -31,33 +31,43 @@
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="20">
-                                <mat-label>{{'carrierCompany.rif' | translate: {default: 'global.rif'} | translate }}
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'carrierCompany.documentType' | translate: {default: 'global.documentType'} | translate }}
                                 </mat-label>
-                                <input matInput class="text-center" [value]="d.rif" readonly>
+                                <input matInput class="text-center" [value]="d.tipoDocumento" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="auto">
-                                <mat-label>{{'carrierCompany.name' | translate: {default: 'global.name'} | translate }}
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'carrierCompany.identification' | translate: {default: 'global.identification'} | translate }}
                                 </mat-label>
-                                <input matInput [value]="d.nombre" readonly>
+                                <input matInput class="text-center" [value]="d.identificacion" readonly>
                             </mat-form-field>
-                        </div>
 
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                            <mat-form-field fxFlex="50">
+                            <mat-form-field fxFlex="30">
                                 <mat-label>{{'agency.zone' | translate: {default: 'global.zone'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.zona" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="50">
+                            <mat-form-field fxFlex.gt-xs="30">
                                 <mat-label>{{'agency.region' | translate: {default: 'global.region'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.region" readonly>
                             </mat-form-field>
+                        </div>
 
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex.gt-xs="auto">
+                                <mat-label>{{'carrierCompany.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'agency.collectionCenter' | translate: {default: 'global.collectionCenter'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.esCentroAcopio === 1 ? 'SI' : 'NO'" readonly class="text-center">
+                            </mat-form-field>
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -147,6 +157,20 @@
                                 <mat-label>{{'agency.statesProvidesServices' | translate: {default: 'global.statesProvidesServices'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.jurisdiccion" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="d.esCentroAcopio === 1">
+                            <mat-form-field fxFlex="30">
+                                <mat-label>{{'carrierCompany.treasurer' | translate: {default: 'global.treasurer'} | translate }}
+                                </mat-label>
+                                <input matInput currencyMask [value]="d.tesorero" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="70">
+                                <mat-label>{{'carrierCompany.ledgerAccount' | translate: {default: 'global.ledgerAccount'} | translate }}
+                                </mat-label>
+                                <input matInput currencyMask [value]="d.cuentaContable" readonly>
                             </mat-form-field>
                         </div>
 

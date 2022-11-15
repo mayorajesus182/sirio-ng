@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AgenciaCupoFormComponent } from './cupo/agencia-cupo-form.component';
+import { CupoAgenciaTableComponent } from './cupos/table/cupo-agencia-table.component';
 import { AgenciaDetailComponent } from './detail/agencia-detail.component';
 import { AgenciaFormComponent } from './form/agencia-form.component';
 import { AgenciaTableComponent } from './table/agencia-table.component';
@@ -31,8 +31,8 @@ const agenciaRoutes: Routes = [
     },
     {
         path: ':id/assign',
-        component: AgenciaCupoFormComponent,
-        data: { title: 'Asignar Cupo a Agencia' }
+        component: CupoAgenciaTableComponent,
+        data: { title: 'Cupos de la Agencia' }
     }
 
 ];
