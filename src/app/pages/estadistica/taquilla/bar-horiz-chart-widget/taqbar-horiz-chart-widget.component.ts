@@ -21,6 +21,7 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   availableCoins: Moneda[] = [];
   highcharts = Highcharts;
   barChart: any = undefined;
+  private datasets:any;
 
 
   isLoading: boolean;
@@ -31,12 +32,19 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
-    this.monedas.subscribe(list => {
+    
 
-      this.currentMoneda = list[0];
-      this.availableCoins = list;
-      this.reload();
 
+
+    this.data.subscribe(dataset => {
+      this.datasets = dataset
+      this.monedas.subscribe(list => {
+
+        this.currentMoneda = list[0];
+        this.availableCoins = list;
+        this.reload();
+  
+      });
     });
 
   }
@@ -50,22 +58,22 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
     this.isLoading = true;
 
 
-    this.data.subscribe(dataset => {
+    // this.data.subscribe(dataset => {
       this.isLoading = false;
 
 
-      if (!dataset.data) {
+      if (!this.datasets.data) {
         return;
       }
 
 
-      let serie = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
-      let labels = dataset.data[this.currentMoneda.id].map(d => {
+      let serie = { name: this.datasets.name, data: this.datasets.data[this.currentMoneda.id].map(d => d.disponible), color: this.datasets.color }
+      let labels = this.datasets.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
       
-      let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
+      let montoTotal = this.datasets.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
 
       
 
@@ -118,7 +126,7 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
 
 
       this.cdref.detectChanges();
-    })
+    // })
 
   }
 

@@ -10,10 +10,10 @@
   min-width: 330px;
   max-width: 330px;
   height: 100%;
-  
+
 }
 
-span.relative-time{
+span.relative-time {
   color: #8d8d8d;
   font-size: 12px;
 }
@@ -40,7 +40,7 @@ span.relative-time{
 p {
   margin: 0;
   color: #959595;
- 
+
 }
 
 .progress-bar {
@@ -62,5 +62,9 @@ h3 {
 h2 {
   padding: 14px 14px 0;
   font-weight: 600 !important;
-  
+}
+
+.mat-list-base .mat-subheader {
+  color: rgba(61, 61, 61, 0.75) !important;
+  text-transform: uppercase;
 }

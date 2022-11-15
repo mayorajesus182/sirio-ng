@@ -15,6 +15,17 @@
 @import "./var";
 @import "./theme";
 
+// notifier
+@import '~angular-notifier/styles/core.css';
+@import '~angular-notifier/styles/themes/theme-material.css';
+
+// Types
+@import '~angular-notifier/styles/types/type-default.css';
+@import '~angular-notifier/styles/types/type-error.css';
+@import '~angular-notifier/styles/types/type-info.css';
+@import '~angular-notifier/styles/types/type-success.css';
+@import '~angular-notifier/styles/types/type-warning.css';
+
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!

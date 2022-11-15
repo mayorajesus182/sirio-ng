@@ -133,6 +133,14 @@ a {
 }
 
 
+.notifier__container{
+  .notifier__notification--warning {
+    background: $theme-color-accent !important;
+    color: $theme-color-accent-contrast !important;
+    font-size: 1.1em !important;
+  }
+}
+
 blockquote {
   margin: 1em 0 1.5em;
   padding: 0 1.5em;
