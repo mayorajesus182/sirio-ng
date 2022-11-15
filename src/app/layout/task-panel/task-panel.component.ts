@@ -10,6 +10,8 @@ import { TaskConstants } from 'src/@sirio/constants/task.constants';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { ExpedienteService } from 'src/@sirio/domain/services/workflow/expediente.service';
 import { Workflow, WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
+import { SessionService } from 'src/@sirio/services/session.service';
+import { SocketService } from 'src/@sirio/services/stomp.service';
 
 
 @Component({
@@ -31,6 +33,8 @@ export class QuickpanelComponent implements OnInit {
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
+    private sessionService: SessionService,
+    private stompService: SocketService,
     protected workflowService: WorkflowService,
     protected expedienteService: ExpedienteService,
     protected bovedaAgenciaService: BovedaAgenciaService,
@@ -39,15 +43,36 @@ export class QuickpanelComponent implements OnInit {
   ) {
   }
 
+
+  private refreshTaskList() {
+
+    this.workflowService.assigned().subscribe(data => {
+      this.tasks.next(data);
+      // console.log(data);
+
+    });
+
+
+  }
+
   ngOnInit() {
 
     // this.socktask.instance();
 
-    this.workflowService.assigned().subscribe(data => {
-      this.tasks.next(data);
-      console.log(data);
+this.refreshTaskList();
 
-    });
+    const user = this.sessionService.getUser();
+
+    if (user && user.username) {
+
+      this.stompService.subscribe(`/wflow/${user.username}`, (): void => {
+        console.log('new task workflow by ' + user.username);
+
+        this.refreshTaskList();
+      });
+
+    }
+
 
     this.router.events.subscribe((routeChange) => {
       if (routeChange instanceof NavigationEnd) {

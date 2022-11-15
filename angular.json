@@ -70,6 +70,8 @@
               "angular-calendar/date-adapters/moment",
               "ngx-quill",
               "lodash",
+              "stompjs",
+              "sockjs-client",
               "chart.js"
             ],
             "vendorChunk": true,

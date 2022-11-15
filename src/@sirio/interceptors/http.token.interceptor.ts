@@ -16,7 +16,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         };
 
         const token = this.jwtService.getToken();
-        console.log("send token ",token);
+        // console.log("send token ",token);
         
         const token_xsrf = this.tokenExtractor.getToken() as string;
 
