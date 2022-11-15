@@ -54,7 +54,7 @@ export class TaquillaFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
 
-        this.usuarioService.actives().subscribe(data => {
+        this.usuarioService.taquillaRolAactives().subscribe(data => {
             this.usuarios.next(data);
         });
 

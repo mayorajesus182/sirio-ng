@@ -1,7 +1,7 @@
+import { Location } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
-import { ListColumn } from './list-column.model';
 
 @Component({
   selector: 'sirio-list',
@@ -20,7 +20,7 @@ export class ListComponent implements AfterViewInit {
 
   @Input() hideHeader: boolean;
 
-  constructor() {
+  constructor(private location: Location) {
   }
 
   ngAfterViewInit() {
@@ -38,5 +38,9 @@ export class ListComponent implements AfterViewInit {
     event.stopPropagation();
     event.stopImmediatePropagation();
     column.visible = !column.visible;
+  }
+
+  public back() {
+    this.location.back();
   }
 }

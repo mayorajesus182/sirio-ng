@@ -1,0 +1,18 @@
+<div id="notfound" class="background-pattern">
+  <div class="notfound">
+    <div class="notfound-404">
+      <h3>
+        Sesión Perdida
+        <!-- {{'error.sessionLostTitle'| translate}} -->
+      </h3>
+      <h1><span> <i class="fa-light fa-brake-warning"></i> </span></h1>
+    </div>
+    <h2>Su usuario ha iniciado sesión en otro navegador
+      <!-- {{'error.sessionLostMessage' | translate}} -->
+    </h2>
+    <button 
+    mat-raised-button 
+    color="primary"   [routerLink]="['/user/login']"
+      >Iniciar Sesión</button>
+  </div>
+</div>

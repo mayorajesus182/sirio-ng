@@ -10,6 +10,7 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ErrorsRoutingModule } from './errors-routing.module';
+import { SessionLostComponent } from './session-lost/session-lost.component';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { ErrorsRoutingModule } from './errors-routing.module';
     SharedComponentModule,
   ],
   declarations: [ForbiddenComponent,
-    NotFoundComponent]
+    NotFoundComponent, SessionLostComponent]
 })
 export class ErrorsModule { }
 
