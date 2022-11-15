@@ -32,40 +32,7 @@
                 <sirio-card-content fxLayout="column">
 
 
-                    <!-- <div fxLayout="column">
-                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="15px">
-
-                            <div fxFlex="15">
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'"
-                                    [(ngModel)]="esRetiroEfectivo" (change)="retiroEfectivoEvaluate($event)">
-                                    {{'withdrawal.cashWithdrawal' | translate: {default: 'global.cashWithdrawal'} |
-                                    translate }}
-                                </mat-slide-toggle>
-                            </div>
-
-                            <div fxFlex="15">
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'" [(ngModel)]="esPagoCheque"
-                                    (change)="pagoChequeEvaluate($event)">
-                                    {{'withdrawal.checkPayment' | translate: {default: 'global.checkPayment'} |
-                                    translate }}
-                                </mat-slide-toggle>
-                            </div>
-
-                            <div fxFlex="15">
-                                <mat-slide-toggle class="margin-top-md" [color]="'primary'"
-                                    [(ngModel)]="esPagoChequeGerencia" (change)="pagoChequeGerenciaEvaluate($event)">
-                                    {{'withdrawal.certifiedCheckPayment' | translate: {default:
-                                    'global.certifiedCheckPayment'} | translate }}
-                                </mat-slide-toggle>
-                            </div>
-
-                        </div>
-                    </div> -->
-
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
-                    <!-- <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm"> -->
-
-
+                    <form [formGroup]="itemForm" *ngIf="itemForm">   
                         <!-- primera Fila del Formulario  Nota: Borrar este comentario al Final -->
                         <div fxLayout="column">              
                            
@@ -102,6 +69,7 @@
                                     <mat-error *ngIf="f.numeroCuenta.errors?.validacion">{{'debe indicar el numero de cuenta'}}</mat-error>
                                 </mat-form-field>
 
+                               
                                 <mat-form-field fxFlex.gt-sm="20">
                                     <mat-label>{{(esPagoChequeGerencia ? 'withdrawal.checkNumber' : 'withdrawal.serial'  | translate: {default: 'global.serial'} )  | translate: {default: 'global.checkNumber'} |  translate
                                         }}
@@ -116,77 +84,47 @@
                                     
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-sm="25" class="highlight">
-                                    <mat-label>{{'withdrawal.checkAmount' | translate: {default:
-                                        'global.checkAmount'} | translate }}
+                                <!--MONTO -->
+                                <mat-form-field fxFlex="25" class="highlight">
+                                    <mat-label>{{'withdrawal.checkAmount' | translate: {default: 'global.checkAmount'} |
+                                        translate }}
                                     </mat-label>
-                                    <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20"
-                                        name="montoCheque" formControlName="montoCheque" currencyMask
-                                        [options]="{precision:2}" [required]="esPagoCheque">
-                                    <mat-error *ngIf="f.montoCheque.errors?.required">Es requerido</mat-error>
-                                    <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 9.999.999.999.999,99
-                                    </mat-error>
-                                    <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>
-                                    <mat-error *ngIf="f.montoCheque.errors?.difference">Verifique Monto</mat-error>
-                                </mat-form-field>
+
+                                    <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
+                                        formControlName="monto" currencyMask [options]="{precision:2}"  >
+                                    <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.totalDifference">Verifique Monto</mat-error>                             
+                               </mat-form-field>                                   
 
                                 <sirio-cash-button operation="retiro" [moneda]="moneda" [total]="f.monto.value"
                                 [disabled]="f.numeroCuenta.value <= 0" class="margin-top-md"
                                 (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                 [cono_anterior]="conoAnterior">
-                        </sirio-cash-button> 
-                              
-                              
-                                <mat-form-field fxFlex="25" class="highlight">
-                                    <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
-                                        translate }}
-                                    </mat-label>
-                                    <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
-                                        formControlName="monto" currencyMask [options]="{precision:2}"  readonly>
-                                    <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.totalDifference">Verifique Monto</mat-error>
-                                </mat-form-field>
+                                </sirio-cash-button> 
 
-                               
-
-                              
-                               
-                               <!--  <mat-form-field fxFlex="25">
-                                    <mat-label>{{'withdrawal.issueDate' | translate: {default:
-                                        'global.issueDate'} | translate }}
-                                    </mat-label>
-                                    <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY"
-                                        [max]="todayValue" name="fechaEmision" formControlName="fechaEmision"
-                                        [matDatepicker]="fechaEmisionPicker">
-                                    <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
-                                    </mat-datepicker-toggle>
-                                    <mat-error *ngIf="f.fechaEmision.errors?.matDatepickerParse">
-                                        Fecha Invalidad
-                                    </mat-error>
-                                </mat-form-field>
-                                <mat-datepicker #fechaEmisionPicker></mat-datepicker>
-                             
-
-                                <mat-form-field fxFlex.gt-sm="25">
-                                    <mat-label>{{'withdrawal.securityCode' | translate: {default: 'global.securityCode'}
-                                        | translate }}
-                                    </mat-label>
-                                    <input matInput maxlength="10"  minlength="8" name="codSeguridad" autocomplete="off"
-                                        formControlName="codSeguridad">
-                                    <mat-error *ngIf="f.codSeguridad.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}</mat-error>
-                                        <mat-error *ngIf="f.codSeguridad.errors?.minlength">Debe tener al menos 8 digitos</mat-error>    
-                                </mat-form-field>
-                                   -->
-                                    </div>
-                                </sirio-card-content>
-                            </sirio-card>                       
-                      
-
+                                
+                                <!--MONTO  DESGLOSE-->
+                            <mat-form-field fxFlex="25" class="highlight">
+                                <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} |
+                                    translate }}
+                                </mat-label>
+                                
                             
-
+                                <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20"
+                                name="montoCheque" formControlName="montoCheque" readonly currencyMask
+                                [options]="{precision:2}" [required]="esPagoCheque">
+                                <mat-error *ngIf="f.montoCheque.errors?.required">Es requerido</mat-error>
+                                <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 9.999.999.999.999,99
+                                </mat-error>
+                                <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>
+                                <mat-error *ngIf="f.montoCheque.errors?.difference">Verifique Monto</mat-error>
+                              </mat-form-field>                      
+                                        
+                            </div>
+                            </sirio-card-content>
+                            </sirio-card>   
 
                             <!-- Tercera monto y cono monentario  Nota: Borrar este comentario al Final -->
                             <sirio-card [fxFlex.gt-sm]="100" *ngIf="esPagoCheque" fxLayout="column"
@@ -216,24 +154,29 @@
                                         <mat-label>{{'withdrawal.identification' | translate: {default:
                                             'global.identification'} | translate }}
                                         </mat-label>
-                                        <input matInput autocomplete="off" maxlength="8" name="identificacionBeneficiario"
-                                            formControlName="identificacionBeneficiario" [required]="esPagoCheque">
-                                        <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required'
-                                            | translate}}</mat-error>
-                                        <mat-error *ngIf="f.identificacionBeneficiario.errors?.pattern">
-                                            {{'error.invalidCharacter' | translate}}</mat-error>
-                                        <!--TODO: Cambiar-->
+                                        <input matInput autocomplete="off" maxlength="8" id="identificacionBeneficiario" name="identificacionBeneficiario"
+                                            formControlName="identificacionBeneficiario" uppercase class="text-center" required>
+                                        <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.identificacionBeneficiario.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
+                                        <!--TODO: Cambiar-->
+                                  
                                     <mat-form-field fxFlex.gt-sm="auto">
                                         <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
                                             }}
                                         </mat-label>
-                                        <input matInput name="email" autocomplete="off" email-validate name="email"
+                                        <!-- <input matInput name="email" autocomplete="off" email-validate name="email"
                                             formControlName="email" placeholder="" [required]="true">
                                         <mat-error *ngIf="f.email.errors?.email">Email es inválido</mat-error>
                                         <mat-error *ngIf="f.email.errors?.required">{{'error.required'
+                                            | translate}}</mat-error> -->
+                                            <input matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
+                                            [required]="" uppercase>
+                                        <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                        <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                             | translate}}</mat-error>
-                                    </mat-form-field>  
+                                    </mat-form-field>
+                                   
                               </div>
                             </sirio-card-content>
                         </sirio-card>                          

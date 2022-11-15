@@ -84,9 +84,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 this.buildForm();
                 this.loadingDataForm.next(false);
 
-
-                   
-                               
+           
                
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
                     if (val) {     
@@ -97,6 +95,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                         this.f.numeroCuenta.setErrors({ validacion: true });
                     }
                 });
+
                
                
                 this.f.monto.valueChanges.subscribe(val => {
@@ -110,6 +109,8 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                         this.calculateDifferences();
                     }
                 });
+
+
 
 
 
@@ -129,10 +130,11 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
                              this.saldoByMoneda(this.moneda);
-                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                                       
+                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                           
                             
-                            
-                            //console.log("DATOS", data);
+                            console.log("DATOS", data);
+
+                            this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
                             this.cdr.markForCheck();
 
                         }, err => {
@@ -145,20 +147,29 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.detalleEfectivo = 0;
                             this.f.serialCheque.reset();
                             this.f.montoCheque.reset(0);
-                            this.f.monto.reset(0);
-                            //this.f.fechaEmision.reset();
-                            //this.f.codSeguridad.reset();
+                            this.f.monto.reset(0);                            
                             this.f.identificacionBeneficiario.reset();
                             this.f.email.reset();
-                            this.tipoDocumentos.next([]);
-                           // this.f.telefono.reset();
+                            this.tipoDocumentos.next([]);                          
                             this.f.tipoDocumentoBeneficiario.setValue(undefined)
                             this.cdr.detectChanges();
 
                         })
                     }
-                });
-                //} //fin
+                });             
+
+
+                this.f.identificacionBeneficiario.valueChanges.subscribe(val => {
+                    if(val){                       
+                        if(this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion){
+                            this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                            this.cdr.detectChanges();
+                        }else{                           
+                            this.f.email.setValue('');
+                            this.cdr.detectChanges();
+                        }
+                    }
+                })
 
                 this.loading$.subscribe(val => {
                     if (val) {
@@ -177,32 +188,33 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
     }
 
    
-    calculateDifferences(event?: any) {
-     
-        let valorEfectivo = this.f.montoCheque.value > 0 ? this.f.montoCheque.value : 0;
+    calculateDifferences(event?: any) {  
 
-        if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.monto.value) : this.f.monto.value)) {
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
-            this.f.monto.markAsDirty();
+       
+        let valorEfectivo = this.f.monto.value > 0 ? this.f.monto.value : 0;
+
+        // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
+        // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos 
+        if ( Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.montoCheque.value) : this.f.montoCheque.value)) >= 1) {
             this.f.montoCheque.setErrors({
                 difference: true
             });
             this.f.montoCheque.markAsDirty();
+            this.f.monto.setErrors({
+                totalDifference: true
+            });
+            this.f.monto.markAsDirty();
             if (event && event.montoTotal > 0) {
-                this.f.monto.setValue(event.montoTotal);
+                this.f.montoCheque.setValue(event.montoTotal);
             }
-
 
         } else {
 
             if (event && event.montoTotal > 0) {
-                this.f.monto.setValue(event.montoTotal);
+                this.f.montoCheque.setValue(event.montoTotal);
             }
-
-            this.f.monto.setErrors(undefined);
             this.f.montoCheque.setErrors(undefined);
+               this.f.monto.setErrors(undefined);
         }
      
      
@@ -242,20 +254,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
         this.conoActual = event.desgloseConoActual;
         this.conoAnterior = event.desgloseConoAnterior;
-        this.cdr.detectChanges();
-       /* this.detalleEfectivo = event.montoTotal;
-        this.f.monto.setValue(event.montoTotal);
-        if (this.f.monto.value != this.detalleEfectivo) {
-            this.itemForm.controls['monto'].setErrors({
-                difference: true
-            });
-            this.cdr.detectChanges();
-        } else {
-            this.f.monto.setErrors(undefined);
-        }
-        this.conoActual = event.desgloseConoActual;
-        this.conoAnterior = event.desgloseConoAnterior;
-        this.cdr.detectChanges();*/
+        this.cdr.detectChanges();      
 
     }
 
@@ -281,9 +280,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             this.conoAnterior = [];
             this.detalleEfectivo = 0;           
             this.f.beneficiario.setValue(undefined);
-            this.f.comprador.setValue(undefined);
-            //this.f.tipoDocumento.setValue(undefined);            
-
+            this.f.comprador.setValue(undefined);            
         }
     }
 
@@ -325,8 +322,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
                 //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                 //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
-               //console.log("RETIRO   ", this.retiro);
-        
+               //console.log("RETIRO   ", this.retiro);        
                 this.retiro.operacion='cheque';
         
                 this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
