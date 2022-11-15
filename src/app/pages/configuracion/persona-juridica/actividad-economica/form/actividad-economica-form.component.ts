@@ -66,13 +66,6 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
         });
     }
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
-        this.updateData(this.actividadEconomica);
-        this.saveOrUpdate(this.actividadEconomicaService, this.actividadEconomica, 'La Actividad Economica', this.isNew);
-    }
-
     private codigoExists(id) {
         this.actividadEconomicaService.exists(id).subscribe(data => {
             if (data.exists) {
@@ -89,5 +82,13 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
             this.applyChangeStatus(this.actividadEconomicaService, this.actividadEconomica, this.actividadEconomica.nombre, this.cdr);
         }
     }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+        this.updateData(this.actividadEconomica);
+        this.saveOrUpdate(this.actividadEconomicaService, this.actividadEconomica, 'La Actividad Economica', this.isNew);
+    }
+
 
 }

@@ -36,24 +36,11 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <!-- <mat-form-field fxFlex.gt-xs="25">
-                                    <mat-label>{{'remittanceRequest.movementType' | translate: {default: 'global.movementType'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="movimientoEfectivo.nombre" readonly>
-                                </mat-form-field> -->
-
-                                <!-- <mat-form-field fxFlex.gt-xs="25">
-                                    <mat-label>{{'remittanceRequest.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="taquilla.nombre" readonly>
-                                </mat-form-field> -->
-
-
                                 <mat-form-field fxFlex="30">
                                     <mat-label>{{'remittanceRequest.date' | translate: {default: 'global.date'} |
                                         translate }}</mat-label>
                                     <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha"
-                                        [matDatepicker]="fechaPicker" required>
+                                        [matDatepicker]="fechaPicker"  [min]="todayValue" required>
                                     <mat-datepicker-toggle matSuffix [for]="fechaPicker">
                                     </mat-datepicker-toggle>
                                     <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
@@ -69,83 +56,12 @@
                                     [errors]="f.transportista?.errors">
                                 </sirio-select-search>
 
-                                <!-- <mat-form-field fxFlex="25">
-                                    <mat-label>{{'remittanceRequest.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.availableBalance' |
-                                        translate }} {{saldoDisponible}}) </mat-label>
-                                    <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
-                                        [options]="{precision:2}" required readonly>
-                                    <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.balance">{{'error.insufficientBalance' | translate}}</mat-error>
-                                    <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                    <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                </mat-form-field> -->
                             </div>
                         </form>
 
                         <mat-divider class="margin-bottom-md"></mat-divider>
 
                         <div fxLayout="column">
-
-
-                            <!-- <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
-                                [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
-                                [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="detalles | async">
-
-                                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                                </ngx-datatable-column>
-
-                                <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>{{'agencyQuotas.code' | translate: {default: 'global.code'} |
-                                            translate}}</span>
-                                    </ng-template>
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        {{ row?.moneda }}
-                                    </ng-template>
-                                </ngx-datatable-column>
-
-                                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>{{'agencyQuotas.name' | translate: {default: 'global.name'} |
-                                            translate}}</span>
-                                    </ng-template>
-                                    <ng-template let-row="row" ngx-datatable-cell-template>
-                                        <span style="white-space: break-spaces;">{{ row?.nombreMoneda }}</span>
-                                    </ng-template>
-                                </ngx-datatable-column>
-
-                                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                                    <ng-template ngx-datatable-header-template>
-                                        <span>{{'agencyQuotas.amount' | translate: {default: 'global.amount'} |
-                                            translate}}</span>
-                                    </ng-template>
-                                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                        <input class="mat-input" [(ngModel)]="row.monto" autofocus matInput type="text" currencyMask
-                                            [options]="{precision:2}" />
-                                    </ng-template>
-                                </ngx-datatable-column>
-
-                                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                                </ngx-datatable-column>
-                            </ngx-datatable> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                             <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
                                 <div fxLayout="column" fxFlex="20">
@@ -166,11 +82,7 @@
                                 </div>
                             </div>
 
-
-
-
                         </div>
-
                     </div>
                 </sirio-card-content>
                 <mat-toolbar>

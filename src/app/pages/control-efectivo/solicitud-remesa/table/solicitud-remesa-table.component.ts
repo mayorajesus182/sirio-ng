@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
-import { CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
-import { SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service copy';
-import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
@@ -31,7 +29,6 @@ export class SolicitudRemesaTableComponent extends TableBaseComponent implements
     protected router: Router,
     private cdr: ChangeDetectorRef,
     private solicitudRemesaService: SolicitudRemesaService,
-    private taquillaService: TaquillaService,
   ) {
     super(undefined, injector);
   }

@@ -5,10 +5,13 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service copy';
+import { GlobalConstants } from 'src/@sirio/constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
+import { SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
 import { CupoAgencia, CupoAgenciaService } from 'src/@sirio/domain/services/organizacion/cupo-agencia.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-solicitud-remesa-form',
@@ -24,6 +27,7 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
     public detalles = new BehaviorSubject<CupoAgencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     monto: number = 0;
+    todayValue: moment.Moment;
 
     constructor(
         injector: Injector,
@@ -32,6 +36,7 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
         private route: ActivatedRoute,
         private solicitudRemesaService: SolicitudRemesaService,
         private transportistaService: TransportistaService,
+        private calendarioService: CalendarioService,
         private cupoAgenciaService: CupoAgenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -68,6 +73,11 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             this.transportistas.next(data);
             this.cdr.detectChanges();
         });
+
+        this.calendarioService.today().subscribe(data => {
+            this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+            this.cdr.detectChanges();
+        });
     }
 
     buildForm(solicitudRemesa: SolicitudRemesa) {
@@ -76,7 +86,6 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             fecha: new FormControl(''),
         });
     }
-
 
     setMontoSolicitado() {
         this.monto = 0;
@@ -97,21 +106,13 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             this.solicitudRemesa.detalleSolicitud = d.filter(d1 => d1.solicitado > 0);
         });
 
-
+        console.log(this.solicitudRemesa);
+        
         this.swalService.show('¿Desea Enviar la Solicitud?', '').then((resp) => {
-            if (!resp.dismiss) { }
+            if (!resp.dismiss) {
+                this.saveOrUpdate(this.solicitudRemesaService, this.solicitudRemesa, 'La Solicitud de Remesas', this.isNew);
+             }
         });
-
-
-        // if (!existsDifference) {
-        //     this.saveOrUpdate(this.solicitudRemesaService, this.solicitudRemesa, 'El Pase a Bóveda', this.isNew);
-        // } else {
-
-        //     this.swalService.show('Sobrepasó una de las Cantidades Disponibles en el Desglose', 'Resuelva el Problema y Vuelva a Procesar', { showCancelButton: false }).then((resp) => {
-        //         if (!resp.dismiss) { }
-        //     });
-
-        // }
     }
 
 }
