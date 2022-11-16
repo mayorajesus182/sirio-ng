@@ -110,6 +110,13 @@
                                             <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
                                                 translate}}
                                             </mat-error>
+
+                                            <!-- <sirio-select-simple fxFlex="20"
+                                                [label]="'juridicoPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                                                formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()"
+                                                [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+                                            </sirio-select-simple> -->
+
                                         </mat-form-field>
 
                                         <mat-form-field fxFlex="25">
@@ -349,12 +356,10 @@
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
-
-                                    <sirio-persona-direccion-table [persona]="personaNatural.id" (propagar)="updateAddress($event)">
-                                    </sirio-persona-direccion-table>
-
+                                    <sirio-persona-direccion-table [persona]="personaNatural.id"></sirio-persona-direccion-table>
 
                                 </div>
+
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPhones(true)" (closed)="openPhones(false)">
@@ -374,7 +379,7 @@
                                 <div fxLayout="row" fxLayout="column" *ngIf="showPhone">
                                     <sirio-persona-telefono-table [persona]="personaNatural.id"></sirio-persona-telefono-table>
 
-                                    </div>
+                                </div>
                                     
 
                             </mat-expansion-panel>
