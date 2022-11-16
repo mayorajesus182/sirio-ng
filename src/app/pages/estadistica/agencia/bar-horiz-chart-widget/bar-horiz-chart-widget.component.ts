@@ -1,5 +1,5 @@
 import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting';
 
@@ -17,6 +17,8 @@ export class BarHorizChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
+
+  @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   highcharts = Highcharts;
@@ -39,16 +41,20 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
     });
 
+
+
+
   }
 
-  reload() {
+  private reload() {
 
     if (!this.data) {
       return;
     }
 
     this.isLoading = true;
-
+    
+    
 
     this.data.subscribe(dataset => {
       this.isLoading = false;
@@ -65,8 +71,8 @@ export class BarHorizChartWidgetComponent implements OnInit {
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
       
-      console.log( '%%%%%');
-      console.log(dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion));
+      // console.log( '%%%%%');
+      // console.log(dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion));
       let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
 
       
@@ -121,7 +127,11 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
       this.cdref.detectChanges();
     })
-
+  }
+  
+  refreshData(){
+    this.isLoading = true;
+    this.refresh.emit(true);
   }
 
 

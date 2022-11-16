@@ -1,5 +1,5 @@
 import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting';
 
@@ -17,6 +17,8 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
+  @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
+
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   highcharts = Highcharts;
@@ -49,7 +51,7 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
 
   }
 
-  reload() {
+  private reload() {
 
     if (!this.data) {
       return;
@@ -128,6 +130,11 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
       this.cdref.detectChanges();
     // })
 
+  }
+
+  refreshData(){
+    this.isLoading = true;
+    this.refresh.emit(true);
   }
 
 

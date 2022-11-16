@@ -1,5 +1,5 @@
 import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
@@ -20,6 +20,8 @@ export class BarVertChartWidgetComponent implements OnInit {
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   @Input() options: any;
+
+  @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
 
   highcharts = Highcharts;
   barChart: any = undefined;
@@ -43,13 +45,12 @@ export class BarVertChartWidgetComponent implements OnInit {
     });
   }
 
-  reload() {
+  private reload() {
 
     if (!this.data) {
       return;
     }
     this.isLoading = true;
-
 
 
     this.data.subscribe(dataset => {
@@ -139,6 +140,11 @@ export class BarVertChartWidgetComponent implements OnInit {
     // this.cdref.detectChanges();
     // })
 
+  }
+
+  refreshData(){
+    this.isLoading = true;
+    this.refresh.emit(true);
   }
 
   changeMoneda(val){

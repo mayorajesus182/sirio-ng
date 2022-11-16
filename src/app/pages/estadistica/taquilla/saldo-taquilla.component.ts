@@ -26,7 +26,7 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
 
   }
 
-  ngOnInit() {
+  private refreshData(){
 
     this.saldoTaquillaService.all().subscribe(result => {
       // console.log("%% saldo taquilla %%");
@@ -70,9 +70,9 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
           color: '#f45b5b'
         },
         {
-          name: 'Saldo Final',
+          name: 'Saldo',
           data: datasets_final,
-          color: '#434348'
+          color: '#141a2e'
         },
       ]
 
@@ -82,8 +82,17 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
       this.dataTaquilla.next(datasets);
       this.detailTaquilla.next(datasetDetail);
     })
+  }
+
+  ngOnInit() {
+
+this.refreshData();
+
+  }
 
 
+  reload() {
+    this.refreshData();
   }
 
 }

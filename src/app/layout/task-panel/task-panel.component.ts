@@ -48,8 +48,6 @@ export class QuickpanelComponent implements OnInit {
 
     this.workflowService.assigned().subscribe(data => {
       this.tasks.next(data);
-      // console.log(data);
-
     });
 
 
@@ -57,18 +55,16 @@ export class QuickpanelComponent implements OnInit {
 
   ngOnInit() {
 
-    // this.socktask.instance();
-
-this.refreshTaskList();
+    this.refreshTaskList();
 
     const user = this.sessionService.getUser();
 
     if (user && user.username) {
 
       this.stompService.subscribe(`/wflow/${user.username}`, (): void => {
-        console.log('new task workflow by ' + user.username);
-
+        // console.log('new task workflow by ' + user.username);
         this.refreshTaskList();
+
       });
 
     }
@@ -81,18 +77,6 @@ this.refreshTaskList();
     });
 
 
-    // this._taskSub = this.socktask.notify.subscribe(event => {
-
-    //     console.log('event task task.component', event);
-    //     if (event) {
-
-    //         this.workflowService.assignedList().subscribe(data => {
-    //             this.tasks = data;
-    //         });
-
-    //     }
-
-    // });
 
 
   }

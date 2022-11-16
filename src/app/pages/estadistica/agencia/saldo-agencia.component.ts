@@ -16,8 +16,8 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
   private static isInitialLoad = true;
   dataAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  monedas:Moneda[]=[];
-  coinAvailables:BehaviorSubject<Moneda[]>= new BehaviorSubject<any>({});
+  monedas: Moneda[] = [];
+  coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
 
 
 
@@ -26,34 +26,32 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
     private saldoAgenciaService: SaldoAgenciaService,
     private saldoTaquilla: SaldoTaquillaService) {
 
-      super();
+    super();
   }
 
-
-  ngOnInit() {
-
+  refreshData() {
     this.saldoAgenciaService.all().subscribe(result => {
       // console.log("%% saldo agencia %%");
       // console.log(result);
 
-      let datasets_aument = {  };
-      let datasets_desmin = {  };
-      let datasets_final = {  };
-      let detailCash = {  };
+      let datasets_aument = {};
+      let datasets_desmin = {};
+      let datasets_final = {};
+      let detailCash = {};
       let series = [];
 
-      this.monedas=result.data.monedas;
+      this.monedas = result.data.monedas;
 
       this.coinAvailables.next(this.monedas);
 
       this.monedas.forEach(m => {
 
-        datasets_aument[m.id]= result.data["aumento-" + m.id];
+        datasets_aument[m.id] = result.data["aumento-" + m.id];
 
-        datasets_desmin[m.id]= result.data["disminucion-" + m.id];
-        datasets_final[m.id]= result.data["final-" + m.id];
+        datasets_desmin[m.id] = result.data["disminucion-" + m.id];
+        datasets_final[m.id] = result.data["final-" + m.id];
 
-        detailCash[m.id]= result.data["detail-"+m.id];
+        detailCash[m.id] = result.data["detail-" + m.id];
       });
       // Object.keys(result.data).forEach(key => {
       //   // dat.data[key];
@@ -70,10 +68,10 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
       //   }
       // });
       let datasets = { series: [], labels: [] };
-      let datasetDetail = { data: detailCash, labels: [], color:'#90ed7d', name:'Disponible' };
+      let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
 
       // console.log(datasetDetail);
-      
+
 
       datasets.series = [
         {
@@ -89,18 +87,26 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
         {
           name: 'Saldo Final',
           data: datasets_final,
-          color: '#434348'
+          color: '#141a2e'
         },
       ]
 
       datasets.labels = result.data.labels;
-      
+
 
       this.dataAgencia.next(datasets);
       this.detailAgencia.next(datasetDetail);
     })
+  }
 
 
+  ngOnInit() {
+
+    this.refreshData();
+  }
+
+  reload() {
+    this.refreshData();
   }
 
 }
