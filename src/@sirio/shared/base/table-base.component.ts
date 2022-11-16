@@ -406,6 +406,10 @@ export class TableBaseComponent {
 
     }
 
+    protected updateDataFromValues(current = {}, values) {
+        Object.assign(current, values);
+    }
+
 
 }
 

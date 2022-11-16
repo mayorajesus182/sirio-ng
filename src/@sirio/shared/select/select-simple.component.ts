@@ -208,7 +208,11 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     showName(valSelected:any){
         let name = '';
         if(valSelected){
-            this.items.subscribe(data=>name =data.filter(d=>d.id===valSelected).map(d=>d[this.attributeName])[0]);
+            
+            this.items.subscribe(data=>{
+                // console.log(data);
+                name =data.filter(d=>d.id===valSelected).map(d=>d[this.attributeName])[0];
+            });
         }
         return name;
     }

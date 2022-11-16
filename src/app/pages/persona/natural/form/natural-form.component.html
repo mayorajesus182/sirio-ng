@@ -93,18 +93,30 @@
                                     <!-- {{printErrors() | json}}  -->
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <sirio-select-simple fxFlex="20"
+                                        <!-- <sirio-select-simple fxFlex="20"
                                         
                                             [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                             formControlName="tipoDocumento"  [required]="true" [disabled]="disabled" [elements]="tipoDocumentos.asObservable()" 
                                             [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
-                                        </sirio-select-simple>
+                                        </sirio-select-simple> -->
+
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'naturalPerson.documentType' | translate: {default:
+                                                'global.documentType'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
+                                                formControlName="tipoDocumento" uppercase required >
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
 
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'naturalPerson.identification' | translate: {default:
                                                 'global.identification'} | translate }} </mat-label>
                                             <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion"
-                                                formControlName="identificacion" uppercase required >
+                                                formControlName="identificacion" uppercase required  >
                                             <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
