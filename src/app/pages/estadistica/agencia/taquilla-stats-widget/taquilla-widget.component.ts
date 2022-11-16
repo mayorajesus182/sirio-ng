@@ -30,19 +30,15 @@ export class TaquillaWidgetComponent implements OnInit {
   reload() {
     this.isLoading = true;
     this.saldoTaquillaService.allByAgencia().subscribe(data => {
-      console.log('@@@@ saldo taquilla: ');
-      console.log(data);
+      // console.log('@@@@ saldo taquilla: ');
+      // console.log(data);
       this.saldos =data;
-      // data.map(e => {
-      //   let p = { taquilla: e.taquillaNombre, usuario: e.taquillaUsuario };
-      //   return p;
-      // });
+      
       let lista = data.map(e => {
         let p = { taquilla: e.taquillaNombre, usuario: e.taquillaUsuario };
         return p;
       }).filter(this.onlyUnique);
 
-      console.log('header taquilla ',lista);
       
 
       this.taquillas.next(lista);
@@ -53,9 +49,6 @@ export class TaquillaWidgetComponent implements OnInit {
   }
 
   private onlyUnique(value, index, self) {
-    // console.log('index ',index);
-    // console.log('self ',self);
-    // console.log('value ',value, self.findIndex(v=> value.taquilla==v.taquilla));
     
     return self.findIndex(v=> value.taquilla==v.taquilla) === index;
   }

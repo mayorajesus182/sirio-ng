@@ -65,20 +65,23 @@ export class BarHorizChartWidgetComponent implements OnInit {
       }
 
 
-      let serie = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
+      let serie1 = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
+      let serie2 = { name: 'Saldos', data: dataset.data[this.currentMoneda.id].map(d => d.disponible*d.denominacion), color: '#141a2e',  yAxis: 1 }
       let labels = dataset.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
       
       // console.log( '%%%%%');
+      // console.log(serie1);
+      // console.log( dataset.data[this.currentMoneda.id]);
       // console.log(dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion));
       let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
 
       
 
       this.barChart = {
-        series: [serie],
+        series: [serie1,serie2],
         chart: {
           type: 'bar',
         },
@@ -93,11 +96,23 @@ export class BarHorizChartWidgetComponent implements OnInit {
           },
         },
 
-        yAxis: {
+        yAxis: [{
+          min: 0,
           title: {
-            text: 'Cantidad'
+              text: 'Cantidad'
+          }
+      }, {
+          title: {
+              text: 'Saldos (Mil.)'
           },
-        },
+          opposite: true
+      }],
+        
+        // {
+        //   title: {
+        //     text: 'Cantidad'
+        //   },
+        // },
     
         plotOptions: {
           series: {
@@ -105,7 +120,9 @@ export class BarHorizChartWidgetComponent implements OnInit {
             dataLabels: {
               enabled: true,
               formatter: function () {
-                return this.point.y ? formatNumber(this.point.y, 'es', '1.0') : '';
+                // console.log(this.point.series.name+'= '+this.point.y);
+                
+                return this.point.y ? formatNumber(this.point.y, 'es', this.point.series.name=='Saldos'?'1.2': '1.0') : '';
               }
             }
           }
@@ -113,10 +130,11 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
         tooltip: {
           formatter: function () {
-
+            
+             
             let tooltip = '<b>' + this.point.category + '</b><br/>' +
-              '<b>Cantidad:</b> ' + formatNumber(this.point.y, 'es', '1.2') + '<br/>' +
-              '<b>Monto:</b> ' + formatNumber(this.point.y * this.point.category.split(' ')[1], 'es', '1.2');
+              `<b>${this.point.series.name=='Saldos'?'Monto': 'Cantidad'}:</b> ` + formatNumber(this.point.y, 'es', '1.2') + '<br/>';
+              // '<b>Monto:</b> ' + formatNumber(this.point.y * this.point.category.split(' ')[1], 'es', '1.2');
             // console.log(tooltip);
 
             return tooltip;

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartsModule } from 'ng2-charts';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
@@ -19,6 +20,7 @@ import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget
 @NgModule({
   imports: [
     CommonModule,
+    FlexLayoutModule,
     // core
     SirioSharedModule,
     MaterialModule,

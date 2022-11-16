@@ -62,7 +62,7 @@ export class ToolbarNotificationsComponent implements OnInit {
   }
 
   private  showNotification( ): void {
-    console.log('enviar notificacion', this.notificationTmpl);
+    // console.log('enviar notificacion', this.notificationTmpl);
     
 		this.notifier.show({
       message: '<i class="fa-light fa-bell-on fa-shake fa-lg"></i> ¡Tienes tareas pendientes¡',

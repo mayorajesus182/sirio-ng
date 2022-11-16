@@ -53,20 +53,6 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
 
         detailCash[m.id] = result.data["detail-" + m.id];
       });
-      // Object.keys(result.data).forEach(key => {
-      //   // dat.data[key];
-      //   // console.log(key);
-      //   if (key.indexOf('aumento-928') === 0 && !series.includes("aumento")) {
-      //     // console.log('push key ', key);
-      //     // console.log('dataset key ', dat.data[key]);
-      //     series.push("aumento");
-      //     datasets_aument = result.data[key];
-      //   } else if (key.indexOf('disminucion-928') === 0 && !series.includes("disminucion")) {
-
-      //     series.push("disminucion");
-      //     datasets_desmin = result.data[key];
-      //   }
-      // });
       let datasets = { series: [], labels: [] };
       let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
 

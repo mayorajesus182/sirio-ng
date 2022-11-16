@@ -20,10 +20,9 @@
   </sirio-card-header>
 
   <sirio-card-content class="card-content container">
-    <ng-container *ngIf="barChart">
+    <ng-container *ngIf="barChart != undefined">
       <highcharts-chart  [Highcharts]="highcharts" [options]="barChart">
       </highcharts-chart>
-
     </ng-container>
 
   </sirio-card-content>

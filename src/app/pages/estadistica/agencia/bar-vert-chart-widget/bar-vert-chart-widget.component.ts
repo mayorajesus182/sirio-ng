@@ -38,7 +38,7 @@ export class BarVertChartWidgetComponent implements OnInit {
     exporting(Highcharts);
     exportData(this.highcharts);
     this.monedas.subscribe(list=>{
-      console.log('monedas',list);
+      
       this.currentMoneda= list[0];
       this.availableCoins = list;
       this.reload();
