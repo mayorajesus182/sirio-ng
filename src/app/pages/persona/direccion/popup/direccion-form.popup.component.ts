@@ -90,8 +90,12 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
         }
 
         this.tipoDireccionesService.actives().subscribe(data => {
-          if(this.isNew){
-            this.tiposDirecciones.next(data.filter(t=>t.id!='PR' && this.principal));
+          if(this.isNew ){
+            if(!this.principal){
+              this.tiposDirecciones.next(data);              
+            }else{              
+              this.tiposDirecciones.next(data.filter(t=>t.id!='PR'));
+            }
           }else{
             this.tiposDirecciones.next(data);
           }
