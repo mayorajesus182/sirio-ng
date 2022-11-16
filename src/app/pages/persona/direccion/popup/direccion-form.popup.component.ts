@@ -33,6 +33,10 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   public nucleos = new BehaviorSubject<Nucleo[]>([]);
   public construcciones = new BehaviorSubject<Construccion[]>([]);
 
+  // public nombreVia = new BehaviorSubject<NombreVia[]>([]);
+  // public nombreNucleo = new BehaviorSubject<NombreNucleo[]>([]);
+  // public estadonombreCostruccion = new BehaviorSubject<EstadonombreCostruccion[]>([]);
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<DireccionFormPopupComponent>,
@@ -43,6 +47,12 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     private parroquiaService: ParroquiaService,
     private zonaPostalService: ZonaPostalService,
     private viaService: ViaService,
+
+    // private nombreVia: nombreViaService,
+    // private nombreNucleo: NombreNucleoService,
+    // private nombreCostruccion: NombreCostruccionService,
+
+
     private nucleoService: NucleoService,
     private construccionService: ConstruccionService,
     private cdr: ChangeDetectorRef,
@@ -79,10 +89,6 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
         }
       }
     });
-
-
-
-
   }
 
   ngOnInit() {
@@ -114,6 +120,22 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       this.construcciones.next(data);
       this.cdr.detectChanges();
     });
+
+    // this.nombreViaService.actives().subscribe(data => {
+    //   this.nombreVia.next(data);
+    //   this.cdr.detectChanges();
+    // });
+
+    // this.nombreNucleoService.actives().subscribe(data => {
+    //   this.nombreNucleo.next(data);
+    //   this.cdr.detectChanges();
+    // });
+
+    // this.estadonombreCostruccionService.actives().subscribe(data => {
+    //   this.estadonombreCostruccion.next(data);
+    //   this.cdr.detectChanges();
+    // });
+
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.direccionService.get(this.defaults.payload.id).subscribe(data => {
@@ -142,7 +164,13 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       via: new FormControl(this.direccion.via || '', [Validators.required]),
       nucleo: new FormControl(this.direccion.nucleo || '', [Validators.required]),
       construccion: new FormControl(this.direccion.construccion || '', [Validators.required]),
-      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
+      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+
+      nombreVia: new FormControl(this.direccion.nombreVia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+ 
+      nombreNucleo: new FormControl(this.direccion.nombreNucleo || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+ 
+      nombreConstruccion: new FormControl(this.direccion.nombreConstruccion || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
     });
 
 

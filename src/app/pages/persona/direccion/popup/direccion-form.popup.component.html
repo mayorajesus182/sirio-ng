@@ -55,15 +55,46 @@
         [required]="true" [elements]="vias.asObservable()" [attributeName]="'nombre'" [errors]="f.via?.errors">
       </sirio-select-search>
 
+      
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Nombre Vía'}}</mat-label>
+        <input autocomplete="off" class="text-left" matInput name="nombreVia" maxlength="24" uppercase formControlName="nombreVia" required>
+        
+        <mat-error *ngIf="f.nombreVia.errors?.required">{{'error.required' | translate}}!</mat-error>
+      </mat-form-field>
+     
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.coreTypeName' | translate: {default: 'global.coreTypeName'} | translate" 
-      formControlName="nucleo"
+        formControlName="nucleo"
         [required]="true" [elements]="nucleos.asObservable()" [attributeName]="'nombre'" [errors]="f.nucleo?.errors">
       </sirio-select-search>
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Nombre Nucleo'}}</mat-label>
+        <input autocomplete="off" class="text-left" matInput name="nombreNucleo" maxlength="24" uppercase formControlName="nombreNucleo" required>
+        
+        <mat-error *ngIf="f.nombreNucleo.errors?.required">{{'error.required' | translate}}!</mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.construction' | translate: {default: 'global.construction'} | translate"
         formControlName="construccion" [required]="true" [elements]="construcciones.asObservable()" [attributeName]="'nombre'"
         [errors]="f.construccion?.errors">
       </sirio-select-search>
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Nombre Costrucción'}}</mat-label>
+        <input autocomplete="off" class="text-left" matInput name="nombreConstruccion" maxlength="24" uppercase formControlName="nombreConstruccion" required>
+        
+        <mat-error *ngIf="f.nombreConstruccion.errors?.required">{{'error.required' | translate}}!</mat-error>
+      </mat-form-field>
 
     </div>
 
