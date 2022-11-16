@@ -49,7 +49,7 @@ export class SidenavItemComponent implements OnInit {
   }
 
   handleClick() {
-    console.log('handle click navigation sidenav');
+    // console.log('handle click navigation sidenav');
     if (this.item.subpermisos && this.item.subpermisos.length > 0) {
       this.sidenavService.toggleItemOpen(this.item);
     } else if (typeof this.item.view === 'string' ) {
