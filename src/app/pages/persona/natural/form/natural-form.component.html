@@ -89,20 +89,41 @@
                                 </mat-expansion-panel-header>
                                 <div fxLayout="column" [formGroup]="itemForm">
 
-
+ 
+                                    <!-- {{printErrors() | json}}  -->
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <sirio-select-simple fxFlex="20"
+                                        <!-- <sirio-select-simple fxFlex="20"
+                                        
                                             [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
-                                            formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()"
+                                            formControlName="tipoDocumento"  [required]="true" [disabled]="disabled" [elements]="tipoDocumentos.asObservable()" 
                                             [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
-                                        </sirio-select-simple>
+                                        </sirio-select-simple> -->
+
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'naturalPerson.documentType' | translate: {default:
+                                                'global.documentType'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
+                                                formControlName="tipoDocumento" uppercase required >
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+
+                                            <!-- <sirio-select-simple fxFlex="20"
+                                                [label]="'juridicoPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                                                formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()"
+                                                [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+                                            </sirio-select-simple> -->
+
+                                        </mat-form-field>
 
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'naturalPerson.identification' | translate: {default:
                                                 'global.identification'} | translate }} </mat-label>
                                             <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion"
-                                                formControlName="identificacion" uppercase required>
+                                                formControlName="identificacion" uppercase required  >
                                             <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -335,12 +356,10 @@
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
-
-                                    <sirio-persona-direccion-table [persona]="personaNatural.id" (propagar)="updateAddress($event)">
-                                    </sirio-persona-direccion-table>
-
+                                    <sirio-persona-direccion-table [persona]="personaNatural.id"></sirio-persona-direccion-table>
 
                                 </div>
+
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPhones(true)" (closed)="openPhones(false)">
@@ -349,7 +368,7 @@
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>phone</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Télefonos</span>
+                                        <span class="margin-top-sm semi-bold">Teléfonos</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
                                         <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalPhone"></span>
@@ -360,7 +379,7 @@
                                 <div fxLayout="row" fxLayout="column" *ngIf="showPhone">
                                     <sirio-persona-telefono-table [persona]="personaNatural.id"></sirio-persona-telefono-table>
 
-                                    </div>
+                                </div>
                                     
 
                             </mat-expansion-panel>

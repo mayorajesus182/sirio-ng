@@ -39,7 +39,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { IMaskDirectiveModule, IMaskModule } from 'angular-imask';
+import { IMaskDirectiveModule } from 'angular-imask';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
 
@@ -52,6 +53,49 @@ import { ExcerptPipe } from './pipes/excerpt.pipe';
 import { RelativeTimePipe } from './pipes/relative-time.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
 import { ShortSizePipe } from './pipes/short-size.pipe';
+
+const customNotifierOptions: NotifierOptions = {
+  position: {
+		horizontal: {
+			position: 'right',
+			distance: 13
+		},
+		vertical: {
+			position: 'top',
+			distance: 66,
+			gap: 10
+		}
+	},
+  theme: 'material',
+  behaviour: {
+    autoHide: 7000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
+
+
 export const customCurrencyMaskConfig = {
   align: "right",
   allowNegative: false,
@@ -95,7 +139,9 @@ const toInclude = [
     NgxDatatableModule,
     ReactiveFormsModule,
     NgxMaskModule.forRoot(),
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+
+    NotifierModule.withConfig(customNotifierOptions),
   ],
   exports: [
     MatInputModule,
@@ -145,6 +191,7 @@ const toInclude = [
     NgxMaskModule,
     IMaskDirectiveModule,
     SweetAlert2Module,
+    NotifierModule,
     toInclude
   ],
   

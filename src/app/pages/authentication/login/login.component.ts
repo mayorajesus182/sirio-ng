@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
 
     this.success = this.translate.instant('message.successfulLogin');
 
-    this.error=this.translate.instant('message.loginError');
+    this.error = this.translate.instant('message.loginError');
 
     this.form = this.fb.group({
       username: ['', Validators.required],
@@ -53,7 +53,6 @@ export class LoginComponent implements OnInit {
 
 
     this.authService.purgeAuth();
-    this.sessionService.destroy();
     this.sessionService.reset();
   }
 
@@ -81,7 +80,7 @@ export class LoginComponent implements OnInit {
             panelClass: 'success-snackbar'
           });
 
-          
+
 
         },
         err => {

@@ -28,7 +28,7 @@ export class HttpErrorInterceptor implements HttpInterceptor {
 
 
         return next.handle(req).pipe(catchError(error => {
-            console.log('Response',error);
+            // console.log('Response',error);
             if (error instanceof HttpErrorResponse) {
                 // console.log('>> Error response',error.error);
 
@@ -59,8 +59,8 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         this.router.navigate(['errors/403']);
                         break;
                     case 409:
-                        this.jwtService.destroyToken();
-                        this.router.navigate(['errors/forgot']);
+                        // this.jwtService.destroyToken();
+                        this.router.navigate(['errors/session-lost']);
                         break;
                     case 0:
                         // console.warn('Check Your Internet Connection And Try again Later', error);

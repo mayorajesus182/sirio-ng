@@ -1,37 +1,60 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
-import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
+import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
+
 
 @Component({
-  selector: 'sirio-saldo-taquilla-statics',
-  templateUrl: './saldo-taquilla.component.html',
-  styleUrls: ['./saldo-taquilla.component.scss']
+  selector: 'sirio-taquilla-chart.popup',
+  templateUrl: './taquilla-chart.popup.component.html',
+  styleUrls: ['./taquilla-chart.popup.component.scss']
 })
-export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit {
-
-  private static isInitialLoad = true;
+export class TaquillaChartPopupComponent extends PopupBaseComponent implements OnInit {
 
   dataTaquilla: BehaviorSubject<any> = new BehaviorSubject<any>({});
   detailTaquilla: BehaviorSubject<any> = new BehaviorSubject<any>({});
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
+  isLoading: boolean = false;
+  taquilla: number;
+  moneda: Moneda = undefined;
+  // public nombreVia = new BehaviorSubject<NombreVia[]>([]);
+  // public nombreNucleo = new BehaviorSubject<NombreNucleo[]>([]);
+  // public estadonombreCostruccion = new BehaviorSubject<EstadonombreCostruccion[]>([]);
 
-  constructor(
-    private router: Router,
-    private saldoTaquillaService: SaldoTaquillaService) {
+  constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
+    protected injector: Injector,
+    private saldoTaquillaService: SaldoTaquillaService,
+    dialogRef: MatDialogRef<TaquillaChartPopupComponent>,
+    private cdr: ChangeDetectorRef,
+    private fb: FormBuilder) {
 
-    super();
-
+    super(dialogRef, injector)
   }
 
-  private refreshData() {
+  ngOnInit() {
+    console.log('defaults ', this.defaults);
 
-    this.saldoTaquillaService.dataChartAll().subscribe(result => {
-      // console.log("%% saldo taquilla %%");
+    this.taquilla = this.defaults.payload.id;
+
+    this.moneda = { id: this.defaults.payload.moneda, 
+              nombre: this.defaults.payload.nombreMoneda, 
+              siglas: this.defaults.payload.siglasMoneda } as Moneda;
+    this.reload();
+  }
+
+
+  reload() {
+
+    this.isLoading = true;
+
+    this.saldoTaquillaService.dataChartAllByTaquilla(this.taquilla).subscribe(result => {
       // console.log(result);
+
+      this.isLoading = false;
 
       let datasets_aument = {};
       let datasets_desmin = {};
@@ -55,9 +78,6 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
 
       let datasets = { series: [], labels: [] };
       let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
-
-      // console.log(datasetDetail);
-
 
       datasets.series = [
         {
@@ -84,17 +104,4 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
       this.detailTaquilla.next(datasetDetail);
     })
   }
-
-  ngOnInit() {
-    
-
-    this.refreshData();
-
-  }
-
-
-  reload() {
-    this.refreshData();
-  }
-
 }

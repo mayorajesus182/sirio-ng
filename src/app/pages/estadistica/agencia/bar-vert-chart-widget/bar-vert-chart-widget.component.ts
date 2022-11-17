@@ -1,11 +1,10 @@
 import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 @Component({
 
   selector: 'sirio-bar-vert-chart-widget',
@@ -17,9 +16,12 @@ export class BarVertChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() title: string = 'Estadísticas';
   @Input() monedas: Observable<Moneda[]>;
+  @Input() moneda_curr: Moneda=undefined;
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   @Input() options: any;
+
+  @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
 
   highcharts = Highcharts;
   barChart: any = undefined;
@@ -27,7 +29,6 @@ export class BarVertChartWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(
-    private saldoAgencia: SaldoAgenciaService,
     private cdref: ChangeDetectorRef) {
   }
   ngOnInit(): void {
@@ -35,21 +36,23 @@ export class BarVertChartWidgetComponent implements OnInit {
     
     exporting(Highcharts);
     exportData(this.highcharts);
+    console.log('moneda curr ', this.moneda_curr);
+    
     this.monedas.subscribe(list=>{
-      console.log('monedas',list);
-      this.currentMoneda= list[0];
+      console.log(list);
+      
+      this.currentMoneda= this.moneda_curr || list[0];
       this.availableCoins = list;
       this.reload();
     });
   }
 
-  reload() {
+  private reload() {
 
     if (!this.data) {
       return;
     }
     this.isLoading = true;
-
 
 
     this.data.subscribe(dataset => {
@@ -139,6 +142,11 @@ export class BarVertChartWidgetComponent implements OnInit {
     // this.cdref.detectChanges();
     // })
 
+  }
+
+  refreshData(){
+    this.isLoading = true;
+    this.refresh.emit(true);
   }
 
   changeMoneda(val){

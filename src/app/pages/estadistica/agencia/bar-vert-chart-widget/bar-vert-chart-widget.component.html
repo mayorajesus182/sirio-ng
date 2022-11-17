@@ -13,17 +13,16 @@
           <span>&nbsp;{{coin.siglas}} - {{coin.nombre}}</span>
         </button>
       </mat-menu>
-      <button (click)="reload()" mat-icon-button>
+      <button (click)="refreshData()" mat-icon-button matTooltip="Refrescar">
         <mat-icon>refresh</mat-icon>
       </button>
     </sirio-card-header-actions>
   </sirio-card-header>
 
   <sirio-card-content class="card-content container">
-    <ng-container *ngIf="barChart">
+    <ng-container *ngIf="barChart != undefined">
       <highcharts-chart  [Highcharts]="highcharts" [options]="barChart">
       </highcharts-chart>
-
     </ng-container>
 
   </sirio-card-content>

@@ -1,5 +1,5 @@
 import { formatNumber } from '@angular/common';
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting';
 
@@ -17,10 +17,14 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
+  
+  @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
+
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   highcharts = Highcharts;
   barChart: any = undefined;
+  private datasets:any;
 
 
   isLoading: boolean;
@@ -31,17 +35,24 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
-    this.monedas.subscribe(list => {
+    
 
-      this.currentMoneda = list[0];
-      this.availableCoins = list;
-      this.reload();
 
+
+    this.data.subscribe(dataset => {
+      this.datasets = dataset
+      this.monedas.subscribe(list => {
+
+        this.currentMoneda = list[0];
+        this.availableCoins = list;
+        this.reload();
+  
+      });
     });
 
   }
 
-  reload() {
+  private reload() {
 
     if (!this.data) {
       return;
@@ -50,22 +61,22 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
     this.isLoading = true;
 
 
-    this.data.subscribe(dataset => {
+    // this.data.subscribe(dataset => {
       this.isLoading = false;
 
 
-      if (!dataset.data) {
+      if (!this.datasets.data) {
         return;
       }
 
 
-      let serie = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
-      let labels = dataset.data[this.currentMoneda.id].map(d => {
+      let serie = { name: this.datasets.name, data: this.datasets.data[this.currentMoneda.id].map(d => d.disponible), color: this.datasets.color }
+      let labels = this.datasets.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
       })
       
-      let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
+      let montoTotal = this.datasets.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
 
       
 
@@ -118,8 +129,13 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
 
 
       this.cdref.detectChanges();
-    })
+    // })
 
+  }
+
+  refreshData(){
+    this.isLoading = true;
+    this.refresh.emit(true);
   }
 
 

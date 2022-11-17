@@ -229,9 +229,12 @@ export class FormBaseComponent {
         });
     }
 
-    protected successResponse(entityName: string, event: string, noClose?: boolean) {
+    protected successResponse(entityName: string, event: string,  notBack?: boolean) {
 
         this.loadingDataForm.next(false);
+        if(!notBack){
+            this.location.back();
+        }
         this.snack.show({
             // message: `${entityName} fue ${event} satisfactoriamente!`,
             message: `¡Operación realizada satisfactoriamente!`,
@@ -299,14 +302,15 @@ export class FormBaseComponent {
     }
 
 
-    protected saveOrUpdate(service, formData = {}, entityName, isNew?): Observable<any> {
+    protected saveOrUpdate(service, formData = {}, entityName,back=true, isNew?,): Observable<any> {
         this.loadingDataForm.next(true);
         if (this.isNew) {
             const saveRequest = service.save(formData);
             return saveRequest.subscribe(data => {
                 this.itemForm.reset({});
                 // this.resetForm()
-                this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'));
+                this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'),!back);
+                
                 return data;
             }, error => this.errorResponse(true));
 
@@ -402,7 +406,7 @@ export class FormBaseComponent {
     protected getFileName(response: HttpResponse<Blob>, ext?: string) {
         let filename: string;
         try {
-            console.log('headers ', response.headers);
+            // console.log('headers ', response.headers);
             // {
             //     "key": "",
             //     "value": [

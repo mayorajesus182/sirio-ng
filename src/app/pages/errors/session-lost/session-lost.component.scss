@@ -39,13 +39,14 @@ body {
     -webkit-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    font-size: 252px;
+    font-size: 200px;
     font-weight: 900;
     margin: 0px;
     color: #fdb40d;
     text-transform: uppercase;
     letter-spacing: -40px;
     margin-left: -20px;
+    margin-top: 10px;
 }
 
 .notfound .notfound-404 h1>span {
@@ -55,7 +56,7 @@ body {
 .notfound .notfound-404 h3 {
     font-family: 'Cabin', sans-serif;
     position: relative;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 700;
     text-transform: uppercase;
     color: #fdb40d;

@@ -9,3 +9,7 @@
   </button>
 
 </div>
+
+<ng-template class="notify" #tplNotification let-notificationData="notification">
+  <div  [innerHTML]="notificationData.message"></div>
+</ng-template>

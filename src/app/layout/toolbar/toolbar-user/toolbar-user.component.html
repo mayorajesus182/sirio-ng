@@ -17,11 +17,11 @@
         <!-- <div class="list-item" matRipple>
           <mat-icon class="list-item-icon" >settings</mat-icon>
           <span>Settings</span>
+        </div>-->
+        <div class="list-item" matRipple [routerLink]="['/user/locked']">          
+          <mat-icon class="list-item-icon" >lock</mat-icon>
+          <span>Bloquear</span>
         </div>
-        <div class="list-item" matRipple [routerLink]="['/sirio/help']">          
-          <mat-icon class="list-item-icon" >help</mat-icon>
-          <span>Help</span>
-        </div> -->
         <!-- <mat-divider></mat-divider> -->
         <div class="list-item" matRipple (click)="sessionService.logout()">
           <mat-icon class="list-item-icon">exit_to_app</mat-icon>

@@ -93,11 +93,30 @@
                                 <div fxLayout="column" [formGroup]="itemForm">
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <sirio-select-simple fxFlex="20"
+                                        <!-- <sirio-select-simple fxFlex="20"
                                             [label]="'juridicoPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                             formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
-                                        </sirio-select-simple>
+                                        </sirio-select-simple> -->
+
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'juridicoPerson.documentType' | translate: {default:
+                                                'global.documentType'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
+                                                formControlName="tipoDocumento" uppercase required >
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+
+                                            <!-- <sirio-select-simple fxFlex="20"
+                                                [label]="'juridicoPerson.documentType' | translate: {default: 'global.documentType'} | translate"
+                                                formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentos.asObservable()"
+                                                [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+                                            </sirio-select-simple> -->
+
+                                        </mat-form-field>
 
                                         <mat-form-field fxFlex="30">
                                             <mat-label>{{'juridicoPerson.identification' | translate: {default:
@@ -244,10 +263,7 @@
 
                                     </div>
 
-
-
                                 </div>
-
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
@@ -281,12 +297,10 @@
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
-
-                                    <sirio-persona-direccion-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
-                                    </sirio-persona-direccion-table>
-
+                                    <sirio-persona-direccion-table [persona]="personaJuridica.id"></sirio-persona-direccion-table>
 
                                 </div>
+
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPhones(true)" (closed)="openPhones(false)">
@@ -385,30 +399,7 @@
                                 </div> -->
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openEmpresaRelacionada(true)" (closed)="openEmpresaRelacionada(false)">
-
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>peoples</mat-icon>
-                                        </button>
-                                        <span class="margin-top-sm semi-bold"> Clientes y Proveedores </span>
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalEmpresaRelacionada"></span>
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-
-                                <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
-
-
-                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id" ></sirio-persona-empresa-relacionada-table>
-                                   
-
-                                </div>
-
-                            </mat-expansion-panel>
+                        
 
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
@@ -436,7 +427,7 @@
                                 </div> -->
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPep(true)" (closed)="openPep(false)">
+                            <!-- <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPep(true)" (closed)="openPep(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -444,10 +435,7 @@
                                         </button>
                                         <span class="margin-top-sm semi-bold"> Persona Expuesta Políticamente (PEP)</span>
                                     </mat-panel-title>
-                                    <!-- <mat-panel-description>
-
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalPep"></span>
-                                    </mat-panel-description> -->
+    
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showPep">
@@ -459,7 +447,7 @@
 
                                 </div>
 
-                            </mat-expansion-panel>
+                            </mat-expansion-panel> -->
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openApoderado(true)" (closed)="openApoderado(false)">
                                 <mat-expansion-panel-header>
@@ -510,25 +498,28 @@
                             </mat-expansion-panel> -->
 
 
-                            <mat-expansion-panel *ngIf="hasBasicData">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openEmpresaRelacionada(true)" (closed)="openEmpresaRelacionada(false)">
+
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>account_balance</mat-icon>
+                                            <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Referencias: Empresas relacionadas</span>
+                                        <span class="margin-top-sm semi-bold"> Referencias: Empresas relacionadas </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
 
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalBankReference"></span>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalEmpresaRelacionada"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
+                                <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
 
-                                <!-- <div fxLayout="row" fxLayout="column">
-                                    <sirio-persona-referencia-bancaria-table [persona]="personaJuridica.id"></sirio-persona-referencia-bancaria-table>
-                                </div> -->
 
+                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id" ></sirio-persona-empresa-relacionada-table>
+                                   
+
+                                </div>
 
                             </mat-expansion-panel>
 

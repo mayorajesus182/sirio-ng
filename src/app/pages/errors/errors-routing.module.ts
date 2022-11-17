@@ -3,6 +3,7 @@ import { RouterModule, Routes } from "@angular/router";
 import { ForbiddenComponent } from "./forbidden/forbidden.component";
 
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { SessionLostComponent } from "./session-lost/session-lost.component";
 
 const errorsRoutes: Routes = [
   {
@@ -17,6 +18,11 @@ const errorsRoutes: Routes = [
         path: "403",
         component: ForbiddenComponent,
         data: { title: "403" }
+      },
+      {
+        path: "session-lost",
+        component: SessionLostComponent,
+        data: { title: "Sesión Perdida" }
       }
     ]
   }

@@ -1,5 +1,4 @@
-
-@import '../../../../node_modules/@angular/material/theming';
+@import '~@angular/material/theming';
 
 sirio-toolbar {
   // position: map-get($toolbar, position); // TODO IMPLEMENT
@@ -22,7 +21,15 @@ sirio-toolbar {
     .toolbar-logo {
       fill: $toolbar-logo-color;
     }
+
+
+    // &.notifier__notification--warning {
+    //   background: $theme-color-accent;
+    //   color: $theme-color-accent-contrast;
+    //   font-size: 1em;
+    // }
   }
+  
 }
 
 sirio-toolbar-user {
@@ -59,6 +66,13 @@ sirio-toolbar-notifications {
       border-color: $theme-divider;
     }
 
+
+    // &.notify {
+    //   background: $theme-color-accent;
+    //   color: $theme-color-accent-contrast;
+    // }
+
+
     .notification {
       color: $theme-text;
 
@@ -84,7 +98,13 @@ sirio-toolbar-notifications {
           background: $theme-color-accent;
           color: $theme-color-accent-contrast;
         }
+
+        .notify {
+          background: $theme-color-accent;
+          color: $theme-color-accent-contrast;
+        }
       }
+
 
       &.warn {
         .icon {
