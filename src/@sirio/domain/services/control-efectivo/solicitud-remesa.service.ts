@@ -6,11 +6,22 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface SolicitudRemesa {
     id: number;
-    agencia: string;
-    transportista: string;
-    fecha?: any;     
+    emisor: string;
+    nombreEmisor: string;
+    receptor: string;
+    nombreReceptor: string;
+    viaje: string;
+    nombreViaje: string;
+    montoSolicitado: number;
+    montoEnviado: number;
+    montoRecibido: number;
+    moneda: string;
+    nombreMoneda: string;
+    fechaSolicitud: any;   
+    fechaEnvio: any;
+    fechaRecibo: any;
     estatusSolicitud: string;
-    detalleSolicitud: any[];
+    nombreEstatusSolicitud: string;
 }
 
 @Injectable({

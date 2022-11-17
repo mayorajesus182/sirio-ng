@@ -28,6 +28,11 @@ export class CupoAgenciaService {
         this.apiConfig = {name: ApiConfConstants.API_ORGANIZACION, prefix: '/cupo-agencia'};
     }
 
+    getCupoByMoneda(moneda: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/cupo/get`);
+    }
+
+
     activesByAgencia(agencia: string): Observable<CupoAgencia[]> {
         return this.apiService.config(this.apiConfig).get(`/${agencia}/byagencia/actives`);
     }

@@ -35,54 +35,35 @@
                         <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                <mat-form-field fxFlex="30">
-                                    <mat-label>{{'remittanceRequest.date' | translate: {default: 'global.date'} |
-                                        translate }}</mat-label>
-                                    <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha"
-                                        [matDatepicker]="fechaPicker"  [min]="todayValue" required>
-                                    <mat-datepicker-toggle matSuffix [for]="fechaPicker">
-                                    </mat-datepicker-toggle>
-                                    <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
-                                        Fecha Invalida
-                                    </mat-error>
-                                </mat-form-field>
-                                <mat-datepicker #fechaPicker></mat-datepicker>
-
-
-                                <sirio-select-search fxFlex="70"
+                                <sirio-select-search fxFlex="45"
                                     [label]="'remittanceRequest.collectionCenter' | translate: {default: 'global.collectionCenter'} | translate"
-                                    formControlName="transportista" [required]="true" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.transportista?.errors">
+                                    formControlName="receptor" [required]="true" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.receptor?.errors">
                                 </sirio-select-search>
+
+                                <sirio-select-search fxFlex="30" [label]="'remittanceRequest.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.moneda?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search fxFlex="45"
+                                [label]="'remittanceRequest.viaje' | translate: {default: 'global.viaje'} | translate"
+                                formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.viaje?.errors">
+                            </sirio-select-search>
+
+                                <mat-form-field fxFlex="25">
+                                    <mat-label>{{'remittanceRequest.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.assignedQuota' |
+                                        translate }} {{cupo}}) </mat-label>
+                                    <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="montoSolicitado" formControlName="montoSolicitado"
+                                        [options]="{precision:2}" required>
+                                    <mat-error *ngIf="f.montoSolicitado.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf=" f.montoSolicitado.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.montoSolicitado.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                </mat-form-field>
 
                             </div>
                         </form>
-
-                        <mat-divider class="margin-bottom-md"></mat-divider>
-
-                        <div fxLayout="column">
-
-                            <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
-                                <div fxLayout="column" fxFlex="20">
-                                    <h3>{{'Remesas a Solicitar' | translate: {default: 'Remesas a Solicitar'} | translate }}</h3>
-                                </div>
-                                <div fxLayout="column" fxFlex="auto">
-                                    <div fxLayout="row wrap" *ngFor="let item of detalles | async" fxLayoutGap.gt-sm="6px">
-                                        <mat-form-field fxFlex="35">
-                                            <input matInput class="text-center" [value]="item.nombreMoneda" readonly>
-                                        </mat-form-field>
-                                        <mat-form-field fxFlex="35">
-                                            <mat-label>{{'Cupo Máximo' | translate }} {{item.monto}}
-                                            </mat-label>
-                                            <input matInput type="text" class="text-right" #cantidad="ngModel" [(ngModel)]="item.solicitado"
-                                                (ngModelChange)="setMontoSolicitado()" currencyMask [options]="{precision:2}" />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
                     </div>
                 </sirio-card-content>
                 <mat-toolbar>
@@ -91,7 +72,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || monto <= 0">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

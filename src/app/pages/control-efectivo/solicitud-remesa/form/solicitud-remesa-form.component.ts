@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -12,6 +12,10 @@ import { CupoAgencia, CupoAgenciaService } from 'src/@sirio/domain/services/orga
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import * as moment from 'moment';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
+import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 
 @Component({
     selector: 'app-solicitud-remesa-form',
@@ -23,10 +27,13 @@ import * as moment from 'moment';
 
 export class SolicitudRemesaFormComponent extends FormBaseComponent implements OnInit {
 
+    preferencia: Preferencia = {} as Preferencia;
     solicitudRemesa: SolicitudRemesa = {} as SolicitudRemesa;
     public detalles = new BehaviorSubject<CupoAgencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
-    monto: number = 0;
+    public monedas = new BehaviorSubject<Moneda[]>([]);
+    public viajes = new BehaviorSubject<Viaje[]>([]);
+    cupo: number = 0;
     todayValue: moment.Moment;
 
     constructor(
@@ -38,61 +45,80 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
         private transportistaService: TransportistaService,
         private calendarioService: CalendarioService,
         private cupoAgenciaService: CupoAgenciaService,
+        private monedaService: MonedaService,
+        private viajeTransporteService: ViajeTransporteService,
+        private preferenciaService: PreferenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
 
-    // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML (desglose de efectivo)
-
+    // TODO: AGREGAR ETIQUETAS FALTANTES, ANALIZAR LOS ROLES DE LOS USUARIOS PARA LA PANTALLA
     ngOnInit() {
 
         let id = this.route.snapshot.params['id'];
-        this.isNew = id == undefined;
+        this.isNew = true;
         this.loadingDataForm.next(true);
 
-        if (id) {
-            this.solicitudRemesaService.get(id).subscribe((agn: SolicitudRemesa) => {
-                this.solicitudRemesa = agn;
-                this.buildForm(this.solicitudRemesa);
-                this.cdr.markForCheck();
-                this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
-                this.cdr.detectChanges();
-            });
-        } else {
-            this.buildForm(this.solicitudRemesa);
-            this.loadingDataForm.next(false);
-        }
-
-        this.cupoAgenciaService.activesParaRemesa().subscribe(data => {
-            this.detalles.next(data);
-            this.cdr.detectChanges();
-        });
+        this.buildForm(this.solicitudRemesa);
+        this.loadingDataForm.next(false);
 
         this.transportistaService.allCentrosAcopio().subscribe(data => {
             this.transportistas.next(data);
+            console.log(data);
+            
             this.cdr.detectChanges();
         });
 
-        this.calendarioService.today().subscribe(data => {
-            this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-            this.cdr.detectChanges();
+        this.preferenciaService.get().subscribe(data => {
+            this.preferencia = data;
         });
+
     }
 
     buildForm(solicitudRemesa: SolicitudRemesa) {
         this.itemForm = this.fb.group({
-            transportista: new FormControl(''),
-            fecha: new FormControl(''),
+            receptor: new FormControl(solicitudRemesa.receptor || undefined, [Validators.required]),
+            moneda: new FormControl(solicitudRemesa.moneda || undefined, [Validators.required]),
+            viaje: new FormControl(solicitudRemesa.moneda || undefined, [Validators.required]),
+            montoSolicitado: new FormControl(solicitudRemesa.montoSolicitado || undefined, [Validators.required]),
         });
-    }
 
-    setMontoSolicitado() {
-        this.monto = 0;
-        this.detalles.subscribe(d => {
-            this.monto = d.filter(c1 => c1.solicitado > 0).map(c2 => c2.solicitado).reduce((a, b) => a + b);
-            this.cdr.detectChanges();
+        this.f.receptor.valueChanges.subscribe(value => {
+            this.monedaService.forRemesasAll().subscribe(data => {
+                this.monedas.next(data);
+                this.cdr.detectChanges();
+            });
+
+            console.log(this.f.receptor.value);
+            
         });
+
+        this.f.moneda.valueChanges.subscribe(value => {
+            this.cupoAgenciaService.getCupoByMoneda(value).subscribe(data => {
+                this.cupo = data;
+                this.cdr.detectChanges();
+            });
+
+            this.f.viaje.setValue(undefined);
+
+            if (this.preferencia.monedaConoActual === this.f.moneda.value) {
+
+                this.viajeTransporteService.allWithCostoByTransportista(this.f.receptor.value).subscribe(data => {
+                    this.viajes.next(data);
+                    this.cdr.detectChanges();
+                });
+
+            } else {
+
+                this.viajeTransporteService.allWithCostoDivisaByTransportista(this.f.receptor.value).subscribe(data => {
+                    this.viajes.next(data);
+                    this.cdr.detectChanges();
+                });
+            }
+
+        });
+
+
     }
 
     save() {
@@ -100,18 +126,14 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             return;
 
         this.updateData(this.solicitudRemesa);
-        this.solicitudRemesa.fecha = this.solicitudRemesa.fecha.format('DD/MM/YYYY');
 
-        this.detalles.subscribe(d => {
-            this.solicitudRemesa.detalleSolicitud = d.filter(d1 => d1.solicitado > 0);
-        });
-
-        console.log(this.solicitudRemesa);
+        console.log('Salvarrrrr  ', this.solicitudRemesa);
         
+
         this.swalService.show('¿Desea Enviar la Solicitud?', '').then((resp) => {
             if (!resp.dismiss) {
                 this.saveOrUpdate(this.solicitudRemesaService, this.solicitudRemesa, 'La Solicitud de Remesas', this.isNew);
-             }
+            }
         });
     }
 

@@ -141,6 +141,16 @@ this.refreshTaskList();
     }
   }
 
+  private wfSolicitudRemesa(task: Workflow) {
+    if (task.rol === TaskConstants.ENV_ANUL_REMESAS_SOLICITADA) {
+      this.router.navigate(['/sirio/workflow/solicitud-remesa/' + task.id + '/' + task.expediente + '/send']);
+    } 
+    
+    // else if (task.rol === TaskConstants.MOD_ANUL_PASE_TAQUILLA_BOVEDA) {
+    //   this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/edit']);
+    // }
+  }
+
   private wfCierreTaquilla(task: Workflow) {
     this.router.navigate(['/sirio/workflow/cierre-taquilla/' + task.id + '/' + task.expediente + '/view']);
   }
