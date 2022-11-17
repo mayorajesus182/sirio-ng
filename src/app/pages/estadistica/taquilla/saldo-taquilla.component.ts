@@ -29,7 +29,7 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
 
   private refreshData() {
 
-    this.saldoTaquillaService.all().subscribe(result => {
+    this.saldoTaquillaService.dataChartAll().subscribe(result => {
       // console.log("%% saldo taquilla %%");
       // console.log(result);
 

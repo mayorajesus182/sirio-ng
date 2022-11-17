@@ -7,7 +7,6 @@ import { LoadingOverlayModule } from 'src/@sirio/shared/loading-overlay/loading-
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { EstadisticaRoutingModule } from '../estadistica-routing.module';
 import { TaqBarHorizChartWidgetComponent } from './bar-horiz-chart-widget/taqbar-horiz-chart-widget.component';
 import { TaqBarVertChartWidgetComponent } from './bar-vert-chart-widget/taqbar-vert-chart-widget.component';
 

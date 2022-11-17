@@ -19,12 +19,12 @@ import { DireccionFormPopupComponent } from '../popup/direccion-form.popup.compo
 
 export class DireccionTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  @Input() persona=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+  @Input() persona = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  direcciones:ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-  direccionList:Direccion[] = [];
-  private principal:boolean=false;
+  direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
+  direccionList: Direccion[] = [];
+  private principal: boolean = false;
 
   constructor(
     injector: Injector,
@@ -36,27 +36,27 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
     super(undefined, injector);
   }
 
-  private loadList(){
+  private loadList() {
     this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
       console.log(data);
-      
+
       this.direcciones.next(data.slice());
       this.propagar.emit(data.length);
       // debo conocer si tengo una direccion principal
-      this.principal = data.filter(d=>d.tipoDireccion=='PRINCIPAL').length > 0;
+      this.principal = data.filter(d => d.tipoDireccion == 'PRINCIPAL').length > 0;
       this.cdr.detectChanges();
     });
   }
 
   ngOnInit() {
     console.log('direcciones table');
-    
-    if(this.persona){
+
+    if (this.persona) {
       console.log('buscando direccion en el servidor dado el id persona');
       this.loadList();
 
-      this.onRefresh.subscribe(val=>{
-        if(val){
+      this.onRefresh.subscribe(val => {
+        if (val) {
 
           this.loadList();
         }
@@ -88,22 +88,23 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   }
 
 
-  popup(data?:Direccion) {
+  popup(data?: Direccion) {
     console.log(data);
-    if(data){
-      data.persona=this.persona;      
+    if (data) {
+      data.persona = this.persona;
     }
-    this.updateDataFromValues(data, {principal:this.principal});
+    this.updateDataFromValues(data, { principal: this.principal });
     let dir = data;
 
     console.log(dir);
-    
-    this.showFormPopup(DireccionFormPopupComponent, !data?{persona:this.persona, principal:this.principal}:dir,'60%').afterClosed().subscribe(event=>{
-        if(event){
-            this.onRefresh.next(true);
-        }
-    }); 
-}
+
+    this.showFormPopup(DireccionFormPopupComponent, !data ? { persona: this.persona, principal: this.principal } : dir, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.onRefresh.next(true);
+      }
+    });
+  }
+
 
 
 }

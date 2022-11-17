@@ -29,7 +29,6 @@ export class BarVertChartWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(
-    private saldoAgencia: SaldoAgenciaService,
     private cdref: ChangeDetectorRef) {
   }
   ngOnInit(): void {
