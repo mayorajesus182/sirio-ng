@@ -18,8 +18,9 @@ export class TaquillaChartPopupComponent extends PopupBaseComponent implements O
   detailTaquilla: BehaviorSubject<any> = new BehaviorSubject<any>({});
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
-  isLoading: boolean=false;
+  isLoading: boolean = false;
   taquilla: number;
+  moneda: Moneda = undefined;
   // public nombreVia = new BehaviorSubject<NombreVia[]>([]);
   // public nombreNucleo = new BehaviorSubject<NombreNucleo[]>([]);
   // public estadonombreCostruccion = new BehaviorSubject<EstadonombreCostruccion[]>([]);
@@ -35,20 +36,24 @@ export class TaquillaChartPopupComponent extends PopupBaseComponent implements O
   }
 
   ngOnInit() {
-    this.isLoading = true;
-    console.log(this.defaults);
+    console.log('defaults ', this.defaults);
 
     this.taquilla = this.defaults.payload.id;
+
+    this.moneda = { id: this.defaults.payload.moneda, 
+              nombre: this.defaults.payload.nombreMoneda, 
+              siglas: this.defaults.payload.siglasMoneda } as Moneda;
     this.reload();
   }
 
 
-  reload(){
-    
+  reload() {
+
+    this.isLoading = true;
 
     this.saldoTaquillaService.dataChartAllByTaquilla(this.taquilla).subscribe(result => {
-      console.log(result);
-      
+      // console.log(result);
+
       this.isLoading = false;
 
       let datasets_aument = {};

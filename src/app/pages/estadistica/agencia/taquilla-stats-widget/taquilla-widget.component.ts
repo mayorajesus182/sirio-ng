@@ -35,7 +35,7 @@ export class TaquillaWidgetComponent implements OnInit {
     this.isLoading = true;
     this.saldoTaquillaService.allByAgencia().subscribe(data => {
       // console.log('@@@@ saldo taquilla: ');
-      console.log(data);
+      console.log('datachart', data);
       this.saldos = data;
 
       let lista = data.map(e => {
@@ -55,9 +55,9 @@ export class TaquillaWidgetComponent implements OnInit {
     return self.findIndex(v => value.taquilla == v.taquilla) === index;
   }
 
-  openStats(taquilla, nombre) {
+  openStats(taquilla: any, nombre: string, moneda: any, nombreMoneda:string, siglasMoneda:string) {
     // this.showFormPopup(TaquillaChartPopupComponent, {id:taquilla}, '60%');
-    let datos = { payload: {id:taquilla, nombre:nombre} };
+    let datos = { payload: {id:taquilla, nombre:nombre, moneda:moneda, nombreMoneda:nombreMoneda, siglasMoneda:siglasMoneda} };
 
     this.dialog.open(TaquillaChartPopupComponent, {
       panelClass: 'dialog-frame',

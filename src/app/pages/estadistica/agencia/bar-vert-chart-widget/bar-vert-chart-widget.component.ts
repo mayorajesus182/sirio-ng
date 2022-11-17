@@ -5,7 +5,6 @@ import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 @Component({
 
   selector: 'sirio-bar-vert-chart-widget',
@@ -17,6 +16,7 @@ export class BarVertChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() title: string = 'Estadísticas';
   @Input() monedas: Observable<Moneda[]>;
+  @Input() moneda_curr: Moneda=undefined;
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   @Input() options: any;
@@ -36,9 +36,12 @@ export class BarVertChartWidgetComponent implements OnInit {
     
     exporting(Highcharts);
     exportData(this.highcharts);
+    console.log('moneda curr ', this.moneda_curr);
+    
     this.monedas.subscribe(list=>{
+      console.log(list);
       
-      this.currentMoneda= list[0];
+      this.currentMoneda= this.moneda_curr || list[0];
       this.availableCoins = list;
       this.reload();
     });
