@@ -12,8 +12,13 @@ const routes: Routes = [
   {
     path: 'taquilla/saldos',
     component: SaldoTaquillaComponent,
-    data:{title:'Saldo Agencia'}
-  }
+    data:{title:'Saldo Taquilla'}
+  },
+  // {
+  //   path: 'taquilla/:id/:modena/saldos',
+  //   component: SaldoTaquillaComponent,
+  //   data:{title:'Saldo Taquilla'}
+  // }
 ];
 
 @NgModule({

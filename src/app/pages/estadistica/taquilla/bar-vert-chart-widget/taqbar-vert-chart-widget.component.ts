@@ -16,6 +16,7 @@ export class TaqBarVertChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() title: string = 'Estadísticas';
   @Input() monedas: Observable<Moneda[]>;
+  
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   @Input() options: any;

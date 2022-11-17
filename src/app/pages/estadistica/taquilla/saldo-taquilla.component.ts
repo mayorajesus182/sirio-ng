@@ -19,14 +19,15 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
 
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     private saldoTaquillaService: SaldoTaquillaService) {
 
     super();
 
   }
 
-  private refreshData(){
+  private refreshData() {
 
     this.saldoTaquillaService.all().subscribe(result => {
       // console.log("%% saldo taquilla %%");
@@ -51,7 +52,7 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
 
         detailCash[m.id] = result.data["detail-" + m.id];
       });
-      
+
       let datasets = { series: [], labels: [] };
       let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
 
@@ -85,8 +86,9 @@ export class SaldoTaquillaComponent extends ChartBaseComponent implements OnInit
   }
 
   ngOnInit() {
+    
 
-this.refreshData();
+    this.refreshData();
 
   }
 

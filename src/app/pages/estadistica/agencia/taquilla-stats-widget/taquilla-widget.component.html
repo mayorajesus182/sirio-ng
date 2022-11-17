@@ -33,12 +33,12 @@
                 <i class="fa-light fa-cash-register fa-lg"></i>
               </button>
               <span class="margin-top-sm semi-bold">
-                {{elem.taquilla}}
+                {{elem.taquilla}} 
               </span>
             </mat-panel-title>
             <mat-panel-description>
               <span class="margin-top-md margin-right-md">
-                Usuario: {{elem.usuario}}
+                Usuario: {{elem.usuario}}, Saldo en {{saldos[0].moneda}} {{saldos[0].saldo | number:'1.2-2'}}
               </span>
             </mat-panel-description>
           </mat-expansion-panel-header>

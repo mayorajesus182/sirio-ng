@@ -17,6 +17,7 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
+  
   @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
 
   currentMoneda: Moneda;
