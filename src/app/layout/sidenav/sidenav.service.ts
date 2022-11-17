@@ -67,7 +67,7 @@ export class SidenavService implements OnDestroy {
       takeUntil(componentDestroyed(this))
     ).subscribe(event => {
 
-      console.log('event router ',event.url);
+      // console.log('event router ',event.url);
       
       this.setCurrentlyOpenByRoute(event.url);
 

@@ -26,13 +26,13 @@ import { MethodComponentApi } from "../actions/actions-nav.component";
             provide: "snack", useClass: SnackbarService
         },
         {
-            provide:"navService", useClass: NavigationService
+            provide: "navService", useClass: NavigationService
         },
         {
-            provide:"router", useClass: Router
+            provide: "router", useClass: Router
         },
         {
-            provide:"swalService", useClass:SweetAlertService
+            provide: "swalService", useClass: SweetAlertService
         },
         {
             provide: "spinner", useClass: NgxSpinnerService
@@ -74,7 +74,7 @@ export class TableBaseComponent {
         ACT: 'primary'
     }
 
-    constructor(protected dialog: MatDialog, protected injector:Injector) {
+    constructor(protected dialog: MatDialog, protected injector: Injector) {
         this.router = injector.get(Router);
         this.navService = injector.get(NavigationService);
         this.spinner = injector.get(NgxSpinnerService);
@@ -95,7 +95,7 @@ export class TableBaseComponent {
 
     }
 
-    protected buildPrefixPath(path:string){
+    protected buildPrefixPath(path: string) {
         return `/${ApiConfConstants.APP_NAME}/${path}/`.split('//').join('/');
     }
 
@@ -110,13 +110,13 @@ export class TableBaseComponent {
         }
     }
 
-    public eventActionClick(event){
+    public eventActionClick(event) {
 
-        
-        if(!event){
+
+        if (!event) {
             return;
         }
-        console.log('click action ',event);
+        console.log('click action ', event);
     }
 
     // public buttonAPI(): ButtonComponentApi {
@@ -135,7 +135,7 @@ export class TableBaseComponent {
         this.dataSource.loadData('', nameColumnSort, 'asc', 0, 15);
 
         if (service.searchTerm) {
-            this.filter= service.searchTerm;
+            this.filter = service.searchTerm;
 
             service.searchTerm.asObservable().pipe(
                 debounceTime(150)).subscribe(term => {
@@ -171,14 +171,14 @@ export class TableBaseComponent {
     }
 
 
-  onFilterChange(value) {
-    if (!this.dataSource) {
-      return;
+    onFilterChange(value) {
+        if (!this.dataSource) {
+            return;
+        }
+        value = value.trim();
+        const term = value.toLowerCase();
+        this.filter.next(term);
     }
-    value = value.trim();
-    const term = value.toLowerCase();
-    this.filter.next(term);
-  }
 
     public filterElementList(keyword, elements) {
         //console.log('searching ');
@@ -213,7 +213,7 @@ export class TableBaseComponent {
         return rows;
     }
 
-    protected afterInit( componentNameLoading?: string) {
+    protected afterInit(componentNameLoading?: string) {
 
 
         if (this.sort) {
@@ -251,7 +251,7 @@ export class TableBaseComponent {
     }
 
     protected refreshElementList() {
-        if(!this.dataSource){
+        if (!this.dataSource) {
             return;
         }
         this.dataSource.loadData(
@@ -262,7 +262,7 @@ export class TableBaseComponent {
             this.paginators.first.pageSize);
     }
 
-    protected showFormPopup(popupComponent,  data,withDialog = '60%') {
+    protected showFormPopup(popupComponent, data, withDialog = '60%') {
         let data_aux = { payload: undefined, title: undefined, isNew: undefined };
 
         if (!data.payload) {
@@ -404,6 +404,10 @@ export class TableBaseComponent {
 
         });
 
+    }
+
+    protected updateDataFromValues(current = {}, values) {
+        Object.assign(current, values);
     }
 
 

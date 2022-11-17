@@ -166,8 +166,13 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         // personaJuridica
 
         this.itemForm = this.fb.group({
-            tipoDocumento: new FormControl(personaJuridica.tipoDocumento || undefined, [Validators.required]),
-            identificacion: new FormControl(personaJuridica.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            // tipoDocumento: new FormControl(personaJuridica.tipoDocumento || undefined, [Validators.required]),
+            // identificacion: new FormControl(personaJuridica.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            
+            tipoDocumento: new FormControl({ value: personaJuridica.tipoDocumento, disabled: true }, [Validators.required]),
+            identificacion: new FormControl({ value: personaJuridica.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            
+            
             // fechaNacimiento: new FormControl(personaJuridica.fechaNacimiento ? moment(personaJuridica.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
             pais: new FormControl(personaJuridica.pais || undefined, [Validators.required]),
 
@@ -201,6 +206,12 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
         // verifico si tengo datos basicos cargados
         // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
+
+        this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_JURIDICA).subscribe(data => {
+            this.tipoDocumentos.next(data);
+            const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
+            this.f.tipoDocumento.setValue( tipo.nombre);
+        });
 
         this.f.actividadEconomica.valueChanges.subscribe(value => {
             if (value) {

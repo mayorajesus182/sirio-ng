@@ -30,7 +30,7 @@ export interface Direccion {
 
     construccion: String;
 
-    estadonombreCostruccion: String;
+    nombreConstruccion: String;
 
     referencia: String;
 }

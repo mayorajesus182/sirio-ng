@@ -8,21 +8,11 @@
       </button>
     </sirio-card-header-actions>
   </sirio-card-header>
-  <!-- [labels]="data.labels"
-  [legend]="false" -->
 
   <sirio-card-content class="card-content">
 
     <sirio-scrollbar class="overflow-container">
 
-      <!-- <h3 matSubheader>Saldos</h3> -->
-      <!-- <a href="javascript:" mat-list-item *ngFor="let elem of taquillas | async">
-          <h3 matLine>{{elem.taquilla}}</h3>
-          <p matLine>
-            <span> Usuario: {{elem.usuario}} </span>
-          </p>
-        </a> -->
-      <!-- <span class=""> <strong>Saldo: {{elem.moneda}} {{elem.saldo | number:'1.2-2'}}</strong> </span> -->
 
       <mat-accordion class="expansion-headers-align">
 
@@ -33,12 +23,12 @@
                 <i class="fa-light fa-cash-register fa-lg"></i>
               </button>
               <span class="margin-top-sm semi-bold">
-                {{elem.taquilla}}
+                {{elem.taquilla}} 
               </span>
             </mat-panel-title>
             <mat-panel-description>
               <span class="margin-top-md margin-right-md">
-                Usuario: {{elem.usuario}}
+                Usuario: {{elem.usuario}}, Saldo en <strong>{{saldos[0].moneda}} {{saldos[0].saldo | number:'1.2-2'}}</strong> 
               </span>
             </mat-panel-description>
           </mat-expansion-panel-header>
@@ -47,7 +37,7 @@
               <!-- {{el | json}} -->
               <div  class="margin-bottom-sm" *ngFor="let el of saldos" mat-list-item>
                 
-                <p matLine *ngIf="elem.taquilla==el.taquillaNombre"> <i class="fa-light fa-money-bills fa-md text-success"></i> &nbsp; <b>Saldo en {{el.moneda}} {{el.saldo | number:'1.2-2'}}</b> </p>
+                <p matLine *ngIf="elem.taquilla==el.taquillaNombre"> <i class="fa-light fa-money-bills fa-md text-success"></i> &nbsp; <a href="javascript:" (click)="openStats(elem.id, elem.taquilla)" ><strong>Saldo en {{el.moneda}} {{el.saldo | number:'1.2-2'}}</strong></a>  </p>
                 <span fxFlex></span>
               </div>
             </mat-nav-list>
@@ -58,28 +48,6 @@
 
       </mat-accordion>
 
-
-      <!-- <mat-divider></mat-divider>
-
-        <h3 matSubheader>SERVER STATISTICS</h3>
-        <a mat-list-item>
-          <p matLine>CPU Load (71% / 100%)</p>
-          <p class="progress-bar" matLine>
-            <mat-progress-bar mode="determinate" color="primary" value="71"></mat-progress-bar>
-          </p>
-        </a>
-        <a mat-list-item>
-          <p matLine>RAM Usage (6,175 MB / 16,384 MB)</p>
-          <p class="progress-bar" matLine>
-            <mat-progress-bar mode="determinate" color="accent" value="34"></mat-progress-bar>
-          </p>
-        </a>
-        <a mat-list-item>
-          <p matLine>CPU Temp (43° / 80°)</p>
-          <p class="progress-bar" matLine>
-            <mat-progress-bar mode="determinate" color="warn" value="54"></mat-progress-bar>
-          </p>
-        </a> -->
 
     </sirio-scrollbar>
 

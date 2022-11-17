@@ -30,7 +30,10 @@
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
                         translate}}
                     </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.notexists">La persona no existe
+                    <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe
+
+                        
+
                     </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
                     </mat-error>
@@ -51,7 +54,7 @@
 
                 <mat-form-field fxFlex="auto">
                     <mat-label>{{'global.fullName' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="true" formControlName="nombre" >
+                    <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="false" formControlName="nombre" >
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">

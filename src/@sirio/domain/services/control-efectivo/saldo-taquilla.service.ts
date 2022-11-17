@@ -66,6 +66,14 @@ export class SaldoTaquillaService {
     all(): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/list`);
     }
+
+    dataChartAll(): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/datachart`);
+    }
+
+    dataChartAllByTaquilla(id): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/taquilla/${id}/datachart`);
+    }
     
     update(data: SaldoTaquilla): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)

@@ -23,6 +23,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class DireccionFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   direccion: Direccion = {} as Direccion;
+  principal: boolean=false;
   public tiposDirecciones = new BehaviorSubject<TipoDireccion[]>([]);
   public parroquias = new BehaviorSubject<Parroquia[]>([]);
   public municipios = new BehaviorSubject<Municipio[]>([]);
@@ -32,6 +33,10 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   public vias = new BehaviorSubject<Via[]>([]);
   public nucleos = new BehaviorSubject<Nucleo[]>([]);
   public construcciones = new BehaviorSubject<Construccion[]>([]);
+
+  // public nombreVia = new BehaviorSubject<NombreVia[]>([]);
+  // public nombreNucleo = new BehaviorSubject<NombreNucleo[]>([]);
+  // public estadonombreCostruccion = new BehaviorSubject<EstadonombreCostruccion[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -43,6 +48,12 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     private parroquiaService: ParroquiaService,
     private zonaPostalService: ZonaPostalService,
     private viaService: ViaService,
+
+    // private nombreVia: nombreViaService,
+    // private nombreNucleo: NombreNucleoService,
+    // private nombreCostruccion: NombreCostruccionService,
+
+
     private nucleoService: NucleoService,
     private construccionService: ConstruccionService,
     private cdr: ChangeDetectorRef,
@@ -77,51 +88,76 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
             this.cdr.detectChanges();
           });
         }
+
+        this.tipoDireccionesService.actives().subscribe(data => {
+          if(this.isNew ){
+            if(!this.principal){
+              this.tiposDirecciones.next(data);              
+            }else{              
+              this.tiposDirecciones.next(data.filter(t=>t.id!='PR'));
+            }
+          }else{
+            this.tiposDirecciones.next(data);
+          }
+          this.cdr.detectChanges();
+        })
+    
+        this.estadoService.activesByPaisInstitucion().subscribe(data => {
+          this.estados.next(data);
+          this.cdr.detectChanges();
+        });
+    
+        this.viaService.actives().subscribe(data => {
+          this.vias.next(data);
+          this.cdr.detectChanges();
+        });
+    
+        this.nucleoService.actives().subscribe(data => {
+          this.nucleos.next(data);
+          this.cdr.detectChanges();
+        });
+    
+        this.construccionService.actives().subscribe(data => {
+          this.construcciones.next(data);
+          this.cdr.detectChanges();
+        });
+
       }
     });
-
-
-
-
   }
 
   ngOnInit() {
 
-    // console.log(this.defaults.payload);
+    // console.log('default',this.defaults.payload);
+    this.principal = this.defaults.payload.principal;
 
+    
 
-    this.tipoDireccionesService.actives().subscribe(data => {
-      this.tiposDirecciones.next(data);
-      this.cdr.detectChanges();
-    })
+    // this.nombreViaService.actives().subscribe(data => {
+    //   this.nombreVia.next(data);
+    //   this.cdr.detectChanges();
+    // });
 
-    this.estadoService.activesByPaisInstitucion().subscribe(data => {
-      this.estados.next(data);
-      this.cdr.detectChanges();
-    });
+    // this.nombreNucleoService.actives().subscribe(data => {
+    //   this.nombreNucleo.next(data);
+    //   this.cdr.detectChanges();
+    // });
 
-    this.viaService.actives().subscribe(data => {
-      this.vias.next(data);
-      this.cdr.detectChanges();
-    });
+    // this.estadonombreCostruccionService.actives().subscribe(data => {
+    //   this.estadonombreCostruccion.next(data);
+    //   this.cdr.detectChanges();
+    // });
 
-    this.nucleoService.actives().subscribe(data => {
-      this.nucleos.next(data);
-      this.cdr.detectChanges();
-    });
-
-    this.construccionService.actives().subscribe(data => {
-      this.construcciones.next(data);
-      this.cdr.detectChanges();
-    });
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
+
+      this.mode = 'global.edit';
+
       this.direccionService.get(this.defaults.payload.id).subscribe(data => {
-        this.mode = 'global.edit';
         this.direccion = data;
         this.buildForm();
         this.loadingDataForm.next(false);
-        console.log(data);
+        // console.log(data);
         
       })
     } else {
@@ -142,7 +178,13 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       via: new FormControl(this.direccion.via || '', [Validators.required]),
       nucleo: new FormControl(this.direccion.nucleo || '', [Validators.required]),
       construccion: new FormControl(this.direccion.construccion || '', [Validators.required]),
-      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
+      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+
+      nombreVia: new FormControl(this.direccion.nombreVia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+ 
+      nombreNucleo: new FormControl(this.direccion.nombreNucleo || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+ 
+      nombreConstruccion: new FormControl(this.direccion.nombreConstruccion || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
     });
 
 
@@ -172,16 +214,37 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
   save() {
 
-    console.log('mode ', this.mode);
+    // console.log('mode ', this.mode);
     this.updateData(this.direccion);// aca actualizamos la direccion
     if(this.isNew){
       this.direccion.persona = this.defaults.payload.persona;
     }
-    console.log(this.direccion);
+    // console.log(this.direccion);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.direccionService, this.direccion, 'La Dirección', this.direccion.id == undefined);
 
     // this.dialogRef.close();
+  }
+
+  nombreVia(){
+    if(!this.f.via.value || !this.vias.value){
+      return 'Vía';
+    }
+    return this.vias.value.filter(v=>v.id==this.f.via.value)[0]?.nombre;
+  }
+
+  nombreContruccion(){
+    if(!this.f.construccion.value || !this.construcciones.value){
+      return 'Construcción';
+    }
+    return this.construcciones.value.filter(c=>c.id==this.f.construccion.value)[0]?.nombre;
+  }
+
+  nombreNucleo(){
+    if(!this.f.nucleo.value || !this.nucleos.value){
+      return 'Núcleo';
+    }
+    return this.nucleos.value.filter(n=>n.id==this.f.nucleo.value)[0]?.nombre;
   }
 
 }

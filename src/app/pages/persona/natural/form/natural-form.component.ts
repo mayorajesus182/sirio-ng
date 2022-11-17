@@ -47,7 +47,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     showPep = false;
     showApoderado = false;
     showPhone = false;
-    
+
     showEmpresaRelacionada = false;
 
     showInformacionLaboral = false;
@@ -85,7 +85,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         private actividadEconomicaService: ActividadEconomicaService,
         private actividadEspecificaService: ActividadEspecificaService,
         private categoriaEspecialService: CategoriaEspecialService,
-        
+
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -117,12 +117,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     ngOnInit() {
 
-       
+
         this.loadingDataForm.next(false);
 
-        this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
-            this.tipoDocumentos.next(data);
-        });
 
         this.generoService.actives().subscribe(data => {
             this.generos.next(data);
@@ -156,7 +153,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.categoriasEspeciales.next(data);
         });
 
-        
+
 
     }
 
@@ -164,8 +161,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         // 
 
         this.itemForm = this.fb.group({
-            tipoDocumento: new FormControl(personaNatural.tipoDocumento || undefined, [Validators.required]),
-            identificacion: new FormControl(personaNatural.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            tipoDocumento: new FormControl({ value: personaNatural.tipoDocumento, disabled: true }, [Validators.required]),
+            identificacion: new FormControl({ value: personaNatural.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaNacimiento: new FormControl(personaNatural.fechaNacimiento ? moment(personaNatural.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
             pais: new FormControl(personaNatural.pais || undefined, [Validators.required]),
             primerNombre: new FormControl(personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
@@ -177,7 +174,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             profesion: new FormControl(personaNatural.profesion || undefined, [Validators.required]),
             genero: new FormControl(personaNatural.genero || undefined, [Validators.required]),
             tenencia: new FormControl(personaNatural.tenencia || undefined, [Validators.required]),
-            cargaFamiliar: new FormControl(personaNatural.cargaFamiliar!=undefined ? personaNatural.cargaFamiliar : '', [Validators.required]),
+            cargaFamiliar: new FormControl(personaNatural.cargaFamiliar != undefined ? personaNatural.cargaFamiliar : '', [Validators.required]),
             estadoCivil: new FormControl(personaNatural.estadoCivil || undefined, [Validators.required]),
             actividadEconomica: new FormControl(personaNatural.actividadEconomica || undefined, [Validators.required]),
             actividadEspecifica: new FormControl(personaNatural.actividadEspecifica || undefined, [Validators.required]),
@@ -191,6 +188,13 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         // verifico si tengo datos basicos cargados
         // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
+
+        this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
+            this.tipoDocumentos.next(data);
+            const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
+            this.f.tipoDocumento.setValue( tipo.nombre);
+        });
+
 
         this.f.actividadEconomica.valueChanges.subscribe(value => {
             if (value) {
@@ -242,7 +246,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     updatePerson(event) {
         console.log('update ', event);
-        if(!event.id){
+        if (!event.id) {
             return;
         }
         this.loaded$.next(false);
@@ -268,8 +272,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     queryResult(event) {
-        console.log('event result ',event);
-        
+        console.log('event result ', event);
+
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
             this.personaNatural = {} as PersonaNatural;
@@ -323,69 +327,69 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
 
-    updateAddress(event){
-        this.totalAddress= event;
-    }
-    
-    updateWorkingInfo(event){
-        this.totalInfoLab= event;
-    }
-    
-    updatePep(event){
-        this.totalPep= event;
+    updateAddress(event) {
+        this.totalAddress = event;
     }
 
-    updateApoderado(event){
+    updateWorkingInfo(event) {
+        this.totalInfoLab = event;
+    }
+
+    updatePep(event) {
+        this.totalPep = event;
+    }
+
+    updateApoderado(event) {
         console.log('apoderado', event);
-        this.totalApoderado= event;
+        this.totalApoderado = event;
     }
 
-    updateEmpresaRelacionada(event){
+    updateEmpresaRelacionada(event) {
         console.log('peps', event);
-        this.totalPep= event;
+        this.totalPep = event;
     }
 
     //openAddress() {
-    openInformacionLaboral(opened:boolean) {
-       
+    openInformacionLaboral(opened: boolean) {
+
         this.showInformacionLaboral = opened;
         this.cdr.detectChanges();
     }
 
-    openPep(opened:boolean) {
-       
+    openPep(opened: boolean) {
+
         this.showPep = opened;
         this.cdr.detectChanges();
     }
-    
-    openApoderado(opened:boolean) {
-       
+
+    openApoderado(opened: boolean) {
+
         this.showApoderado = opened;
         this.cdr.detectChanges();
     }
-    
-    openPhones(opened:boolean) {
-       
+
+    openPhones(opened: boolean) {
+
         this.showPhone = opened;
         this.cdr.detectChanges();
     }
 
-    openEmpresaRelacionada(opened:boolean) {
-        
-        this.showEmpresaRelacionada=opened; 
+    openEmpresaRelacionada(opened: boolean) {
+
+        this.showEmpresaRelacionada = opened;
         this.cdr.detectChanges();
     }
-  
-    openAddress(opened:boolean) {
+
+    openAddress(opened: boolean) {
         this.showAddress = opened;
         this.cdr.detectChanges();
     }
-    openBankReference(opened:boolean) {
+    openBankReference(opened: boolean) {
         this.showBankReference = opened;
         this.cdr.detectChanges();
     }
 
-    openPersonalReference(opened:boolean) {
+    openPersonalReference(opened: boolean) {
         this.showPersonalReference = opened;
         this.cdr.detectChanges();
     }

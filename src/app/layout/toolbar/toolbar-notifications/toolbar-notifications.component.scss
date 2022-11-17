@@ -1,5 +1,6 @@
 @use 'sass:math';
 @import "var";
+@import '~@angular/material/theming';
 
 .toolbar-notifications {
   position: relative;
@@ -108,3 +109,4 @@
   text-align: center;
   font-size: 13px;
 }
+

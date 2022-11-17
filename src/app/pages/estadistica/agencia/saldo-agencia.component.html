@@ -7,11 +7,11 @@
 
         <div fxLayout="row wrap"  class="margin-bottom-sm">
           <div   fxFlex.gt-xs="100" [fxFlex]="col(1)" class="margin-bottom-sm">            
-            <sirio-bar-vert-chart-widget [data]="dataAgencia.asObservable()" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
+            <sirio-bar-vert-chart-widget (reload)="reload()" [data]="dataAgencia.asObservable()"  [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
           </div>
   
           <div fxFlex.gt-xs="100" [fxFlex]="col(1)" >
-            <sirio-bar-horiz-chart-widget [data]="detailAgencia.asObservable()" [monedas]="coinAvailables.asObservable()" title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget>
+            <sirio-bar-horiz-chart-widget (reload)="reload()" [data]="detailAgencia.asObservable()" [monedas]="coinAvailables.asObservable()" title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget>
           </div>
         </div>
 
@@ -19,7 +19,6 @@
       <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="40">
         
         <sirio-taquilla-widget></sirio-taquilla-widget>
-
 
       </div>
 
