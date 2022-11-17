@@ -52,7 +52,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         this.taquillaService.isOpen().subscribe(isOpen => {
-            // if (isOpen) {
 
             this.isNew = false;
             this.isOpen = isOpen;
@@ -63,14 +62,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
 
             this.loadingDataForm.next(false);
             this.loadSaldos();
-
-            // } else {
-
-            //   this.router.navigate(['/sirio/welcome']);
-            //   this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
-            //     if (!resp.dismiss) {}
-            //   });
-            // }
         });
     }
 

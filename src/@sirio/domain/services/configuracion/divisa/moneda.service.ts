@@ -80,5 +80,9 @@ export class MonedaService {
     virtualActives(): Observable<Moneda[]> {
         return this.apiService.config(this.apiConfig).get('/virtuales/actives');
     }
+    
+    forRemesasAll(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/forremesas/list');
+    }
 
 }

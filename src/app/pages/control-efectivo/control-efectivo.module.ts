@@ -14,7 +14,6 @@ import { ControlEfectivoRoutingModule } from './control-efectivo.routing';
     SirioSharedModule,
     SharedComponentModule,
     BreadcrumbsModule,
-
     ControlEfectivoRoutingModule
   ],
   declarations: [

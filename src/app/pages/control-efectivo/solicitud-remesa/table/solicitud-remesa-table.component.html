@@ -1,45 +1,42 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittanceRequest.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'carrierCompany.table' | translate: {default: 'global.notfound'}" placeholder="carrierCompany.search"
+        <sirio-list [name]="'remittanceRequest.table' | translate: {default: 'global.notfound'}" placeholder="remittanceRequest.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="transportista_id" matSortDirection="asc">
+                matSortActive="fcreacion" matSortDirection="desc">
+
+                <ng-container matColumnDef="solremesa_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">{{'remittanceRequest.date' | translate:
+                        {default: 'global.date'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="font-weight-600">{{element.fecha | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+                    </mat-cell>
+                </ng-container>
 
                 <ng-container matColumnDef="transportista_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'carrierCompany.code' | translate:
-                        {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="font-weight-600">{{element.id}}</p>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-55'" mat-sort-header>{{'carrierCompany.name' | translate:
-                        {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-55'">
-                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="es_centro_acopio">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'carrierCompany.collectionCenter' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'">{{'remittanceRequest.collectionCenter' | translate:
                         {default: 'global.collectionCenter'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <mat-chip mat-sm-chip [color]="element.esCentroAcopio ? 'accent' : 'warn'" [selected]="element.esCentroAcopio">
-                            {{element.esCentroAcopio ? 'SI' : 'NO'}}
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                        <p class="text-truncate font-weight-600">{{element.transportista}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estatus">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'remittanceRequest.status' | translate:
+                        {default: 'global.status'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <mat-chip mat-sm-chip [color]="element.estatusSolicitud == aprobado ? 'accent' : 'warn'">
+                            {{element.estatusSolicitudNombre}}
                         </mat-chip>
                     </mat-cell>
                 </ng-container>
 
-
-
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'carrierCompany.status' | translate:
-                        {default: 'global.status'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'"></mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
                             {{element.activo ? 'Activo' : 'Inactivo'}}

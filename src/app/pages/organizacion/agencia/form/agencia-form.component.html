@@ -54,7 +54,6 @@
                                 </mat-error>
                             </mat-form-field>
 
-
                             <mat-slide-toggle fxFlex="15" [color]="'primary'" class="margin-top-md" formControlName="horarioExt" name="horarioExt">
                                 {{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} |
                                 translate }}
@@ -121,7 +120,6 @@
                                 <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}  </mat-label>
                                 <input type="text"  matInput maxlength="60" autocomplete="off" name="email" formControlName="email" 
                                 email-validate uppercase>
-                                <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.email.errors?.email">{{'error.email' | translate}}</mat-error>
                             </mat-form-field>
                         </div>

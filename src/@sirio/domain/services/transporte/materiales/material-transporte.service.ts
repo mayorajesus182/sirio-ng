@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { Material } from '../material.service';
 
 
 export interface MaterialTransporte {
@@ -31,6 +32,15 @@ export class MaterialTransporteService {
     activesByTransportista(transportista: string): Observable<MaterialTransporte[]> {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/bytransportista/actives`);
     }
+
+    allWithCostoByTransportista(transportista: string): Observable<Material[]> {
+        return this.apiService.config(this.apiConfig).get(`/${transportista}/withcosto/bytransportista/list`);
+    }
+
+    allWithCostoDivisaByTransportista(transportista: string): Observable<Material[]> {
+        return this.apiService.config(this.apiConfig).get(`/${transportista}/withcostodivisa/bytransportista/list`);
+    }
+
 
     update(data: MaterialTransporte[]): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/update`, data)

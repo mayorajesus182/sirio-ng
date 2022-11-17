@@ -28,6 +28,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Pases a Bóveda' },
         loadChildren: () => import('./cierre-taquilla/cierre-taquilla.module').then(m => m.CierreTaquillaModule),
     },
+    {
+        path: 'solicitud-remesa',
+        data: { title: 'Solicitud de Remesa' },
+        loadChildren: () => import('./solicitud-remesa/solicitud-remesa.module').then(m => m.SolicitudRemesaModule),
+    },
 ];
 
 

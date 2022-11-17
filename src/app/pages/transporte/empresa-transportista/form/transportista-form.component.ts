@@ -6,12 +6,15 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { Usuario, UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
+import { CuentaContable, CuentaContableService } from 'src/@sirio/domain/services/configuracion/contabilidad/cuenta-contable.service';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { Zona, ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
+import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -33,6 +36,9 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
     public estados = new BehaviorSubject<Estado[]>([]);
     public zonas = new BehaviorSubject<Zona[]>([]);
     public regiones = new BehaviorSubject<Region[]>([]);
+    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    public cuentasContables = new BehaviorSubject<CuentaContable[]>([]);
+    public usuarios = new BehaviorSubject<Usuario[]>([]);
 
     constructor(
         injector: Injector,
@@ -43,9 +49,12 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         private zonaPostalService: ZonaPostalService,
         private parroquiaService: ParroquiaService,
         private municipioService: MunicipioService,
+        private tipoDocumentoService: TipoDocumentoService,
         private estadoService: EstadoService,
         private zonaService: ZonaService,
         private regionService: RegionService,
+        private cuentaContableService: CuentaContableService,
+        private usuarioService: UsuarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -79,6 +88,21 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
 
         this.zonaService.actives().subscribe(data => {
             this.zonas.next(data);
+            this.cdr.detectChanges();
+        });
+
+        this.cuentaContableService.actives().subscribe(data => {
+            this.cuentasContables.next(data);
+            this.cdr.detectChanges();
+        });
+
+        this.usuarioService.actives().subscribe(data => {
+            this.usuarios.next(data);
+            this.cdr.detectChanges();
+        });
+
+        this.tipoDocumentoService.activesJuridicos().subscribe(data => {
+            this.tiposDocumentos.next(data);
             this.cdr.detectChanges();
         });
 
@@ -134,7 +158,8 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         this.itemForm = this.fb.group({
             id: new FormControl({ value: transportista.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(transportista.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            rif: new FormControl(transportista.rif || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            tipoDocumento: new FormControl(transportista.tipoDocumento || undefined, [Validators.required]),
+            identificacion: new FormControl(transportista.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             zonaPostal: new FormControl(transportista.zonaPostal || undefined, [Validators.required]),
             parroquia: new FormControl(transportista.parroquia || undefined, [Validators.required]),
             municipio: new FormControl(transportista.municipio || undefined, [Validators.required]),
@@ -143,11 +168,14 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
             zona: new FormControl(transportista.zona || undefined, [Validators.required]),
             jurisdiccion: new FormControl(transportista.jurisdiccion || undefined, [Validators.required]),
             direccion: new FormControl(transportista.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            email: new FormControl(transportista.email || '', [Validators.required]),
+            email: new FormControl(transportista.email || ''),
             telefono: new FormControl(transportista.telefono || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             telefonoAlt: new FormControl(transportista.telefonoAlt || '', Validators.pattern(RegularExpConstants.NUMERIC)),
             latitud: new FormControl(transportista.latitud || undefined, [Validators.required]),
             longitud: new FormControl(transportista.longitud || undefined, [Validators.required]),
+            esCentroAcopio: new FormControl(transportista.esCentroAcopio === 1),
+            cuentaContable: new FormControl(transportista.cuentaContable || undefined),
+            tesorero: new FormControl(transportista.tesorero || undefined),
         });
 
         this.f.estado.valueChanges.subscribe(value => {
@@ -189,14 +217,6 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         this.cdr.detectChanges();
     }
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
-
-        this.updateData(this.transportista);
-        this.saveOrUpdate(this.transportistaService, this.transportista, 'El Transportista', this.isNew);
-    }
-
     private codigoExists(id) {
         this.transportistaService.exists(id).subscribe(data => {
             if (data.exists) {
@@ -208,10 +228,30 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         });
     }
 
+    centroAcopioEvaluate(event) {
+        if (!event.checked) {
+            this.f.tesorero.setValue(undefined);
+            this.f.cuentaContable.setValue(undefined);
+            this.f.tesorero.setErrors(undefined);
+            this.f.cuentaContable.setErrors(undefined);
+        }
+    }
+
     activateOrInactivate() {
         if (this.transportista.id) {
             this.applyChangeStatus(this.transportistaService, this.transportista, this.transportista.nombre, this.cdr);
         }
+    }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.transportista);
+        this.transportista.esCentroAcopio = this.transportista.esCentroAcopio ? 1 : 0
+        console.log(this.transportista);
+
+        this.saveOrUpdate(this.transportistaService, this.transportista, 'El Transportista', this.isNew);
     }
 
 }
