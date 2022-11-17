@@ -403,10 +403,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             return;           
         }
        
-        if (this.f.email.enable && this.f.email == undefined){          
-        console.log("fffff");
-        
-            
+        if (this.f.email.enable && this.f.email == undefined){                
             this.f.email.reset('');
            
         }

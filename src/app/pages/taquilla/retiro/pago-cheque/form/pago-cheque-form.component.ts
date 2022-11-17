@@ -323,7 +323,10 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                 //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
                //console.log("RETIRO   ", this.retiro);        
-                this.retiro.operacion='cheque';
+                
+               this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
+               this.retiro.moneda = this.moneda.id;
+               this.retiro.operacion='cheque';
         
                 this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque');
                 this.conoActual = [];

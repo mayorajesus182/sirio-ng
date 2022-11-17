@@ -499,7 +499,9 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
         //this.retiro.codSeguridad = this.retiro.codSeguridad;
         this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-        console.log("RETIRO   ", this.retiro);
+        console.log("RETIRO   ", this.retiro);        
+        this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
+        this.retiro.moneda = this.moneda.id;
         this.retiro.operacion='cheque-gerencia';
 
         this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque de gerencia');
