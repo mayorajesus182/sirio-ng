@@ -128,8 +128,10 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre; 
                             this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
+                            //this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                           
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
-                             this.saldoByMoneda(this.moneda);
+                            this.saldoByMoneda(this.moneda);
                             this.persona.nombre = this.cuentaBancariaOperacion.nombre;                           
                             
                             console.log("DATOS", data);
@@ -296,11 +298,9 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
           
         }
     }
-
   
 
     save() {
-
         if (this.itemForm.invalid)
             return;
         
@@ -315,6 +315,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             if (!resp.dismiss) {
         
                 this.updateDataFromValues(this.retiro, this.persona);
+                this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email ;
                 this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
                 this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
                 this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
@@ -322,7 +323,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
                 //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                 //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
-               //console.log("RETIRO   ", this.retiro);        
+               console.log("RETIRO   ", this.retiro);        
                 
                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                this.retiro.moneda = this.moneda.id;
