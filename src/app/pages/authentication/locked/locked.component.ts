@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { Idle } from '@ng-idle/core';
 import { AuthService, User } from 'src/@sirio/domain/services/security/auth.service';
+import { JwtService } from 'src/@sirio/services/jwt.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { SnackbarService } from 'src/@sirio/services/snackbar.service';
 import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.animation';
@@ -34,6 +35,7 @@ export class LockedComponent implements OnInit {
     private userIdle:Idle,
     private cd: ChangeDetectorRef,
     private snack: SnackbarService,
+    private jwtService: JwtService,
     private sessionService:SessionService
   ) { }
 
@@ -43,7 +45,7 @@ export class LockedComponent implements OnInit {
     this.fullName=this.user.fullName;
     this.username=this.user.username;
 
-
+    this.jwtService.destroyToken()
 
    this.form= this.fb.group({
       password: [null, Validators.required],

@@ -132,7 +132,7 @@ export class AuthService {
         data => {
           //console.log('lockscreen session ', data);
           // Remove JWT from localstorage
-          this.jwtService.destroyToken();
+          // this.jwtService.destroyToken();
           //this.sessionStatusService.saveByUser('lockscreen',this.getCurrentUser().data.username);
           return data;
         }
