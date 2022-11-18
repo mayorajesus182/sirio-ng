@@ -642,6 +642,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.updateDataFromValues(this.deposito, this.cuentaOperacion);
                 this.deposito.detalles = this.conoActual.concat(this.conoAnterior);
                 this.deposito.cheques = this.chequeList;
+
+                console.log("DEPOSITO   ", this.deposito);        
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Deposito');
                 this.loadingDataForm.subscribe(status=>{
                     if(!status){
