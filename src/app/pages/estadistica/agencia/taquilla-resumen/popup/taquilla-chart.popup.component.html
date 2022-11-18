@@ -16,11 +16,11 @@
   <mat-dialog-content>
     <div fxLayout="column" fxLayout.gt-sm="row " fxLayoutGap.gt-sm="10px">
       <div fxFlex.gt-xs="100" fxFlex="100">
-        <sirio-bar-vert-chart-widget (reload)="reload()" [data]="dataTaquilla.asObservable()" [monedas]="coinAvailables.asObservable()"
+        <sirio-bar-vert-chart-widget (reload)="reload()" [moneda_curr]="moneda" [data]="dataTaquilla.asObservable()" [monedas]="coinAvailables.asObservable()"
           title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
       </div>
       <div fxFlex.gt-xs="100" fxFlex="100">
-        <sirio-bar-horiz-chart-widget (reload)="reload()" [data]="detailTaquilla.asObservable()" [monedas]="coinAvailables.asObservable()"
+        <sirio-bar-horiz-chart-widget (reload)="reload()" [moneda_curr]="moneda" [data]="detailTaquilla.asObservable()" [monedas]="coinAvailables.asObservable()"
           title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget>
       </div>
     </div>

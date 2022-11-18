@@ -28,7 +28,7 @@
             </mat-panel-title>
             <mat-panel-description>
               <span class="margin-top-md margin-right-md">
-                Usuario: {{elem.usuario}}, Saldo en <strong>{{saldos[0].moneda}} {{saldos[0].saldo | number:'1.2-2'}}</strong> 
+                Usuario: {{elem.usuario}}, Saldo en <strong>{{saldos[0].siglasMoneda}} {{saldos[0].saldo | number:'1.2-2'}}</strong> 
               </span>
             </mat-panel-description>
           </mat-expansion-panel-header>
@@ -37,7 +37,7 @@
               <!-- {{el | json}} -->
               <div  class="margin-bottom-sm" *ngFor="let el of saldos" mat-list-item>
                 
-                <p matLine *ngIf="elem.taquilla==el.taquillaNombre"> <i class="fa-light fa-money-bills fa-md text-success"></i> &nbsp; <a href="javascript:" (click)="openStats(elem.id, elem.taquilla)" ><strong>Saldo en {{el.moneda}} {{el.saldo | number:'1.2-2'}}</strong></a>  </p>
+                <p matLine *ngIf="elem.taquilla==el.taquillaNombre"> <i class="fa-light fa-money-bills fa-md text-success"></i> &nbsp; <a href="javascript:" (click)="openStats(elem.id, elem.taquilla, el.moneda, el.nombreMoneda,el.siglasMoneda)" ><strong>Saldo en {{el.siglasMoneda}} {{el.saldo | number:'1.2-2'}}</strong></a>  </p>
                 <span fxFlex></span>
               </div>
             </mat-nav-list>

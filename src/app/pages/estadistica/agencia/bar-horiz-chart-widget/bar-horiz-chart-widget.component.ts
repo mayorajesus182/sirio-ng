@@ -17,6 +17,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
   @Input() title: string = 'Estadísticas';
+  @Input() moneda_curr: Moneda=undefined;
 
   @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
   currentMoneda: Moneda;
@@ -33,9 +34,10 @@ export class BarHorizChartWidgetComponent implements OnInit {
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
+    console.log('moneda curr ', this.moneda_curr);
     this.monedas.subscribe(list => {
 
-      this.currentMoneda = list[0];
+      this.currentMoneda = this.moneda_curr || list[0];
       this.availableCoins = list;
       this.reload();
 
