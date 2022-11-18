@@ -1,15 +1,8 @@
 import { formatNumber } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-<<<<<<< HEAD
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as moment from 'moment';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-=======
-import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import {  FormGroup } from '@angular/forms';
+import {  Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
->>>>>>> 3bfc53936400d3ea909608cb88160dbf29622083
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
