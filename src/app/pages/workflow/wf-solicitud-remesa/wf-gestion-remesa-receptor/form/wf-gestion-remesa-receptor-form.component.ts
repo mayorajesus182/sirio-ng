@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
@@ -7,10 +7,14 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
+import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
 import { Taquilla } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { Material } from 'src/@sirio/domain/services/transporte/material.service';
+import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
+import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
+import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -28,13 +32,13 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
 
     private opt_swal: SweetAlertOptions;
     solicitudRemesa: SolicitudRemesa = {} as SolicitudRemesa;
-    public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
-    public taquillas = new BehaviorSubject<Taquilla[]>([]);
-    public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
+    public viajes = new BehaviorSubject<Viaje[]>([]);
+    public materiales = new BehaviorSubject<Material[]>([]);
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
     workflow: string = undefined;
+    saldoDisponible: number = 0;
 
     constructor(
         injector: Injector,
@@ -42,10 +46,12 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private bovedaAgenciaService: BovedaAgenciaService,
         private workflowService: WorkflowService,
         private rolService: RolService,
         private solicitudRemesaService: SolicitudRemesaService,
+        private saldoAcopioService: SaldoAcopioService,
+        private viajeTransporteService: ViajeTransporteService,
+        private materialTransporteService: MaterialTransporteService,
         private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -71,23 +77,17 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
                     this.solicitudRemesa = data;
                     this.buildForm(this.solicitudRemesa);
 
-                    // this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
+                    this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.solicitudRemesa.moneda).subscribe(data => {
+                        this.conos.next(data);
+                    });
 
-         
-                        
+                    this.viajeTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                        this.viajes.next(data);
+                    });
 
-                    //     // conoData = conoData.map(c => {
-                    //     //     let val = data.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
-                    //     //     c.cantidad = val ? val.cantidad : 0;
-                    //     //     c.disponible = val ? c.disponible + val.cantidad : c.disponible;
-                    //     //     return c;
-                    //     // })
-
-                    //     this.conos.next(conoData);
-
-                    //     this.updateValuesErrors(this.conos[0]);
-                    //     this.cdr.detectChanges();
-                    // });
+                    this.materialTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                        this.materiales.next(data);
+                    });
 
                     this.cdr.markForCheck();
                     this.loadingDataForm.next(false);
@@ -107,6 +107,20 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
         this.itemForm = this.fb.group({
             montoEnviado: new FormControl(solicitudRemesa.montoEnviado || undefined),
         });
+    }
+
+
+    obtenerSaldo() {
+
+        this.saldoDisponible = 0;
+        this.f.montoEnviado.setValue(undefined);
+
+        this.saldoAcopioService.getSaldoByMoneda(this.solicitudRemesa.moneda).subscribe(data => {
+            this.saldoDisponible = data;
+            this.cdr.detectChanges();
+        });
+
+
     }
 
     updateValuesErrors(item: ConoMonetario) {
@@ -172,7 +186,7 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
             return;
 
         this.updateData(this.solicitudRemesa);
-      //  this.solicitudRemesa.detalleEfectivo = this.conoSave;
+        //  this.solicitudRemesa.detalleEfectivo = this.conoSave;
 
 
         let existsDifference = false;

@@ -64,8 +64,6 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
 
         this.transportistaService.allCentrosAcopio().subscribe(data => {
             this.transportistas.next(data);
-            console.log(data);
-            
             this.cdr.detectChanges();
         });
 
@@ -126,9 +124,6 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             return;
 
         this.updateData(this.solicitudRemesa);
-
-        console.log('Salvarrrrr  ', this.solicitudRemesa);
-        
 
         this.swalService.show('¿Desea Enviar la Solicitud?', '').then((resp) => {
             if (!resp.dismiss) {
