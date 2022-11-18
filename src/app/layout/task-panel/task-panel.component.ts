@@ -126,7 +126,7 @@ export class QuickpanelComponent implements OnInit {
   }
 
   private wfSolicitudRemesa(task: Workflow) {
-    if (task.rol === TaskConstants.ENV_ANUL_REMESAS_SOLICITADA) {
+    if (task.rol === TaskConstants.DESPACHO_REMESA_SOLICITADA) {
       this.router.navigate(['/sirio/workflow/solicitud-remesa/' + task.id + '/' + task.expediente + '/send']);
     } 
     

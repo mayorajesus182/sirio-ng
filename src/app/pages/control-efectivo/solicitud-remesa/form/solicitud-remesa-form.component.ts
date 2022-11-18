@@ -2,20 +2,17 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
 import { CupoAgencia, CupoAgenciaService } from 'src/@sirio/domain/services/organizacion/cupo-agencia.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
-import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import * as moment from 'moment';
-import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
-import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
-import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
     selector: 'app-solicitud-remesa-form',
@@ -27,12 +24,11 @@ import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/pref
 
 export class SolicitudRemesaFormComponent extends FormBaseComponent implements OnInit {
 
-    preferencia: Preferencia = {} as Preferencia;
+
     solicitudRemesa: SolicitudRemesa = {} as SolicitudRemesa;
     public detalles = new BehaviorSubject<CupoAgencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
-    public viajes = new BehaviorSubject<Viaje[]>([]);
     cupo: number = 0;
     todayValue: moment.Moment;
 
@@ -47,7 +43,6 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
         private cupoAgenciaService: CupoAgenciaService,
         private monedaService: MonedaService,
         private viajeTransporteService: ViajeTransporteService,
-        private preferenciaService: PreferenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -67,17 +62,12 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
             this.cdr.detectChanges();
         });
 
-        this.preferenciaService.get().subscribe(data => {
-            this.preferencia = data;
-        });
-
     }
 
     buildForm(solicitudRemesa: SolicitudRemesa) {
         this.itemForm = this.fb.group({
             receptor: new FormControl(solicitudRemesa.receptor || undefined, [Validators.required]),
             moneda: new FormControl(solicitudRemesa.moneda || undefined, [Validators.required]),
-            viaje: new FormControl(solicitudRemesa.moneda || undefined, [Validators.required]),
             montoSolicitado: new FormControl(solicitudRemesa.montoSolicitado || undefined, [Validators.required]),
         });
 
@@ -99,20 +89,7 @@ export class SolicitudRemesaFormComponent extends FormBaseComponent implements O
 
             this.f.viaje.setValue(undefined);
 
-            if (this.preferencia.monedaConoActual === this.f.moneda.value) {
 
-                this.viajeTransporteService.allWithCostoByTransportista(this.f.receptor.value).subscribe(data => {
-                    this.viajes.next(data);
-                    this.cdr.detectChanges();
-                });
-
-            } else {
-
-                this.viajeTransporteService.allWithCostoDivisaByTransportista(this.f.receptor.value).subscribe(data => {
-                    this.viajes.next(data);
-                    this.cdr.detectChanges();
-                });
-            }
 
         });
 

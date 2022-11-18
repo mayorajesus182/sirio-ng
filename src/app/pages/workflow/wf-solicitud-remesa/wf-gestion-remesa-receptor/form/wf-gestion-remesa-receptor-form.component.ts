@@ -1,16 +1,14 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { MovimientoEfectivo } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
-import { SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
-import { Taquilla } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { MaterialRemesa, SolicitudRemesa, SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
 import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
 import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
@@ -30,15 +28,19 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 
 export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent implements OnInit {
 
+    public materialForm: FormGroup;
     private opt_swal: SweetAlertOptions;
     solicitudRemesa: SolicitudRemesa = {} as SolicitudRemesa;
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
     public viajes = new BehaviorSubject<Viaje[]>([]);
     public materiales = new BehaviorSubject<Material[]>([]);
+    materialUtilizadoList: ReplaySubject<MaterialRemesa[]> = new ReplaySubject<MaterialRemesa[]>();
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
+    preferencia: Preferencia = {} as Preferencia;
     workflow: string = undefined;
     saldoDisponible: number = 0;
+    materialRemesaList: MaterialRemesa[] = [];
 
     constructor(
         injector: Injector,
@@ -52,6 +54,7 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
         private saldoAcopioService: SaldoAcopioService,
         private viajeTransporteService: ViajeTransporteService,
         private materialTransporteService: MaterialTransporteService,
+        private preferenciaService: PreferenciaService,
         private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -76,17 +79,38 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
                 this.solicitudRemesaService.getByExpediente(exp).subscribe(data => {
                     this.solicitudRemesa = data;
                     this.buildForm(this.solicitudRemesa);
+                    this.buildFormMateriales();
 
                     this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.solicitudRemesa.moneda).subscribe(data => {
                         this.conos.next(data);
                     });
 
-                    this.viajeTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                        this.viajes.next(data);
-                    });
+                    this.preferenciaService.get().subscribe(data => {
+                        this.preferencia = data;
 
-                    this.materialTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                        this.materiales.next(data);
+                        //Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
+                        if (this.preferencia.monedaConoActual === this.solicitudRemesa.moneda) {
+
+                            this.viajeTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                                this.viajes.next(data);
+                            });
+
+                            this.materialTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                                this.materiales.next(data);
+                                console.log(this.materiales);
+                                
+                            });
+
+                        } else {
+
+                            this.viajeTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                                this.viajes.next(data);
+                            });
+
+                            this.materialTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                                this.materiales.next(data);
+                            });
+                        }
                     });
 
                     this.cdr.markForCheck();
@@ -105,10 +129,35 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
 
     buildForm(solicitudRemesa: SolicitudRemesa) {
         this.itemForm = this.fb.group({
-            montoEnviado: new FormControl(solicitudRemesa.montoEnviado || undefined),
+            viaje: new FormControl(solicitudRemesa.viaje || undefined, [Validators.required]),
+            plomos: new FormControl(solicitudRemesa.plomos || undefined, [Validators.required]),
+            montoEnviado: new FormControl(solicitudRemesa.montoEnviado || undefined, [Validators.required]),
         });
     }
 
+    get mf() {
+        return this.materialForm ? this.materialForm.controls : {};
+    }
+
+    buildFormMateriales() {
+        this.materialForm = this.fb.group({
+            material: new FormControl(undefined, [Validators.required]),
+            cantidad: new FormControl(undefined, [Validators.required]),
+        });
+    }
+
+    addMaterial() {
+        if (this.materialForm.invalid)
+            return;
+
+            let materialRemesa = {} as MaterialRemesa;
+            this.updateDataFromValues(materialRemesa, this.materialForm.value);
+            this.materialRemesaList.push(materialRemesa);
+            this.materialUtilizadoList.next(this.materialRemesaList.slice());
+            this.mf.material.setValue(undefined);
+            this.mf.cantidad.setValue(undefined);
+            this.cdr.detectChanges();
+    }
 
     obtenerSaldo() {
 
@@ -119,11 +168,11 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
             this.saldoDisponible = data;
             this.cdr.detectChanges();
         });
-
-
     }
 
     updateValuesErrors(item: ConoMonetario) {
+
+        this.f.montoEnviado.setValue(0.0);
 
         this.conos.subscribe(c => {
             this.f.montoEnviado.setValue(c.filter(c1 => c1.cantidad != undefined).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
@@ -187,7 +236,6 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
 
         this.updateData(this.solicitudRemesa);
         //  this.solicitudRemesa.detalleEfectivo = this.conoSave;
-
 
         let existsDifference = false;
 

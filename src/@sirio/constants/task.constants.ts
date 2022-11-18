@@ -5,7 +5,7 @@ export class TaskConstants {
   public static MOD_ANUL_SOLICITUD_PASE_TAQUILLA_BOVEDA = 'MOAN-SP-TB';
   public static CONF_PASE_TAQUILLA_BOVEDA = 'CONF-PA-TB';
   public static MOD_ANUL_PASE_TAQUILLA_BOVEDA = 'MOAN-PA-TB';
-  public static ENV_ANUL_REMESAS_SOLICITADA = 'ENV-RM-SOL'; 
+  public static DESPACHO_REMESA_SOLICITADA = 'DES-RM-SOL'; 
 };
 
 

@@ -4,6 +4,13 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
+export interface MaterialRemesa {
+    material: string;
+    nombre: string;
+    cantidad: number;
+}
+
+
 export interface SolicitudRemesa {
     id: number;
     emisor: string;
@@ -16,6 +23,7 @@ export interface SolicitudRemesa {
     montoEnviado: number;
     montoRecibido: number;
     moneda: string;
+    plomos: string;
     nombreMoneda: string;
     fechaSolicitud: any;   
     fechaEnvio: any;
