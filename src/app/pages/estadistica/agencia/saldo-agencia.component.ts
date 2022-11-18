@@ -30,7 +30,7 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
   }
 
   refreshData() {
-    this.saldoAgenciaService.all().subscribe(result => {
+    this.saldoAgenciaService.datachart().subscribe(result => {
       // console.log("%% saldo agencia %%");
       // console.log(result);
 

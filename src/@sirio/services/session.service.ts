@@ -83,13 +83,13 @@ export class SessionService {
     this.authService.lockscreen().subscribe(
       data => {
         localStorage[SessionService.SESSION_STATUS] = SessionService.STATUS_LOCKED;
-        // this.router.navigateByUrl('/views/session/lock');
+        
         this.router.navigate(['/user/locked'])
       },
       err => {
         //console.log('error ',err.error);
         this.destroy();
-        this.snack.show({ message: 'Problemas para bloquear la sesión!', type: 'danger' });
+        this.snack.show({ message: '!Problemas para bloquear la sesión!', type: 'danger' });
 
       }
     );

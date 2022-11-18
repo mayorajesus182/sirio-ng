@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
-import { DocumentInterruptSource, Idle, StorageInterruptSource } from '@ng-idle/core';
+import { DEFAULT_INTERRUPTSOURCES, DocumentInterruptSource, Idle, StorageInterruptSource } from '@ng-idle/core';
 
 import { filter, map } from 'rxjs/operators';
 import { GlobalConstants } from 'src/@sirio/constants';
@@ -68,8 +68,8 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.userIdle.setTimeout(GlobalConstants.IDLE_TIMEOUT);
 
     // sets the default interrupts, in this case, things like clicks, scrolls, touches to the document
-    // this.userIdle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
-    this.userIdle.setInterrupts(this.createCustomInterruptSources);
+    this.userIdle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
+    // this.userIdle.setInterrupts(this.createCustomInterruptSources);
 
     this.userIdle.watch();
 
@@ -80,7 +80,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
       this.matDialogRef.closeAll();
       this.sessionService.lockscreen();
-      // this.router.navigate(['/user/locked']);
     });
 
     this.userIdle.onIdleStart.subscribe(() => {
