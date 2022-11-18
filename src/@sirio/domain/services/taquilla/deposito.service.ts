@@ -7,17 +7,16 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface Cheque {
-    id: number;
-    deposito: number;
-    entidadFinanciera: number;
+   
     serial: string;
     numeroCuentaCheque: string;
     tipoDocumentoCheque: string;
     codigoSeguridad: string;
     fechaEmision: any;
     montoCheque: number;
-    devolver: number;
+    // devolver: number;
     motivoDevolucion: string;
+    // operacion?:'efectivo' | 'cheques' | 'mixto';
 }
 
 export interface Deposito {
@@ -31,7 +30,7 @@ export interface Deposito {
     identificacion: string;
     nombre: string;
     numeroCuenta: string;
-    moneda: string;
+    moneda: any;
     tipoProducto: string;
     referencia: string;
     efectivo: number;
@@ -51,6 +50,7 @@ export interface Deposito {
     estatusOperacion: string;
     detalles:ConoMonetario[];
     cheques: Cheque[];
+    operacion?:'efectivo' | 'cheques' | 'mixto';
     
 }
 @Injectable({
@@ -66,8 +66,13 @@ export class DepositoService {
     
     }
 
-    save(data: Deposito): Observable<any> {
-        return this.apiService.config(this.apiConfig).post('/create', data)
+    // save(data: Deposito): Observable<any> {
+    //     return this.apiService.config(this.apiConfig).post(`/${data.operacion}/create`, data)
+    //         .pipe(map(res => data));
+    // }
+
+    save(data: Deposito): Observable<any> {       
+        return this.apiService.config(this.apiConfig).post(`/${data.operacion}/create`, data)
             .pipe(map(res => data));
     }
    

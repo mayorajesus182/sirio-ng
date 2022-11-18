@@ -11,12 +11,14 @@ import { CashButtonComponent } from "./cash/control/cash-button.component";
 import { CashDetailComponent } from "./cash/form/cash-detail.form.component";
 import { CashFormPopupComponent } from "./cash/popup/cash-form.popup.component";
 import { PersonQueryComponent } from "./person/form/person-query.component";
+import { VoucherInformationFormComponent } from "./voucher-information/form/voucher-information-form.component";
 
 const components = [
     CashDetailComponent,
     CashFormPopupComponent,
     CashButtonComponent,
-    PersonQueryComponent
+    PersonQueryComponent,
+    VoucherInformationFormComponent
 ]
 
 @NgModule({

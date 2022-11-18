@@ -113,7 +113,6 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
                     });
                 });
             }
-
         });
     }
 }
