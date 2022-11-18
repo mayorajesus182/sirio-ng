@@ -13,7 +13,7 @@ export interface CuentaBancariaOperacion extends CuentaBancaria{
     moneda: string;
     monedaNombre: string;
     monedaSiglas : string;
-    email?:String;
+    email?:string;
 
 }
 

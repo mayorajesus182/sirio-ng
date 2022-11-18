@@ -1,20 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { MotivoDevolucionService } from 'src/@sirio/domain/services/configuracion/taquilla/motivo-devolucion.service';
-import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
-import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
-import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
-import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
-import { SessionService } from 'src/@sirio/services/session.service';
+import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 @Component({
     selector: 'sirio-deposito-efectivo',
@@ -26,50 +19,41 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class DepositoEfectivoFormComponent extends FormBaseComponent implements OnInit {
 
-    isNew: boolean = false;
-    // capturar la busqueda de cuenta y persona
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
-    
-    public conoActual: ConoMonetario[] = [];
-    public conoAnterior: ConoMonetario[] = [];
+    @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
-    deposito: Deposito = {} as Deposito;
-    moneda: Moneda = {} as Moneda;
-    numCuenta: string = "";
-    tipoProducto: string = "";
-    detalleEfectivo: number = 0;
-    editing: any[] = [];
-    loading = new BehaviorSubject<boolean>(false);
+    public conoActual: ConoMonetario[] = [];
+    public conoAnterior: ConoMonetario[] = [];
 
     constructor(
         injector: Injector,
         private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router,
-        private depositoService: DepositoService,
-        private tipoDocumentoService: TipoDocumentoService,
         private cuentaBancariaService: CuentaBancariaService,
-        private personaService: PersonaService,
-        private calendarioService: CalendarioService,
-        private taquillaService: TaquillaService,
-        private sessionService: SessionService,
-        private motivoDevolucionService: MotivoDevolucionService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
 
-    ngOnInit() {        
-
+    ngOnInit() {   
+        
         this.itemForm = this.fb.group({
             numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            cuentaBancaria: new FormControl(undefined, []),
+            cuentaBancaria: new FormControl(undefined),
             numeroCuenta: new FormControl(undefined),
-            moneda: new FormControl('', []),
-            efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            moneda: new FormControl(undefined),
+            efectivo: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            conoActual: new FormControl([]),
+            conoAnterior: new FormControl([]),
+            operacion: new FormControl(''),
+            
         });
+
+        this.cargaDatos();
 
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
@@ -82,19 +66,71 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                 this.calculateDifferences();
             }
         });
+        //Me trae la data de la cuenta que se selecciono
+        this.f.cuentaBancaria.valueChanges.subscribe(val => {
+            if (val && (val != '')) {
+                let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
+                this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
+                this.f.moneda.setValue({
+                    id: cuenta.moneda, 
+                    nombre: cuenta.monedaNombre, 
+                    siglas: cuenta.siglas
+                });
+                this.f.tipoProducto.setValue(cuenta.tipoProducto);
+            }
+        });
     }
 
     ngAfterViewInit(): void {
         this.cdr.detectChanges();
+        this.itemForm.valueChanges.subscribe(val => {
+            if(val){                
+            this.result.emit(this.itemForm)   
+            }
+        })
+    }
 
+    cargaDatos() {
+        if (this.persona) {
+            if (!this.persona.id && !this.persona.numper) {                
+                this.loaded$.next(false);
+                this.persona = {} as Persona;
+                this.cuentaOperacion = undefined;
+                this.cdr.detectChanges();
+            } else {               
+                if (this.cuentaOperacion && this.cuentaOperacion.moneda) { 
+                    this.f.moneda.setValue({
+                        id: this.cuentaOperacion.moneda, 
+                        nombre: this.cuentaOperacion.monedaNombre, 
+                        siglas: this.cuentaOperacion.monedaSiglas
+                    });
+                    this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
+                    this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
+                    this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
+                    this.f.cuentaBancaria.setValue(this.cuentaOperacion.id);
+                } else {              
+                    this.cuentaOperacion = undefined;
+                    this.f.identificacion.setValue(this.persona.identificacion);
+                    this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
+                    this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
+                        this.cuentasBancarias.next(data);
+                        if(data.length === 1){                    
+                            this.f.cuentaBancaria.setValue(data[0].id);
+                        }
+                    });  
+                }
+            }
+        }
     }
 
 
     calculateDifferences(event?: any) {
 
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
-        let monto = this.f.monto.value;
-        if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : monto) : monto)) {
+        let montoDeposito = this.f.monto.value;
+        // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
+        // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
+        if (   Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1) {
 
             this.f.monto.setErrors({
                 totalDifference: true
@@ -103,13 +139,13 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             this.f.efectivo.setErrors({
                 difference: true
             });
-            
+
             this.validarMonto(event);
             this.f.monto.markAsDirty();
+
         } else {
-
+            
             this.validarMonto(event);
-
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
         }
@@ -121,78 +157,19 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         }
     }
 
-    // this.fForm = this.fb.group({
-
-    // nombre: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-    // numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-    // cuentaBancaria: new FormControl(undefined, []),
-    // tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-    // identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-    // numeroCuenta: new FormControl(undefined),
-    // moneda: new FormControl('', []),
-    // efectivo: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-    // monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-    // tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-    // referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
-    // esEfectivo: new FormControl(true),
-    // esCheque: new FormControl(false),
-    // // esChequeMixto: new FormControl(false),
-    // tipoDocumentoDepositante: new FormControl('', Validators.required),
-    // identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-    // nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-    // telefono: new FormControl(''),
-    // email: new FormControl(''),
-    // cantidadPropio: new FormControl(deposito. undefined, [Validators.required]),
-    // cantidadOtros: new FormControl(deposito undefined, [Validators.required]),
-    // conLibreta: new FormControl(false),
-    // conMovimiento: new FormControl(false),
-    // libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
-    // linea: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
-    // chequeOtros: new FormControl(undefined),
-    // chequePropio: new FormControl(undefined),
-
-    // });
-
-    // this.f.esEfectivo.valueChanges.subscribe(val => {
-    //     if (!val) {
-    //         this.f.efectivo.setValue(undefined);
-    //         this.f.efectivo.setErrors(undefined);
-    //         this.conoActual = [];
-    //         this.conoAnterior = [];
-    //         this.f.monto.setValue(undefined);
-    //         this.f.referencia.setValue('');
-    //     }
-    // })
-
-    // this.f.cuentaBancaria.valueChanges.subscribe(val => {
-    //     if (val && (val != '')) {
-    //         let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-    //         this.moneda.id = cuenta.moneda;
-    //         this.moneda.nombre = cuenta.monedaNombre;
-    //         this.moneda.siglas = cuenta.siglas;
-    //         this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
-    //         this.f.moneda.setValue(this.moneda.id);
-    //         this.f.tipoProducto.setValue(cuenta.tipoProducto);
-    //         this.f.esEfectivo.enable()
-    //         this.f.esCheque.enable()
-    //         this.f.esEfectivo.setValue(true);
-    //         this.f.esCheque.setValue(false);
-    //         this.cdr.detectChanges();
-    //     }
-    // })
-
-
     updateCashDetail(event) {
         if (!event) {
             return;
         }
-
         this.calculateDifferences(event)
-        this.conoActual = event.desgloseConoActual;
-        this.conoAnterior = event.desgloseConoAnterior;
+        this.f.conoActual.setValue(event.desgloseConoActual);
+        this.f.conoAnterior.setValue(event.desgloseConoAnterior);
         this.cdr.detectChanges();
     }
 
+    reset() {
+        this.itemForm.reset({});
+    }
 }
 
 

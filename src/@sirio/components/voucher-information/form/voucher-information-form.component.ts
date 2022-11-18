@@ -3,8 +3,9 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 @Component({
@@ -16,60 +17,58 @@ import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/d
 })
 
 export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
-    voucherForm: FormGroup;
-    isNew: boolean = false;
-    @Input() tooltips: string = 'Crear';
-    @Input() taquillaDeposito: boolean = false;
-    // conLibreta: boolean = false;
-    // conMovimiento: boolean = false;
-    @Input() disabled: boolean = false;
+    public voucherForm: FormGroup;
+    @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
-    // @Output('update') update: EventEmitter<any> = new EventEmitter<any>();
-    // @Output('create') create: EventEmitter<any> = new EventEmitter<any>();
-
     public tiposDocumentoNaturales = new BehaviorSubject<TipoDocumento[]>([]);
-    deposito: Deposito = {} as Deposito;
-    persona: Persona = {} as Persona;
-    tipoProducto: string = "";
-    loading = new BehaviorSubject<boolean>(false);
-
+    
     constructor(
         private fb: FormBuilder,
         private tipoDocumentoService: TipoDocumentoService,
-        private depositoService: DepositoService,
         private cdref: ChangeDetectorRef) {
     }
 
-
-
-
     ngAfterViewInit(): void {
         this.cdref.detectChanges();
+        this.voucherForm.valueChanges.subscribe(val => {
+            if(val){
+            this.result.emit(this.voucherForm)     
+            }
+        })
     }
 
     ngOnInit() {
-        
+
         this.tipoDocumentoService.activesNaturales().subscribe(data => {
             this.tiposDocumentoNaturales.next(data);
         });
 
         this.voucherForm = this.fb.group({
-            tipoDocumentoDepositante: new FormControl('', Validators.required),
+            tipoDocumentoDepositante: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
             identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             telefono: new FormControl(''),
             email: new FormControl(''),
-            libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
-            linea: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
-            conLibreta: new FormControl(false), 
-            conMovimiento: new FormControl(false),
+            // libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
+            // linea: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
+            // conLibreta: new FormControl(false),
+            // conMovimiento: new FormControl(false),
         });
 
-
+        this.voucher.identificacionDepositante.valueChanges.subscribe(val => {
+            if (val) {
+                if (val === this.persona.identificacion ) {
+                    this.voucher.nombreDepositante.setValue(this.persona.nombre);
+                    this.voucher.email.setValue(this.persona.email);
+                    this.cdref.detectChanges();
+                } else {
+                    this.voucher.nombreDepositante.setValue('');
+                    this.voucher.email.setValue('');
+                    this.cdref.detectChanges();
+                }
+            }
+        })
     }
-
-
-
     // this.voucher.conLibreta.valueChanges.subscribe(val => {
     //     if (!val) {
     //         voucher.libreta.setValue(undefined);
@@ -80,29 +79,39 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
     //     }
 
     // });
-
     get voucher(): AbstractControl | any {
         return this.voucherForm ? this.voucherForm.controls : {};
     }
-    
-    libretaEvaluate(event) {
-        if (event.checked) {
-            this.voucher.conMovimiento.setValue(false);
-        }
-    }
+    // libretaEvaluate(event) {
+    //     if (event.checked) {
+    //         this.voucher.conMovimiento.setValue(false);
+    //     }
+    // }
 
-    movimientoEvaluate(event) {
-        if (event.checked) {
-            this.voucher.conLibreta.setValue(false);
-        }
-    }
+    // movimientoEvaluate(event) {
+    //     if (event.checked) {
+    //         this.voucher.conLibreta.setValue(false);
+    //     }
+    // }
 
     resetAll() {
-        this.voucherForm.reset({});
-        this.result.emit({});
+        this.voucher.identificacionDepositante.setValue('');
+        this.voucher.nombreDepositante.setValue('');
+        this.voucher.email.setValue('');
+        this.voucher.identificacionDepositante.setErrors(undefined);
+        this.voucher.nombreDepositante.setErrors(undefined);
+        this.voucher.email.setVasetErrors(undefined);
     }
-
 }
+
+
+
+
+
+
+
+
+
 
 
 
