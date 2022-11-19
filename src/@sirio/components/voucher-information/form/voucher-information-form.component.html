@@ -1,0 +1,77 @@
+<sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow" >
+    <sirio-card-header class="header-bg">
+        <sirio-card-header-heading><i class="fa-light fa-address-card mat-icon mat-primary fa-lg margin-top-md"></i> &nbsp; Información
+            del Depositante</sirio-card-header-heading>
+        <sirio-card-header-actions>
+            <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+            {default: 'global.notfound'} | translate }}" type="button" (click)="resetAll()">
+                <mat-icon>backspace</mat-icon>
+            </button>
+        </sirio-card-header-actions>
+    </sirio-card-header>
+
+    <sirio-card-content fxLayout="column" [formGroup]="voucherForm">
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+            <sirio-select-search fxFlex.gt-xs="22"
+                [label]="'deposit.documentType' | translate: {default: 'global.documentType'} | translate"
+                formControlName="tipoDocumentoDepositante" [required]="true" [elements]="tiposDocumentoNaturales.asObservable()"
+                [attributeName]="'nombre'" [errors]="voucher.tipoDocumentoDepositante?.errors" required>
+            </sirio-select-search>
+
+            <mat-form-field fxFlex.gt-xs="15">
+                <mat-label>Nro. Documento </mat-label>
+                <input matInput autocomplete="off" maxlength="8" id="identificacionDepositante" name="identificacionDepositante"
+                    formControlName="identificacionDepositante" uppercase class="text-center" required>
+                <mat-error *ngIf="voucher.identificacionDepositante.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf="voucher.identificacionDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex.gt-xs="30">
+                <mat-label>Nombres y Apellidos/Razón Social</mat-label>
+                <input matInput autocomplete="off" maxlength="200" id="nombreDepositante" name="nombreDepositante"
+                    formControlName="nombreDepositante" uppercase class="text-center" required>
+                <mat-error *ngIf="voucher.nombreDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex.gt-sm="auto">
+                <mat-label> Email </mat-label>
+                <input matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
+                    [required]="!voucher.telefono.value" uppercase>
+                <mat-error *ngIf="voucher.email.errors?.email">Email es invalido</mat-error>
+                <mat-error *ngIf="voucher.email.errors?.required">{{'error.required'| translate}}</mat-error>
+            </mat-form-field>
+
+            <!-- <mat-form-field fxFlex.gt-sm="auto">
+                <mat-label>{{'form.sms' | translate: {default: 'global.sms'} | translate }}
+                </mat-label>
+                <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="" [required]="!voucher.email.value">
+                <mat-error *ngIf="voucher.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
+            </mat-form-field> -->
+        </div>
+        <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="taquillaDeposito">
+            <div fxFlex.gt-xs="9">
+                <mat-checkbox class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
+                    name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta</mat-checkbox>
+            </div>
+            <div fxFlex.gt-xs="12">
+                <mat-checkbox  class="margin-top-md" [color]="'primary'" formControlName="conMovimiento"
+                    name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
+            </div>
+
+            <mat-form-field fxFlex.gt-xs="20" *ngIf="voucher.conLibreta.value" >
+                <mat-label>Número de Libreta </mat-label>
+                <input matInput maxlength="8" autocomplete="off" name="libreta" formControlName="libreta"
+                    [required]="voucher.conLibreta.value" class="text-center">
+                <mat-error *ngIf="voucher.libreta.errors?.required">{{'error.required' | translate}}</mat-error>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex.gt-xs="10" *ngIf="voucher.conLibreta.value">
+                <mat-label>Número de Linea</mat-label>
+                <input matInput maxlength="2" autocomplete="off" name="linea" formControlName="linea"
+                    [required]="voucher.conLibreta.value" class="text-center">
+                <mat-error *ngIf="voucher.linea.errors?.required">{{'error.required' | translate}}</mat-error>
+            </mat-form-field>
+        </div> -->
+    </sirio-card-content>
+</sirio-card>
