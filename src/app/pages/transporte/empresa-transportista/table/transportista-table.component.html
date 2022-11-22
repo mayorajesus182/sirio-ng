@@ -18,12 +18,24 @@
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-70'" mat-sort-header>{{'carrierCompany.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-55'" mat-sort-header>{{'carrierCompany.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-70'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-55'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
+
+                <ng-container matColumnDef="es_centro_acopio">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'carrierCompany.collectionCenter' | translate:
+                        {default: 'global.collectionCenter'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <mat-chip mat-sm-chip [color]="element.esCentroAcopio ? 'accent' : 'warn'" [selected]="element.esCentroAcopio">
+                            {{element.esCentroAcopio ? 'SI' : 'NO'}}
+                        </mat-chip>
+                    </mat-cell>
+                </ng-container>
+
+
 
                 <ng-container matColumnDef="activo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'carrierCompany.status' | translate:

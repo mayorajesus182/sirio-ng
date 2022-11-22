@@ -70,6 +70,12 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     actividadesEspecificas = new BehaviorSubject<ActividadEspecifica[]>([]);
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
+//     Integer oficinas;
+    
+// Integer empleados;
+    
+// Double ventas;
+
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
     constructor(
@@ -195,6 +201,18 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             actividadEconomica: new FormControl(personaJuridica.actividadEconomica || undefined, [Validators.required]),
             actividadEspecifica: new FormControl(personaJuridica.actividadEspecifica || undefined, [Validators.required]),
             categoriaEspecial: new FormControl(personaJuridica.categoriaEspecial || undefined),
+
+            oficinas: new FormControl(personaJuridica.oficinas != undefined ? personaJuridica.oficinas : '', [Validators.required]),
+            empleados: new FormControl(personaJuridica.empleados != undefined ? personaJuridica.empleados : '', [Validators.required]),
+            ventas: new FormControl(this.personaJuridica.ventas || undefined ? personaJuridica.ventas : '', [Validators.required]),
+            ingresos: new FormControl(this.personaJuridica.ingresos || undefined ? personaJuridica.ingresos : '', [Validators.required]),
+            egresos: new FormControl(this.personaJuridica.egresos || undefined ? personaJuridica.egresos : '', [Validators.required]),
+
+            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion != undefined ? personaJuridica.anhoDeclaracion : '', [Validators.required]),
+            montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? personaJuridica.montoDeclarado : '', [Validators.required]),
+      
+            
+
             // tipoDocumentoConyuge: new FormControl(personaJuridica.tipoDocumentoConyuge || undefined),
             // identificacionConyuge: new FormControl(personaJuridica.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             // nombreConyuge: new FormControl(personaJuridica.nombreConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),

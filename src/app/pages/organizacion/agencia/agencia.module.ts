@@ -9,7 +9,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { AgenciaRoutingModule } from './agencia-routing.module';
-import { AgenciaCupoFormComponent } from './cupo/agencia-cupo-form.component';
+import { CupoAgenciaTableComponent } from './cupos/table/cupo-agencia-table.component';
 
 import { AgenciaDetailComponent } from './detail/agencia-detail.component';
 import { AgenciaFormComponent } from './form/agencia-form.component';
@@ -35,7 +35,7 @@ import { AgenciaTableComponent } from './table/agencia-table.component';
         AgenciaFormComponent,
         AgenciaTableComponent,
         AgenciaDetailComponent,
-        AgenciaCupoFormComponent
+        CupoAgenciaTableComponent
     ],
     exports: [],
 })

@@ -8,7 +8,8 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface Transportista {
     id: string;
-    rif: string;
+    tipoDocumento: string;
+    identificacion: string;
     nombre: string;
     zona: string;
     region: string;
@@ -23,6 +24,9 @@ export interface Transportista {
     latitud: number;
     longitud: number;
     jurisdiccion: string[];
+    esCentroAcopio: number;
+    cuentaContable: string;
+    tesorero: string;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -41,6 +45,10 @@ export class TransportistaService {
 
     actives(): Observable<Transportista[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
+    }
+
+    allCentrosAcopio(): Observable<Transportista[]> {
+        return this.apiService.config(this.apiConfig).get('/centroacopio/byagencia/list');
     }
 
     activesByPais(zona: string): Observable<Transportista[]> {

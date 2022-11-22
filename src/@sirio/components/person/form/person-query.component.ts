@@ -34,7 +34,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     @Output('update') update: EventEmitter<any> = new EventEmitter<any>();
     @Output('create') create: EventEmitter<any> = new EventEmitter<any>();
-
+    // busqueda : boolean = false;
     tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     persona: Persona = {} as Persona;
 
@@ -58,11 +58,25 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.disable.subscribe(val => {
             if (val) {
-                this.searchForm.controls['identificacion'].disable();
-                this.searchForm.controls['cuenta'].disable();
-                this.searchForm.controls['tipoDocumento'].disable();
+                this.search.identificacion.disable();
+                this.search.cuenta.disable();
+                this.search.tipoDocumento.disable();
             }
         })
+
+        this.search.identificacion.valueChanges.subscribe(val => {
+            if(val && !this.search.cuenta.disabled){
+                this.search.cuenta.disable();
+            }
+        })
+
+        this.search.cuenta.valueChanges.subscribe(val => {
+            if(val && !this.search.identificacion.disabled){
+                this.search.identificacion.disable();
+            }
+        })
+
+        
     }
 
     ngOnInit(): void {
@@ -86,17 +100,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
-        this.search.identificacion.valueChanges.subscribe(val => {
-            if(val){
-                this.searchForm.controls['cuenta'].disable();
-            }
-        })
+       
 
-        this.search.cuenta.valueChanges.subscribe(val => {
-            if(val){
-                this.searchForm.controls['identificacion'].disable();
-            }
-        })
+       
 
 
         // this.search.identificacion.valueChanges.subscribe(val => {
@@ -193,11 +199,17 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     public queryByAccount() {
         const cuenta: string = this.search.cuenta.value;
 
-
-        if (cuenta.trim().length == 0 || this.search.cuenta.errors) {
+       
+        
+        if (cuenta.trim().length != 20 || this.search.cuenta.errors ) {
+            // this.busqueda = false;
             return;
         }
 
+        // this.busqueda = true;
+        // console.log("Aquiiiiiiiiiiiiiiiiiiiiiii", cuenta);
+        // console.log("this.busqueda ", this.busqueda);
+        
         this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
             // this.cuentaBancariaOperacion = data;
             //const moneda = data.moneda;
@@ -279,9 +291,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     isDisabled() {
-        console.log('this.persona.numper != undefined || this.persona.numper != null');
-        console.log(this.persona.numper != undefined || this.persona.numper != null);
-
         return this.persona.numper != undefined || this.persona.numper != null || this.search.cuenta.value != undefined;
     }
 

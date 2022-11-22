@@ -14,6 +14,7 @@ import { WFPaseABovedaDetailComponent } from './wf-pase-boveda/detail/wf-pase-bo
 import { WFPaseABovedaFormComponent } from './wf-pase-boveda/form/wf-pase-boveda-form.component';
 import { WFPaseEfectivoDetailComponent } from './wf-pase-efectivo/detail/wf-pase-efectivo-detail.component';
 import { WFPaseEfectivoFormComponent } from './wf-pase-efectivo/form/wf-pase-efectivo-form.component';
+import { WFGestionRemesaReceptorFormComponent } from './wf-solicitud-remesa/wf-gestion-remesa-receptor/form/wf-gestion-remesa-receptor-form.component';
 import { WorkflowRoutingModule } from './workflow.routing';
 
 
@@ -39,6 +40,7 @@ import { WorkflowRoutingModule } from './workflow.routing';
     WFPaseABovedaDetailComponent,
     WFPaseABovedaFormComponent,
     WFCierreTaquillaDetailComponent,
+    WFGestionRemesaReceptorFormComponent,
   ],
   exports: []
 })
