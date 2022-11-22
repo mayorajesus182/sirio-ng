@@ -98,7 +98,7 @@
                                             name="moneda" class="text-center">
                                     </mat-form-field> -->
                                 </div>
-                                <div fxLayout="column" *ngIf="(f.numeroCuenta.value != undefined) || (cuentaOperacion) ">
+                                <div fxLayout="column" *ngIf="(f.numeroCuenta.value != undefined) || (cuentaOperacion)">
                                     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <div fxLayoutAlign="end center">
                                             <mat-slide-toggle class="margin-top-md" [color]="'primary'" formControlName="esEfectivo" name="esEfectivo">
@@ -176,6 +176,7 @@
                                         
                                         
                                     </div>
+
                                     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value">
                                         <mat-form-field fxFlex.gt-xs="20">
                                             <mat-label>Número de Libreta </mat-label>

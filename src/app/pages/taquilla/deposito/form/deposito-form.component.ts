@@ -296,8 +296,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.f.efectivo.markAsDirty();
             }
             
-            
-           
+                       
             this.cdr.detectChanges();
             
         } else{
@@ -326,7 +325,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             monto: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             referencia: new FormControl('', Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)),
-            esEfectivo: new FormControl(true),
+            esEfectivo: new FormControl(false),
             esCheque: new FormControl(false),
             esChequeMixto: new FormControl(false),
             tipoDocumentoDepositante: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),

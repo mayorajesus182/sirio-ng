@@ -533,7 +533,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     resetInfobeneficiary(){
       
         this.f.email.setValue('');
-        this.tipoDocumentos.next([]);
+        //this.tipoDocumentos.next([]);
         this.f.identificacionBeneficiario.setValue('');
         this.f.beneficiario.setValue('');
 

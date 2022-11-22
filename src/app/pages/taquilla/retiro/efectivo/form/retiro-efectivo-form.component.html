@@ -64,7 +64,7 @@
                                             </mat-label>
                                             <input matInput autocomplete="off" [(ngModel)]="moneda.siglas" [required]="cuentaBancariaOperacion"
                                                 [ngModelOptions]="{standalone: true}" readonly name="moneda" class="text-center">
-                                        </mat-form-field>
+                                           </mat-form-field>
 
                                         <sirio-select-simple *ngIf="!cuentaBancariaOperacion" fxFlex="45"
                                             [label]="'withdrawal.accountNumber' | translate: {default: 'global.accountNumber'} | translate"
@@ -113,6 +113,36 @@
                                             <mat-error *ngIf="f.totalRetiro.errors?.totalDifference">Verifique Monto</mat-error>
                                         </mat-form-field>
                                     </div>
+
+                                    <div fxFlex.gt-xs="10" *ngIf="f.tipoProducto.value == 01">
+                                        <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conLibreta"
+                                            name="conLibreta" (change)="libretaEvaluate($event)">Con Libreta
+                                        </mat-checkbox>   
+                                    </div> 
+
+                                    <!-- <div fxFlex.gt-xs="10" *ngIf="f.tipoProducto.value == 01 && f.conLibreta.value">
+                                          <mat-checkbox fxLayoutAlign="start center" class="margin-top-md" [color]="'primary'" formControlName="conMovimiento"
+                                            name="conMovimiento" (change)="movimientoEvaluate($event)">Con Movimiento</mat-checkbox>
+                                       
+                                    </div>  -->
+
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.conLibreta.value">
+                                        <mat-form-field fxFlex.gt-xs="20">
+                                            <mat-label>Número de Libreta </mat-label>
+                                            <input matInput maxlength="8" autocomplete="off" name="libreta" formControlName="libreta"
+                                                [required]="f.conLibreta.value">
+                                            <mat-error *ngIf="f.libreta.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        </mat-form-field>
+                                        
+                                        <mat-form-field fxFlex.gt-xs="10">
+                                            <mat-label>Número de Linea</mat-label>
+                                            <input matInput maxlength="2" autocomplete="off" name="linea" formControlName="linea"
+                                                [required]="f.conLibreta.value">
+                                            <mat-error *ngIf="f.linea.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        </mat-form-field>
+                                    </div>
+
                                 </sirio-card-content>
                             </sirio-card>
 
