@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 //import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { RegistroMercantil, RegistroMercantilService } from 'src/@sirio/domain/services/persona/registro-mercantil/registro-mercantil.service';
@@ -72,8 +73,8 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
       capitalSocial: new FormControl(this.registroMercantil.capitalSocial || undefined, [Validators.required]),
       gaceta: new FormControl(this.registroMercantil.gaceta || undefined, [Validators.required]),
       decreto: new FormControl(this.registroMercantil.decreto || undefined, [Validators.required]),
-      fecha: new FormControl(this.registroMercantil.fecha || undefined, [Validators.required]),
-      codigoOnt: new FormControl(this.registroMercantil.codigoOnt || undefined, [Validators.required])
+      fecha: new FormControl(this.registroMercantil.fecha ? moment(this.registroMercantil.fecha, 'DD/MM/YYYY') : ''),
+      codigoOnt: new FormControl(this.registroMercantil.codigoOnt || undefined, [Validators.required]),
     });
 
 
@@ -85,7 +86,10 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
     console.log('mode ', this.mode);
     this.updateData(this.registroMercantil);// aca actualizamos Empresas Relacionadas
     this.registroMercantil.persona=this.defaults.payload.persona;
+
+    this.registroMercantil.fecha = this.registroMercantil.fecha ? this.registroMercantil.fecha.format('DD/MM/YYYY') : '';
     console.log(this.registroMercantil);
+    
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.registroMercantilService,this.registroMercantil,'RegistroMercantil',this.registroMercantil.id==undefined);
     console.log(this.registroMercantil);

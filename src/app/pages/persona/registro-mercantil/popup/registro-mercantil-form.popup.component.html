@@ -59,17 +59,18 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <mat-form-field fxFlex="33">
-        <mat-label>{{'Fecha' | translate: {default:
-            'Fecha'} | translate }} </mat-label>
-        <input matInput maxlength="80" minlength="1" autocomplete="off" name="fecha" formControlName="fecha"
-            uppercase required>
-        <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}}
+      <mat-form-field fxFlex="44">
+        <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
+            translate }}</mat-label>
+        <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha"
+            formControlName="fecha" [matDatepicker]="fechaPicker" required>
+        <mat-datepicker-toggle matSuffix [for]="fechaPicker">
+        </mat-datepicker-toggle>
+        <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
+            Fecha Invalida
         </mat-error>
-        <mat-error *ngIf="f.fecha.errors?.pattern">{{'error.invalidCharacter' |
-            translate}}
-        </mat-error>
-      </mat-form-field>
+    </mat-form-field>
+    <mat-datepicker #fechaPicker></mat-datepicker> 
 
       <mat-form-field fxFlex="33">
         <mat-label>{{'Tomo' | translate: {default:
@@ -86,8 +87,8 @@
       <mat-form-field fxFlex="33">
         <mat-label>{{'Capital Social' | translate: {default:
             'Capital Social'} | translate }} </mat-label>
-        <input matInput maxlength="80" minlength="1" autocomplete="off" name="capitalSocial" formControlName="capitalSocial"
-            uppercase required>
+        <!-- <input matInput maxlength="80" minlength="1" autocomplete="off" name="capitalSocial" formControlName="capitalSocial" -->
+        <input matInput autocomplete="off" name="capitalSocial" currencyMask [options]="{precision:2}" formControlName="capitalSocial" [required]="">
         <mat-error *ngIf="f.capitalSocial.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.capitalSocial.errors?.pattern">{{'error.invalidCharacter' |
@@ -124,16 +125,17 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="33">
-        <mat-label>{{'Fecha' | translate: {default:
-            'Fecha'} | translate }} </mat-label>
-        <input matInput maxlength="80" minlength="1" autocomplete="off" name="fecha" formControlName="fecha"
-            uppercase required>
-        <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}}
+        <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
+            translate }}</mat-label>
+        <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha"
+            formControlName="fecha" [matDatepicker]="fechaPicker" required>
+        <mat-datepicker-toggle matSuffix [for]="fechaPicker">
+        </mat-datepicker-toggle>
+        <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
+            Fecha Invalida
         </mat-error>
-        <mat-error *ngIf="f.fecha.errors?.pattern">{{'error.invalidCharacter' |
-            translate}}
-        </mat-error>
-      </mat-form-field>
+    </mat-form-field>
+    <mat-datepicker #fechaPicker></mat-datepicker> 
 
 
       <mat-form-field fxFlex="33">
