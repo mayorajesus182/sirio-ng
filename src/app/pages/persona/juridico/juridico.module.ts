@@ -15,6 +15,7 @@ import { InformacionLaboralModule } from '../informacion-laboral/informacion-lab
 import { PepModule } from '../pep/pep.module';
 import { ReferenciaBancariaModule } from '../referencia-bancaria/referencia-bancaria.module';
 import { ReferenciaPersonalModule } from '../referencia-personal/referencia-personal.module';
+import { RegistroMercantilModule } from '../registro-mercantil/registro-mercantil.module';
 import { TelefonoModule } from '../telefono/telefono.module';
 import { JuridicoFormComponent } from './form/juridico-form.component';
 import { JuridicoRoutingModule } from './juridico-routing.module';
@@ -39,9 +40,9 @@ import { JuridicoRoutingModule } from './juridico-routing.module';
         ApoderadoModule,
         TelefonoModule,
         PepModule,
-        EmpresaRelacionadaModule,
         ReferenciaBancariaModule,
-        ReferenciaPersonalModule
+        RegistroMercantilModule
+        
     ],
     declarations: [
         JuridicoFormComponent,

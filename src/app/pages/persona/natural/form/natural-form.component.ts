@@ -31,6 +31,9 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     totalAddress: number;
+
+    totalRegistroMercantil : number;
+
     totalInfoLab: number;
     totalPep: number;
     totalApoderado: number;
@@ -42,6 +45,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
+
+    showRegistroMercantil = false;
     showPersonalReference = false;
     showBankReference = false;
     showPep = false;

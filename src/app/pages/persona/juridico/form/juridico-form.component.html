@@ -398,6 +398,8 @@
 
                                 </div>
 
+                                
+
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
                                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
@@ -436,6 +438,8 @@
 
                             </mat-expansion-panel>
 
+                            
+
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPhones(true)" (closed)="openPhones(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
@@ -449,7 +453,6 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-
                                 <div fxLayout="row" fxLayout="column" *ngIf="showPhone">
                                     <sirio-persona-telefono-table [persona]="personaJuridica.id"></sirio-persona-telefono-table>
 
@@ -457,29 +460,38 @@
 
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openRegistroMercantil(true)" (closed)="openRegistroMercantil(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>location_on</mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">
-                                            {{'Datos del Registro / Última Modificación' | translate}}
+                                            
+                                            {{'Registro Mercantil' | translate}}
 
                                         </span>
                                     </mat-panel-title>
+
                                     <mat-panel-description>
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalAddress"></span>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalRegistroMercantil"></span>
                                     </mat-panel-description>
+
                                 </mat-expansion-panel-header>
+                              
+                                <!-- {{printErrors() | json}}  -->
+                                
+                                 <div fxLayout="row" fxLayout="column" *ngIf="showRegistroMercantil">
+                                   
+                                    <sirio-persona-registro-mercantil-table [persona]="personaJuridica.id"></sirio-persona-registro-mercantil-table>
 
-                                <!-- <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
-
-                                    <sirio-persona-direccion-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
-                                    </sirio-persona-direccion-table>
-
-
+                                </div>
+                                
+                                <!-- <div fxLayout="row" fxLayout="column" *ngIf="showRegistroMercantil">
+                                    <sirio-perdsona-registro-mercantil-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
+                                    </sirio-persona-registro-mercantil-table>
                                 </div> -->
+                                
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">

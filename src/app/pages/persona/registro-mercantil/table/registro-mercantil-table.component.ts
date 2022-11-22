@@ -33,29 +33,33 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
     super(undefined, injector);
   }
   
-  // private loadList(){
-  //   this.empresaRelacionadaService.allByPersonaId(this.persona).subscribe((data) => {
-  //     console.log(data);
-      
-  //     this.empresaRelacionadaList.next(data.slice());
-  //     this.cdr.detectChanges();
-  //   });
-  // }
-
   private loadList(){
     this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
-            
+      console.log(data);
+      
       this.registroMercantilList.next(data.slice());
+
       console.log('registro mercantil',data);
       
-      // this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
 
-  
+  // private loadList(){
+  //   this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
+            
+  //     this.registroMercantilList.next(data.slice());
+  //     console.log('registro mercantil',data);
+      
+  //     // this.propagar.emit(data.length);
+  //     this.cdr.detectChanges();
+  //   });
+  // }
+
+ 
   ngOnInit() {
-    console.log('registroMercantil table');
+    console.log('registro Mercantil table');
+   
     
     if(this.persona){
       console.log('buscando Registro Mercantil en el servidor dado el id persona');

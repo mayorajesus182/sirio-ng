@@ -2,7 +2,7 @@
   <sirio-dialog-header-heading>
      <!-- TODO: PENDIENTE IN18 -->
      
-    <h1>Clientes y Proveedores</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <h1>Registro Mercantil</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -18,23 +18,39 @@
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-      <sirio-select-search
-        fxFlex="30"
-        [label]="'Relacion Empresa'"
-        formControlName="relacionEmpresa" [required]="true" [elements]="tipoRelacionList.asObservable()"
-        [attributeName]="'nombre'" [errors]="f.relacionEmpresa?.errors">
-      </sirio-select-search>
-
-
-      <mat-form-field fxFlex="70">
-        <mat-label>{{'Nombre Empresa' | translate: {default:
-            'empresa'} | translate }} </mat-label>
-        <input matInput maxlength="80" minlength="1" autocomplete="off" name="empresa" formControlName="empresa"
+     
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Nombre del Rgistro' | translate: {default:
+            'Nombre del Rgistro'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
             uppercase required>
-        <mat-error *ngIf="f.empresa.errors?.required">{{'error.required' | translate}}
+        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
         </mat-error>
-        <mat-error *ngIf="f.empresa.errors?.pattern">{{'error.invalidCharacter' |
+        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Folio' | translate: {default:
+            'Folio'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="folio" formControlName="folio"
+            uppercase required>
+        <mat-error *ngIf="f.folio.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.folio.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Número' | translate: {default:
+            'Número'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="numero" formControlName="numero"
+            uppercase required>
+        <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
             translate}}
         </mat-error>
       </mat-form-field>
@@ -43,20 +59,98 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <mat-form-field fxFlex="100">
-        <mat-label>{{'Direccion' | translate: {default:
-              'Direccion'} | translate }} </mat-label>
-          <input matInput maxlength="100" minlength="1" autocomplete="off" name="direccion" formControlName="direccion"
-              uppercase required>
-          <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}
-          </mat-error>
-          <mat-error *ngIf="f.direccion.errors?.pattern">{{'error.invalidCharacter' |
-              translate}}
-          </mat-error>
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Fecha' | translate: {default:
+            'Fecha'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="fecha" formControlName="fecha"
+            uppercase required>
+        <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.fecha.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
       </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Tomo' | translate: {default:
+            'Tomo'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="tomo" formControlName="tomo"
+            uppercase required>
+        <mat-error *ngIf="f.tomo.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.tomo.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Capital Social' | translate: {default:
+            'Capital Social'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="capitalSocial" formControlName="capitalSocial"
+            uppercase required>
+        <mat-error *ngIf="f.capitalSocial.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.capitalSocial.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
     </div>
 
-    <!-- {{printErrors() | json}}  -->
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Número Gaceta Oficial' | translate: {default:
+            'Número Gaceta Oficial'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="gaceta" formControlName="gaceta"
+            uppercase required>
+        <mat-error *ngIf="f.gaceta.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.gaceta.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Decreto' | translate: {default:
+            'Decreto'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="decreto" formControlName="decreto"
+            uppercase required>
+        <mat-error *ngIf="f.decreto.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.decreto.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Fecha' | translate: {default:
+            'Fecha'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="fecha" formControlName="fecha"
+            uppercase required>
+        <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.fecha.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'Código ONT' | translate: {default:
+            'Código ONT'} | translate }} </mat-label>
+        <input matInput maxlength="80" minlength="1" autocomplete="off" name="codigoOnt" formControlName="codigoOnt"
+            uppercase required>
+        <mat-error *ngIf="f.codigoOnt.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.codigoOnt.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+
 
   </mat-dialog-content>
 

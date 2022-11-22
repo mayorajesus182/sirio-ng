@@ -48,6 +48,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     showPep = false;
     showApoderado = false;
     showPhone = false;
+
+    showRegistroMercantil = false;
     
     showEmpresaRelacionada = false;
 
@@ -428,5 +430,13 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         this.showPersonalReference = opened;
         this.cdr.detectChanges();
     }
+
+     
+    openRegistroMercantil(opened:boolean) {
+        this.showRegistroMercantil = opened;
+        this.cdr.detectChanges();
+        
+    }
+
 }
 

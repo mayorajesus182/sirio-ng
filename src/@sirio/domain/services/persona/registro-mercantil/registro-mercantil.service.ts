@@ -24,7 +24,7 @@ export interface RegistroMercantil {
 
     decreto: string;
 
-    fecha:  any;
+    fecha: any;
 
     codigoOnt: string;
 }
