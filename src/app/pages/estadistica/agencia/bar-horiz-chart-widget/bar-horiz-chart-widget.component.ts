@@ -68,7 +68,7 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
 
       let serie1 = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
-      let serie2 = { name: 'Saldos', data: dataset.data[this.currentMoneda.id].map(d => d.disponible*d.denominacion), color: '#141a2e',  yAxis: 1 }
+      let serie2 = { name: 'Saldos', data: dataset.data[this.currentMoneda.id].map(d => d.disponible*d.denominacion), color: '#28036a',  yAxis: 1 }
       let labels = dataset.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;

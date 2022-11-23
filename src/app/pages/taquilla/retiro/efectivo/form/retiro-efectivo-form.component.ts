@@ -334,7 +334,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                     this.retiro.tipoDocumento = this.persona.tipoDocumento;
                     this.retiro.identificacion = this.persona.identificacion;
                     this.retiro.nombre = this.persona.nombre;
-                    this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email ;
+                    this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email;
                 }
                 this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
 
