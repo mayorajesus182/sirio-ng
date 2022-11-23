@@ -30,8 +30,22 @@ const controlEfectivoRoutes: Routes = [
     },
     {
         path: 'solicitud-remesa',
-        data: { title: 'Solicitud de Remesa' },
-        loadChildren: () => import('./solicitud-remesa/solicitud-remesa.module').then(m => m.SolicitudRemesaModule),
+        data: { title: 'Remesa' },
+        loadChildren: () => import('./remesa/remesa.module').then(m => m.RemesaModule),
+    },
+
+
+
+
+
+    
+
+
+
+    {
+        path: 'solicitar-remesa',
+        data: { title: 'Solicitar Remesa' },
+        loadChildren: () => import('./remesa/solicitar-remesa/solicitar-remesa.module').then(m => m.SolicitarRemesaModule),
     },
 ];
 

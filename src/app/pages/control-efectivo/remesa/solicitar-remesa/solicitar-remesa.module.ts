@@ -9,10 +9,9 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { SolicitudRemesaDetailComponent } from './detail/solicitud-remesa-detail.component';
-import { SolicitudRemesaFormComponent } from './form/solicitud-remesa-form.component';
-import { SolicitudRemesaRoutingModule } from './solicitud-remesa-routing.module';
-import { SolicitudRemesaTableComponent } from './table/solicitud-remesa-table.component';
+import { SolicitarRemesaFormComponent } from './form/solicitar-remesa-form.component';
+import { SolicitarRemesaRoutingModule } from './solicitar-remesa-routing.module';
+import { SolicitarRemesaTableComponent } from './table/solicitar-remesa-table.component';
 
 
 @NgModule({
@@ -28,16 +27,15 @@ import { SolicitudRemesaTableComponent } from './table/solicitud-remesa-table.co
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
-        SolicitudRemesaRoutingModule,
+        SolicitarRemesaRoutingModule,
     ],
     declarations: [
-        SolicitudRemesaTableComponent,
-        SolicitudRemesaFormComponent,
-        SolicitudRemesaDetailComponent
+        SolicitarRemesaTableComponent,
+        SolicitarRemesaFormComponent,
     ],
     exports: [],
 })
 
-export class SolicitudRemesaModule {
+export class SolicitarRemesaModule {
 
 }
