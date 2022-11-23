@@ -494,7 +494,7 @@
                                 
                             </mat-expansion-panel>
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
+                            <!-- <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -510,17 +510,17 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-                                <!-- <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
+                                <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
 
                                     <sirio-persona-direccion-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
                                     </sirio-persona-direccion-table>
 
 
-                                </div> -->
-                            </mat-expansion-panel>                       
+                                </div>
+                            </mat-expansion-panel>                        -->
 
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAccionistaDirectivo(true)" (closed)="openAccionistaDirectivo(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -532,40 +532,20 @@
                                         </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalAddress"></span>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalAccionistaDirectivo"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-                                <!-- <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
+                                <!-- {{printErrors() | json}}  -->
 
-                                    <sirio-persona-direccion-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
-                                    </sirio-persona-direccion-table>
+                                <div fxLayout="row" fxLayout="column" *ngIf="showAccionistaDirectivo">
 
-
-                                </div> -->
-                            </mat-expansion-panel>
-
-                            <!-- <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPep(true)" (closed)="openPep(false)">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>peoples</mat-icon>
-                                        </button>
-                                        <span class="margin-top-sm semi-bold"> Persona Expuesta Políticamente (PEP)</span>
-                                    </mat-panel-title>
-    
-                                </mat-expansion-panel-header>
-
-                                <div fxLayout="row" fxLayout="column" *ngIf="showPep">
-
-
-
-                                    <sirio-persona-pep-table [persona]="personaJuridica.id" (propagar)="updatePep($event)"></sirio-persona-pep-table>
+                                    <sirio-persona-accionista-directivo-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
+                                    </sirio-persona-accionista-directivo-table>
 
 
                                 </div>
-
-                            </mat-expansion-panel> -->
+                            </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openApoderado(true)" (closed)="openApoderado(false)">
                                 <mat-expansion-panel-header>
@@ -616,7 +596,7 @@
                             </mat-expansion-panel> -->
 
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openEmpresaRelacionada(true)" (closed)="openEmpresaRelacionada(false)">
+                            <!-- <mat-expansion-panel *ngIf="hasBasicData" (opened)="openEmpresaRelacionada(true)" (closed)="openEmpresaRelacionada(false)">
 
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
@@ -639,7 +619,7 @@
 
                                 </div>
 
-                            </mat-expansion-panel>
+                            </mat-expansion-panel> -->
 
                             <mat-expansion-panel *ngIf="hasBasicData">
                                 <mat-expansion-panel-header>
