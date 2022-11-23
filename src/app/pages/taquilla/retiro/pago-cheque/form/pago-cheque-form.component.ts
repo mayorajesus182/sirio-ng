@@ -317,7 +317,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
 
         this.swalService.show('¿Desea Realizar el Pago de Cheque?', undefined,
-            { 'html': 'Titular: <b>' + this.persona.nombre +   this.retiro.email +'</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
+            { 'html': 'Titular: <b>' + this.persona.nombre  +'</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
         ).then((resp) => {
             if (!resp.dismiss) {
 
@@ -328,7 +328,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
                 //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                 //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
-                console.log("RETIRO   ", this.retiro);        
+                // console.log("RETIRO   ", this.retiro);        
                 
                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                this.retiro.moneda = this.moneda.id;
