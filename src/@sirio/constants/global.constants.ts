@@ -8,6 +8,7 @@ export class GlobalConstants {
   public static PAIS_LOCAL = 'VEN';//TODO: ESTO DEBERIAMOS OBTENER DEL USUARIO
   public static PERSONA_NATURAL = 'N';
   public static PERSONA_JURIDICA = 'J';
+  public static TIPDOC_GOBIERNO = 'G'; 
   public static CASADO = 'CAS';
   public static UNION_ESTABLE = 'UDH';
   public static DATE_SHORT = 'DD/MM/YYYY';

@@ -12,7 +12,7 @@
     [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" 
     [rows]="registroMercantilList| async">
 
-    <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
+    <ngx-datatable-column [flexGrow]="0.5" [sortable]="true" >
         <ng-template ngx-datatable-header-template>
             <span>#</span>
         </ng-template>
@@ -30,7 +30,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+    <!-- <ngx-datatable-column [flexGrow]="2" [sortable]="true">
         <ng-template ngx-datatable-header-template>
             <span>Número</span>
         </ng-template>
@@ -74,7 +74,7 @@
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
             {{row.decreto}}            
         </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> -->
 
     <!-- <ngx-datatable-column [flexGrow]="5" [sortable]="true">
         <ng-template ngx-datatable-header-template>
@@ -86,14 +86,14 @@
     </ngx-datatable-column> -->
 
     
-    <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+    <!-- <ngx-datatable-column [flexGrow]="2" [sortable]="true">
         <ng-template ngx-datatable-header-template>
             <span>Código ONT</span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
             {{row.codigoOnt}}            
         </ng-template>
-    </ngx-datatable-column>
+    </ngx-datatable-column> -->
 
 
     <ngx-datatable-column name="" [flexGrow]="0.5">

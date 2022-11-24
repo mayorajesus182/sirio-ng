@@ -20,8 +20,11 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
+  @Input() tipoDocumento=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   registroMercantilList:ReplaySubject<RegistroMercantil[]> = new ReplaySubject<RegistroMercantil[]>();
+
+  
 
   constructor(
     injector: Injector,
@@ -34,33 +37,16 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   }
   
   private loadList(){
-    this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
-      console.log(data);
-      
-      this.registroMercantilList.next(data.slice());
 
-      console.log('registro mercantil',data);
-      
+    this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
+
+      this.registroMercantilList.next(data.slice());
       this.cdr.detectChanges();
     });
   }
-
-  // private loadList(){
-  //   this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
-            
-  //     this.registroMercantilList.next(data.slice());
-  //     console.log('registro mercantil',data);
-      
-  //     // this.propagar.emit(data.length);
-  //     this.cdr.detectChanges();
-  //   });
-  // }
-
  
   ngOnInit() {
-    console.log('registro Mercantil table');
-   
-    
+
     if(this.persona){
       console.log('buscando Registro Mercantil en el servidor dado el id persona');
       this.loadList();
@@ -78,12 +64,13 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
 
   }
 
-  popup(data?:RegistroMercantil) {
-    console.log(data);
+  popup(data?:any) {
     if(data){
       data.persona=this.persona;
+      data.tipoDocumento = this.tipoDocumento;
     }    
-    this.showFormPopup(RegistroMercantilFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+
+    this.showFormPopup(RegistroMercantilFormPopupComponent, !data?{persona:this.persona, tipoDocumento:this.tipoDocumento}:data,'60%').afterClosed().subscribe(event=>{
       console.log(event);
       
         if(event){
