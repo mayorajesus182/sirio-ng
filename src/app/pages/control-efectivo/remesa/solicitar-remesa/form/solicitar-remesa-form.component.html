@@ -35,20 +35,26 @@
                         <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex="40"
-                                    [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate"
-                                    formControlName="receptor" [required]="true" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                <sirio-select-search fxFlex="40" *ngIf="!esTransportista"
+                                    [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
+                                    [required]="esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.receptor?.errors">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex="20" [label]="'remittanceRequest.coin' | translate: {default: 'global.coin'} | translate"
+                                <mat-form-field fxFlex.gt-xs="40" *ngIf="esTransportista">
+                                    <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="nombreReceptor" readonly>
+                                </mat-form-field>
+
+                                <sirio-select-search fxFlex="auto" [label]="'remittanceRequest.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex="20" [label]="'Tipo de Envío' | translate: {default: 'Tipo de Envío'} | translate"
-                                    formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.viaje?.errors">
+                                <sirio-select-search *ngIf="!esTransportista" fxFlex="20"
+                                    [label]="'Tipo de Envío' | translate: {default: 'Tipo de Envío'} | translate" formControlName="viaje"
+                                    [required]="esTransportista" [elements]="viajes.asObservable()" [attributeName]="'nombre'" [errors]="f.viaje?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="20">
@@ -64,6 +70,7 @@
                             </div>
                         </form>
                     </div>
+                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

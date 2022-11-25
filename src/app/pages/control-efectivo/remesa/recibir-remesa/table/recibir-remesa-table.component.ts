@@ -7,15 +7,17 @@ import { GlobalConstants } from 'src/@sirio/constants';
 import { RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
+
+
 @Component({
-  selector: 'app-solicitar-remesa-table',
-  templateUrl: './solicitar-remesa-table.component.html',
-  styleUrls: ['./solicitar-remesa-table.component.scss'],
+  selector: 'app-recibir-remesa-table',
+  templateUrl: './recibir-remesa-table.component.html',
+  styleUrls: ['./recibir-remesa-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class SolicitarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class RecibirRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['remesa_id', 'receptor', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
@@ -32,35 +34,18 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
   }
 
   ngOnInit() {
-      this.init(this.remesaService, 'remesa_id', 'pageSolicitudes');      
+      this.init(this.remesaService, 'remesa_id', 'pagePorRecibir');      
   }
 
   ngAfterViewInit() {
   }
 
-
-  add(path: string) {
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
-  }
-
-  process(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
-  }
-
-  dispatch(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
-  }
-
-  receive(data:any) {  
+  receive(data:any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
   }
 
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
-  }
-
-  activateOrInactivate(data: any) {
-    this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);
   }
 
 }

@@ -55,8 +55,6 @@ export class SolicitudRemesaTableComponent extends TableBaseComponent implements
   }
 
   receive(data:any) {
-    console.log('toyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
-    
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
   }
 

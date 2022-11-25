@@ -62,6 +62,7 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
 
     ngOnInit() {
 
+
         let id = this.route.snapshot.params['id'];
         this.isNew = false;
 
@@ -70,9 +71,10 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
             this.buildForm(this.remesa);
             this.buildFormMateriales();
 
-            console.log( 'datooooooooooosssssssssss', data);
+            this.conoMonetarioService.activesByMoneda(this.remesa.moneda).subscribe(cono => {
+                this.conos.next(cono);
+            });
             
-
             this.cdr.markForCheck();
             this.loadingDataForm.next(false);
             this.applyFieldsDirty();
@@ -147,18 +149,9 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
             this.conoSave = c.filter(c => c.cantidad > 0);
             this.cdr.detectChanges();
         });
-
-        if (item && item.cantidad > item.disponible) {
-            this.itemForm.controls['montoRecibido'].setErrors({
-                cantidad: true
-            });
-            this.f.montoRecibido.setValue(0.0);
-            this.cdr.detectChanges();
-        }
     }
 
     preConfirmFunt(obs: string) {
-
         if (!obs || obs.trim().length == 0) {
             swal.showValidationMessage(
                 'La observación es requerida!'

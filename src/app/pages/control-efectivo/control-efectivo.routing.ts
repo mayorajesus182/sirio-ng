@@ -47,6 +47,23 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Solicitar Remesa' },
         loadChildren: () => import('./remesa/solicitar-remesa/solicitar-remesa.module').then(m => m.SolicitarRemesaModule),
     },
+    {
+        path: 'procesar-remesa',
+        data: { title: 'Procesar Remesa' },
+        loadChildren: () => import('./remesa/procesar-remesa/procesar-remesa.module').then(m => m.ProcesarRemesaModule),
+    },
+    {
+        path: 'despachar-remesa',
+        data: { title: 'Despachar Remesa' },
+        loadChildren: () => import('./remesa/despachar-remesa/despachar-remesa.module').then(m => m.DespacharRemesaModule),
+    },
+    {
+        path: 'recibir-remesa',
+        data: { title: 'Despachar Remesa' },
+        loadChildren: () => import('./remesa/recibir-remesa/recibir-remesa.module').then(m => m.RecibirRemesaModule),
+    },
+
+
 ];
 
 

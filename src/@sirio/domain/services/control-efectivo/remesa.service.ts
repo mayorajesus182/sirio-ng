@@ -18,12 +18,15 @@ export interface Remesa {
     nombreEmisor: string;
     receptor: string;
     nombreReceptor: string;
+    transportista: string;
+    nombreTransportista: string;
     viaje: string;
     nombreViaje: string;
     montoSolicitado: number;
     montoEnviado: number;
     montoRecibido: number;
     moneda: string;
+    cajasBolsas: string;
     plomos: string;
     nombreMoneda: string;
     fechaSolicitud: any;   
@@ -66,6 +69,14 @@ export class RemesaService {
 
     pagePorProcesar(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
         return this.apiService.config(this.apiConfig).page('/porprocesar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
+    pagePorDespachar(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
+        return this.apiService.config(this.apiConfig).page('/pordespachar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
+    pagePorRecibir(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
+        return this.apiService.config(this.apiConfig).page('/porrecibir/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
     detail(id: string): Observable<Remesa> {
