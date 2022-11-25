@@ -92,7 +92,8 @@
         <mat-label>{{'Capital Social' | translate: {default:
           'Capital Social'} | translate }} </mat-label>
         <!-- <input matInput maxlength="80" minlength="1" autocomplete="off" name="capitalSocial" formControlName="capitalSocial" -->
-        <input matInput autocomplete="off" name="capitalSocial" currencyMask [options]="{precision:2}"
+        <input maxlength="16" matInput autocomplete="off" name="capitalSocial" currencyMask [options]="{precision:2}"                                   
+
           formControlName="capitalSocial" [required]="!esGobierno">
         <mat-error *ngIf="f.capitalSocial.errors?.required">{{'error.required' | translate}}
         </mat-error>

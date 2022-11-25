@@ -58,7 +58,7 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
     console.log('empresaRelacionada table');
     
     if(this.persona){
-      console.log('buscando Relacion Empresa en el servidor dado el id persona');
+      console.log('buscando Relación Empresa en el servidor dado el id persona');
       this.loadList();
 
       this.onRefresh.subscribe(val=>{

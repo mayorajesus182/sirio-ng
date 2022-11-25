@@ -42,13 +42,13 @@
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'Telefono Fijo'}}</mat-label>
+        <mat-label>{{'Teléfono Fijo'}}</mat-label>
         <input [required]="!f.telefonoMovil.value" autocomplete="off" [imask]="{mask: '0200 000 00 00'}"  class="text-center" matInput name="telefonoFijo" maxlength="14" formControlName="telefonoFijo" >
         <mat-error *ngIf="f.telefonoFijo.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.telefonoFijo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
       </mat-form-field>
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'Telefono Movil'}}</mat-label>
+        <mat-label>{{'Teléfono Móvil'}}</mat-label>
         <input [required]="!f.telefonoFijo.value" autocomplete="off" [imask]="{mask: '0400 000 00 00'}"  class="text-center" matInput name="telefonoMovil" maxlength="14" formControlName="telefonoMovil" >
         <mat-error *ngIf="f.telefonoMovil.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.telefonoMovil.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>

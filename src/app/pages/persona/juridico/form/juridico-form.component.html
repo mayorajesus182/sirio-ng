@@ -282,7 +282,8 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ventas mensuales' | translate: {default:
                                                 'Ventas mensuales'} | translate }} </mat-label>
-                                            <input matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}" formControlName="ventas" [required]="">
+                                            <input maxlength="16" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}" formControlName="ventas" [required]="">
+                                           
                                     
                                             <mat-error *ngIf="f.ventas.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
@@ -294,7 +295,8 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ingresos mensuales' | translate: {default:
                                                 'Ingresos mensuales'} | translate }} </mat-label>
-                                            <input matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}" formControlName="ingresos" [required]="">
+                                            <input maxlength="16" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}" formControlName="ingresos" [required]="">
+                                            
                                             <mat-error *ngIf="f.ingresos.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.ingresos.errors?.pattern">{{'error.invalidCharacter' |
@@ -305,7 +307,8 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Egresos mensuales' | translate: {default:
                                                 'Egresos mensuales'} | translate }} </mat-label>
-                                            <input matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}" formControlName="egresos" [required]="">
+                                            <input maxlength="16" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}" formControlName="egresos" [required]="">
+                                            
                                             <mat-error *ngIf="f.egresos.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.egresos.errors?.pattern">{{'error.invalidCharacter' |
@@ -351,7 +354,8 @@
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Monto' | translate: {default:
                                                 'Monto'} | translate }} </mat-label>
-                                            <input matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}" formControlName="montoDeclarado" [required]="">
+                                            <input maxlength="16" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}" formControlName="montoDeclarado" [required]="">
+                                            
                                     
                                             <mat-error *ngIf="f.montoDeclarado.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
@@ -422,7 +426,7 @@
                                             <mat-icon>location_on</mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">
-                                            {{'Direccion Fiscal' | translate}}
+                                            {{'Dirección Fiscal' | translate}}
 
                                         </span>
                                     </mat-panel-title>
