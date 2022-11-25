@@ -67,12 +67,24 @@
 
                             </div>
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex.gt-xs="25">
-                                    <mat-label>{{'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate }}
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esTransportista">
+                                <mat-form-field fxFlex.gt-xs="30">
+                                    <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadass'} | translate }}
                                     </mat-label>
-                                    <input matInput [value]="remesa.nombreViaje" readonly>
+                                    <input matInput [value]="remesa.cajasBolsas" readonly>
                                 </mat-form-field>
+
+                                <sirio-select-search fxFlex="70" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
+                                    formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.transportista?.errors">
+                                </sirio-select-search>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
+                                    formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.viaje?.errors">
+                                </sirio-select-search>
 
                                 <mat-form-field fxFlex.gt-xs="50">
                                     <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}

@@ -68,11 +68,11 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esTransportista">
                                 <mat-form-field fxFlex.gt-xs="30">
-                                    <mat-label>{{'Cantidad de Cajas o Bolsas Utilizadas' | translate: {default: 'Cantidad de Cajas o Bolsas Utilizadas'} |
+                                    <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadas'} |
                                         translate }}
                                     </mat-label>
                                     <input matInput type="number" autocomplete="off" minlength="1" maxlength="200" name="cajasBolsas"
-                                        formControlName="cajasBolsas" [required]="!esTransportista">
+                                        formControlName="cajasBolsas" [required]="!esTransportista" class="text-right">
                                     <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
