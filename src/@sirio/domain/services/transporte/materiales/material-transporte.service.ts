@@ -41,6 +41,13 @@ export class MaterialTransporteService {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/withcostodivisa/bytransportista/list`);
     }
 
+    allWithCosto(): Observable<Material[]> {
+        return this.apiService.config(this.apiConfig).get(`/withcosto/bytransportista/list`);
+    }
+
+    allWithCostoDivisa(): Observable<Material[]> {
+        return this.apiService.config(this.apiConfig).get(`/withcostodivisa/bytransportista/list`);
+    }
 
     update(data: MaterialTransporte[]): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/update`, data)

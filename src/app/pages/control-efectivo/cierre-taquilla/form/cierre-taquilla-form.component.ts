@@ -80,12 +80,15 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
             if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > this.preferencias.ajusteTaquilla) {
 
                 let ajuste = saldoTaquilla.declarado > saldoTaquilla.saldo ? (this.preferencias.ajusteTaquilla * -1) : this.preferencias.ajusteTaquilla;
-                let ajusteTaquillaFormat = formatNumber(ajuste, 'es', '1.2');
-                let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste, 'es', '1.2');
-                mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteTaquillaFormat).concat(' <br/> ');
+               // let ajusteTaquillaFormat = formatNumber(ajuste, 'es', '1.2');
+               // let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste, 'es', '1.2');
+                let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
+               // mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteTaquillaFormat).concat(' <br/> ');
                 mensaje = mensaje + (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Y Una Diferencia Sobrante De: ' : 'Y Una Diferencia Faltante De: ').concat(diferenciaGeneradaFormat);
-                saldoTaquilla.ajuste = ajuste;
-                saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste;
+               // saldoTaquilla.ajuste = ajuste;
+               // saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste;
+                saldoTaquilla.ajuste = 0;
+                saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado;
 
             } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > 0 && Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= this.preferencias.ajusteTaquilla) {
 

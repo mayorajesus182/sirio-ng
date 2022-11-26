@@ -47,6 +47,10 @@ export class TransportistaService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesByUbicacionAgencia(): Observable<Transportista[]> {
+        return this.apiService.config(this.apiConfig).get('/byagencia/actives');
+    }
+
     allCentrosAcopio(): Observable<Transportista[]> {
         return this.apiService.config(this.apiConfig).get('/centroacopio/byagencia/list');
     }

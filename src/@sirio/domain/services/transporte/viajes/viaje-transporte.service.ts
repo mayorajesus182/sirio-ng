@@ -40,6 +40,14 @@ export class ViajeTransporteService {
     allWithCostoDivisaByTransportista(transportista: string): Observable<Viaje[]> {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/withcostodivisa/bytransportista/list`);
     }
+
+    allWithCosto(): Observable<Viaje[]> {
+        return this.apiService.config(this.apiConfig).get(`/withcosto/bytransportista/list`);
+    }
+
+    allWithCostoDivisa(): Observable<Viaje[]> {
+        return this.apiService.config(this.apiConfig).get(`/withcostodivisa/bytransportista/list`);
+    }
     
     update(data: ViajeTransporte[]): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/update`, data)
