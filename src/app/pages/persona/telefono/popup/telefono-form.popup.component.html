@@ -35,7 +35,7 @@
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Numero' | translate }} </mat-label>
-        <input matInput maxlength="200" minlength="1" autocomplete="off" name="numero" [imask]="{mask: '0000 000-00-00'}" class="text-center" formControlName="numero" required>
+        <input matInput maxlength="200" minlength="1" autocomplete="off" phone-validate [telefonicas]="telefonicaList.asObservable()"  name="numero" [imask]="{mask: '(0000) 000.00.00'}" class="text-center" formControlName="numero" required>
         <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
