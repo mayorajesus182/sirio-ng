@@ -4,22 +4,22 @@ import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
-import { SolicitudRemesaService } from 'src/@sirio/domain/services/control-efectivo/solicitud-remesa.service';
+import { RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
 
 @Component({
-  selector: 'app-solicitud-remesa-table',
-  templateUrl: './solicitud-remesa-table.component.html',
-  styleUrls: ['./solicitud-remesa-table.component.scss'],
+  selector: 'app-recibir-remesa-table',
+  templateUrl: './recibir-remesa-table.component.html',
+  styleUrls: ['./recibir-remesa-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class SolicitudRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class RecibirRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['solremesa_id', 'transportista_id', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'receptor', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -28,30 +28,24 @@ export class SolicitudRemesaTableComponent extends TableBaseComponent implements
     protected dialog: MatDialog,
     protected router: Router,
     private cdr: ChangeDetectorRef,
-    private solicitudRemesaService: SolicitudRemesaService,
+    private remesaService: RemesaService,
   ) {
     super(undefined, injector);
   }
 
   ngOnInit() {
-      this.init(this.solicitudRemesaService, 'solremesa_id');
+      this.init(this.remesaService, 'remesa_id', 'pagePorRecibir');      
   }
 
   ngAfterViewInit() {
-    //  this.afterInit();
   }
 
-
-  add(path: string) {
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
+  receive(data:any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
   }
 
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
-  }
-
-  activateOrInactivate(data: any) {
-    this.applyChangeStatus(this.solicitudRemesaService, data.element, data.element.nombre, this.cdr);
   }
 
 }
