@@ -2,7 +2,6 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -19,6 +18,8 @@ import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import * as moment from 'moment';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 
 @Component({
     selector: 'app-natural-form',
@@ -30,7 +31,11 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
+    todayValue: moment.Moment;
     totalAddress: number;
+
+    totalRegistroMercantil : number;
+
     totalInfoLab: number;
     totalPep: number;
     totalApoderado: number;
@@ -42,6 +47,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
+
+    showRegistroMercantil = false;
     showPersonalReference = false;
     showBankReference = false;
     showPep = false;
@@ -85,7 +92,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         private actividadEconomicaService: ActividadEconomicaService,
         private actividadEspecificaService: ActividadEspecificaService,
         private categoriaEspecialService: CategoriaEspecialService,
-
+        private calendarioService: CalendarioService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -120,6 +127,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         this.loadingDataForm.next(false);
 
+        this.calendarioService.today().subscribe(data => {
+            this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+        });
 
         this.generoService.actives().subscribe(data => {
             this.generos.next(data);
@@ -153,7 +163,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.categoriasEspeciales.next(data);
         });
 
-
+        this.cdr.detectChanges();
 
     }
 

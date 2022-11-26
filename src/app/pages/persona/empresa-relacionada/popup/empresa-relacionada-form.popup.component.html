@@ -21,7 +21,7 @@
 
       <sirio-select-search
         fxFlex="30"
-        [label]="'Relacion Empresa'"
+        [label]="'Relación Empresa'"
         formControlName="relacionEmpresa" [required]="true" [elements]="tipoRelacionList.asObservable()"
         [attributeName]="'nombre'" [errors]="f.relacionEmpresa?.errors">
       </sirio-select-search>
@@ -44,8 +44,8 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <mat-form-field fxFlex="100">
-        <mat-label>{{'Direccion' | translate: {default:
-              'Direccion'} | translate }} </mat-label>
+        <mat-label>{{'Dirección' | translate: {default:
+              'Dirección'} | translate }} </mat-label>
           <input matInput maxlength="100" minlength="1" autocomplete="off" name="direccion" formControlName="direccion"
               uppercase required>
           <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}

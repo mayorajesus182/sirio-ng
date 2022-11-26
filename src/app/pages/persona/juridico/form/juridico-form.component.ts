@@ -36,6 +36,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     totalPep: number;
     totalApoderado: number;
 
+    totalAccionistaDirectivo: number;
+
     totalPhone: number;
     totalBankReference: number;
     totalPersonalReference: number;
@@ -48,6 +50,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     showPep = false;
     showApoderado = false;
     showPhone = false;
+
+    showAccionistaDirectivo = false;
+
+    showRegistroMercantil = false;
     
     showEmpresaRelacionada = false;
 
@@ -409,16 +415,16 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         this.cdr.detectChanges();
     }
 
-    openEmpresaRelacionada(opened:boolean) {
-        
-        this.showEmpresaRelacionada=opened; 
-        this.cdr.detectChanges();
-    }
-  
     openAddress(opened:boolean) {
         this.showAddress = opened;
         this.cdr.detectChanges();
     }
+
+    openAccionistaDirectivo(opened:boolean) {
+        this.showAccionistaDirectivo = opened;
+        this.cdr.detectChanges();
+    }
+
     openBankReference(opened:boolean) {
         this.showBankReference = opened;
         this.cdr.detectChanges();
@@ -426,6 +432,19 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     openPersonalReference(opened:boolean) {
         this.showPersonalReference = opened;
+        this.cdr.detectChanges();
+    }
+
+     
+    openRegistroMercantil(opened:boolean) {
+        this.showRegistroMercantil = opened;
+        this.cdr.detectChanges();
+        
+    }
+
+    openEmpresaRelacionada(opened:boolean) {
+        
+        this.showEmpresaRelacionada=opened; 
         this.cdr.detectChanges();
     }
 }
