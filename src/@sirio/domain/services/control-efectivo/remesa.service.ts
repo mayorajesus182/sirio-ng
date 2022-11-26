@@ -87,12 +87,6 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/detail`);
     }
 
-    save(data: Remesa): Observable<any> {
-        
-        return this.apiService.config(this.apiConfig).post('/create', data)
-            .pipe(map(res => data));
-    }
-
     process(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/process/update`, data)
             .pipe(map(res => data));
@@ -105,6 +99,17 @@ export class RemesaService {
 
     receive(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/receive/update`, data)
+            .pipe(map(res => data));
+    }
+
+    send(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).post('/envio/create', data)
+            .pipe(map(res => data));
+    }
+
+    save(data: Remesa): Observable<any> {
+        
+        return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 

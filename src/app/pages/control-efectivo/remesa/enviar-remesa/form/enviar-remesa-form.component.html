@@ -40,49 +40,34 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="40">
-                                    <mat-label>{{'Unidad Emisora' | translate: {default: 'Unidad Emisora'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="remesa.emisor + ' - ' + remesa.nombreEmisor" readonly>
-                                </mat-form-field>
+                                <sirio-select-search fxFlex="30" *ngIf="!esTransportista"
+                                    [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
+                                    [required]="!esTransportista" [elements]="acopios.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.receptor?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search fxFlex="20" [label]="'Moneda' | translate: {default: 'Moneda'} | translate" formControlName="moneda"
+                                    [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'" [errors]="f.transportista?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search fxFlex="30" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
+                                    formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.transportista?.errors" *ngIf="!esTransportista">
+                                </sirio-select-search>
 
                                 <mat-form-field fxFlex.gt-xs="20">
-                                    <mat-label>{{'Fecha de la Solicitud' | translate: {default: 'Fecha de la Solicitud'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
-                                </mat-form-field>
-
-                                <mat-form-field fxFlex.gt-xs="25">
-                                    <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="remesa.nombreMoneda" readonly>
-                                </mat-form-field>
-
-                                <mat-form-field fxFlex.gt-xs="15">
-                                    <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">
-                                </mat-form-field>
-
-                            </div>
-
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esTransportista">
-                                <mat-form-field fxFlex.gt-xs="30">
                                     <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadas'} |
                                         translate }}
                                     </mat-label>
-                                    <input matInput type="number" autocomplete="off" minlength="1" maxlength="200" name="cajasBolsas"
-                                        formControlName="cajasBolsas" [required]="!esTransportista" class="text-right">
+                                    <input matInput type="number" autocomplete="off" name="cajasBolsas" formControlName="cajasBolsas"
+                                        [required]="!esTransportista" class="text-right" *ngIf="!esTransportista">
                                     <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="70" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
-                                    formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.transportista?.errors">
-                                </sirio-select-search>
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
                                 <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
                                     formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.viaje?.errors">
