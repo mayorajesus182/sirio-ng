@@ -249,4 +249,11 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     return this.nucleos.value.filter(n=>n.id==this.f.nucleo.value)[0]?.nombre;
   }
 
+  nombreCiudad(){
+    if(!this.f.municipio.value || !this.municipios.value){
+      return '';
+    }
+    return this.municipios.value.filter(m=>m.id===this.f.municipio.value)[0]?.ciudad;
+  }
+
 }

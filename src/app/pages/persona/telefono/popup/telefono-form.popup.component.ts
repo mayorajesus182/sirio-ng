@@ -47,14 +47,12 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
 
     this.tipoTelefonoService.actives().subscribe(data => {
-      console.log(data);
       
       this.tipoTelefonoList.next(data);
       this.cdr.detectChanges();
     })
 
     this.claseTelefonoService.actives().subscribe(data => {
-      console.log(data);
       
       this.claseTelefonoList.next(data);
       this.cdr.detectChanges();
@@ -93,8 +91,12 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     });
 
     this.f.claseTelefono.valueChanges.subscribe(val=>{
+    
       if(val){
+          this.f.numero.setValue('');
           this.telefonicaService.activesByClaseTelefono(val).subscribe(data=>{
+            console.log('telefonicas',data);
+            
             this.telefonicaList.next(data);
           })
       }

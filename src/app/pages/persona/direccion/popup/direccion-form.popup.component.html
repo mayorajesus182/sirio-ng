@@ -35,21 +35,16 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
         formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" [errors]="f.municipio?.errors">
       </sirio-select-search>
 
-      <!-- <mat-form-field ffxFlex.gt-xs="auto">
+      <mat-form-field ffxFlex.gt-xs="25">
           <mat-label>{{'Ciudad' | translate: {default:
               'Ciudad'} | translate }} </mat-label>
-          <input matInput maxlength="100" minlength="1" autocomplete="off" name="ciudad" formControlName="ciudad"
-              uppercase required>
-          <mat-error *ngIf="f.ciudad.errors?.required">{{'error.required' | translate}}
-          </mat-error>
-          <mat-error *ngIf="f.ciudad.errors?.pattern">{{'error.invalidCharacter' |
-              translate}}
-          </mat-error>
-      </mat-form-field> -->
+          <input matInput maxlength="100" minlength="1" autocomplete="off" name="ciudad" [value]="nombreCiudad()" uppercase readonly>
+          
+      </mat-form-field>
 
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.parish' | translate: {default: 'global.parish'} | translate" formControlName="parroquia"
