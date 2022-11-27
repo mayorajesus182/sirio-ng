@@ -307,10 +307,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         if (this.isNew) {
 
             this.personaNaturalService.save(this.personaNatural).subscribe(data => {
-                console.log(data);
+                // console.log(data);
 
                 this.personaNatural = data;
-                this.successResponse('La persona', 'creada');
+                this.successResponse('La persona', 'creada',true);
                 this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
 
@@ -319,7 +319,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         } else {
             this.personaNaturalService.update(this.personaNatural).subscribe(data => {
 
-                this.successResponse('La persona', 'actualizada');
+                this.successResponse('La persona', 'actualizada',true);
             }, error => this.errorResponse(false));
         }
 

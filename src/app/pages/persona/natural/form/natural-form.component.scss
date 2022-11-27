@@ -29,6 +29,14 @@
 }
 
 
+.mat-expansion-panel{
+  .mat-expansion-panel-header{
+    &.odd{
+      background-color: lighten( #eeeeee, 3.5%) ;
+    }
+  }
+} 
+
 .mat-expansion-panel-header {
   .mat-content {
       overflow: inherit;
