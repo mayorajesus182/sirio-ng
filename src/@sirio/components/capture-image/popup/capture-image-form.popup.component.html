@@ -21,8 +21,28 @@
           <button class="button" (click)="changeWebCame(true)">Toggle Camera</button>
           <button class="button" (click)="onOffWebCame()">Switch camera</button>
         </div>  -->
-        <webcam [height]="400" [width]="600" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+
+        <webcam [height]="350" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
           [switchCamera]="nextWebcamObservable"></webcam>
+
+          <div fxLayout="column" fxFlex.gt-xs="100"  fxLayout.gt-sm="row" *ngIf="base64Image">
+            <div class="text-center col-md-6">
+                <div class="row" style="margin-top: 15px;">
+                    <div class="text-center col-md-8"  *ngIf="imageChangedEvent">
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                           [resizeToWidth]="256" format="png" (imageCropped)="imageCropped($event)">
+                        </image-cropper>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="column" fxFlex.gt-xs="100"  fxLayout.gt-sm="row">
+                <h5>Previsualización</h5>
+                <img [src]="croppedImage" />
+                <p *ngIf="!isScanning" class="text-left">{{ocrResult}}</p>
+                 <!-- <button *ngIf="!isScanning" class="btn btn-primary" type="submit" (click)="scanOCR()">Scan</button> -->
+            </div>
+        </div>
+    
 
 
       </div>
