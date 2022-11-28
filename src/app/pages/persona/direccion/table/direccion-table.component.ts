@@ -38,8 +38,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
   private loadList() {
     this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
-      console.log(data);
-
+      
       this.direcciones.next(data.slice());
       this.propagar.emit(data.length);
       // debo conocer si tengo una direccion principal
@@ -89,7 +88,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
 
   popup(data?: Direccion) {
-    console.log(data);
+    
     if (data) {
       data.persona = this.persona;
     }

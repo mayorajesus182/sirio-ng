@@ -53,13 +53,13 @@
                                     <input matInput [value]="solicitudRemesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex.gt-xs="25">
                                     <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="solicitudRemesa.nombreMoneda" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex.gt-xs="15">
                                     <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="solicitudRemesa.montoSolicitado | number: '1.2'" readonly class="text-right">
@@ -67,29 +67,151 @@
 
                             </div>
 
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex="15">
-                                    <mat-label>{{'Monto Enviado' | translate: {default: 'Monto Enviado'} | translate }} </mat-label>
+                                <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
+                                    formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.viaje?.errors">
+                                </sirio-select-search>
+
+                                <mat-form-field fxFlex.gt-xs="50">
+                                    <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" minlength="1" maxlength="200" name="plomos" formControlName="plomos" uppercase required>
+                                    <mat-error *ngIf="f.plomos.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.plomos.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="25">
+                                    <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
-                                        [options]="{precision:2}" readonly>
-                                    <mat-error *ngIf="f.montoEnviado.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.montoEnviado.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
                             </div>
-                            <sirio-cash-button operation="remesa" [moneda]="moneda" [total]="f.monto.value" class="margin-top-sm"
-                                (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior">
-                            </sirio-cash-button>
                         </form>
 
+                        <mat-divider class="margin-bottom-md"></mat-divider>
 
                         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
-                            <div fxLayout="column" fxFlex="10">
-                                <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+
+                            <div fxLayout="column" fxFlex="40">
+                                <form [formGroup]="materialForm" *ngIf="materialForm">
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <h3>{{'Materiales Utilizados' | translate: {default: 'Materiales Utilizados'} | translate }}</h3>
+                                    </div>
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <sirio-select-search fxFlex="70" [label]="'Material' | translate: {default: 'Material'} | translate"
+                                            formControlName="material" [required]="true" [elements]="materiales.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="mf.material?.errors">
+                                        </sirio-select-search>
+
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'Cantidad' | translate: {default: 'Cantidad'} | translate }}
+                                            </mat-label>
+                                            <input matInput class="text-center" max="99" min="0" type="number" autocomplete="off" name="cantidad"
+                                                formControlName="cantidad">
+                                            <mat-error *ngIf="mf.cantidad.errors?.max">No puede superior a 99</mat-error>
+                                        </mat-form-field>
+
+                                        <div class="text-center" fxFlex.gt-xs="auto" fxFlex="1 1 0%">
+                                            <button color="black" [disabled]="materialForm.invalid" (click)="addMaterial()" mat-button>
+                                                <mat-icon class="margin-top-md">add_circle</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+
+                                        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+                                            [messages]="{emptyMessage: 'No hay registros de Materiales...',totalMessage: 'Cantidad de Materiales'}"
+                                            [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10"
+                                            [rows]="materialUtilizadoList | async" *ngIf="materialForm">
+
+                                            <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                                                <ng-template ngx-datatable-header-template>
+                                                    <div class="text-center">{{'Material' | translate: {default: 'Material'} | translate }}</div>
+                                                </ng-template>
+                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                    <div style="white-space: break-spaces;" class="text-center">{{ row?.material }}</div>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+
+                                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                                <ng-template ngx-datatable-header-template>
+                                                    <div class="text-center">{{'Cantidad' | translate: {default: 'Cantidad'} | translate }}</div>
+                                                </ng-template>
+                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                    <div style="white-space: break-spaces;" class="text-center">{{ row?.cantidad }}</div>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+
+                                            <ngx-datatable-column name="" [flexGrow]="1">
+                                                <ng-template ngx-datatable-header-template>
+                                                    <div class="text-center">{{'action.delete'| translate}}</div>
+                                                </ng-template>
+                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]=""
+                                                        (click)="delete(row)" matTooltip="Eliminar">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                        </ngx-datatable>
+
+
+                                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                </form>
                             </div>
+
+                            <mat-divider [vertical]="true" class="margin-bottom-md"></mat-divider>
+
                             <div fxLayout="column" fxFlex="auto">
+
+                                <div fxLayout="column" fxFlex="100">
+                                    <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+                                </div>
+
                                 <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
-                                    <mat-form-field fxLayout="column" *ngFor="let item of conos | async" fxFlex="32">
+
+                                    <mat-form-field fxLayout="column" *ngFor="let item of conos | async;let i = index" fxFlex="49">
                                         <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
                                             'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                         </mat-label>
@@ -101,10 +223,9 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
+
+                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

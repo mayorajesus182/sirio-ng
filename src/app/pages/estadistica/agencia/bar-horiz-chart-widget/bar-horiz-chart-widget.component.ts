@@ -68,7 +68,10 @@ export class BarHorizChartWidgetComponent implements OnInit {
 
 
       let serie1 = { name: dataset.name, data: dataset.data[this.currentMoneda.id].map(d => d.disponible), color: dataset.color }
-      let serie2 = { name: 'Saldos', data: dataset.data[this.currentMoneda.id].map(d => d.disponible*d.denominacion), color: '#141a2e',  yAxis: 1 }
+      let serie2 = { name: 'Saldos', 
+                  data: dataset.data[this.currentMoneda.id].map(d => d.disponible*d.denominacion), 
+                  color: '#28036a',  yAxis: 1,  pointPadding: -0.04,
+                  pointPlacement: -0.15 }
       let labels = dataset.data[this.currentMoneda.id].map(d => {
 
         return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
@@ -76,6 +79,9 @@ export class BarHorizChartWidgetComponent implements OnInit {
       
       // console.log( '%%%%%');
       // console.log(serie1);
+      console.log(serie1);
+      console.log( '%%%%% serie 2');
+      console.log(serie2);
       // console.log( dataset.data[this.currentMoneda.id]);
       // console.log(dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion));
       let montoTotal = dataset.data[this.currentMoneda.id].map(d => d.disponible* d.denominacion).reduce((a, b) => a + b);
@@ -109,7 +115,9 @@ export class BarHorizChartWidgetComponent implements OnInit {
           },
           opposite: true
       }],
-        
+      legend: {
+        shadow: false
+      },
         // {
         //   title: {
         //     text: 'Cantidad'
@@ -117,6 +125,11 @@ export class BarHorizChartWidgetComponent implements OnInit {
         // },
     
         plotOptions: {
+          column: {
+            grouping: false,
+            shadow: false,
+            borderWidth: 0
+        },
           series: {
             borderWidth: 0,
             dataLabels: {

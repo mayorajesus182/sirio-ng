@@ -244,12 +244,12 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.search.cuenta.setErrors({ notexists: true });
             this.persona = {} as Persona;
 
-            this.cdref.detectChanges();
-
+            
             this.search.tipoDocumento.setValue('');
             this.search.identificacion.setValue('');
             this.search.nombre.setValue(' ');
             this.result.emit(this.persona);
+            this.cdref.detectChanges();
         })
 
     }
@@ -270,10 +270,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     resetAll() {
         this.searchForm.reset({});
+        this.persona={} as Persona;
+        this.isNew=false;
         this.disable.next(false);
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
+        this.cdref.detectChanges();
         this.result.emit({});
     }
 

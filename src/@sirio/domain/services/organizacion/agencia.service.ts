@@ -23,8 +23,9 @@ export interface Agencia {
     institucion: string;
     horarioExt: number;
     taquillas: number;
-    operativas: number;
-    cuentaContable: string;
+    taquillasOperativas: number;
+    atm: number;
+    atmOperativos: number;
 }
 
 @Injectable({

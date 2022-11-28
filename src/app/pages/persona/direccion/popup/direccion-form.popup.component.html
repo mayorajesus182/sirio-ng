@@ -35,9 +35,17 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
         formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" [errors]="f.municipio?.errors">
       </sirio-select-search>
+
+      <mat-form-field ffxFlex.gt-xs="25">
+          <mat-label>{{'Ciudad' | translate: {default:
+              'Ciudad'} | translate }} </mat-label>
+          <input matInput maxlength="100" minlength="1" autocomplete="off" name="ciudad" [value]="nombreCiudad()" uppercase readonly>
+          
+      </mat-form-field>
+
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.parish' | translate: {default: 'global.parish'} | translate" formControlName="parroquia"
         [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'" [errors]="f.parroquia?.errors">
@@ -100,7 +108,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row">
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'personAddress.reference' | translate: {default: 'global.reference'} | translate }}
+        <mat-label>{{'personAddress.reference' | translate: {default: 'Punto de Referencia'} | translate }}
         </mat-label>
         <input matInput minlength="4" maxlength="50" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
         <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}

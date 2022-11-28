@@ -27,4 +27,8 @@ export class RolService {
         return this.apiService.config(this.apiConfig).get(`/${workflow}/byworkflow/get`);
     }
 
+    getByUsuario(): Observable<Rol> {
+        return this.apiService.config(this.apiConfig).get(`/byusuario/get`);
+    }
+
 }

@@ -1,0 +1,67 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittanceRequest.table']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [@fadeInUp]>
+        <sirio-list [name]="'remittanceRequest.table' | translate: {default: 'global.notfound'}" placeholder="remittanceRequest.search"
+            (filterChange)="onFilterChange($event)">
+            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
+                matSortActive="remesa_id" matSortDirection="desc">
+
+                <ng-container matColumnDef="remesa_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">{{'Código' | translate:
+                        {default: 'Código'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="font-weight-600">{{element.id}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="emisor">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'">{{'Unidad Emisora' | translate:
+                        {default: 'Unidad Emisora'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                        <p class="text-truncate font-weight-600">{{element.emisor}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estatus">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'Estatus' | translate:
+                        {default: 'Estatus'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="text-truncate font-weight-600">{{element.estatusSolicitud}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="activo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'"></mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
+                        <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
+                            {{element.activo ? 'Activo' : 'Inactivo'}}
+                        </mat-chip>
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Buttons Column -->
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'"></mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                            <sirio-actions-nav [element]="element" [items]="actions.asObservable()" 
+                            [method]="actionAPI()"></sirio-actions-nav>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
+                    >
+                </mat-row>
+            </mat-table>
+            <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
+                showFirstLastButtons></mat-paginator>
+
+        </sirio-list>
+    </sirio-page-layout-content>
+</sirio-page-layout>
