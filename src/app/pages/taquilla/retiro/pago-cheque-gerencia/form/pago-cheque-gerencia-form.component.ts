@@ -47,10 +47,8 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     agencia: Agencia = {} as Agencia;
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
-    esPagoCheque: boolean = false;
-   // esRetiroEfectivo: boolean = false;
-    esPagoChequeGerencia: boolean = true;
-    //esEfectivo: boolean = false;   
+    esPagoCheque: boolean = false; 
+    esPagoChequeGerencia: boolean = true;     
     detalleEfectivo: number = 0;
     todayValue: moment.Moment;
 
@@ -135,7 +133,8 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
                             //this. 
                             //Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
                             this.saldoByMoneda(this.moneda);                          
-                            console.log("DATOS", data);
+                           // console.log("DATOS", data);
+                            this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
                             this.cdr.markForCheck();
 
                         }, err => {
@@ -163,6 +162,20 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
                 });
                 //} //fin
 
+                this.f.identificacionBeneficiario.valueChanges.subscribe(val => {
+                    if(val){                       
+                        if(this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion){
+                            this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                            this.f.beneficiario.setValue(this.cuentaBancariaOperacion.nombre);
+                            this.cdr.detectChanges();
+                        }else{                                 
+                            this.f.email.setValue('');  
+                            this.f.beneficiario.setValue('');                     
+                            this.cdr.detectChanges();
+                        }
+                    }
+                })
+
                 this.loading$.subscribe(val => {
                     if (val) {
                         this.persona = {} as Persona;
@@ -182,35 +195,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
    
     calculateDifferences(event?: any) {
 
-    /*
-        let valorEfectivo = this.f.montoCheque.value > 0 ? this.f.montoCheque.value : 0;
-        console.log('valoref',valorEfectivo);
-        
 
-        if (valorEfectivo != (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.monto.value) : this.f.monto.value)) {
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
-            this.f.monto.markAsDirty();
-            this.f.montoCheque.setErrors({
-                difference: true
-            });
-            this.f.montoCheque.markAsDirty();
-            if (event && event.montoTotal > 0) {
-                this.f.monto.setValue(event.montoTotal);
-            }
-
-
-        } else {
-
-            if (event && event.montoTotal > 0) {
-                this.f.monto.setValue(event.montoTotal);
-            }
-
-            this.f.monto.setErrors(undefined);
-            this.f.montoCheque.setErrors(undefined);
-        }
-     */
         let valorEfectivo = this.f.monto.value > 0 ? this.f.monto.value : 0;
 
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
@@ -247,30 +232,24 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
 
         this.itemForm = this.fb.group({
             
-         // tipoDocumento: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-          identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
-          //comprador: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+      
+           identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),        
             beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             numper: new FormControl(undefined),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl('', [Validators.required]),
             numeroCuenta: new FormControl('', [Validators.required]),
-            moneda: new FormControl(''),
-           //cuentaAbono: new FormControl(undefined),
+            moneda: new FormControl(''),         
             cuenta: new FormControl(undefined),
             tipoProducto: new FormControl(''),
             serialCheque: new FormControl(undefined, [ Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(''),
-            //fechaEmision: new FormControl(''),
+            montoCheque: new FormControl(''),           
             nombre: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             email: new FormControl(undefined,),
-            telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            //esEfectivo: new FormControl(false),
+            telefono: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),          
             conEfectivo: new FormControl(false),
-            conAbonoCta: new FormControl(false),
-           // esPorCuenta: new FormControl(false),
-            //esPorPersona: new FormControl(false),
+            conAbonoCta: new FormControl(false),         
             cuentaBancaria: new FormControl(undefined), 
 
         });
@@ -289,7 +268,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
 
         this.f.conAbonoCta.valueChanges.subscribe(val => {
             if (!val) {
-                console.log('conAbonoCta', val);
+               // console.log('conAbonoCta', val);
                 
                 //this.f.cuenta.setValue(undefined);
                //this.f.montoCheque.reset();
@@ -313,8 +292,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         }
         this.calculateDifferences(event);
 
-        this.conoActual   =  event.desgloseConoActual;
-        console.log('conoActual ',  this.conoActual )
+        this.conoActual   =  event.desgloseConoActual;      
         this.conoAnterior = event.desgloseConoAnterior;
         this.cdr.detectChanges();
     }
@@ -334,23 +312,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         }
     }
 
-   /* pagoChequeEvaluate(event) {
-        if (event.checked) {
-          
-            this.esRetiroEfectivo = false;
-            this.esPagoChequeGerencia = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
-            this.conoActual = [];
-            this.conoAnterior = [];
-            this.detalleEfectivo = 0;           
-            this.f.beneficiario.setValue(null);
-            this.f.comprador.setValue(null);
-            this.f.tipoDocumento.setValue(undefined);
-            //error": "required", "value": true 
 
-        }
-    }*/
 
     pagoChequeGerenciaEvaluate(event) {
         if (event.checked) {
@@ -386,7 +348,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
 
     abonoCuentaEvaluate(event){
         if (event.checked) {
-            console.log("abono");
+           
             this.f.conEfectivo.setValue(false);
             //this.f.cuenta.setValue([]);
             this.f.montoCheque.reset();
@@ -401,7 +363,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     
                 if (val && val != '') {
                     let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
-                    console.log('cuentaselec', cuenta);                
+                   // console.log('cuentaselec', cuenta);                
     
                     this.moneda.id = cuenta.moneda;
                     this.moneda.nombre = cuenta.monedaNombre;
@@ -447,7 +409,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
                 //console.log("CuentaOperacionAbono", data);               
 
             } else {
-                console.log("aqui-es cuando consulto por Persona");                             
+                //console.log("aqui-es cuando consulto por Persona");                             
                 this.persona = data;
                 this.cuentaOperacionAbono = undefined;
                 this.f.identificacion.setValue(this.persona.identificacion);  
@@ -492,13 +454,22 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         this.updateData(this.retiro);
 
         let montoFormat = formatNumber(this.retiro.monto, 'es', '1.2');
+        this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+        this.updateDataFromValues(this.retiro, this.persona);  
+        
+        if (this.cuentaBancariaOperacion.email != this.f.email.value || this.persona.email ){                                        
+          this.retiro.email = this.f.email.value;
+          //this.retiro.email
+         }
+         if (this.cuentaBancariaOperacion.nombre != this.f.beneficiario.value ||  this.persona.nombre ){                                        
+            this.retiro.beneficiario = this.f.beneficiario.value;           
+           }
 
             this.swalService.show('¿Desea Realizar el Pago de Cheque de Gerencia?', undefined,
             { 'html': 'Titular: <b>' + this.cuentaBancariaOperacion.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
         ).then((resp) => {
             if (!resp.dismiss) {      
-        this.updateDataFromValues(this.retiro, this.persona);
-        this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+       
         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;   
         this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;   
         this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE_GERENCIA;    
@@ -533,7 +504,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     resetInfobeneficiary(){
       
         this.f.email.setValue('');
-        this.tipoDocumentos.next([]);
+        //this.tipoDocumentos.next([]);
         this.f.identificacionBeneficiario.setValue('');
         this.f.beneficiario.setValue('');
 

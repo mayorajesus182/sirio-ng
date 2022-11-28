@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Inject, Injector, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
-import { PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
-
+// import * as Tesseract from 'tesseract.js';
+import { createWorker } from 'tesseract.js';
+import { ImageCroppedEvent } from "ngx-image-cropper";
 
 @Component({
   selector: 'sirio-capture-image-form.popup',
@@ -17,8 +17,17 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
   showWebcam = true;
   isCameraExist = true;
 
+  worker: Tesseract.Worker = createWorker();
   errors: WebcamInitError[] = [];
   images: WebcamImage[] = [];
+
+  // worker: Tesseract.Worker = Tesseract.createWorker();
+  isReady: boolean;
+  imageChangedEvent: any;
+  base64Image: any;
+  ocrResult: string;
+  croppedImage: any = "";
+  isScanning: boolean;
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -28,10 +37,19 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
     protected injector: Injector,
     dialogRef: MatDialogRef<CaptureImageFormPopupComponent>,
     private cdref: ChangeDetectorRef,
-  
+
   ) {
 
     super(dialogRef, injector)
+    this.initialize();
+  }
+
+  async initialize(): Promise<void> {
+
+    await this.worker.load();
+    await this.worker.loadLanguage("es");
+    await this.worker.initialize("es");
+    this.isReady = true;
   }
 
   ngAfterViewInit(): void {
@@ -78,7 +96,7 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
   handleImage(webcamImage: WebcamImage) {
     // this.getPicture.emit(webcamImage);
     console.log();
-    
+
     this.images.push(webcamImage);
 
     // this.showWebcam = false;
@@ -92,6 +110,37 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
     return this.nextWebcam.asObservable();
   }
 
+
+
+  scanOCR() {
+    this.isScanning = true;
+    this.imageChangedEvent = null;
+    this.doOCR(this.croppedImage);
+  }
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent): void {
+    console.log(event);
+    //this.doOCR(event.base64);
+    this.croppedImage = event.base64;
+    this.base64Image = event.base64;
+  }
+
+  async doOCR(base64Image: string) {
+    this.ocrResult = "Scanning";
+    console.log(`Started: ${new Date()}`);
+    if (this.isReady) {
+      const data = await this.worker.recognize(base64Image);
+      console.log(data);
+      this.ocrResult = data.data.text;
+    }
+    // await this.worker.terminate();
+    console.log(`Stopped: ${new Date()}`);
+    this.isScanning = false;
+  }
+
+
   save() {
     console.log('mode ', this.mode);
 
@@ -100,7 +149,7 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
       });
 
   }
-  
+
 
   close() {
 
