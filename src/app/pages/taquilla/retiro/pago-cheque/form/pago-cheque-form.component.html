@@ -142,15 +142,15 @@
                                              
                                 
                             <sirio-card-content fxLayout="column">
-                                <div fxLayoutGap.gt-sm="10px">                          
+                                <div fxLayoutGap.gt-sm="10px"> 
                                     <sirio-select-simple fxFlex="35"
                                         [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
                                         formControlName="tipoDocumentoBeneficiario" [required]="esPagoCheque"
                                         [elements]="tipoDocumentos.asObservable()" [attributeName]="'nombre'"  
                                         [errors]="f.tipoDocumentoBeneficiario?.errors" required>
                                     </sirio-select-simple>
-
-                                    <mat-form-field fxFlex.gt-xs="25">
+                                   
+                                    <mat-form-field fxFlex.gt-xs="30">
                                         <mat-label>{{'withdrawal.identification' | translate: {default:
                                             'global.identification'} | translate }}
                                         </mat-label>
@@ -158,10 +158,26 @@
                                             formControlName="identificacionBeneficiario" uppercase class="text-center" required>
                                         <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.identificacionBeneficiario.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    </mat-form-field>
+                                    </mat-form-field>                                   
+                                                                      
+                                    <mat-form-field fxFlex.gt-xs="35">
+                                        <mat-label>{{'withdrawal.beneficiary' | translate: {default: 'global.beneficiary'} |
+                                            translate
+                                            }}
+                                        </mat-label>
+                                        <input matInput maxlength="100" name="beneficiario" autocomplete="off"
+                                            formControlName="beneficiario" uppercase [required]="esPagoChequeGerencia">
+                                        <mat-error *ngIf="f.beneficiario.errors?.required">{{'error.required'
+                                            | translate}}</mat-error>
+                                        <mat-error *ngIf="f.beneficiario.errors?.pattern">{{'error.invalidCharacter' |
+                                            translate}}</mat-error>
+                                    </mat-form-field>                                   
                                         <!--TODO: Cambiar-->
-                                  
-                                    <mat-form-field fxFlex.gt-sm="auto">
+                                  </div>
+                                   
+                                   
+                                  <div fxLayoutGap.gt-sm="50px">
+                                        <mat-form-field fxFlex.gt-sm="auto">
                                         <mat-label>{{'withdrawal.email' | translate: {default: 'global.email'} | translate
                                             }}
                                         </mat-label>
@@ -175,8 +191,7 @@
                                         <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                         <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                             | translate}}</mat-error>
-                                    </mat-form-field>
-                                   
+                                    </mat-form-field>                                   
                               </div>
                             </sirio-card-content>
                         </sirio-card>                          

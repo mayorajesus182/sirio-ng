@@ -132,10 +132,8 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                            
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
                             this.saldoByMoneda(this.moneda);
-                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                           
-                            
-                            console.log("DATOS", data);
-
+                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                         
+                            //console.log("DATOS", data);
                             this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
                             this.cdr.markForCheck();
 
@@ -165,9 +163,11 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                     if(val){                       
                         if(this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion){
                             this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                            this.f.beneficiario.setValue(this.cuentaBancariaOperacion.nombre);
                             this.cdr.detectChanges();
                         }else{                                 
-                            this.f.email.setValue('');                           
+                            this.f.email.setValue('');  
+                            this.f.beneficiario.setValue('');                     
                             this.cdr.detectChanges();
                         }
                     }
@@ -230,6 +230,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
   
             numper: new FormControl(undefined),
+            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl('', [Validators.required]),
@@ -314,10 +315,13 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
           this.retiro.email = this.f.email.value;
           //this.retiro.email
          }
+         if (this.cuentaBancariaOperacion.nombre != this.f.beneficiario.value ||  this.persona.nombre ){                                        
+            this.retiro.beneficiario = this.f.beneficiario.value;           
+           }
 
 
         this.swalService.show('¿Desea Realizar el Pago de Cheque?', undefined,
-            { 'html': 'Titular: <b>' + this.persona.nombre +   this.retiro.email +'</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
+            { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
         ).then((resp) => {
             if (!resp.dismiss) {
 
@@ -381,6 +385,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
         this.f.email.reset();
         this.f.tipoDocumentoBeneficiario.reset(); 
         this.f.identificacionBeneficiario.reset();
+        this.f.beneficiario.setValue('');
 
     }
 }
