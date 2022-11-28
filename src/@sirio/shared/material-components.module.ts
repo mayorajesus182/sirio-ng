@@ -48,6 +48,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NumAccountValidator } from './input/cuenta-validation.directive';
 import { EmailValidate } from './input/email-validation.directive';
 import { MinorAgeValidator } from './input/minAge-validation.directive';
+import { TelefonoValidator } from './input/phone-validation.directive';
 import { UppercaseDirective } from './input/uppercase.directive';
 import { ExcerptPipe } from './pipes/excerpt.pipe';
 import { RelativeTimePipe } from './pipes/relative-time.pipe';
@@ -125,6 +126,7 @@ const toInclude = [
   NumAccountValidator,
   MinorAgeValidator,
   EmailValidate,
+  TelefonoValidator,
   UppercaseDirective,
   RelativeTimePipe,
   ShortNumberPipe,

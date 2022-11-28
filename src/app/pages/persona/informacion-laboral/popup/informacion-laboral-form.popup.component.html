@@ -75,7 +75,7 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="auto">
-        <mat-label>{{ 'Numero' }} </mat-label>
+        <mat-label>{{ 'Número' }} </mat-label>
         <input matInput autocomplete="off" name="numero"  formControlName="numero" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
         </mat-error>
@@ -100,8 +100,10 @@
       <!--  -->
 
       <mat-form-field fxFlex="auto">
-        <mat-label>{{f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA? 'Remuneración' : 'Ingreso Mensuales' }} </mat-label>
-        <input matInput autocomplete="off" name="remuneracion" currencyMask [options]="{precision:2}" formControlName="remuneracion" [required]="">
+        <mat-label>{{f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA? 'Remuneración' : 'Ingresos Mensuales' }} </mat-label>
+        <input maxlength="16" matInput autocomplete="off" name="remuneracion" currencyMask [options]="{precision:2}" formControlName="remuneracion" [required]="">
+        
+
         <mat-error *ngIf="f.remuneracion.errors?.required">{{'error.required' | translate}}
         </mat-error>
       </mat-form-field>
@@ -112,6 +114,22 @@
           <mat-label>{{'Fecha Ingreso'}}</mat-label>
           <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
             [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
+          <mat-datepicker-toggle matSuffix [for]="fechaPicker">
+          </mat-datepicker-toggle>
+          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
+            Fecha Invalida
+          </mat-error>
+        </mat-form-field>
+        <mat-datepicker #fechaPicker></mat-datepicker>
+
+      </div>
+
+      <div fxFlex="20" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+
+        <mat-form-field fxFlex="100">
+          <mat-label>{{'Fecha de constitución'}}</mat-label>
+          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
+            [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
           <mat-datepicker-toggle matSuffix [for]="fechaPicker">
           </mat-datepicker-toggle>
           <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
@@ -134,7 +152,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isRdOrNp()">
       <mat-form-field fxFlex="100">
-        <mat-label>{{f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA? 'Dirección Empresa' : 'Dirección Fizcal' }} </mat-label>
+        <mat-label>{{f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA? 'Dirección Empresa' : 'Dirección Fiscal' }} </mat-label>
         <input matInput maxlength="100" minlength="1" autocomplete="off" name="direccion" formControlName="direccion" uppercase [required]="isRdOrNp()">
         <mat-error *ngIf="f.direccion.errors?.required">{{'error.required' | translate}}
         </mat-error>

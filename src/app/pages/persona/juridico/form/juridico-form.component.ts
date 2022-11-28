@@ -2,23 +2,17 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
-import { Tenencia, TenenciaService } from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { ActividadEconomica, ActividadEconomicaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-economica.service';
 import { ActividadEspecifica, ActividadEspecificaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-especifica.service';
 import { CategoriaEspecial, CategoriaEspecialService } from 'src/@sirio/domain/services/configuracion/persona-juridica/categoria-especial.service';
-import { EstadoCivil, EstadoCivilService } from 'src/@sirio/domain/services/configuracion/persona-natural/estado-civil.service';
-import { Genero, GeneroService } from 'src/@sirio/domain/services/configuracion/persona-natural/genero.service';
-import { Profesion, ProfesionService } from 'src/@sirio/domain/services/configuracion/persona-natural/profesion.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
-import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -36,6 +30,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     totalPep: number;
     totalApoderado: number;
 
+    totalAccionistaDirectivo: number;
+
     totalPhone: number;
     totalBankReference: number;
     totalPersonalReference: number;
@@ -48,6 +44,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     showPep = false;
     showApoderado = false;
     showPhone = false;
+
+    showAccionistaDirectivo = false;
+
+    showRegistroMercantil = false;
     
     showEmpresaRelacionada = false;
 
@@ -335,7 +335,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
                 console.log(data);
 
                 this.personaJuridica = data;
-                this.successResponse('La persona', 'creada');
+                this.successResponse('La persona', 'creada',true);
                 this.hasBasicData = this.personaJuridica.id != undefined || this.personaJuridica.numper != undefined;
 
 
@@ -344,7 +344,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         } else {
             this.personaJuridicaService.update(this.personaJuridica).subscribe(data => {
 
-                this.successResponse('La persona', 'actualizada');
+                this.successResponse('La persona', 'actualizada',true);
             }, error => this.errorResponse(false));
         }
 
@@ -409,16 +409,16 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         this.cdr.detectChanges();
     }
 
-    openEmpresaRelacionada(opened:boolean) {
-        
-        this.showEmpresaRelacionada=opened; 
-        this.cdr.detectChanges();
-    }
-  
     openAddress(opened:boolean) {
         this.showAddress = opened;
         this.cdr.detectChanges();
     }
+
+    openAccionistaDirectivo(opened:boolean) {
+        this.showAccionistaDirectivo = opened;
+        this.cdr.detectChanges();
+    }
+
     openBankReference(opened:boolean) {
         this.showBankReference = opened;
         this.cdr.detectChanges();
@@ -426,6 +426,19 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     openPersonalReference(opened:boolean) {
         this.showPersonalReference = opened;
+        this.cdr.detectChanges();
+    }
+
+     
+    openRegistroMercantil(opened:boolean) {
+        this.showRegistroMercantil = opened;
+        this.cdr.detectChanges();
+        
+    }
+
+    openEmpresaRelacionada(opened:boolean) {
+        
+        this.showEmpresaRelacionada=opened; 
         this.cdr.detectChanges();
     }
 }
