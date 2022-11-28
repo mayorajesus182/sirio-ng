@@ -4,6 +4,7 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
+import { WebcamModule } from "ngx-webcam";
 import { SirioCardModule } from "../shared/card/card.module";
 import { MaterialModule } from "../shared/material-components.module";
 import { SharedComponentModule } from "../shared/shared-components.module";
@@ -36,6 +37,7 @@ const components = [
         MaterialModule,
         SirioCardModule,
         SharedComponentModule,
+        WebcamModule
     ],
 
     declarations: components,
