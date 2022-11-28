@@ -64,6 +64,10 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
             this.remesa = data;
             this.buildForm(this.remesa);
 
+
+            console.log(this.remesa);
+            
+
             this.rolService.getByUsuario().subscribe(rol => {
                 this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
 

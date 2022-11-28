@@ -11,6 +11,7 @@ import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
+import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
 import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
@@ -37,6 +38,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public viajes = new BehaviorSubject<Viaje[]>([]);
     public materiales = new BehaviorSubject<Material[]>([]);
+    public empleados = new BehaviorSubject<EmpleadoTransporte[]>([]);
     public acopios = new BehaviorSubject<Transportista[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     materialUtilizadoList: ReplaySubject<MaterialRemesa[]> = new ReplaySubject<MaterialRemesa[]>();
@@ -47,6 +49,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
     esTransportista: Boolean = false;
+    public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
 
     constructor(
         injector: Injector,
@@ -59,6 +62,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         private saldoAcopioService: SaldoAcopioService,
         private viajeTransporteService: ViajeTransporteService,
         private materialTransporteService: MaterialTransporteService,
+        private empleadoTransporteService: EmpleadoTransporteService,
         private preferenciaService: PreferenciaService,
         private transportistaService: TransportistaService,
         private monedaService: MonedaService,
@@ -73,6 +77,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.loadingDataForm.next(true);
 
         this.buildForm(this.remesa);
+        this.buildFormMateriales();
         this.loadingDataForm.next(false);
 
         this.transportistaService.allCentrosAcopio().subscribe(data => {
@@ -81,7 +86,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         this.monedaService.fisicaActives().subscribe(data => {
             this.monedas.next(data);
-        });      
+        });
 
         this.rolService.getByUsuario().subscribe(rol => {
             this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
@@ -105,6 +110,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             viaje: new FormControl(remesa.viaje || undefined, [Validators.required]),
             plomos: new FormControl(remesa.plomos || undefined, [Validators.required]),
             montoEnviado: new FormControl(remesa.montoEnviado || undefined, [Validators.required]),
+            responsables: new FormControl(remesa.responsables || undefined, [Validators.required]),
         });
 
         this.f.moneda.valueChanges.subscribe(value => {
@@ -150,32 +156,44 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(value).subscribe(cono => {
                     this.conos.next(cono);
                 });
-
             }
-
         });
 
         // Sólo se escoge la transportista cuando quien procesa es el centro de acopio, es decir, esto sólo pasará si la pantalla se muestra al centro de acopio
         this.f.transportista.valueChanges.subscribe(value => {
 
+            this.empleadoTransporteService.allByTransportista(value).subscribe(emp => {
+                this.empleados.next(emp);
+            });
+
+            this.loadCostosViajeTransportista();
+        });
+
+        this.f.moneda.valueChanges.subscribe(value => {
+            this.loadCostosViajeTransportista();
+        });
+    }
+
+    loadCostosViajeTransportista() {
+
+        if (this.f.transportista.value != null && this.f.moneda.value != null) {
             this.preferenciaService.get().subscribe(pref => {
                 this.preferencia = pref;
 
                 // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-                if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+                if (this.preferencia.monedaConoActual === this.f.moneda.value) {
 
-                    this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
+                    this.viajeTransporteService.allWithCostoByTransportista(this.f.transportista.value).subscribe(vjt => {
                         this.viajes.next(vjt);
                     });
 
                 } else {
-
-                    this.viajeTransporteService.allWithCostoDivisaByTransportista(value).subscribe(vjt => {
+                    this.viajeTransporteService.allWithCostoDivisaByTransportista(this.f.transportista.value).subscribe(vjt => {
                         this.viajes.next(vjt);
                     });
                 }
             });
-        });
+        }
     }
 
     get mf() {
@@ -263,6 +281,9 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;
+
+        console.log('this.remesa     ', this.remesa);
+
 
         this.remesaService.send(this.remesa).subscribe(data => {
             this.itemForm.reset({});

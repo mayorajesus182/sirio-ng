@@ -42,38 +42,52 @@
 
                                 <sirio-select-search fxFlex="30" *ngIf="!esTransportista"
                                     [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
-                                    [required]="!esTransportista" [elements]="acopios.asObservable()" [attributeName]="'nombre'"
+                                    [required]="esTransportista" [elements]="acopios.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.receptor?.errors">
                                 </sirio-select-search>
+
+                                <mat-form-field fxFlex.gt-xs="30" *ngIf="esTransportista">
+                                    <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="nombreReceptor" readonly>
+                                </mat-form-field>
 
                                 <sirio-select-search fxFlex="20" [label]="'Moneda' | translate: {default: 'Moneda'} | translate" formControlName="moneda"
                                     [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'" [errors]="f.transportista?.errors">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex="30" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
-                                    formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()"
+                                <sirio-select-search fxFlex="25" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
+                                    formControlName="transportista" [required]="esTransportista" [elements]="transportistas.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.transportista?.errors" *ngIf="!esTransportista">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex.gt-xs="20">
-                                    <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadas'} |
-                                        translate }}
-                                    </mat-label>
-                                    <input matInput type="number" autocomplete="off" name="cajasBolsas" formControlName="cajasBolsas"
-                                        [required]="!esTransportista" class="text-right" *ngIf="!esTransportista">
-                                    <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
-                                </mat-form-field>
-
-                            </div>
-
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
+                                <sirio-select-search fxFlex="auto" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
                                     formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.viaje?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex.gt-xs="50">
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <sirio-select-search fxFlex="100"
+                                    [label]="'Responsables del Transporte' | translate: {default: 'Responsables del Transporte'} | translate"
+                                    formControlName="responsables" [required]="true" [elements]="empleados.asObservable()" [attributeName]="'nombre'"
+                                    [multiple]="true" [errors]="f.responsables?.errors">
+                                </sirio-select-search>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                <mat-form-field fxFlex.gt-xs="20" *ngIf="!esTransportista">
+                                    <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadas'} |
+                                        translate }}
+                                    </mat-label>
+                                    <input matInput type="number" autocomplete="off" name="cajasBolsas" formControlName="cajasBolsas"
+                                        [required]="esTransportista" class="text-right" >
+                                    <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="auto">
                                     <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="200" name="plomos" formControlName="plomos" uppercase required>
@@ -94,7 +108,7 @@
 
                         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
 
-                            <div fxLayout="column" fxFlex="40" *ngIf="false">
+                            <div fxLayout="column" fxFlex="40" *ngIf="esTransportista">
                                 <form [formGroup]="materialForm" *ngIf="materialForm">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <h3>{{'Materiales Utilizados' | translate: {default: 'Materiales Utilizados'} | translate }}</h3>
@@ -188,7 +202,7 @@
                         </div>
                     </div>
 
-                    <!-- {{printErrors() | json}} -->
+                    {{printErrors() | json}}
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
