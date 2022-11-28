@@ -42,8 +42,7 @@
 
                                 <sirio-select-search fxFlex="30" *ngIf="!esTransportista"
                                     [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
-                                    [required]="esTransportista" [elements]="acopios.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.receptor?.errors">
+                                    [required]="!esTransportista" [elements]="acopios.asObservable()" [attributeName]="'nombre'" [errors]="f.receptor?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex.gt-xs="30" *ngIf="esTransportista">
@@ -57,7 +56,7 @@
                                 </sirio-select-search>
 
                                 <sirio-select-search fxFlex="25" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
-                                    formControlName="transportista" [required]="esTransportista" [elements]="transportistas.asObservable()"
+                                    formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.transportista?.errors" *ngIf="!esTransportista">
                                 </sirio-select-search>
 
@@ -83,7 +82,7 @@
                                         translate }}
                                     </mat-label>
                                     <input matInput type="number" autocomplete="off" name="cajasBolsas" formControlName="cajasBolsas"
-                                        [required]="esTransportista" class="text-right" >
+                                        [required]="!esTransportista" class="text-right">
                                     <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
@@ -202,7 +201,7 @@
                         </div>
                     </div>
 
-                    {{printErrors() | json}}
+                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

@@ -10,6 +10,7 @@ import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
+import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
 import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
@@ -17,6 +18,7 @@ import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
 import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import { LoginComponent } from 'src/app/pages/authentication/login/login.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
@@ -37,6 +39,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
     public materiales = new BehaviorSubject<Material[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     materialUtilizadoList: ReplaySubject<MaterialRemesa[]> = new ReplaySubject<MaterialRemesa[]>();
+    public empleados = new BehaviorSubject<EmpleadoTransporte[]>([]);
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
     preferencia: Preferencia = {} as Preferencia;
@@ -57,6 +60,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         private viajeTransporteService: ViajeTransporteService,
         private materialTransporteService: MaterialTransporteService,
         private preferenciaService: PreferenciaService,
+        private empleadoTransporteService: EmpleadoTransporteService,
         private transportistaService: TransportistaService,
         private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
@@ -66,22 +70,36 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         let id = this.route.snapshot.params['id'];
-        this.isNew = false;
 
         this.remesaService.get(id).subscribe(data => {
             this.remesa = data;
-            this.buildForm(this.remesa);
-            this.buildFormMateriales();
 
+            this.isNew = data.montoEnviado == 0;
 
             this.rolService.getByUsuario().subscribe(rol => {
+
                 this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
+                this.buildForm(this.remesa);
+                this.buildFormMateriales();
+                this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
+                this.cdr.markForCheck();
 
                 // Si quien va a procesar la solicitud es transportista (Centro de Acopio), se busca el cono correspondiente, los materiales y viajes según la moneda 
                 if (this.esTransportista) {
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(cono => {
-                        this.conos.next(cono);
+                    this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(conoData => {
+
+                        conoData = conoData.map(c => {
+                            let val = this.remesa.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                            c.cantidad = val ? val.cantidad : 0;
+                            c.disponible = val ? c.disponible + val.cantidad : c.disponible;
+                            return c;
+                        })
+
+                        this.conos.next(conoData);
+                        this.updateValuesErrors(this.conos[0]);
+                        this.cdr.detectChanges();
                     });
 
                     this.preferenciaService.get().subscribe(pref => {
@@ -110,22 +128,63 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                         }
                     });
 
+                    this.remesa.materiales.forEach(mr => {
+                        let materialRemesa = {} as MaterialRemesa;
+                        this.updateDataFromValues(materialRemesa, mr);
+                        this.materialRemesaList.push(materialRemesa);
+                        this.materialUtilizadoList.next(this.materialRemesaList.slice());
+                        this.cdr.detectChanges();
+                    });
+
+                    this.empleadoTransporteService.allEmpleados().subscribe(emp => {
+                        this.empleados.next(emp);                       
+                    });
+
                 } else {
 
                     this.transportistaService.actives().subscribe(trans => {
                         this.transportistas.next(trans);
                     });
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoPrincipalByMoneda(this.remesa.moneda).subscribe(cono => {
-                        this.conos.next(cono);
+                    if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+
+                        this.viajeTransporteService.allWithCostoByTransportista(this.remesa.transportista).subscribe(vjt => {
+                            this.viajes.next(vjt);
+                        });
+    
+                    } else {
+    
+                        this.viajeTransporteService.allWithCostoDivisaByTransportista(this.remesa.transportista).subscribe(vjt => {
+                            this.viajes.next(vjt);
+                        });
+                    }
+
+                    this.conoMonetarioService.activesWithDisponibleSaldoPrincipalByMoneda(this.remesa.moneda).subscribe(conoData => {
+
+                        conoData = conoData.map(c => {
+                            let val = this.remesa.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                            c.cantidad = val ? val.cantidad : 0;
+                            c.disponible = val ? c.disponible + val.cantidad : c.disponible;
+                            return c;
+                        })
+
+                        this.conos.next(conoData);
+                        this.updateValuesErrors(this.conos[0]);
+                        this.cdr.detectChanges();
+                    });
+
+
+
+                    this.empleadoTransporteService.allByTransportista(this.remesa.transportista).subscribe(emp => {
+                        this.empleados.next(emp);
                     });
 
                 }
             });
 
-            this.cdr.markForCheck();
-            this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
+            // this.cdr.markForCheck();
+            // this.loadingDataForm.next(false);
+            // this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
 
@@ -142,6 +201,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             viaje: new FormControl(remesa.viaje || undefined, [Validators.required]),
             plomos: new FormControl(remesa.plomos || undefined, [Validators.required]),
             montoEnviado: new FormControl(remesa.montoEnviado || undefined, [Validators.required]),
+            responsables: new FormControl(remesa.responsables || undefined, [Validators.required]),
         });
 
         // Sólo se escoge la transportista cuando quien procesa es el centro de acopio, es decir, esto sólo pasará si la pantalla se muestra al centro de acopio
@@ -253,11 +313,22 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;
 
-        this.remesaService.process(this.remesa).subscribe(data => {
-            this.itemForm.reset({});
-            this.successResponse('La Remesa fue', 'Procesada', false);
-            return data;
-        }, error => this.errorResponse(true));
+        if (this.isNew) {
+            this.remesaService.processCreate(this.remesa).subscribe(data => {
+                this.itemForm.reset({});
+                this.successResponse('La Remesa fue', 'Procesada', false);
+                return data;
+            }, error => this.errorResponse(true));
+        } else {
+            this.remesaService.processUpdate(this.remesa).subscribe(data => {
+                this.itemForm.reset({});
+                this.successResponse('La Remesa fue', 'Procesada', false);
+                return data;
+            }, error => this.errorResponse(true));
+        }
+
+
+
 
     }
 }

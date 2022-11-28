@@ -34,6 +34,7 @@ export interface Remesa {
     fechaRecibo: any;
     estatusSolicitud: string;
     nombreEstatusSolicitud: string;
+    esAgencia: number;
     materiales: any[];
     detalleEfectivo: any[];
     responsables: string[];
@@ -87,29 +88,50 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/detail`);
     }
 
-    process(data: Remesa): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.id}/process/update`, data)
-            .pipe(map(res => data));
-    }
 
-    dispatch(id: string, data: string[]): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${id}/dispatch/update`, data)
-            .pipe(map(res => data));
-    }
+
+
 
     receive(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/receive/update`, data)
             .pipe(map(res => data));
     }
 
-    send(data: Remesa): Observable<any> {
-        return this.apiService.config(this.apiConfig).post('/envio/create', data)
-            .pipe(map(res => data));
-    }
+
 
     save(data: Remesa): Observable<any> {
         
         return this.apiService.config(this.apiConfig).post('/create', data)
+            .pipe(map(res => data));
+    }
+
+
+
+
+
+
+    dispatch(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)
+            .pipe(map(res => data));
+    }
+
+    processCreate(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/process/create`, data)
+            .pipe(map(res => data));
+    }
+
+    processUpdate(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/process/update`, data)
+            .pipe(map(res => data));
+    }
+
+    sendCreate(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).post('/envio/create', data)
+            .pipe(map(res => data));
+    }
+
+    sendUpdate(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/envio/update`, data)
             .pipe(map(res => data));
     }
 

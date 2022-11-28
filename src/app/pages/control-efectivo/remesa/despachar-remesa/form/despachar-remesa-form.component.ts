@@ -160,10 +160,10 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
         //  this.remesa.detalleEfectivo = this.conoSave;
 
 
-        this.remesaService.dispatch(this.remesa.id, this.remesa.responsables).subscribe(data => {
-            this.itemForm.reset({});
-            this.successResponse('La Remesa fue', 'Despachada', false);
-            return data;
-        }, error => this.errorResponse(true));
+        // this.remesaService.dispatch(this.remesa.id, this.remesa.responsables).subscribe(data => {
+        //     this.itemForm.reset({});
+        //     this.successResponse('La Remesa fue', 'Despachada', false);
+        //     return data;
+        // }, error => this.errorResponse(true));
     }
 }

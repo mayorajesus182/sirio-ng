@@ -176,13 +176,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         });
     }
 
-
-
-
-
-
-
-
     obtenerSaldo() {
 
         this.saldoDisponible = 0;
@@ -270,7 +263,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         console.log(this.remesa);
 
 
-        this.remesaService.process(this.remesa).subscribe(data => {
+        this.remesaService.processCreate(this.remesa).subscribe(data => {
             this.itemForm.reset({});
             this.successResponse('La Remesa fue', 'Procesada', false);
             return data;

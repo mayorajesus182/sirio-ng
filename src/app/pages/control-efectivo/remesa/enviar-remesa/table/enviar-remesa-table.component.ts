@@ -10,16 +10,16 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 
 @Component({
-  selector: 'app-procesar-remesa-table',
-  templateUrl: './procesar-remesa-table.component.html',
-  styleUrls: ['./procesar-remesa-table.component.scss'],
+  selector: 'app-enviar-remesa-table',
+  templateUrl: './enviar-remesa-table.component.html',
+  styleUrls: ['./enviar-remesa-table.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ProcesarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class EnviarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'emisor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'receptor', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -33,35 +33,47 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     super(undefined, injector);
   }
 
- loadList() {
-  this.init(this.remesaService, 'remesa_id', 'pagePorProcesar');
- } 
+  loadList() {
+    this.init(this.remesaService, 'remesa_id', 'pagePorDespachar');
+  }
 
   ngOnInit() {
-   this.loadList();
+    this.loadList();
   }
 
   ngAfterViewInit() {
   }
 
-  process(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
+  add(path: string) {
+    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  view(data: any) {
+  edit(data: any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  }
+
+  // dispatch(data: any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
+  // }
+
+  dispatch(data: any) {
     this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
       if (!resp.dismiss) {
         this.remesaService.dispatch(data.element).subscribe(data => {
           this.successResponse('La Remesa fue', 'Procesada', false);
           this.loadList();
           return data;
-      }, error => this.errorResponse(true));
-        // this.saveOrUpdate(this.remesaService, this.remesa, 'La Solicitud de Remesas', this.isNew);
+        }, error => this.errorResponse(true));
       }
     });
 
 
     // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+  }
+
+
+  view(data: any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
 }

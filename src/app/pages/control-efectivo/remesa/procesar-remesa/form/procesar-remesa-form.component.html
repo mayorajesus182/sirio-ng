@@ -83,6 +83,14 @@
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <sirio-select-search fxFlex="100"
+                                    [label]="'Responsables del Transporte' | translate: {default: 'Responsables del Transporte'} | translate"
+                                    formControlName="responsables" [required]="true" [elements]="empleados.asObservable()" [attributeName]="'nombre'"
+                                    [multiple]="true" [errors]="f.responsables?.errors">
+                                </sirio-select-search>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
                                     formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.viaje?.errors">
@@ -109,7 +117,7 @@
 
                         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
 
-                            <div fxLayout="column" fxFlex="40" *ngIf="false">
+                            <div fxLayout="column" fxFlex="40" *ngIf="esTransportista">
                                 <form [formGroup]="materialForm" *ngIf="materialForm">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <h3>{{'Materiales Utilizados' | translate: {default: 'Materiales Utilizados'} | translate }}</h3>
@@ -203,7 +211,7 @@
                         </div>
                     </div>
 
-                    <!-- {{printErrors() | json}} -->
+                    {{printErrors() | json}}
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
