@@ -47,8 +47,8 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     agencia: Agencia = {} as Agencia;
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
-    esPagoCheque: boolean = false; 
-    esPagoChequeGerencia: boolean = true;     
+    conAbonoCta: boolean = false; 
+    //esPagoChequeGerencia: boolean = true;     
     detalleEfectivo: number = 0;
     todayValue: moment.Moment;
 
@@ -130,7 +130,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
                             this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas; 
                             this.persona.nombre = this.cuentaBancariaOperacion.nombre; 
                            
-                            //this. 
+                          
                             //Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
                             this.saldoByMoneda(this.moneda);                          
                            // console.log("DATOS", data);
@@ -297,7 +297,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         this.cdr.detectChanges();
     }
 
-    retiroEfectivoEvaluate(event) {
+  /*  retiroEfectivoEvaluate(event) {
         if (event.checked) {
 
             this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
@@ -310,11 +310,11 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
             this.cdr.detectChanges();
 
         }
-    }
+    }*/
 
 
 
-    pagoChequeGerenciaEvaluate(event) {
+  /*  pagoChequeGerenciaEvaluate(event) {
         if (event.checked) {
            // this.esRetiroEfectivo = false;
             this.esPagoCheque = false;
@@ -325,7 +325,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
             this.detalleEfectivo = 0;
             this.f.tipoDocumento.setValue(false);
         }
-    }
+    }*/
     efectivoEvaluate(event) {
         
         if (event.checked) {
@@ -473,6 +473,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;   
         this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;   
         this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE_GERENCIA;    
+        this.retiro.conAbonoCta = this.f.conAbonoCta.value;
         //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
         //this.retiro.codSeguridad = this.retiro.codSeguridad;      
         console.log("RETIRO   ", this.retiro);          
