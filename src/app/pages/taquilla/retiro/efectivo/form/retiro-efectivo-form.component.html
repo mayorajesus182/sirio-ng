@@ -80,7 +80,7 @@
                                                 translate }}
                                             </mat-label>
                                             
-                                            <input matInput max="99999999999999999.99" min="0.01" maxlength="20"  autocomplete="off" name="monto" 
+                                            <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto" 
                                             formControlName="monto"
                                                 currencyMask [options]="{precision:2}" >
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>

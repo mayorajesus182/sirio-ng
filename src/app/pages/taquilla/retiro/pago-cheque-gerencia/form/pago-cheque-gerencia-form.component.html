@@ -89,7 +89,7 @@
                                     <mat-label>{{'withdrawal.checkAmount' | translate: {default:
                                         'global.checkAmount'} | translate }}
                                     </mat-label>
-                                    <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
+                                    <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto"
                                     formControlName="monto" currencyMask [options]="{precision:2}"  >
                                 <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                 <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
@@ -232,7 +232,7 @@
                                                 name="monto" formControlName="monto"  currencyMask
                                                 [options]="{precision:2}">
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99
+                                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99max="99999999999999999.99" min="0.01" maxlength="20"
                                             </mat-error>
                                             <mat-error *ngIf="f.monto.errors?.min">No debe ser mayor que 0,01
                                             </mat-error>
@@ -282,7 +282,7 @@
                                 <mat-label>{{'withdrawal.identification' | translate: {default:
                                     'global.identification'} | translate }}
                                 </mat-label>
-                                <input matInput autocomplete="off" maxlength="8" name="identificacionBeneficiario"
+                                <input matInput autocomplete="off" maxlength="15" name="identificacionBeneficiario"
                                     formControlName="identificacionBeneficiario" [required]="esPagoChequeGerencia">
                                 <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required'
                                     | translate}}</mat-error>

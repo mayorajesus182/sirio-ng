@@ -90,7 +90,7 @@
                                         translate }}
                                     </mat-label>
 
-                                    <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
+                                    <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto"
                                         formControlName="monto" currencyMask [options]="{precision:2}"  >
                                     <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
@@ -154,7 +154,7 @@
                                         <mat-label>{{'withdrawal.identification' | translate: {default:
                                             'global.identification'} | translate }}
                                         </mat-label>
-                                        <input matInput autocomplete="off" maxlength="8" id="identificacionBeneficiario" name="identificacionBeneficiario"
+                                        <input matInput autocomplete="off" maxlength="15" id="identificacionBeneficiario" name="identificacionBeneficiario"
                                             formControlName="identificacionBeneficiario" uppercase class="text-center" required>
                                         <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required' | translate}}</mat-error>
                                         <mat-error *ngIf="f.identificacionBeneficiario.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
