@@ -17,23 +17,22 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="transportista_id">
+                <ng-container matColumnDef="receptor">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'">{{'Unidad Receptora' | translate:
                         {default: 'Unidad Receptora'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
-                        <p class="text-truncate font-weight-600">{{element.transportista}}</p>
+                        <p class="text-truncate font-weight-600">{{element.receptor}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="estatus">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'remittanceRequest.status' | translate:
-                        {default: 'global.status'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'Estatus' | translate:
+                        {default: 'Estatus'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <mat-chip mat-sm-chip [color]="element.estatusSolicitud == aprobado ? 'accent' : 'warn'">
-                            {{element.estatusSolicitudNombre}}
-                        </mat-chip>
+                        <p class="text-truncate font-weight-600">{{element.estatusSolicitud}}</p>
                     </mat-cell>
                 </ng-container>
+
 
                 <ng-container matColumnDef="activo">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'"></mat-header-cell>
@@ -62,7 +61,6 @@
             </mat-table>
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
                 showFirstLastButtons></mat-paginator>
-
         </sirio-list>
         <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>
     </sirio-page-layout-content>

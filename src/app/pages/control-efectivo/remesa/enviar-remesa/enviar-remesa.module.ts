@@ -11,6 +11,7 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { EnviarRemesaRoutingModule } from './enviar-remesa-routing.module';
 import { EnviarRemesaFormComponent } from './form/enviar-remesa-form.component';
+import { EnviarRemesaTableComponent } from './table/enviar-remesa-table.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { EnviarRemesaFormComponent } from './form/enviar-remesa-form.component';
         EnviarRemesaRoutingModule,
     ],
     declarations: [
-        EnviarRemesaFormComponent
+        EnviarRemesaFormComponent,
+        EnviarRemesaTableComponent,
     ],
     exports: [],
 })

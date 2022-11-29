@@ -9,13 +9,7 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { SolicitudRemesaDetailComponent } from './detail/solicitud-remesa-detail.component';
-import { DespacharRemesaFormComponent } from './form/despachar/despachar-remesa-form.component';
-import { ProcesarRemesaFormComponent } from './form/procesar/procesar-remesa-form.component';
-import { RecibirRemesaFormComponent } from './form/recibir/recibir-remesa-form.component';
-import { SolicitudRemesaFormComponent } from './form/solicitud/solicitud-remesa-form.component';
 import { RemesaRoutingModule } from './remesa-routing.module';
-import { SolicitudRemesaTableComponent } from './table/solicitud-remesa-table.component';
 
 
 @NgModule({
@@ -34,12 +28,6 @@ import { SolicitudRemesaTableComponent } from './table/solicitud-remesa-table.co
         RemesaRoutingModule,
     ],
     declarations: [
-        SolicitudRemesaTableComponent,
-        SolicitudRemesaFormComponent,
-        SolicitudRemesaDetailComponent,
-        DespacharRemesaFormComponent,
-        ProcesarRemesaFormComponent,
-        RecibirRemesaFormComponent,
     ],
     exports: [],
 })
