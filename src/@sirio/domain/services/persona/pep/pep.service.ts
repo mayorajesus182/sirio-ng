@@ -10,7 +10,11 @@ export interface Pep {
    
     persona: String;
 
-    tipoPep: String;
+    tipoPep: String;   
+    
+    tipoDocumento: string;
+
+    identificacion?: string;
 
     nombre: String;
     

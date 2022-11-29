@@ -32,12 +32,22 @@
 
     <ngx-datatable-column [flexGrow]="5" [sortable]="true">
         <ng-template ngx-datatable-header-template>
-            <span>Nombre</span>
+            <span>Nombre y Apellido </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
             {{row.identificacion}}
         </ng-template>
     </ngx-datatable-column> 
+
+    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>¿Es Apoderado? </span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+            {{row.esApoderado}}
+        </ng-template>
+    </ngx-datatable-column> 
+
 
     <ngx-datatable-column name="" [flexGrow]="0.5">
         <ng-template let-row="row" ngx-datatable-cell-template>

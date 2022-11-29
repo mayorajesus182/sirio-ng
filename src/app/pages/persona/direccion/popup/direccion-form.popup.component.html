@@ -65,7 +65,7 @@
 
       
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'Nombre de '}}{{nombreVia() | titlecase}}</mat-label>
+        <mat-label>{{'Descripción de '}}{{nombreVia() | titlecase}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombreVia" maxlength="24" uppercase formControlName="nombreVia" required>
         
         <mat-error *ngIf="f.nombreVia.errors?.required">{{'error.required' | translate}}!</mat-error>
@@ -82,7 +82,7 @@
       </sirio-select-search>
 
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'Nombre de '}}{{nombreNucleo() | titlecase}}</mat-label>
+        <mat-label>{{'Descripción de '}}{{nombreNucleo() | titlecase}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombreNucleo" maxlength="24" uppercase formControlName="nombreNucleo" required>
         
         <mat-error *ngIf="f.nombreNucleo.errors?.required">{{'error.required' | translate}}!</mat-error>
@@ -98,7 +98,7 @@
       </sirio-select-search>
 
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'Nombre de '}}{{nombreContruccion() | titlecase}}</mat-label>
+        <mat-label>{{'Descripción de '}}{{nombreContruccion() | titlecase}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombreConstruccion" maxlength="24" uppercase formControlName="nombreConstruccion" required>
         
         <mat-error *ngIf="f.nombreConstruccion.errors?.required">{{'error.required' | translate}}!</mat-error>

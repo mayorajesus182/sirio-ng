@@ -16,6 +16,10 @@ export interface Apoderado {
 
     nombre: string;
 
+    pais: string;
+
+    fechaNacimiento: any;
+
     registro: string;
 
     numero: string;
@@ -25,6 +29,8 @@ export interface Apoderado {
     folio: string;
 
     fecha?: any;
+
+    principal: number;
 }
 
 

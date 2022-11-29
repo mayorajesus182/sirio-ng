@@ -28,11 +28,15 @@
           [errors]="f.tipoPep?.errors">
       </sirio-select-search>
 
+      <!-- <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Relación'" formControlName="tipoPep" [required]="true"
+        [elements]="tipoPep.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoPep?.errors">
+      </sirio-select-search> -->
+
       
       <!-- TODO: PENDIENTE IN18 -->
       <mat-form-field fxFlex="auto">
-          <mat-label>{{'Nombre: ' | translate: {default:
-              'Nombre'} | translate }} </mat-label>
+          <mat-label>{{'Nombre y Apellido del Relacionado: ' | translate: {default:
+              'Nombre y Apellido del Relacionado'} | translate }} </mat-label>
           <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
               uppercase required>
           <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
@@ -43,6 +47,31 @@
       </mat-form-field>
 
     </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+        <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
+        [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+      </sirio-select-search>
+
+
+      <mat-form-field fxFlex="50">
+          <mat-label>{{'Identificación: ' | translate: {default:
+              'Identificación'} | translate }} </mat-label>
+          <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
+              uppercase required>
+          <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+              translate}}
+          </mat-error>
+      </mat-form-field>
+
+
+    </div>
+
+
+    
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
 
