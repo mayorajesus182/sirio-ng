@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Subject } from 'rxjs';
 import { ConoMonetario } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
 import { Moneda } from "src/@sirio/domain/services/configuracion/divisa/moneda.service";
+import { CaptureImageFormPopupComponent } from "../popup/capture-image-form.popup.component";
 
 
 
@@ -22,15 +23,8 @@ export class CaptureButtonComponent implements OnInit, AfterViewInit {
 
     @Input() title: string = 'Capturar Imagen';
     @Input() tooltips: string = 'Capturar Imagen';
-    @Input() moneda: Moneda;
-    @Input() total: number;
-    @Input() operation: 'deposito'|'retiro'='deposito';
 
     @Input() disabled: boolean = false;
-
-
-    @Input('cono_actual') cono_actual: ConoMonetario[] = [];
-    @Input('cono_anterior') cono_anterior: ConoMonetario[] = [];
 
     @Output('update') update = new EventEmitter<any>();
 
@@ -51,20 +45,15 @@ export class CaptureButtonComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
-        console.log('operartion ',this.operation);
         
 
     }
 
     open() {
 
-        this.showPopup(CaptureButtonComponent, {
-            desgloseConoActual: this.cono_actual,
-            desgloseConoAnterior: this.cono_anterior, 
-            moneda: this.moneda,
-            total:this.total,
-            operation: this.operation
-        }, '40%').afterClosed().subscribe(e => {
+        this.showPopup(CaptureImageFormPopupComponent, {
+            
+        }).afterClosed().subscribe(e => {
             console.log('close dialog ', e);
             if(e){
                 this.update.emit(e);

@@ -28,6 +28,10 @@ export class EmpleadoTransporteService {
         this.apiConfig = {name: ApiConfConstants.API_TRANSPORTE, prefix: '/empleado'};
     }
 
+    allEmpleados(): Observable<EmpleadoTransporte[]> {
+        return this.apiService.config(this.apiConfig).get(`/empleados/all`);
+    }
+
     allByTransportista(transportista: string): Observable<EmpleadoTransporte[]> {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/bytransportista/all`);
     }

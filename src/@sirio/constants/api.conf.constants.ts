@@ -12,6 +12,7 @@ export class ApiConfConstants {
   public static API_CALENDAR = 'calendar';
   public static API_ORGANIZACION = 'organizacion';
   public static API_CONTROL_EFECTIVO = 'control_efectivo';
+  public static API_REPORT = 'reports';
   public static API_TRANSPORTE = 'transporte';
   public static API_PREFERENCIA = 'preferencia';
   public static API_TAQUILLA = 'taquilla';
