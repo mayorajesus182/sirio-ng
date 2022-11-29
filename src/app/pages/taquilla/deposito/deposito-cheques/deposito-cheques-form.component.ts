@@ -158,22 +158,26 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             }
         });
 
-        this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
-            if (val) {
-                if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
-                    this.cf.tipoDocumentoCheque.setErrors(undefined)
-                } else {
-                    this.cf.tipoDocumentoCheque.setErrors({
-                        tipoDocumentoCheque: true
-                    });
-                }
-            }
-        });
+        this.tipoDoc();
 
         this.motivoDevolucionService.actives().subscribe(data => {
             this.motivosDevoluciones = data;
         });
     }
+
+    tipoDoc(){
+            this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
+                if (val) {
+                    if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
+                        this.cf.tipoDocumentoCheque.setErrors(undefined)
+                    } else {
+                        this.cf.tipoDocumentoCheque.setErrors({
+                            tipoDocumentoCheque: true
+                        });
+                    }
+                }
+            });
+        }
 
     get cf() {
         return this.chequeForm ? this.chequeForm.controls : {};
@@ -211,7 +215,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
     refresTotalCheque() {
 
-        let propios = this.chequeList.filter(c => this.sessionService.getUser().organizationId === c.numeroCuentaCheque.substring(0, 4));
+        let propios = this.chequeList.filter(c => this.sessionService.getUser().organizationId === c.numeroCuentaCheque.substring(0, 4));       
         let otros = this.chequeList.filter(c => this.sessionService.getUser().organizationId != c.numeroCuentaCheque.substring(0, 4));
         this.sumMontoChequePropio = propios.length > 0 ? propios.map(c => c.montoCheque).reduce((a, b) => a + b) : 0;
         this.sumMontoChequeOtros = otros.length > 0 ? otros.map(c => c.montoCheque).reduce((a, b) => a + b) : 0;
@@ -221,6 +225,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.f.cantidadOtros.setValue(this.contarChequeOtros);
         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+        this.cdr.detectChanges();
     }
 
     errorDiferenciaChequesOtros(val: number) {
@@ -231,6 +236,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             this.cdr.detectChanges();
         } else {
             this.f.chequeOtros.setErrors(undefined);
+            this.cdr.detectChanges();
         }
     }
 
@@ -242,6 +248,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             this.cdr.detectChanges();
         } else {
             this.f.chequePropio.setErrors(undefined);
+            this.cdr.detectChanges();
         }
     }
 

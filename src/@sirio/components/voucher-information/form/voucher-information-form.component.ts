@@ -100,7 +100,7 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
         this.voucher.email.setValue('');
         this.voucher.identificacionDepositante.setErrors(undefined);
         this.voucher.nombreDepositante.setErrors(undefined);
-        this.voucher.email.setVasetErrors(undefined);
+        this.voucher.email.setErrors(undefined);
     }
 }
 

@@ -1,7 +1,8 @@
 import { formatNumber } from '@angular/common';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import {  FormGroup } from '@angular/forms';
-import {  Router } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -22,10 +23,12 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     public voucherForm: FormGroup;
-    // esEfectivo: boolean = true;
-    // esCheques: boolean = false;
-    // esMixto: boolean = false;
-    selected = 0;
+    public itemForm: FormGroup;
+    isNew: boolean = false;
+    esEfectivo: boolean = true;
+    esCheques: boolean = false;
+    esMixto: boolean = false;
+    // selected = 0;
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
@@ -74,7 +77,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     }
 
     queryResult(data: any) {
-        this.selected = 0;
+        // this.selected = 0;
+        this.esEfectivo = true;
         if (data) {
             if (!data.id && !data.numper) {
                 this.loaded$.next(false);
@@ -99,8 +103,41 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    reset() {
-        this.selected = 0;
+    // reset() {
+    // this.selected = 0;
+    // }
+
+    resetVoucher() {
+        this.voucherForm.controls['identificacionDepositante'].setValue('');
+        this.voucherForm.controls['nombreDepositante'].setValue('');
+        this.voucherForm.controls['email'].setValue('');
+        this.voucherForm.controls['identificacionDepositante'].setErrors(undefined);
+        this.voucherForm.controls['nombreDepositante'].setErrors(undefined);
+        this.voucherForm.controls['email'].setErrors(undefined);
+    }
+
+    esEfectivoEvent(event) {
+        if (event.checked) {
+            this.esCheques = false;
+            this.esMixto = false;
+            this.resetVoucher();
+        }
+    }
+
+    esChequesEvent(event) {
+        if (event.checked) {
+            this.esEfectivo = false;
+            this.esMixto = false;
+            this.resetVoucher();
+        }
+    }
+
+    esMixtoEvent(event) {
+        if (event.checked) {
+            this.esEfectivo = false;
+            this.esCheques = false;
+            this.resetVoucher();
+        }
     }
 
     save() {
@@ -121,15 +158,16 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.numper = this.persona.numper;
                 this.deposito.tipoDocumento = this.persona.tipoDocumento;
                 this.deposito.identificacion = this.persona.identificacion;
-                this.deposito.operacion = (this.selected == 0) ? 'efectivo' : (this.selected == 1 ? 'cheques' : 'mixto');
+                // this.deposito.operacion = (this.selected == 0) ? 'efectivo' : (this.selected == 1 ? 'cheques' : 'mixto');
+                this.deposito.operacion = (this.esEfectivo) ? 'efectivo' : (this.esCheques ? 'cheques' : 'mixto');
                 this.deposito.moneda = this.deposito.moneda.id;
-                this.deposito.detalles = this.f.conoActual ? this.f.conoActual.value.concat(this.f.conoAnterior ? this.f.conoAnterior.value: undefined): [];
-                this.deposito.cheques = this.itemForm.controls.detalleCheques ? this.itemForm.controls.detalleCheques.value : [];  
+                this.deposito.detalles = this.f.conoActual ? this.f.conoActual.value.concat(this.f.conoAnterior ? this.f.conoAnterior.value : undefined) : [];
+                this.deposito.cheques = this.itemForm.controls.detalleCheques ? this.itemForm.controls.detalleCheques.value : [];
                 this.deposito.cantidadPropio = this.itemForm.controls.cantidadPropio ? this.itemForm.controls.cantidadPropio.value : 0;
                 this.deposito.cantidadOtros = this.itemForm.controls.cantidadOtros ? this.itemForm.controls.cantidadOtros.value : 0;
                 this.updateDataFromValues(this.deposito, this.cuentaOperacion);
                 this.updateDataFromValues(this.deposito, this.voucherForm.value);
-                this.saveOrUpdate(this.depositoService, this.deposito, 'El Depósito');
+                this.saveOrUpdate(this.depositoService, this.deposito, 'El Depósito', false);
                 this.loadingDataForm.subscribe(status => {
                     if (!status) {
                         this.router.navigate(['/sirio/welcome']).then(data => { });
