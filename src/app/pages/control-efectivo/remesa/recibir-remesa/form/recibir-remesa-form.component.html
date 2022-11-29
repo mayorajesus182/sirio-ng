@@ -1,0 +1,123 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                <mat-form-field fxFlex.gt-xs="40">
+                                    <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.receptor + ' - ' + remesa.nombreReceptor" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="20">
+                                    <mat-label>{{'Fecha de la Solicitud' | translate: {default: 'Fecha de la Solicitud'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.nombreMoneda" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="15">
+                                    <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">
+                                </mat-form-field>
+
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.nombreViaje" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="45">
+                                    <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.plomos" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="15">
+                                    <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.montoEnviado" currencyMask [options]="{precision:2}" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="15">
+                                    <mat-label>{{'Monto Recibido' | translate: {default: 'Monto Recibido'} | translate }} </mat-label>
+                                    <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoRecibido" formControlName="montoRecibido"
+                                        [options]="{precision:2}" required readonly>
+                                    <mat-error *ngIf="f.montoRecibido.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </form>
+
+                        <mat-divider class="margin-bottom-md"></mat-divider>
+
+                        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
+
+                            <mat-divider [vertical]="true" class="margin-bottom-md"></mat-divider>
+
+                            <div fxLayout="column" fxFlex="auto">
+
+                                <div fxLayout="column" fxFlex="100">
+                                    <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+                                </div>
+
+                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+
+                                    <mat-form-field fxLayout="column" *ngFor="let item of conos | async;let i = index" fxFlex="49">
+                                        <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                        </mat-label>
+                                        <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
+                                            [disabled]="item.disponible==0" />
+                                        <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- {{printErrors() | json}} -->
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  || f.montoRecibido?.value <= 0">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

@@ -36,7 +36,7 @@ export interface Retiro {
     comprador: string;
     beneficiario: string;
     detalles:ConoMonetario[];
-    operacion?:'efectivo' | 'cheque' | 'cheque-gerencia';
+    operacion?:'efectivo' | 'cheque' | 'cheque-gerencia' ;
     //estatusOperacion: string;
       
 }
@@ -50,8 +50,7 @@ export class RetiroService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro'};
-    
+        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro'};    
     }
     
 

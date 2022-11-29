@@ -39,6 +39,21 @@ export interface PersonaJuridica {
     actividadEspecifica: string;
     actividadEconomica?: string;
     categoriaEspecial?: string;
+
+    anhoDeclaracion: string;
+
+    montoDeclarado: string;
+
+    oficinas: string;
+        
+    empleados: string;
+        
+    ventas: string;
+
+    ingresos: string;
+        
+    egresos: string;
+
 }
 
 @Injectable({

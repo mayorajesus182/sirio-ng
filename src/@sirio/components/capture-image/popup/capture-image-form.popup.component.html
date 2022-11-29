@@ -1,0 +1,89 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1> <i class="fa-light fa-money-bill-transfer"></i>  </h1> &nbsp;<span> Capturar</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+      <button mat-icon-button class="close-button" (click)="close()">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+</sirio-dialog-header>
+
+<div mat-dialog-content>
+
+  <div fxLayout="column">
+
+    <div fxLayout="column" fxLayout.gt-sm="row" *ngIf="isCameraExist; else noCameraExist">
+
+      <div fxLayout="column" fxFlex.gt-xs="100">
+        <!-- <div class="btn-group">
+          <button class="button" (click)="takeSnapshot()">Take Picture</button>
+          <button class="button" (click)="changeWebCame(true)">Toggle Camera</button>
+          <button class="button" (click)="onOffWebCame()">Switch camera</button>
+        </div>  -->
+
+        <webcam [height]="350" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+          [switchCamera]="nextWebcamObservable"></webcam>
+
+          <div fxLayout="column" fxFlex.gt-xs="100"  fxLayout.gt-sm="row" *ngIf="base64Image">
+            <div class="text-center col-md-6">
+                <div class="row" style="margin-top: 15px;">
+                    <div class="text-center col-md-8"  *ngIf="imageChangedEvent">
+                        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="false"
+                           [resizeToWidth]="256" format="png" (imageCropped)="imageCropped($event)">
+                        </image-cropper>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="column" fxFlex.gt-xs="100"  fxLayout.gt-sm="row">
+                <h5>Previsualización</h5>
+                <img [src]="croppedImage" />
+                <p *ngIf="!isScanning" class="text-left">{{ocrResult}}</p>
+                 <!-- <button *ngIf="!isScanning" class="btn btn-primary" type="submit" (click)="scanOCR()">Scan</button> -->
+            </div>
+        </div>
+    
+
+
+      </div>
+
+      <div fxLayout="column"  fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="30px">
+
+        <button type="button" color="primary" class="btn-capture margin-bottom-md"  mat-raised-button (click)="takeSnapshot()" >
+          <i class="fal fa-camera fa-lg"></i> &nbsp; Capturar Imagen
+        </button>
+        <span fxFlex></span>
+        <!-- <button color="accent" class="btn-deposito margin-bottom-md"  mat-raised-button (click)="selected = 1" [color]="this.selected == 1 ? 'primary' : 'accent'"  
+        [disabled]="selected === 2" >
+            <i class="fa-light fa-money-check fa-lg"></i>&nbsp; Depósito de Cheques &nbsp; <i class="fa-light fa-money-check fa-lg"></i>
+        </button> -->
+        <button type="button" color="primary" class="btn-capture margin-bottom-md"  mat-raised-button (click)="changeWebCame(true)" >
+          <i class="fal fa-camera fa-lg"></i> &nbsp; Intercambiar Camara
+        </button>
+        
+        <button type="button" color="primary" class="btn-capture margin-bottom-md"  mat-raised-button (click)="clearAll(true)" >
+          <i class="fal fa-trash-list fa-lg"></i>&nbsp; Limpiar Todo
+        </button>
+        
+    </div>
+
+      <div *ngIf="errors.length > 0" fxLayout="column" fxFlex.gt-xs="100">
+        <h4>Error Messages:</h4>
+        <ul *ngFor="let error of errors">
+          <li>{{ error | json }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <ng-template #noCameraExist>
+      ¡No existen dispositivos disponibles!
+    </ng-template>
+
+
+  </div>
+</div>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-raised-button (click)="clearAll()">{{'button.clean'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" >{{'button.save'|translate}}</button>
+</mat-dialog-actions>

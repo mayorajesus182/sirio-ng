@@ -174,6 +174,8 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       parroquia: new FormControl(this.direccion.parroquia || '', [Validators.required]),
       estado: new FormControl(this.direccion.estado || '', [Validators.required]),
       municipio: new FormControl(this.direccion.municipio || '', [Validators.required]),
+      
+      
       zonaPostal: new FormControl(this.direccion.zonaPostal || '', [Validators.required]),
       via: new FormControl(this.direccion.via || '', [Validators.required]),
       nucleo: new FormControl(this.direccion.nucleo || '', [Validators.required]),
@@ -245,6 +247,13 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       return 'Núcleo';
     }
     return this.nucleos.value.filter(n=>n.id==this.f.nucleo.value)[0]?.nombre;
+  }
+
+  nombreCiudad(){
+    if(!this.f.municipio.value || !this.municipios.value){
+      return '';
+    }
+    return this.municipios.value.filter(m=>m.id===this.f.municipio.value)[0]?.ciudad;
   }
 
 }

@@ -160,6 +160,10 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             totalRetiro: new FormControl(undefined),
             email: new FormControl(undefined, [Validators.required]),
             cuentaBancaria: new FormControl(undefined),
+            conLibreta: new FormControl(true),
+            conMovimiento: new FormControl(false),
+            libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
+            linea: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
         });
 
 
@@ -198,46 +202,46 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.cdr.detectChanges();
     }
 
-    retiroEfectivoEvaluate(event) {
-        if (event.checked) {
+//     retiroEfectivoEvaluate(event) {
+//         if (event.checked) {
 
-            this.esPagoCheque = false;
-            this.esPagoChequeGerencia = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
+//             this.esPagoCheque = false;
+//             this.esPagoChequeGerencia = false;
+//             this.itemForm.reset();
+//             this.cdr.detectChanges();
 
-        }
-    }
+//         }
+//     }
 
-   pagoChequeEvaluate(event) {
-        if (event.checked) {
+//    pagoChequeEvaluate(event) {
+//         if (event.checked) {
 
-            this.esRetiroEfectivo = false;
-            this.esPagoChequeGerencia = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
-            this.conoActual = [];
-            this.conoAnterior = [];
-            this.detalleEfectivo = 0;
-            this.f.beneficiario.setValue(null);
-            this.f.comprador.setValue(null);
-            this.f.tipoDocumentoBeneficiario.setValue(undefined);
+//             this.esRetiroEfectivo = false;
+//             this.esPagoChequeGerencia = false;
+//             this.itemForm.reset();
+//             this.cdr.detectChanges();
+//             this.conoActual = [];
+//             this.conoAnterior = [];
+//             this.detalleEfectivo = 0;
+//             this.f.beneficiario.setValue(null);
+//             this.f.comprador.setValue(null);
+//             this.f.tipoDocumentoBeneficiario.setValue(undefined);
 
-        }
-    }
+//         }
+//     }
 
-    pagoChequeGerenciaEvaluate(event) {
-        if (event.checked) {
-            this.esRetiroEfectivo = false;
-            this.esPagoCheque = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
-            this.conoActual = [];
-            this.conoAnterior = [];
-            this.detalleEfectivo = 0;
-            this.f.tipoDocumentoBeneficiario.setValue(false);
-        }
-    }
+//     pagoChequeGerenciaEvaluate(event) {
+//         if (event.checked) {
+//             this.esRetiroEfectivo = false;
+//             this.esPagoCheque = false;
+//             this.itemForm.reset();
+//             this.cdr.detectChanges();
+//             this.conoActual = [];
+//             this.conoAnterior = [];
+//             this.detalleEfectivo = 0;
+//             this.f.tipoDocumentoBeneficiario.setValue(false);
+//         }
+//     }
 
 
     queryResult(data: any) {
@@ -334,7 +338,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                     this.retiro.tipoDocumento = this.persona.tipoDocumento;
                     this.retiro.identificacion = this.persona.identificacion;
                     this.retiro.nombre = this.persona.nombre;
-                    this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email ;
+                    this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email;
                 }
                 this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
 
@@ -383,6 +387,15 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         })
 
 
+    }
+
+    libretaEvaluate(event) {
+        if (event.checked) {
+            console.log('aquiiiiiiiiiiii');
+            //libreta
+
+            this.f.conMovimiento.setValue(false);
+        }
     }
 
     resetInfoFinance() {

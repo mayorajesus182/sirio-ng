@@ -5,7 +5,6 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
-import { CuentaContable, CuentaContableService } from 'src/@sirio/domain/services/configuracion/contabilidad/cuenta-contable.service';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { Zona, ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
@@ -32,7 +31,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
     public estados = new BehaviorSubject<Estado[]>([]);
     public zonas = new BehaviorSubject<Zona[]>([]);
     public regiones = new BehaviorSubject<Region[]>([]);
-    public cuentasContables = new BehaviorSubject<CuentaContable[]>([]);
 
     constructor(
         injector: Injector,
@@ -44,8 +42,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         private municipioService: MunicipioService,
         private estadoService: EstadoService,        
         private zonaService: ZonaService,        
-        private regionService: RegionService,        
-        private cuentaContableService: CuentaContableService,        
+        private regionService: RegionService,              
         private cdr: ChangeDetectorRef) {
         super(undefined,  injector);
     }
@@ -83,11 +80,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
         this.zonaService.actives().subscribe(data => {
             this.zonas.next(data);
-            this.cdr.detectChanges();
-        });
-
-        this.cuentaContableService.actives().subscribe(data => {
-            this.cuentasContables.next(data);
             this.cdr.detectChanges();
         });
 
@@ -139,7 +131,9 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             estado: new FormControl([agencia.estado || undefined, [Validators.required]]),
             zona: new FormControl([agencia.zona || undefined, [Validators.required]]),
             taquillas: new FormControl([agencia.taquillas || undefined, [Validators.required]]),
-            operativas: new FormControl([agencia.operativas || undefined, [Validators.required]]),
+            taquillasOperativas: new FormControl([agencia.taquillasOperativas || undefined, [Validators.required]]),
+            atm: new FormControl([agencia.atm || undefined]),
+            atmOperativos: new FormControl([agencia.atmOperativos || undefined]),
             region: new FormControl([agencia.region || undefined, [Validators.required]]),
             direccion:  new FormControl([agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]]),
             email:  new FormControl([agencia.email || undefined]),
@@ -148,7 +142,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             latitud:  new FormControl([agencia.latitud || undefined, [Validators.required]]),
             longitud:  new FormControl([agencia.longitud || undefined, [Validators.required]]),
             zonaPostal: new FormControl([agencia.zonaPostal || undefined, [Validators.required]]),
-            cuentaContable: new FormControl([agencia.cuentaContable || undefined, [Validators.required]]),
             horarioExt: new FormControl([agencia.horarioExt===1]),
         });
 

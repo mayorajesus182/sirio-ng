@@ -1,0 +1,92 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittanceRequest.form']" current="{{'action.add'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'remittanceRequest.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <sirio-select-search fxFlex="40" *ngIf="!esTransportista"
+                                    [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
+                                    [required]="esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.receptor?.errors">
+                                </sirio-select-search>
+
+                                <mat-form-field fxFlex.gt-xs="40" *ngIf="esTransportista">
+                                    <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="nombreReceptor" readonly>
+                                </mat-form-field>
+
+                                <sirio-select-search fxFlex="auto" [label]="'remittanceRequest.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.moneda?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search *ngIf="!esTransportista" fxFlex="20"
+                                    [label]="'Tipo de Envío' | translate: {default: 'Tipo de Envío'} | translate" formControlName="viaje"
+                                    [required]="esTransportista" [elements]="viajes.asObservable()" [attributeName]="'nombre'" [errors]="f.viaje?.errors">
+                                </sirio-select-search>
+
+                                <mat-form-field fxFlex="20">
+                                    <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }} ({{'global.assignedQuota' |
+                                        translate }} {{cupo}}) </mat-label>
+                                    <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="montoSolicitado"
+                                        formControlName="montoSolicitado" [options]="{precision:2}" required>
+                                    <mat-error *ngIf="f.montoSolicitado.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf=" f.montoSolicitado.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.montoSolicitado.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                </mat-form-field>
+
+                            </div>
+                        </form>
+                    </div>
+                    <!-- {{printErrors() | json}} -->
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.send' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

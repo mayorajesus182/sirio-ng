@@ -8,12 +8,12 @@ const juridicoRoutes: Routes = [
     {
         path: '',
         component: JuridicoFormComponent,
-        data: { title: 'Persona Jurídico' }
+        data: { title: 'Persona Jurídica' }
     },
     {
         path: ':id/edit',
         component: JuridicoFormComponent,
-        data: { title: 'Persona Natural' }
+        data: { title: 'Editar Persona Jurídica' }
     },
 ];
 

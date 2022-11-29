@@ -93,7 +93,7 @@ export class TaquillaChartPopupComponent extends PopupBaseComponent implements O
         {
           name: 'Saldo',
           data: datasets_final,
-          color: '#141a2e'
+          color: '#28036a'
         },
       ]
 

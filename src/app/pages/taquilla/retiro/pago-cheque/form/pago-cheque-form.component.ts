@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { id } from '@swimlane/ngx-datatable';
-import { CalendarDayViewComponent, CalendarEventAction } from 'angular-calendar';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -10,7 +8,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
+import { TipoProducto } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
@@ -19,12 +17,11 @@ import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/pers
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
+import { formatNumber } from '@angular/common';
 import * as moment from 'moment';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
-import { matFormFieldAnimations } from '@angular/material/form-field';
-import { formatNumber } from '@angular/common';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 
 @Component({
     selector: 'app-pago-cheque-form',
@@ -127,13 +124,12 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.cuentaBancariaOperacion = data;                         
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre; 
-                            this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;  
+                            this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;                           
+                           
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
-                             this.saldoByMoneda(this.moneda);
-                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                           
-                            
-                            console.log("DATOS", data);
-
+                            this.saldoByMoneda(this.moneda);
+                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;                         
+                            //console.log("DATOS", data);
                             this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
                             this.cdr.markForCheck();
 
@@ -163,9 +159,11 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                     if(val){                       
                         if(this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion){
                             this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                            this.f.beneficiario.setValue(this.cuentaBancariaOperacion.nombre);
                             this.cdr.detectChanges();
-                        }else{                           
-                            this.f.email.setValue('');
+                        }else{                                 
+                            this.f.email.setValue('');  
+                            this.f.beneficiario.setValue('');                     
                             this.cdr.detectChanges();
                         }
                     }
@@ -228,6 +226,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
   
             numper: new FormControl(undefined),
+            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl('', [Validators.required]),
@@ -296,33 +295,40 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
           
         }
     }
-
   
 
     save() {
-
         if (this.itemForm.invalid)
             return;
         
         this.updateData(this.retiro);
 
         let montoFormat = formatNumber(this.retiro.monto, 'es', '1.2');
+        this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+        this.updateDataFromValues(this.retiro, this.persona);  
+        
+        if (this.cuentaBancariaOperacion.email != this.f.email.value || this.persona.email ){                                        
+          this.retiro.email = this.f.email.value;
+          //this.retiro.email
+         }
+         if (this.cuentaBancariaOperacion.nombre != this.f.beneficiario.value ||  this.persona.nombre ){                                        
+            this.retiro.beneficiario = this.f.beneficiario.value;           
+           }
 
 
         this.swalService.show('¿Desea Realizar el Pago de Cheque?', undefined,
             { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' +this.moneda.siglas + '</b>' }
         ).then((resp) => {
             if (!resp.dismiss) {
-        
-                this.updateDataFromValues(this.retiro, this.persona);
-                this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
+
+                //this.retiro.email = this.retiro.email;
                 this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
                 this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
-                this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE;      
+                this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE;                              
                 //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
                 //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                 //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
-               //console.log("RETIRO   ", this.retiro);        
+                // console.log("RETIRO   ", this.retiro);        
                 
                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
                this.retiro.moneda = this.moneda.id;
@@ -375,6 +381,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
         this.f.email.reset();
         this.f.tipoDocumentoBeneficiario.reset(); 
         this.f.identificacionBeneficiario.reset();
+        this.f.beneficiario.setValue('');
 
     }
 }

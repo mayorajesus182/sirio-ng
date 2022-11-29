@@ -1,0 +1,225 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <mat-card-title class="mat-bg-grey">
+                            <div class="card-title-text">
+                                <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                                    <mat-icon class="">more_vert</mat-icon>
+                                </button>
+
+                                <mat-menu #userMenu="matMenu">
+                                    <button mat-menu-item class="mr-1" (click)="resendTask()">
+                                        <mat-icon color="primary">check_circle</mat-icon>
+                                        {{'action.resend' | translate }}
+                                    </button>
+                                    <button mat-menu-item class="mr-1" (click)="overrideTask()">
+                                        <mat-icon color="accent">cancel</mat-icon>
+                                        {{'action.override' | translate }}
+                                    </button>
+                                </mat-menu> -->
+                            </div>
+                        </mat-card-title>
+
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                <mat-form-field fxFlex.gt-xs="40">
+                                    <mat-label>{{'Unidad Emisora' | translate: {default: 'Unidad Emisora'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.emisor + ' - ' + remesa.nombreEmisor" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="20">
+                                    <mat-label>{{'Fecha de la Solicitud' | translate: {default: 'Fecha de la Solicitud'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="25">
+                                    <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.nombreMoneda" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="15">
+                                    <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
+                                    </mat-label>
+                                    <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">
+                                </mat-form-field>
+
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esTransportista">
+                                <mat-form-field fxFlex.gt-xs="30">
+                                    <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadas'} |
+                                        translate }}
+                                    </mat-label>
+                                    <input matInput type="number" autocomplete="off" minlength="1" maxlength="200" name="cajasBolsas"
+                                        formControlName="cajasBolsas" [required]="!esTransportista" class="text-right">
+                                    <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <sirio-select-search fxFlex="70" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
+                                    formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.transportista?.errors">
+                                </sirio-select-search>
+                            </div>
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
+                                    formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.viaje?.errors">
+                                </sirio-select-search>
+
+                                <mat-form-field fxFlex.gt-xs="50">
+                                    <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
+                                    </mat-label>
+                                    <input matInput autocomplete="off" minlength="1" maxlength="200" name="plomos" formControlName="plomos" uppercase required>
+                                    <mat-error *ngIf="f.plomos.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.plomos.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="25">
+                                    <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }} </mat-label>
+                                    <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
+                                        [options]="{precision:2}" required readonly>
+                                    <mat-error *ngIf="f.montoEnviado.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </form>
+
+                        <mat-divider class="margin-bottom-md"></mat-divider>
+
+                        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
+
+                            <div fxLayout="column" fxFlex="40" *ngIf="false">
+                                <form [formGroup]="materialForm" *ngIf="materialForm">
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <h3>{{'Materiales Utilizados' | translate: {default: 'Materiales Utilizados'} | translate }}</h3>
+                                    </div>
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <sirio-select-search fxFlex="70" [label]="'Material' | translate: {default: 'Material'} | translate"
+                                            formControlName="material" [required]="true" [elements]="materiales.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="mf.material?.errors">
+                                        </sirio-select-search>
+
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'Cantidad' | translate: {default: 'Cantidad'} | translate }}
+                                            </mat-label>
+                                            <input matInput class="text-center" max="99" min="0" type="number" autocomplete="off" name="cantidad"
+                                                formControlName="cantidad">
+                                            <mat-error *ngIf="mf.cantidad.errors?.max">No puede superior a 99</mat-error>
+                                        </mat-form-field>
+
+                                        <div class="text-center" fxFlex.gt-xs="auto" fxFlex="1 1 0%">
+                                            <button color="black" [disabled]="materialForm.invalid" (click)="addMaterial()" mat-button>
+                                                <mat-icon class="margin-top-md">add_circle</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+                                            [messages]="{emptyMessage: 'No hay registros de Materiales...',totalMessage: 'Cantidad de Materiales'}"
+                                            [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10"
+                                            [rows]="materialUtilizadoList | async" *ngIf="materialForm">
+
+                                            <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                                                <ng-template ngx-datatable-header-template>
+                                                    <div class="text-center">{{'Material' | translate: {default: 'Material'} | translate }}</div>
+                                                </ng-template>
+                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                    <div style="white-space: break-spaces;" class="text-center">{{ row?.material }}</div>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+
+                                            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                                                <ng-template ngx-datatable-header-template>
+                                                    <div class="text-center">{{'Cantidad' | translate: {default: 'Cantidad'} | translate }}</div>
+                                                </ng-template>
+                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                    <div style="white-space: break-spaces;" class="text-center">{{ row?.cantidad }}</div>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+
+                                            <ngx-datatable-column name="" [flexGrow]="1">
+                                                <ng-template ngx-datatable-header-template>
+                                                    <div class="text-center">{{'action.delete'| translate}}</div>
+                                                </ng-template>
+                                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                                                        (click)="deleteMaterial(row)" matTooltip="Eliminar">
+                                                        <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                </ng-template>
+                                            </ngx-datatable-column>
+                                        </ngx-datatable>
+
+                                    </div>
+
+                                </form>
+                            </div>
+
+                            <mat-divider [vertical]="true" class="margin-bottom-md"></mat-divider>
+
+                            <div fxLayout="column" fxFlex="auto">
+
+                                <div fxLayout="column" fxFlex="100">
+                                    <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+                                </div>
+
+                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+
+                                    <mat-form-field fxLayout="column" *ngFor="let item of conos | async;let i = index" fxFlex="49">
+                                        <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                        </mat-label>
+                                        <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
+                                            [disabled]="item.disponible==0" />
+                                        <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- {{printErrors() | json}} -->
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  || f.montoEnviado?.value <= 0">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

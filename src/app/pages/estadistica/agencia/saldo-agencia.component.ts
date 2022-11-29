@@ -73,7 +73,7 @@ export class SaldoAgenciaComponent extends ChartBaseComponent implements OnInit 
         {
           name: 'Saldo Final',
           data: datasets_final,
-          color: '#141a2e'
+          color: '#28036a'
         },
       ]
 

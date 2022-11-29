@@ -1,3 +1,11 @@
 .padding-lg{
     padding: 10px 50px 10px 50px;
 }
+
+.dashboard{
+    @media only screen and (max-width: 650px) {
+        .padding-lg{
+            padding: 50px 5px 10px 5px;
+        }
+    }
+}

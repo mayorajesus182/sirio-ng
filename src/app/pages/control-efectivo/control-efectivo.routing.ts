@@ -30,9 +30,45 @@ const controlEfectivoRoutes: Routes = [
     },
     {
         path: 'solicitud-remesa',
-        data: { title: 'Solicitud de Remesa' },
-        loadChildren: () => import('./solicitud-remesa/solicitud-remesa.module').then(m => m.SolicitudRemesaModule),
+        data: { title: 'Remesa' },
+        loadChildren: () => import('./remesa/remesa.module').then(m => m.RemesaModule),
     },
+
+
+
+
+
+    
+
+
+
+    {
+        path: 'solicitar-remesa',
+        data: { title: 'Solicitar Remesa' },
+        loadChildren: () => import('./remesa/solicitar-remesa/solicitar-remesa.module').then(m => m.SolicitarRemesaModule),
+    },
+    {
+        path: 'enviar-remesa',
+        data: { title: 'Enviar Remesa' },
+        loadChildren: () => import('./remesa/enviar-remesa/enviar-remesa.module').then(m => m.EnviarRemesaModule),
+    },
+    {
+        path: 'procesar-remesa',
+        data: { title: 'Procesar Remesa' },
+        loadChildren: () => import('./remesa/procesar-remesa/procesar-remesa.module').then(m => m.ProcesarRemesaModule),
+    },
+    {
+        path: 'despachar-remesa',
+        data: { title: 'Despachar Remesa' },
+        loadChildren: () => import('./remesa/despachar-remesa/despachar-remesa.module').then(m => m.DespacharRemesaModule),
+    },
+    {
+        path: 'recibir-remesa',
+        data: { title: 'Despachar Remesa' },
+        loadChildren: () => import('./remesa/recibir-remesa/recibir-remesa.module').then(m => m.RecibirRemesaModule),
+    },
+
+
 ];
 
 
