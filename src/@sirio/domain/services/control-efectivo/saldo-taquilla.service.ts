@@ -71,6 +71,7 @@ export class SaldoTaquillaService {
         return this.apiService.config(this.apiConfig).get(`/datachart`);
     }
 
+
     dataChartAllByTaquilla(id): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/taquilla/${id}/datachart`);
     }
