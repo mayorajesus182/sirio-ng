@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
+import { Usuario, UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { Zona, ZonaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/zona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -21,6 +22,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
 
     region: Region = {} as Region;
     public zonas = new BehaviorSubject<Zona[]>([]);
+    public usuarios = new BehaviorSubject<Usuario[]>([]);
 
 
     constructor(
@@ -28,6 +30,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private regionService: RegionService,
+        private usuarioService: UsuarioService,
         private zonaService: ZonaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
@@ -65,6 +68,10 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
             this.zonas.next(data);
         });
 
+        this.usuarioService.gerenteRegionalActives().subscribe(data => {
+            this.usuarios.next(data);
+        });
+
     }
 
     buildForm(region: Region) {
@@ -72,6 +79,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
             id: new FormControl({value: region.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(region.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             zona: new FormControl(region.zona || undefined, [Validators.required]),
+            gerente: new FormControl(region.gerente || undefined, [Validators.required]),
         });
     }
 

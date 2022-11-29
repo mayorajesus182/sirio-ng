@@ -11,9 +11,9 @@
                 matSortActive="region_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="region_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'region.code' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'region.code' | translate:
                         {default: 'global.code'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
@@ -21,7 +21,7 @@
                 <ng-container matColumnDef="nombre">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'region.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
@@ -29,8 +29,16 @@
                 <ng-container matColumnDef="zona_id">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'region.zone' | translate:
                         {default: 'global.zone'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="text-truncate font-weight-600">{{element.zona}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="gerente_id">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'region.regionalManager' | translate:
+                        {default: 'global.regionalManager'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+                        <p class="text-truncate font-weight-600">{{element.gerente}}</p>
                     </mat-cell>
                 </ng-container>
 

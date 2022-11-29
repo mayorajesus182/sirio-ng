@@ -48,20 +48,28 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
   }
 
-  view(data: any) {
-    this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
+  dispatch(data: any) {
+    this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
       if (!resp.dismiss) {
         this.remesaService.dispatch(data.element).subscribe(data => {
           this.successResponse('La Remesa fue', 'Procesada', false);
           this.loadList();
           return data;
       }, error => this.errorResponse(true));
-        // this.saveOrUpdate(this.remesaService, this.remesa, 'La Solicitud de Remesas', this.isNew);
       }
     });
-
-
-    // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+  }
+  
+  view(data: any) {
+    // this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
+    //   if (!resp.dismiss) {
+    //     this.remesaService.dispatch(data.element).subscribe(data => {
+    //       this.successResponse('La Remesa fue', 'Procesada', false);
+    //       this.loadList();
+    //       return data;
+    //   }, error => this.errorResponse(true));
+    //   }
+    // });
   }
 
 }

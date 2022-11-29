@@ -36,7 +36,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <mat-form-field fxFlex="10">
                                     <mat-label>{{'carrierCompany.code' | translate: {default: 'global.code'} | translate }} </mat-label>
-                                    <input matInput autocomplete="off" maxlength="10" name="id" formControlName="id" uppercase required class="text-center">
+                                    <input matInput autocomplete="off" maxlength="3" name="id" formControlName="id" uppercase required class="text-center">
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
