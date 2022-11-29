@@ -56,10 +56,6 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    getByExpediente(expediente: string): Observable<Remesa> {
-        return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/get`);
-    }
-
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
@@ -84,31 +80,15 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    detailByExpediente(expediente: string): Observable<Remesa> {
-        return this.apiService.config(this.apiConfig).get(`/${expediente}/byexpediente/detail`);
-    }
-
-
-
-
-
     receive(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/receive/update`, data)
             .pipe(map(res => data));
     }
 
-
-
     save(data: Remesa): Observable<any> {
-        
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
-
-
-
-
-
 
     dispatch(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)

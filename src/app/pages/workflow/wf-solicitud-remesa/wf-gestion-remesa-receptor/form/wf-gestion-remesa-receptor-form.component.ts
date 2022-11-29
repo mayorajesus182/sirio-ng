@@ -76,48 +76,48 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
                     this.rol = data;
                 });
 
-                this.solicitudRemesaService.getByExpediente(exp).subscribe(data => {
-                    this.solicitudRemesa = data;
-                    this.buildForm(this.solicitudRemesa);
-                    this.buildFormMateriales();
+                // this.solicitudRemesaService.getByExpediente(exp).subscribe(data => {
+                //     this.solicitudRemesa = data;
+                //     this.buildForm(this.solicitudRemesa);
+                //     this.buildFormMateriales();
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.solicitudRemesa.moneda).subscribe(data => {
-                        this.conos.next(data);
-                    });
+                //     this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.solicitudRemesa.moneda).subscribe(data => {
+                //         this.conos.next(data);
+                //     });
 
-                    this.preferenciaService.get().subscribe(data => {
-                        this.preferencia = data;
+                //     this.preferenciaService.get().subscribe(data => {
+                //         this.preferencia = data;
 
-                        //Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
-                        if (this.preferencia.monedaConoActual === this.solicitudRemesa.moneda) {
+                //         //Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
+                //         if (this.preferencia.monedaConoActual === this.solicitudRemesa.moneda) {
 
-                            this.viajeTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                                this.viajes.next(data);
-                            });
+                //             this.viajeTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                //                 this.viajes.next(data);
+                //             });
 
-                            this.materialTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                                this.materiales.next(data);
-                                console.log(this.materiales);
+                //             this.materialTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                //                 this.materiales.next(data);
+                //                 console.log(this.materiales);
                                 
-                            });
+                //             });
 
-                        } else {
+                //         } else {
 
-                            this.viajeTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                                this.viajes.next(data);
-                            });
+                //             this.viajeTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                //                 this.viajes.next(data);
+                //             });
 
-                            this.materialTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                                this.materiales.next(data);
-                            });
-                        }
-                    });
+                //             this.materialTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
+                //                 this.materiales.next(data);
+                //             });
+                //         }
+                //     });
 
-                    this.cdr.markForCheck();
-                    this.loadingDataForm.next(false);
-                    this.applyFieldsDirty();
-                    this.cdr.detectChanges();
-                });
+                //     this.cdr.markForCheck();
+                //     this.loadingDataForm.next(false);
+                //     this.applyFieldsDirty();
+                //     this.cdr.detectChanges();
+                // });
             }
         });
 
