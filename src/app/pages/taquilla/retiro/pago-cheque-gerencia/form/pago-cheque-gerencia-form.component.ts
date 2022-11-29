@@ -48,7 +48,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
     conAbonoCta: boolean = false; 
-    //esPagoChequeGerencia: boolean = true;     
+    esPagoChequeGerencia: boolean = true;     
     detalleEfectivo: number = 0;
     todayValue: moment.Moment;
 
