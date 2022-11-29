@@ -72,7 +72,8 @@
               "lodash",
               "stompjs",
               "sockjs-client",
-              "chart.js"
+              "chart.js",
+              "tesseract.js"
             ],
             "vendorChunk": true,
             "extractLicenses": false,

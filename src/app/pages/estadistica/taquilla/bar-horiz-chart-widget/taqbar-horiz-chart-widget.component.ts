@@ -36,9 +36,6 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
     exporting(Highcharts);
     exportData(this.highcharts);
     
-
-
-
     this.data.subscribe(dataset => {
       this.datasets = dataset
       this.monedas.subscribe(list => {
@@ -51,6 +48,8 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
     });
 
   }
+
+ 
 
   private reload() {
 
