@@ -21,6 +21,8 @@ export class EmailValidate implements Validator {
 
     private static validateEmailValue(control: FormControl): ValidationErrors | null {
 
+        console.log(control.value);
+        
         if (control.value == undefined || control.value.trim().length ==0) {
             return null;
         }

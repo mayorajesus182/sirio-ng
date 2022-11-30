@@ -6,13 +6,15 @@ import exporting from 'highcharts/modules/exporting';
 import exportData from 'highcharts/modules/export-data';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
+import { SaldoTaquillaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.report.service';
 
 @Component({
   selector: 'sirio-taqbar-horiz-chart-widget',
   templateUrl: './taqbar-horiz-chart-widget.component.html',
   styleUrls: ['./taqbar-horiz-chart-widget.component.scss']
 })
-export class TaqBarHorizChartWidgetComponent implements OnInit {
+export class TaqBarHorizChartWidgetComponent extends ChartBaseComponent implements OnInit {
 
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
@@ -30,15 +32,14 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(
+    private taquillaReport: SaldoTaquillaReportService,
     private cdref: ChangeDetectorRef) {
+      super()
   }
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
     
-
-
-
     this.data.subscribe(dataset => {
       this.datasets = dataset
       this.monedas.subscribe(list => {
@@ -51,6 +52,22 @@ export class TaqBarHorizChartWidgetComponent implements OnInit {
     });
 
   }
+
+ 
+  reportPdf() {
+
+    this.loadingDataForm.next(true);
+    this.taquillaReport.reportResumenEfectivo().subscribe(data => {
+      this.loadingDataForm.next(false);
+      console.log('response:', data);
+      const name = this.getFileName(data);
+      let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+      this.download(name, blob);
+    });
+
+
+  }
+
 
   private reload() {
 

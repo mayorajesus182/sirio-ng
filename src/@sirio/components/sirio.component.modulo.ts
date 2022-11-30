@@ -15,7 +15,7 @@ import { CashDetailComponent } from "./cash/form/cash-detail.form.component";
 import { CashFormPopupComponent } from "./cash/popup/cash-form.popup.component";
 import { PersonQueryComponent } from "./person/form/person-query.component";
 import { VoucherInformationFormComponent } from "./voucher-information/form/voucher-information-form.component";
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 const components = [
     CashDetailComponent,
     CashFormPopupComponent,
@@ -37,7 +37,8 @@ const components = [
         MaterialModule,
         SirioCardModule,
         SharedComponentModule,
-        WebcamModule
+        WebcamModule,
+        ImageCropperModule
     ],
 
     declarations: components,

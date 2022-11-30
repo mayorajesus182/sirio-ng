@@ -56,18 +56,18 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         if (id) {
             this.agenciaService.get(id).subscribe((agn: Agencia) => {
 
-                console.log('agn  ', agn);
+                console.log('agencia  ', agn);
                 
                 this.agencia = agn;
                 this.agencia.id=id;
-                this.buildForm(this.agencia);
+                this.buildForm();
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.agencia);
+            this.buildForm();
             this.loadingDataForm.next(false);
         }
 
@@ -122,27 +122,27 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     }
 
-    buildForm(agencia: Agencia) {
+    buildForm() {
         this.itemForm = this.fb.group({
-            id: new FormControl([{ value: agencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]]),
-            nombre:  new FormControl([agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]]),
-            parroquia: new FormControl([agencia.parroquia || undefined, [Validators.required]]),
-            municipio: new FormControl([agencia.municipio || undefined, [Validators.required]]),
-            estado: new FormControl([agencia.estado || undefined, [Validators.required]]),
-            zona: new FormControl([agencia.zona || undefined, [Validators.required]]),
-            taquillas: new FormControl([agencia.taquillas || undefined, [Validators.required]]),
-            taquillasOperativas: new FormControl([agencia.taquillasOperativas || undefined, [Validators.required]]),
-            atm: new FormControl([agencia.atm || undefined]),
-            atmOperativos: new FormControl([agencia.atmOperativos || undefined]),
-            region: new FormControl([agencia.region || undefined, [Validators.required]]),
-            direccion:  new FormControl([agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]]),
-            email:  new FormControl([agencia.email || undefined]),
-            telefono:  new FormControl([agencia.telefono || '', [Validators.required]]),
-            telefonoAlt:  new FormControl([agencia.telefonoAlt || '']),
-            latitud:  new FormControl([agencia.latitud || undefined, [Validators.required]]),
-            longitud:  new FormControl([agencia.longitud || undefined, [Validators.required]]),
-            zonaPostal: new FormControl([agencia.zonaPostal || undefined, [Validators.required]]),
-            horarioExt: new FormControl([agencia.horarioExt===1]),
+            id: new FormControl({ value: this.agencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            nombre:  new FormControl(this.agencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            parroquia: new FormControl(this.agencia.parroquia || undefined, [Validators.required]),
+            municipio: new FormControl(this.agencia.municipio || undefined, [Validators.required]),
+            estado: new FormControl(this.agencia.estado || undefined, [Validators.required]),
+            zona: new FormControl(this.agencia.zona || undefined, [Validators.required]),
+            taquillas: new FormControl(this.agencia.taquillas || undefined, [Validators.required]),
+            taquillasOperativas: new FormControl(this.agencia.taquillasOperativas || undefined, [Validators.required]),
+            atm: new FormControl(this.agencia.atm || undefined),
+            atmOperativos: new FormControl(this.agencia.atmOperativos || undefined),
+            region: new FormControl(this.agencia.region || undefined, [Validators.required]),
+            direccion:  new FormControl(this.agencia.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            email:  new FormControl(this.agencia.email || ''),
+            telefono:  new FormControl(this.agencia.telefono || '', [Validators.required]),
+            telefonoAlt:  new FormControl(this.agencia.telefonoAlt || ''),
+            latitud:  new FormControl(this.agencia.latitud || undefined, [Validators.required]),
+            longitud:  new FormControl(this.agencia.longitud || undefined, [Validators.required]),
+            zonaPostal: new FormControl(this.agencia.zonaPostal || undefined, [Validators.required]),
+            horarioExt: new FormControl(this.agencia.horarioExt===1),
         });
 
         this.f.estado.valueChanges.subscribe(value => {

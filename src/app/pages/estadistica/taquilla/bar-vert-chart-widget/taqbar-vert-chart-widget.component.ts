@@ -3,20 +3,22 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } fro
 import * as Highcharts from 'highcharts';
 import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { SaldoTaquillaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.report.service';
+import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 @Component({
 
   selector: 'sirio-taqbar-vert-chart-widget',
   templateUrl: './taqbar-vert-chart-widget.component.html',
   styleUrls: ['./taqbar-vert-chart-widget.component.scss']
 })
-export class TaqBarVertChartWidgetComponent implements OnInit {
+export class TaqBarVertChartWidgetComponent extends ChartBaseComponent implements OnInit {
 
   @Input() data: Observable<any>;
   @Input() title: string = 'Estadísticas';
   @Input() monedas: Observable<Moneda[]>;
-  
+
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   @Input() options: any;
@@ -28,22 +30,37 @@ export class TaqBarVertChartWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(
-    
+    private taquillaReport: SaldoTaquillaReportService,
     private cdref: ChangeDetectorRef) {
+    super()
   }
 
 
   ngOnInit(): void {
-    
-    
+
+
     exporting(Highcharts);
     exportData(this.highcharts);
-    this.monedas.subscribe(list=>{
+    this.monedas.subscribe(list => {
       // console.log('monedas',list);
-      this.currentMoneda= list[0];
+      this.currentMoneda = list[0];
       this.availableCoins = list;
       this.reload();
     });
+  }
+
+  reportPdf() {
+
+    this.loadingDataForm.next(true);
+    this.taquillaReport.reportResumen().subscribe(data => {
+      this.loadingDataForm.next(false);
+      console.log('response:', data);
+      const name = this.getFileName(data);
+      let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+      this.download(name, blob);
+    });
+
+
   }
 
   private reload() {
@@ -81,7 +98,7 @@ export class TaqBarVertChartWidgetComponent implements OnInit {
 
       // console.log('series', series);
       // console.log('label', labels);
-      
+
 
       this.barChart = {
         series: series,
@@ -144,14 +161,14 @@ export class TaqBarVertChartWidgetComponent implements OnInit {
 
   }
 
-  refreshData(){
+  refreshData() {
     this.isLoading = true;
     this.refresh.emit(true);
   }
 
-  changeMoneda(val){
-    this.barChart=undefined;
-    this.currentMoneda=val;
+  changeMoneda(val) {
+    this.barChart = undefined;
+    this.currentMoneda = val;
     this.reload();
   }
 }

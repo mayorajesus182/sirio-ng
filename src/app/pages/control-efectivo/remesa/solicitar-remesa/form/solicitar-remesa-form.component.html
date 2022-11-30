@@ -37,7 +37,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search fxFlex="40" *ngIf="!esTransportista"
                                     [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
-                                    [required]="esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
+                                    [required]="!esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.receptor?.errors">
                                 </sirio-select-search>
 
@@ -53,8 +53,8 @@
                                 </sirio-select-search>
 
                                 <sirio-select-search *ngIf="!esTransportista" fxFlex="20"
-                                    [label]="'Tipo de Envío' | translate: {default: 'Tipo de Envío'} | translate" formControlName="viaje"
-                                    [required]="esTransportista" [elements]="viajes.asObservable()" [attributeName]="'nombre'" [errors]="f.viaje?.errors">
+                                    [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate" formControlName="viaje"
+                                    [required]="!esTransportista" [elements]="viajes.asObservable()" [attributeName]="'nombre'" [errors]="f.viaje?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="20">

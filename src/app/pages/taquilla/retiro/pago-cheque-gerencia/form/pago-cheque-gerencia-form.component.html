@@ -89,7 +89,7 @@
                                     <mat-label>{{'withdrawal.checkAmount' | translate: {default:
                                         'global.checkAmount'} | translate }}
                                     </mat-label>
-                                    <input matInput max="999999999999999.99" min="0.01" autocomplete="off" name="monto"
+                                    <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto"
                                     formControlName="monto" currencyMask [options]="{precision:2}"  >
                                 <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                 <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
@@ -232,7 +232,7 @@
                                                 name="monto" formControlName="monto"  currencyMask
                                                 [options]="{precision:2}">
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99
+                                            <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99max="99999999999999999.99" min="0.01" maxlength="20"
                                             </mat-error>
                                             <mat-error *ngIf="f.monto.errors?.min">No debe ser mayor que 0,01
                                             </mat-error>
@@ -257,19 +257,7 @@
                 </sirio-card-header> 
 
                 <sirio-card-content fxLayout="column">
-                    <div fxLayoutGap.gt-sm="10px">                                 
-                                <mat-form-field fxFlex.gt-xs="35">
-                                    <mat-label>{{'withdrawal.beneficiary' | translate: {default: 'global.beneficiary'} |
-                                        translate
-                                        }}
-                                    </mat-label>
-                                    <input matInput maxlength="40" name="beneficiario" autocomplete="off"
-                                        formControlName="beneficiario" uppercase [required]="esPagoChequeGerencia">
-                                    <mat-error *ngIf="f.beneficiario.errors?.required">{{'error.required'
-                                        | translate}}</mat-error>
-                                    <mat-error *ngIf="f.beneficiario.errors?.pattern">{{'error.invalidCharacter' |
-                                        translate}}</mat-error>
-                                </mat-form-field>
+                    <div fxLayoutGap.gt-sm="10px">  
 
                                 <sirio-select-simple fxFlex="35"
                                 [label]="'naturalPerson.documentType' | translate: {default: 'global.documentType'} | translate"
@@ -278,11 +266,12 @@
                                 [errors]="f.tipoDocumentoBeneficiario?.errors">
                                </sirio-select-simple>
 
+                               
                                <mat-form-field fxFlex.gt-xs="30">
                                 <mat-label>{{'withdrawal.identification' | translate: {default:
                                     'global.identification'} | translate }}
                                 </mat-label>
-                                <input matInput autocomplete="off" maxlength="8" name="identificacionBeneficiario"
+                                <input matInput autocomplete="off" maxlength="15" name="identificacionBeneficiario"
                                     formControlName="identificacionBeneficiario" [required]="esPagoChequeGerencia">
                                 <mat-error *ngIf="f.identificacionBeneficiario.errors?.required">{{'error.required'
                                     | translate}}</mat-error>
@@ -290,6 +279,22 @@
                                     {{'error.invalidCharacter' | translate}}</mat-error>
                                 <!--TODO: Cambiar-->
                             </mat-form-field>
+                               
+                               
+                               <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'withdrawal.beneficiary' | translate: {default: 'global.beneficiary'} |
+                                    translate
+                                    }}
+                                </mat-label>
+                                <input matInput maxlength="100" name="beneficiario" autocomplete="off"
+                                    formControlName="beneficiario" uppercase [required]="esPagoChequeGerencia">
+                                <mat-error *ngIf="f.beneficiario.errors?.required">{{'error.required'
+                                    | translate}}</mat-error>
+                                <mat-error *ngIf="f.beneficiario.errors?.pattern">{{'error.invalidCharacter' |
+                                    translate}}</mat-error>
+                            </mat-form-field>
+
+                       
                         </div> 
                            
                         <div fxLayoutGap.gt-sm="10px">
@@ -298,7 +303,7 @@
                                     }}
                                 </mat-label>
                                 <input matInput name="email" autocomplete="off" email-validate name="email"
-                                    formControlName="email" placeholder="" [required]="!f.telefono.value">
+                                    formControlName="email" placeholder="" [required]="!f.telefono.value" uppercase>
                                 <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                 <mat-error *ngIf="f.email.errors?.required">{{'error.required'
                                     | translate}}</mat-error>
