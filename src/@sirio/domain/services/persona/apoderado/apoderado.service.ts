@@ -31,6 +31,8 @@ export interface Apoderado {
     fecha?: any;
 
     principal: number;
+
+    esApoderado: number;
 }
 
 
@@ -62,7 +64,6 @@ export class ApoderadoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-
     save(data: Apoderado): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
@@ -71,6 +72,10 @@ export class ApoderadoService {
     update(data: Apoderado): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
+    }
+
+    delete(id: number): Observable<Apoderado> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
     }
 
 }

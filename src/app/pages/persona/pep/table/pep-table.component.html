@@ -40,6 +40,12 @@
     </ngx-datatable-column>
 
     <ngx-datatable-column name="" [flexGrow]="0.5">
+
+        <ng-template ngx-datatable-header-template>
+            <div class="text-center">{{'Modificar'| translate}}</div>
+        </ng-template>
+
+        
         <ng-template let-row="row" ngx-datatable-cell-template>
             <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
                 <mat-icon>edit</mat-icon>
@@ -49,5 +55,20 @@
             </button> -->
         </ng-template>
     </ngx-datatable-column>
+
+     <!-- Delette -->
+
+     <ngx-datatable-column name="" [flexGrow]="1">
+        <ng-template ngx-datatable-header-template>
+            <div class="text-center">{{'action.delete'| translate}}</div>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                (click)="delete(row)" matTooltip="Eliminar">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
+    
 </ngx-datatable>
 <!-- /PEP -->

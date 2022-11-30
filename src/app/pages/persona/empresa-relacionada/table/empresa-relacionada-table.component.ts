@@ -70,6 +70,23 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
     }
   }
 
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar : ?', undefined,
+    // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
+
+      { 'html': ' <b>' + row.relacionEmpresa +' : ' + row.empresa + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          // console.log('buscando telefono',row.id);
+          this.empresaRelacionadaService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
+
   ngAfterViewInit() {
 
   }

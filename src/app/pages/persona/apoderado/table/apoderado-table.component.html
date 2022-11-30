@@ -30,7 +30,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="5" [sortable]="true">
+    <ngx-datatable-column [flexGrow]="3" [sortable]="true">
         <ng-template ngx-datatable-header-template>
             <span>Nombre y Apellido </span>
         </ng-template>
@@ -39,25 +39,43 @@
         </ng-template>
     </ngx-datatable-column> 
 
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+    <ngx-datatable-column [flexGrow]="0.50" [sortable]="true">
         <ng-template ngx-datatable-header-template>
             <span>¿Es Apoderado? </span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-            {{row.esApoderado}}
+            {{row.esApoderado ? 'SI' : 'NO'}}
         </ng-template>
     </ngx-datatable-column> 
 
 
+    <!-- Update -->
     <ngx-datatable-column name="" [flexGrow]="0.5">
+
+        <ng-template ngx-datatable-header-template>
+            <div class="text-center">{{'Modificar'| translate}}</div>
+        </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
+            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="popup(row,$event)" matTooltip="Modificar">
                 <mat-icon>edit</mat-icon>
             </button> 
-            <!-- <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row,$event)" matTooltip="Actualizar">
-                <mat-icon>trash</mat-icon>
-            </button> -->
         </ng-template>
     </ngx-datatable-column>
+
+    <!-- Delette -->
+    <ngx-datatable-column name="" [flexGrow]="0.5">
+        <ng-template ngx-datatable-header-template>
+            <div class="text-center">{{'action.delete'| translate}}</div>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                (click)="delete(row)" matTooltip="Eliminar">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </ng-template>
+    </ngx-datatable-column>
+
+
+
 </ngx-datatable>
 <!-- /Apoderado -->

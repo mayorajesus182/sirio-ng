@@ -61,4 +61,9 @@ export class TelefonoService {
             .pipe(map(res => data));
     }
 
+    delete(id: number): Observable<Telefono> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
+    }
+
+
 }

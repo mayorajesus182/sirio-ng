@@ -41,7 +41,27 @@
             <mat-slide-toggle [color]="'primary'" formControlName="esApoderado" name="esApoderado">
             {{'¿Es Apoderado?' }}
             </mat-slide-toggle>
+
         </div>
+
+        <!-- <mat-form-field fxFlex="auto">
+            <mat-label>{{'¿Es Apoderado?' | translate: {default: 'global.isBill'} |
+                translate }}</mat-label>
+            <input matInput class="text-center" [value]="d.esApoderado ? 'SI' : 'NO'">
+        </mat-form-field> -->
+
+
+        <!-- <ng-container matColumnDef="activo">
+            <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'tenure.status' | translate:
+                {default: 'global.status'} | translate }}</mat-header-cell>
+            <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
+                <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
+                    {{element.activo ? 'Activo' : 'Inactivo'}}
+                </mat-chip>
+            </mat-cell>
+        </ng-container> -->
+
+
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">

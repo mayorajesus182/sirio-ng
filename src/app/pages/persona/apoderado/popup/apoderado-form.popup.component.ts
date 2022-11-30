@@ -96,10 +96,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : ''),
-      
 
-      principal: new FormControl(this.apoderado.principal===1?true:false) 
-
+      esApoderado: new FormControl(this.apoderado.esApoderado===1?true:false) ,
     });
 
 
@@ -114,7 +112,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     this.apoderado.fecha = this.apoderado.fecha ? this.apoderado.fecha.format('DD/MM/YYYY') : '';
     this.apoderado.fechaNacimiento = this.apoderado.fechaNacimiento ? this.apoderado.fechaNacimiento.format('DD/MM/YYYY') : '';
 
-    this.apoderado.principal = this.apoderado.principal? 1 : 0;
+    this.apoderado.esApoderado = this.apoderado.esApoderado? 1 : 0;
 
     console.log(this.apoderado);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD

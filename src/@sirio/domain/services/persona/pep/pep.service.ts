@@ -65,4 +65,8 @@ export class PepService {
             .pipe(map(res => data));
     }
 
+    delete(id: number): Observable<Pep> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
+    }
+
 }
