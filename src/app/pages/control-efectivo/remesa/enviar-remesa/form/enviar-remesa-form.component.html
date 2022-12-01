@@ -36,7 +36,7 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form id="enviarRemesaForm" [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -86,13 +86,33 @@
                                     <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="auto">
+                                <!-- <mat-form-field >
                                     <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="200" name="plomos" formControlName="plomos" uppercase required>
                                     <mat-error *ngIf="f.plomos.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.plomos.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field> -->
+
+
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label># Plomos Utilizados</mat-label>
+                                    <mat-chip-list #chipList aria-label="Plomos Utilizados"  [formControl]="plomoCtrl">
+                                        <mat-chip *ngFor="let plo of plomoList" [selected]="plo" cdkDrag [selectable]="'true'" [value]="plo" (removed)="removePlomo(plo)">
+                                            {{plo}} 
+                                            <button matChipRemove>
+                                                <mat-icon>cancel</mat-icon>
+                                            </button>
+                                        </mat-chip>
+                                        <input placeholder="Agregar..." [matChipInputFor]="chipList" autocomplete="off"  matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addPlomo($event)" >
+                                    </mat-chip-list>
+                                    <mat-error *ngIf="plomoCtrl.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.exists">{{'El plomo ya esta registrado' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.length">{{plomoCtrl.errors?.length}}</mat-error>
                                 </mat-form-field>
+
+                                <!-- {{plomoCtrl.errors|json}} -->
 
                                 <mat-form-field fxFlex="25">
                                     <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }} </mat-label>
@@ -136,7 +156,7 @@
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+                                        <ngx-datatable fxFlex [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
                                             [messages]="{emptyMessage: 'No hay registros de Materiales...',totalMessage: 'Cantidad de Materiales'}"
                                             [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10"
                                             [rows]="materialUtilizadoList | async" *ngIf="materialForm">
