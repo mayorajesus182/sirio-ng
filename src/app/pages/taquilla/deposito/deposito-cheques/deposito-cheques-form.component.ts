@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -133,15 +134,16 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             numeroCuentaCheque: new FormControl(undefined, [Validators.required]),
             tipoDocumentoCheque: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(undefined),
-            codigoSeguridad: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
+            // codigoSeguridad: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaEmision: new FormControl(undefined),
             motivoDevolucion: new FormControl(undefined),
         });
 
         this.cf.serial.valueChanges.subscribe(val => {
-            if (val) {
+            if (val) {                
                 if (!this.validateSerialAccountUnique(val, this.cf.numeroCuentaCheque.value)) {
-                    this.cf.serial.setErrors({ uniqueSerial: true })
+                    this.cf.serial.setErrors({ uniqueSerial: true });
+                    this.cf.serial.markAsDirty();
                 } else {
                     this.cf.serial.setErrors(null)
                 }
@@ -151,7 +153,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.cf.numeroCuentaCheque.valueChanges.subscribe(val => {
             if (val) {
                 if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
-                    this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true })
+                    this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true });
+                    this.cf.numeroCuentaCheque.markAsDirty();
                 } else {
                     this.cf.numeroCuentaCheque.setErrors(null)
                 }
@@ -166,18 +169,18 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     }
 
     tipoDoc(){
-            this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
-                if (val) {
-                    if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
-                        this.cf.tipoDocumentoCheque.setErrors(undefined)
-                    } else {
-                        this.cf.tipoDocumentoCheque.setErrors({
-                            tipoDocumentoCheque: true
-                        });
-                    }
+        this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
+            if (val) {
+                if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
+                    this.cf.tipoDocumentoCheque.setErrors(undefined)
+                } else {
+                    this.cf.tipoDocumentoCheque.setErrors({
+                        tipoDocumentoCheque: true
+                    });
                 }
-            });
-        }
+            }
+        });
+    }
 
     get cf() {
         return this.chequeForm ? this.chequeForm.controls : {};
@@ -256,11 +259,17 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         row.motivoDevolucion = (event.target as HTMLSelectElement).value;
     }
 
-    validateSerialAccountUnique(serial: string, numeroCuentaCheque: string) {
+    validateSerialAccountUnique(serial: string, numeroCuentaCheque: string, validarCheque? : any ) {
         if (!serial || !numeroCuentaCheque) {
             return true;
         }
-        return this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
+        console.log("validarCheque", validarCheque);
+        const evaluacion = this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
+        if(validarCheque && !evaluacion && this.chequeList.filter(c=>(c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)).length > 1){
+            validarCheque.control.setErrors({exists:true});
+        }
+        
+        return evaluacion;
     }
 
     cargaDatos() {

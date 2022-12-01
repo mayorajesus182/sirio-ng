@@ -107,19 +107,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     // this.selected = 0;
     // }
 
-    resetVoucher() {
-        this.voucherForm.controls['identificacionDepositante'].setValue('');
-        this.voucherForm.controls['nombreDepositante'].setValue('');
-        this.voucherForm.controls['email'].setValue('');
-        this.voucherForm.controls['identificacionDepositante'].setErrors(undefined);
-        this.voucherForm.controls['nombreDepositante'].setErrors(undefined);
-        this.voucherForm.controls['email'].setErrors(undefined);
-    }
+    
 
     esEfectivoEvent(event) {
         if (event.checked) {
             this.esCheques = false;
             this.esMixto = false;
+            this.resetVoucher();
+        }else{
             this.resetVoucher();
         }
     }
@@ -129,6 +124,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             this.esEfectivo = false;
             this.esMixto = false;
             this.resetVoucher();
+        }else{
+            this.resetVoucher();
         }
     }
 
@@ -137,7 +134,18 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
             this.esEfectivo = false;
             this.esCheques = false;
             this.resetVoucher();
+        }else{
+            this.resetVoucher();
         }
+    }
+
+    resetVoucher() {
+        this.voucherForm.controls.identificacionDepositante.setValue('');
+        this.voucherForm.controls['nombreDepositante'].setValue('');
+        this.voucherForm.controls['email'].setValue('');
+        this.voucherForm.controls['identificacionDepositante'].setErrors(undefined);
+        this.voucherForm.controls['nombreDepositante'].setErrors(undefined);
+        this.voucherForm.controls['email'].setErrors(undefined);
     }
 
     save() {

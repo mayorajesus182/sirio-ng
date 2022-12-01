@@ -67,11 +67,11 @@
     
             <mat-form-field fxFlex.gt-sm="20">
                 <mat-label>Número de Cuenta </mat-label>
-                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required placeholder="" class="text-center">
+                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required num-account-validate class="text-center" [maxLength]="24" >
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuanta ya estan suministrados</mat-error>
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El num. de cuenta es Inválido</mat-error>
-                <!-- <mat-error *ngIf="f.numeroCuentaCheque.errors?.notexists">{{'no existe numero de cuenta'}}</mat-error> -->
+                <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.notexists">{{'no existe numero de cuenta'}}</mat-error> -->
             </mat-form-field>
     
             <mat-form-field fxFlex.gt-xs="10">
@@ -134,10 +134,12 @@
                     <span>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" maxlength="8" [(ngModel)]="row.serial" autofocus matInput type="text" autocomplete="off" (blur)="validateSerialAccountUnique()"/>
-                    <!-- <mat-error *ngIf="serial.errors?.uniqueSerial">El serial y cuanta ya estan suministrados</mat-error> -->
+                    <input class="mat-input text-center" maxlength="8" #validarCheque="ngModel" [(ngModel)]="row.serial" autofocus matInput type="text" autocomplete="off" (blur)="validateSerialAccountUnique(row.serial, row.numeroCuentaCheque, validarCheque)"/>
+                    <mat-error *ngIf="validarCheque.errors?.exists">El serial y cuanta ya estan suministrados</mat-error>
+                    {{validarCheque.errors| json}}
                 </ng-template>
             </ngx-datatable-column>
+
 
                                             
             <!-- <ngx-datatable-column [flexGrow]="1" [sortable]="true">
@@ -154,7 +156,7 @@
                     <span>Número de Cuenta</span>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" maxlength="20" [(ngModel)]="row.numeroCuentaCheque" autofocus matInput type="text" autocomplete="off" (blur)="validateSerialAccountUnique()"/>
+                    <input class="mat-input text-center" maxlength="20" [(ngModel)]="row.numeroCuentaCheque" autofocus matInput type="text" autocomplete="off" (blur)="validateSerialAccountUnique(row.serial, row.numeroCuentaCheque)"/>
                 </ng-template>
             </ngx-datatable-column>
     
