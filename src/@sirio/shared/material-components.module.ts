@@ -39,7 +39,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { IMaskDirectiveModule } from 'angular-imask';
+import { IMaskDirectiveModule, IMaskModule } from 'angular-imask';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
@@ -192,6 +192,7 @@ const toInclude = [
     CurrencyMaskModule,
     NgxMaskModule,
     IMaskDirectiveModule,
+    IMaskModule,
     SweetAlert2Module,
     NotifierModule,
     toInclude

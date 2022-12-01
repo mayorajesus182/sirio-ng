@@ -13,6 +13,9 @@
           <span>&nbsp;{{coin.siglas}} - {{coin.nombre}}</span>
         </button>
       </mat-menu>
+      <button (click)="reportPdf()" mat-icon-button [matTooltip]="'Descargar PDF'">
+        <i class="fal fa-file-pdf fa-xl"></i>
+      </button>
       <button (click)="refreshData()" mat-icon-button>
         <mat-icon>refresh</mat-icon>
       </button>

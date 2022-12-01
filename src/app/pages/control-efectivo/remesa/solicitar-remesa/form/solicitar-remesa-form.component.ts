@@ -57,12 +57,9 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     // TODO: AGREGAR ETIQUETAS FALTANTES, ANALIZAR LOS ROLES DE LOS USUARIOS PARA LA PANTALLA
     ngOnInit() {
 
-        let id = this.route.snapshot.params['id'];
+       // let id = this.route.snapshot.params['id'];
         this.isNew = true;
         this.loadingDataForm.next(true);
-
-        this.buildForm(this.remesa);
-        this.loadingDataForm.next(false);
 
         this.rolService.getByUsuario().subscribe(rol => {
             this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
@@ -84,6 +81,13 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
                     this.preferencia = data;
                 });
             }
+
+
+            this.buildForm(this.remesa);
+            this.loadingDataForm.next(false);
+            this.applyFieldsDirty();
+            this.cdr.markForCheck();
+
         });
 
         this.cdr.detectChanges();

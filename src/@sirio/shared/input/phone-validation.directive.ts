@@ -29,22 +29,6 @@ export class TelefonoValidator implements Validator {
         source.subscribe(data => {
              this.codigos = data.map(t => t.id);
         });
-    //   this.showBefore()
-    //   this.unsubscribe.next(true);
-    //   this.init.pipe(
-    //     concatMapTo(source),
-    //     takeUntil(this.unsubscribe)
-    //   ).subscribe(value => {
-    //     this.view.clear()
-    //     this.view.createEmbeddedView(this.nextRef, {$implicit: value, observe: value})
-    //     this.changes.markForCheck()
-    //   }, error => {
-    //     if (this.errorRef) {
-    //      this.view.clear()
-    //      this.view.createEmbeddedView(this.errorRef, {$implicit: error})
-    //      this.changes.markForCheck()
-    //     }
-    //   })
     }
 
 
@@ -63,13 +47,13 @@ export class TelefonoValidator implements Validator {
         
         let num = control.value;
 
-        if(num.length < 5){
+        if(num.length < 4){
             return null;
         }
 
-        console.log(num.substring(1,5));
+        // console.log(num);
         
-        if (this.codigos.length > 0 && !this.codigos.includes(num.substring(1,5))) {
+        if (this.codigos.length > 0 && !this.codigos.includes(num.substring(0,4))) {
             return { phone: 'El código de la telefónica no aplica' };
         }
 

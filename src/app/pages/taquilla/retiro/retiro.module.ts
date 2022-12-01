@@ -32,8 +32,9 @@ import { RetiroRoutingModule } from './retiro-routing.module';
         RetiroRoutingModule
     ],
     declarations: [
-        RetiroEfectivoFormComponent,PagoChequeFormComponent,PagoChequeGerenciaFormComponent
-      
+        RetiroEfectivoFormComponent,
+        PagoChequeFormComponent,
+        PagoChequeGerenciaFormComponent       
       
     ],
     exports: [],

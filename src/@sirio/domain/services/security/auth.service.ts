@@ -21,6 +21,7 @@ export interface User {
   organization?: string;
   organizationId?: string
   position?: string;
+  rols?: string[];
 }
 
 @Injectable(

@@ -24,7 +24,7 @@ const retiroRoutes: Routes = [
         component: PagoChequeGerenciaFormComponent,
         data: { title: 'Pago Cheque Gerencia' }
     },  
-
+ 
 
 ];
 
