@@ -1,3 +1,5 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -21,9 +23,6 @@ import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/vi
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { values } from 'lodash-es';
 @Component({
     selector: 'app1-enviar-remesa-form',
     templateUrl: './enviar-remesa-form.component.html',
@@ -162,7 +161,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
                 });
 
-            } else {
             }
 
         });
@@ -401,6 +399,13 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
     }
 
+    getNombreMaterial(id: string) {
+        if (!this.materiales.value || this.materiales.value.length == 0) {
+            return '';
+        }
+        return this.materiales.value.filter(m => m.id == id).map(m => m.id + " - " + m.nombre);
+    }
+
     removePlomo(plomo: string) {
         const index = this.plomoList.indexOf(plomo);
         if (index >= 0) {
@@ -421,14 +426,14 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             return;
         }
 
-        if(value.length != this.preferencia.digitosPlomo){
+        if (value.length != this.preferencia.digitosPlomo) {
             this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
             return;
         }
 
-        if(this.plomoList.includes(value)){
+        if (this.plomoList.includes(value)) {
             this.plomoCtrl.setErrors({ exists: true });
-            return ;
+            return;
         }
 
         // Add plomo
