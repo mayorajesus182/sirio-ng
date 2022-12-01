@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class RegionTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
-  displayedColumns = ['region_id', 'nombre', 'zona_id', 'activo', 'actions'];
+  displayedColumns = ['region_id', 'nombre', 'zona_id', 'gerente_id', 'activo', 'actions'];
 
   constructor(
     injector: Injector,
