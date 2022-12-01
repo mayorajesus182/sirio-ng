@@ -29,7 +29,7 @@
 
       <mat-form-field fxFlex="70">
         <mat-label>{{'Nombre Empresa' | translate: {default:
-            'empresa'} | translate }} </mat-label>
+            'Nombre Empresa'} | translate }} </mat-label>
         <input matInput maxlength="80" minlength="1" autocomplete="off" name="empresa" formControlName="empresa"
             uppercase required>
         <mat-error *ngIf="f.empresa.errors?.required">{{'error.required' | translate}}

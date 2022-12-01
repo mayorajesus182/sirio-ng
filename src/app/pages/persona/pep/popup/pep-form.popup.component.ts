@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { TipoPep, TipoPepService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-pep.service';
+import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Pep, PepService } from 'src/@sirio/domain/services/persona/pep/pep.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
@@ -21,12 +22,18 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   public tipoPepList = new BehaviorSubject<TipoPep[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
 
+  //
+  public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
+
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<PepFormPopupComponent>,
     private pepService: PepService,
     private tipoPepService: TipoPepService,
     private paisService: PaisService,
+
+    //
+    private tipoDocumentoService: TipoDocumentoService,
 
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
@@ -45,6 +52,13 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       console.log(data);
       
       this.tipoPepList.next(data);
+      this.cdr.detectChanges();
+    })
+
+    this.tipoDocumentoService.actives().subscribe(data => {
+      console.log(data);
+      
+      this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
    
@@ -78,6 +92,11 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       //tipoPep: new FormControl(this.pep.tipoPep),
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
       //nombre: new FormControl(this.pep.nombre),
+
+      tipoDocumento: new FormControl(this.pep.tipoDocumento || '', [Validators.required]),
+
+      identificacion: new FormControl(this.pep.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+   
       nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       //ente: new FormControl(this.pep.ente),
       ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),

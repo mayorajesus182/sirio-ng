@@ -34,7 +34,7 @@
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <mat-form-field fxFlex="auto">
-        <mat-label>{{'Nombre(s) y Apellido(s)'}}</mat-label>
+        <mat-label>{{'Nombre y Apellido '}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombre" maxlength="24" uppercase formControlName="nombre" required>
         
         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}!</mat-error>

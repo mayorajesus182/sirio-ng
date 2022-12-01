@@ -37,6 +37,7 @@ export interface Retiro {
     beneficiario: string;
     detalles:ConoMonetario[];
     operacion?:'efectivo' | 'cheque' | 'cheque-gerencia' ;
+    conAbonoCta?: Boolean;
     //estatusOperacion: string;
       
 }

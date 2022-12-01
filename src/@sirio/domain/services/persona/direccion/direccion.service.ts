@@ -74,4 +74,8 @@ export class DireccionService {
             .pipe(map(res => data));
     }
 
+    delete(id: number): Observable<Direccion> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
+    }
+
 }

@@ -64,4 +64,9 @@ export class InformacionLaboralService {
             .pipe(map(res => data));
     }
 
+    delete(id: number): Observable<InformacionLaboral> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
+    }
+
+
 }

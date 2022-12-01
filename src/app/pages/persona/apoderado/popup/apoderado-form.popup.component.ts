@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { RegularExpConstants } from 'src/@sirio/constants';
+import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Apoderado, ApoderadoService } from 'src/@sirio/domain/services/persona/apoderado/apoderado.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -19,6 +20,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   apoderado: Apoderado = {} as Apoderado;
   
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
+  paises = new BehaviorSubject<Pais[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -26,6 +28,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     private apoderadoService: ApoderadoService,
 
     private tipoDocumentoService: TipoDocumentoService,
+    private paisService: PaisService,
  
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
@@ -46,6 +49,10 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
+
+    this.paisService.actives().subscribe(data => {
+      this.paises.next(data);
+  });
     
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
@@ -76,6 +83,10 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
       nombre: new FormControl(this.apoderado.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
 
+      fechaNacimiento: new FormControl(this.apoderado.fechaNacimiento ? moment(this.apoderado.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
+            
+      pais: new FormControl(this.apoderado.pais || undefined, [Validators.required]),
+
       registro: new FormControl(this.apoderado.registro || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       numero: new FormControl(this.apoderado.numero || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
@@ -85,8 +96,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : ''),
-      
 
+      esApoderado: new FormControl(this.apoderado.esApoderado===1?true:false) ,
     });
 
 
@@ -98,8 +109,10 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     // console.log('mode ', this.mode);
     this.updateData(this.apoderado);// aca actualizamos la direccion
     this.apoderado.persona = this.defaults.payload.persona;
-    //this.apoderado.fecha=this.apoderado.fecha.format('DD/MM/YYYY');
     this.apoderado.fecha = this.apoderado.fecha ? this.apoderado.fecha.format('DD/MM/YYYY') : '';
+    this.apoderado.fechaNacimiento = this.apoderado.fechaNacimiento ? this.apoderado.fechaNacimiento.format('DD/MM/YYYY') : '';
+
+    this.apoderado.esApoderado = this.apoderado.esApoderado? 1 : 0;
 
     console.log(this.apoderado);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD

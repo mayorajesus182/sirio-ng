@@ -68,12 +68,22 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   }
 
-  delete(data: Pep) {
-    //console.log('data event click ', data);
-    // if(data){
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar Persona Expuesta Políticamente (PEP) : ?', undefined,
+    // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
 
-    // }
-  }
+      { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          // console.log('buscando telefono',row.id);
+          this.pepService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
 
   view(data: any) {
 
