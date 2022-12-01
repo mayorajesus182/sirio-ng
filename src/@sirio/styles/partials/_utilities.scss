@@ -264,10 +264,9 @@ blockquote {
   dialog popup
  */
 
-.dialog-frame {
-  width: 90%;
-  max-width: 100% !important;
-}
+// .dialog-frame {
+ 
+// }
 
 .close-button {
   float: right;
@@ -291,10 +290,11 @@ blockquote {
   border-color: darken($theme-color-warn, 0.02);
   color: $theme-color-warn;
 }
-
+// dialog
 .dialog-frame {
   top: 8%;
-
+  width: 90%;
+  max-width: 100% !important;
   // position: absolute !important;
   .mat-dialog-content {
     margin: 0px;
