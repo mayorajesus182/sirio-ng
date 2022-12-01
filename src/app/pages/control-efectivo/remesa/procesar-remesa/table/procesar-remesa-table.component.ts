@@ -33,19 +33,43 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     super(undefined, injector);
   }
 
+ loadList() {
+  this.init(this.remesaService, 'remesa_id', 'pagePorProcesar');
+ } 
+
   ngOnInit() {
-      this.init(this.remesaService, 'remesa_id', 'pagePorProcesar');      
+   this.loadList();
   }
 
   ngAfterViewInit() {
   }
 
-  process(data:any) {
+  process(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
   }
 
+  dispatch(data: any) {
+    this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
+      if (!resp.dismiss) {
+        this.remesaService.dispatch(data.element).subscribe(data => {
+          this.successResponse('La Remesa fue', 'Procesada', false);
+          this.loadList();
+          return data;
+      }, error => this.errorResponse(true));
+      }
+    });
+  }
+  
   view(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+    // this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
+    //   if (!resp.dismiss) {
+    //     this.remesaService.dispatch(data.element).subscribe(data => {
+    //       this.successResponse('La Remesa fue', 'Procesada', false);
+    //       this.loadList();
+    //       return data;
+    //   }, error => this.errorResponse(true));
+    //   }
+    // });
   }
 
 }

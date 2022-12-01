@@ -10,7 +10,11 @@ export interface Pep {
    
     persona: String;
 
-    tipoPep: String;
+    tipoPep: String;   
+    
+    tipoDocumento: string;
+
+    identificacion?: string;
 
     nombre: String;
     
@@ -59,6 +63,10 @@ export class PepService {
     update(data: Pep): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
+    }
+
+    delete(id: number): Observable<Pep> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
     }
 
 }

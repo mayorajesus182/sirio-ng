@@ -1,5 +1,8 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -11,6 +14,7 @@ import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
+import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
 import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
@@ -19,7 +23,6 @@ import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/vi
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
-
 @Component({
     selector: 'app1-enviar-remesa-form',
     templateUrl: './enviar-remesa-form.component.html',
@@ -29,7 +32,8 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 })
 
 export class EnviarRemesaFormComponent extends FormBaseComponent implements OnInit {
-
+    plomoList = [];
+    plomoCtrl = new FormControl([], [Validators.required]);
     public materialForm: FormGroup;
     private opt_swal: SweetAlertOptions;
     remesa: Remesa = {} as Remesa;
@@ -37,6 +41,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public viajes = new BehaviorSubject<Viaje[]>([]);
     public materiales = new BehaviorSubject<Material[]>([]);
+    public empleados = new BehaviorSubject<EmpleadoTransporte[]>([]);
     public acopios = new BehaviorSubject<Transportista[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     materialUtilizadoList: ReplaySubject<MaterialRemesa[]> = new ReplaySubject<MaterialRemesa[]>();
@@ -47,6 +52,8 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
     esTransportista: Boolean = false;
+    public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
+    readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
     constructor(
         injector: Injector,
@@ -59,6 +66,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         private saldoAcopioService: SaldoAcopioService,
         private viajeTransporteService: ViajeTransporteService,
         private materialTransporteService: MaterialTransporteService,
+        private empleadoTransporteService: EmpleadoTransporteService,
         private preferenciaService: PreferenciaService,
         private transportistaService: TransportistaService,
         private monedaService: MonedaService,
@@ -69,11 +77,97 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
     ngOnInit() {
 
-        this.isNew = true;
+        let id = this.route.snapshot.params['id'];
+        this.isNew = id == undefined;
         this.loadingDataForm.next(true);
 
-        this.buildForm(this.remesa);
-        this.loadingDataForm.next(false);
+
+        this.rolService.getByUsuario().subscribe(rol => {
+            this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
+
+            if (this.esTransportista) {
+                this.empleadoTransporteService.allEmpleados().subscribe(emp => {
+                    this.empleados.next(emp);
+                });
+            }
+
+
+            this.buildForm(this.remesa);
+            this.buildFormMateriales();
+            this.loadingDataForm.next(false);
+            // this.applyFieldsDirty();
+            // this.cdr.markForCheck();
+
+
+
+            if (id) {
+                this.remesaService.get(id).subscribe((rem: Remesa) => {
+                    this.remesa = rem;
+
+
+                    if (this.remesa.esAgencia == 1) {
+                        this.transportistaService.activesByUbicacionAgencia().subscribe(trans => {
+                            this.transportistas.next(trans);
+                        });
+
+                        this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(this.remesa.moneda).subscribe(conoData => {
+
+                            conoData = conoData.map(c => {
+                                let val = rem.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                                c.cantidad = val ? val.cantidad : 0;
+                                c.disponible = val ? c.disponible + val.cantidad : c.disponible;
+                                return c;
+                            })
+
+                            this.conos.next(conoData);
+                            this.updateValuesErrors(this.conos[0]);
+                            this.cdr.detectChanges();
+                        });
+
+                        this.empleadoTransporteService.allByTransportista(this.remesa.transportista).subscribe(emp => {
+                            this.empleados.next(emp);
+                        });
+
+                        this.loadCostosViajeTransportista(this.remesa.moneda, this.remesa.transportista);
+
+                    } else {
+
+                        this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(conoData => {
+
+                            conoData = conoData.map(c => {
+                                let val = rem.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
+                                c.cantidad = val ? val.cantidad : 0;
+                                c.disponible = val ? c.disponible + val.cantidad : c.disponible;
+                                return c;
+                            })
+
+                            this.conos.next(conoData);
+                            this.updateValuesErrors(this.conos[0]);
+                            this.cdr.detectChanges();
+                        });
+
+                        this.remesa.materiales.forEach(mr => {
+                            let materialRemesa = {} as MaterialRemesa;
+                            this.updateDataFromValues(materialRemesa, mr);
+                            this.materialRemesaList.push(materialRemesa);
+                            this.materialUtilizadoList.next(this.materialRemesaList.slice());
+                            this.cdr.detectChanges();
+                        });
+
+
+                        this.loadCostosViajeTransportista(this.remesa.moneda, this.remesa.emisor);
+                        this.loadCostosMaterialTransportista(this.remesa.moneda, this.remesa.emisor);
+                    }
+
+                });
+
+            }
+
+        });
+
+        this.preferenciaService.get().subscribe(data => {
+            this.preferencia = data;
+        });
 
         this.transportistaService.allCentrosAcopio().subscribe(data => {
             this.acopios.next(data);
@@ -81,14 +175,11 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         this.monedaService.fisicaActives().subscribe(data => {
             this.monedas.next(data);
-        });      
-
-        this.rolService.getByUsuario().subscribe(rol => {
-            this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
         });
 
-        this.applyFieldsDirty();
-        this.cdr.detectChanges();
+
+        // this.applyFieldsDirty();
+        // this.cdr.detectChanges();
 
         this.opt_swal = {};
         this.opt_swal.input = 'text';
@@ -103,8 +194,9 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             receptor: new FormControl(remesa.receptor || undefined),
             moneda: new FormControl(remesa.moneda || undefined, [Validators.required]),
             viaje: new FormControl(remesa.viaje || undefined, [Validators.required]),
-            plomos: new FormControl(remesa.plomos || undefined, [Validators.required]),
+            plomos: new FormControl(remesa.plomos ? remesa.plomos.split(',') : undefined),
             montoEnviado: new FormControl(remesa.montoEnviado || undefined, [Validators.required]),
+            responsables: new FormControl(remesa.responsables || undefined, [Validators.required]),
         });
 
         this.f.moneda.valueChanges.subscribe(value => {
@@ -115,31 +207,28 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                     this.conos.next(cono);
                 });
 
-                this.preferenciaService.get().subscribe(pref => {
-                    this.preferencia = pref;
+                // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
+                if (this.preferencia.monedaConoActual === value) {
 
-                    // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-                    if (this.preferencia.monedaConoActual === value) {
+                    this.viajeTransporteService.allWithCosto().subscribe(vjt => {
+                        this.viajes.next(vjt);
+                    });
 
-                        this.viajeTransporteService.allWithCosto().subscribe(vjt => {
-                            this.viajes.next(vjt);
-                        });
+                    this.materialTransporteService.allWithCosto().subscribe(mtt => {
+                        this.materiales.next(mtt);
+                    });
 
-                        this.materialTransporteService.allWithCosto().subscribe(mtt => {
-                            this.materiales.next(mtt);
-                        });
+                } else {
 
-                    } else {
+                    this.viajeTransporteService.allWithCostoDivisa().subscribe(vjt => {
+                        this.viajes.next(vjt);
+                    });
 
-                        this.viajeTransporteService.allWithCostoDivisa().subscribe(vjt => {
-                            this.viajes.next(vjt);
-                        });
+                    this.materialTransporteService.allWithCostoDivisa().subscribe(mtt => {
+                        this.materiales.next(mtt);
+                    });
+                }
 
-                        this.materialTransporteService.allWithCostoDivisa().subscribe(mtt => {
-                            this.materiales.next(mtt);
-                        });
-                    }
-                });
 
             } else {
 
@@ -150,32 +239,58 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(value).subscribe(cono => {
                     this.conos.next(cono);
                 });
-
             }
-
         });
 
         // Sólo se escoge la transportista cuando quien procesa es el centro de acopio, es decir, esto sólo pasará si la pantalla se muestra al centro de acopio
         this.f.transportista.valueChanges.subscribe(value => {
 
-            this.preferenciaService.get().subscribe(pref => {
-                this.preferencia = pref;
-
-                // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-                if (this.preferencia.monedaConoActual === this.remesa.moneda) {
-
-                    this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
-                        this.viajes.next(vjt);
-                    });
-
-                } else {
-
-                    this.viajeTransporteService.allWithCostoDivisaByTransportista(value).subscribe(vjt => {
-                        this.viajes.next(vjt);
-                    });
-                }
+            this.empleadoTransporteService.allByTransportista(value).subscribe(emp => {
+                this.empleados.next(emp);
             });
+
+            if (this.f.moneda.value != null) {
+                this.loadCostosViajeTransportista(this.f.moneda.value, value);
+            }
         });
+
+        this.f.moneda.valueChanges.subscribe(value => {
+            if (this.f.transportista.value != null) {
+                this.loadCostosViajeTransportista(value, this.f.transportista.value);
+            }
+        });
+    }
+
+    loadCostosViajeTransportista(moneda, transportista) {
+
+        // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
+        if (this.preferencia.monedaConoActual === moneda) {
+
+            this.viajeTransporteService.allWithCostoByTransportista(transportista).subscribe(vjt => {
+                this.viajes.next(vjt);
+            });
+
+        } else {
+            this.viajeTransporteService.allWithCostoDivisaByTransportista(transportista).subscribe(vjt => {
+                this.viajes.next(vjt);
+            });
+        }
+    }
+
+    loadCostosMaterialTransportista(moneda, transportista) {
+
+        // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
+        if (this.preferencia.monedaConoActual === moneda) {
+
+            this.materialTransporteService.allWithCostoByTransportista(transportista).subscribe(mat => {
+                this.materiales.next(mat);
+            });
+
+        } else {
+            this.materialTransporteService.allWithCostoDivisaByTransportista(transportista).subscribe(mat => {
+                this.materiales.next(mat);
+            });
+        }
     }
 
     get mf() {
@@ -263,13 +378,79 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;
+        this.remesa.plomos = this.plomoList.join(',');
 
-        this.remesaService.send(this.remesa).subscribe(data => {
-            this.itemForm.reset({});
-            this.successResponse('La Remesa fue', 'Procesada', false);
-            return data;
-        }, error => this.errorResponse(true));
+        console.log('this.remesa     ', this.remesa);
 
+        if (this.isNew) {
+            this.remesaService.sendCreate(this.remesa).subscribe(data => {
+                this.itemForm.reset({});
+                this.successResponse('La Remesa fue', 'Procesada', false);
+                return data;
+            }, error => this.errorResponse(true));
+        } else {
+            this.remesaService.sendUpdate(this.remesa).subscribe(data => {
+                this.itemForm.reset({});
+                this.successResponse('La Remesa fue', 'Procesada', false);
+                return data;
+            }, error => this.errorResponse(true));
+        }
+
+
+    }
+
+    getNombreMaterial(id: string) {
+        if (!this.materiales.value || this.materiales.value.length == 0) {
+            return '';
+        }
+        return this.materiales.value.filter(m => m.id == id).map(m => m.id + " - " + m.nombre);
+    }
+
+    removePlomo(plomo: string) {
+        const index = this.plomoList.indexOf(plomo);
+        if (index >= 0) {
+            this.plomoList.splice(index, 1);
+        }
+    }
+
+    addPlomo(event: MatChipInputEvent) {
+
+        const value = (event.value || '').trim();
+        // console.log(event);
+
+        if (!value.match(/^[0-9]*$/)) {
+            // console.log('match reg ex ', value);
+            this.plomoCtrl.setErrors({ pattern: true });
+            // this.plomoCtrl.markAsDirty();
+            // this.cdr.detectChanges();
+            return;
+        }
+
+        if (value.length != this.preferencia.digitosPlomo) {
+            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
+            return;
+        }
+
+        if (this.plomoList.includes(value)) {
+            this.plomoCtrl.setErrors({ exists: true });
+            return;
+        }
+
+        // Add plomo
+        if (value) {
+            this.plomoList.push(value);
+        }
+
+        this.plomoCtrl.setErrors(null);
+        // Clear the input value
+        event.chipInput!.clear();
+        this.cdr.detectChanges();
+
+    }
+
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.plomoList, event.previousIndex, event.currentIndex);
     }
 }
 

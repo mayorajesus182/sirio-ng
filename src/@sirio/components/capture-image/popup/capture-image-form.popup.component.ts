@@ -3,8 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
-// import * as Tesseract from 'tesseract.js';
-import { createWorker } from 'tesseract.js';
+
+// import { createWorker } from 'tesseract.js';
 import { ImageCroppedEvent } from "ngx-image-cropper";
 
 @Component({
@@ -17,9 +17,10 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
   showWebcam = true;
   isCameraExist = true;
 
-  worker: Tesseract.Worker = createWorker();
+  // worker: Tesseract.Worker = createWorker();
   errors: WebcamInitError[] = [];
   images: WebcamImage[] = [];
+  image!: WebcamImage;
 
   // worker: Tesseract.Worker = Tesseract.createWorker();
   isReady: boolean;
@@ -28,6 +29,7 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
   ocrResult: string;
   croppedImage: any = "";
   isScanning: boolean;
+  devicesTotal=0;
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -46,9 +48,9 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
 
   async initialize(): Promise<void> {
 
-    await this.worker.load();
-    await this.worker.loadLanguage("es");
-    await this.worker.initialize("es");
+    // await this.worker.load();
+    // await this.worker.loadLanguage("spa");
+    // await this.worker.initialize("spa");
     this.isReady = true;
   }
 
@@ -71,17 +73,16 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.isCameraExist = mediaDevices && mediaDevices.length > 0;
+        this.devicesTotal =  mediaDevices ? mediaDevices.length : 0;
       });
 
   }
-
-
 
   takeSnapshot(): void {
     this.trigger.next();
   }
 
-  onOffWebCame() {
+  onOffWebCam() {
     this.showWebcam = !this.showWebcam;
   }
 
@@ -89,16 +90,16 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
     this.errors.push(error);
   }
 
-  changeWebCame(directionOrDeviceId: boolean | string) {
+  changeWebCam(directionOrDeviceId: boolean | string) {
     this.nextWebcam.next(directionOrDeviceId);
   }
 
   handleImage(webcamImage: WebcamImage) {
     // this.getPicture.emit(webcamImage);
-    console.log();
+    // console.log(webcamImage);
 
     this.images.push(webcamImage);
-
+    this.image=webcamImage;
     // this.showWebcam = false;
   }
 
@@ -110,34 +111,38 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
     return this.nextWebcam.asObservable();
   }
 
+  // scanOCR() {
+  //   this.isScanning = true;
+  //   this.imageChangedEvent = null;
+  //   this.doOCR(this.croppedImage);
+  // }
+  // fileChangeEvent(event: any): void {
+  //   this.imageChangedEvent = event;
+  // }
 
-
-  scanOCR() {
-    this.isScanning = true;
-    this.imageChangedEvent = null;
-    this.doOCR(this.croppedImage);
-  }
-  fileChangeEvent(event: any): void {
-    this.imageChangedEvent = event;
-  }
   imageCropped(event: ImageCroppedEvent): void {
     console.log(event);
-    //this.doOCR(event.base64);
     this.croppedImage = event.base64;
     this.base64Image = event.base64;
+    // this.doOCR(event.base64);
   }
 
   async doOCR(base64Image: string) {
+    this.isScanning = true;
     this.ocrResult = "Scanning";
     console.log(`Started: ${new Date()}`);
     if (this.isReady) {
-      const data = await this.worker.recognize(base64Image);
-      console.log(data);
-      this.ocrResult = data.data.text;
+      // const data = await this.worker.recognize(base64Image);
+      // console.log(data);
+      // this.ocrResult = data.data.text;
     }
     // await this.worker.terminate();
     console.log(`Stopped: ${new Date()}`);
     this.isScanning = false;
+  }
+
+  addImageCropped(){
+    
   }
 
 
@@ -160,6 +165,9 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
   }
 
   clearAll() {
+    this.image=undefined;
+    this.base64Image= undefined;
+    this.croppedImage=undefined;
     // this.cdref.detectChanges();
   }
 

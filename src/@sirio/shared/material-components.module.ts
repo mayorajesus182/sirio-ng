@@ -39,7 +39,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { IMaskDirectiveModule } from 'angular-imask';
+import { IMaskDirectiveModule, IMaskModule } from 'angular-imask';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
@@ -192,6 +192,7 @@ const toInclude = [
     CurrencyMaskModule,
     NgxMaskModule,
     IMaskDirectiveModule,
+    IMaskModule,
     SweetAlert2Module,
     NotifierModule,
     toInclude
@@ -206,7 +207,7 @@ const toInclude = [
     { provide: MAT_DATE_LOCALE, useValue: 'es-VE' },
     { provide: LOCALE_ID, useValue: 'es-VE' },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS_CUSTOM },
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+    // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ]
 })
 export class MaterialModule {

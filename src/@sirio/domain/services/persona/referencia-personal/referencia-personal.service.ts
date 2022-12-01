@@ -52,5 +52,10 @@ export class ReferenciaPersonalService {
             .pipe(map(res => data));
     }
 
+    delete(id: number): Observable<ReferenciaPersonal> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
+    }
+
+
 }
 

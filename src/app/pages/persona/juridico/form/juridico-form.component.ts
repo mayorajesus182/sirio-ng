@@ -182,8 +182,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             // fechaNacimiento: new FormControl(personaJuridica.fechaNacimiento ? moment(personaJuridica.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
             pais: new FormControl(personaJuridica.pais || undefined, [Validators.required]),
 
-            razonSocial: new FormControl(personaJuridica.razonSocial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
-            nombreComercial: new FormControl(personaJuridica.nombreComercial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
+            razonSocial: new FormControl(personaJuridica.razonSocial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            nombreComercial: new FormControl(personaJuridica.nombreComercial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             // web: new FormControl(personaJuridica.web || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
             
             

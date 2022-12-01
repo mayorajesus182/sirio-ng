@@ -29,6 +29,22 @@ export class UsuarioService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    gerenteRegionalActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/gerenteregional/actives');
+    }   
+
+    gerenteAgenciaActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/gerenteagencia/actives');
+    }   
+
+    oficinaPrincipalActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/principal/actives');
+    }  
+
+    transportistaActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/transportista/actives');
+    }  
+
     taquillaRolAactives(): Observable<Usuario[]> {
         return this.apiService.config(this.apiConfig).get('/with-rol/actives');
     }

@@ -60,6 +60,24 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
       })
     }
   }
+  
+
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar Referencia Bancaria : ?', undefined,
+    // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
+
+      { 'html': ' <b>' + row.entidadFinanciera + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          // console.log('buscando telefono',row.id);
+          this.referenciaBancariaService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
 
   ngAfterViewInit() {
 

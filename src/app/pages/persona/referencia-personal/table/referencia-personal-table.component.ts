@@ -63,13 +63,28 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
     }
   }
 
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar Referencia Personal de: ?', undefined,
+    { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          // console.log('buscando telefono',row.id);
+          this.referenciaPersonalService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
+
   ngAfterViewInit() {
 
   }
 
 
 
-  popup(data?:ReferenciaBancaria) {
+  popup(data?:ReferenciaPersonal) {
     console.log(data);
     if(data){
       data.persona=this.persona;

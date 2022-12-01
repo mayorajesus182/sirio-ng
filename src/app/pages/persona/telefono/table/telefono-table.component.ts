@@ -68,12 +68,27 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
 
   }
 
-  delete(data: Telefono) {
-    //console.log('data event click ', data);
-    // if(data){
+  // delete(data: Telefono) {
+  //   //console.log('data event click ', data);
+  //   // if(data){
 
-    // }
-  }
+  //   // }
+  // }
+
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar El Teléfono?', undefined,
+    { 'html': ' <b>' + row.numero + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          // console.log('buscando telefono',row.id);
+          this.telefonoService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
 
   view(data: any) {
 

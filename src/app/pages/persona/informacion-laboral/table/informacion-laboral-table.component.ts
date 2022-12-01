@@ -59,6 +59,22 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
     }
   }
 
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar Información Laboral: ?', undefined,
+    
+      { 'html': ' <b>' + row.tipoIngreso +' : ' + row.nombre + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          // console.log('buscando telefono',row.id);
+          this.informacionLaboralService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
+
   ngAfterViewInit() {
 
   }

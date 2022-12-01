@@ -11,6 +11,7 @@ export interface Preferencia {
 
     monedaConoAnterior:string;
     monedaSiglasConoAnterior:string;
+    digitosPlomo:number;
 
     divisorConoAnterior:number;
     restriccionEquipo:number;

@@ -9,6 +9,7 @@ export interface Region {
     id: string;
     nombre: string;
     zona: string;
+    gerente: string;
     fechaCreacion?: any;
     activo?: number;
 }

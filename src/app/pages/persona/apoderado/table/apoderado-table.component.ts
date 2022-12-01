@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { MaterialRemesa } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { Apoderado, ApoderadoService } from 'src/@sirio/domain/services/persona/apoderado/apoderado.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { ApoderadoFormPopupComponent } from '../popup/apoderado-form.popup.component';
@@ -22,7 +23,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   apoderadoList:ReplaySubject<Apoderado[]> = new ReplaySubject<Apoderado[]>();
-
+  
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -68,12 +69,20 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
 
   }
 
-  delete(data: Apoderado) {
-    //console.log('data event click ', data);
-    // if(data){
-
-    // }
-  }
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar El Apoderado?', undefined,
+    { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          console.log('buscando apoderado',row.id);
+          this.apoderadoService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
 
   view(data: any) {
 
@@ -93,6 +102,4 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
         }
     }); 
 }
-
-
 }

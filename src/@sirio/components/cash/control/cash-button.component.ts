@@ -80,6 +80,7 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
 
         return this.dialog.open(popupComponent, {
             panelClass: 'dialog-frame',
+            position: {top: '3%'} ,
             width: withDialog,
             disableClose: true,
             data: data_aux

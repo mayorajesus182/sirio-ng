@@ -74,12 +74,20 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
   }
 
-  delete(data: Direccion) {
-    console.log('data event click ', data);
-    // if(data){
-
-    // }
-  }
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar Direccion?', undefined,
+    { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          console.log('buscando direccion',row.id);
+          this.direccionService.delete(row.id).subscribe(val=>{
+            if(val){
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+    });
+}
 
   view(data: any) {
 
