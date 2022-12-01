@@ -1,0 +1,60 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['checkbookType.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'checkbookType.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="10" >
+                                <mat-label>{{'checkbookType.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.id" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="auto" >
+                                <mat-label>{{'checkbookType.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+                            
+                            <mat-form-field fxFlex.gt-xs="10" >
+                                <mat-label>{{'checkbookType.localCode' | translate: {default: 'global.localCode'} | translate
+                                }}</mat-label>
+                                <input matInput class="text-center" [value]="d.codigoLocal" readonly>
+                            </mat-form-field>
+                        </div>
+                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

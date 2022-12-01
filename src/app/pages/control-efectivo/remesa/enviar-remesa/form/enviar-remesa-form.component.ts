@@ -87,19 +87,15 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 });
             }
 
-
-            this.buildForm(this.remesa);
-            this.buildFormMateriales();
-            this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
-            this.cdr.markForCheck();
-
-
-
             if (id) {
                 this.remesaService.get(id).subscribe((rem: Remesa) => {
                     this.remesa = rem;
 
+                    this.buildForm(this.remesa);
+                    this.buildFormMateriales();
+                    this.loadingDataForm.next(false);
+                    this.applyFieldsDirty();
+                    this.cdr.markForCheck();
 
                     if (this.remesa.esAgencia == 1) {
                         this.transportistaService.activesByUbicacionAgencia().subscribe(trans => {
@@ -173,7 +169,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.monedaService.fisicaActives().subscribe(data => {
             this.monedas.next(data);
         });
-
 
         // this.applyFieldsDirty();
         this.cdr.detectChanges();
