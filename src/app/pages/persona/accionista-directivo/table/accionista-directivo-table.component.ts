@@ -18,81 +18,83 @@ import { AccionistaDirectivoFormPopupComponent } from '../popup/accionista-direc
 
 export class AccionistaDirectivoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  @Input() persona=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  accionistaDirectivoList:ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
+    @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
+    @Input() persona=undefined;
+    @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+    accionistaDirectivoList:ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
 
-  constructor(
-    injector: Injector,
-    protected dialog: MatDialog,
-    protected router: Router,
-    protected accionistaDirectivoService: AccionistaDirectivoService,
-    private cdr: ChangeDetectorRef,
-  ) {
-    super(undefined, injector);
-  }
-
-  private loadList(){
-    this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
-            
-      this.accionistaDirectivoList.next(data.slice());
-      this.propagar.emit(data.length);
-      this.cdr.detectChanges();
-    });
-  }
-
-  ngOnInit() {
-    console.log('accionistaDirectivo table');
-    
-    if(this.persona){
-      console.log('buscando Accionista Directivo en el servidor dado el id persona');
-      this.loadList();
-
-      this.onRefresh.subscribe(val=>{
-        if(val){
-
-          this.loadList();
-        }
-      })
+    constructor(
+      injector: Injector,
+      protected dialog: MatDialog,
+      protected router: Router,
+      protected accionistaDirectivoService: AccionistaDirectivoService,
+      private cdr: ChangeDetectorRef,
+    ) {
+      super(undefined, injector);
     }
-  }
 
-  ngAfterViewInit() {
+    private loadList(){
+      this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
+              
+        this.accionistaDirectivoList.next(data.slice());
+        this.propagar.emit(data.length);
+        this.cdr.detectChanges();
+      });
+    }
 
-  }
-
-
-  edit(data: AccionistaDirectivo) {
-    //console.log('data event click ', data);
-
-  }
-
-  delete(data: AccionistaDirectivo) {
-    //console.log('data event click ', data);
-    // if(data){
-
-    // }
-  }
-
-  view(data: any) {
-
-
-  }
-
-  popup(data?:AccionistaDirectivo) {
-    console.log(data);
-    if(data){
-      data.persona=this.persona;
-    }    
-    this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
-      console.log(event);
+    ngOnInit() {
+      console.log('accionistaDirectivo table');
       
-        if(event){
-            this.onRefresh.next(true);
-        }
-    }); 
-}
+      if(this.persona){
+        console.log('buscando Accionista Directivo en el servidor dado el id persona');
+        this.loadList();
+
+        this.onRefresh.subscribe(val=>{
+          if(val){
+
+            this.loadList();
+          }
+        })
+      }
+    }
+
+    ngAfterViewInit() {
+
+    }
 
 
+    edit(data: AccionistaDirectivo) {
+      //console.log('data event click ', data);
+
+    }
+
+    // delete(data: AccionistaDirectivo) {
+    //   //console.log('data event click ', data);
+    //   // if(data){
+
+    //   // }
+    // }
+
+   
+
+  
+
+    view(data: any) {
+
+
+    }
+
+    popup(data?:AccionistaDirectivo) {
+      console.log(data);
+      if(data){
+        data.persona=this.persona;
+      }    
+      this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona}:data,'70%').afterClosed().subscribe(event=>{
+        console.log(event);
+        
+          if(event){
+              this.onRefresh.next(true);
+          }
+      }); 
+    }
 }
