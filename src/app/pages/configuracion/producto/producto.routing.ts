@@ -39,6 +39,31 @@ const productoRoutes: Routes = [
         data: { title: 'Tipo de Participacion' },
         loadChildren: () => import('./tipo-participacion/tipo-participation.module').then(m => m.TipoParticipacionModule),
     },
+    {
+        path: 'destino-cuenta',
+        data: { title: 'Destino de Cuenta' },
+        loadChildren: () => import('./destino-cuenta/destino-cuenta.module').then(m => m.DestinoCuentaModule),
+    },
+    {
+        path: 'origen-fondo',
+        data: { title: 'Origen de Fondo' },
+        loadChildren: () => import('./origen-fondo/origen-fondo.module').then(m => m.OrigenFondoModule),
+    },
+    {
+        path: 'tipo-subproducto',
+        data: { title: 'Origen de Fondo' },
+        loadChildren: () => import('./tipo-subproducto/tipo-subproducto.module').then(m => m.TipoSubproductoModule),
+    },
+    {
+        path: 'tipo-firma',
+        data: { title: 'Tipo de Firma' },
+        loadChildren: () => import('./tipo-firma/tipo-firma.module').then(m => m.TipoFirmaModule),
+    },
+    {
+        path: 'tipo-firmante',
+        data: { title: 'Tipo de Firma' },
+        loadChildren: () => import('./tipo-firmante/tipo-firmante.module').then(m => m.TipoFirmanteModule),
+    },
 ];
 
 
