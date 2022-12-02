@@ -12,25 +12,11 @@
                     <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <mat-card-title class="mat-bg-grey">
-                            <div class="card-title-text">
-                                <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
-                                    <mat-icon class="">more_vert</mat-icon>
-                                </button>
-
-                                <mat-menu #userMenu="matMenu">
-                                    <button mat-menu-item class="mr-1" (click)="resendTask()">
-                                        <mat-icon color="primary">check_circle</mat-icon>
-                                        {{'action.resend' | translate }}
-                                    </button>
-                                    <button mat-menu-item class="mr-1" (click)="overrideTask()">
-                                        <mat-icon color="accent">cancel</mat-icon>
-                                        {{'action.override' | translate }}
-                                    </button>
-                                </mat-menu> -->
-                            </div>
-                        </mat-card-title>
-
+                        <span fxFlex></span>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
@@ -98,7 +84,7 @@
                                 <mat-form-field fxFlex="auto">
                                     <mat-label># Plomos Utilizados</mat-label>
                                     <mat-chip-list #chipList aria-label="Plomos Utilizados"  [formControl]="plomoCtrl">
-                                        <mat-chip *ngFor="let plo of plomoList" [selected]="plo" cdkDrag [selectable]="'true'" [value]="plo" (removed)="removePlomo(plo)">
+                                        <mat-chip *ngFor="let plo of plomoList"   (removed)="removePlomo(plo)">
                                             {{plo}} 
                                             <button matChipRemove>
                                                 <mat-icon>cancel</mat-icon>
