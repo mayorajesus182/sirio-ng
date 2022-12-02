@@ -119,7 +119,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     });
 
     this.pepAccionistas.next(this.accionistaDirectivo.pepList);
-    this.pepList= this.accionistaDirectivo.pepList;
+    this.pepList= this.accionistaDirectivo.pepList || [];
 
     this.cdr.detectChanges();
   }
