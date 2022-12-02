@@ -56,20 +56,7 @@
         </div>
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-            <!-- <mat-form-field fxFlex="30">
-            <mat-label>{{'Porcentaje Accionario:' | translate: {default:
-                'Porcentaje Accionario:'} | translate }} </mat-label>
-            <input matInput maxlength="200" minlength="1" autocomplete="off" name="porcentaje" formControlName="porcentaje">
-            
-            <mat-error *ngIf="f.porcentaje.errors?.required">{{'error.required' | translate}}
-            </mat-error>
-            <mat-error *ngIf="f.porcentaje.errors?.pattern">{{'error.invalidCharacter' |
-                translate}}
-            </mat-error>
-        </mat-form-field> -->
-
-            <mat-form-field fxFlex="33">
+            <!-- <mat-form-field fxFlex="50">
                 <mat-label>{{'Porcentaje Accionario:' | translate: {default:
                     'Porcentaje Accionario:'} | translate }} </mat-label>
                 <input maxlength="6" matInput autocomplete="off" name="porcentaje" currencyMask
@@ -79,14 +66,28 @@
                 <mat-error *ngIf="f.porcentaje.errors?.pattern">{{'error.invalidCharacter' |
                     translate}}
                 </mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field fxFlex="50" class="highlight">
+
+                <mat-label>{{'Porcentaje Accionario' | translate: {default: 'Porcentaje Accionario'} |
+                    translate }}
+                </mat-label>
+
+                <input matInput max="100.00" min="0.01" maxlength="20" autocomplete="off" name="monto"
+                    formControlName="porcentaje" currencyMask [options]="{precision:2}">
+                <mat-error *ngIf="f.porcentaje.errors?.required">Es requerido</mat-error>
+                <mat-error *ngIf="f.porcentaje.errors?.max">Debe ser menor que 100,00
+                </mat-error>
+                <mat-error *ngIf="f.porcentaje.errors?.min">No debe ser menor que 0,01
+                </mat-error>
+                <mat-error *ngIf="f.porcentaje.errors?.difference">Verifique Porcentaje Accionario'</mat-error>
+
+
             </mat-form-field>
 
-            <!-- <sirio-select-search fxFlex.gt-xs="70" [label]="'Cargo:'" [readonly]="!isNew"
-            formControlName="cargoId" [required]="true" [elements]="cargoList.asObservable()" [attributeName]="'nombre'"
-            [errors]="f.cargoId?.errors">
-        </sirio-select-search> -->
 
-            <sirio-select-search fxFlex.gt-xs="70" [label]="'Cargo:'" formControlName="cargoId" [required]="true"
+            <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo:'" formControlName="cargoId" [required]="true"
                 [elements]="cargoList.asObservable()" [attributeName]="'nombre'" [errors]="f.cargoId?.errors">
             </sirio-select-search>
 
@@ -97,11 +98,11 @@
 
     <mat-divider class="margin-bottom-sm margin-top-sm"></mat-divider>
 
-    <span class="margin-top-sm margin-bottom-lg semi-bold">
-        Es PEP / Es Relacionado PEP
-    </span>
+    <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="!itemForm.invalid">
 
-    <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="pepAccionistaForm">
+        <span class="margin-top-sm margin-bottom-lg semi-bold" >
+            Es PEP / Es Relacionado PEP
+        </span>
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -152,8 +153,8 @@
             </mat-form-field>
 
             <mat-form-field fxFlex="30">
-                <mat-label>{{'Cargo que desempeña' | translate: {default:
-                    'Cargo que desempeña'} | translate }} </mat-label>
+                <mat-label>{{'Cargo que Desempeña' | translate: {default:
+                    'Cargo que Desempeña'} | translate }} </mat-label>
                 <input matInput maxlength="100" minlength="1" autocomplete="off" name="cargo" formControlName="cargo"
                     uppercase required>
                 <mat-error *ngIf="cf.cargo.errors?.required">{{'error.required' | translate}}
@@ -163,7 +164,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <sirio-select-search fxFlex.gt-xs="auto" [label]="'pais'" formControlName="pais" [required]="true"
+            <sirio-select-search fxFlex.gt-xs="auto" [label]="'Pais'" formControlName="pais" [required]="true"
                 [elements]="paisList.asObservable()" [attributeName]="'nombre'" [errors]="cf.pais?.errors">
             </sirio-select-search>
 
@@ -178,25 +179,29 @@
                 <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
             </mat-dialog-actions> -->
             <div class="text-center" fxFlex="1 1 0%">
-                <button color="black" [disabled]="pepAccionistaForm.invalid"  (click)="add()" mat-button>
-                <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
+                <button color="black" [disabled]="pepAccionistaForm.invalid" (click)="add()" mat-button>
+                    <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
                 </button>
             </div>
-          
+
 
 
         </div>
 
-       
+
 
         <mat-divider class="margin-bottom-sm margin-top-sm"></mat-divider>
 
         <div fxLayout="column" fxLayout="row" fxLayoutGap="0" fxFlex>
-        
-            <ngx-datatable fxFlex [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'" style="min-width: 100% !important;" [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="pepAccionistas | async" >
-                
 
-                <ngx-datatable-column [flexGrow]="0.5" >
+            <ngx-datatable fxFlex [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+                style="min-width: 100% !important;"
+                [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"
+                [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70"
+                [limit]="10" [rows]="pepAccionistas | async">
+
+
+                <ngx-datatable-column [flexGrow]="0.5">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'Tipo Relación' | translate: {default: 'Tipo Relación'} | translate
                             }}</div>
@@ -206,63 +211,68 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1" >
+                <ngx-datatable-column [flexGrow]="1">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Nombre y Apellido del Relacionado' | translate: {default: 'Nombre y Apellido del Relacionado'} | translate }}</div>
+                        <div class="text-center">{{'Nombre y Apellido del Relacionado' | translate: {default: 'Nombre y
+                            Apellido del Relacionado'} | translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.nombre}}</div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="0.5" >
+                <ngx-datatable-column [flexGrow]="0.5">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Tipo Documento' | translate: {default: 'Tipo Documento'} | translate }}</div>
+                        <div class="text-center">{{'Tipo Documento' | translate: {default: 'Tipo Documento'} | translate
+                            }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.tipoDocumento}}</div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1" >
+                <ngx-datatable-column [flexGrow]="1">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Identificación' | translate: {default: 'Identificación'} | translate }}</div>
+                        <div class="text-center">{{'Identificación' | translate: {default: 'Identificación'} | translate
+                            }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.identificacion}}</div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1" >
+                <ngx-datatable-column [flexGrow]="1">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Nombre del ente Adscripción' | translate: {default: 'Nombre del ente Adscripción'} | translate }}</div>
+                        <div class="text-center">{{'Nombre del ente Adscripción' | translate: {default: 'Nombre del ente
+                            Adscripción'} | translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.ente}}</div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1" >
+                <ngx-datatable-column [flexGrow]="1">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Cargo que desempeña' | translate: {default: 'Cargo que desempeña'} | translate }}</div>
+                        <div class="text-center">{{'Cargo que Desempeña' | translate: {default: 'Cargo que Desempeña'} |
+                            translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.cargo}}</div>
                     </ng-template>
                 </ngx-datatable-column>
-   
-                <ngx-datatable-column [flexGrow]="0.5" >
+
+                <ngx-datatable-column [flexGrow]="0.5">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'Pais' | translate: {default: 'Pais'} | translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.pais}}</div>
                     </ng-template>
-                </ngx-datatable-column> 
+                </ngx-datatable-column>
 
                 <!-- fxLayoutAlign="end center" -->
 
-                  <!-- <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+                <!-- <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
                 <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
             </mat-dialog-actions> -->
 
@@ -271,7 +281,7 @@
                         <div class="text-center">{{'action.delete'| translate}} </div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template fxLayoutAlign="center">
-                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" 
+                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
                             (click)="delete(row)" matTooltip="Eliminar">
                             <mat-icon>delete</mat-icon>
                         </button>
@@ -282,20 +292,20 @@
 
             </ngx-datatable>
 
-            
 
-            
+
+
         </div>
 
 
     </div>
 
+</mat-dialog-content>
 
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
         <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-        <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
-      </mat-dialog-actions>
+        <button mat-raised-button color="primary" (click)="save()"
+            [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+    </mat-dialog-actions>
 
-
-</mat-dialog-content>
 

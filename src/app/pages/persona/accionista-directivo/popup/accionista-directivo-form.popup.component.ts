@@ -124,8 +124,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       cargoId: new FormControl(this.accionistaDirectivo.cargoId || undefined, [Validators.required]),
       porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
-
-
     });
 
 
@@ -134,6 +132,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   buildPepForm() {
     this.pepAccionistaForm = this.fb.group({
+      // tipoPep: const newLocal = (new FormControl(this.pepAccionista.tipoPep || undefined, [Validators.required]),
       tipoPep: new FormControl(this.pepAccionista.tipoPep || '', [Validators.required]),
       tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || '', [Validators.required]),
       identificacion: new FormControl(this.pepAccionista.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
@@ -141,7 +140,10 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       ente: new FormControl(this.pepAccionista.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.pepAccionista.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       pais: new FormControl(this.pepAccionista.pais || undefined, [Validators.required]),
+      
     });
+
+    
   }
 
   get cf() {
@@ -177,6 +179,9 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.updateData(this.accionistaDirectivo);// aca actualizamos la direccion
     this.accionistaDirectivo.persona = this.defaults.payload.persona;
 
+    console.log('Save ', this.accionistaDirectivo);
+
+    // {{printErrors() | json}} 
 
     // this.updateData(this.pepAccionista);// aca actualizamos la direccion
     // this.accionistaDirectivo.persona = this.defaults.payload.persona;
