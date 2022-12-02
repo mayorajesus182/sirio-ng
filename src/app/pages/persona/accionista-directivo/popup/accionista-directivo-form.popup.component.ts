@@ -10,8 +10,6 @@ import { TipoPep, TipoPepService } from 'src/@sirio/domain/services/configuracio
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { AccionistaDirectivo, AccionistaDirectivoService } from 'src/@sirio/domain/services/persona/accionista-directivo/accionista-directivo.service';
 import { PepAccionista } from 'src/@sirio/domain/services/persona/pep-accionista/pep.service';
-import { Pep } from 'src/@sirio/domain/services/persona/pep/pep.service';
-import { Cheque } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 @Component({
@@ -115,11 +113,13 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       tipoDocumento: new FormControl(this.accionistaDirectivo.tipoDocumento || undefined, [Validators.required]),
       identificacion: new FormControl(this.accionistaDirectivo.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       nombre: new FormControl(this.accionistaDirectivo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      cargoId: new FormControl(this.accionistaDirectivo.cargoId || undefined, [Validators.required]),
+      cargo: new FormControl(this.accionistaDirectivo.cargo || undefined, [Validators.required]),
       porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
     });
 
+    this.pepAccionistas.next(this.accionistaDirectivo.pepList);
+    this.pepList= this.accionistaDirectivo.pepList;
 
     this.cdr.detectChanges();
   }

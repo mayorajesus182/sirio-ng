@@ -11,7 +11,7 @@ export interface AccionistaDirectivo {
     tipoDocumento: string;
     identificacion: string;
     nombre: string;
-    cargoId: String;
+    cargo: String;
     porcentaje: String;
     pepList: any[];
 }

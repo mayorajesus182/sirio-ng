@@ -83,12 +83,10 @@
                 </mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.difference">Verifique Porcentaje Accionario'</mat-error>
 
-
             </mat-form-field>
 
-
-            <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo:'" formControlName="cargoId" [required]="true"
-                [elements]="cargoList.asObservable()" [attributeName]="'nombre'" [errors]="f.cargoId?.errors">
+            <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo:'" formControlName="cargo" [required]="true"
+                [elements]="cargoList.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
             </sirio-select-search>
 
         </div>
