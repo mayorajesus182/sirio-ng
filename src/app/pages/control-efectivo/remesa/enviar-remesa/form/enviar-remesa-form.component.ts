@@ -272,13 +272,24 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
         this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
 
+      
+
+        // this.materiales.subscribe(list=>this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id)));
+        this.onLoadMaterialesUtilizados()
+
+        // this.materiales.subscribe(()=>this.onLoadMaterialesUtilizados());
+
+        this.cdr.detectChanges();
+    }
+
+    onLoadMaterialesUtilizados(){
         this.materialUtilizadoList.subscribe(list => {
             console.log(' cambio materiales utilizados ', list);
             console.log('  materiales a utilizar ', this.materialList);
             
             if (!list || list.length == 0) {
                 this.materiales.next(this.materialList);
-            } else {    
+            } else {
                 console.log(list.map(mu => mu.material));
                 
                 this.materiales.next(
@@ -286,9 +297,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 );
             }
         })
-
-
-        this.cdr.detectChanges();
     }
 
     loadCostosViajeTransportista(moneda, transportista) {
@@ -342,6 +350,13 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         let materialRemesa = {} as MaterialRemesa;
         this.updateDataFromValues(materialRemesa, this.materialForm.value);
+
+        const ix = this.materialRemesaList.findIndex(m=>m.material==materialRemesa.material);
+        if(ix>=0){
+            // si ya existe lo actualizo
+            this.materialRemesaList.splice(ix,1);
+        }
+
         this.materialRemesaList.push(materialRemesa);
         this.materialUtilizadoList.next(this.materialRemesaList.slice());
         this.mf.material.setValue(undefined);
