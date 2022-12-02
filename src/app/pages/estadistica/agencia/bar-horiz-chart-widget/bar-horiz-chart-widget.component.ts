@@ -6,13 +6,15 @@ import exporting from 'highcharts/modules/exporting';
 import exportData from 'highcharts/modules/export-data';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.report.service';
+import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 
 @Component({
   selector: 'sirio-bar-horiz-chart-widget',
   templateUrl: './bar-horiz-chart-widget.component.html',
   styleUrls: ['./bar-horiz-chart-widget.component.scss']
 })
-export class BarHorizChartWidgetComponent implements OnInit {
+export class BarHorizChartWidgetComponent extends ChartBaseComponent implements OnInit  {
 
   @Input() data: Observable<any>;
   @Input() monedas: Observable<Moneda[]>;
@@ -29,8 +31,11 @@ export class BarHorizChartWidgetComponent implements OnInit {
   isLoading: boolean;
 
   constructor(
+    private agenciaReport: SaldoAgenciaReportService,
     private cdref: ChangeDetectorRef) {
+      super()
   }
+
   ngOnInit(): void {
     exporting(Highcharts);
     exportData(this.highcharts);
@@ -42,11 +47,21 @@ export class BarHorizChartWidgetComponent implements OnInit {
       this.reload();
 
     });
-
-
-
-
   }
+
+
+  reportPdf(){
+
+    this.loadingDataForm.next(true);
+    this.agenciaReport.reportResumenEfectivo().subscribe(data => {
+      this.loadingDataForm.next(false);
+      console.log('response:', data);
+      const name = this.getFileName(data);
+      let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+      this.download(name, blob);
+    });
+  }
+
 
   private reload() {
 
