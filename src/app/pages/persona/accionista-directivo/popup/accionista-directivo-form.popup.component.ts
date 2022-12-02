@@ -62,7 +62,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   ngOnInit() {
 
     this.tipoPepService.actives().subscribe(data => {
-      console.log(data);
 
       this.tipoPepList.next(data);
       this.cdr.detectChanges();
@@ -71,27 +70,22 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
 
     this.tipoDocumentoService.actives().subscribe(data => {
-      console.log(data);
 
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
 
     this.paisService.actives().subscribe(data => {
-      console.log(data);
 
       this.paisList.next(data);
       this.cdr.detectChanges();
     })
 
     this.cargoService.actives().subscribe(data => {
-      console.log(data);
 
       this.cargoList.next(data);
       this.cdr.detectChanges();
     })
-
-    this.buildPepForm();
 
 
     this.loadingDataForm.next(true);

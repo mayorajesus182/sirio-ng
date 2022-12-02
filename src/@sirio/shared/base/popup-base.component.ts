@@ -282,7 +282,7 @@ export class PopupBaseComponent {
         });
 
 
-        if (isNew) {
+        if (this.isNew) {
             service.save(formData)
                 .subscribe(data => this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o')), error => this.errorResponse(true));
         } else {
