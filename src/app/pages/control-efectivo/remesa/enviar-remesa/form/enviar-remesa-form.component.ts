@@ -1,5 +1,8 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -20,7 +23,6 @@ import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/vi
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
-
 @Component({
     selector: 'app1-enviar-remesa-form',
     templateUrl: './enviar-remesa-form.component.html',
@@ -30,7 +32,8 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 })
 
 export class EnviarRemesaFormComponent extends FormBaseComponent implements OnInit {
-
+    plomoList = [];
+    plomoCtrl = new FormControl([], [Validators.required]);
     public materialForm: FormGroup;
     private opt_swal: SweetAlertOptions;
     remesa: Remesa = {} as Remesa;
@@ -50,6 +53,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     materialRemesaList: MaterialRemesa[] = [];
     esTransportista: Boolean = false;
     public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
+    readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
     constructor(
         injector: Injector,
@@ -91,8 +95,8 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             this.buildForm(this.remesa);
             this.buildFormMateriales();
             this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
-            this.cdr.markForCheck();
+            // this.applyFieldsDirty();
+            // this.cdr.markForCheck();
 
 
 
@@ -151,13 +155,12 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                         });
 
 
-                        this.loadCostosViajeTransportista(this.remesa.moneda, this.remesa.emisor); 
-                        this.loadCostosMaterialTransportista(this.remesa.moneda, this.remesa.emisor); 
+                        this.loadCostosViajeTransportista(this.remesa.moneda, this.remesa.emisor);
+                        this.loadCostosMaterialTransportista(this.remesa.moneda, this.remesa.emisor);
                     }
 
                 });
 
-            } else {
             }
 
         });
@@ -176,7 +179,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
 
         // this.applyFieldsDirty();
-        this.cdr.detectChanges();
+        // this.cdr.detectChanges();
 
         this.opt_swal = {};
         this.opt_swal.input = 'text';
@@ -191,7 +194,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             receptor: new FormControl(remesa.receptor || undefined),
             moneda: new FormControl(remesa.moneda || undefined, [Validators.required]),
             viaje: new FormControl(remesa.viaje || undefined, [Validators.required]),
-            plomos: new FormControl(remesa.plomos || undefined, [Validators.required]),
+            plomos: new FormControl(remesa.plomos ? remesa.plomos.split(',') : undefined),
             montoEnviado: new FormControl(remesa.montoEnviado || undefined, [Validators.required]),
             responsables: new FormControl(remesa.responsables || undefined, [Validators.required]),
         });
@@ -375,6 +378,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;
+        this.remesa.plomos = this.plomoList.join(',');
 
         console.log('this.remesa     ', this.remesa);
 
@@ -393,6 +397,60 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         }
 
 
+    }
+
+    getNombreMaterial(id: string) {
+        if (!this.materiales.value || this.materiales.value.length == 0) {
+            return '';
+        }
+        return this.materiales.value.filter(m => m.id == id).map(m => m.id + " - " + m.nombre);
+    }
+
+    removePlomo(plomo: string) {
+        const index = this.plomoList.indexOf(plomo);
+        if (index >= 0) {
+            this.plomoList.splice(index, 1);
+        }
+    }
+
+    addPlomo(event: MatChipInputEvent) {
+
+        const value = (event.value || '').trim();
+        // console.log(event);
+
+        if (!value.match(/^[0-9]*$/)) {
+            // console.log('match reg ex ', value);
+            this.plomoCtrl.setErrors({ pattern: true });
+            // this.plomoCtrl.markAsDirty();
+            // this.cdr.detectChanges();
+            return;
+        }
+
+        if (value.length != this.preferencia.digitosPlomo) {
+            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
+            return;
+        }
+
+        if (this.plomoList.includes(value)) {
+            this.plomoCtrl.setErrors({ exists: true });
+            return;
+        }
+
+        // Add plomo
+        if (value) {
+            this.plomoList.push(value);
+        }
+
+        this.plomoCtrl.setErrors(null);
+        // Clear the input value
+        event.chipInput!.clear();
+        this.cdr.detectChanges();
+
+    }
+
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.plomoList, event.previousIndex, event.currentIndex);
     }
 }
 

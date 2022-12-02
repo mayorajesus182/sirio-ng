@@ -71,8 +71,9 @@ export class CaptureButtonComponent implements OnInit, AfterViewInit {
         return this.dialog.open(popupComponent, {
             panelClass: 'dialog-frame',
             width: withDialog,
+            position: {top: '3%'} ,
             disableClose: true,
-            data: data_aux
+            data: data_aux,
         });
     }
 

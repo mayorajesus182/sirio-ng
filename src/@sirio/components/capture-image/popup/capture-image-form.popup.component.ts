@@ -141,6 +141,10 @@ export class CaptureImageFormPopupComponent extends PopupBaseComponent implement
     this.isScanning = false;
   }
 
+  addImageCropped(){
+    
+  }
+
 
   save() {
     console.log('mode ', this.mode);

@@ -1,55 +1,45 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
     <h1> <i class="fal fa-camera-viewfinder"></i> Cheques </h1> &nbsp;<span> Capturar</span>
-    <!-- <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
       <button mat-icon-button class="close-button" (click)="close()">
         <mat-icon class="close-icon" color="accent">close</mat-icon>
       </button>
-    </div> -->
+    </div>
   </sirio-dialog-header-heading>
 </sirio-dialog-header>
 
-<div fxLayout="column">
+<div fxLayout="column" mat-dialog-content>
 
-  <div fxLayout="column" fxLayout="row wrap" *ngIf="isCameraExist; else noCameraExist">
+  <div  fxLayout="row wrap" fxFlex.gt-xs="100" *ngIf="isCameraExist; else noCameraExist">
 
     <div fxLayout="row" fxLayout.xs="column">
-      <!-- <div class="btn-group">
-          <button class="button" (click)="takeSnapshot()">Take Picture</button>
-          <button class="button" (click)="changeWebCame(true)">Toggle Camera</button>
-          <button class="button" (click)="onOffWebCame()">Switch camera</button>
-        </div>  -->
       
       <webcam fxFlex="auto" [height]="350" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
         [switchCamera]="nextWebcamObservable">
       </webcam>
 
-      <div fxFlex="auto" fxLayout="column" fxLayout="row wrap" *ngIf="image" class="padding-h-sm">
+      <div fxFlex="auto" fxLayout="row"  *ngIf="image" class="padding-h-xs">
         
-        <div fxFlex="100" >
-          <image-cropper  [imageURL]="image.imageAsDataUrl" [maintainAspectRatio]="false" 
-          
-          [resizeToWidth]="512" [resizeToHeight]="300" format="jpeg"
+        <div fxFlex="80" style="height: 350px;width: 100%;" class="margin-bottom-xs">
+          <image-cropper style="padding: 0px !important;" [imageURL]="image.imageAsDataUrl" [maintainAspectRatio]="false" 
+          [resizeToWidth]="500" [resizeToHeight]="350" format="jpeg"  
             (imageCropped)="imageCropped($event)">
           </image-cropper>
         </div>
-        <div fxFlex="100" *ngIf="image">
-          <img [src]="croppedImage" />
-          <p *ngIf="!isScanning" class="text-left">{{ocrResult}}</p>
+        <div fxFlex="auto" fxLayout="column" fxFlex="1 1 0%" fxLayoutAlign="start center">
+          <button fxFlex="auto" type="button"  class=" margin-bottom-xs" mat-raised-button (click)="addImageCropped()">
+            <i class="fal fa-circle-plus fa-lg"></i> &nbsp; Agregar
+          </button>
         </div>
       </div>
     </div>
 
-    <div fxLayout="column" fxFlex.gt-xs="100" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="30px">
+    <div fxLayout="row" fxFlex.gt-xs="100"  fxLayoutAlign="center" fxLayoutGap.gt-sm="30px">
 
       <button fxFlex="auto" type="button" color="primary" class="btn-capture margin-bottom-md" mat-raised-button (click)="takeSnapshot()">
         <i class="fal fa-camera fa-lg"></i> &nbsp; Capturar Imagen
       </button>
-      <!-- <span fxFlex></span> -->
-      <!-- <button color="accent" class="btn-deposito margin-bottom-md"  mat-raised-button (click)="selected = 1" [color]="this.selected == 1 ? 'primary' : 'accent'"  
-        [disabled]="selected === 2" >
-            <i class="fa-light fa-money-check fa-lg"></i>&nbsp; Depósito de Cheques &nbsp; <i class="fa-light fa-money-check fa-lg"></i>
-        </button> -->
       <button fxFlex="auto" type="button" color="accent" [disabled]="devicesTotal<=1" class="btn-capture margin-bottom-md" mat-raised-button (click)="changeWebCam(true)">
         <i class="fal fa-camera-rotate fa-lg"></i>&nbsp; Intercambiar Camara {{'#'+devicesTotal}}
       </button>
@@ -59,6 +49,13 @@
       </button>
 
     </div>
+
+
+    <div fxLayout="row" fxFlex.gt-xs="100"  fxLayoutAlign="center" fxLayoutGap.gt-sm="30px">
+      <div fxFlex="auto" fxLayout="column" fxLayoutGap="10px">
+        <img [src]="croppedImage"  />
+      </div>
+      </div>
 
     <div *ngIf="errors.length > 0" fxLayout="column" fxFlex.gt-xs="100">
       <h4>Error Messages:</h4>
@@ -76,6 +73,6 @@
 </div>
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-  <button mat-raised-button (click)="clearAll()">{{'button.cancel'|translate}}</button>
+  <button mat-raised-button (click)="close()">{{'button.cancel'|translate}}</button>
   <button mat-raised-button color="primary" (click)="save()">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

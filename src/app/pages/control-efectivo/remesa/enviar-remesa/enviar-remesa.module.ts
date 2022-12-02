@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
 import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
@@ -28,6 +30,9 @@ import { EnviarRemesaTableComponent } from './table/enviar-remesa-table.componen
         HighlightModule,
         SirioCardModule,
         EnviarRemesaRoutingModule,
+
+        MatNativeDateModule,
+
     ],
     declarations: [
         EnviarRemesaFormComponent,
