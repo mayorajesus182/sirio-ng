@@ -21,4 +21,8 @@ export class SaldoAgenciaReportService {
     reportResumen(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/resumen');
     }
+
+    reportResumenEfectivo(): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet('/resumen/efectivo');
+    }
 }
