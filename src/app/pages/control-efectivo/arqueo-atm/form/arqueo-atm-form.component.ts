@@ -32,7 +32,9 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   datosPersona: string;
   editing: any[] = [];
   btnState: boolean = false;
-
+  error: boolean = false;
+  message: string = '';
+  errorList = [];
 
   constructor(
     injector: Injector,
@@ -60,12 +62,14 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     const data = history.state.data;
 
     if (data) {
-      this.atm = data.codigo;
-      sessionStorage.setItem('trans_nombre', data.codigo);
+      this.atm = data.identificacion;
+      sessionStorage.setItem('trans_nombre', this.atm);
       sessionStorage.setItem('moneda_atm', data.moneda);
     } else {
       this.atm = sessionStorage.getItem('trans_nombre')
     }
+
+    console.log('sessionStorage.getItem()    ', sessionStorage.getItem('moneda_atm'))
 
     this.monedaService.get(sessionStorage.getItem('moneda_atm')).subscribe((result: Moneda) => {
       this.moneda = result;
@@ -96,30 +100,31 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   }
 
 
-  updateValuesErrors(row: any) {
+  updateValuesErrors(row: any, index) {
 
     if (row.anterior < row.dispensado + row.rechazado) {
-      console.log('La cantidad Dispensada más la Rechazada no debe ser mayor al Contador Anterior');
+      this.message = row.descripcion + ': La Cantidad Dispensada más la Cantidad Rechazada no puede ser mayor al Contador Anterior';
     } else if (row.anterior == 0 && row.fisico > 0) {
-      console.log('Sin Contador Anterior no puede existir un Físico');
+      this.message = row.descripcion + ': Sin Contador Anterior no puede existir una Físico';
     } else if (row.fisico > 0 && row.retiro > row.fisico) {
-      console.log('El monto a Retirar supera el disponible en el ATM');
-    } else if ((row.fisico == 0 || !row.fisico ) && row.retiro > row.anterior - row.dispensado + row.rechazado) {
-      console.log('El monto a Retirar supera el disponible en el ATM');
+      this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
+    } else if ((row.fisico == 0 || !row.fisico) && row.retiro > row.anterior - row.dispensado + row.rechazado) {
+      this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
     } else {
-
-      console.log('fisico ', row.fisico );
-      
+      this.message = undefined;      
       row.sobrante = row.fisico > (row.anterior - row.dispensado) ? (row.fisico - row.anterior - row.dispensado) : 0;
       row.faltante = (row.fisico > 0 && row.fisico < (row.anterior - row.dispensado)) ? row.anterior - row.dispensado - row.fisico : 0;
       row.actual = row.fisico > 0 ? row.fisico + row.incremento - row.retiro : row.anterior - row.dispensado + row.rechazado + row.incremento - row.retiro;
       row.monto = row.actual * row.denominacion;
       this.arqueoAtm.monto = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
+
+    this.errorList[index] = this.message;
+    console.log(this.errorList);
   }
 
   save() {
-    this.arqueoAtm.atm = this.atmId;  
+    this.arqueoAtm.atm = this.atmId;
     this.arqueoAtm.tipoArqueo = TipoArqueoConstants.CHEQUEO;
     this.saveOrUpdate(this.arqueoAtmService, this.arqueoAtm, 'El Arqueo', this.isNew);
     this.back();

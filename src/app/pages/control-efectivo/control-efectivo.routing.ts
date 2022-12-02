@@ -28,11 +28,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Pases a Bóveda' },
         loadChildren: () => import('./cierre-taquilla/cierre-taquilla.module').then(m => m.CierreTaquillaModule),
     },
-    {
-        path: 'solicitud-remesa',
-        data: { title: 'Remesa' },
-        loadChildren: () => import('./remesa/remesa.module').then(m => m.RemesaModule),
-    },
+    // {
+    //     path: 'solicitud-remesa',
+    //     data: { title: 'Remesa' },
+    //     loadChildren: () => import('./remesa/remesa.module').then(m => m.RemesaModule),
+    // },
 
 
 
@@ -67,7 +67,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Despachar Remesa' },
         loadChildren: () => import('./remesa/recibir-remesa/recibir-remesa.module').then(m => m.RecibirRemesaModule),
     },
-
+    {
+        path: 'consultar-remesa',
+        data: { title: 'Consultar Remesa' },
+        loadChildren: () => import('./remesa/consultar-remesa/consultar-remesa.module').then(m => m.ConsultarRemesaModule),
+    },
 
 ];
 
