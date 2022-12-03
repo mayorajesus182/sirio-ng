@@ -60,21 +60,13 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
-    //generos = new BehaviorSubject<Genero[]>([]);
+ 
     paises = new BehaviorSubject<Pais[]>([]);
     nacionadades = new BehaviorSubject<Pais[]>([]);
-    //estadosCiviles = new BehaviorSubject<EstadoCivil[]>([]);
-    //profesiones = new BehaviorSubject<Profesion[]>([]);
-    //tenencias = new BehaviorSubject<Tenencia[]>([]);
+
     actividadesEconomicas = new BehaviorSubject<ActividadEconomica[]>([]);
     actividadesEspecificas = new BehaviorSubject<ActividadEspecifica[]>([]);
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
-
-//     Integer oficinas;
-    
-// Integer empleados;
-    
-// Double ventas;
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
@@ -87,10 +79,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
-        //private estadoCivilService: EstadoCivilService,
-        //private generoService: GeneroService,
-        //private profesionService: ProfesionService,
-        //private tenenciaService: TenenciaService,
+    
         private actividadEconomicaService: ActividadEconomicaService,
         private actividadEspecificaService: ActividadEspecificaService,
         private categoriaEspecialService: CategoriaEspecialService,
@@ -162,6 +151,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             this.actividadesEconomicas.next(data);
         });
 
+        this.actividadEspecificaService.actives().subscribe(data => {
+            this.actividadesEspecificas.next(data);
+        });
+
         this.categoriaEspecialService.actives().subscribe(data => {
             this.categoriasEspeciales.next(data);
         });
@@ -208,10 +201,11 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             ingresos: new FormControl(this.personaJuridica.ingresos || undefined ? personaJuridica.ingresos : '', [Validators.required]),
             egresos: new FormControl(this.personaJuridica.egresos || undefined ? personaJuridica.egresos : '', [Validators.required]),
 
-            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion != undefined ? personaJuridica.anhoDeclaracion : '', [Validators.required]),
+            // anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion != undefined ? personaJuridica.anhoDeclaracion : '', [Validators.required]),
+
+            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+
             montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? personaJuridica.montoDeclarado : '', [Validators.required]),
-      
-            
 
             // tipoDocumentoConyuge: new FormControl(personaJuridica.tipoDocumentoConyuge || undefined),
             // identificacionConyuge: new FormControl(personaJuridica.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),

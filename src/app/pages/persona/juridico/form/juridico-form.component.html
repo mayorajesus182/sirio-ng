@@ -25,12 +25,15 @@
                             <mat-icon>backspace</mat-icon>
                         </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
-                        {default: 'Persona Juridica'} | translate }}" type="button" (click)="back()">
+                        {default: 'Persona Juridica'} | translate }}" type="button" (click)="back() " >
+                        
                             <mat-icon>close</mat-icon>
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
+
+                    <!-- <input [focused]="attr.focus"> -->
 
                     <sirio-person-query [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)" 
                                     (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
@@ -185,9 +188,9 @@
                                             formControlName="actividadEspecifica" [required]="true" [elements]="actividadesEspecificas.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.actividadEspecifica?.errors">
                                         </sirio-select-search>
-
+                                        
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'juridicoPerson.specialCategory' | translate: {default: 'global.specialCategory'} | translate"
+                                            [label]="'Categoría Especial' | translate: {default: 'Categoría Especial'} | translate"
                                             formControlName="categoriaEspecial" [required]="false" [elements]="categoriasEspeciales.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.categoriaEspecial?.errors">
                                         </sirio-select-search>
@@ -200,14 +203,14 @@
                                             <mat-label>{{'Número Subsidiarias / Oficinas' | translate: {default:
                                                 'Número Subsidiarias / Oficinas'} | translate }}
                                             </mat-label>
-                                            <input matInput class="text-center" max="10" min="0" type="number" autocomplete="off" name="oficinas"
+                                            <input matInput class="text-center" max="1000" min="0" type="number" autocomplete="off" name="oficinas"
                                                 formControlName="oficinas" required>
                                             <mat-error *ngIf="f.oficinas.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.oficinas.errors?.max">No puede superior a 100</mat-error>
+                                            <mat-error *ngIf="f.oficinas.errors?.max">No puede superior a 1000</mat-error>
                                         </mat-form-field>
 
                                         <sirio-select-search fxFlex="33"
-                                            [label]="'País' | translate: {default: 'País'} | translate"
+                                            [label]="'País con mayor presencia' | translate: {default: 'País con mayor presencia'} | translate"
                                             formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.pais?.errors">
                                         </sirio-select-search>
@@ -216,12 +219,11 @@
                                             <mat-label>{{'Número de empleados' | translate: {default:
                                                 'Número de empleados'} | translate }}
                                             </mat-label>
-                                            <input matInput class="text-center" max="10" min="0" type="number" autocomplete="off" name="empleados"
+                                            <input matInput class="text-center" max="10000" min="0" type="number" autocomplete="off" name="empleados"
                                                 formControlName="empleados" required>
                                             <mat-error *ngIf="f.empleados.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.empleados.errors?.max">No puede superior a 100</mat-error>
+                                            <mat-error *ngIf="f.empleados.errors?.max">No puede superior a 10000</mat-error>
                                         </mat-form-field>
-
 
                                     </div>
 
@@ -290,7 +292,7 @@
                                         <mat-form-field fxFlex="10">
                                             <mat-label>{{'Año' | translate: {default:
                                                 'Año'} | translate }} </mat-label>
-                                            <input matInput maxlength="100" minlength="1" autocomplete="off" name="anhoDeclaracion" formControlName="anhoDeclaracion"
+                                            <input matInput maxlength="100" minlength="1" autocomplete="off" class="text-center" name="anhoDeclaracion" formControlName="anhoDeclaracion"
                                                 uppercase required>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
@@ -298,6 +300,8 @@
                                                 translate}}
                                             </mat-error>
                                         </mat-form-field>
+
+                                        <!-- mask="0000" matInput  -->
 
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Monto' | translate: {default:
@@ -592,6 +596,31 @@
                                     <sirio-persona-referencia-bancaria-table [persona]="personaJuridica.id"></sirio-persona-referencia-bancaria-table>
                                 </div>
 
+
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openEmpresaRelacionada(true)" (closed)="openEmpresaRelacionada(false)">
+
+                                <mat-expansion-panel-header class="odd">
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>peoples</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold"> Clientes y Proveedores </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalEmpresaRelacionada"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
+
+
+                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id" ></sirio-persona-empresa-relacionada-table>
+                                   
+
+                                </div>
 
                             </mat-expansion-panel>
 
