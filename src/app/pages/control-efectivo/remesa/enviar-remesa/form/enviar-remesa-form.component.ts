@@ -33,6 +33,7 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 
 export class EnviarRemesaFormComponent extends FormBaseComponent implements OnInit {
     plomoList = [];
+    materialList: Material[] = [];
     plomoCtrl = new FormControl([], [Validators.required]);
     public materialForm: FormGroup;
     private opt_swal: SweetAlertOptions;
@@ -92,7 +93,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             }
 
 
-            this.buildForm(this.remesa);
             this.buildFormMateriales();
             this.loadingDataForm.next(false);
             // this.applyFieldsDirty();
@@ -103,7 +103,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             if (id) {
                 this.remesaService.get(id).subscribe((rem: Remesa) => {
                     this.remesa = rem;
-
+                    this.buildForm();
 
                     if (this.remesa.esAgencia == 1) {
                         this.transportistaService.activesByUbicacionAgencia().subscribe(trans => {
@@ -161,6 +161,9 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
                 });
 
+            } else {
+
+                this.buildForm();
             }
 
         });
@@ -185,18 +188,22 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.opt_swal.input = 'text';
         this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
         this.opt_swal.preConfirm = this.preConfirmFunt;
+
+       
     }
 
-    buildForm(remesa: Remesa) {
+    buildForm() {
+        // console.log('remesa ', this.remesa);
+
         this.itemForm = this.fb.group({
-            cajasBolsas: new FormControl(remesa.cajasBolsas || undefined),
-            transportista: new FormControl(remesa.transportista || undefined),
-            receptor: new FormControl(remesa.receptor || undefined),
-            moneda: new FormControl(remesa.moneda || undefined, [Validators.required]),
-            viaje: new FormControl(remesa.viaje || undefined, [Validators.required]),
-            plomos: new FormControl(remesa.plomos ? remesa.plomos.split(',') : undefined),
-            montoEnviado: new FormControl(remesa.montoEnviado || undefined, [Validators.required]),
-            responsables: new FormControl(remesa.responsables || undefined, [Validators.required]),
+            cajasBolsas: new FormControl(this.remesa.cajasBolsas || undefined),
+            transportista: new FormControl(this.remesa.transportista || undefined),
+            receptor: new FormControl(this.remesa.receptor || undefined),
+            moneda: new FormControl(this.remesa.moneda || undefined, [Validators.required]),
+            viaje: new FormControl(this.remesa.viaje || undefined, [Validators.required]),
+            // plomos: new FormControl(this.remesa.plomos ? this.remesa.plomos.split(',') : undefined),
+            montoEnviado: new FormControl(this.remesa.montoEnviado || undefined, [Validators.required]),
+            responsables: new FormControl(this.remesa.responsables || undefined, [Validators.required]),
         });
 
         this.f.moneda.valueChanges.subscribe(value => {
@@ -215,6 +222,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                     });
 
                     this.materialTransporteService.allWithCosto().subscribe(mtt => {
+                        this.materialList = mtt;
                         this.materiales.next(mtt);
                     });
 
@@ -225,6 +233,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                     });
 
                     this.materialTransporteService.allWithCostoDivisa().subscribe(mtt => {
+                        this.materialList = mtt;
                         this.materiales.next(mtt);
                     });
                 }
@@ -259,6 +268,35 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 this.loadCostosViajeTransportista(value, this.f.transportista.value);
             }
         });
+
+        this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
+        this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
+
+      
+
+        // this.materiales.subscribe(list=>this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id)));
+        this.onLoadMaterialesUtilizados()
+
+        // this.materiales.subscribe(()=>this.onLoadMaterialesUtilizados());
+
+        this.cdr.detectChanges();
+    }
+
+    onLoadMaterialesUtilizados(){
+        this.materialUtilizadoList.subscribe(list => {
+            console.log(' cambio materiales utilizados ', list);
+            console.log('  materiales a utilizar ', this.materialList);
+            
+            if (!list || list.length == 0) {
+                this.materiales.next(this.materialList);
+            } else {
+                console.log(list.map(mu => mu.material));
+                
+                this.materiales.next(
+                    this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id))
+                );
+            }
+        })
     }
 
     loadCostosViajeTransportista(moneda, transportista) {
@@ -283,11 +321,13 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         if (this.preferencia.monedaConoActual === moneda) {
 
             this.materialTransporteService.allWithCostoByTransportista(transportista).subscribe(mat => {
+                this.materialList = mat;
                 this.materiales.next(mat);
             });
 
         } else {
             this.materialTransporteService.allWithCostoDivisaByTransportista(transportista).subscribe(mat => {
+                this.materialList = mat;
                 this.materiales.next(mat);
             });
         }
@@ -310,10 +350,19 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         let materialRemesa = {} as MaterialRemesa;
         this.updateDataFromValues(materialRemesa, this.materialForm.value);
+
+        const ix = this.materialRemesaList.findIndex(m=>m.material==materialRemesa.material);
+        if(ix>=0){
+            // si ya existe lo actualizo
+            this.materialRemesaList.splice(ix,1);
+        }
+
         this.materialRemesaList.push(materialRemesa);
         this.materialUtilizadoList.next(this.materialRemesaList.slice());
         this.mf.material.setValue(undefined);
         this.mf.cantidad.setValue(undefined);
+
+
         this.cdr.detectChanges();
     }
 
@@ -400,10 +449,10 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     }
 
     getNombreMaterial(id: string) {
-        if (!this.materiales.value || this.materiales.value.length == 0) {
+        if (!this.materialList || this.materialList.length == 0) {
             return '';
         }
-        return this.materiales.value.filter(m => m.id == id).map(m => m.id + " - " + m.nombre);
+        return this.materialList.filter(m => m.id == id).map(m => m.id + " - " + m.nombre);
     }
 
     removePlomo(plomo: string) {
@@ -416,6 +465,9 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     addPlomo(event: MatChipInputEvent) {
 
         const value = (event.value || '').trim();
+        if (value === '') {
+            return;
+        }
         // console.log(event);
 
         if (!value.match(/^[0-9]*$/)) {
@@ -439,9 +491,11 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         // Add plomo
         if (value) {
             this.plomoList.push(value);
+            this.plomoCtrl.setValue(this.plomoList);
         }
 
         this.plomoCtrl.setErrors(null);
+        this.plomoCtrl.updateValueAndValidity();
         // Clear the input value
         event.chipInput!.clear();
         this.cdr.detectChanges();
