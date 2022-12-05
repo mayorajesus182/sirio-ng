@@ -111,7 +111,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     } else if ((row.fisico == 0 || !row.fisico) && row.retiro > row.anterior - row.dispensado + row.rechazado) {
       this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
     } else {
-      this.message = undefined;      
+      this.message = undefined;
       row.sobrante = row.fisico > (row.anterior - row.dispensado) ? (row.fisico - row.anterior - row.dispensado) : 0;
       row.faltante = (row.fisico > 0 && row.fisico < (row.anterior - row.dispensado)) ? row.anterior - row.dispensado - row.fisico : 0;
       row.actual = row.fisico > 0 ? row.fisico + row.incremento - row.retiro : row.anterior - row.dispensado + row.rechazado + row.incremento - row.retiro;

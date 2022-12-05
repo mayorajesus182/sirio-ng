@@ -96,12 +96,30 @@
                                     [errors]="f.viaje?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex.gt-xs="50">
+                                <!-- <mat-form-field fxFlex.gt-xs="50">
                                     <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="200" name="plomos" formControlName="plomos" uppercase required>
                                     <mat-error *ngIf="f.plomos.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.plomos.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                </mat-form-field> -->
+
+
+                                <mat-form-field fxFlex="auto">
+                                    <mat-label># Plomos Utilizados</mat-label>
+                                    <mat-chip-list #chipList aria-label="Plomos Utilizados"  [formControl]="plomoCtrl">
+                                        <mat-chip *ngFor="let plo of plomoList"   (removed)="removePlomo(plo)">
+                                            {{plo}} 
+                                            <button matChipRemove>
+                                                <mat-icon>cancel</mat-icon>
+                                            </button>
+                                        </mat-chip>
+                                        <input placeholder="Agregar..." [matChipInputFor]="chipList" autocomplete="off"  matChipInputAddOnBlur="true" (matChipInputTokenEnd)="addPlomo($event)" >
+                                    </mat-chip-list>
+                                    <mat-error *ngIf="plomoCtrl.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.exists">{{'El plomo ya esta registrado' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.length">{{plomoCtrl.errors?.length}}</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="25">
@@ -146,17 +164,17 @@
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+                                        <ngx-datatable fxFlex [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
                                             [messages]="{emptyMessage: 'No hay registros de Materiales...',totalMessage: 'Cantidad de Materiales'}"
                                             [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10"
                                             [rows]="materialUtilizadoList | async" *ngIf="materialForm">
 
                                             <ngx-datatable-column [flexGrow]="2" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <div class="text-center">{{'Material' | translate: {default: 'Material'} | translate }}</div>
+                                                    <div class="text-left">{{'Material' | translate: {default: 'Material'} | translate }}</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <div style="white-space: break-spaces;" class="text-center">{{ row?.material }}</div>
+                                                    <div style="white-space: break-spaces;" class="text-left">{{ getNombreMaterial(row?.material) }}</div>
                                                 </ng-template>
                                             </ngx-datatable-column>
 
@@ -169,15 +187,17 @@
                                                 </ng-template>
                                             </ngx-datatable-column>
 
-                                            <ngx-datatable-column name="" [flexGrow]="1">
+                                            <ngx-datatable-column name="" [flexGrow]="0.5">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <div class="text-center">{{'action.delete'| translate}}</div>
+                                                    <div class="text-center"></div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
-                                                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
-                                                        (click)="deleteMaterial(row)" matTooltip="Eliminar">
-                                                        <mat-icon>delete</mat-icon>
-                                                    </button>
+                                                    <div class="text-center">
+                                                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                                                            (click)="deleteMaterial(row)" matTooltip="Eliminar">
+                                                            <mat-icon>delete</mat-icon>
+                                                        </button>
+                                                    </div>
                                                 </ng-template>
                                             </ngx-datatable-column>
                                         </ngx-datatable>

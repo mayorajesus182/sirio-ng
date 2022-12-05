@@ -52,9 +52,10 @@
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
-                                <sirio-select-search *ngIf="!esTransportista" fxFlex="20"
-                                    [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate" formControlName="viaje"
-                                    [required]="!esTransportista" [elements]="viajes.asObservable()" [attributeName]="'nombre'" [errors]="f.viaje?.errors">
+                                <sirio-select-search *ngIf="!esTransportista && f.receptor.value !== bovedaPrincipal" fxFlex="20"
+                                    [label]="'Tipo de Viajessssss' | translate: {default: 'Tipo de Viajessss'} | translate" formControlName="viaje"
+                                    [required]="!esTransportista && f.receptor.value !== bovedaPrincipal" [elements]="viajes.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.viaje?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="20">

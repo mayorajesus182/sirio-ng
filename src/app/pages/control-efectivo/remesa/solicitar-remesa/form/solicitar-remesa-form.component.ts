@@ -36,6 +36,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     cupo: number = 0;
     todayValue: moment.Moment;
     esTransportista: Boolean = false;
+    public bovedaPrincipal = GlobalConstants.BOVEDA_PRINCIPAL;
     public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
 
     constructor(

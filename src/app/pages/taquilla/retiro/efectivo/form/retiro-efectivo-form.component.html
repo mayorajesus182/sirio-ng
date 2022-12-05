@@ -81,14 +81,16 @@
                                             </mat-label>
                                             
                                             <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto" 
-                                            formControlName="monto"
+                                                formControlName="monto"
                                                 currencyMask [options]="{precision:2}" >
                                             <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
                                             <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que  9.999.999.999.999,99
                                             </mat-error>
                                             <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01
                                             </mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.difference">Verifique Monto</mat-error>                                          
+                                            <mat-error *ngIf="f.monto.errors?.difference">Verifique Monto</mat-error>      
+                                            
+                                            
                                         </mat-form-field>
 
 
