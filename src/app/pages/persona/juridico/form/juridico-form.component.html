@@ -139,6 +139,7 @@
                                             <mat-error *ngIf="f.web.errors?.pattern">{{'error.invalidCharacter' |
                                                 translate}}
                                             </mat-error>
+                                            <mat-error *ngIf="f.web.errors?.web">Email es Inválido</mat-error>
                                         </mat-form-field>
 
     
@@ -150,7 +151,7 @@
                                                 email-validate>
                                             <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
-                                            <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                            <mat-error *ngIf="f.email.errors?.email">Sitio Web es Inválido</mat-error>
                                         </mat-form-field>
 
                                     </div>
@@ -289,17 +290,30 @@
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <mat-form-field fxFlex="10">
+                                        <!-- <mat-form-field fxFlex="10">
                                             <mat-label>{{'Año' | translate: {default:
                                                 'Año'} | translate }} </mat-label>
-                                            <input matInput maxlength="100" minlength="1" autocomplete="off" class="text-center" name="anhoDeclaracion" formControlName="anhoDeclaracion"
-                                                uppercase required>
+                                            <input matInput maxlength="4" minlength="4" autocomplete="off" class="text-center" name="anhoDeclaracion" formControlName="anhoDeclaracion"  uppercase required>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.pattern">{{'error.invalidCharacter' |
                                                 translate}}
                                             </mat-error>
+                                        </mat-form-field> -->
+
+                                        
+
+                                        <mat-form-field fxFlex="10">
+                                            <mat-label>{{'Año' | translate: {default:
+                                                'Año'} | translate }}
+                                            </mat-label>
+                                            <input matInput class="text-center" max="10000" min="0" type="number" autocomplete="off" name="anhoDeclaracion"
+                                                formControlName="anhoDeclaracion" required>
+                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Es requerido</mat-error>
+                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.max">No puede superior a 10000</mat-error>
                                         </mat-form-field>
+                                  
+
 
                                         <!-- mask="0000" matInput  -->
 
@@ -509,7 +523,7 @@
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold"> Representante(s) Legal (es) de la Empresa Autorizados a movilizar la cuenta </span>
+                                        <span class="margin-top-sm semi-bold">Representante(s) Legal(es) de la Empresa  Autorizados a movilizar la cuenta / Apoderado</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
 

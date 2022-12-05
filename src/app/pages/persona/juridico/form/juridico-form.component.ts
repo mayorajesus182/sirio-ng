@@ -203,7 +203,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
             // anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion != undefined ? personaJuridica.anhoDeclaracion : '', [Validators.required]),
 
-            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
             montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? personaJuridica.montoDeclarado : '', [Validators.required]),
 

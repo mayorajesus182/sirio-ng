@@ -68,13 +68,13 @@
                 </mat-error>
             </mat-form-field> -->
 
-            <mat-form-field fxFlex="50" class="highlight">
+            <mat-form-field fxFlex="25" class="highlight">
 
-                <mat-label>{{'Porcentaje Accionario' | translate: {default: 'Porcentaje Accionario'} |
+                <mat-label>{{'Porcentaje Accionario' | translate: {default: 'Porcentaje Accionariossss'} |
                     translate }}
                 </mat-label>
 
-                <input matInput max="100.00" min="0.01" maxlength="20" autocomplete="off" name="monto"
+                <input matInput max="100.00" min="0.01" maxlength="6" autocomplete="off" name="monto"
                     formControlName="porcentaje" currencyMask [options]="{precision:2}">
                 <mat-error *ngIf="f.porcentaje.errors?.required">Es requerido</mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.max">Debe ser menor que 100,00
@@ -89,12 +89,21 @@
                 [elements]="cargoList.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
             </sirio-select-search>
 
+            <div fxFlex.gt-sm="25" class="text-right margin-top-md">
+                <mat-slide-toggle [color]="'primary'" formControlName="esPep" name="esPep">
+                  {{'¿Es PEP / Es Relacionado PEP?' }}
+                </mat-slide-toggle>
+            </div>
+
+
         </div>
 
     </div>
     <!-- {{printErrors() | json}}  -->
 
     <mat-divider class="margin-bottom-sm margin-top-sm"></mat-divider>
+
+    <!-- <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="f.esPep.value"> -->
 
     <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="!itemForm.invalid">
 

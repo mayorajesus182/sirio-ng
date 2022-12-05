@@ -94,7 +94,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona}:data,'70%').afterClosed().subscribe(event=>{
       console.log(event);
       
         if(event){

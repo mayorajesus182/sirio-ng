@@ -115,7 +115,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       nombre: new FormControl(this.accionistaDirectivo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.accionistaDirectivo.cargo || undefined, [Validators.required]),
       porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-
+      esPep: new FormControl(false),
     });
 
     this.pepAccionistas.next(this.accionistaDirectivo.pepList);
