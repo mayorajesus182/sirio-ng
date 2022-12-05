@@ -143,10 +143,10 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             if (val) {                
                 if (!this.validateSerialAccountUnique(val, this.cf.numeroCuentaCheque.value)) {
                     this.cf.serial.setErrors({ uniqueSerial: true });
-                    this.cf.serial.markAsDirty();
-                } else {
-                    this.cf.serial.setErrors(null)
-                }
+                } 
+                // else {
+                //     this.cf.serial.setErrors(null)
+                // }
             }
         });
 
@@ -154,33 +154,35 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             if (val) {
                 if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
                     this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true });
-                    this.cf.numeroCuentaCheque.markAsDirty();
-                } else {
-                    this.cf.numeroCuentaCheque.setErrors(null)
-                }
+                } 
+                // else {
+                //     this.cf.numeroCuentaCheque.setErrors(null)
+                // }
             }
         });
 
-        this.tipoDoc();
-
-        this.motivoDevolucionService.actives().subscribe(data => {
-            this.motivosDevoluciones = data;
-        });
-    }
-
-    tipoDoc(){
         this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
             if (val) {
-                if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
+                if (((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) || (!this.validateTipoDocumentoCheque(val))) {
                     this.cf.tipoDocumentoCheque.setErrors(undefined)
-                } else {
+                }else {
                     this.cf.tipoDocumentoCheque.setErrors({
                         tipoDocumentoCheque: true
                     });
                 }
             }
         });
+
+        // else if (!this.validateTipoDocumentoCheque(val)) {
+        //     this.cf.tipoDocumentoCheque.setErrors({ uniqueSerial: true });
+        // }
+
+        this.motivoDevolucionService.actives().subscribe(data => {
+            this.motivosDevoluciones = data;
+        });
     }
+
+        
 
     get cf() {
         return this.chequeForm ? this.chequeForm.controls : {};
@@ -271,6 +273,20 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         
         return evaluacion;
     }
+
+    // prueba para tipo Documento de cheque
+    validateTipoDocumentoCheque(tipoDocumentoCheque: string, tipo? : any ) {
+        if (!tipoDocumentoCheque) {
+            return true;
+        }
+        const evaluacion = this.chequeList.find(c => (c.tipoDocumentoCheque === tipoDocumentoCheque)) == undefined;
+        if(tipo && !evaluacion && this.chequeList.filter(c=>(c.tipoDocumentoCheque === tipoDocumentoCheque)).length > 1){
+            tipo.control.setErrors({exists:true});
+        }
+        
+        return evaluacion;
+    }
+    // Fin de la prurba
 
     cargaDatos() {
         if (this.persona) {

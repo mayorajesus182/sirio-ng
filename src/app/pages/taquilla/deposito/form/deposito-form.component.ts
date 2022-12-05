@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { GlobalConstants } from 'src/@sirio/constants/global.constants';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
@@ -106,16 +107,14 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     // reset() {
     // this.selected = 0;
     // }
-
-    
-
+   
     esEfectivoEvent(event) {
         if (event.checked) {
             this.esCheques = false;
             this.esMixto = false;
-            this.resetVoucher();
-        }else{
-            this.resetVoucher();
+            this.voucherForm.reset({});
+            this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+
         }
     }
 
@@ -123,9 +122,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         if (event.checked) {
             this.esEfectivo = false;
             this.esMixto = false;
-            this.resetVoucher();
-        }else{
-            this.resetVoucher();
+            this.voucherForm.reset({});
+            this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
         }
     }
 
@@ -133,20 +131,19 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         if (event.checked) {
             this.esEfectivo = false;
             this.esCheques = false;
-            this.resetVoucher();
-        }else{
-            this.resetVoucher();
+            this.voucherForm.reset({});
+            this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
         }
     }
 
-    resetVoucher() {
-        this.voucherForm.controls.identificacionDepositante.setValue('');
-        this.voucherForm.controls['nombreDepositante'].setValue('');
-        this.voucherForm.controls['email'].setValue('');
-        this.voucherForm.controls['identificacionDepositante'].setErrors(undefined);
-        this.voucherForm.controls['nombreDepositante'].setErrors(undefined);
-        this.voucherForm.controls['email'].setErrors(undefined);
-    }
+    // resetVoucher() {
+    //     this.voucherForm.controls.identificacionDepositante.setValue('');
+    //     this.voucherForm.controls['nombreDepositante'].setValue('');
+    //     this.voucherForm.controls['email'].setValue('');
+    //     this.voucherForm.controls['identificacionDepositante'].setErrors(undefined);
+    //     this.voucherForm.controls['nombreDepositante'].setErrors(undefined);
+    //     this.voucherForm.controls['email'].setErrors(undefined);
+    // }
 
     save() {
         if (this.itemForm.invalid)
