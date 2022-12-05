@@ -76,6 +76,9 @@ export class SessionService {
   }
 
   lockscreen() {
+    if(this.isLockScreen()){
+      return;
+    }
     const user = this.getUser();
 
     localStorage.setItem(SessionService.USER_LOCKED, JSON.stringify({ username: user.username, fullName: user.fullName }));
