@@ -23,5 +23,6 @@ export class GlobalConstants {
   public static TRANSPORTISTA = 'GES-TRANSP';
   public static BOVEDA_PRINCIPAL = 'BOVPRINCIPAL';
   public static BOVEDA_PRINCIPAL_NAME = 'BÓVEDA PRINCIPAL';
-  // public static TIPO_PRODUCTO= '01';
+  public static CUENTA_AHORRO = '01';
+  public static CUENTA_CORRIENTE = '02';
 };

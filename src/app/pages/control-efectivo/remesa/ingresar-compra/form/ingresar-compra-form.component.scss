@@ -1,0 +1,28 @@
+#enviarRemesaForm {
+
+  form {
+    min-height: 500px;
+  }
+
+  .mat-toolbar {
+    background: inherit;
+    color: inherit;
+
+  }
+
+
+  .chip-list-field {
+    width: 100%;
+    .chip-item .cdk-drag-animating {
+      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+    
+    .chip-list .cdk-drop-list-dragging {
+      transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+  .mat-chip:not(.mat-basic-chip) {
+    display: flex;
+  }
+
+}

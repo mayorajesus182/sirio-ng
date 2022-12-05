@@ -92,13 +92,10 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 });
             }
 
-
             this.buildFormMateriales();
             this.loadingDataForm.next(false);
             // this.applyFieldsDirty();
             // this.cdr.markForCheck();
-
-
 
             if (id) {
                 this.remesaService.get(id).subscribe((rem: Remesa) => {
@@ -180,10 +177,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             this.monedas.next(data);
         });
 
-
-        // this.applyFieldsDirty();
-        // this.cdr.detectChanges();
-
         this.opt_swal = {};
         this.opt_swal.input = 'text';
         this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
@@ -201,7 +194,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             receptor: new FormControl(this.remesa.receptor || undefined),
             moneda: new FormControl(this.remesa.moneda || undefined, [Validators.required]),
             viaje: new FormControl(this.remesa.viaje || undefined, [Validators.required]),
-            // plomos: new FormControl(this.remesa.plomos ? this.remesa.plomos.split(',') : undefined),
             montoEnviado: new FormControl(this.remesa.montoEnviado || undefined, [Validators.required]),
             responsables: new FormControl(this.remesa.responsables || undefined, [Validators.required]),
         });
@@ -272,10 +264,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
         this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
 
-      
-
-        // this.materiales.subscribe(list=>this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id)));
-        this.onLoadMaterialesUtilizados()
+        this.onLoadMaterialesUtilizados();
 
         // this.materiales.subscribe(()=>this.onLoadMaterialesUtilizados());
 

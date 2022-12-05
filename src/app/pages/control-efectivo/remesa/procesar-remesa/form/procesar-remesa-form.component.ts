@@ -1,5 +1,7 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -18,7 +20,6 @@ import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
 import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { LoginComponent } from 'src/app/pages/authentication/login/login.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
@@ -31,6 +32,9 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 
 export class ProcesarRemesaFormComponent extends FormBaseComponent implements OnInit {
 
+    plomoList = [];
+    materialList: Material[] = [];
+    plomoCtrl = new FormControl([], [Validators.required]);
     public materialForm: FormGroup;
     private opt_swal: SweetAlertOptions;
     remesa: Remesa = {} as Remesa;
@@ -70,6 +74,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
     ngOnInit() {
 
         let id = this.route.snapshot.params['id'];
+        this.loadingDataForm.next(true);
 
         this.remesaService.get(id).subscribe(data => {
             this.remesa = data;
@@ -79,11 +84,12 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             this.rolService.getByUsuario().subscribe(rol => {
 
                 this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
-                this.buildForm(this.remesa);
+                this.buildForm();
+                // this.buildForm(this.remesa);
                 this.buildFormMateriales();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
-                this.cdr.markForCheck();
+                // this.applyFieldsDirty();
+                //  this.cdr.markForCheck();
 
                 // Si quien va a procesar la solicitud es transportista (Centro de Acopio), se busca el cono correspondiente, los materiales y viajes según la moneda 
                 if (this.esTransportista) {
@@ -113,6 +119,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                             });
 
                             this.materialTransporteService.allWithCostoByTransportista(this.remesa.receptor).subscribe(mtt => {
+                                this.materialList = mtt;
                                 this.materiales.next(mtt);
                             });
 
@@ -123,6 +130,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                             });
 
                             this.materialTransporteService.allWithCostoDivisaByTransportista(this.remesa.receptor).subscribe(mtt => {
+                                this.materialList = mtt;
                                 this.materiales.next(mtt);
                             });
                         }
@@ -141,6 +149,10 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                     });
 
                 } else {
+
+                    this.empleadoTransporteService.allByTransportista(this.remesa.transportista).subscribe(emp => {
+                        this.empleados.next(emp);                       
+                    });
 
                     this.transportistaService.actives().subscribe(trans => {
                         this.transportistas.next(trans);
@@ -173,12 +185,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                         this.cdr.detectChanges();
                     });
 
-
-
-                    this.empleadoTransporteService.allByTransportista(this.remesa.transportista).subscribe(emp => {
-                        this.empleados.next(emp);
-                    });
-
                 }
             });
 
@@ -194,18 +200,22 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         this.opt_swal.preConfirm = this.preConfirmFunt;
     }
 
-    buildForm(remesa: Remesa) {
+    buildForm() {
         this.itemForm = this.fb.group({
-            cajasBolsas: new FormControl(remesa.cajasBolsas || undefined),
-            transportista: new FormControl(remesa.transportista || undefined),
-            viaje: new FormControl(remesa.viaje || undefined, [Validators.required]),
-            plomos: new FormControl(remesa.plomos || undefined, [Validators.required]),
-            montoEnviado: new FormControl(remesa.montoEnviado || undefined, [Validators.required]),
-            responsables: new FormControl(remesa.responsables || undefined, [Validators.required]),
+            cajasBolsas: new FormControl(this.remesa.cajasBolsas || undefined),
+            transportista: new FormControl(this.remesa.transportista || undefined),
+            viaje: new FormControl(this.remesa.viaje || undefined, [Validators.required]),
+            montoEnviado: new FormControl(this.remesa.montoEnviado || undefined, [Validators.required]),
+            responsables: new FormControl(this.remesa.responsables || undefined, [Validators.required]),
         });
 
         // Sólo se escoge la transportista cuando quien procesa es el centro de acopio, es decir, esto sólo pasará si la pantalla se muestra al centro de acopio
         this.f.transportista.valueChanges.subscribe(value => {
+
+
+            this.empleadoTransporteService.allByTransportista(value).subscribe(emp => {
+                this.empleados.next(emp);                       
+            });
 
             this.preferenciaService.get().subscribe(pref => {
                 this.preferencia = pref;
@@ -225,6 +235,14 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                 }
             });
         });
+
+
+        this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
+        this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
+
+        this.onLoadMaterialesUtilizados();
+
+        this.cdr.detectChanges();
     }
 
     get mf() {
@@ -236,6 +254,30 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             material: new FormControl(undefined, [Validators.required]),
             cantidad: new FormControl(undefined, [Validators.required]),
         });
+    }
+
+    onLoadMaterialesUtilizados(){
+        this.materialUtilizadoList.subscribe(list => {
+            console.log(' cambio materiales utilizados ', list);
+            console.log('  materiales a utilizar ', this.materialList);
+            
+            if (!list || list.length == 0) {
+                this.materiales.next(this.materialList);
+            } else {
+                console.log(list.map(mu => mu.material));
+                
+                this.materiales.next(
+                    this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id))
+                );
+            }
+        })
+    }
+
+    getNombreMaterial(id: string) {
+        if (!this.materialList || this.materialList.length == 0) {
+            return '';
+        }
+        return this.materialList.filter(m => m.id == id).map(m => m.id + " - " + m.nombre);
     }
 
     addMaterial() {
@@ -300,6 +342,58 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         }
     }
 
+    removePlomo(plomo: string) {
+        const index = this.plomoList.indexOf(plomo);
+        if (index >= 0) {
+            this.plomoList.splice(index, 1);
+        }
+    }
+
+    addPlomo(event: MatChipInputEvent) {
+
+        const value = (event.value || '').trim();
+        if (value === '') {
+            return;
+        }
+        // console.log(event);
+
+        if (!value.match(/^[0-9]*$/)) {
+            // console.log('match reg ex ', value);
+            this.plomoCtrl.setErrors({ pattern: true });
+            // this.plomoCtrl.markAsDirty();
+            // this.cdr.detectChanges();
+            return;
+        }
+
+        if (value.length != this.preferencia.digitosPlomo) {
+            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
+            return;
+        }
+
+        if (this.plomoList.includes(value)) {
+            this.plomoCtrl.setErrors({ exists: true });
+            return;
+        }
+
+        // Add plomo
+        if (value) {
+            this.plomoList.push(value);
+            this.plomoCtrl.setValue(this.plomoList);
+        }
+
+        this.plomoCtrl.setErrors(null);
+        this.plomoCtrl.updateValueAndValidity();
+        // Clear the input value
+        event.chipInput!.clear();
+        this.cdr.detectChanges();
+
+    }
+
+
+    drop(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.plomoList, event.previousIndex, event.currentIndex);
+    }
+
     save() {
         if (this.itemForm.invalid)
             return;
@@ -312,6 +406,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;
+        this.remesa.plomos = this.plomoList.join(',');
 
         if (this.isNew) {
             this.remesaService.processCreate(this.remesa).subscribe(data => {

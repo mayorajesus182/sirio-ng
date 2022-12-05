@@ -4,6 +4,12 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
+export interface CompraRemesa {
+    moneda: string;
+    monto: number;
+    detalleEfectivo: any[];
+}
+
 export interface MaterialRemesa {
     material: string;
     nombre: string;
@@ -87,6 +93,11 @@ export class RemesaService {
 
     save(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
+            .pipe(map(res => data));
+    }
+
+    ingresoCompraCreate(data: CompraRemesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/ingreso/comprabcv/create`, data)
             .pipe(map(res => data));
     }
 
