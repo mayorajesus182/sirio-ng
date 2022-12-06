@@ -84,7 +84,7 @@ export class WFPaseABovedaDetailComponent extends FormBaseComponent implements O
         this.workflowService.approved(data).subscribe(resp => {
           this.workflowService.notify.next(true);
           this.router.navigate(['/sirio/welcome']).then(data => {
-            this.successResponse('La tarea', 'aprobada');
+            this.successResponse('La tarea', 'aprobada',true);
           });
         });
       }
@@ -101,7 +101,7 @@ export class WFPaseABovedaDetailComponent extends FormBaseComponent implements O
         this.workflowService.rollback(data).subscribe(resp => {
           this.workflowService.notify.next(true);
           this.router.navigate(['/sirio/welcome']).then(data => {
-            this.successResponse('La tarea', 'devuelta');
+            this.successResponse('La tarea', 'devuelta',true);
           });
         });
       }
