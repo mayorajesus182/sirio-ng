@@ -82,6 +82,10 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).page('/porrecibir/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
+    pagePorAprobar(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
+        return this.apiService.config(this.apiConfig).page('/poraprobar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
     detail(id: string): Observable<Remesa> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }

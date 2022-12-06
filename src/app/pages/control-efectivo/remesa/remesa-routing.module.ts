@@ -11,6 +11,11 @@ const remesaRoutes: Routes = [
         loadChildren: () => import('./ingresar-compra/ingresar-compra.module').then(m => m.IngresarCompraBcvModule),
     },
     {
+        path: 'aprobar-remesa',
+        data: { title: 'Aprobar Remesa' },
+        loadChildren: () => import('./aprobar-remesa/aprobar-remesa.module').then(m => m.AprobarRemesaModule),
+    },
+    {
         path: 'solicitar-remesa',
         data: { title: 'Solicitar Remesa' },
         loadChildren: () => import('./solicitar-remesa/solicitar-remesa.module').then(m => m.SolicitarRemesaModule),

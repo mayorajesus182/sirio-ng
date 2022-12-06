@@ -59,8 +59,8 @@
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="20">
-                                    <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }} ({{'global.assignedQuota' |
-                                        translate }} {{cupo}}) </mat-label>
+                                    <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }} {{esTransportista ? '' : '('+('global.assignedQuota' |
+                                        translate) }} {{esTransportista ? '' : (cupo?.maximo | number: '1.2')+')'}} </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="montoSolicitado"
                                         formControlName="montoSolicitado" [options]="{precision:2}" required>
                                     <mat-error *ngIf="f.montoSolicitado.errors?.required">{{'error.required' | translate}}</mat-error>
