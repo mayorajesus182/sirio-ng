@@ -23,11 +23,11 @@ import { SidenavService } from './sidenav/sidenav.service';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit, OnDestroy {
-  
-    private createCustomInterruptSources = [
-        new DocumentInterruptSource('keydown mousedown mouseup touchstart touchmove scroll', null),
-        new StorageInterruptSource(null)
-    ];
+
+  private createCustomInterruptSources = [
+    new DocumentInterruptSource('keydown mousedown mouseup touchstart touchmove scroll', null),
+    new StorageInterruptSource(null)
+  ];
   // @ViewChild('configPanel', { static: true }) configPanel: SidebarDirective;
   private snackIdle: MatSnackBarRef<any>;
   sidenavOpen$ = this.sidenavService.open$;
@@ -74,6 +74,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.userIdle.watch();
 
     this.userIdle.onTimeout.subscribe(() => {
+      if (this.sessionService.isLockScreen()) {
+        return;
+      }
 
       this.snackIdle.dismiss();
       console.log('Timed out!');
