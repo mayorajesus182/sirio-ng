@@ -423,13 +423,13 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         if (this.isNew) {
             this.remesaService.sendCreate(this.remesa).subscribe(data => {
                 this.itemForm.reset({});
-                this.successResponse('La Remesa fue', 'Procesada', false);
+                this.successResponse('La Remesa', 'Procesada', false);
                 return data;
             }, error => this.errorResponse(true));
         } else {
             this.remesaService.sendUpdate(this.remesa).subscribe(data => {
                 this.itemForm.reset({});
-                this.successResponse('La Remesa fue', 'Procesada', false);
+                this.successResponse('La Remesa', 'Procesada', false);
                 return data;
             }, error => this.errorResponse(true));
         }

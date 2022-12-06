@@ -50,6 +50,10 @@ export class CupoAgenciaService {
         return this.apiService.config(this.apiConfig).put(`/update`, data).pipe(map(res => data));
     }
 
+    delete(data: CupoAgencia): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/delete`, data).pipe(map(res => data));
+    }
+
     save(data: CupoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data).pipe(map(res => data));
     }

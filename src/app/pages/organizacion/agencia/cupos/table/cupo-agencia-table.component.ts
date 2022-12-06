@@ -103,14 +103,18 @@ export class CupoAgenciaTableComponent extends TableBaseComponent implements OnI
     });
   }
 
-
-  activateOrInactivate(row: CupoAgencia) {
-    if (!row || !row.moneda) {
-      return;
-    }
-
-    this.applyChangeStatus(this.cupoAgenciaService, row, row.moneda, this.cdr);
+  delete(element: CupoAgencia) {
+    element.agencia = this.agenciaId;
+    this.swalService.show('¿Desea Eliminar el Cupo?', '').then((resp) => {
+      if (!resp.dismiss) {
+        this.cupoAgenciaService.delete(element).subscribe(data => {
+          this.successResponse('El Cupo', 'Eliminado', false);
+          this.loadList();
+          return data;
+        }, error => this.errorResponse(true));
+      }
+    });
   }
 
-}
 
+}

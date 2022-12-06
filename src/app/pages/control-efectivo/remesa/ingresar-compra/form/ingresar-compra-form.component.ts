@@ -88,7 +88,7 @@ export class IngresarCompraBcvFormComponent extends FormBaseComponent implements
 
         this.remesaService.ingresoCompraCreate(this.compraRemesa).subscribe(data => {
             this.itemForm.reset({});
-            this.successResponse('La Remesa fue', 'Procesada', false);
+            this.successResponse('La Remesa', 'Procesada', false);
             return data;
         }, error => this.errorResponse(true));
 

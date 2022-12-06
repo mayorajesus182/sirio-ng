@@ -59,12 +59,6 @@ export class CupoAgenciaPopupComponent extends PopupBaseComponent implements OnI
             });
         }
 
-        // this.f.identificacion.valueChanges.subscribe(value => {
-        //     if (!this.f.identificacion.errors && this.f.identificacion.value.length > 0) {
-        //         this.identificacionExists(value);
-        //     }
-        // });
-
     }
 
     buildForm() {
@@ -80,9 +74,6 @@ export class CupoAgenciaPopupComponent extends PopupBaseComponent implements OnI
 
     private codigoExists(moneda) {
         this.cupoAgenciaservice.exists(this.cupoAgencia.agencia, moneda).subscribe(data => {
-
-            console.log(' data    ', data);
-            
             if (data.exists) {
                 this.itemForm.controls['moneda'].setErrors({
                     exists: true
@@ -91,17 +82,6 @@ export class CupoAgenciaPopupComponent extends PopupBaseComponent implements OnI
             }
         });
     }
-
-    // private identificacionExists(identificacion) {
-    //     this.cupoAgenciaservice.existsByTranportistaAndIdentificacion(this.empleadoTransporte.transportista, identificacion).subscribe(data => {
-    //         if (data.exists) {
-    //             this.itemForm.controls['identificacion'].setErrors({
-    //                 exists: true
-    //             });
-    //             this.cdr.detectChanges();
-    //         }
-    //     });
-    // }
 
     save() {
         if (this.itemForm.invalid)

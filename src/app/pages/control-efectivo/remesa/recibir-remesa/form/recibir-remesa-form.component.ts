@@ -202,7 +202,7 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
 
         this.remesaService.receive(this.remesa).subscribe(data => {
             this.itemForm.reset({});
-            this.successResponse('La Remesa fue', 'Recibida', false);
+            this.successResponse('La Remesa', 'Recibida', false);
             return data;
         }, error => this.errorResponse(true));
 

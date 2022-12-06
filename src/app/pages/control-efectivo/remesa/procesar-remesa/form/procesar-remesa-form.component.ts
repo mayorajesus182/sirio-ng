@@ -411,13 +411,13 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         if (this.isNew) {
             this.remesaService.processCreate(this.remesa).subscribe(data => {
                 this.itemForm.reset({});
-                this.successResponse('La Remesa fue', 'Procesada', false);
+                this.successResponse('La Remesa', 'Procesada', false);
                 return data;
             }, error => this.errorResponse(true));
         } else {
             this.remesaService.processUpdate(this.remesa).subscribe(data => {
                 this.itemForm.reset({});
-                this.successResponse('La Remesa fue', 'Procesada', false);
+                this.successResponse('La Remesa', 'Procesada', false);
                 return data;
             }, error => this.errorResponse(true));
         }

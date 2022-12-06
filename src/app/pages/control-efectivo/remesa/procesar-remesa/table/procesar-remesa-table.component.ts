@@ -52,7 +52,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
       if (!resp.dismiss) {
         this.remesaService.dispatch(data.element).subscribe(data => {
-          this.successResponse('La Remesa fue', 'Procesada', false);
+          this.successResponse('La Remesa', 'Procesada', false);
           this.loadList();
           return data;
       }, error => this.errorResponse(true));
@@ -64,7 +64,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     // this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
     //   if (!resp.dismiss) {
     //     this.remesaService.dispatch(data.element).subscribe(data => {
-    //       this.successResponse('La Remesa fue', 'Procesada', false);
+    //       this.successResponse('La Remesa', 'Procesada', false);
     //       this.loadList();
     //       return data;
     //   }, error => this.errorResponse(true));
