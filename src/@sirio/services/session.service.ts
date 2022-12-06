@@ -105,7 +105,7 @@ export class SessionService {
         this.destroy();
         this.router.navigate(['/user/login']);
         //TODO: DEBO LLAMAR A TRANSLATE ACA
-        this.snack.show({ message: this.success, horizontalPosition: 'right' });
+        this.snack.show({ message: this.success, horizontalPosition: 'center' });
       },
       err => {
         this.destroy()
