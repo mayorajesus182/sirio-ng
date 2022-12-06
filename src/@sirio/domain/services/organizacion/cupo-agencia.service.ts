@@ -8,16 +8,18 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface CupoAgencia {
     moneda: string;
-    nombreMoneda: string;    
-    agencia:string;
-    monto: number;
-    solicitado: number;
+    nombreMoneda: string;
+    agencia: string;
+    maximo: number;
+    minimo: number;
+    excedentePorcentual: number;
+    excedente: number;
     fechaCreacion?: any;
     activo?: number;
 }
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class CupoAgenciaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -25,13 +27,12 @@ export class CupoAgenciaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_ORGANIZACION, prefix: '/cupo-agencia'};
+        this.apiConfig = { name: ApiConfConstants.API_ORGANIZACION, prefix: '/cupo-agencia' };
     }
 
     getCupoByMoneda(moneda: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/cupo/get`);
     }
-
 
     activesByAgencia(agencia: string): Observable<CupoAgencia[]> {
         return this.apiService.config(this.apiConfig).get(`/${agencia}/byagencia/actives`);
@@ -41,9 +42,16 @@ export class CupoAgenciaService {
         return this.apiService.config(this.apiConfig).get(`/byagencia/forremesas/actives`);
     }
 
-    update(data: CupoAgencia[]): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/update`, data)
-            .pipe(map(res => data));
+    exists(agencia: string, moneda: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${agencia}/${moneda}/exists`);
+    }
+
+    update(data: CupoAgencia): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/update`, data).pipe(map(res => data));
+    }
+
+    save(data: CupoAgencia): Observable<any> {
+        return this.apiService.config(this.apiConfig).post('/create', data).pipe(map(res => data));
     }
 
 }

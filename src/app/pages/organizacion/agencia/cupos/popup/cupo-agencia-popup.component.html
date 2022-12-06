@@ -1,0 +1,68 @@
+<sirio-dialog-header mat-dialog-title>
+    <sirio-dialog-header-heading>
+        <h1>{{'global.agencyQuota'|translate}} <span>{{(isNew?'action.add':'action.edit') | translate}}</span></h1>
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+            <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+                <mat-icon class="close-icon" color="accent">close</mat-icon>
+            </button>
+        </div>
+    </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm" (ngSubmit)="save()">
+    <mat-dialog-content>
+
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+            <sirio-select-search fxFlex.gt-xs="70" [label]="'agencyQuota.coin' | translate: {default: 'global.coin'} | translate" formControlName="moneda"
+                [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'" [errors]="f.moneda?.errors">
+            </sirio-select-search>
+
+            <div fxFlex="100" fxFlex.gt-xs="30" class="text-right margin-top-md">
+                <mat-slide-toggle [color]="'primary'" formControlName="excedentePorcentual" name="excedentePorcentual">
+                    {{'coin.useOperations' | translate: {default: 'global.useOperations'} | translate }}
+                </mat-slide-toggle>
+            </div>
+        </div>
+
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'agencyQuota.maximum' | translate: {default: 'global.maximum'} | translate }}</mat-label>
+                <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="maximo" formControlName="maximo"
+                    [options]="{precision:2}" required>
+                <mat-error *ngIf="f.maximo.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf=" f.maximo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                <mat-error *ngIf=" f.maximo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'agencyQuota.minimum' | translate: {default: 'global.minimum'} | translate }}</mat-label>
+                <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="minimo" formControlName="minimo"
+                    [options]="{precision:2}" required>
+                <mat-error *ngIf="f.minimo.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf=" f.minimo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                <mat-error *ngIf=" f.minimo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'agencyQuota.excess' | translate: {default: 'global.excess'} | translate }}</mat-label>
+                <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="excedente" formControlName="excedente"
+                    [options]="{precision:2}" required>
+                <mat-error *ngIf="f.excedente.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf=" f.excedente.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                <mat-error *ngIf=" f.excedente.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+            </mat-form-field>
+        </div>
+
+
+
+    </mat-dialog-content>
+
+    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+        <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+        <button mat-raised-button color="primary" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+    </mat-dialog-actions>
+</form>

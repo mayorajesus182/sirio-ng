@@ -1,22 +1,8 @@
 @import "var";
 
-div.input-content{
-    display: flex !important;
-    align-items: center !important;
-    height: 35px;
-    color: #535353;
-    mat-icon{
-        height: 25px;
-        width: auto;
-        font-size: 20px;
-        color: #bbb;
-    }
-}
-
-input.mat-input{
-    border: 1px solid;
-    border-color: #cfcdcd;
-    height: 30px;
-    border-radius: 4px;
-    color: #6a6a6a;
+.btn-add {
+    position: fixed;
+    bottom: $spacing + $footer-height;
+    right: $spacing;
+    z-index: 100;
 }
