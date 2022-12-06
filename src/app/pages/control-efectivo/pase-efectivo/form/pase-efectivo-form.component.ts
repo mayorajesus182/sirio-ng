@@ -14,6 +14,7 @@ import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { Atm, AtmService } from 'src/@sirio/domain/services/organizacion/atm.service';
 import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -32,6 +33,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public atms = new BehaviorSubject<Atm[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
+    public preferencia: Preferencia = {} as Preferencia;
     saldoDisponible: number = 0;
     movimiento = MovimientoEfectivoConstants;
     atmSeleccionado: Atm = {} as Atm;
@@ -51,6 +53,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         private taquillaService: TaquillaService,
         private atmService: AtmService,
         private conoMonetarioService: ConoMonetarioService,
+        private preferenciaService: PreferenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -73,6 +76,11 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
                 this.cdr.detectChanges();
             });
         } else {
+
+            this.preferenciaService.get().subscribe(data => {
+                this.preferencia = data;
+            });
+
             this.buildForm(this.bovedaAgencia);
             this.loadingDataForm.next(false);
         }
@@ -100,13 +108,13 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             taquilla: new FormControl(bovedaAgencia.taquilla || undefined),
             atm: new FormControl(bovedaAgencia.atm || undefined),
             moneda: new FormControl(bovedaAgencia.moneda || undefined, Validators.required),
-            monto: new FormControl(bovedaAgencia.monto || undefined, Validators.required),
+            monto: new FormControl({value: bovedaAgencia.monto || undefined}, Validators.required),
         });
 
         this.f.movimientoEfectivo.valueChanges.subscribe(val => {
             this.f.taquilla.setValue(undefined);
             this.f.atm.setValue(undefined);
-            this.f.moneda.setValue(undefined);
+            this.f.moneda.setValue(this.preferencia.monedaConoActual);
             this.f.taquilla.setErrors(undefined);
             this.f.atm.setErrors(undefined);
             this.f.moneda.setErrors(undefined);

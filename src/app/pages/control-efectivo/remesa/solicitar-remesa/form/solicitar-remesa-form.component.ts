@@ -58,36 +58,38 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     // TODO: AGREGAR ETIQUETAS FALTANTES, ANALIZAR LOS ROLES DE LOS USUARIOS PARA LA PANTALLA
     ngOnInit() {
 
-       // let id = this.route.snapshot.params['id'];
+        // let id = this.route.snapshot.params['id'];
         this.isNew = true;
         this.loadingDataForm.next(true);
 
         this.rolService.getByUsuario().subscribe(rol => {
             this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
 
-            // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
-            if (this.esTransportista) {
+            // Se pregunta por la preferencia para setear la moneda del cono actual
+            this.preferenciaService.get().subscribe(data => {
+                this.preferencia = data;
 
-                this.monedaService.actives().subscribe(data => {
-                    this.monedas.next(data);
-                    this.cdr.detectChanges();
-                });
-            } else {
+                // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
+                if (this.esTransportista) {
 
-                this.transportistaService.allCentrosAcopio().subscribe(data => {
-                    this.transportistas.next(data);
-                });
-        
-                this.preferenciaService.get().subscribe(data => {
-                    this.preferencia = data;
-                });
-            }
+                    this.monedaService.actives().subscribe(data => {
+                        this.monedas.next(data);
+                        this.cdr.detectChanges();
+                    });
+                } else {
+
+                    this.transportistaService.allCentrosAcopio().subscribe(data => {
+                        this.transportistas.next(data);
+                    });
+                }
 
 
-            this.buildForm(this.remesa);
-            this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
-            this.cdr.markForCheck();
+                this.buildForm(this.remesa);
+                this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
+                this.cdr.markForCheck();
+
+            });
 
         });
 
@@ -97,7 +99,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     buildForm(remesa: Remesa) {
         this.itemForm = this.fb.group({
             receptor: new FormControl(remesa.receptor || undefined),
-            moneda: new FormControl(remesa.moneda || undefined, [Validators.required]),
+            moneda: new FormControl(remesa.moneda || this.preferencia.monedaConoActual, [Validators.required]),
             viaje: new FormControl(remesa.moneda || undefined),
             montoSolicitado: new FormControl(remesa.montoSolicitado || undefined, [Validators.required]),
         });

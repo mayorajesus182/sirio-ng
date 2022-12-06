@@ -34,11 +34,11 @@ const workflowRoutes: Routes = [
         component: WFCierreTaquillaDetailComponent,
         data: { title: 'Workflow Cierre de Taquilla' }
     },
-    {
-        path: 'solicitud-remesa/:wf/:exp/send',
-        component: WFGestionRemesaReceptorFormComponent,
-        data: { title: 'Workflow Gestión de Remesas por parte del Receptor' }
-    },
+    // {
+    //     path: 'solicitud-remesa/:wf/:exp/send',
+    //     component: WFGestionRemesaReceptorFormComponent,
+    //     data: { title: 'Workflow Gestión de Remesas por parte del Receptor' }
+    // },
 
 ];
 

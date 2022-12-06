@@ -12,6 +12,7 @@ import { CajaTaquilla, CajaTaquillaService } from 'src/@sirio/domain/services/co
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -31,6 +32,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
+    public preferencia: Preferencia = {} as Preferencia;
     public conoSave: ConoMonetario[] = [];
     saldoDisponible: number = 0;
 
@@ -45,6 +47,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         private taquillaService: TaquillaService,
         private saldoTaquillaService: SaldoTaquillaService,
         private conoMonetarioService: ConoMonetarioService,
+        private preferenciaService: PreferenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -67,8 +70,19 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.cajaTaquilla);
-            this.loadingDataForm.next(false);
+
+            this.preferenciaService.get().subscribe(data => {
+                this.preferencia = data;
+                this.buildForm(this.cajaTaquilla);
+                this.loadingDataForm.next(false);
+
+                this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(this.preferencia.monedaConoActual).subscribe(data => {
+                    this.obtenerSaldo();
+                    this.conos.next(data);
+                    this.cdr.detectChanges();
+                });
+            });
+            
         }
 
         this.monedaService.paraOperacionesActives().subscribe(data => {
@@ -90,7 +104,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         this.itemForm = this.fb.group({
             taquilla: new FormControl(''),
             movimientoEfectivo: new FormControl(''),
-            moneda: new FormControl(cajaTaquilla.moneda || undefined, Validators.required),
+            moneda: new FormControl(cajaTaquilla.moneda || this.preferencia.monedaConoActual, Validators.required),
             monto: new FormControl(cajaTaquilla.monto || undefined, Validators.required),
         });
 

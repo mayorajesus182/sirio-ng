@@ -86,14 +86,14 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
 
 
     approveTask() {
-        this.swalService.show('message.approveTask', this.rol.nombre).then((resp) => {
+        this.swalService.show('message.approveTask', '').then((resp) => {
 
             if (resp.value) {
               let data = { id: this.workflow, observacion: 'Conforme' };
               this.workflowService.approved(data).subscribe(resp => {
                 this.workflowService.notify.next(true);
                 this.router.navigate(['/sirio/welcome']).then(data => {
-                  this.successResponse('La tarea', 'aprobada');
+                  this.successResponse('La Tarea', 'Aprobada', true);
                 });
               });
             }
@@ -102,14 +102,14 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
     }
 
     overrideTask() {
-        this.swalService.show('message.overrideTask', this.rol.nombre, this.opt_swal).then((resp) => {
+        this.swalService.show('message.overrideTask', '', this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.annulled(data).subscribe(resp => {
                     this.workflowService.notify.next(true);
                     this.router.navigate(['/sirio/welcome']).then(data => {
-                        this.successResponse('La tarea', 'anulada');
+                        this.successResponse('La Tarea', 'Anulada', true);
                     });
                 });
             }
