@@ -63,10 +63,10 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     })
 
     this.tipoDocumentoService.actives().subscribe(data => {
-      // console.log(data);
-
+      console.log(data);
+      
       this.tipodocumentoList.next(data);
-
+      this.cdr.detectChanges();
     })
 
     this.ramoService.actives().subscribe(data => {
@@ -139,7 +139,9 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       numero: new FormControl(this.informacionLaboral.numero || undefined),
       tomo: new FormControl(this.informacionLaboral.tomo || undefined),
       folio: new FormControl(this.informacionLaboral.folio || undefined),
-
+  
+      
+      tipoDocumento: new FormControl(this.informacionLaboral.tipoDocumento || undefined, [Validators.required]),
       identificacion: new FormControl(this.informacionLaboral.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : ''),
@@ -164,9 +166,19 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       return;
     }
     // verificar si es relacion de dependencia o negocio propopio
-    return this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA || this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO;
+    return this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA || this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO ;
   }
 
+  isOtrIng() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    // verificar si es otros ingresos
+    return this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS;
+  }
+
+  // || this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS
+  
   save() {
 
     console.log('mode ', this.mode);

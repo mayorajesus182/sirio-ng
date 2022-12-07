@@ -307,11 +307,15 @@
                                             <mat-label>{{'Año' | translate: {default:
                                                 'Año'} | translate }}
                                             </mat-label>
-                                            <input matInput class="text-center" max="10000" min="0" type="number" autocomplete="off" name="anhoDeclaracion"
+                                            <input matInput class="text-center" [max]="todayValue.year" min="0" type="number" autocomplete="off" name="anhoDeclaracion"
                                                 formControlName="anhoDeclaracion" required>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.max">No puede superior a 10000</mat-error>
+                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.max">No puede superior a {{todayValue.year}}</mat-error>
                                         </mat-form-field>
+
+                                        <!-- <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
+                                        formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
+                                    <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker"> -->
                                   
 
 
@@ -330,6 +334,8 @@
                                             </mat-error>
                                         </mat-form-field>
                                     </div>
+
+                                    <!-- {{printErrors() | json}}  -->
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="evaluarEstadoCivil()">
                                         <sirio-select-simple fxFlex="20"

@@ -98,24 +98,7 @@
                                             </mat-error>
                                         </mat-form-field>
 
-                                        <mat-form-field fxFlex="20">
-                                            <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
-                                                translate }}</mat-label>
-                                            <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
-                                                formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
-                                            <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
-                                            </mat-datepicker-toggle>
-                                            <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
-                                                Fecha Invalida
-                                            </mat-error>
-                                        </mat-form-field>
-                                        <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
-
-                                        <sirio-select-search fxFlex="35"
-                                            [label]="'naturalPerson.birthCountry' | translate: {default: 'global.birthCountry'} | translate"
-                                            formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.pais?.errors">
-                                        </sirio-select-search>
+                                        
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -169,22 +152,62 @@
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
+                                                translate }}</mat-label>
+                                            <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
+                                                formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
+                                            <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
+                                            </mat-datepicker-toggle>
+                                            <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
+                                                Fecha Invalida
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
 
-                                        <sirio-select-search fxFlex="35"
+                                        <sirio-select-search fxFlex="20"
+                                            [label]="'Lugar de Nacimiento' | translate: {default: 'Lugar de Nacimiento'} | translate"
+                                            formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.pais?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex="20"
                                             [label]="'naturalPerson.nationality' | translate: {default: 'global.nationality'} | translate"
                                             formControlName="nacionalidad" [required]="true" [elements]="nacionadades.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.pais?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="30"
+                                        <sirio-select-search fxFlex="20"
                                             [label]="'naturalPerson.anotherNationality' | translate: {default: 'global.anotherNationality'} | translate"
                                             formControlName="otraNacionalidad" [required]="false" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.pais?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-simple fxFlex="25" [label]="'naturalPerson.gender' | translate: {default: 'global.gender'} | translate"
+                                        <sirio-select-simple fxFlex="20" [label]="'naturalPerson.gender' | translate: {default: 'global.gender'} | translate"
                                             formControlName="genero" [required]="true" [elements]="generos.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.genero?.errors">
+                                        </sirio-select-simple>
+
+                                     
+                                    </div>
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        
+                                        <sirio-select-search fxFlex="30"
+                                            [label]="'Profesión u Oficio' | translate: {default: 'Profesión u Oficio'} | translate"
+                                            formControlName="profesion" [required]="true" [elements]="profesiones.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.profesion?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-simple fxFlex="15" [label]="'naturalPerson.tenure' | translate: {default: 'global.tenure'} | translate"
+                                            formControlName="tenencia" [required]="true" [elements]="tenencias.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tenencia?.errors">
+                                        </sirio-select-simple>
+
+                                        <sirio-select-simple fxFlex="15"
+                                            [label]="'naturalPerson.maritalStatus' | translate: {default: 'global.maritalStatus'} | translate"
+                                            formControlName="estadoCivil" [required]="true" [elements]="estadosCiviles.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.estadoCivil?.errors">
                                         </sirio-select-simple>
 
                                         <mat-form-field fxFlex="10">
@@ -196,26 +219,7 @@
                                             <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
                                             <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10</mat-error>
                                         </mat-form-field>
-                                    </div>
 
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        
-                                        <sirio-select-search fxFlex="30"
-                                            [label]="'naturalPerson.profession' | translate: {default: 'global.profession'} | translate"
-                                            formControlName="profesion" [required]="true" [elements]="profesiones.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.profesion?.errors">
-                                        </sirio-select-search>
-
-                                        <sirio-select-simple fxFlex="20" [label]="'naturalPerson.tenure' | translate: {default: 'global.tenure'} | translate"
-                                            formControlName="tenencia" [required]="true" [elements]="tenencias.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tenencia?.errors">
-                                        </sirio-select-simple>
-
-                                        <sirio-select-simple fxFlex="20"
-                                            [label]="'naturalPerson.maritalStatus' | translate: {default: 'global.maritalStatus'} | translate"
-                                            formControlName="estadoCivil" [required]="true" [elements]="estadosCiviles.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.estadoCivil?.errors">
-                                        </sirio-select-simple>
 
                                         <mat-form-field fxFlex="30">
                                             <mat-label>{{'naturalPerson.email' | translate: {default:

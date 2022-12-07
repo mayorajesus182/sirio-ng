@@ -2,10 +2,12 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { ActividadEconomica, ActividadEconomicaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-economica.service';
 import { ActividadEspecifica, ActividadEspecificaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-especifica.service';
@@ -24,6 +26,8 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 })
 
 export class JuridicoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
+
+    todayValue: moment.Moment;
 
     totalAddress: number;
     totalInfoLab: number;
@@ -79,6 +83,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
+        private calendarioService: CalendarioService,
     
         private actividadEconomicaService: ActividadEconomicaService,
         private actividadEspecificaService: ActividadEspecificaService,
@@ -118,6 +123,18 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
        
         this.loadingDataForm.next(false);
+
+        this.calendarioService.today().subscribe(data => {
+            this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+
+            console.log('AA Referencia1 ', this.todayValue);
+
+            this.todayValue.year;
+            this.cdr.detectChanges();
+
+            console.log('AA Referencia 2', this.todayValue.year);
+
+        });
 
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_JURIDICA).subscribe(data => {
             this.tipoDocumentos.next(data);
