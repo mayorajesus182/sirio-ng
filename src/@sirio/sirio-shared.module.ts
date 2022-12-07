@@ -21,6 +21,7 @@ import { TitleModule } from './shared/title/title.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SirioComponentModule } from './components/sirio.component.modulo';
 import { BoxOfficeGuard } from './guards/boxoffice.guard';
+import { TooltipModule } from './shared/tooltip/tooltip.module';
 
 @NgModule({
   imports: [
@@ -40,6 +41,7 @@ import { BoxOfficeGuard } from './guards/boxoffice.guard';
     RouterModule,
     PageLayoutModule,
     TranslateModule,
+    
     // External
     FlexLayoutModule,
     MatInputModule,

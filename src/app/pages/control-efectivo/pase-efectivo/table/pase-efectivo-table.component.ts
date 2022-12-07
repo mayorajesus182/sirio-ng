@@ -1,3 +1,4 @@
+import { formatNumber } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -5,6 +6,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
+import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
@@ -22,11 +24,14 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
   displayedColumns = ['bovagencia_id', 'tipoMovimiento', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
 
+  contentStats:string='';
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
     private cdr: ChangeDetectorRef,
+    private saldoAgenciaService: SaldoAgenciaService,
     private bovedaAgenciaService: BovedaAgenciaService,
   ) {
     super(undefined,  injector);
@@ -34,6 +39,19 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
 
   ngOnInit() {
     this.init(this.bovedaAgenciaService, 'bovagencia_id');
+
+
+    this.saldoAgenciaService.getSaldo().subscribe(data=>{
+      console.log('Agencia Saldos ',data);
+      data.forEach(element => {
+        
+        this.contentStats+=`<strong>${element.moneda}</strong> <br>`;
+        this.contentStats+=`<i class="fa-light fa-down-to-dotted-line fa-lg up"></i> ${ formatNumber(element.ingreso, 'es', '1.2')} &nbsp; `;
+        this.contentStats+=`<i class="fa-light fa-up-to-dotted-line fa-lg down"></i> ${ formatNumber(element.egreso, 'es', '1.2')} <br>`;
+      });
+      
+    })
+
   }
 
   ngAfterViewInit() {
