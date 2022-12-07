@@ -44,9 +44,9 @@ export class RecibirRemesaTableComponent extends TableBaseComponent implements O
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
   }
 
-  view(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
-  }
+  // view(data: any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+  // }
 
 }
 
