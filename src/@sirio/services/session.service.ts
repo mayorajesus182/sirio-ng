@@ -76,6 +76,9 @@ export class SessionService {
   }
 
   lockscreen() {
+    if(this.isLockScreen()){
+      return;
+    }
     const user = this.getUser();
 
     localStorage.setItem(SessionService.USER_LOCKED, JSON.stringify({ username: user.username, fullName: user.fullName }));
@@ -102,7 +105,7 @@ export class SessionService {
         this.destroy();
         this.router.navigate(['/user/login']);
         //TODO: DEBO LLAMAR A TRANSLATE ACA
-        this.snack.show({ message: this.success, horizontalPosition: 'right' });
+        this.snack.show({ message: this.success, horizontalPosition: 'center' });
       },
       err => {
         this.destroy()

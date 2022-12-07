@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
-import { CifraPromedio, CifraPromedioService } from 'src/@sirio/domain/services/configuracion/producto/cifras-promedio.service';
+import { CifraPromedio, CifraPromedioService } from 'src/@sirio/domain/services/configuracion/producto/cifra-promedio.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { ReferenciaPersonal, ReferenciaPersonalService } from 'src/@sirio/domain/services/persona/referencia-personal/referencia-personal.service';

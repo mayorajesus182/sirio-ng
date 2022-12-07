@@ -109,7 +109,7 @@ export class MaterialTransporteTableComponent extends TableBaseComponent impleme
     this.btnState = true;
     this.materialTransporteService.update(this.materialData).subscribe(data => {
       this.btnState = false;
-      this.successResponse('El Registro se', 'Actualizó')
+      this.successResponse('El Registro', 'Actualizado')
     }, err => {
       this.btnState = false;
       this.errorResponse(undefined, false)
