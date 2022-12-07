@@ -27,12 +27,15 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
+
     public chequeForm: FormGroup;
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     public motivosDevoluciones: MotivoDevolucion[] = [];
+
+    cheque: Cheque = {} as Cheque;
     chequeList: Cheque[] = [];
     cheques: ReplaySubject<Cheque[]> = new ReplaySubject<Cheque[]>();
     todayValue: moment.Moment;
@@ -138,13 +141,13 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
     buildChequeForm() {
         this.chequeForm = this.fb.group({
-            serial: new FormControl(undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            numeroCuentaCheque: new FormControl(undefined, [Validators.required]),
-            tipoDocumentoCheque: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(undefined),
-            codigoSeguridad: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            fechaEmision: new FormControl(undefined),
-            motivoDevolucion: new FormControl(undefined),
+            serial: new FormControl(this.cheque.serial, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            numeroCuentaCheque: new FormControl(this.cheque.numeroCuentaCheque, [Validators.required]),
+            tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
+            montoCheque: new FormControl(this.cheque.montoCheque),
+            // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
+            fechaEmision: new FormControl(this.cheque.fechaEmision),
+            motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
         });
 
         this.cf.serial.valueChanges.subscribe(val => {
@@ -198,10 +201,20 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
         let cheque = {} as Cheque;
         this.updateDataFromValues(cheque, this.chequeForm.value);
+        cheque.fechaEmision=cheque.fechaEmision?cheque.fechaEmision.format('DD/MM/YYYY'):'';
         this.chequeList.push(cheque);
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
         this.chequeForm.reset({});
+        this.refresTotalCheque();
+        this.cdr.detectChanges();
+    }
+
+    edit(index) {
+        this.cheque = this.chequeList[index];
+        this.buildChequeForm();
+        this.chequeList.splice(index, 1);
+        this.cheques.next(this.chequeList.slice());
         this.refresTotalCheque();
         this.cdr.detectChanges();
     }
@@ -309,10 +322,10 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0.0;
         let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0.0;
         let valorMontoTotal = this.f.monto.value ? this.f.monto.value : 0.0;
-
+        let valorTotal = (event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
         // La diferencia entre la suma Efectivo con los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        if ( Math.abs(((event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros) - (valorMontoTotal)) >= 1) {
+        if ( Math.abs((valorTotal) - (valorMontoTotal)) >= 1) {
             
             this.f.efectivo.setErrors({
                 difference: true

@@ -40,7 +40,7 @@ import { DepositoFormComponent } from './form/deposito-form.component';
         DepositoMixtoFormComponent,   
     ],
     exports: [],
-    providers:[ { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }]
+    // providers:[ { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }]
 })
 
 export class DepositoModule {

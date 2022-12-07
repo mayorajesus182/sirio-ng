@@ -72,7 +72,7 @@
         <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm">
             <mat-form-field fxFlex.gt-xs="10">
                 <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }} </mat-label>
-                <input matInput autocomplete="off" maxlength="10" id="serial" name="serial" formControlName="serial"  class="text-center" >
+                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial"  class="text-center" >
                 <mat-error *ngIf="cf.serial.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                 <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial y cuanta ya estan suministrados</mat-error>
@@ -102,11 +102,11 @@
                 <mat-error *ngIf="cf.montoCheque.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
             </mat-form-field>
     
-            <mat-form-field fxFlex.gt-xs="15">
+            <!-- <mat-form-field fxFlex.gt-xs="15">
                 <mat-label>{{'deposit.securityCode' | translate: {default: 'global.securityCode'} | translate }} </mat-label>
                 <input matInput autocomplete="off" maxlength="10" id="codigoSeguridad" name="codigoSeguridad" formControlName="codigoSeguridad" uppercase  class="text-center" >
                 <mat-error *ngIf="cf.codigoSeguridad.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
     
             <mat-form-field fxFlex="15">
                 <mat-label>{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</mat-label>
@@ -149,10 +149,10 @@
     
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
-                    <div class="text-center">Número de Cuenta</div>
+                    <div class="text-center" >Número de Cuenta</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <div style="white-space: break-spaces;" class="text-center">{{ row?.numeroCuentaCheque }}</div>
+                    <div style="white-space: break-spaces;" class="text-center" mask="0000 0000 00 00 00000000">{{ row?.numeroCuentaCheque }}</div>
                 </ng-template>
             </ngx-datatable-column>
     
@@ -174,14 +174,14 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+            <!-- <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.securityCode' | translate: {default: 'global.securityCode'} | translate }}</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
                     <div style="white-space: break-spaces;" class="text-center">{{ row?.codigoSeguridad }}</div>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
     
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
@@ -205,8 +205,25 @@
                     </mat-form-field>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column name="" [flexGrow]="0.5">
+                <ng-template ngx-datatable-header-template>
+                    <div class="text-center">Acciones</div>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+
+                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="edit(rowIndex)" matTooltip="Editar">
+                        <mat-icon>edit </mat-icon>
+                    </button>
+
+                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                </ng-template>
+            </ngx-datatable-column>
+    
+            <!-- <ngx-datatable-column name="" [flexGrow]="0.5">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'action.delete'| translate}}</div>
                 </ng-template>
@@ -215,7 +232,7 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
         </ngx-datatable>
     </sirio-card-content>
 </sirio-card> 

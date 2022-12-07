@@ -151,9 +151,9 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         }
     }
 
-    validarMonto(event) {
+    validarMonto(event) {        
         if (event && (event.montoTotal > 0)) {
-            this.f.monto.setValue(event.montoTotal);
+            this.f.monto.setValue(this.f.efectivo.value);
         }
     }
 
