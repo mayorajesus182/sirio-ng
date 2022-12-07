@@ -49,9 +49,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
 
     this.updateConoActual([]);
-    this.updateConoAnterior([]);
-    console.log(this.defaults);
-    
+    this.updateConoAnterior([]);    
     this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
@@ -75,8 +73,6 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   }
 
   save() {
-    console.log('mode ', this.mode);
-
     this.dialogRef.close(
       {
         desgloseConoActual: this.valuesCono1,
@@ -106,7 +102,6 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   updateConoActual(list: ConoMonetario[]) {
     this.totalActual = 0;
     if (list && list.length > 0) {
-      // console.log('update cono actual ', list);
       this.valuesCono1 = list;
       // calculo de totales para el cono actual
       this.totalActual = list.map(e => e.cantidad * e.denominacion).reduce((a, b) => a + b);
@@ -131,8 +126,6 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   updateConoAnterior(list: ConoMonetario[]) {
     this.totalAnterior = 0;
     if (list && list.length > 0) {
-      // console.log('update cono anterior ', list);
-
       this.valuesCono2 = list;
       // calculo de totale para el cono anterior
       this.totalAnterior = list.map(e => e.cantidad * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
@@ -161,10 +154,6 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   }
 
   notValidate(){
-    // console.log(this.valuesCono1);
-    // console.log(this.valuesCono2);
-    // console.log(this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length);
-    
     return this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length > 0 || this.valuesCono2.map(c=>c.errors).filter(e=>e!=null).length > 0;
   }
 
