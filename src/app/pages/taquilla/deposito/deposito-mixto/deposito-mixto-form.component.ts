@@ -146,7 +146,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(this.cheque.montoCheque),
             // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            fechaEmision: new FormControl(this.cheque.fechaEmision),
+            fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
             motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
         });
 
