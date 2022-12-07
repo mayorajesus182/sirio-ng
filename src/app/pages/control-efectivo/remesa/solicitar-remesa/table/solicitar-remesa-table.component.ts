@@ -55,9 +55,9 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
   }
 
-  view(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
-  }
+  // view(data: any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+  // }
 
   activateOrInactivate(data: any) {
     this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);

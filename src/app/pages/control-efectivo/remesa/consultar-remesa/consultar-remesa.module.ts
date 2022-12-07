@@ -10,6 +10,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { ConsultarRemesaRoutingModule } from './consultar-remesa-routing.module';
+import { RemesaDetailComponent } from './detail/remesa-detail.component';
 import { ConsultarRemesaTableComponent } from './table/consultar-remesa-table.component';
 
 
@@ -30,6 +31,7 @@ import { ConsultarRemesaTableComponent } from './table/consultar-remesa-table.co
     ],
     declarations: [
         ConsultarRemesaTableComponent,
+        RemesaDetailComponent,
     ],
     exports: [],
 })

@@ -60,7 +60,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     });
   }
   
-  view(data: any) {
+  // view(data: any) {
     // this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
     //   if (!resp.dismiss) {
     //     this.remesaService.dispatch(data.element).subscribe(data => {
@@ -70,7 +70,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     //   }, error => this.errorResponse(true));
     //   }
     // });
-  }
+  // }
 
 }
 

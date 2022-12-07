@@ -44,6 +44,8 @@ export interface Remesa {
     materiales: any[];
     detalleEfectivo: any[];
     responsables: string[];
+    detalleEfectivoEnviado: any[];
+    detalleEfectivoRecibido: any[];
 }
 
 @Injectable({
@@ -108,6 +110,11 @@ export class RemesaService {
     dispatch(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)
             .pipe(map(res => data));
+    }
+
+    approve(id: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/approve/update`)
+            .pipe(map(res => id));
     }
 
     processCreate(data: Remesa): Observable<any> {
