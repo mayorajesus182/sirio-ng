@@ -1,5 +1,4 @@
 import { formatNumber } from '@angular/common';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -136,21 +135,12 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    // resetVoucher() {
-    //     this.voucherForm.controls.identificacionDepositante.setValue('');
-    //     this.voucherForm.controls['nombreDepositante'].setValue('');
-    //     this.voucherForm.controls['email'].setValue('');
-    //     this.voucherForm.controls['identificacionDepositante'].setErrors(undefined);
-    //     this.voucherForm.controls['nombreDepositante'].setErrors(undefined);
-    //     this.voucherForm.controls['email'].setErrors(undefined);
-    // }
-
     save() {
         if (this.itemForm.invalid)
             return;
 
         this.updateData(this.deposito);
-        let montoFormat = formatNumber(this.deposito.monto, 'es', '1.2');
+        let montoFormat = formatNumber(this.deposito.monto, 'es', '1.2'); 
         this.swalService.show('¿Desea Realizar el Depósito?', undefined,
             { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.deposito.moneda?.siglas + '</b>' }
 

@@ -139,8 +139,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
-        // console.log(this.search.identificacion.errors);        
-
         if (this.search.identificacion.errors) {
             return;
         }
@@ -153,7 +151,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         if (tipoDocumento && identificacion) {
 
             this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                // console.log("result query:", data);
                 this.persona = data;
                 this.search.nombre.setValue(data.nombre);
                 this.loading.next(false);
@@ -191,7 +188,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // this.search.tipoDocumento.setErrors({required:true});
             this.searchForm.controls['identificacion'].setErrors({ requiredTipoDoc: true });
             this.searchForm.controls['identificacion'].markAsDirty();
-            // console.log('errors ', this.search.identificacion.errors);
             this.cdref.detectChanges();
         }
     }
@@ -207,8 +203,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         }
 
         // this.busqueda = true;
-        // console.log("Aquiiiiiiiiiiiiiiiiiiiiiii", cuenta);
-        // console.log("this.busqueda ", this.busqueda);
         
         this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
             // this.cuentaBancariaOperacion = data;
@@ -234,13 +228,11 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // this.searchForm.controls['cuenta'].disable();
             // this.searchForm.controls['tipoDocumento'].disable();
 
-            // console.log("resultado consulta by cuenta", data);
             this.disable.next(true);
             this.cdref.detectChanges();
             this.result.emit(data);
 
         }, err => {
-            //console.log(err);
             this.search.cuenta.setErrors({ notexists: true });
             this.persona = {} as Persona;
 
@@ -255,15 +247,11 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     add() {
-        // console.log('crear persona ', this.searchForm.value);
-
         this.create.emit(this.searchForm.value);
     }
 
 
     edit() {
-        // console.log('editar persona ', this.searchForm.value);
-
         this.update.emit(this.persona);
 
     }

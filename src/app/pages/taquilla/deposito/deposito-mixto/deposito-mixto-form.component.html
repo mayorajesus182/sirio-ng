@@ -149,10 +149,10 @@
     
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
-                    <div class="text-center">Número de Cuenta</div>
+                    <div class="text-center" >Número de Cuenta</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <div style="white-space: break-spaces;" class="text-center">{{ row?.numeroCuentaCheque }}</div>
+                    <div style="white-space: break-spaces;" class="text-center" mask="0000 0000 00 00 00000000">{{ row?.numeroCuentaCheque }}</div>
                 </ng-template>
             </ngx-datatable-column>
     
@@ -205,8 +205,25 @@
                     </mat-form-field>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column name="" [flexGrow]="0.5">
+                <ng-template ngx-datatable-header-template>
+                    <div class="text-center">Acciones</div>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+
+                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="edit(rowIndex)" matTooltip="Editar">
+                        <mat-icon>edit </mat-icon>
+                    </button>
+
+                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                </ng-template>
+            </ngx-datatable-column>
+    
+            <!-- <ngx-datatable-column name="" [flexGrow]="0.5">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'action.delete'| translate}}</div>
                 </ng-template>
@@ -215,7 +232,7 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
         </ngx-datatable>
     </sirio-card-content>
 </sirio-card> 

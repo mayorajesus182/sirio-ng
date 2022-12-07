@@ -67,7 +67,7 @@
     
             <mat-form-field fxFlex.gt-sm="20">
                 <mat-label>Número de Cuenta </mat-label>
-                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required num-account-validate class="text-center" [maxLength]="24" >
+                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required num-account-validate class="text-center" maxLength="24" >
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuanta ya estan suministrados</mat-error>
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El num. de cuenta es Inválido</mat-error>
@@ -130,52 +130,58 @@
         </div>
 
         <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async" >
-
+                                            
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
-                    <span>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}</span>
+                    <div class="text-center">{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}</div>
                 </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" maxlength="8" #validarCheque="ngModel" [(ngModel)]="row.serial" autofocus matInput type="text" autocomplete="off" (blur)="validateSerialAccountUnique(row.serial, row.numeroCuentaCheque, validarCheque)"/>
-                    <mat-error *ngIf="validarCheque.errors?.exists">El serial y cuanta ya estan suministrados</mat-error>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="white-space: break-spaces;" class="text-center"> {{ row?.serial}}</div>
                 </ng-template>
             </ngx-datatable-column>
-
+    
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
-                    <span>Número de Cuenta</span>
+                    <div class="text-center" >Número de Cuenta</div>
                 </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" num-account-validate mask="0000 0000 00 00 00000000" maxlength="24" #validarCheque="ngModel" [(ngModel)]="row.numeroCuentaCheque" autofocus matInput type="text" autocomplete="off" (blur)="validateSerialAccountUnique(row.serial, row.numeroCuentaCheque, validarCheque)"/>
-                    <mat-error *ngIf="validarCheque.errors?.exists">El serial y cuanta ya estan suministrados</mat-error>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="white-space: break-spaces;" class="text-center" mask="0000 0000 00 00 00000000">{{ row?.numeroCuentaCheque }}</div>
                 </ng-template>
             </ngx-datatable-column>
-
+    
             <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
-                    <span>{{'deposit.docType' | translate: {default: 'global.docType'} | translate }}</span>
+                    <div class="text-center">{{'deposit.docType' | translate: {default: 'global.docType'} | translate }}</div>
                 </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" #tipo="ngModel" [(ngModel)]="row.tipoDocumentoCheque" autofocus matInput type="text" autocomplete="off" (blur)="validateTipoDocumentoCheque(row.tipoDocumentoCheque, tipo)"/>
-                    <mat-error *ngIf="tipo.errors?.exists">Tiene que ser 90 o 96</mat-error>
-                </ng-template>
-            </ngx-datatable-column>
-    
-            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                <ng-template ngx-datatable-header-template>
-                    <span>{{'deposit.amount' | translate: {default: 'global.amount'} | translate }}</span>
-                </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" maxlength="20" [(ngModel)]="row.montoCheque" autofocus matInput currencyMask [options]="{precision:2}" autocomplete="off" (blur)="refresTotalCheque()"/>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="white-space: break-spaces;" class="text-center">{{ row?.tipoDocumentoCheque }}</div>
                 </ng-template>
             </ngx-datatable-column>
     
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
-                    <span>{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</span>
+                    <div class="text-center">{{'deposit.amount' | translate: {default: 'global.amount'} | translate }}</div>
                 </ng-template>
-                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <input class="mat-input text-center" [(ngModel)]="row.fechaEmision" autofocus matInput type="text" autocomplete="off"/>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="white-space: break-spaces;" class="text-center">{{ row?.montoCheque | number:'1.2'}}</div>
+                </ng-template>
+            </ngx-datatable-column>
+
+            <!-- <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                <ng-template ngx-datatable-header-template>
+                    <div class="text-center">{{'deposit.securityCode' | translate: {default: 'global.securityCode'} | translate }}</div>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="white-space: break-spaces;" class="text-center">{{ row?.codigoSeguridad }}</div>
+                </ng-template>
+            </ngx-datatable-column> -->
+    
+            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                <ng-template ngx-datatable-header-template>
+                    <div class="text-center">{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</div>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    <div style="white-space: break-spaces;" class="text-center">{{ row?.fechaEmision }}</div>
                 </ng-template>
             </ngx-datatable-column>
     
@@ -192,8 +198,25 @@
                     </mat-form-field>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column name="" [flexGrow]="0.5">
+                <ng-template ngx-datatable-header-template>
+                    <div class="text-center">Acciones</div>
+                </ng-template>
+                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+
+                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="edit(rowIndex)" matTooltip="Editar">
+                        <mat-icon>edit </mat-icon>
+                    </button>
+
+                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+
+                </ng-template>
+            </ngx-datatable-column>
+    
+            <!-- <ngx-datatable-column name="" [flexGrow]="0.5">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'action.delete'| translate}}</div>
                 </ng-template>
@@ -202,7 +225,7 @@
                         <mat-icon>delete</mat-icon>
                     </button>
                 </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
         </ngx-datatable>
     </sirio-card-content>
 </sirio-card> 
