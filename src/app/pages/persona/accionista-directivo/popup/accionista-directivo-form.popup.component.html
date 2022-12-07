@@ -90,7 +90,7 @@
             </sirio-select-search>
 
             <div fxFlex.gt-sm="25" class="text-right margin-top-md">
-                <mat-slide-toggle [color]="'primary'" formControlName="esPep" name="esPep">
+                <mat-slide-toggle [color]="'primary'" formControlName="esPep" [(ngModel)]="f.esPep.value" name="esPep">
                   {{'¿Es PEP / Es Relacionado PEP?' }}
                 </mat-slide-toggle>
             </div>
@@ -105,7 +105,7 @@
 
     <!-- <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="f.esPep.value"> -->
 
-    <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="!itemForm.invalid">
+    <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="itemForm && !itemForm.invalid && f.esPep.value">
 
         <span class="margin-top-sm margin-bottom-lg semi-bold" >
             Es PEP / Es Relacionado PEP
@@ -126,7 +126,7 @@
             </mat-form-field>
 
 
-            <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento"
+            <!-- <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento"
                 [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
                 [errors]="cf.tipoDocumento?.errors">
             </sirio-select-search>
@@ -141,7 +141,27 @@
                 <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' |
                     translate}}
                 </mat-error>
+            </mat-form-field> -->
+
+            <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento"
+                [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
+                [errors]="cf.tipoDocumento?.errors">
+                <!-- <mat-error *ngIf="cf.tipoDocumento.errors?.uniquePep">El Tipo Documento ya estan suministrados</mat-error> -->
+
+            </sirio-select-search>
+
+            <mat-form-field fxFlex="20">
+                <mat-label>{{'Identificación' | translate: {default:
+                    'Identificación'} | translate }} </mat-label>
+                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"
+                    formControlName="identificacion" uppercase required>
+                <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
+                </mat-error>
+                <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
+                </mat-error>
+                <mat-error *ngIf="cf.identificacion.errors?.exists">La Identificación Existe</mat-error>
             </mat-form-field>
+            
 
         </div>
 
@@ -277,11 +297,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <!-- fxLayoutAlign="end center" -->
 
-                <!-- <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-                <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
-            </mat-dialog-actions> -->
 
                 <ngx-datatable-column name="" [flexGrow]="0.3">
                     <ng-template ngx-datatable-header-template>
@@ -312,7 +328,14 @@
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
         <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
         <button mat-raised-button color="primary" (click)="save()"
-            [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+            [disabled]="!itemForm || itemForm.invalid">{{'button.save'|translate}}</button>
+
+
     </mat-dialog-actions>
 
+<!-- 
+ fxLayoutAlign="end center" 
 
+    mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
+</mat-dialog-actions>  -->

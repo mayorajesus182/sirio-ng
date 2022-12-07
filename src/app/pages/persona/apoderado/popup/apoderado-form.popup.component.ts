@@ -91,6 +91,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
       numero: new FormControl(this.apoderado.numero || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
 
+      telefono: new FormControl(this.apoderado.telefono || '', [Validators.required]),
+      
       tomo: new FormControl(this.apoderado.tomo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),

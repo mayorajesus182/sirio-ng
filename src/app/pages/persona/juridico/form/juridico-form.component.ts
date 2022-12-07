@@ -437,3 +437,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 }
 
+// var mm = fechaInicio.getMonth() + 1;
+// var yyyy = fechaInicio.getFullYear();
+
+// if (mm < 10) {
+//     mm = '0' + mm
+// }
+

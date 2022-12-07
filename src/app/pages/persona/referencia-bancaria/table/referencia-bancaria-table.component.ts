@@ -23,6 +23,7 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   referenciaBancariaList:ReplaySubject<ReferenciaBancaria[]> = new ReplaySubject<ReferenciaBancaria[]>();
+  referencias:ReferenciaBancaria[]=[];
 
   constructor(
     injector: Injector,
@@ -36,11 +37,11 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   
   private loadList(){
     this.referenciaBancariaService.allByPersonaId(this.persona).subscribe((data) => {
-           
+           this.referencias=data;
       console.log(data);
       this.referenciaBancariaList.next(data.slice());
       
-      this.propagar.emit(data.length);
+      // this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
@@ -90,7 +91,7 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona}:data,'40%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:data,'40%').afterClosed().subscribe(event=>{
             
         if(event){
             this.onRefresh.next(true);

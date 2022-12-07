@@ -1,4 +1,5 @@
 
+import { C } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -25,6 +26,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
   public entidadFinancieraList = new BehaviorSubject<EntidadFinanciera[]>([]);
 
 
+  referencias=[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -46,6 +48,8 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
   ngOnInit() {
 
+
+
     this.tipoProductoService.actives().subscribe(data => {
 
       this.tipoProductoList.next(data);
@@ -65,6 +69,10 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
     });
 
     console.log('ref bancaria',this.defaults.payload);
+
+    this.referencias = this.defaults.payload.referencias
+
+    console.log('Arreglo ref bancaria',this.referencias);
     
 
     this.loadingDataForm.next(true);
@@ -83,8 +91,13 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
       this.loadingDataForm.next(false);
       this.cdr.detectChanges();
     }
+
+    console.log('ref bancaria xx',this.defaults.payload);
+
   }
 
+
+  
 
   buildForm() {
     //validar carcteres especiales
@@ -128,7 +141,26 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
       }
     });
 
+    this.f.numeroCuenta.valueChanges.subscribe(val => {
+      if (val) {
+        if (!this.validateNumeroCuenta(this.f.numeroCuenta ? this.f.numeroCuenta.value : undefined)) {
+          this.f.numeroCuenta.setErrors({ exists: true })
+        } else {
+          this.f.numeroCuenta.setErrors(null)
+        }
+      }
+    });
+
   }
+
+  validateNumeroCuenta(numeroCuenta: string) {
+    if (!numeroCuenta) {
+      return true;
+    }
+    
+    return this.referencias.find(c => (c.numeroCuenta === numeroCuenta)) == undefined;
+  }
+
 
   save() {
 

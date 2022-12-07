@@ -39,6 +39,9 @@
           formControlName="numeroCuenta"  required>
         <mat-error *ngIf="f.numeroCuenta.errors?.notIsEntidad">La cuenta debe perternecer a la entidad financiera!</mat-error>
         <mat-error *ngIf="f.numeroCuenta.errors?.account">Debe indicar un numero de cuenta correcto!</mat-error>
+
+        <mat-error *ngIf="f.numeroCuenta.errors?.exists">La Identificación Existe</mat-error>
+
       </mat-form-field>
 
       <sirio-select-simple fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" [required]="true"
