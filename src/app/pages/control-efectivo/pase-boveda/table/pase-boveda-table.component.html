@@ -5,7 +5,7 @@
 
     <sirio-page-layout-content [@fadeInUp]>
         <sirio-list [name]="'passToVault.table' | translate: {default: 'global.notfound'}" placeholder="passToVault.search"
-            (filterChange)="onFilterChange($event)">
+            (filterChange)="onFilterChange($event)" [tooltipStats]="contentStats">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="fcreacion" matSortDirection="desc">
 

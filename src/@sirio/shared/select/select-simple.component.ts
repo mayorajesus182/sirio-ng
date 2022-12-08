@@ -126,8 +126,8 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
 
 
             if (data == '' || data == undefined) {
-                // this.selectControl.clearValidators();
-                this.selectControl.markAsTouched();
+                this.selectControl.clearValidators();
+                // this.selectControl.markAsTouched();
                 // if(this.required){
                 //     this.selectControl.markAsDirty();
                 // }
