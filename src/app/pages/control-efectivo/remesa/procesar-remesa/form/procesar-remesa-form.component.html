@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittancesRequested.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -12,26 +12,7 @@
                     <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <mat-card-title class="mat-bg-grey">
-                            <div class="card-title-text">
-                                <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
-                                    <mat-icon class="">more_vert</mat-icon>
-                                </button>
-
-                                <mat-menu #userMenu="matMenu">
-                                    <button mat-menu-item class="mr-1" (click)="resendTask()">
-                                        <mat-icon color="primary">check_circle</mat-icon>
-                                        {{'action.resend' | translate }}
-                                    </button>
-                                    <button mat-menu-item class="mr-1" (click)="overrideTask()">
-                                        <mat-icon color="accent">cancel</mat-icon>
-                                        {{'action.override' | translate }}
-                                    </button>
-                                </mat-menu> -->
-                            </div>
-                        </mat-card-title>
-
-                    </sirio-card-header-actions>
+                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
@@ -122,7 +103,7 @@
                                     <mat-error *ngIf="plomoCtrl.errors?.length">{{plomoCtrl.errors?.length}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="25">
+                                <mat-form-field fxFlex="20" appearance="standart" >
                                     <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
                                         [options]="{precision:2}" required readonly>
@@ -231,7 +212,7 @@
                         </div>
                     </div>
 
-                    {{printErrors() | json}}
+                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

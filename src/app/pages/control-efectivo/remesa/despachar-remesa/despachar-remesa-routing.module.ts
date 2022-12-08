@@ -6,16 +6,16 @@ import { DespacharRemesaTableComponent } from './table/despachar-remesa-table.co
 
 const despacharRemesaRoutes: Routes = [
 
-    {
-        path: '',
-        component: DespacharRemesaTableComponent,
-        data: { title: 'Despachar Remesas' }
-    },
-    {
-        path: ':id/dispatch',
-        component: DespacharRemesaFormComponent,
-        data: { title: 'Despachar Remesa' }
-    },
+    // {
+    //     path: '',
+    //     component: DespacharRemesaTableComponent,
+    //     data: { title: 'Despachar Remesas' }
+    // },
+    // {
+    //     path: ':id/dispatch',
+    //     component: DespacharRemesaFormComponent,
+    //     data: { title: 'Despachar Remesa' }
+    // },
 ];
 
 @NgModule({

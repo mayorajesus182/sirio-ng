@@ -30,6 +30,10 @@ export class RemesaDetailComponent extends FormBaseComponent implements OnInit {
     this.loadingDataForm.next(true);
 
     this.remesaService.detail(id).subscribe(data => {
+
+      console.log('  data   ', data);
+      
+
       this.data = data;
       this.loadingDataForm.next(false);
     });

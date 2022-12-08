@@ -1,45 +1,59 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittanceRequest.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['requestsToApprove.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'remittanceRequest.table' | translate: {default: 'global.notfound'}" placeholder="remittanceRequest.search"
+        <sirio-list [name]="'requestsToApprove.table' | translate: {default: 'global.notfound'}" placeholder="requestsToApprove.search"
             (filterChange)="onFilterChange($event)">
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="remesa_id" matSortDirection="desc">
 
                 <ng-container matColumnDef="remesa_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">{{'Cataporte' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'Cataporte' | translate:
                         {default: 'Cataporte'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="emisor">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-50'">{{'Unidad Emisora' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'">{{'Unidad Emisora' | translate:
                         {default: 'Unidad Emisora'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-50'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
                         <p class="text-truncate font-weight-600">{{element.emisor}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="estatus">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'">{{'Estatus' | translate:
-                        {default: 'Estatus'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
-                        <p class="text-truncate font-weight-600">{{element.estatusSolicitud}}</p>
+                <ng-container matColumnDef="receptor">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'">{{'Unidad Receptora' | translate:
+                        {default: 'Unidad Receptora'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                        <p class="text-truncate font-weight-600">{{element.receptor}}</p>
                     </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="monto">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'Monto' | translate:
+                        {default: 'Monto'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <p class="text-truncate font-weight-600">{{element.montoFinal | number: '1.2'}}</p>
+                    </mat-cell>
+                </ng-container>
 
-                <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'"></mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
-                        <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
-                            {{element.activo ? 'Activo' : 'Inactivo'}}
-                        </mat-chip>
+                <ng-container matColumnDef="moneda">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'">{{'Moneda' | translate:
+                        {default: 'Moneda'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-5'">
+                        <p class="text-truncate font-weight-600">{{element.moneda}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estatus">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'Estatus' | translate:
+                        {default: 'Estatus'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
+                        <p class="text-truncate font-weight-600">{{element.estatusSolicitud}}</p>
                     </mat-cell>
                 </ng-container>
 
