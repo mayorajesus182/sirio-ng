@@ -26,7 +26,7 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
-  contentStats:string='';
+  contentStats: string = '';
 
 
   constructor(
@@ -45,39 +45,28 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   ngOnInit() {
 
 
-    this.saldoTaquillaService.all().subscribe(data=>{
-      console.log('Taquilla Saldos ',data);
+    this.saldoTaquillaService.all().subscribe(data => {
+      console.log('Taquilla Saldos ', data);
       data.forEach(element => {
-        
-        this.contentStats+=`<strong>${element.siglasMoneda}</strong> <br>`;
-        this.contentStats+=`<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${ formatNumber(element.ingreso, 'es', '1.2')} &nbsp;&nbsp; `;
-        this.contentStats+=`<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${ formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
+
+        this.contentStats += `<strong>${element.siglasMoneda}</strong> <br>`;
+        this.contentStats += `<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${formatNumber(element.ingreso, 'es', '1.2')} &nbsp;&nbsp; `;
+        this.contentStats += `<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
       });
-      
+
     });
 
     this.taquillaService.isOpen().subscribe(isOpen => {
       // if (isOpen) {
       this.isOpen = isOpen;
 
-
-        this.init(this.cajaTaquillaService, 'cajtaquilla_id');
-
-
-
-      // } else {
-      //   this.router.navigate(['/sirio/welcome']);
-      //   this.swalService.show('message.closedBoxOfficeTitle', 'message.closedBoxOfficeMessage', { showCancelButton: false }).then((resp) => {
-      //     if (!resp.dismiss) {}
-      //   });
-      // }
-
+      this.init(this.cajaTaquillaService, 'cajtaquilla_id');
 
     });
   }
 
   ngAfterViewInit() {
-  //  this.afterInit();
+    //  this.afterInit();
   }
 
 

@@ -20,11 +20,13 @@ export class ToolbarQuickpanelToggleComponent {
     const user = this.sessionService.getUser();
 //TODO: PONER PARA CUANDO TRATE EL ROL && user.rols && user.rols.length > 0
     if (user && user.username ) {
-      // console.log("Usuario ROLS", user);
+      console.log("Usuario ROLS", user);
       if(user.rols.includes(RolConstants.GERENTE_TESORERO_AGENCIA)){
         this.router.navigate(['/sirio/estadistica/agencia/saldos']);        
       }else if(user.rols.includes(RolConstants.OPERADOR_TAQUILLA)){
         this.router.navigate(['/sirio/estadistica/taquilla/saldos']);
+      }else if(user.rols.includes(RolConstants.GERENTE_REGIONAL)){
+        this.router.navigate(['/sirio/estadistica/region/saldos']);
       }
     }
   }
