@@ -132,6 +132,16 @@ a {
   box-shadow: 0 0 0 2px lighten(#fc7018, 60%);
 }
 
+.fas.icon {
+  &-up {
+    color: #38c41c !important;
+  }
+
+  &-down {
+    color: #e21541 !important;
+  }
+
+}
 
 .notifier__container{
   .notifier__notification--warning {
@@ -247,7 +257,12 @@ blockquote {
 .text-truncate {
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
+  white-space: wnowrap;
+  max-width: auto;
+}
+
+.text-wrap {
+  word-wrap: normal;
   max-width: auto;
 }
 

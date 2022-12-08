@@ -1,24 +1,29 @@
 .tooltip {
+  display: inline-block;
   position: fixed;
   background-color: rgb(250, 250, 250);
   border-radius: 4px;
   color: #2e2e2e;
-  padding: 3px 6px;
-  font-size: 14px;
+  padding: 4px 5px 4px 5px;
+  font-size: 0.95rem;
   opacity: 0;
   z-index: 100;
-  min-width: 240px;
-
-  // width: auto;
-  // box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  // width: fit-content;
+  min-width: 265px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .40);
+
+  span.line {
+    display: inline;
+    width: fit-content;
+    line-height: 30px;
+  }
 
   &::before {
     content: '';
     width: 0;
     height: 0;
     position: absolute;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .60);
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .60);
   }
 
   &--visible {
@@ -34,20 +39,15 @@
     align-items: center;
     justify-content: center;
 
-    i {
-      &.up {
-        color: #38c41c !important;
-      }
 
-      &.down {
-        color: #290861 !important;
-      }
-
-    }
 
     &::before {
       border: 5px solid white;
     }
+
+
+
+
   }
 
   &--dark {
@@ -117,4 +117,19 @@
       display: none;
     }
   }
+
+
 }
+
+// .tooltip > span {
+//   .fal {
+//     &.up {
+//       color: #38c41c !important;
+//     }
+
+//     &.down {
+//       color: #290861 !important;
+//     }
+
+//   }
+// }

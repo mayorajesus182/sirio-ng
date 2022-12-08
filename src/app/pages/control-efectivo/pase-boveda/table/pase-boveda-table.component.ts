@@ -1,3 +1,4 @@
+import { formatNumber } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -5,6 +6,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
+import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
@@ -24,6 +26,9 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
+  contentStats:string='';
+
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -31,11 +36,25 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
     private cdr: ChangeDetectorRef,
     private cajaTaquillaService: CajaTaquillaService,
     private taquillaService: TaquillaService,
+    private saldoTaquillaService: SaldoTaquillaService,
+
   ) {
     super(undefined, injector);
   }
 
   ngOnInit() {
+
+
+    this.saldoTaquillaService.all().subscribe(data=>{
+      console.log('Taquilla Saldos ',data);
+      data.forEach(element => {
+        
+        this.contentStats+=`<strong>${element.siglasMoneda}</strong> <br>`;
+        this.contentStats+=`<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${ formatNumber(element.ingreso, 'es', '1.2')} &nbsp;&nbsp; `;
+        this.contentStats+=`<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${ formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
+      });
+      
+    });
 
     this.taquillaService.isOpen().subscribe(isOpen => {
       // if (isOpen) {

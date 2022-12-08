@@ -22,10 +22,11 @@ export class TooltipDirective {
   @Input() position: TooltipPosition = TooltipPosition.DEFAULT;
   @Input() theme: TooltipTheme = TooltipTheme.DEFAULT;
   @Input() showDelay = 0;
-  @Input() hideDelay = 100;
+  @Input() hideDelay = 0;
 
   private componentRef: ComponentRef<any> | null = null;
   private showTimeout?: number;
+  private showed: boolean=false;
   private hideTimeout?: number;
   private touchTimeout?: number;
 
@@ -36,13 +37,18 @@ export class TooltipDirective {
   @HostListener('mouseenter')
   onMouseEnter(): void {
     console.log("mouse enter tooltip");
+    if(this.showed){
+      return;
+    }
     // this.setHideTooltipTimeout();
+    this.showed=true;
     this.initializeTooltip();
   }
   
-  @HostListener('mouseleave')
+  @HostListener('click')
   onMouseLeave(): void {
     console.log("mouse leave tooltip");
+    this.showed=false;
     this.setHideTooltipTimeout();
   }
 
@@ -94,12 +100,12 @@ export class TooltipDirective {
 
       switch (this.position) {
         case TooltipPosition.BELOW: {
-          this.componentRef.instance.left = Math.round((right - left) / 2 + left);
+          this.componentRef.instance.left = Math.round((right - left) / 2 + left)-10;
           this.componentRef.instance.top = Math.round(bottom);
           break;
         }
         case TooltipPosition.ABOVE: {
-          this.componentRef.instance.left = Math.round((right - left) / 2 + left);
+          this.componentRef.instance.left = Math.round((right - left) / 2 + left)-10;
           this.componentRef.instance.top = Math.round(top);
           break;
         }
@@ -109,7 +115,7 @@ export class TooltipDirective {
           break;
         }
         case TooltipPosition.LEFT: {
-          this.componentRef.instance.left = Math.round(left);
+          this.componentRef.instance.left = Math.round(left)-10;
           this.componentRef.instance.top = Math.round(top + (bottom - top) / 2);
           break;
         }
