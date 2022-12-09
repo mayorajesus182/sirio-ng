@@ -71,6 +71,8 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
           this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
             this.municipios.next(data);
+
+            // this.ciudad.next(data);
             this.cdr.detectChanges();
           });
         }
@@ -250,10 +252,11 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   }
 
   nombreCiudad(){
-    if(!this.f.municipio.value || !this.municipios.value){
+
+    if(!this.f.municipio.value || this.f.municipio.value.length==0 || !this.municipios.value){
       return '';
     }
-    return this.municipios.value.filter(m=>m.id===this.f.municipio.value)[0]?.ciudad;
+    return this.municipios.value.filter(m=>m.id===this.f.municipio.value)[0]?.ciudad || '';
   }
 
 }

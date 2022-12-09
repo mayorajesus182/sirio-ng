@@ -3,8 +3,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
-import { TipoIngresoConstants } from 'src/@sirio/constants';
+import { GlobalConstants, TipoIngresoConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { Ramo, RamoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/ramo.service';
 import { ActividadIndependiente, ActividadIndependienteService } from 'src/@sirio/domain/services/configuracion/persona-natural/actividad-independiente.service';
@@ -21,6 +22,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 export class InformacionLaboralFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
+  todayValue: moment.Moment;
   informacionLaboral: InformacionLaboral = {} as InformacionLaboral;
 
   public tipoingresoList = new BehaviorSubject<TipoIngreso[]>([]);
@@ -39,7 +41,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     private tipoDocumentoService: TipoDocumentoService,
     private actividadIndependienteService: ActividadIndependienteService,
     private ramoService: RamoService,
-
+    private calendarioService: CalendarioService,
 
     private paisService: PaisService,
 
@@ -55,6 +57,10 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
   ngOnInit() {
 
+    this.calendarioService.today().subscribe(data => {
+      this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+  });
+
     this.tipoIngresoService.actives().subscribe(data => {
       // console.log(data);
 
@@ -63,10 +69,10 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     })
 
     this.tipoDocumentoService.actives().subscribe(data => {
-      // console.log(data);
-
+      console.log(data);
+      
       this.tipodocumentoList.next(data);
-
+      this.cdr.detectChanges();
     })
 
     this.ramoService.actives().subscribe(data => {
@@ -139,7 +145,9 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       numero: new FormControl(this.informacionLaboral.numero || undefined),
       tomo: new FormControl(this.informacionLaboral.tomo || undefined),
       folio: new FormControl(this.informacionLaboral.folio || undefined),
-
+  
+      
+      tipoDocumento: new FormControl(this.informacionLaboral.tipoDocumento || undefined, [Validators.required]),
       identificacion: new FormControl(this.informacionLaboral.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : ''),
@@ -164,9 +172,19 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       return;
     }
     // verificar si es relacion de dependencia o negocio propopio
-    return this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA || this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO;
+    return this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA || this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO ;
   }
 
+  isOtrIng() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    // verificar si es otros ingresos
+    return this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS;
+  }
+
+  // || this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS
+  
   save() {
 
     console.log('mode ', this.mode);

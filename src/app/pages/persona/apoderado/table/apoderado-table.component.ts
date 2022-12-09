@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { MaterialRemesa } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Apoderado, ApoderadoService } from 'src/@sirio/domain/services/persona/apoderado/apoderado.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { ApoderadoFormPopupComponent } from '../popup/apoderado-form.popup.component';
@@ -19,6 +19,8 @@ import { ApoderadoFormPopupComponent } from '../popup/apoderado-form.popup.compo
 
 export class ApoderadoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
+  
+
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
@@ -29,6 +31,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
     protected dialog: MatDialog,
     protected router: Router,
     protected apoderadoService: ApoderadoService,
+    private calendarioService: CalendarioService,
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
@@ -44,6 +47,10 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
   }
 
   ngOnInit() {
+
+  
+
+  
     console.log('apoderado table');
     
     if(this.persona){
@@ -94,7 +101,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona}:data,'70%').afterClosed().subscribe(event=>{
       console.log(event);
       
         if(event){
