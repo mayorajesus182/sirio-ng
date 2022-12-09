@@ -70,8 +70,8 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
         name: 'Cupo Min.',
         color: 'rgba(126,86,134,.9)',
         data: [140, 90],
-        pointPadding: 0.4,
-        pointPlacement: -0.2
+        pointPadding: 0.1,
+        pointPlacement: -0.3
     }, {
         name: 'Cupo Max.',
         color: 'rgba(248,161,63,1)',
@@ -80,9 +80,8 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
             valuePrefix: 'Bs. ',
             valueSuffix: ' M'
         },
-        pointPadding: 0.3,
+        pointPadding: 0.5,
         pointPlacement: 0.2,
-        yAxis: 1
     }]
 
 

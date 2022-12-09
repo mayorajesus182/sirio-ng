@@ -104,13 +104,8 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
         yAxis: [{
           min: 0,
           title: {
-            text: 'Rango del Cupo [Min-MAx]'
+            text: 'Saldo vs Cupo [Min-MAx]'
           }
-        }, {
-          title: {
-            text: 'Saldos (mill)'
-          },
-          opposite: true
         }],
         legend: {
           shadow: false
