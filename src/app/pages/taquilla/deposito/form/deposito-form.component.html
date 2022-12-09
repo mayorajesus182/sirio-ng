@@ -18,7 +18,7 @@
                 
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
-                    <div fxLayout="column" *ngIf="loading | async">
+                    <div fxLayout="column" *ngIf="loading | async" >
                         <div fxLayout="column"  fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="300px">
 
                             <!--fxLayoutAlign="center" 
