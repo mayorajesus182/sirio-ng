@@ -55,9 +55,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
         if (id) {
             this.agenciaService.get(id).subscribe((agn: Agencia) => {
-
-                console.log('agencia  ', agn);
-                
                 this.agencia = agn;
                 this.agencia.id=id;
                 this.buildForm();

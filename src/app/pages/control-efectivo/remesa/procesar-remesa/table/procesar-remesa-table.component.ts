@@ -19,7 +19,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class ProcesarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'emisor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'emisor', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -52,7 +52,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
       if (!resp.dismiss) {
         this.remesaService.dispatch(data.element).subscribe(data => {
-          this.successResponse('La Remesa fue', 'Procesada', false);
+          this.successResponse('La Remesa', 'Procesada', false);
           this.loadList();
           return data;
       }, error => this.errorResponse(true));
@@ -61,15 +61,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
   }
   
   view(data: any) {
-    // this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
-    //   if (!resp.dismiss) {
-    //     this.remesaService.dispatch(data.element).subscribe(data => {
-    //       this.successResponse('La Remesa fue', 'Procesada', false);
-    //       this.loadList();
-    //       return data;
-    //   }, error => this.errorResponse(true));
-    //   }
-    // });
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
 }

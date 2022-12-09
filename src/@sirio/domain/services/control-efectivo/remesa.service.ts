@@ -4,6 +4,12 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
+export interface CompraRemesa {
+    moneda: string;
+    monto: number;
+    detalleEfectivo: any[];
+}
+
 export interface MaterialRemesa {
     material: string;
     nombre: string;
@@ -38,6 +44,8 @@ export interface Remesa {
     materiales: any[];
     detalleEfectivo: any[];
     responsables: string[];
+    detalleEfectivoEnviado: any[];
+    detalleEfectivoRecibido: any[];
 }
 
 @Injectable({
@@ -76,6 +84,10 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).page('/porrecibir/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
+    pagePorAprobar(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
+        return this.apiService.config(this.apiConfig).page('/poraprobar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
     detail(id: string): Observable<Remesa> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
@@ -90,9 +102,19 @@ export class RemesaService {
             .pipe(map(res => data));
     }
 
+    ingresoCompraCreate(data: CompraRemesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/ingreso/comprabcv/create`, data)
+            .pipe(map(res => data));
+    }
+
     dispatch(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)
             .pipe(map(res => data));
+    }
+
+    approve(id: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/approve/update`)
+            .pipe(map(res => id));
     }
 
     processCreate(data: Remesa): Observable<any> {

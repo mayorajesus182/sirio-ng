@@ -134,35 +134,43 @@ export class TableBaseComponent {
         this.dataSource.paramsOpts = paramsOpts;
         this.dataSource.loadData('', nameColumnSort, 'asc', 0, 15);
 
+        this.filter.subscribe(text=>{
+            if(text){
+                this.searchTerm = text;
+                this.refreshElementList();
+            }
+
+        });
+
         if (service.searchTerm) {
-            this.filter = service.searchTerm;
+            // this.filter = service.searchTerm;
 
-            service.searchTerm.asObservable().pipe(
-                debounceTime(150)).subscribe(term => {
-                    // console.log('data seach ', term);
-                    this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
-                    this.paginators.first.pageIndex = 0;
-                    // console.log('TERM 1', term);
+            // service.searchTerm.asObservable().pipe(
+            //     debounceTime(150)).subscribe(term => {
+                    
+            //         this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
+            //         this.paginators.first.pageIndex = 0;
+                    
 
-                    this.searchTerm = term;
-                    this.refreshElementList();
-                })
+            //         this.searchTerm = term;
+                    // this.refreshElementList();
+                // })
 
         } else {
 
 
-            service.onSearch().pipe(
-                debounceTime(150),
-                distinctUntilChanged(),
-                tap(term => {
-                    this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
-                    this.paginators.first.pageIndex = 0;
-                    // console.log('term ' + term);
-                    console.log('TERM 2', term);
-                    this.searchTerm = term;
-                    this.refreshElementList();
-                })
-            ).subscribe();
+            // service.onSearch().pipe(
+            //     debounceTime(150),
+            //     distinctUntilChanged(),
+            //     tap(term => {
+            //         this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
+            //         this.paginators.first.pageIndex = 0;
+            //         // console.log('term ' + term);
+            //         console.log('TERM 2', term);
+                    // this.searchTerm = term;
+                    // this.refreshElementList();
+            //     })
+            // ).subscribe();
         }
 
 

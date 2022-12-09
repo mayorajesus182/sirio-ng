@@ -19,7 +19,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class RecibirRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'receptor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'tipo', 'unidad', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -43,7 +43,7 @@ export class RecibirRemesaTableComponent extends TableBaseComponent implements O
   receive(data:any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
   }
-
+  
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }

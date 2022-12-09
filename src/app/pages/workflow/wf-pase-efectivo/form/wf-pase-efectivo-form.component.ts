@@ -131,14 +131,14 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     }
 
     resendTask() {
-        this.swalService.show('message.resendTask', this.rol.nombre, this.opt_swal).then((resp) => {
+        this.swalService.show('message.resendTask', '', this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.approved(data).subscribe(resp => {
                     this.workflowService.notify.next(true);
                     this.router.navigate(['/sirio/welcome']).then(data => {
-                        this.successResponse('La tarea', 'reenviada');
+                        this.successResponse('La Tarea', 'Reenviada', true);
                     });
                 });
             }
@@ -147,14 +147,14 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
     }
 
     overrideTask() {
-        this.swalService.show('message.overrideTask', this.rol.nombre, this.opt_swal).then((resp) => {
+        this.swalService.show('message.overrideTask', '', this.opt_swal).then((resp) => {
 
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.annulled(data).subscribe(resp => {
                     this.workflowService.notify.next(true);
                     this.router.navigate(['/sirio/welcome']).then(data => {
-                        this.successResponse('La tarea', 'anulada');
+                        this.successResponse('La Tarea', 'Anulada', true);
                     });
                 });
             }

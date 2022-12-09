@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['sendRemittances.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -8,14 +8,25 @@
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{'sendRemittances.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <span fxFlex></span>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+
+                        </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
+
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
@@ -100,7 +111,7 @@
 
                                 <!-- {{plomoCtrl.errors|json}} -->
 
-                                <mat-form-field fxFlex="25">
+                                <mat-form-field fxFlex="20"  appearance="standart" >
                                     <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
                                         [options]="{precision:2}" required readonly>

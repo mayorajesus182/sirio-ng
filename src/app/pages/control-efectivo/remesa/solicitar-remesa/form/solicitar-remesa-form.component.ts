@@ -33,9 +33,10 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public viajes = new BehaviorSubject<Viaje[]>([]);
-    cupo: number = 0;
+    cupo: CupoAgencia = {} as CupoAgencia;
     todayValue: moment.Moment;
     esTransportista: Boolean = false;
+    public bovedaPrincipal = GlobalConstants.BOVEDA_PRINCIPAL;
     public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
 
     constructor(
@@ -57,36 +58,38 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     // TODO: AGREGAR ETIQUETAS FALTANTES, ANALIZAR LOS ROLES DE LOS USUARIOS PARA LA PANTALLA
     ngOnInit() {
 
-       // let id = this.route.snapshot.params['id'];
+        // let id = this.route.snapshot.params['id'];
         this.isNew = true;
         this.loadingDataForm.next(true);
 
         this.rolService.getByUsuario().subscribe(rol => {
             this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
+            
+            // Se pregunta por la preferencia para setear la moneda del cono actual
+            this.preferenciaService.get().subscribe(data => {
+                this.preferencia = data;
 
-            // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
-            if (this.esTransportista) {
+                // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
+                if (this.esTransportista) {
 
-                this.monedaService.actives().subscribe(data => {
-                    this.monedas.next(data);
-                    this.cdr.detectChanges();
-                });
-            } else {
+                    this.monedaService.actives().subscribe(data => {
+                        this.monedas.next(data);
+                        this.cdr.detectChanges();
+                    });
+                } else {
 
-                this.transportistaService.allCentrosAcopio().subscribe(data => {
-                    this.transportistas.next(data);
-                });
-        
-                this.preferenciaService.get().subscribe(data => {
-                    this.preferencia = data;
-                });
-            }
+                    this.transportistaService.allCentrosAcopio().subscribe(data => {
+                        this.transportistas.next(data);
+                    });
+                }
 
 
-            this.buildForm(this.remesa);
-            this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
-            this.cdr.markForCheck();
+                this.buildForm(this.remesa);
+                this.loadingDataForm.next(false);
+                this.applyFieldsDirty();
+                this.cdr.markForCheck();
+
+            });
 
         });
 
@@ -96,7 +99,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     buildForm(remesa: Remesa) {
         this.itemForm = this.fb.group({
             receptor: new FormControl(remesa.receptor || undefined),
-            moneda: new FormControl(remesa.moneda || undefined, [Validators.required]),
+            moneda: new FormControl(remesa.moneda || this.preferencia.monedaConoActual, [Validators.required]),
             viaje: new FormControl(remesa.moneda || undefined),
             montoSolicitado: new FormControl(remesa.montoSolicitado || undefined, [Validators.required]),
         });
@@ -104,6 +107,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
 
         this.f.receptor.valueChanges.subscribe(value => {
             this.monedaService.forRemesasAll().subscribe(data => {
+                this.f.moneda.setValue(this.preferencia.monedaConoActual);
                 this.monedas.next(data);
                 this.cdr.detectChanges();
             });
@@ -111,7 +115,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
 
         this.f.moneda.valueChanges.subscribe(value => {
             this.cupoAgenciaService.getCupoByMoneda(value).subscribe(data => {
-                this.cupo = data;
+                this.cupo = data;               
                 this.cdr.detectChanges();
             });
 
@@ -141,8 +145,13 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
             return;
 
         this.updateData(this.remesa);
+        let message = '';
 
-        this.swalService.show('¿Desea Enviar la Solicitud?', '').then((resp) => {
+        if (this.cupo && this.remesa.montoSolicitado > this.cupo.maximo) {
+            message = 'Debido al Monto, su Solicitud Requiere la Aprobación del Gerente Regional';
+        }
+
+        this.swalService.show('¿Desea Enviar la Solicitud?', message).then((resp) => {
             if (!resp.dismiss) {
                 this.saveOrUpdate(this.remesaService, this.remesa, 'La Solicitud de Remesas', this.isNew);
             }

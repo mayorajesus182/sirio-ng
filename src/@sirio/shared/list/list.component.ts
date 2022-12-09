@@ -13,6 +13,7 @@ export class ListComponent implements AfterViewInit {
 
   @Input() name: string;
   @Input() placeholder: string;
+  @Input() tooltipStats: string=undefined;
   // @Input() columns: ListColumn[];
 
   @ViewChild('filter') filter: ElementRef;
@@ -27,7 +28,7 @@ export class ListComponent implements AfterViewInit {
     if (!this.hideHeader) {
       fromEvent(this.filter.nativeElement, 'keyup').pipe(
         distinctUntilChanged(),
-        debounceTime(250)
+        debounceTime(500)
       ).subscribe(() => {
         this.filterChange.emit(this.filter.nativeElement.value);
       });

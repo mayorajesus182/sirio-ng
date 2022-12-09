@@ -66,19 +66,18 @@
                                     <input matInput [value]="monedaAtm.nombre" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="25"  appearance="standart">
                                     <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }}
                                         {{f.movimientoEfectivo.value !== movimiento.ATM_BOVEDA ? '('+('global.availableBalance' | translate) : '' }}
                                         {{f.movimientoEfectivo.value !== movimiento.ATM_BOVEDA ? (saldoDisponible | number: '1.2')+')' : '' }}</mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
-                                        [options]="{precision:2}" required readonly>
+                                        [options]="{precision:2}" readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.balance">{{'error.insufficientBalance' | translate}}</mat-error>
                                     <mat-error *ngIf="f.monto.errors?.disponible">{{'error.insufficientBalance' | translate}}</mat-error>
-                                    <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                    <mat-error *ngIf=" f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                                    <!-- <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error> -->
+                                    <!-- <mat-error *ngIf=" f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error> -->
                                 </mat-form-field>
-
                             </div>
                         </form>
 

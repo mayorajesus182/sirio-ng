@@ -140,22 +140,27 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                 difference: true
             });
 
-            this.validarMonto(event);
+            // this.validarMonto(event);
+            if (event && (event.montoTotal > 0)) {
+                this.f.monto.setValue(event.montoTotal);
+            }
             this.f.monto.markAsDirty();
 
         } else {
-            
-            this.validarMonto(event);
+            if(event){
+
+                this.f.monto.setValue(this.f.efectivo.value);
+            }
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
         }
     }
 
-    validarMonto(event) {
-        if (event && (event.montoTotal > 0)) {
-            this.f.monto.setValue(event.montoTotal);
-        }
-    }
+    // validarMonto(event) {        
+    //     if (event && (event.montoTotal > 0)) {
+    //         this.f.monto.setValue(this.f.efectivo.value);
+    //     }
+    // }
 
     updateCashDetail(event) {
         if (!event) {

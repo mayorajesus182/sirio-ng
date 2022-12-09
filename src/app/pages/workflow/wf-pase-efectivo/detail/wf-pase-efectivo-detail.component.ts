@@ -80,14 +80,14 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
 
 
   approveTask() {
-    this.swalService.show('message.approveTask', this.rol.nombre).then((resp) => {
+    this.swalService.show('message.approveTask', '').then((resp) => {
 
       if (resp.value) {
         let data = { id: this.workflow, observacion: 'Conforme' };
         this.workflowService.approved(data).subscribe(resp => {
           this.workflowService.notify.next(true);
           this.router.navigate(['/sirio/welcome']).then(data => {
-            this.successResponse('La tarea', 'aprobada');
+            this.successResponse('La Tarea', 'Aprobada', true);
           });
         });
       }
@@ -96,7 +96,7 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
   }
 
   rollbackTask() {
-    this.swalService.show('message.returnTask', this.rol.nombre, this.opt_swal).then((resp) => {
+    this.swalService.show('message.returnTask', '', this.opt_swal).then((resp) => {
 
       if (resp.value) {
 
@@ -104,7 +104,7 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
         this.workflowService.rollback(data).subscribe(resp => {
           this.workflowService.notify.next(true);
           this.router.navigate(['/sirio/welcome']).then(data => {
-            this.successResponse('La tarea', 'devuelta');
+            this.successResponse('La Tarea', 'Devuelta', true);
           });
         });
       }

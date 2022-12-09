@@ -16,6 +16,7 @@ import { EmpleadoTransporteTableComponent } from './empleados/table/empleado-tra
 import { TransportistaFormComponent } from './form/transportista-form.component';
 import { MaterialTransporteTableComponent } from './materiales/table/material-transporte-table.component';
 import { TransportistaTableComponent } from './table/transportista-table.component';
+import { TerminosTransporteFormComponent } from './terminos/form/terminos-transporte-form.component';
 import { TransportistaRoutingModule } from './transportista-routing.module';
 import { ViajeTransporteTableComponent } from './viajes/table/viaje-transporte-table.component';
 
@@ -47,6 +48,7 @@ import { ViajeTransporteTableComponent } from './viajes/table/viaje-transporte-t
         AvaluoTransporteTableComponent,
         MaterialTransporteTableComponent,
         ViajeTransporteTableComponent,
+        TerminosTransporteFormComponent,
     ],
     exports: [],
     entryComponents:[EmpleadoTransportePopupComponent]

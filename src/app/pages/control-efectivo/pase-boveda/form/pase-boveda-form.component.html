@@ -53,9 +53,9 @@
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="25">
+                                <mat-form-field fxFlex="25"  appearance="standart"  >
                                     <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.availableBalance' |
-                                        translate }} {{saldoDisponible}}) </mat-label>
+                                        translate }} {{saldoDisponible | number: '1.2'}}) </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>

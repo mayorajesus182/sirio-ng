@@ -35,8 +35,7 @@ export class NumAccountValidator implements Validator {
             return null;
         }
 
-        var cuenta = control.value.split(' ').join('');
-
+        var cuenta = control.value.split(' ').join('');        
         // console.log('procedencia', procendecia);
         // if (!procendecia || procendecia.length == 0) {
         //     return { notbank: 'Debe seleccionar primero el banco' };

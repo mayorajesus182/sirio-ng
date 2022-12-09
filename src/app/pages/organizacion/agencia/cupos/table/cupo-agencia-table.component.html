@@ -1,18 +1,18 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['global.agencyQuotas']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agencyQuota.form']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list-simple [name]="'agencyQuotas.table' | translate: {default: 'global.notfound'}" placeholder="agencyQuotas.search"
+        <sirio-list-simple [name]="'agencyQuota.table' | translate: {default: 'global.notfound'}" placeholder="agencyQuota.search"
             (filterChange)="onFilterChange($event)">
 
             <div fxLayout="column" class="margin-h margin-top-md">
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                     <mat-form-field fxFlex="auto">
-                        <mat-label>{{'agencyQuotas.agency' | translate: {default: 'global.agency'} | translate }}</mat-label>
-                        <input matInput [value]="agenciaId+' - '+agencia" readonly>
+                        <mat-label>{{'agencyQuota.agency' | translate: {default: 'global.agency'} | translate }}</mat-label>
+                        <input matInput [value]="agenciaId + ' - ' +agencia" readonly>
                     </mat-form-field>
 
                 </div>
@@ -23,58 +23,59 @@
                     [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
                     [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="cupos | async">
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-                    </ngx-datatable-column>
-
-                    <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
-                        <ng-template ngx-datatable-header-template>
-                            <span>{{'agencyQuotas.code' | translate: {default: 'global.code'} |
-                                translate}}</span>
-                        </ng-template>
-                        <ng-template let-row="row" ngx-datatable-cell-template>
-                            {{ row?.moneda }}
-                        </ng-template>
-                    </ngx-datatable-column>
-
                     <ngx-datatable-column [flexGrow]="2" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'agencyQuotas.name' | translate: {default: 'global.name'} |
+                            <span>{{'agencyQuota.coin' | translate: {default: 'global.coin'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <span style="white-space: break-spaces;">{{ row?.nombreMoneda }}</span>
+                            <div class="text-right">{{ row?.monedaNombre }}</div>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'agencyQuotas.amount' | translate: {default: 'global.amount'} |
-                                translate}}</span>
+                            <span>{{'agencyQuota.maximun' | translate: {default: 'global.maximum'} | translate}}</span>
                         </ng-template>
-                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                            <input class="mat-input" [(ngModel)]="row.monto" autofocus matInput type="text" currencyMask [options]="{precision:2}" />
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div class="text-right">{{ row?.maximo }}</div>
                         </ng-template>
                     </ngx-datatable-column>
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'agencyQuota.minimum' | translate: {default: 'global.minimum'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div class="text-right">{{ row?.minimo }}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'agencyQuota.excess' | translate: {default: 'global.excess'} | translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div class="text-right">{{ row?.excedente }}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column name="" [flexGrow]="0.5">
+                        <ng-template let-row="row" ngx-datatable-cell-template class="margin-v">
+                            <button mat-icon-button mat-sm-button color="primary" (click)="openPopup(row)" matTooltip="Editar">
+                                <mat-icon>edit</mat-icon>
+                            </button> &nbsp;&nbsp;
+                            <button mat-icon-button mat-sm-button [color]="row.activo?'muted':'primary'" (click)="delete(row)" matTooltip="Eliminar">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-template>
                     </ngx-datatable-column>
                 </ngx-datatable>
-
-
-                <div fxLayout="row" fxLayout="column">
-                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                        <button color="primary" (click)="update()" mat-raised-button>
-                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
-                            {{'button.save' | translate: {default:'global.notfound'} | translate }}
-                        </button>
-                    </div>
-                </div>
-
             </div>
 
-
-
-
         </sirio-list-simple>
+        <button (click)="openPopup(undefined)" class="btn-add" mat-fab type="button" matTooltip="{{'action.add' | translate}}">
+            <mat-icon>add</mat-icon>
+        </button>
     </sirio-page-layout-content>
 </sirio-page-layout>
