@@ -19,7 +19,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class EnviarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'receptor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'receptor', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -52,10 +52,6 @@ export class EnviarRemesaTableComponent extends TableBaseComponent implements On
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
-  // dispatch(data: any) {
-  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
-  // }
-
   dispatch(data: any) {
     this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
       if (!resp.dismiss) {
@@ -66,9 +62,6 @@ export class EnviarRemesaTableComponent extends TableBaseComponent implements On
         }, error => this.errorResponse(true));
       }
     });
-
-
-    // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
 

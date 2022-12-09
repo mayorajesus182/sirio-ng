@@ -19,7 +19,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class AprobarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'emisor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'emisor', 'receptor', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -57,6 +57,7 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
   }
   
   view(data: any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
 }
