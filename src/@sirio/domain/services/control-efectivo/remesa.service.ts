@@ -17,6 +17,15 @@ export interface MaterialRemesa {
     costo: number;
 }
 
+export interface CantidadRemesa {
+    id:string;    
+    porAprobar:number;
+    solicitadas:number;
+    porEnviar:number;    
+    porRecibir:number;
+    porProcesar:number;
+}
+
 
 export interface Remesa {
     id: string;
@@ -86,6 +95,10 @@ export class RemesaService {
 
     pagePorAprobar(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
         return this.apiService.config(this.apiConfig).page('/poraprobar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
+    cantidad(): Observable<CantidadRemesa> {
+        return this.apiService.config(this.apiConfig).get('/cantidad');
     }
 
     detail(id: string): Observable<Remesa> {

@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators';
 import { SidenavService } from '../sidenav.service';
 import { SidenavItem } from './sidenav-item.interface';
 import isFunction from 'lodash-es/isFunction';
+import { CantidadRemesa } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
+import { PermisoRemeseConstants } from 'src/@sirio/constants';
 
 @Component({
   selector: 'sirio-sidenav-item',
@@ -27,6 +29,7 @@ export class SidenavItemComponent implements OnInit {
 
   @Input('item') item: SidenavItem;
   @Input('level') level: number;
+  @Input('badge') badge: CantidadRemesa;
 
   isCollapsed$ = this.sidenavService.collapsed$;
   dropdownOpen$: Observable<boolean>;
@@ -42,6 +45,40 @@ export class SidenavItemComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.item) {
+      this.item.badgeColor = '#00acc1'
+      console.log('item id', this.item.id);
+      switch (this.item.id) {
+        case PermisoRemeseConstants.APROBAR:
+          this.item.badge = this.badge.porAprobar;
+          break;
+        case PermisoRemeseConstants.PROCESAR_1:
+          this.item.badge = this.badge.porAprobar;
+          break;
+        case PermisoRemeseConstants.PROCESAR_2:
+          this.item.badge = this.badge.porAprobar;
+          break;
+        case PermisoRemeseConstants.ENVIAR:
+          this.item.badge = this.badge.porEnviar;
+          break;
+        case PermisoRemeseConstants.RECIBIR:
+          this.item.badge = this.badge.porRecibir;
+          break;
+        case PermisoRemeseConstants.SOLICITAR:
+          this.item.badge = this.badge.solicitadas;
+          break;
+
+        default:
+          break;
+      }
+
+      if (this.item.badge) {
+
+        console.log('item badge', this.item);
+      }
+
+
+    }
   }
 
   isFunction(routeOrFunction: string[] | Function) {
@@ -52,7 +89,7 @@ export class SidenavItemComponent implements OnInit {
     // console.log('handle click navigation sidenav');
     if (this.item.subpermisos && this.item.subpermisos.length > 0) {
       this.sidenavService.toggleItemOpen(this.item);
-    } else if (typeof this.item.view === 'string' ) {
+    } else if (typeof this.item.view === 'string') {
       this.router.navigate([this.item.view]);
     } else {
       throw Error('Could not determine what to do, Sidenav-Item has no routeOrFunction set AND does not contain any subitems');

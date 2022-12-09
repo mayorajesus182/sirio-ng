@@ -1,6 +1,7 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, HostBinding, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { CantidadRemesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { ThemeService } from '../../../@sirio/services/theme.service';
 import { SidenavItem } from './sidenav-item/sidenav-item.interface';
@@ -29,9 +30,12 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
   officeName: string;
   logonedAt: any;
 
+  badge:CantidadRemesa=undefined;
+
   constructor(private router: Router,
     private sessionService: SessionService,
     private sidenavService: SidenavService,
+    private remesaService: RemesaService,
     private themeService: ThemeService,
     private cdref : ChangeDetectorRef) {
   }
@@ -52,6 +56,13 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.officeName = data.organization;
       this.fullName = data.fullName.split(" ")[0];
       this.logonedAt = data.prevLogin;
+
+      this.remesaService.cantidad().subscribe(data=>{
+        console.log(data);
+        
+        this.badge=data;
+      })
+
     }
 
 
