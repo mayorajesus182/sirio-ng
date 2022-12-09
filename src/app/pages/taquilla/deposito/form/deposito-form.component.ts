@@ -78,7 +78,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     queryResult(data: any) {
         // this.selected = 0;
-        this.esEfectivo = true;
+        this.resetBusqueda();
         if (data) {
             if (!data.id && !data.numper) {
                 this.loaded$.next(false);
@@ -103,17 +103,22 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    // reset() {
-    // this.selected = 0;
-    // }
+    resetBusqueda() {
+        this.esEfectivo = true;
+        this.esCheques = false;
+        this.esMixto = false;
+    }
+
+    resetVoucher(){
+        this.voucherForm?this.voucherForm.reset({}):'';
+        this.voucherForm? this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT): '';
+    }
    
     esEfectivoEvent(event) {
         if (event.checked) {
             this.esCheques = false;
             this.esMixto = false;
-            this.voucherForm.reset({});
-            this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
-
+            this.resetVoucher();
         }
     }
 
@@ -121,8 +126,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         if (event.checked) {
             this.esEfectivo = false;
             this.esMixto = false;
-            this.voucherForm.reset({});
-            this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+            this.resetVoucher();
         }
     }
 
@@ -130,8 +134,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         if (event.checked) {
             this.esEfectivo = false;
             this.esCheques = false;
-            this.voucherForm.reset({});
-            this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+            this.resetVoucher();
         }
     }
 

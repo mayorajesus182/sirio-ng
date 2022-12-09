@@ -42,7 +42,7 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
     console.log('moneda curr ', this.moneda_curr);
 
     this.monedas.subscribe(list => {
-      console.log(list);
+      console.log('monedas observable',list);
 
       this.currentMoneda = this.moneda_curr || list[0];
       this.availableCoins = list;
@@ -85,6 +85,7 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
       // })
 
       let labels = dataset.labels;
+      const montoTotal= dataset.series[2].data.reduce((a, b) => a + b);
 
 
       this.barChart = {
@@ -93,7 +94,8 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
           type: 'column',
         },
         title: {
-          text: this.currentMoneda.nombre,
+          // text: this.currentMoneda.nombre,
+          text: 'SALDO DE <b>' + ` ${formatNumber(montoTotal, 'es', '1.2')} </b> EN `+this.currentMoneda.nombre ,
         },
         xAxis: {
           categories: labels,
@@ -104,13 +106,8 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
         yAxis: [{
           min: 0,
           title: {
-            text: 'Rango del Cupo [Min-MAx]'
+            text: 'Saldo vs Cupo [Min-MAx]'
           }
-        }, {
-          title: {
-            text: 'Saldos (mill)'
-          },
-          opposite: true
         }],
         legend: {
           shadow: false
@@ -124,20 +121,29 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
 
         plotOptions: {
           column: {
-              grouping: false,
-              shadow: false,
-              borderWidth: 0
+            grouping: false,
+            shadow: false,
+            borderWidth: 0
+          },
+          series: {
+            dataLabels: {
+              enabled: true,
+              formatter: function () {
+                return this.point.y ? formatNumber(this.point.y, 'es', '1.2') : '';
+              }
+
+            }
           }
-      },
+        },
         // plotOptions: {
         //   series: {
-          
+
         //     dataLabels: {
         //       enabled: true,
         //       formatter: function () {
         //         return this.point.y ? formatNumber(this.point.y, 'es', '1.2') : '';
         //       }
-          
+
         //     }
         //   }
         // },

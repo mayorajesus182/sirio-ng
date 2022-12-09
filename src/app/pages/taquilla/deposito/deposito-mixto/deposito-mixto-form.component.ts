@@ -146,7 +146,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(this.cheque.montoCheque),
             // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            fechaEmision: new FormControl(this.cheque.fechaEmision),
+            fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
             motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
         });
 
@@ -156,8 +156,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
                     this.cf.serial.setErrors({ 
                         uniqueSerial: true 
                     });
-                } else {
-                    this.cf.serial.setErrors(null)
                 }
             }
         });
@@ -168,8 +166,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
                     this.cf.numeroCuentaCheque.setErrors({ 
                         uniqueNumAccount: true 
                     });
-                } else {
-                    this.cf.numeroCuentaCheque.setErrors(null)
                 }
             }
         });
@@ -205,7 +201,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.chequeList.push(cheque);
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
-        this.chequeForm.reset({});
+        this.chequeForm.reset({}); 
         this.refresTotalCheque();
         this.cdr.detectChanges();
     }
@@ -247,6 +243,12 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.f.cantidadOtros.setValue(this.contarChequeOtros);
         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+    }
+
+    // Mostrar el Icono de color Rojo, para diferenciar los 
+    // Cheques Propios de Cheques Otros Bancos
+    esChequePropio(row : Cheque){
+        return row? row.numeroCuentaCheque.startsWith(this.sessionService.getUser().organizationId ) : false;
     }
 
     errorDiferenciaChequesOtros(val: number) {
@@ -364,6 +366,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
     reset() {
         this.itemForm.reset({});
+        this.chequeList = [];
+        this.cheques.next([]);
     }
     
 }

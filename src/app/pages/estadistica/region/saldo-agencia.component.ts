@@ -32,7 +32,7 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
     this.saldoRegionalService.datachart().subscribe(result => {
 
       console.log(result);
-      
+
       let datasets_aument = {};
       let datasets_desmin = {};
       let datasets_final = {};
@@ -40,6 +40,7 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
       let series = [];
 
       this.monedas = result.data.monedas;
+      const currentMoneda=this.monedas[0];
 
       this.coinAvailables.next(this.monedas);
 
@@ -60,33 +61,37 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
 
       // REGI2
 
-      datasets.series= [{
-        name: 'Saldo',
-        color: 'rgba(165,170,217,1)',
-        data: [150, 73],
-        pointPadding: 0.3,
-        pointPlacement: -0.2
-    }, {
-        name: 'Cupo Min.',
-        color: 'rgba(126,86,134,.9)',
-        data: [140, 90],
-        pointPadding: 0.4,
-        pointPlacement: -0.2
-    }, {
-        name: 'Cupo Max.',
-        color: 'rgba(248,161,63,1)',
-        data: [183.6, 178.8],
-        tooltip: {
-            valuePrefix: 'Bs. ',
-            valueSuffix: ' M'
+      datasets.series = [
+        {
+         name: 'Cupo Max.',
+         color: '#90ed7d',
+         data: result.data[currentMoneda.siglas].maximos,
+         
+         pointPadding: 0.38,
+         pointPlacement: -0.01,
+       },
+        {
+          name: 'Cupo Min.',
+          color: '#f4155c',
+          data: result.data[currentMoneda.siglas].minimos,
+          pointPadding: 0.3,
+          pointPlacement: -0.01
         },
-        pointPadding: 0.3,
-        pointPlacement: 0.2,
-        yAxis: 1
-    }]
+        {
+          name: 'Saldo',
+          color: '#28036a',
+          data: result.data[currentMoneda.siglas].serie,
+          pointPadding: 0.45,
+          pointPlacement: -0.01,
+          tooltip: {
+            valuePrefix: 'Bs. ',
+            valueSuffix: ''
+          },
+        }
+      ]
 
 
-    datasets.labels = result.data.labels;
+      datasets.labels = result.data.labels;
 
       // datasets.series = [
       //   {
