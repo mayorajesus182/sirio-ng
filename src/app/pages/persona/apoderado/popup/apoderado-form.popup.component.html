@@ -65,7 +65,7 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
     
         <mat-form-field fxFlex="33">
-            <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
+            <mat-label>{{'Fecha de Nacimiento' | translate: {default: 'Fecha de Nacimiento'} |
                 translate }}</mat-label>
             <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
                 formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
@@ -177,10 +177,10 @@
           <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
               translate }}</mat-label>
           <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha"
-              formControlName="fecha" [matDatepicker]="fechaPicker" required>
+              formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue"  required>
           <mat-datepicker-toggle matSuffix [for]="fechaPicker">
           </mat-datepicker-toggle>
-          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
+          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
               Fecha Invalida
           </mat-error>
       </mat-form-field>

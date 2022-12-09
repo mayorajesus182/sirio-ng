@@ -111,11 +111,9 @@
       </mat-form-field>
 
       <div fxFlex="20" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-
         <mat-form-field fxFlex="100">
           <mat-label>{{'Fecha Ingreso'}}</mat-label>
-          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
-            [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
+          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue" [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
           <mat-datepicker-toggle matSuffix [for]="fechaPicker">
           </mat-datepicker-toggle>
           <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
@@ -123,22 +121,33 @@
           </mat-error>
         </mat-form-field>
         <mat-datepicker #fechaPicker></mat-datepicker>
-
       </div>
 
       <div fxFlex="20" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
-
         <mat-form-field fxFlex="100">
           <mat-label>{{'Fecha de constitución'}}</mat-label>
-          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
-            [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
           <mat-datepicker-toggle matSuffix [for]="fechaPicker">
           </mat-datepicker-toggle>
-          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
+          <!-- <mat-error *ngIf="f.fecha.errors?.matDatepickerParse"> -->
+          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fecha.errors?.matDatepickerMax">
             Fecha Invalida
           </mat-error>
         </mat-form-field>
-        <mat-datepicker #fechaPicker></mat-datepicker>
+      <mat-datepicker #fechaPicker></mat-datepicker>
+<!-- 
+        <mat-form-field fxFlex="20">
+          <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
+              translate }}</mat-label>
+          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento" formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
+          <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
+          </mat-datepicker-toggle>
+          <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
+              Fecha Invalida
+          </mat-error>
+      </mat-form-field>
+      <mat-datepicker #fechaNacimientoPicker></mat-datepicker> -->
+      
 
       </div>
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { ReferenciaBancaria } from 'src/@sirio/domain/services/persona/referencia-bancaria/referencia-bancaria.service';
 import { Telefono, TelefonoService } from 'src/@sirio/domain/services/persona/telefono/telefono.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { TelefonoFormPopupComponent } from '../popup/telefono-form.popup.component';
@@ -23,6 +24,9 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   telefonoList:ReplaySubject<Telefono[]> = new ReplaySubject<Telefono[]>();
 
+
+  telefonos:string[]=[];
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -35,6 +39,9 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
 
   private loadList(){
     this.telefonoService.allByPersonaId(this.persona).subscribe((data) => {
+
+      this.telefonos= this.telefonos.concat(data.map(t=>t.numero));
+     console.log(this.telefonos);
             
       this.telefonoList.next(data.slice());
       this.propagar.emit(data.length);
@@ -99,8 +106,14 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
     console.log(data);
     if(data){
       data.persona=this.persona;
+      
     }    
-    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona}:data,'40%').afterClosed().subscribe(event=>{
+    // this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,}:data,'40%').afterClosed().subscribe(event=>{
+
+    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos}:{data,telefonos:this.telefonos},'40%').afterClosed().subscribe(event=>{
+ // this.showFormPopup(ReferenciaBaPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:data,'40%').afterClosed().subscribe(event=>{
+      
+      
       console.log(event);
       
         if(event){

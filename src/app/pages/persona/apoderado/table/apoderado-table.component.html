@@ -39,14 +39,24 @@
         </ng-template>
     </ngx-datatable-column> 
 
+
     <ngx-datatable-column [flexGrow]="0.50" [sortable]="true">
         <ng-template ngx-datatable-header-template>
             <span>¿Es Apoderado? </span>
         </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" >
             {{row.esApoderado ? 'SI' : 'NO'}}
         </ng-template>
     </ngx-datatable-column> 
+
+    <!-- <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+        <ng-template ngx-datatable-header-template>
+            <span>Número de Documento</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+            <div class="text-center" [innerHTML]="row.identificacion"></div>
+        </ng-template>
+    </ngx-datatable-column> -->
 
 
     <!-- Update -->

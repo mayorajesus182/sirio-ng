@@ -23,6 +23,7 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   referenciaBancariaList:ReplaySubject<ReferenciaBancaria[]> = new ReplaySubject<ReferenciaBancaria[]>();
+  
   referencias:ReferenciaBancaria[]=[];
 
   constructor(

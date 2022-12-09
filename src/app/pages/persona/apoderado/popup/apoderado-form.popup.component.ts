@@ -3,7 +3,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants } from 'src/@sirio/constants/global.constants';
+import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Apoderado, ApoderadoService } from 'src/@sirio/domain/services/persona/apoderado/apoderado.service';
@@ -17,8 +19,12 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 export class ApoderadoFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
+  todayValue: moment.Moment;
+
+  [x: string]: any;
+
   apoderado: Apoderado = {} as Apoderado;
-  
+    
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   paises = new BehaviorSubject<Pais[]>([]);
 
@@ -26,7 +32,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     protected injector: Injector,
     dialogRef: MatDialogRef<ApoderadoFormPopupComponent>,
     private apoderadoService: ApoderadoService,
-
+    private calendarioService: CalendarioService,
     private tipoDocumentoService: TipoDocumentoService,
     private paisService: PaisService,
  
@@ -41,6 +47,10 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   }
 
   ngOnInit() {
+
+    this.calendarioService.today().subscribe(data => {
+      this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+  });
 
 
     this.tipoDocumentoService.actives().subscribe(data => {

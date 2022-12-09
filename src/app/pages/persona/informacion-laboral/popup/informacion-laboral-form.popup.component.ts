@@ -3,8 +3,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
-import { TipoIngresoConstants } from 'src/@sirio/constants';
+import { GlobalConstants, TipoIngresoConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { Ramo, RamoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/ramo.service';
 import { ActividadIndependiente, ActividadIndependienteService } from 'src/@sirio/domain/services/configuracion/persona-natural/actividad-independiente.service';
@@ -21,6 +22,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 export class InformacionLaboralFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
+  todayValue: moment.Moment;
   informacionLaboral: InformacionLaboral = {} as InformacionLaboral;
 
   public tipoingresoList = new BehaviorSubject<TipoIngreso[]>([]);
@@ -39,7 +41,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     private tipoDocumentoService: TipoDocumentoService,
     private actividadIndependienteService: ActividadIndependienteService,
     private ramoService: RamoService,
-
+    private calendarioService: CalendarioService,
 
     private paisService: PaisService,
 
@@ -54,6 +56,10 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
   }
 
   ngOnInit() {
+
+    this.calendarioService.today().subscribe(data => {
+      this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+  });
 
     this.tipoIngresoService.actives().subscribe(data => {
       // console.log(data);

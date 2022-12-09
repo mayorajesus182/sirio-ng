@@ -59,7 +59,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.road' | translate: {default: 'global.road'} | translate" formControlName="via"
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.road' | translate: {default: 'global.road'} | translate" formControlName="via"
         [required]="true" [elements]="vias.asObservable()" [attributeName]="'nombre'" [errors]="f.via?.errors">
       </sirio-select-search>
 
@@ -76,7 +76,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.coreTypeName' | translate: {default: 'global.coreTypeName'} | translate" 
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.coreTypeName' | translate: {default: 'global.coreTypeName'} | translate" 
         formControlName="nucleo"
         [required]="true" [elements]="nucleos.asObservable()" [attributeName]="'nombre'" [errors]="f.nucleo?.errors">
       </sirio-select-search>
@@ -92,7 +92,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.construction' | translate: {default: 'global.construction'} | translate"
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.construction' | translate: {default: 'global.construction'} | translate"
         formControlName="construccion" [required]="true" [elements]="construcciones.asObservable()" [attributeName]="'nombre'"
         [errors]="f.construccion?.errors">
       </sirio-select-search>

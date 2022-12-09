@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
@@ -12,7 +12,8 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 @Component({
   selector: 'sirio-telefono-form.popup',
   templateUrl: './telefono-form.popup.component.html',
-  styleUrls: ['./telefono-form.popup.component.scss']
+  styleUrls: ['./telefono-form.popup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class TelefonoFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
@@ -23,6 +24,8 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
   public telefonicaList = new BehaviorSubject<TipoTelefono[]>([]);
   public claseTelefonoList = new BehaviorSubject<ClaseTelefono[]>([]);
   
+  nroTelefonos=[];
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -58,9 +61,16 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       this.cdr.detectChanges();
     })
     
+    console.log('nro telefono 1',this.defaults.payload);
+
+    this.nroTelefonos = this.defaults.payload.telefonos;
+    
+    console.log('nro telefono 2',this.nroTelefonos);
+
+
     this.loadingDataForm.next(true);
-    if (this.defaults.payload.id) {
-      this.telefonoService.get(this.defaults.payload.id).subscribe(data => {
+    if (this.defaults.payload.data) {
+      this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
         this.mode = 'global.edit';
         this.telefono = data;
         this.buildForm();
@@ -81,9 +91,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       tipoTelefono: new FormControl(this.telefono.tipoTelefono || undefined, [Validators.required]),
       
       claseTelefono: new FormControl(this.telefono.claseTelefono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      
-      // prefijo: new FormControl(this.telefono.prefijo || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-     
+   
       numero: new FormControl(this.telefono.numero || '', [Validators.required]),
 
       principal: new FormControl(this.telefono.principal===1?true:false) 
@@ -102,9 +110,36 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       }
     })
 
+    this.f.numero.valueChanges.subscribe(val => {
+      if (val) {
+        if (!this.validateNumeroTelefono(this.f.numero ? this.f.numero.value : undefined)) {
+          this.f.numero.setErrors({ exists: true });
+          this.f.numero.markAsDirty();
+          this.cdr.detectChanges();
+        }
+        //  else {
+        //   this.f.numero.setErrors(null)
+        // }
+      }
+    });
+
 
     this.cdr.detectChanges();
   }
+
+  
+
+  validateNumeroTelefono(numero: string) {
+    if (!numero) {
+      return true;
+    }
+    console.log(numero);
+    
+   
+    return this.nroTelefonos.find(num => num === numero) == undefined;
+  }
+
+
 
   save() {
 

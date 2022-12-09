@@ -17,22 +17,12 @@
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      
-
-      <!-- <sirio-select-simple fxFlex="50" [label]="'pepType.pepType' | translate: {default: 'global.pepType'} | translate"
-        formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
-      </sirio-select-simple> -->
 
       <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Relación'" [readonly]="!isNew"
           formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'"
           [errors]="f.tipoPep?.errors">
       </sirio-select-search>
-
-      <!-- <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Relación'" formControlName="tipoPep" [required]="true"
-        [elements]="tipoPep.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoPep?.errors">
-      </sirio-select-search> -->
-
-      
+ 
       <!-- TODO: PENDIENTE IN18 -->
       <mat-form-field fxFlex="auto">
           <mat-label>{{'Nombre y Apellido del Relacionado: ' | translate: {default:
@@ -48,16 +38,18 @@
 
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO"></div> -->
 
-        <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
+    
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value==Pep.CLIENTE">
+
+      <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
         [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
       </sirio-select-search>
 
-
       <mat-form-field fxFlex="50">
-          <mat-label>{{'Identificación: ' | translate: {default:
-              'Identificación'} | translate }} </mat-label>
+          <mat-label>{{'Número  Documento: ' | translate: {default:
+              'Número  Documento'} | translate }} </mat-label>
           <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
               uppercase required>
           <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
@@ -67,13 +59,9 @@
           </mat-error>
       </mat-form-field>
 
-
     </div>
 
-
-    
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
 
       <mat-form-field fxFlex="100">
           <mat-label>{{'Nombre del ente adscripción: ' | translate: {default:
@@ -87,12 +75,10 @@
           </mat-error>
       </mat-form-field>
 
-
     </div>
 
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
 
       <mat-form-field fxFlex="50">
           <mat-label>{{'Cargo que desempeña: ' | translate: {default:
