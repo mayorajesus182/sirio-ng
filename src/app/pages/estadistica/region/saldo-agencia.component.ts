@@ -63,18 +63,19 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
 
       datasets.series = [
         {
+         name: 'Cupo Max.',
+         color: '#90ed7d',
+         data: result.data[currentMoneda.siglas].maximos,
+         
+         pointPadding: 0.38,
+         pointPlacement: -0.01,
+       },
+        {
           name: 'Cupo Min.',
           color: '#f4155c',
           data: result.data[currentMoneda.siglas].minimos,
           pointPadding: 0.3,
           pointPlacement: -0.01
-        }, {
-          name: 'Cupo Max.',
-          color: '#90ed7d',
-          data: result.data[currentMoneda.siglas].maximos,
-          
-          pointPadding: 0.38,
-          pointPlacement: -0.01,
         },
         {
           name: 'Saldo',
