@@ -35,7 +35,7 @@ export interface Remesa {
     cajasBolsas: string;
     plomos: string;
     nombreMoneda: string;
-    fechaSolicitud: any;   
+    fechaSolicitud: any;
     fechaEnvio: any;
     fechaRecibo: any;
     estatusSolicitud: string;
@@ -49,7 +49,7 @@ export interface Remesa {
 }
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class RemesaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -57,7 +57,7 @@ export class RemesaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/remesa'};
+        this.apiConfig = { name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/remesa' };
     }
 
     get(id: number): Observable<Remesa> {
@@ -109,6 +109,11 @@ export class RemesaService {
 
     dispatch(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)
+            .pipe(map(res => data));
+    }
+
+    annular(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/override`, data)
             .pipe(map(res => data));
     }
 

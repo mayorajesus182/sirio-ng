@@ -1,14 +1,11 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { MaterialTransporte, MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
 import { TerminoTransporte, TerminoTransporteService } from 'src/@sirio/domain/services/transporte/terminos/termino-transporte.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
 
@@ -66,21 +63,12 @@ export class TerminosTransporteFormComponent extends FormBaseComponent implement
     this.loadingDataForm.next(false);
   }
 
-
-  // buildForm() {
-  //   this.itemForm = this.fb.group({
-  //     condicion: new FormControl(this.terminoTransporte.condicion || '', [Validators.required]),
-  //   });
-
-  // }
-
   save() {
 
     if (this.condicion == '' || this.condicion == null)
       return;
 
     this.terminoTransporte.condicion = this.condicion;
-    console.log(' this.condicion    ', this.terminoTransporte);
 
     if (this.isNew) {
 

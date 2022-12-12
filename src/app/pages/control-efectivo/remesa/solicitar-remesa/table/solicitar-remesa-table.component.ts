@@ -31,8 +31,12 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
     super(undefined, injector);
   }
 
+  loadList() {
+    this.init(this.remesaService, 'remesa_id', 'pageSolicitudes');   
+  }
+
   ngOnInit() {
-      this.init(this.remesaService, 'remesa_id', 'pageSolicitudes');      
+    this.loadList();   
   }
 
   ngAfterViewInit() {
@@ -43,25 +47,33 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  process(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
+  // process(data:any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
+  // }
+
+  // dispatch(data:any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
+  // }
+
+  // receive(data:any) {  
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
+  // }
+
+  override(data: any) {
+    this.swalService.show('¿Desea Anular la Solicitud?', data.element.id).then((resp) => {
+      if (!resp.dismiss) {
+        this.remesaService.annular(data.element).subscribe(data => {
+          this.successResponse('La Remesa', 'Anulada', false);
+          this.loadList();
+          return data;
+      }, error => this.errorResponse(true));
+      }
+    });
   }
 
-  dispatch(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
-  }
-
-  receive(data:any) {  
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
-  }
-
-  view(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
-  }
-
-  activateOrInactivate(data: any) {
-    this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);
-  }
+  // activateOrInactivate(data: any) {
+  //   this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);
+  // }
 
 }
 
