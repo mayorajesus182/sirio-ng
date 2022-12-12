@@ -5,4 +5,5 @@ export * from './tipo-dato.constants';
 export * from './tipo-ingreso.constants';
 export * from './pep.constants';
 export * from './rol.constants';
+export * from './permiso-remesa.constants';
 
