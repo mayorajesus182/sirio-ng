@@ -17,7 +17,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class ConsultarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'receptor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'tipo', 'receptor', 'emisor', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -39,29 +39,29 @@ export class ConsultarRemesaTableComponent extends TableBaseComponent implements
   }
 
 
-  add(path: string) {
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
-  }
+  // add(path: string) {
+  //   this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
+  // }
 
-  process(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
-  }
+  // process(data:any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
+  // }
 
-  dispatch(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
-  }
+  // dispatch(data:any) {
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
+  // }
 
-  receive(data:any) {  
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
-  }
+  // receive(data:any) {  
+  //   this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/receive`]);
+  // }
 
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data: any) {
-    this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);
-  }
+  // activateOrInactivate(data: any) {
+  //   this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);
+  // }
 
 }
 

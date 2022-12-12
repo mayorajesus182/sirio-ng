@@ -18,6 +18,7 @@ import { ListComponent } from './list/list.component';
 import { MaterialModule } from './material-components.module';
 import { SelectSearchComponent } from './select/select-search.component';
 import { SelectSimpleComponent } from './select/select-simple.component';
+import { TooltipModule } from './tooltip/tooltip.module';
 
 
 
@@ -47,6 +48,7 @@ const components = [
     TranslateModule,
     FlexLayoutModule,
     MaterialModule,
+    TooltipModule,
     NgxMatSelectSearchModule
   ],
   

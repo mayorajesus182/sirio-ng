@@ -40,7 +40,8 @@
     <!-- <div *ngIf="level > 0" class="text-icon" fxFlex="none">{{ getTextIcon(item) }}</div> -->
     <span class="name"> {{'menu.'+item.label | translate}}</span>
     <span fxFlex><!-- fill space --></span>
-    <span *ngIf="item.badge"  class="badge mat-primary">{{ item.badge }}</span>
+    <!-- <span *ngIf="item.badge"  class="badge mat-primary">{{ item.badge }}</span> -->
+    <span *ngIf="item.badge" [style.background-color]="item.badgeColor" class="badge">{{ item.badge }}</span>
     <mat-icon *ngIf="item.subpermisos && item.subpermisos.length > 0" [class.rotate]="dropdownOpen$ | async"
               class="expand-indicator">
       expand_more
@@ -49,6 +50,6 @@
 
 
   <div [@dropdownOpen]="dropdownOpen$ | async" class="dropdown" fxLayout="column">
-    <sirio-sidenav-item *ngFor="let subItem of item.subpermisos" [item]="subItem" [level]="level+1"></sirio-sidenav-item>
+    <sirio-sidenav-item *ngFor="let subItem of item.subpermisos" [item]="subItem" [level]="level+1" [badge]="badge"></sirio-sidenav-item>
   </div>
 </div>

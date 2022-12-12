@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SaldoAgenciaComponent } from './agencia/saldo-agencia.component';
+import { SaldoRegionComponent } from './region/saldo-agencia.component';
 import { SaldoTaquillaComponent } from './taquilla/saldo-taquilla.component';
 
 const routes: Routes = [
@@ -14,11 +15,11 @@ const routes: Routes = [
     component: SaldoTaquillaComponent,
     data:{title:'Saldo Taquilla'}
   },
-  // {
-  //   path: 'taquilla/:id/:modena/saldos',
-  //   component: SaldoTaquillaComponent,
-  //   data:{title:'Saldo Taquilla'}
-  // }
+  {
+    path: 'region/saldos',
+    component: SaldoRegionComponent,
+    data:{title:'Saldo Regional'}
+  },
 ];
 
 @NgModule({

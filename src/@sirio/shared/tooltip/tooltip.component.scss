@@ -1,0 +1,135 @@
+.tooltip {
+  display: inline-block;
+  position: fixed;
+  background-color: rgb(250, 250, 250);
+  border-radius: 4px;
+  color: #2e2e2e;
+  padding: 4px 5px 4px 5px;
+  font-size: 0.95rem;
+  opacity: 0;
+  z-index: 100;
+  // width: fit-content;
+  min-width: 265px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .40);
+
+  span.line {
+    display: inline;
+    width: fit-content;
+    line-height: 30px;
+  }
+
+  &::before {
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .60);
+  }
+
+  &--visible {
+    opacity: 1;
+    transition: opacity 300ms;
+  }
+
+  &--light {
+    background-color: white;
+    color: #2e2e2e;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+
+    &::before {
+      border: 5px solid white;
+    }
+
+
+
+
+  }
+
+  &--dark {
+    background-color: #2e2e2e;
+    color: white;
+
+    &::before {
+      border: 5px solid #2e2e2e;
+    }
+  }
+
+  &--below {
+    transform: translateX(-50%);
+    margin-top: 7px;
+
+    &::before {
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-top: none;
+      left: calc(50% - 5px);
+      top: -5px;
+    }
+  }
+
+  &--above {
+    transform: translate(-50%, -100%);
+    margin-bottom: 7px;
+
+    &::before {
+      border-left-color: transparent;
+      border-right-color: transparent;
+      border-bottom: none;
+      left: calc(50% - 5px);
+      bottom: -5px;
+    }
+  }
+
+  &--left {
+    transform: translate(calc(-100% - 7px), -50%);
+
+    &::before {
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      border-right: none;
+      right: -5px;
+      top: calc(50% - 5px);
+    }
+  }
+
+  &--right {
+    transform: translateY(-50%);
+    margin-left: 7px;
+
+    &::before {
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      border-left: none;
+      left: -5px;
+      top: calc(50% - 5px);
+    }
+  }
+
+  &--dynamic {
+    margin-left: 20px;
+
+    &::before {
+      display: none;
+    }
+  }
+
+
+}
+
+// .tooltip > span {
+//   .fal {
+//     &.up {
+//       color: #38c41c !important;
+//     }
+
+//     &.down {
+//       color: #290861 !important;
+//     }
+
+//   }
+// }

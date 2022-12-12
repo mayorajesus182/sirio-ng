@@ -17,6 +17,15 @@ export interface MaterialRemesa {
     costo: number;
 }
 
+export interface CantidadRemesa {
+    id:string;    
+    porAprobar:number;
+    solicitadas:number;
+    porEnviar:number;    
+    porRecibir:number;
+    porProcesar:number;
+}
+
 
 export interface Remesa {
     id: string;
@@ -44,6 +53,8 @@ export interface Remesa {
     materiales: any[];
     detalleEfectivo: any[];
     responsables: string[];
+    detalleEfectivoEnviado: any[];
+    detalleEfectivoRecibido: any[];
 }
 
 @Injectable({
@@ -86,6 +97,10 @@ export class RemesaService {
         return this.apiService.config(this.apiConfig).page('/poraprobar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
+    cantidad(): Observable<CantidadRemesa> {
+        return this.apiService.config(this.apiConfig).get('/cantidad');
+    }
+
     detail(id: string): Observable<Remesa> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
@@ -108,6 +123,11 @@ export class RemesaService {
     dispatch(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)
             .pipe(map(res => data));
+    }
+
+    approve(id: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${id}/approve/update`)
+            .pipe(map(res => id));
     }
 
     processCreate(data: Remesa): Observable<any> {

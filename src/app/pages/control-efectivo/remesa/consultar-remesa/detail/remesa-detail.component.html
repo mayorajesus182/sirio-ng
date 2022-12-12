@@ -1,0 +1,170 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['consultRemittances.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'consultRemittances.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'Cataporte' | translate: {default: 'Cataporte'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.id" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'Tipo de Remesa' | translate: {default: 'Tipo de Remesa'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.tipoRemesa" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="35">
+                                <mat-label>{{'Unidad Emisora' | translate: {default: 'Unidad Emisora'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.emisor" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.receptor" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="25">
+                                <mat-label>{{'Fecha de Creación' | translate: {default: 'Fecha de Creación'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.fechaCreacion" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="25">
+                                <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.montoSolicitado | number: '1.2'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="25">
+                                <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.moneda" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="25">
+                                <mat-label>{{'Estatus' | translate: {default: 'Estatus'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.estatusRemesa" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex="18" *ngIf="d.fechaEnvio != null">
+                                <mat-label>{{'Fecha de Envío' | translate: {default: 'Fecha de Envío'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.fechaEnvio | date: 'dd/MM/yyyy'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="18" *ngIf="d.fechaEnvio != null">
+                                <mat-label>{{'Monto Enviado' | translate: {default: 'Monto Enviado'} | translate}}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.montoEnviado | number: '1.2'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="18" *ngIf="d.montoRecibido > 0">
+                                <mat-label>{{'Fecha de Recepción' | translate: {default: 'Fecha de Recepción'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.fechaRecibo | date: 'dd/MM/yyyy'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="18" *ngIf="d.montoRecibido > 0">
+                                <mat-label>{{'Monto Recibido' | translate: {default: 'Monto Recibido'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.montoRecibido | number: '1.2'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="auto" *ngIf="d.viaje != null">
+                                <mat-label>{{'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.viaje" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100" *ngIf="d.detalleEfectivoEnviado.length > 0">
+
+                            <div fxLayout="column" fxFlex="auto">
+
+                                <div fxLayout="column" fxFlex="100">
+                                    <h3>{{'Desglose de Efectivo (Monto Enviado)' | translate: {default: 'Desglose de Efectivo (Monto Enviado)'} | translate}}</h3>
+                                </div>
+
+                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+
+                                    <mat-form-field fxLayout="column" *ngFor="let item of d.detalleEfectivoEnviado;let i = index" fxFlex="49">
+                                        <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                        </mat-label>
+                                        <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
+                                            [disabled]="item.disponible==0" />
+                                        <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <mat-divider [vertical]="true" class="margin-bottom-md" *ngIf="d.detalleEfectivoRecibido.length > 0"></mat-divider>
+
+                            <div fxLayout="column" fxFlex="50" *ngIf="d.detalleEfectivoRecibido.length > 0">
+
+                                <div fxLayout="column" fxFlex="100">
+                                    <h3>{{'Desglose de Efectivo (Monto Recibido)' | translate: {default: 'Desglose de Efectivo (Monto Recibido)'} | translate }}</h3>
+                                </div>
+
+                                <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
+
+                                    <mat-form-field fxLayout="column" *ngFor="let item of d.detalleEfectivoRecibido;let i = index" fxFlex="49">
+                                        <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                        </mat-label>
+                                        <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
+                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
+                                            [disabled]="item.disponible==0" />
+                                        <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

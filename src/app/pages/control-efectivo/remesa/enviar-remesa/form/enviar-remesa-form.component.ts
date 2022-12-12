@@ -236,8 +236,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     whenChangeMoneda(moneda) {
         if (this.esTransportista) {
 
-            console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiii');
-            
             this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(moneda).subscribe(cono => {
                 this.conos.next(cono);
             });
@@ -268,8 +266,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
 
         } else {
-
-            console.log('allaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
             this.transportistaService.activesByUbicacionAgencia().subscribe(trans => {
                 this.transportistas.next(trans);
@@ -412,39 +408,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         }
     }
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
-
-        this.updateData(this.remesa);
-
-        let existsDifference = false;
-
-        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
-
-        this.remesa.materiales = this.materialRemesaList;
-        this.remesa.detalleEfectivo = this.conoSave;
-        this.remesa.plomos = this.plomoList.join(',');
-
-        console.log('this.remesa     ', this.remesa);
-
-        if (this.isNew) {
-            this.remesaService.sendCreate(this.remesa).subscribe(data => {
-                this.itemForm.reset({});
-                this.successResponse('La Remesa', 'Procesada', false);
-                return data;
-            }, error => this.errorResponse(true));
-        } else {
-            this.remesaService.sendUpdate(this.remesa).subscribe(data => {
-                this.itemForm.reset({});
-                this.successResponse('La Remesa', 'Procesada', false);
-                return data;
-            }, error => this.errorResponse(true));
-        }
-
-
-    }
-
     getNombreMaterial(id: string) {
         if (!this.materialList || this.materialList.length == 0) {
             return '';
@@ -502,6 +465,39 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.plomoList, event.previousIndex, event.currentIndex);
+    }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.remesa);
+
+        let existsDifference = false;
+
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
+
+        this.remesa.materiales = this.materialRemesaList;
+        this.remesa.detalleEfectivo = this.conoSave;
+        this.remesa.plomos = this.plomoList.join(',');
+
+        console.log('this.remesa     ', this.remesa);
+
+        if (this.isNew) {
+            this.remesaService.sendCreate(this.remesa).subscribe(data => {
+                this.itemForm.reset({});
+                this.successResponse('La Remesa', 'Procesada', false);
+                return data;
+            }, error => this.errorResponse(true));
+        } else {
+            this.remesaService.sendUpdate(this.remesa).subscribe(data => {
+                this.itemForm.reset({});
+                this.successResponse('La Remesa', 'Procesada', false);
+                return data;
+            }, error => this.errorResponse(true));
+        }
+
+
     }
 }
 

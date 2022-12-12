@@ -19,7 +19,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class AprobarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'emisor', 'estatus', 'actions'];
+  displayedColumns = ['remesa_id', 'emisor', 'receptor', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
@@ -44,15 +44,11 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
   ngAfterViewInit() {
   }
 
-  process(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/process`]);
-  }
-
-  dispatch(data: any) {
-    this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
+  approve(data: any) {
+    this.swalService.show('¿Desea Aprobar la Solicitud?', data.element.id).then((resp) => {
       if (!resp.dismiss) {
-        this.remesaService.dispatch(data.element).subscribe(data => {
-          this.successResponse('La Remesa', 'Procesada', false);
+        this.remesaService.approve(data.element.id).subscribe(data => {
+          this.successResponse('La Remesa', 'Aprobada', false);
           this.loadList();
           return data;
       }, error => this.errorResponse(true));
@@ -61,6 +57,7 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
   }
   
   view(data: any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
 }
