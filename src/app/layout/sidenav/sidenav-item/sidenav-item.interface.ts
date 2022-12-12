@@ -4,9 +4,10 @@ export class SidenavItem {
   // routeOrFunction?: any;
   // subItems?: SidenavItem[];
   // position?: number;
-  // badge?: string;
-  // badgeColor?: string;
+  badge?: number;
+  badgeColor?: string;
   // type?: 'item' | 'subheading';
+  id?: string;
   pathMatchExact?: boolean;
   customClass?: string;
   parent?: SidenavItem;
