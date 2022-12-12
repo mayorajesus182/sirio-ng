@@ -26,15 +26,16 @@ export class TerminosTransporteFormComponent extends FormBaseComponent implement
   terminoTransporte: TerminoTransporte = {} as TerminoTransporte;
   transportistaId: string;
   transportista: string;
+  condicion: string;
 
   constructor(
-      injector: Injector,
-      dialog: MatDialog,
-      private fb: FormBuilder,
-      private route: ActivatedRoute,
-      private terminoTransporteService: TerminoTransporteService,
-      private cdr: ChangeDetectorRef) {
-      super(undefined, injector);
+    injector: Injector,
+    dialog: MatDialog,
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private terminoTransporteService: TerminoTransporteService,
+    private cdr: ChangeDetectorRef) {
+    super(undefined, injector);
   }
 
   ngOnInit() {
@@ -52,32 +53,50 @@ export class TerminosTransporteFormComponent extends FormBaseComponent implement
 
     this.terminoTransporteService.get(this.transportistaId).subscribe((ttr: TerminoTransporte) => {
       this.terminoTransporte = ttr;
-      this.buildForm();
-      this.loadingDataForm.next(false);
+      this.condicion = this.terminoTransporte.condicion;
+      this.isNew = false;
       this.cdr.detectChanges();
-  });
+    }, error => {
 
+      if (error.status == 404) {
+        this.terminoTransporte.id = this.transportistaId;
+        this.isNew = true;
+      }
+    });
+    this.loadingDataForm.next(false);
   }
 
 
-  buildForm() {
-    this.itemForm = this.fb.group({
-        condicion: new FormControl(this.terminoTransporte.condicion || '', [Validators.required]),
-    });
+  // buildForm() {
+  //   this.itemForm = this.fb.group({
+  //     condicion: new FormControl(this.terminoTransporte.condicion || '', [Validators.required]),
+  //   });
 
-}
+  // }
 
   save() {
-    if (this.itemForm.invalid)
-        return;
 
-    // this.updateData(this.transportista);
-    // this.transportista.esCentroAcopio = this.transportista.esCentroAcopio ? 1 : 0
-    // console.log(this.transportista);
+    if (this.condicion == '' || this.condicion == null)
+      return;
 
-    // this.saveOrUpdate(this.transportistaService, this.transportista, 'El Transportista', this.isNew);
-}
+    this.terminoTransporte.condicion = this.condicion;
+    console.log(' this.condicion    ', this.terminoTransporte);
 
+    if (this.isNew) {
+
+      this.terminoTransporteService.save(this.terminoTransporte).subscribe(data => {
+        this.successResponse('Los Términos y Condiciones', 'creados', false);
+        return data;
+      }, error => this.errorResponse(true));
+
+    } else {
+
+      this.terminoTransporteService.update(this.terminoTransporte).subscribe(data => {
+        this.successResponse('Los Términos y Condiciones', 'actualizados', false);
+        return data;
+      }, error => this.errorResponse(true));
+    }
+  }
 
 }
 
