@@ -104,6 +104,7 @@ export class BarHorizChartWidgetComponent extends ChartBaseComponent implements 
       
 
       this.barChart = {
+        lang:this.lang,
         series: [serie1,serie2],
         chart: {
           type: 'bar',

@@ -101,6 +101,7 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
 
       this.barChart = {
         series: series,
+        lang:this.lang,
         chart: {
           type: 'column',
         },

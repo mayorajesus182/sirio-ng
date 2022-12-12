@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoRegionalService } from 'src/@sirio/domain/services/control-efectivo/saldo-regional.service';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 
 @Component({
-  selector: 'sirio-saldo-agencia-statics',
-  templateUrl: './saldo-agencia.component.html',
-  styleUrls: ['./saldo-agencia.component.scss']
+  selector: 'sirio-saldo-region-statics',
+  templateUrl: './saldo-region.component.html',
+  styleUrls: ['./saldo-region.component.scss']
 })
 export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
 
@@ -18,6 +18,19 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
   detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
+  
+  agenciaTableData$: Observable<any[]>;
+  tableOptions = {
+    pageSize: 15,
+    columns: [
+      { name: 'Agencia', property: 'agencia', visible: true, isModelProperty: true },
+      { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true,isNumber:true },
+      { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true,isNumber:true },
+      { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true,isNumber:true },
+      { name: '%', property: 'porcentaje', visible: true, isModelProperty: false,isNumber:true },
+    ]
+  };
+
 
   constructor(
     private router: Router,
@@ -32,6 +45,8 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
     this.saldoRegionalService.datachart().subscribe(result => {
 
       console.log(result);
+
+      this.agenciaTableData$ = of(result.data.detail)
 
       let datasets_aument = {};
       let datasets_desmin = {};

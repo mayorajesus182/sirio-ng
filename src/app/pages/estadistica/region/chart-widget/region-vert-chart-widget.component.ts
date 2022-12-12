@@ -91,8 +91,10 @@ export class RegionVertChartWidgetComponent extends ChartBaseComponent implement
       this.barChart = {
         series: dataset.series,
         chart: {
+          height:340,
           type: 'column',
         },
+        lang:this.lang,
         title: {
           // text: this.currentMoneda.nombre,
           text: 'SALDO DE <b>' + ` ${formatNumber(montoTotal, 'es', '1.2')} </b> EN `+this.currentMoneda.nombre ,

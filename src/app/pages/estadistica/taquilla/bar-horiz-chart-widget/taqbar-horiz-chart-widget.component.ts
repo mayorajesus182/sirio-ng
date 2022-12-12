@@ -99,6 +99,7 @@ export class TaqBarHorizChartWidgetComponent extends ChartBaseComponent implemen
 
       this.barChart = {
         series: [serie],
+        lang:this.lang,
         chart: {
           type: 'bar',
         },
