@@ -5,7 +5,7 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { MaterialModule } from '../../../@sirio/shared/material-components.module';
 import { SaldoAgenciaModule } from './agencia/saldo-agencia.module';
 import { EstadisticaRoutingModule } from './estadistica-routing.module';
-import { SaldoRegionModule } from './region/saldo-agencia.module';
+import { SaldoRegionModule } from './region/saldo-region.module';
 import { SaldoTaquillaModule } from './taquilla/saldo-taquilla.module';
 @NgModule({
   imports: [

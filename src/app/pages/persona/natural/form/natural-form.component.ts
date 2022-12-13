@@ -159,6 +159,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.actividadesEconomicas.next(data);
         });
 
+        this.actividadEspecificaService.actives().subscribe(data => {
+            this.actividadesEspecificas.next(data);
+        });
+
         this.categoriaEspecialService.actives().subscribe(data => {
             this.categoriasEspeciales.next(data);
         });
@@ -175,8 +179,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             identificacion: new FormControl({ value: personaNatural.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaNacimiento: new FormControl(personaNatural.fechaNacimiento ? moment(personaNatural.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
             pais: new FormControl(personaNatural.pais || undefined, [Validators.required]),
-            primerNombre: new FormControl(personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
-            segundoNombre: new FormControl(personaNatural.segundoNombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS)]),
+            primerNombre: new FormControl(personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            segundoNombre: new FormControl(personaNatural.segundoNombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             primerApellido: new FormControl(personaNatural.primerApellido || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             segundoApellido: new FormControl(personaNatural.segundoApellido || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             nacionalidad: new FormControl(personaNatural.nacionalidad || undefined, [Validators.required]),

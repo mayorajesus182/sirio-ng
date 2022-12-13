@@ -14,6 +14,7 @@ import { CupoAgenciaTableComponent } from './cupos/table/cupo-agencia-table.comp
 
 import { AgenciaDetailComponent } from './detail/agencia-detail.component';
 import { AgenciaFormComponent } from './form/agencia-form.component';
+import { ActualizarSaldoAgenciaFormComponent } from './saldos/form/actualizar-saldo-agencia-form.component';
 import { AgenciaTableComponent } from './table/agencia-table.component';
 
 @NgModule({
@@ -37,7 +38,8 @@ import { AgenciaTableComponent } from './table/agencia-table.component';
         AgenciaTableComponent,
         AgenciaDetailComponent,
         CupoAgenciaTableComponent,
-        CupoAgenciaPopupComponent
+        CupoAgenciaPopupComponent,
+        ActualizarSaldoAgenciaFormComponent,
     ],
     exports: [],
     entryComponents:[CupoAgenciaPopupComponent]

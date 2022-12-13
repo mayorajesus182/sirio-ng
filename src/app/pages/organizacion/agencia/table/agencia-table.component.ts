@@ -39,7 +39,6 @@ export class AgenciaTableComponent extends TableBaseComponent implements OnInit,
     this.afterInit();
   }
 
-
   add(path:string) {
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
@@ -53,12 +52,14 @@ export class AgenciaTableComponent extends TableBaseComponent implements OnInit,
   }
 
   assign(data:any) {
-
     const url = `${this.buildPrefixPath(data.path)}${data.element.id}/assign`;
     this.router.navigateByUrl(url, { state: {data: data.element}  });
-  //  this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/assign`]);
   }
 
+  balance(data:any) {
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/balance`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
 
   activateOrInactivate(data:any) {
     this.applyChangeStatus(this.agenciaService, data.element, data.element.nombre, this.cdr);

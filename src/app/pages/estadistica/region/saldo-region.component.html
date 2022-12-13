@@ -1,0 +1,29 @@
+<sirio-page [fxLayoutGap]="gap" class="dashboard" fxLayout="column">
+
+  <!-- FIRST ROW -->
+  <div fxLayout="column">
+    <div fxLayout.gt-sm="row" fxFlex="100" class="padding-lg">
+      <div fxLayout="column" fxLayoutGap="20px" fxFlex="100"  fxLayoutAlign="start stretch">
+        <!-- <div fxLayout="row" class="margin-bottom-md"> -->
+            <div fxFlex="100">
+              <sirio-region-vert-chart-widget  (reload)="reload()" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo"
+                class="widget route-animations-elements" [data]="dataAgencia.asObservable()"></sirio-region-vert-chart-widget>
+            
+
+            </div>
+          
+            <div fxFlex="100">
+
+              <sirio-agencia-widget-table  [data]="agenciaTableData$ | async" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+              </sirio-agencia-widget-table>
+           
+            </div>
+        <!-- </div> -->
+      </div>
+
+    </div>
+
+  </div>
+
+
+</sirio-page>

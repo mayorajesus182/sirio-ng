@@ -8,15 +8,15 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Telefono {
     id: string;
    
-    persona: String;
+    persona: string;
 
-    tipoTelefono?: String;
+    tipoTelefono?: string;
 
-    claseTelefono?: String;
+    claseTelefono?: string;
     
-    prefijo?: String;
+    prefijo?: string;
 
-    numero: String;
+    numero: string;
 
     principal: number;
 }
