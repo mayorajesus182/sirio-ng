@@ -8,14 +8,13 @@
             <div fxFlex="100">
               <sirio-region-vert-chart-widget  (reload)="reload()" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo"
                 class="widget route-animations-elements" [data]="dataAgencia.asObservable()"></sirio-region-vert-chart-widget>
-            
 
             </div>
           
             <div fxFlex="100">
 
-              <sirio-agencia-widget-table  [data]="agenciaTableData$ | async" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
-              </sirio-agencia-widget-table>
+              <sirio-agencia-table-widget  [data]="agenciaTableData$ | async" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+              </sirio-agencia-table-widget>
            
             </div>
         <!-- </div> -->

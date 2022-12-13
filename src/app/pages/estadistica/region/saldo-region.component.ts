@@ -27,7 +27,7 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
       { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true,isNumber:true },
       { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true,isNumber:true },
       { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true,isNumber:true },
-      { name: '%', property: 'porcentaje', visible: true, isModelProperty: false,isNumber:true },
+      { name: '% Cubierto', property: 'porcentaje', visible: true, isModelProperty: false,isNumber:true },
     ]
   };
 
@@ -44,7 +44,7 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
 
     this.saldoRegionalService.datachart().subscribe(result => {
 
-      console.log(result);
+      // console.log(result);
 
       this.agenciaTableData$ = of(result.data.detail)
 

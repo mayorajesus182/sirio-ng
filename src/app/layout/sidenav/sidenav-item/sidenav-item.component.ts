@@ -72,10 +72,10 @@ export class SidenavItemComponent implements OnInit {
           break;
       }
 
-      if (this.item.badge) {
+      // if (this.item.badge) {
 
-        console.log('item badge', this.item);
-      }
+      //   // console.log('item badge', this.item);
+      // }
 
 
     }
