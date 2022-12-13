@@ -1,0 +1,227 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['naturalPerson.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'naturalPerson.form'|translate}} </sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}} &nbsp;&nbsp;<b>{{cuentaBanco.numeroCuenta| uppercase}}</b>
+                    </sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="send()">
+                            <mat-icon>outbox</mat-icon>
+
+                        </button>
+                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+                        </button> -->
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <sirio-person-query [tipo_persona]="constants.CUENTA_BANCO" (result)="queryResult($event)" 
+                                    (update)="updateCuenta($event)" (create)="addCuenta($event)"></sirio-person-query>
+
+                                    {{printErrors() | json}} 
+                                    
+                    <ng-container *ngIf="loaded$ | async">
+                        
+                        <!-- Put the component which needs to be destroyed + rerendered inside -->
+                        
+                        <mat-accordion class="expansion-headers-align">
+
+                            <mat-expansion-panel expanded="true">
+                                <mat-expansion-panel-header class="odd margin-bottom-xs">
+                                    <mat-panel-title>
+                                        <button type="button" mat-icon-button type="button" color="primary">
+                                            <mat-icon>person</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">
+                                            Apertura de Cuenta
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div fxLayout="column" [formGroup]="itemForm">
+                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                   
+
+                                        <mat-form-field fxFlex="20">
+                                            <mat-label>{{'naturalPerson.documentType' | translate: {default:
+                                                'global.documentType'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
+                                                formControlName="tipoDocumento" uppercase required >
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+
+                            
+                                        </mat-form-field>
+
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.identification' | translate: {default:
+                                                'global.identification'} | translate }} </mat-label>
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion"
+                                                formControlName="identificacion" uppercase required  >
+                                            <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        
+                                    </div> -->
+
+                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.firstName' | translate: {default:
+                                                'global.firstName'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="primerNombre" formControlName="primerNombre"
+                                                uppercase required>
+                                            <mat-error *ngIf="f.primerNombre.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.primerNombre.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.secondName' | translate: {default:
+                                                'global.secondName'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="segundoNombre" formControlName="segundoNombre"
+                                                uppercase>
+
+                                            <mat-error *ngIf="f.segundoNombre.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.surname' | translate: {default:
+                                                'global.surname'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="primerApellido"
+                                                formControlName="primerApellido" uppercase required>
+                                            <mat-error *ngIf="f.primerApellido.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.primerApellido.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                        <mat-form-field fxFlex="25">
+                                            <mat-label>{{'naturalPerson.secondSurname' | translate: {default:
+                                                'global.secondSurname'} | translate }} </mat-label>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="segundoApellido"
+                                                formControlName="segundoApellido" uppercase>
+
+                                            <mat-error *ngIf="f.segundoApellido.errors?.pattern">{{'error.invalidCharacter' |
+                                                translate}}
+                                            </mat-error>
+                                        </mat-form-field>
+
+                                    </div> -->
+
+                                                                      
+
+                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <mat-panel-title>
+
+                                            <button type="button" mat-icon-button type="button" color="primary">
+                                                <mat-icon>person</mat-icon>
+                                            </button>
+
+                                        
+                                            <span class="margin-top-sm margin-bottom-lg semi-bold">
+                                                Información Económica Financiera
+                                            </span>
+
+                                            <mat-panel-description>
+
+                                            </mat-panel-description>
+
+                                        </mat-panel-title>
+
+                                    </div> -->
+
+           
+                                    
+                                </div>
+
+
+                                <div fxLayout="row" fxLayout="column">
+                                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                                            <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> -->
+                                            <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> -->
+                                            <i class="fal fa-arrow-turn-down-left fa-lg "></i> &nbsp;
+                                            {{'button.save' | translate: {default:
+                                            'global.notfound'} | translate }}
+                                        </button>
+                                    </div>
+                                    <!-- {{printErrors() | json}}  -->
+                                </div>
+
+
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>location_on</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">
+                                            {{'personAddress.table' | translate}}
+
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalAddress"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
+                                    <sirio-persona-direccion-table [persona]="personaNatural.id"></sirio-persona-direccion-table>
+
+                                </div>
+
+                            </mat-expansion-panel>
+
+                       
+
+                        </mat-accordion>
+                    </ng-container>
+                </sirio-card-content>
+                <!-- <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar> -->
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

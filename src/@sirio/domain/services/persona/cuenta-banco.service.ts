@@ -5,41 +5,29 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
-export interface CuentaBancaria {
+export interface CuentaBanco {
     id: number;
-    numper: string;
-    tipoDocumento: string;
-    nombre: string;
-    identificacion: string;
-    primerNombre: string;
-    segundoNombre: string;
-    primerApellido: string;
-    segundoApellido: string;
-    fechaNacimiento: any;
-    pais: string;
-    nacionalidad: string;
-    otraNacionalidad: string;
-    telefono: string;
-    genero: string;
-    profesion: string;
-    tenencia: string;
-    cargaFamiliar: number;
-    estadoCivil: string;
-    tipoDocumentoConyuge: string;
-    identificacionConyuge: string;
-    nombreConyuge: string;
-    fuenteIngreso: string;
-    email: string;
-    estatusPersonaNatural: string;
-    actividadEspecifica: string;
-    actividadEconomica?: string;
-    categoriaEspecial?: string;
+    numeroCuenta: string;
+    moneda: string;
+    tipsubProducto: string;
+    origenFondo: string;
+    descuenta: string;
+    montivoSolicitud: string;
+    transaccionesDeposito: string;
+    montoDeposito: string;
+    transaccionesRetiro: string;
+    montoRetiro: string;
+    transaccionesElectronico: string;
+    montoElectronico: string;
+    fondoExterior: number;
+    paisOrigen: string;
+    paisDestino: string;
 }
 
 @Injectable({
     providedIn:'root'
 })
-export class CuentaBancariaService {
+export class CuentaBancoService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
@@ -49,7 +37,7 @@ export class CuentaBancariaService {
     }
 
 
-    actives(): Observable<CuentaBancaria[]> {
+    actives(): Observable<CuentaBanco[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
@@ -57,11 +45,11 @@ export class CuentaBancariaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: number): Observable<CuentaBancaria> {
+    get(id: number): Observable<CuentaBanco> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    getByNumper(numper: string): Observable<CuentaBancaria> {
+    getByNumper(numper: string): Observable<CuentaBanco> {
         return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/get`);
     }
 
@@ -70,12 +58,12 @@ export class CuentaBancariaService {
     // }
 
 
-    save(data: CuentaBancaria): Observable<any> {
+    save(data: CuentaBanco): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => Object.assign(res, data)));
     }
 
-    update(data: CuentaBancaria): Observable<any> {
+    update(data: CuentaBanco): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
