@@ -68,7 +68,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
             this.zonas.next(data);
         });
 
-        this.usuarioService.gerenteRegionalActives().subscribe(data => {
+        this.usuarioService.gerenteRegionalPorAsignar().subscribe(data => {
             this.usuarios.next(data);
         });
 
