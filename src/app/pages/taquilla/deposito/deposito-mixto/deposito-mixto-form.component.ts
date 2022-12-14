@@ -72,7 +72,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             operacion: new FormControl(''),    
             cantidadPropio: new FormControl(''),
             cantidadOtros: new FormControl(''),
-            conoActual: new FormControl([]),
+            conoActual: new FormControl([], [Validators.required]),
             conoAnterior: new FormControl([]),
             detalleCheques: new FormControl(undefined, [Validators.required])
         });
