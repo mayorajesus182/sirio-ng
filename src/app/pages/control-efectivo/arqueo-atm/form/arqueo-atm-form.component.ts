@@ -123,6 +123,27 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     console.log(this.errorList);
   }
 
+
+  esIncrementoEvent(event) {
+    if (event.checked) {
+      this.arqueoAtm.esRetiroAtm = false;
+      this.arqueoAtm.detalles.forEach((row,rowIndex) => {
+        row.retiro = 0;
+        this.updateValuesErrors(row, rowIndex);
+      });
+    }
+  }
+
+  esRetiroEvent(event) {
+    if (event.checked) {
+      this.arqueoAtm.esIncrementoAtm = false;
+      this.arqueoAtm.detalles.forEach((row,rowIndex) => {
+        row.incremento = 0;
+        this.updateValuesErrors(row, rowIndex);
+      });
+    }
+  }
+
   save() {
     this.arqueoAtm.atm = this.atmId;
     this.arqueoAtm.tipoArqueo = TipoArqueoConstants.CHEQUEO;

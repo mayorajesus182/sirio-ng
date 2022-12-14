@@ -33,12 +33,12 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
     super(undefined, injector);
   }
 
- loadList() {
-  this.init(this.remesaService, 'remesa_id', 'pagePorAprobar');
- } 
+  loadList() {
+    this.init(this.remesaService, 'remesa_id', 'pagePorAprobar');
+  }
 
   ngOnInit() {
-   this.loadList();
+    this.loadList();
   }
 
   ngAfterViewInit() {
@@ -51,11 +51,23 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
           this.successResponse('La Remesa', 'Aprobada', false);
           this.loadList();
           return data;
+        }, error => this.errorResponse(true));
+      }
+    });
+  }
+
+  override(data: any) {
+    this.swalService.show('¿Desea Anular la Solicitud?', data.element.id).then((resp) => {
+      if (!resp.dismiss) {
+        this.remesaService.annular(data.element).subscribe(data => {
+          this.loadList();
+          this.successResponse('La Remesa', 'Anulada', false);
+          return data;
       }, error => this.errorResponse(true));
       }
     });
   }
-  
+
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
