@@ -12,7 +12,7 @@
         </sirio-card-header-actions>
     </sirio-card-header>
     <sirio-card-content fxLayout="column">
-        <div fxLayout="column" [formGroup]="searchForm">
+        <div *ngIf="searchForm" fxLayout="column" [formGroup]="searchForm">
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <sirio-select-search autofocus="true" fxFlex="20" [label]="'global.documentType' | translate" formControlName="tipoDocumento"
                     [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" 
@@ -24,7 +24,10 @@
 
                 <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
-                    <input matInput maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
+                    <input matInput maxlength="15" *ngIf="isNaturalPerson()" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
+                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
+
+                    <input matInput *ngIf="isLegalPerson()" valid-rif-number [tipo_documento]="" [imask]="{mask: '0000-0000-0'}" [unmask]="true" maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
                     class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
 
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -37,6 +40,7 @@
                     </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
                     </mat-error>
+                    <mat-error *ngIf="search.identificacion.errors?.rif">{{search.identificacion.errors?.rif}}</mat-error>
                 </mat-form-field>
                 
                 <!-- [attr.disabled]="search.identificacion.value && search.identificacion.value.length > 0" -->

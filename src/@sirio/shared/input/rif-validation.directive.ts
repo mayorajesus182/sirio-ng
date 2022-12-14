@@ -1,5 +1,5 @@
 import { ValidationErrors, FormControl, Validator, NG_VALIDATORS, NgControl, AbstractControl } from '@angular/forms';
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, Input } from '@angular/core';
 
 @Directive({
     selector: '[validRifNumber],[valid-rif-number]',
@@ -9,23 +9,40 @@ import { Directive, ElementRef } from '@angular/core';
 })
 export class RifValidator implements Validator {
 
+    @Input('tipo_documento') tipoDocumento: string;
+
+    private legal:string[]=['J','G' ,'C','W','I'];
+    private natural:string[]=['V' ,'E' ,'P','R','H'];
+
+    // validate(c: FormControl): ValidationErrors | null {
+    //     return RifValidator.validateRifNumber(c);
+    // }
+
+    // static validateRif = (tipoPersona?: string) => {
+
+    //     return (control: FormControl) => {
+
+    //         return RifValidator.validateRifNumber(control, tipoPersona);
+    //     }
+    // }
+
+
+    constructor() { }
 
     validate(c: FormControl): ValidationErrors | null {
-        return RifValidator.validateRifNumber(c);
+        return this.validateRifNumber(c);
     }
 
-    static validateRif = (tipoPersona?: string) => {
 
-        return (control: FormControl) => {
 
-            return RifValidator.validateRifNumber(control, tipoPersona);
-        }
-    }
-
-    private static validateRifNumber(control: FormControl, tipoPerona?: string): ValidationErrors | Boolean {
+    private  validateRifNumber(control: FormControl, tipoPerona?: string): ValidationErrors | Boolean {
         
-        if (control.value == undefined) {
+        if (control.value == undefined ) {
             return false;
+        }
+
+        if(!this.tipoDocumento){
+            return { rif: 'El valor no representa una estructura de RIF, deben seleccionar el tipo de documento' };
         }
 
         var TYPE = {
@@ -34,40 +51,43 @@ export class RifValidator implements Validator {
             "J": "3",
             "C": "3",
             "P": "4",
-            "G": "5"
+            "G": "5",
+            "R": "1",
+            "H": "1",
+            "I": "3",
+            "W": "3",
         };
 
 
 
-        var modelValue = control.value.toUpperCase();
+        var modelValue = control.value;
 
-        var res = modelValue.charAt(0);
+        var t = this.tipoDocumento;//modelValue.charAt(0);
 
-        if (!TYPE[res]) {
-            return { rif: 'El valor no representa una estructura de RIF, deben comenzar con J,V,E,G,P o C' };
+        if (!TYPE[t]) {
+            return { rif: 'El valor no representa una estructura de RIF, deben comenzar con J,V,E,G,P,C,W, H o R' };
         }
 
-        if (modelValue.indexOf('-') >= 0) {
-            return { rif: 'El valor no representa una estructura de RIF, este no debe tener el caracter del guión(-)' };
-        }
+        // if (modelValue.indexOf('-') >= 0) {
+        //     return { rif: 'El valor no representa una estructura de RIF, este no debe tener el caracter del guión(-)' };
+        // }
 
         let rif = modelValue;
         /*if (rif.trim() === '' || rif.trim().length === 0) {
             return { rif: 'El valor no representa una estructura de RIF, este no debe tener el caracter del guión(-)' };
         }*/
-        var t = rif.charAt(0);
+        // var t = rif.charAt(0);
 
         if (tipoPerona !== undefined) {
-
-            if (tipoPerona === 'NAT' && (t === 'J' || t === 'G' || t === 'C')) {
+            if (tipoPerona === 'NAT' && !this.legal.includes(t)) {
                 return { rif: 'El valor suministrado es inválido no pertenece al tipo de persona natural' };
-            } else if (tipoPerona === 'JUR' && (t === 'V' || t === 'E' || t === 'P')) {
+            } else if (tipoPerona === 'JUR' && !this.natural.includes(t)) {
                 return { rif: 'El valor suministrado es inválido no pertenece al tipo de persona jurídica' };
             }
         }
 
         if (rif.length != 10) {
-            return { rif: 'El valor no representa una estructura de RIF, su longitud debe ser de diez(10) caracteres' };
+            return { rif: 'El valor no representa una estructura de RIF, su longitud debe ser de diez(10) digitos' };
         }
 
 
