@@ -68,15 +68,7 @@ export class RifValidator implements Validator {
             return { rif: 'El valor no representa una estructura de RIF, deben comenzar con J,V,E,G,P,C,W, H o R' };
         }
 
-        // if (modelValue.indexOf('-') >= 0) {
-        //     return { rif: 'El valor no representa una estructura de RIF, este no debe tener el caracter del guión(-)' };
-        // }
-
         let rif = modelValue;
-        /*if (rif.trim() === '' || rif.trim().length === 0) {
-            return { rif: 'El valor no representa una estructura de RIF, este no debe tener el caracter del guión(-)' };
-        }*/
-        // var t = rif.charAt(0);
 
         if (tipoPerona !== undefined) {
             if (tipoPerona === 'NAT' && !this.legal.includes(t)) {
@@ -86,15 +78,16 @@ export class RifValidator implements Validator {
             }
         }
 
-        if (rif.length != 10) {
-            return { rif: 'El valor no representa una estructura de RIF, su longitud debe ser de diez(10) digitos' };
+        if (rif.length != 9) {
+            return { rif: 'El valor no representa una estructura de RIF, su longitud debe ser de diez(9) digitos' };
         }
 
-
-        //rif = rif.replace(/-/g, "");
-        rif = rif.substring(1, rif.length);
         rif = TYPE[t] + rif;
         var controlGen = RifValidator.getControlDigitsRif(rif);
+
+        // console.log('RIF: ',t+ ' - '+ rif);
+        // console.log('RIF: ',rif);
+        
 
         if (controlGen < 0 || controlGen != rif.charAt(rif.length - 1)) {
             return { rif: 'El valor del RIF suministrado es inválido' };

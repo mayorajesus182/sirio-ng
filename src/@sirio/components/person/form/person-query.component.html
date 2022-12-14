@@ -27,7 +27,7 @@
                     <input matInput maxlength="15" *ngIf="isNaturalPerson()" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
                     class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
 
-                    <input matInput *ngIf="isLegalPerson()" valid-rif-number [tipo_documento]="" [imask]="{mask: '0000-0000-0'}" [unmask]="true" maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
+                    <input matInput *ngIf="isLegalPerson()" valid-rif-number [tipo_documento]="search.tipoDocumento?.value" [imask]="{mask: '0000-0000-0'}" [unmask]="true" maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
                     class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
 
                     <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |

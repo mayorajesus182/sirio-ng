@@ -68,6 +68,19 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             if (val && !this.search.cuenta.disabled) {
                 this.search.cuenta.disable();
             }
+
+            // console.log('rif change ', val);
+            // console.log('rif errors ', this.search.identificacion.errors);
+            // console.log('rif errors ', this.search.identificacion.errors.length);
+            
+            if(val && this.search.identificacion.errors ){
+
+                
+                // this.resetAll();
+                this.persona = {} as Persona;
+                this.isNew=false;
+                this.cdref.detectChanges();
+            }
         })
 
         this.search.cuenta.valueChanges.subscribe(val => {
@@ -99,8 +112,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             nombre: new FormControl({ value: '', disabled: true }),
             cuenta: new FormControl('')
         });
-
-
 
 
 

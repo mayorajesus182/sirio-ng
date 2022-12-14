@@ -45,7 +45,7 @@ export class SidenavItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.item) {
+    if (this.item && this.badge) {
       this.item.badgeColor = '#00acc1'
       // console.log('item id', this.item.id);
       switch (this.item.id) {
