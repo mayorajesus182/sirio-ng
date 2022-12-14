@@ -11,7 +11,8 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { RegionVertChartWidgetComponent } from './chart-widget/region-vert-chart-widget.component';
 
-import { SaldoRegionComponent } from './saldo-agencia.component';
+import { SaldoRegionComponent } from './saldo-region.component';
+import { AgenciatTableWidgeComponent } from './table-widget/agencia-table-widget.component';
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { SaldoRegionComponent } from './saldo-agencia.component';
     HighchartsChartModule,
     LoadingOverlayModule
   ],
-  declarations: [SaldoRegionComponent,RegionVertChartWidgetComponent],
+  declarations: [SaldoRegionComponent,RegionVertChartWidgetComponent,AgenciatTableWidgeComponent],
   exports:[],
 })
 export class SaldoRegionModule {

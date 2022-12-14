@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit }
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { PepConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { TipoPep, TipoPepService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-pep.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
@@ -21,6 +21,8 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   
   public tipoPepList = new BehaviorSubject<TipoPep[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
+
+  public Pep = PepConstants;
 
   //
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
@@ -46,7 +48,6 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   }
 
   ngOnInit() {
-
 
     this.tipoPepService.actives().subscribe(data => {
       console.log(data);
@@ -86,29 +87,64 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     }
   }
 
+  refreshValidators(val:string){
+    if(!val){
+      return;
+    }
+
+    if(val === PepConstants.ASOCIADO){
+      this.removeValidator(['ente','cargo','pais']);
+    }
+    if(val === PepConstants.CLIENTE){
+      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+    }
+    
+    if(val === PepConstants.PARENTESCO){
+      this.removeValidator(['ente','cargo','pais']);
+    }
+
+    this.cdr.detectChanges();
+  }
+
+
   buildForm() {
 //validar carcteres especiales
     this.itemForm = this.fb.group({
-      //tipoPep: new FormControl(this.pep.tipoPep),
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
-      //nombre: new FormControl(this.pep.nombre),
 
       tipoDocumento: new FormControl(this.pep.tipoDocumento || '', [Validators.required]),
 
       identificacion: new FormControl(this.pep.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
    
       nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      //ente: new FormControl(this.pep.ente),
+
       ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      //cargo: new FormControl(this.pep.cargo),
+
       cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      //pais: new FormControl(this.pep.pais)
+
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
 
 
     this.cdr.detectChanges();
   }
+
+  isRdOrNp() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    // verificar si es Asociado o Parentesco
+    return this.f.tipoIngreso.value == PepConstants.ASOCIADO || this.f.tipoIngreso.value == PepConstants.PARENTESCO;
+  }
+
+  isOtrIng() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    // verificar si es cliente
+    return this.f.tipoIngreso.value == PepConstants.CLIENTE;
+  }
+
 
   save() {
 
@@ -118,6 +154,15 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     console.log(this.pep);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.pepService,this.pep,'PEP',this.pep.id==undefined);
-
   }
+
+  private removeValidator(ignoreKeys: string[]) {
+    Object.keys(this.f).forEach(key => {
+      if (!ignoreKeys.includes(key)) {
+        this.itemForm.get(key).setErrors(null);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
 }

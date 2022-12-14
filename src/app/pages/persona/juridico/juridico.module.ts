@@ -11,6 +11,7 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { AccionistaDirectivoModule } from '../accionista-directivo/accionista-directivo.module';
 import { ApoderadoModule } from '../apoderado/apoderado.module';
 import { DireccionModule } from '../direccion/direccion.module';
+import { EmpresaRelacionadaModule } from '../empresa-relacionada/empresa-relacionada.module';
 import { InformacionLaboralModule } from '../informacion-laboral/informacion-laboral.module';
 import { PepModule } from '../pep/pep.module';
 import { ReferenciaBancariaModule } from '../referencia-bancaria/referencia-bancaria.module';
@@ -41,7 +42,8 @@ import { JuridicoRoutingModule } from './juridico-routing.module';
         PepModule,
         ReferenciaBancariaModule,
         AccionistaDirectivoModule,
-        RegistroMercantilModule
+        RegistroMercantilModule,
+        EmpresaRelacionadaModule
         
     ],
     declarations: [

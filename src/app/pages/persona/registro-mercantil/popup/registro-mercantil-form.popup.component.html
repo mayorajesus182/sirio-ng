@@ -22,8 +22,8 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esGobierno">
 
       <mat-form-field fxFlex="33">
-        <mat-label>{{'Nombre del Rgistro' | translate: {default:
-          'Nombre del Rgistro'} | translate }} </mat-label>
+        <mat-label>{{'Nombre del Registro' | translate: {default:
+          'Nombre del Registro'} | translate }} </mat-label>
         <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre" uppercase
           [required]="!esGobierno">
         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}

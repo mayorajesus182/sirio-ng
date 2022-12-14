@@ -20,6 +20,8 @@ export interface Apoderado {
 
     fechaNacimiento: any;
 
+    telefono: string;
+
     registro: string;
 
     numero: string;
