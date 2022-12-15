@@ -7,10 +7,24 @@ import { BehaviorSubject } from "rxjs";
 })
 export class ChartBaseComponent {
 
+    private download_label: string = 'Descargar ';
     private _gap = 16;
     gap = `${this._gap}px`;
     col2 = `1 1 calc(50% - ${this._gap / 2}px)`;
     col3 = `1 1 calc(33.3333% - ${this._gap / 1.5}px)`;
+
+    lang = {
+        downloadXLS: this.download_label +'Excel',
+        decimalPoint: ',',
+        downloadCSV: this.download_label + 'CSV',
+        downloadJPEG: this.download_label + 'JPEG',
+        downloadPDF: this.download_label + 'PDF',
+        downloadPNG: this.download_label + 'PNG',
+        downloadSVG: this.download_label + 'SVG',
+        viewFullscreen: '[ ] Pantalla Completa',
+        printChart: 'Imprimir'
+    }
+
 
 
     protected loadingDataForm = new BehaviorSubject<boolean>(false);
@@ -39,7 +53,7 @@ export class ChartBaseComponent {
             filename = contentDisposition.substring(i + 1);
         } catch (e) {
 
-            filename = `reporte.${ext ? ext : 'xlsx'}`
+            filename = `reporte.${ext ? ext : 'xlsx'} `
         }
         return filename
     }

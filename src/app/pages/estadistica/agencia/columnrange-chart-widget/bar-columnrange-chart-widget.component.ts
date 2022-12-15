@@ -3,6 +3,7 @@ import * as Highcharts from 'highcharts';
 import HCMore from "highcharts/highcharts-more";
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 
 @Component({
 
@@ -10,7 +11,7 @@ import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.s
   templateUrl: './bar-columnrange-chart-widget.component.html',
   styleUrls: ['./bar-columnrange-chart-widget.component.scss']
 })
-export class BarColumnRangeChartWidgetComponent implements OnInit {
+export class BarColumnRangeChartWidgetComponent extends ChartBaseComponent implements OnInit {
 
   @Input() data: Observable<any>;
   // @Input() data: ChartData;
@@ -27,6 +28,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
 
   constructor(
     private cdref: ChangeDetectorRef) {
+      super()
   }
   ngOnInit(): void {
     this.currentMoneda= this.monedas[0];
@@ -62,6 +64,7 @@ export class BarColumnRangeChartWidgetComponent implements OnInit {
 
        this.barColumnRangeChart = {
          series: series,
+         lang:this.lang,
          chart: {
            type: 'columnrange',
          },

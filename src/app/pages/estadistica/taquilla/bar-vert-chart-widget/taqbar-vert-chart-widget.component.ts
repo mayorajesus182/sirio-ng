@@ -102,6 +102,7 @@ export class TaqBarVertChartWidgetComponent extends ChartBaseComponent implement
 
       this.barChart = {
         series: series,
+        lang:this.lang,
         chart: {
           type: 'column',
         },

@@ -49,6 +49,7 @@ import { NumAccountValidator } from './input/cuenta-validation.directive';
 import { EmailValidate } from './input/email-validation.directive';
 import { MinorAgeValidator } from './input/minAge-validation.directive';
 import { TelefonoValidator } from './input/phone-validation.directive';
+import { RifValidator } from './input/rif-validation.directive';
 import { UppercaseDirective } from './input/uppercase.directive';
 import { ExcerptPipe } from './pipes/excerpt.pipe';
 import { RelativeTimePipe } from './pipes/relative-time.pipe';
@@ -124,6 +125,7 @@ export const DATE_FORMATS_CUSTOM = {
 
 const toInclude = [
   NumAccountValidator,
+  RifValidator,
   MinorAgeValidator,
   EmailValidate,
   TelefonoValidator,

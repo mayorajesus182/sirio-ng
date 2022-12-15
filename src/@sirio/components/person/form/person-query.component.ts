@@ -65,18 +65,31 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         })
 
         this.search.identificacion.valueChanges.subscribe(val => {
-            if(val && !this.search.cuenta.disabled){
+            if (val && !this.search.cuenta.disabled) {
                 this.search.cuenta.disable();
+            }
+
+            // console.log('rif change ', val);
+            // console.log('rif errors ', this.search.identificacion.errors);
+            // console.log('rif errors ', this.search.identificacion.errors.length);
+            
+            if(val && this.search.identificacion.errors ){
+
+                
+                // this.resetAll();
+                this.persona = {} as Persona;
+                this.isNew=false;
+                this.cdref.detectChanges();
             }
         })
 
         this.search.cuenta.valueChanges.subscribe(val => {
-            if(val && !this.search.identificacion.disabled){
+            if (val && !this.search.identificacion.disabled) {
                 this.search.identificacion.disable();
             }
         })
 
-        
+
     }
 
     ngOnInit(): void {
@@ -100,9 +113,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
-       
 
-       
 
 
         // this.search.identificacion.valueChanges.subscribe(val => {
@@ -195,15 +206,15 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     public queryByAccount() {
         const cuenta: string = this.search.cuenta.value;
 
-       
-        
-        if (cuenta.trim().length != 20 || this.search.cuenta.errors ) {
+
+
+        if (cuenta.trim().length != 20 || this.search.cuenta.errors) {
             // this.busqueda = false;
             return;
         }
 
         // this.busqueda = true;
-        
+
         this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
             // this.cuentaBancariaOperacion = data;
             //const moneda = data.moneda;
@@ -236,7 +247,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.search.cuenta.setErrors({ notexists: true });
             this.persona = {} as Persona;
 
-            
+
             this.search.tipoDocumento.setValue('');
             this.search.identificacion.setValue('');
             this.search.nombre.setValue(' ');
@@ -258,8 +269,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     resetAll() {
         this.searchForm.reset({});
-        this.persona={} as Persona;
-        this.isNew=false;
+        this.persona = {} as Persona;
+        this.isNew = false;
         this.disable.next(false);
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
@@ -285,5 +296,14 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         return this.persona.numper != undefined || this.persona.numper != null || this.search.cuenta.value != undefined;
     }
 
+
+    isNaturalPerson() {
+
+        return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
+    }
+
+    isLegalPerson() {
+        return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA;
+    }
 
 }

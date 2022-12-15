@@ -1,6 +1,13 @@
 @use 'sass:math';
 @import "var";
 
+.list {
+  box-shadow: none;
+  border-radius: 0;
+}
+
+
+
 .card-content {
   padding: 0;
   height: 150px;
@@ -23,21 +30,10 @@
 
 
 .container {
-  height: 340px;
   max-width: 100%;
   position: relative;
-}
-.color{
-  color:#7cb5ec
-  #434348
-  #90ed7d
-  #f7a35c
-  #8085e9
-  #f15c80 
-  #e4d354
-  #2b908f
-  #f45b5b
-  #91e8e1
-}
 
-
+  .text-color-muted{
+    color: #6e6e6e !important;
+  }
+}

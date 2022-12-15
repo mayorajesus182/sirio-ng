@@ -81,6 +81,11 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
                     this.transportistaService.allCentrosAcopio().subscribe(data => {
                         this.transportistas.next(data);
                     });
+
+                    this.cupoAgenciaService.getCupoByMoneda(this.preferencia.monedaConoActual).subscribe(data => {
+                        this.cupo = data;               
+                        this.cdr.detectChanges();
+                    });
                 }
 
 

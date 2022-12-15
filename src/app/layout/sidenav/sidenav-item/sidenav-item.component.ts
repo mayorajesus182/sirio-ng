@@ -45,9 +45,9 @@ export class SidenavItemComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.item) {
+    if (this.item && this.badge) {
       this.item.badgeColor = '#00acc1'
-      console.log('item id', this.item.id);
+      // console.log('item id', this.item.id);
       switch (this.item.id) {
         case PermisoRemeseConstants.APROBAR:
           this.item.badge = this.badge.porAprobar;
@@ -72,10 +72,10 @@ export class SidenavItemComponent implements OnInit {
           break;
       }
 
-      if (this.item.badge) {
+      // if (this.item.badge) {
 
-        console.log('item badge', this.item);
-      }
+      //   // console.log('item badge', this.item);
+      // }
 
 
     }

@@ -4,6 +4,12 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
+export interface SaldoActualizado {
+    agencia: string;
+    moneda: string;
+    monto: number;
+    detalleEfectivo: any[];
+}
 export interface SaldoAgencia {
     id: number;
     agencia: string;
@@ -61,6 +67,11 @@ export class SaldoAgenciaService {
 
     allWithMovements(): Observable<SaldoAgencia[]> {
         return this.apiService.config(this.apiConfig).get(`/conmovimiento/list`);
+    }
+
+    update(data: SaldoActualizado): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/update`, data)
+            .pipe(map(res => data));
     }
 
 }
