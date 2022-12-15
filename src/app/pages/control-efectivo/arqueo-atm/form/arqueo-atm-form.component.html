@@ -236,7 +236,7 @@
                         {{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}
                     </button>
-                    <button color="primary" (click)="save()" mat-raised-button [disabled]="error">
+                    <button color="primary" (click)="save()" mat-raised-button [disabled]="error || arqueoAtm.secuencia == null">
                         <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                         'global.notfound'} | translate }}
                     </button>
