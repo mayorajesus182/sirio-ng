@@ -305,20 +305,29 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
     isNaturalPerson() {
-        if(this.search.tipoDocumento.value && !this.legals.includes(this.search.tipoDocumento.value)){
+        if (this.search.tipoDocumento.value && !this.legals.includes(this.search.tipoDocumento.value)) {
             return true;
+        } else if (this.tipo_persona) {
+
+            return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
         }
 
-        return this.tipo_persona && this.tipo_persona == GlobalConstants.PERSONA_NATURAL ;
+
     }
 
     isLegalPerson() {
+        // console.log('tipo doc selected', this.search.tipoDocumento.value);
+        // console.log('tipo persona input', this.tipo_persona);
+
         if (this.search.tipoDocumento.value && this.legals.includes(this.search.tipoDocumento.value)
         ) {
 
             return true;
+        } else if (this.tipo_persona) {
+
+            return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA;
         }
-        return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA || !this.tipo_persona;
+
     }
 
 }
