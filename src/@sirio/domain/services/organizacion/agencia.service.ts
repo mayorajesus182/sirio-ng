@@ -83,5 +83,8 @@ export class AgenciaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/close`);
     }
 
+    findActivesByRegion(region: string): Observable<Agencia[]> {
+        return this.apiService.config(this.apiConfig).get(`/${region}/byregion/actives`);
+    }
 
 }

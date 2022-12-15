@@ -7,6 +7,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface ReporteGestionEfectivo {
     region: string
+    agencia: string
  }
 
 @Injectable({
@@ -23,6 +24,14 @@ export class ReporteGestionEfectivoService {
 
     agenciaOperativa(params: ReporteGestionEfectivo): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.region}/resumen/agencia-operativa`);
+    }
+
+    cupoAgencia(params: ReporteGestionEfectivo): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.agencia}/${params.region}/resumen/cupo-agencia`);
+    }
+
+    taquillaOperativa(params: ReporteGestionEfectivo): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.region}/resumen/taquilla-operativa`);
     }
 
     

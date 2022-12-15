@@ -86,6 +86,16 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'region.table' },
         loadChildren: () => import('./reports/agencia-operativa/reporte-agencia-operativa.module').then(m => m.ReporteAgenciaOperativaModule),
     },
+    {
+        path: 'reporte-taquilla-operativa',
+        data: { title: 'region.table' },
+        loadChildren: () => import('./reports/taquilla-operativa/reporte-taquilla-operativa.module').then(m => m.ReporteTaquillaOperativaModule),
+    },
+    {
+        path: 'reporte-cupo-agencia',
+        data: { title: 'region.table' },
+        loadChildren: () => import('./reports/cupo-agencia/reporte-cupo-agencia.module').then(m => m.ReporteCupoAgenciaModule),
+    },
 
 ];
 

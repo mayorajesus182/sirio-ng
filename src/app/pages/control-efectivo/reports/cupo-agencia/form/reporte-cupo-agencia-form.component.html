@@ -1,0 +1,72 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['employeesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'employeesRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                       
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                                <sirio-select-search
+                                    fxFlex.gt-xs="50"
+                                    [label]="'employeesRep.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
+                                    formControlName="region" [required]="true" [elements]="regiones.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search
+                                    fxFlex.gt-xs="50"
+                                    [label]="'agencia'"
+                                    formControlName="agencia" [required]="true" [elements]="agencias.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
+                                </sirio-select-search>
+                                
+                            </div>
+
+                        </form>
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
