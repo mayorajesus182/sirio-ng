@@ -47,7 +47,7 @@ export interface Remesa {
     fechaSolicitud: any;
     fechaEnvio: any;
     fechaRecibo: any;
-    estatusSolicitud: string;
+    estatusRemesa: string;
     nombreEstatusSolicitud: string;
     esAgencia: number;
     materiales: any[];

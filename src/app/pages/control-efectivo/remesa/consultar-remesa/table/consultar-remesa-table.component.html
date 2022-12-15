@@ -26,17 +26,17 @@
                 </ng-container>
 
                 <ng-container matColumnDef="emisor">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'">{{'Unidad Emisora' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'Unidad Emisora' | translate:
                         {default: 'Unidad Emisora'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate font-weight-600">{{element.emisor}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="receptor">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-35'">{{'Unidad Receptora' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'Unidad Receptora' | translate:
                         {default: 'Unidad Receptora'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate font-weight-600">{{element.receptor}}</p>
                     </mat-cell>
                 </ng-container>
@@ -57,13 +57,13 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="estatus">
+                <!-- <ng-container matColumnDef="estatus">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'Estatus' | translate:
                         {default: 'Estatus'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
-                        <p class="text-truncate font-weight-600">{{element.estatusSolicitud}}</p>
+                        <p class="text-truncate font-weight-600">{{element.estatusRemesa}}</p>
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
 
                 <!-- Buttons Column -->
                 <ng-container matColumnDef="actions">

@@ -25,19 +25,15 @@
                 <mat-form-field fxFlex="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" *ngIf="isNaturalPerson()" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
-                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
+                    class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" 
+                    [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
 
                     <input matInput *ngIf="isLegalPerson()" valid-rif-number [tipo_documento]="search.tipoDocumento?.value" [imask]="{mask: '0000-0000-0'}" [unmask]="true" maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" 
                     class="text-center" name="identificacion" (keyup.enter)="queryByPerson()" [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )" formControlName="identificacion">
 
-                    <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-                        translate}}
+                    <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
                     </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe
-
-                        
-
-                    </mat-error>
+                    <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
                     </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.rif">{{search.identificacion.errors?.rif}}</mat-error>

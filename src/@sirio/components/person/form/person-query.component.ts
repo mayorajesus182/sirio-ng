@@ -37,6 +37,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     // busqueda : boolean = false;
     tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     persona: Persona = {} as Persona;
+    private legals = ['C',
+        'G',
+        'H',
+        'I',
+        'J',
+        'R',
+        'W'];
 
     private loading = new BehaviorSubject<boolean>(false);
     disable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -72,13 +79,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // console.log('rif change ', val);
             // console.log('rif errors ', this.search.identificacion.errors);
             // console.log('rif errors ', this.search.identificacion.errors.length);
-            
-            if(val && this.search.identificacion.errors ){
 
-                
+            if (val && this.search.identificacion.errors) {
+
+
                 // this.resetAll();
                 this.persona = {} as Persona;
-                this.isNew=false;
+                this.isNew = false;
                 this.cdref.detectChanges();
             }
         })
@@ -298,12 +305,29 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
     isNaturalPerson() {
+        if (this.search.tipoDocumento.value && !this.legals.includes(this.search.tipoDocumento.value)) {
+            return true;
+        } else if (this.tipo_persona) {
 
-        return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
+            return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
+        }
+
+
     }
 
     isLegalPerson() {
-        return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA;
+        // console.log('tipo doc selected', this.search.tipoDocumento.value);
+        // console.log('tipo persona input', this.tipo_persona);
+
+        if (this.search.tipoDocumento.value && this.legals.includes(this.search.tipoDocumento.value)
+        ) {
+
+            return true;
+        } else if (this.tipo_persona) {
+
+            return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA;
+        }
+
     }
 
 }

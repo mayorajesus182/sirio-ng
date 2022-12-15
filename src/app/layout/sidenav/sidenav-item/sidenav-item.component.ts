@@ -53,10 +53,10 @@ export class SidenavItemComponent implements OnInit {
           this.item.badge = this.badge.porAprobar;
           break;
         case PermisoRemeseConstants.PROCESAR_1:
-          this.item.badge = this.badge.porAprobar;
+          this.item.badge = this.badge.porProcesar;
           break;
         case PermisoRemeseConstants.PROCESAR_2:
-          this.item.badge = this.badge.porAprobar;
+          this.item.badge = this.badge.porProcesar;
           break;
         case PermisoRemeseConstants.ENVIAR:
           this.item.badge = this.badge.porEnviar;

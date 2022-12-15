@@ -29,6 +29,10 @@ export class UsuarioService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    gerenteRegionalPorAsignar(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/gerenteregional/porasinar/list');
+    }   
+
     gerenteRegionalActives(): Observable<Usuario[]> {
         return this.apiService.config(this.apiConfig).get('/gerenteregional/actives');
     }   

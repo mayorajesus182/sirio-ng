@@ -81,6 +81,12 @@ const controlEfectivoRoutes: Routes = [
     //     loadChildren: () => import('./remesa/consultar-remesa/consultar-remesa.module').then(m => m.ConsultarRemesaModule),
     // },
 
+    {
+        path: 'reporte-agencia-operativa',
+        data: { title: 'region.table' },
+        loadChildren: () => import('./reports/agencia-operativa/reporte-agencia-operativa.module').then(m => m.ReporteAgenciaOperativaModule),
+    },
+
 ];
 
 
