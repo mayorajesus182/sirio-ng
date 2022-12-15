@@ -9,19 +9,24 @@ export interface CuentaBanco {
     id: number;
     numeroCuenta: string;
     moneda: string;
-    tipsubProducto: string;
+    tipoSubproducto: string;
     origenFondo: string;
-    descuenta: string;
-    montivoSolicitud: string;
-    transaccionesDeposito: string;
-    montoDeposito: string;
-    transaccionesRetiro: string;
-    montoRetiro: string;
+    destinoCuenta: string;
+    motivoSolicitud: string;
+    transaccionesCredito: string;
+    montoDebito: string;
+    transaccionesDebito: string;
+    montoCredito: string;
     transaccionesElectronico: string;
     montoElectronico: string;
     fondoExterior: number;
     paisOrigen: string;
     paisDestino: string;
+
+    // producto: string;
+    // subProducto: string;
+    // monedaPal: string;
+
 }
 
 @Injectable({

@@ -12,6 +12,13 @@ import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccio
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import * as moment from 'moment';
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
+import { OrigenFondo, OrigenFondoService } from 'src/@sirio/domain/services/configuracion/producto/origen-fondo.service';
+import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
+import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
+import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/domain/services/configuracion/producto/promedio-transaccion.service';
+import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/configuracion/producto/promedio-monto.service';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -46,6 +53,16 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     refreshDirecciones = new BehaviorSubject<boolean>(false);
     paises = new BehaviorSubject<Pais[]>([]);
     nacionadades = new BehaviorSubject<Pais[]>([]);
+    origenes = new BehaviorSubject<OrigenFondo[]>([]);
+    destinos = new BehaviorSubject<DestinoCuenta[]>([]);
+    motivos = new BehaviorSubject<MotivoSolicitud[]>([]);
+    promedioTransacciones = new BehaviorSubject<PromedioTransaccion[]>([]);
+    promedioMontos = new BehaviorSubject<PromedioMonto[]>([]);
+
+    
+    tipoSubproducto = new BehaviorSubject<TipoSubproducto[]>([]);
+
+    moneda = new BehaviorSubject<Moneda[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
@@ -56,7 +73,16 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         protected router: Router,
         private cuentaBancoService: CuentaBancoService,
         private tipoDocumentoService: TipoDocumentoService,
+        private origenFondoService: OrigenFondoService,
+        private destinoCuentaService: DestinoCuentaService,
+        private motivoSolicitudService: MotivoSolicitudService,
+        private promedioTransaccionService: PromedioTransaccionService,
+        private promedioMontoService: PromedioMontoService,
         private paisService: PaisService,
+        private tipoSubproductoService: TipoSubproductoService,
+        
+
+        private monedaService: MonedaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -64,7 +90,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     get search() {
         return this.searchForm ? this.searchForm.controls : {};
     }
-
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
@@ -93,28 +118,58 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.paises.next(data);
         });
 
-        this.cdr.detectChanges();
+        this.origenFondoService.actives().subscribe(data => {
+            this.origenes.next(data);
+        });
 
+        this.destinoCuentaService.actives().subscribe(data => {
+            this.destinos.next(data);
+        });
+
+        this.motivoSolicitudService.actives().subscribe(data => {
+            this.motivos.next(data);
+        });
+
+        this.promedioTransaccionService.actives().subscribe(data => {
+            this.promedioTransacciones.next(data);
+        });
+        
+        this.promedioMontoService.actives().subscribe(data => {
+            this.promedioMontos.next(data);
+        });
+        
+        this.monedaService.actives().subscribe(data => {
+            this.moneda.next(data);
+        });
+
+        this.tipoSubproductoService.actives().subscribe(data => {
+            this.tipoSubproducto.next(data);
+        });
+
+
+        this.cdr.detectChanges();        
     }
-
+    
     buildForm(cuentaBanco: CuentaBanco) { 
 
         this.itemForm = this.fb.group({
-            numeroCuenta: new FormControl(cuentaBanco.numeroCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            moneda: new FormControl(cuentaBanco.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            tipsubProducto: new FormControl(cuentaBanco.tipsubProducto || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            origenFondo: new FormControl(cuentaBanco.origenFondo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            descuenta: new FormControl(cuentaBanco.descuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            montivoSolicitud: new FormControl(cuentaBanco.montivoSolicitud || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            transaccionesDeposito: new FormControl(cuentaBanco.transaccionesDeposito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            montoDeposito: new FormControl(cuentaBanco.montoDeposito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            transaccionesRetiro: new FormControl(cuentaBanco.transaccionesRetiro || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            montoRetiro: new FormControl(cuentaBanco.montoRetiro || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            transaccionesElectronico: new FormControl(cuentaBanco.transaccionesElectronico || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            montoElectronico: new FormControl(cuentaBanco.montoElectronico || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            fondoExterior: new FormControl(cuentaBanco.fondoExterior || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            paisOrigen: new FormControl(cuentaBanco.paisOrigen || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            paisDestino: new FormControl(cuentaBanco.paisDestino || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            numeroCuenta: new FormControl(cuentaBanco.numeroCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            moneda: new FormControl(cuentaBanco.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            tipoSubproducto: new FormControl(cuentaBanco.tipoSubproducto || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            origenFondo: new FormControl(cuentaBanco.origenFondo || undefined, [Validators.required]),
+            destinoCuenta: new FormControl(cuentaBanco.destinoCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            motivoSolicitud: new FormControl(cuentaBanco.motivoSolicitud || undefined, [Validators.required]),
+            transaccionesCredito: new FormControl(cuentaBanco.transaccionesCredito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            montoCredito: new FormControl(cuentaBanco.montoCredito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            transaccionesDebito: new FormControl(cuentaBanco.transaccionesDebito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            montoDebito: new FormControl(cuentaBanco.montoDebito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            transaccionesElectronico: new FormControl(cuentaBanco.transaccionesElectronico || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            montoElectronico: new FormControl(cuentaBanco.montoElectronico || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            // fondoExterior: new FormControl(cuentaBanco.fondoExterior || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+           
+            fondoExterior: new FormControl(cuentaBanco.fondoExterior || undefined),
+            paisOrigen: new FormControl(cuentaBanco.paisOrigen || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            paisDestino: new FormControl(cuentaBanco.paisDestino || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
         });
 
         // verifico si tengo datos basicos cargados
@@ -184,6 +239,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             return;
 
         this.updateData(this.cuentaBanco);
+
+        console.log(this.cuentaBanco);
+        
 
         // console.log(this.personaNatural);
         // this.cuentaBanco.fechaNacimiento = this.cuentaBanco.fechaNacimiento.format('DD/MM/YYYY');
