@@ -177,7 +177,7 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
         this.updateData(this.remesa);
         this.remesa.detalleEfectivo = [];
 
-        console.log(this.remesa);
+        // console.log(this.remesa);
 
 
 

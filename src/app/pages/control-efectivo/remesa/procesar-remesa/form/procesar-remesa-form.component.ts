@@ -202,10 +202,10 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             this.cdr.detectChanges();
         });
 
-        this.opt_swal = {};
-        this.opt_swal.input = 'text';
-        this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
-        this.opt_swal.preConfirm = this.preConfirmFunt;
+        // this.opt_swal = {};
+        // this.opt_swal.input = 'text';
+        // this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
+        // this.opt_swal.preConfirm = this.preConfirmFunt;
     }
 
     buildForm() {
