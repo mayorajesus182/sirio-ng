@@ -111,6 +111,9 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                     this.preferenciaService.get().subscribe(pref => {
                         this.preferencia = pref;
 
+                        console.log(' this.preferencia.monedaConoActual ', this.preferencia.monedaConoActual);
+                        console.log(' this.remesa.moneda ', this.remesa.moneda);
+
                         // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
                         if (this.preferencia.monedaConoActual === this.remesa.moneda) {
 
@@ -145,31 +148,36 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                     });
 
                     this.empleadoTransporteService.allEmpleados().subscribe(emp => {
-                        this.empleados.next(emp);                       
+                        this.empleados.next(emp);
                     });
 
                 } else {
 
                     this.empleadoTransporteService.allByTransportista(this.remesa.transportista).subscribe(emp => {
-                        this.empleados.next(emp);                       
+                        this.empleados.next(emp);
                     });
 
                     this.transportistaService.actives().subscribe(trans => {
                         this.transportistas.next(trans);
                     });
 
-                    if (this.preferencia.monedaConoActual === this.remesa.moneda) {
 
-                        this.viajeTransporteService.allWithCostoByTransportista(this.remesa.transportista).subscribe(vjt => {
-                            this.viajes.next(vjt);
-                        });
-    
-                    } else {
-    
-                        this.viajeTransporteService.allWithCostoDivisaByTransportista(this.remesa.transportista).subscribe(vjt => {
-                            this.viajes.next(vjt);
-                        });
-                    }
+                    this.preferenciaService.get().subscribe(pref => {
+                        this.preferencia = pref;
+
+                        if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+
+                            this.viajeTransporteService.allWithCostoByTransportista(this.remesa.transportista).subscribe(vjt => {
+                                this.viajes.next(vjt);
+                            });
+
+                        } else {
+
+                            this.viajeTransporteService.allWithCostoDivisaByTransportista(this.remesa.transportista).subscribe(vjt => {
+                                this.viajes.next(vjt);
+                            });
+                        }
+                    });
 
                     this.conoMonetarioService.activesWithDisponibleSaldoPrincipalByMoneda(this.remesa.moneda).subscribe(conoData => {
 
@@ -214,11 +222,11 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
 
             this.empleadoTransporteService.allByTransportista(value).subscribe(emp => {
-                this.empleados.next(emp);                       
+                this.empleados.next(emp);
             });
 
-            this.preferenciaService.get().subscribe(pref => {
-                this.preferencia = pref;
+            // this.preferenciaService.get().subscribe(pref => {
+            //     this.preferencia = pref;
 
                 // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
                 if (this.preferencia.monedaConoActual === this.remesa.moneda) {
@@ -234,7 +242,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                     });
                 }
             });
-        });
+        // });
 
 
         this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
@@ -256,16 +264,16 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         });
     }
 
-    onLoadMaterialesUtilizados(){
+    onLoadMaterialesUtilizados() {
         this.materialUtilizadoList.subscribe(list => {
             console.log(' cambio materiales utilizados ', list);
             console.log('  materiales a utilizar ', this.materialList);
-            
+
             if (!list || list.length == 0) {
                 this.materiales.next(this.materialList);
             } else {
                 console.log(list.map(mu => mu.material));
-                
+
                 this.materiales.next(
                     this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id))
                 );
@@ -421,9 +429,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                 return data;
             }, error => this.errorResponse(true));
         }
-
-
-
 
     }
 }

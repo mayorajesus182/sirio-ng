@@ -49,16 +49,20 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
   }
 
   dispatch(data: any) {
-    this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
-      if (!resp.dismiss) {
-        this.remesaService.dispatch(data.element).subscribe(data => {
-          this.successResponse('La Remesa', 'Procesada', false);
-          this.loadList();
-          return data;
-      }, error => this.errorResponse(true));
-      }
-    });
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
   }
+
+  // dispatch(data: any) {
+  //   this.swalService.show('¿Desea Despachar la Solicitud?', data.element.id).then((resp) => {
+  //     if (!resp.dismiss) {
+  //       this.remesaService.dispatch(data.element).subscribe(data => {
+  //         this.successResponse('La Remesa', 'Procesada', false);
+  //         this.loadList();
+  //         return data;
+  //     }, error => this.errorResponse(true));
+  //     }
+  //   });
+  // }
   
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
