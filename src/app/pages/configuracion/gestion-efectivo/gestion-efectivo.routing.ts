@@ -13,8 +13,7 @@ const gestionEfectivoRoutes: Routes = [
         path: 'region',
         data: { title: 'region.table' },
         loadChildren: () => import('./region/region.module').then(m => m.RegionModule),
-    },
-   
+    },   
 
 ];
 

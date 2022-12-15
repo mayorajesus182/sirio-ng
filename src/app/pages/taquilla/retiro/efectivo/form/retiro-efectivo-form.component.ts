@@ -117,7 +117,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos 
-        if ( Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.totalRetiro.value) : this.f.totalRetiro.value)) >= 1) {
+        if (Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.totalRetiro.value) : this.f.totalRetiro.value)) >= 1) {
             this.f.totalRetiro.setErrors({
                 totalDifference: true
             });
@@ -176,8 +176,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.moneda.id = cuenta.moneda;
                 this.moneda.nombre = cuenta.monedaNombre;
                 this.moneda.siglas = cuenta.siglas;
-                 // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
-                 this.saldoByMoneda(this.moneda);
+                // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
+                this.saldoByMoneda(this.moneda);
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
                 this.f.cuentaBancaria.setValue(cuenta.id);
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
@@ -202,46 +202,46 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.cdr.detectChanges();
     }
 
-//     retiroEfectivoEvaluate(event) {
-//         if (event.checked) {
+    //     retiroEfectivoEvaluate(event) {
+    //         if (event.checked) {
 
-//             this.esPagoCheque = false;
-//             this.esPagoChequeGerencia = false;
-//             this.itemForm.reset();
-//             this.cdr.detectChanges();
+    //             this.esPagoCheque = false;
+    //             this.esPagoChequeGerencia = false;
+    //             this.itemForm.reset();
+    //             this.cdr.detectChanges();
 
-//         }
-//     }
+    //         }
+    //     }
 
-//    pagoChequeEvaluate(event) {
-//         if (event.checked) {
+    //    pagoChequeEvaluate(event) {
+    //         if (event.checked) {
 
-//             this.esRetiroEfectivo = false;
-//             this.esPagoChequeGerencia = false;
-//             this.itemForm.reset();
-//             this.cdr.detectChanges();
-//             this.conoActual = [];
-//             this.conoAnterior = [];
-//             this.detalleEfectivo = 0;
-//             this.f.beneficiario.setValue(null);
-//             this.f.comprador.setValue(null);
-//             this.f.tipoDocumentoBeneficiario.setValue(undefined);
+    //             this.esRetiroEfectivo = false;
+    //             this.esPagoChequeGerencia = false;
+    //             this.itemForm.reset();
+    //             this.cdr.detectChanges();
+    //             this.conoActual = [];
+    //             this.conoAnterior = [];
+    //             this.detalleEfectivo = 0;
+    //             this.f.beneficiario.setValue(null);
+    //             this.f.comprador.setValue(null);
+    //             this.f.tipoDocumentoBeneficiario.setValue(undefined);
 
-//         }
-//     }
+    //         }
+    //     }
 
-//     pagoChequeGerenciaEvaluate(event) {
-//         if (event.checked) {
-//             this.esRetiroEfectivo = false;
-//             this.esPagoCheque = false;
-//             this.itemForm.reset();
-//             this.cdr.detectChanges();
-//             this.conoActual = [];
-//             this.conoAnterior = [];
-//             this.detalleEfectivo = 0;
-//             this.f.tipoDocumentoBeneficiario.setValue(false);
-//         }
-//     }
+    //     pagoChequeGerenciaEvaluate(event) {
+    //         if (event.checked) {
+    //             this.esRetiroEfectivo = false;
+    //             this.esPagoCheque = false;
+    //             this.itemForm.reset();
+    //             this.cdr.detectChanges();
+    //             this.conoActual = [];
+    //             this.conoAnterior = [];
+    //             this.detalleEfectivo = 0;
+    //             this.f.tipoDocumentoBeneficiario.setValue(false);
+    //         }
+    //     }
 
 
     queryResult(data: any) {
@@ -276,7 +276,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.f.numeroCuenta.setValue(this.cuentaBancariaOperacion.numeroCuenta);
                 this.f.cuentaBancaria.setValue(this.cuentaBancariaOperacion.id);
                 this.f.identificacion.setValue(this.cuentaBancariaOperacion.identificacion)
-                this.persona.nombre = this.cuentaBancariaOperacion.nombre;               
+                this.persona.nombre = this.cuentaBancariaOperacion.nombre;
                 this.f.email.setValue(this.cuentaBancariaOperacion.email);
                 if (this.cuentaBancariaOperacion.email) {
                     this.f.email.disable();
@@ -288,21 +288,21 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.persona = data;
                 this.cuentaBancariaOperacion = undefined;
                 this.f.identificacion.setValue(this.persona.identificacion)
-               
-              /*  if (this.persona.email){
-                this.f.email.setValue(this.persona.email);
-                this.f.email.disable();
-               }else{
-                this.f.email.setValue(this.f.email);
-               }*/
-               
+
+                /*  if (this.persona.email){
+                  this.f.email.setValue(this.persona.email);
+                  this.f.email.disable();
+                 }else{
+                  this.f.email.setValue(this.f.email);
+                 }*/
+
                 this.f.email.setValue(this.persona.email);
                 if (this.persona.email) {
                     this.f.email.disable();
-                }else{
+                } else {
                     this.f.email.enable();
                     this.f.email.value;
-                    console.log('email',this.f.email.value);                    
+                    console.log('email', this.f.email.value);
                 }
                 //console.log("DATAPersona", data);
 
@@ -338,7 +338,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                     this.retiro.tipoDocumento = this.persona.tipoDocumento;
                     this.retiro.identificacion = this.persona.identificacion;
                     this.retiro.nombre = this.persona.nombre;
-                    this.retiro.email = !this.retiro.email?this.persona.email:this.retiro.email;
+                    this.retiro.email = !this.retiro.email ? this.persona.email : this.retiro.email;
                 }
                 this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
 
@@ -352,7 +352,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 //console.log("RETIRO   ", this.retiro);        
                 this.retiro.operacion = 'efectivo';
 
-                this.saveOrUpdate(this.retiroService, this.retiro, 'el retiro en efectivo');
+                this.saveOrUpdate(this.retiroService, this.retiro, 'el retiro en efectivo', false);
                 this.loadingDataForm.subscribe(status => {
 
                     if (!status) {
@@ -361,8 +361,11 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                         this.conoAnterior = [];
                         this.detalleEfectivo = 0;
                         this.cuentasBancarias.next([]);
-
-                        this.router.navigate(['/sirio/welcome']).then(data => { });
+                        this.loadingDataForm.subscribe(status => {
+                            if (!status) {
+                                this.router.navigate(['/sirio/welcome']).then(data => { });
+                            }
+                        })
                     }
                 })
             }
@@ -409,18 +412,18 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.detalleEfectivo = 0;
         this.f.email.reset('');
     }
-   
-    resetInfoBenef() {    
-           
-        if (this.f.email.disable){            
-            return;           
+
+    resetInfoBenef() {
+
+        if (this.f.email.disable) {
+            return;
         }
-       
-        if (this.f.email.enable && this.f.email == undefined){                
+
+        if (this.f.email.enable && this.f.email == undefined) {
             this.f.email.reset('');
-           
+
         }
-           
-       }
-  
+
+    }
+
 }
