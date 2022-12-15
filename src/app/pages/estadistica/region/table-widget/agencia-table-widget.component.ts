@@ -9,11 +9,11 @@ import { SaldoRegional } from 'src/@sirio/domain/services/control-efectivo/saldo
 import { ListColumn } from 'src/@sirio/shared/list/list-column.model';
 
 @Component({
-  selector: 'sirio-agencia-widget-table',
-  templateUrl: './agencia-widget-table.component.html',
-  styleUrls: ['./agencia-widget-table.component.scss']
+  selector: 'sirio-agencia-table-widget',
+  templateUrl: './agencia-table-widget.component.html',
+  styleUrls: ['./agencia-table-widget.component.scss']
 })
-export class AgenciaWidgetTableComponent implements OnInit, AfterViewInit {
+export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
 
   @Input() columns: ListColumn[];
   @Input() pageSize = 10;

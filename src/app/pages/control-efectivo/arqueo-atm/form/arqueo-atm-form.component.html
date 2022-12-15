@@ -39,7 +39,7 @@
                 </div>
 
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                    <mat-form-field fxFlex="20">
+                    <mat-form-field fxFlex="25">
                         <mat-label>{{'Último Arqueo' | translate: {default: 'Último Arqueo'} | translate }}</mat-label>
                         <input matInput [value]="arqueoAtm.fecha" readonly>
                     </mat-form-field>
@@ -49,10 +49,26 @@
                         <input matInput [(ngModel)]="arqueoAtm.secuencia">
                     </mat-form-field>
 
-                    <mat-form-field fxFlex="20">
+    
+                    <div fxFlex="15" class="text-center margin-top-md">
+                        <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esRetiroAtm" (change)="esRetiroEvent($event)">
+                            Efectuar Retiro
+                        </mat-slide-toggle>
+                    </div>
+
+
+                    <div fxFlex="20" class="text-center margin-top-md">
+                        <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esIncrementoAtm" (change)="esIncrementoEvent($event)">
+                            Efectuar Incremento
+                        </mat-slide-toggle>
+                    </div>
+
+
+                    <mat-form-field fxFlex="20" appearance="standart">
                         <mat-label>{{'Monto Total' | translate: {default: 'Monto Total'} | translate }}</mat-label>
                         <input matInput [value]="arqueoAtm.monto | number:'1.2'" readonly class="text-right">
                     </mat-form-field>
+
                 </div>       
 
                 <div fxLayout="column" class="margin-h padding-v">
@@ -160,7 +176,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esIncrementoAtm">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'Incremento' | translate: {default: 'Incremento'} |
                                     translate}}</span>
@@ -171,7 +187,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esRetiroAtm">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'Retiro' | translate: {default: 'Retiro'} | translate}}</span>
                             </ng-template>

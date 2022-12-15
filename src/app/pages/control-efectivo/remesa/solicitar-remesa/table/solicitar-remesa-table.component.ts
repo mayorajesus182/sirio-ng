@@ -63,8 +63,8 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
     this.swalService.show('¿Desea Anular la Solicitud?', data.element.id).then((resp) => {
       if (!resp.dismiss) {
         this.remesaService.annular(data.element).subscribe(data => {
-          this.successResponse('La Remesa', 'Anulada', false);
           this.loadList();
+          this.successResponse('La Remesa', 'Anulada', false);
           return data;
       }, error => this.errorResponse(true));
       }
