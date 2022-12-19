@@ -7,6 +7,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface CuentaBanco {
     id: number;
+    persona: number;
     numeroCuenta: string;
     moneda: string;
     tipoSubproducto: string;

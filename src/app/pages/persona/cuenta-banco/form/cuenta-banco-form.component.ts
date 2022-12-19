@@ -20,6 +20,7 @@ import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
+import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -48,6 +49,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     nombreCompletoPersona = 'FULL NAME';
 
     cuentaBanco: CuentaBanco = {} as CuentaBanco;
+    persona: Persona = {} as Persona;
     constants = GlobalConstants;
     estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
@@ -181,8 +183,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     addPerson(event) {
-        //console.log('create ', event);
-        //console.log('add new person');
+      
+        console.log('create ', event);
         this.isNew = true;
         this.cuentaBanco = {} as CuentaBanco;
         // this.updateDataFromValues(this.cuentaBanco, event);
@@ -197,10 +199,12 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     updatePerson(event) {
-        //console.log('update ', event);
+        console.log('update ', event);
         if (!event.id) {
             return;
         }
+
+        this.persona=event;
         // this.loadingDataForm.next(true);
         this.isNew = true;
         this.cuentaBanco = {} as CuentaBanco;
@@ -242,6 +246,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         console.log(this.cuentaBanco);
 
+        // this.cuentaBanco.paisDestino='VES';
+        // this.cuentaBanco.paisOrigen='VES';
+
+        this.cuentaBanco.fondoExterior= this.f.fondoExterior.value==true?1:0;
+        this.cuentaBanco.persona= this.persona.id;
 
         if (this.isNew) {
 
