@@ -39,10 +39,6 @@
                 </div>
 
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                    <mat-form-field fxFlex="25">
-                        <mat-label>{{'Último Arqueo' | translate: {default: 'Último Arqueo'} | translate }}</mat-label>
-                        <input matInput [value]="arqueoAtm.fecha" readonly>
-                    </mat-form-field>
 
                     <mat-form-field fxFlex="20">
                         <mat-label>{{'Secuencia' | translate: {default: 'Secuencia'} | translate }}</mat-label>
@@ -63,6 +59,10 @@
                         </mat-slide-toggle>
                     </div>
 
+                    <mat-form-field fxFlex="25" appearance="standart">
+                        <mat-label>{{'Último Arqueo' | translate: {default: 'Último Arqueo'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.fecha" readonly>
+                    </mat-form-field>
 
                     <mat-form-field fxFlex="20" appearance="standart">
                         <mat-label>{{'Monto Total' | translate: {default: 'Monto Total'} | translate }}</mat-label>
