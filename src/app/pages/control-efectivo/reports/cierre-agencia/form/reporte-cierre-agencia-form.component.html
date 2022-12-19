@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['materialCostsRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agencyClosingsRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'materialCostsRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'agencyClosingsRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                        
@@ -26,27 +26,40 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
+
                     <div fxLayout="column">
                         <form [formGroup]="itemForm" *ngIf="itemForm">
+
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
                                 <sirio-select-search
-                                    fxFlex.gt-xs="100"
-                                    [label]="'materialCostsRep.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
-                                    formControlName="transportista" [required]="true" [elements]="transportistas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.transportista?.errors">
-                                </sirio-select-search> 
+                                    fxFlex.gt-xs="50"
+                                    [label]="'agencyClosingsRep.agency' | translate: {default: 'global.agency'} | translate"
+                                    formControlName="agencia" [required]="true" [elements]="agencias.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search
+                                    fxFlex.gt-xs="50"
+                                    [label]="'agencyClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors">
+                                </sirio-select-search>
+                                
                             </div>
+
                         </form>
                     </div>
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
+                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
-                            <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i>{{'button.generate' | translate: {default:
+                            <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>

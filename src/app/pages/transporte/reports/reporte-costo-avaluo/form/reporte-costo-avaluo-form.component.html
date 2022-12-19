@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['employeesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['appraisalCostsRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'employeesRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'appraisalCostsRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                        
@@ -31,7 +31,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search
                                     fxFlex.gt-xs="100"
-                                    [label]="'employeesRep.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
+                                    [label]="'appraisalCostsRep.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
                                     formControlName="transportista" [required]="true" [elements]="transportistas.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.transportista?.errors">
                                 </sirio-select-search> 

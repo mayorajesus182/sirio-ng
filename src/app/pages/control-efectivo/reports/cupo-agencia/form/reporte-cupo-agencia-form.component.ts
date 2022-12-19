@@ -7,19 +7,22 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { ReporteGestionEfectivoAgencia, ReporteGestionEfectivoAgenciaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/reports-gestion-efectivo-agencia.service';
+import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-reporte-agencia-operativa-form',
-    templateUrl: './reporte-agencia-operativa-form.component.html',
-    styleUrls: ['./reporte-agencia-operativa-form.component.scss'],
+    selector: 'app-reporte-cupo-agencia-form',
+    templateUrl: './reporte-cupo-agencia-form.component.html',
+    styleUrls: ['./reporte-cupo-agencia-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent implements OnInit {
+export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implements OnInit {
 
     public regiones = new BehaviorSubject<Region[]>([]);
+    public agencias = new BehaviorSubject<Agencia[]>([]);
+
     reporteGestionEfectivoAgencia: ReporteGestionEfectivoAgencia = {} as ReporteGestionEfectivoAgencia;
 
     constructor(
@@ -29,6 +32,7 @@ export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent impl
         private route: ActivatedRoute,
         private reporteGestionEfectivoAgenciaService: ReporteGestionEfectivoAgenciaService,
         private regionService: RegionService,
+        private agenciaService: AgenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -43,6 +47,14 @@ export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent impl
     buildForm() {
         this.itemForm = this.fb.group({
             region: new FormControl({ value: this.reporteGestionEfectivoAgencia.region || undefined }, [Validators.required]),
+            agencia: new FormControl({ value: this.reporteGestionEfectivoAgencia.agencia|| undefined }, [Validators.required]),
+        });
+
+        this.f.region.valueChanges.subscribe(value => {
+            this.agenciaService.findActivesByRegion(value).subscribe(data => {
+                this.agencias.next(data);
+                this.cdr.detectChanges();
+            });
         });
     }
 
@@ -51,11 +63,12 @@ export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent impl
             return;
         this.updateData(this.reporteGestionEfectivoAgencia);
         this.loadingDataForm.next(true);
-        this.reporteGestionEfectivoAgenciaService.agenciaOperativa(this.reporteGestionEfectivoAgencia).subscribe(data => {
+        this.reporteGestionEfectivoAgenciaService.cupoAgencia(this.reporteGestionEfectivoAgencia).subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
             this.download(name, blob);
         });
+        this.itemForm.reset({});
     }
 }

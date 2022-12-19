@@ -10,14 +10,14 @@ import { ReporteGestionEfectivoAgencia, ReporteGestionEfectivoAgenciaService } f
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-reporte-agencia-operativa-form',
-    templateUrl: './reporte-agencia-operativa-form.component.html',
-    styleUrls: ['./reporte-agencia-operativa-form.component.scss'],
+    selector: 'app-reporte-taquilla-operativa-form',
+    templateUrl: './reporte-taquilla-operativa-form.component.html',
+    styleUrls: ['./reporte-taquilla-operativa-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent implements OnInit {
+export class ReporteTaquillaOperativaFormComponent extends FormBaseComponent implements OnInit {
 
     public regiones = new BehaviorSubject<Region[]>([]);
     reporteGestionEfectivoAgencia: ReporteGestionEfectivoAgencia = {} as ReporteGestionEfectivoAgencia;
@@ -51,7 +51,7 @@ export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent impl
             return;
         this.updateData(this.reporteGestionEfectivoAgencia);
         this.loadingDataForm.next(true);
-        this.reporteGestionEfectivoAgenciaService.agenciaOperativa(this.reporteGestionEfectivoAgencia).subscribe(data => {
+        this.reporteGestionEfectivoAgenciaService.taquillaOperativa(this.reporteGestionEfectivoAgencia).subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
