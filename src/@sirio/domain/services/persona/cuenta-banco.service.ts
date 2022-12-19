@@ -22,11 +22,7 @@ export interface CuentaBanco {
     fondoExterior: number;
     paisOrigen: string;
     paisDestino: string;
-
-    // producto: string;
-    // subProducto: string;
-    // monedaPal: string;
-
+    tipoProducto: string;
 }
 
 @Injectable({
@@ -38,10 +34,9 @@ export class CuentaBancoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/cuenta-bancaria'};
+        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/cuenta-banco'};
     }
-
-
+    
     actives(): Observable<CuentaBanco[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
@@ -57,11 +52,6 @@ export class CuentaBancoService {
     getByNumper(numper: string): Observable<CuentaBanco> {
         return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/get`);
     }
-
-    // detail(id: string): Observable<PersonaNatural> {
-    //     return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
-    // }
-
 
     save(data: CuentaBanco): Observable<any> {
         return this.apiService.config(this.apiConfig).post('/create', data)

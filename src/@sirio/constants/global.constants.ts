@@ -25,5 +25,6 @@ export class GlobalConstants {
   public static BOVEDA_PRINCIPAL_NAME = 'BÓVEDA PRINCIPAL';
   public static CUENTA_AHORRO = '01';
   public static CUENTA_CORRIENTE = '02';
-static CUENTA_BANCO: any;
+  public static CUENTA_BANCO = 'J';
+  // static CUENTA_BANCO: any;
 };

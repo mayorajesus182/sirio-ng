@@ -19,6 +19,7 @@ import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/doma
 import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/configuracion/producto/promedio-monto.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
+import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -59,8 +60,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     promedioTransacciones = new BehaviorSubject<PromedioTransaccion[]>([]);
     promedioMontos = new BehaviorSubject<PromedioMonto[]>([]);
 
-    
-    tipoSubproducto = new BehaviorSubject<TipoSubproducto[]>([]);
+    tipoProducto = new BehaviorSubject<TipoProducto[]>([]);
+        
+    tipoSubproductos = new BehaviorSubject<TipoSubproducto[]>([]);
 
     moneda = new BehaviorSubject<Moneda[]>([]);
 
@@ -80,7 +82,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private promedioMontoService: PromedioMontoService,
         private paisService: PaisService,
         private tipoSubproductoService: TipoSubproductoService,
-        
+        private tipoProductoService: TipoProductoService,       
 
         private monedaService: MonedaService,
         private cdr: ChangeDetectorRef) {
@@ -101,14 +103,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     // });
                 // }
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
-
-                // if (this.f.estadoCivil && this.f.estadoCivil.value) {
-
-                //     this.estado_civil = this.f.estadoCivil.value;
-                // }
             }
         });
-
     }
 
     ngOnInit() {
@@ -143,9 +139,12 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         });
 
         this.tipoSubproductoService.actives().subscribe(data => {
-            this.tipoSubproducto.next(data);
+            this.tipoSubproductos.next(data);
         });
 
+        this.tipoProductoService.actives().subscribe(data => {
+            this.tipoProducto.next(data);
+        });
 
         this.cdr.detectChanges();        
     }
@@ -153,35 +152,32 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     buildForm(cuentaBanco: CuentaBanco) { 
 
         this.itemForm = this.fb.group({
-            numeroCuenta: new FormControl(cuentaBanco.numeroCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            moneda: new FormControl(cuentaBanco.moneda || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            tipoSubproducto: new FormControl(cuentaBanco.tipoSubproducto || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            numeroCuenta: new FormControl(cuentaBanco.numeroCuenta || undefined, [Validators.required]),           
+            moneda: new FormControl(cuentaBanco.moneda || undefined, [Validators.required]),
+            tipoSubproducto: new FormControl(cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(cuentaBanco.origenFondo || undefined, [Validators.required]),
-            destinoCuenta: new FormControl(cuentaBanco.destinoCuenta || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            destinoCuenta: new FormControl(cuentaBanco.destinoCuenta || undefined, [Validators.required]),
             motivoSolicitud: new FormControl(cuentaBanco.motivoSolicitud || undefined, [Validators.required]),
-            transaccionesCredito: new FormControl(cuentaBanco.transaccionesCredito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            montoCredito: new FormControl(cuentaBanco.montoCredito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            transaccionesDebito: new FormControl(cuentaBanco.transaccionesDebito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            montoDebito: new FormControl(cuentaBanco.montoDebito || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            transaccionesElectronico: new FormControl(cuentaBanco.transaccionesElectronico || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            montoElectronico: new FormControl(cuentaBanco.montoElectronico || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            // fondoExterior: new FormControl(cuentaBanco.fondoExterior || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-           
-            fondoExterior: new FormControl(cuentaBanco.fondoExterior || undefined),
-            paisOrigen: new FormControl(cuentaBanco.paisOrigen || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-            paisDestino: new FormControl(cuentaBanco.paisDestino || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+            transaccionesCredito: new FormControl(cuentaBanco.transaccionesCredito || undefined, [Validators.required]),
+            montoCredito: new FormControl(cuentaBanco.montoCredito || undefined, [Validators.required]),
+            transaccionesDebito: new FormControl(cuentaBanco.transaccionesDebito || undefined, [Validators.required]),
+            montoDebito: new FormControl(cuentaBanco.montoDebito || undefined, [Validators.required]),            
+            transaccionesElectronico: new FormControl(cuentaBanco.transaccionesElectronico || undefined, [Validators.required]),
+            montoElectronico: new FormControl(cuentaBanco.montoElectronico || undefined, [Validators.required]),
+            fondoExterior: new FormControl(cuentaBanco.fondoExterior || false),
+            paisOrigen: new FormControl(cuentaBanco.paisOrigen || undefined),
+            paisDestino: new FormControl(cuentaBanco.paisDestino || undefined),
         });
 
         // verifico si tengo datos basicos cargados
         // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
-        this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
+        this.tipoDocumentoService.activesByTipoPersona(this.constants.CUENTA_BANCO).subscribe(data => {
             this.tipoDocumentos.next(data);
             const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
             this.f.tipoDocumento.setValue( tipo.nombre);
         });
     }
-
 
     addCuenta(event) {
         //console.log('create ', event);
@@ -224,7 +220,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     queryResult(event) {
-        //console.log('event result ', event);
+        console.log('event result ', event);
 
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
@@ -241,23 +237,16 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.updateData(this.cuentaBanco);
 
         console.log(this.cuentaBanco);
-        
 
-        // console.log(this.personaNatural);
-        // this.cuentaBanco.fechaNacimiento = this.cuentaBanco.fechaNacimiento.format('DD/MM/YYYY');
-
-
-        // this.saveOrUpdate(this.personaNaturalService, this.personaNatural, 'El Registro de Persona').subscribe(resp=>//console.log(resp));
-
+       
         if (this.isNew) {
 
             this.cuentaBancoService.save(this.cuentaBanco).subscribe(data => {
-                //console.log(data);
+                console.log(data);
 
                 this.cuentaBanco = data;
-                this.successResponse('La persona', 'creada',true);
+                this.successResponse('La Cuenta Banco', 'creada',true);
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
-
 
             }, error => this.errorResponse(true));
 
@@ -272,7 +261,16 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     send() {
 
-        //console.log('send data al banco');
+        console.log('send data al banco');
     }
+
+    // moneda(){
+
+    //     if(!this.f.moneda.value || this.f.moneda.value.length==0 || !this.moneda.value){
+    //       return '';
+    //     }
+    //     return this.moneda.value.filter(m=>m.id===this.f.moneda.value)[0]?.moneda || '';
+    // }
+
 
 }
