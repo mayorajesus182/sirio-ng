@@ -5,15 +5,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
-export interface ReporteGestionEfectivo {
+export interface ReporteGestionEfectivoAgencia {
     region: string
     agencia: string
+    moneda: string
  }
 
 @Injectable({
     providedIn:'root'
 })
-export class ReporteGestionEfectivoService {
+export class ReporteGestionEfectivoAgenciaService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
@@ -22,19 +23,19 @@ export class ReporteGestionEfectivoService {
         this.apiConfig = {name: ApiConfConstants.API_REPORT, prefix: '/gestion-efectivo/agencia'};
     }
 
-    agenciaOperativa(params: ReporteGestionEfectivo): Observable<any> {
+    agenciaOperativa(params: ReporteGestionEfectivoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.region}/resumen/agencia-operativa`);
     }
 
-    cupoAgencia(params: ReporteGestionEfectivo): Observable<any> {
+    cupoAgencia(params: ReporteGestionEfectivoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.agencia}/${params.region}/resumen/cupo-agencia`);
     }
 
-    taquillaOperativa(params: ReporteGestionEfectivo): Observable<any> {
+    taquillaOperativa(params: ReporteGestionEfectivoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.region}/resumen/taquilla-operativa`);
+    } 
+
+    cierreAgencia(params: ReporteGestionEfectivoAgencia): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.agencia}/${params.moneda}/resumen/cierre-agencia`);
     }
-
-    
-    
-
 }

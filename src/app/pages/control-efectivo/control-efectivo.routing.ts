@@ -83,18 +83,33 @@ const controlEfectivoRoutes: Routes = [
 
     {
         path: 'reporte-agencia-operativa',
-        data: { title: 'region.table' },
+        data: { title: 'Reporte Agencia Operativa' },
         loadChildren: () => import('./reports/agencia-operativa/reporte-agencia-operativa.module').then(m => m.ReporteAgenciaOperativaModule),
     },
     {
         path: 'reporte-taquilla-operativa',
-        data: { title: 'region.table' },
+        data: { title: 'Reporte Taquilla Operativa' },
         loadChildren: () => import('./reports/taquilla-operativa/reporte-taquilla-operativa.module').then(m => m.ReporteTaquillaOperativaModule),
     },
     {
         path: 'reporte-cupo-agencia',
-        data: { title: 'region.table' },
+        data: { title: 'Reporte Cupo Agencia' },
         loadChildren: () => import('./reports/cupo-agencia/reporte-cupo-agencia.module').then(m => m.ReporteCupoAgenciaModule),
+    },
+    {
+        path: 'reporte-cierre-taquilla',
+        data: { title: 'Reporte Cierre Taquilla' },
+        loadChildren: () => import('./reports/cierre-taquilla/reporte-cierre-taquilla.module').then(m => m.ReporteCierreTaquillaModule),
+    },
+    {
+        path: 'reporte-cuadre-taquilla',
+        data: { title: 'Reporte Cuadre Taquilla' },
+        loadChildren: () => import('./reports/cuadre-taquilla/reporte-cuadre-taquilla.module').then(m => m.ReporteCuadreTaquillaModule),
+    },
+    {
+        path: 'reporte-cierre-agencia',
+        data: { title: 'Reporte Cierre Agencia' },
+        loadChildren: () => import('./reports/cierre-agencia/reporte-cierre-agencia.module').then(m => m.ReporteCierreAgenciaModule),
     },
 
 ];
