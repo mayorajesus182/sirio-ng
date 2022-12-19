@@ -34,8 +34,13 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <sirio-person-query [tipo_persona]="constants.CUENTA_BANCO" (result)="queryResult($event)"
-                        (update)="updateCuenta($event)" (create)="addCuenta($event)"></sirio-person-query>
+                    <!-- <sirio-person-query [tipo_persona]="constants.CUENTA_BANCO" (result)="queryResult($event)"
+                        (update)="updateCuenta($event)" (create)="addCuenta($event)"></sirio-person-query> -->
+
+                        <sirio-person-query [tipo_persona]="constants.CUENTA_BANCO" (result)="queryResult($event)"
+                        (update)="addCuenta($event)" (create)="addCuenta($event)"></sirio-person-query>
+
+
                     <!-- {{printErrors() | json}}  -->
 
                     <ng-container *ngIf="loaded$ | async">
@@ -94,19 +99,37 @@
                                     </div> -->
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <sirio-select-search fxFlex="auto"
+
+                                        <sirio-select-search fxFlex="33"
+                                            [label]="'Producto' | translate: {default: 'Producto'} | translate"
+                                            formControlName="tipoProducto" [required]="true"
+                                            [elements]="tipoProducto.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tipoProducto?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex="33"
+                                            [label]="'Nombre del Producto' | translate: {default: 'Nombre del Producto'} | translate"
+                                            formControlName="tipoSubproducto" [required]="true"
+                                            [elements]="tipoSubproductos.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tipoSubproducto?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex="33"
                                             [label]="'Moneda' | translate: {default: 'Moneda'} | translate"
                                             formControlName="moneda" [required]="true"
                                             [elements]="moneda.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.moneda?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="auto"
-                                            [label]="'Nombre del Producto' | translate: {default: 'Nombre del Producto'} | translate"
-                                            formControlName="tipoSubproducto" [required]="true"
-                                            [elements]="tipoSubproducto.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tipoSubproducto?.errors">
-                                        </sirio-select-search>
+                                        <!-- <mat-form-field ffxFlex.gt-xs="25">
+                                            <mat-label>{{'Moneda' | translate: {default:
+                                                'Moneda'} | translate }} </mat-label>
+                                            <input matInput maxlength="100" minlength="1" autocomplete="off" name="" [value]="nombreCiudad()" uppercase readonly>
+                                        </mat-form-field> -->
+
+                                    </div>
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <mat-form-field fxFlex="100">
                                             <mat-label>{{'Número de cuenta de banco' | translate: {default:
@@ -122,9 +145,8 @@
                                             </mat-error>
                                         </mat-form-field>
 
-
-
                                     </div>
+
 
                                     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <mat-panel-title>
@@ -255,9 +277,9 @@
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Transacciones Electronicas' | translate: {default: 'Transacciones Electronicas'} | translate"
-                                            formControlName="transaccionesElectronico"
-                                            [required]="true" [elements]="promedioTransacciones.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.transaccionesElectronico?.errors">
+                                            formControlName="transaccionesElectronico" [required]="true"
+                                            [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.transaccionesElectronico?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
@@ -269,30 +291,35 @@
 
                                     </div>
 
-
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <div fxFlex.gt-sm="25" class="text-right margin-top-md">
+                                        <div fxFlex.gt-sm="30" class="text-center margin-top-md">
                                             <mat-slide-toggle [color]="'primary'" formControlName="fondoExterior"
-                                                name="fondoExterior">
+                                                [(ngModel)]="f.fondoExterior.value" name="fondoExterior">
                                                 {{'¿Enviará o Recibirará Tansferencias En Divisas?' }}
                                             </mat-slide-toggle>
                                         </div>
 
-                                        <sirio-select-search fxFlex="40"
+                                        <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
                                             [label]="'Pais Origen' | translate: {default: 'Pais Origen'} | translate"
-                                            formControlName="paisOrigen" [required]="true"
+                                            formControlName="paisOrigen" [required]="f.fondoExterior.value"
                                             [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.paisOrigen?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="35"
+                                        <!-- <sirio-select-simple fxFlex="20"
+                                            [label]="'naturalPerson.spouseDocumentType' | translate: {default: 'global.spouseDocumentType'} | translate"
+                                            formControlName="tipoDocumentoConyuge" [required]="evaluarEstadoCivil()" [elements]="tipoDocumentos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.tipoDocumentoConyuge?.errors">
+                                        </sirio-select-simple> -->
+
+
+                                        <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
                                             [label]="'Pais Destino' | translate: {default: 'Pais Destino'} | translate"
-                                            formControlName="paisDestino" [required]="true"
+                                            formControlName="paisDestino" [required]="f.fondoExterior.value"
                                             [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.paisDestino?.errors">
                                         </sirio-select-search>
-
                                     </div>
 
 
