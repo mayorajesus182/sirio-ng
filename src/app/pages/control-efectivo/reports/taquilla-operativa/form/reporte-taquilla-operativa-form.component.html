@@ -1,27 +1,22 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['employeesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['operationalBoxOfficesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
-
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
-
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'employeesRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'operationalBoxOfficesRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                       
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
-
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
-
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
@@ -29,18 +24,14 @@
 
                     <div fxLayout="column">
                         <form [formGroup]="itemForm" *ngIf="itemForm">
-
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
                                 <sirio-select-search
                                     fxFlex.gt-xs="100"
-                                    [label]="'employeesRep.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
+                                    [label]="'operationalBoxOfficesRep.region' | translate: {default: 'global.region'} | translate"
                                     formControlName="region" [required]="true" [elements]="regiones.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.region?.errors">
                                 </sirio-select-search>
-                                
                             </div>
-
                         </form>
                     </div>
                 </sirio-card-content>
@@ -56,9 +47,7 @@
                             'global.notfound'} | translate }}
                         </button>
                     </div>
-
                 </mat-toolbar>
-
             </sirio-card>
         </div>
     </sirio-page-layout-content>
