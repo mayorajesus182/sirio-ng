@@ -37,8 +37,8 @@
                     <!-- <sirio-person-query [tipo_persona]="constants.CUENTA_BANCO" (result)="queryResult($event)"
                         (update)="updateCuenta($event)" (create)="addCuenta($event)"></sirio-person-query> -->
 
-                        <sirio-person-query [tipo_persona]="constants.CUENTA_BANCO" (result)="queryResult($event)"
-                        (update)="addCuenta($event)" (create)="addCuenta($event)"></sirio-person-query>
+                        <sirio-person-query  (result)="queryResult($event)"
+                        (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
 
 
                     <!-- {{printErrors() | json}}  -->
@@ -103,7 +103,7 @@
                                         <sirio-select-search fxFlex="33"
                                             [label]="'Producto' | translate: {default: 'Producto'} | translate"
                                             formControlName="tipoProducto" [required]="true"
-                                            [elements]="tipoProducto.asObservable()" [attributeName]="'nombre'"
+                                            [elements]="tipoProductos.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.tipoProducto?.errors">
                                         </sirio-select-search>
 
