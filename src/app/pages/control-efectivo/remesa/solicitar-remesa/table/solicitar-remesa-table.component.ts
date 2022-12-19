@@ -71,9 +71,10 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
     });
   }
 
-  // activateOrInactivate(data: any) {
-  //   this.applyChangeStatus(this.remesaService, data.element, data.element.nombre, this.cdr);
-  // }
+  view(data: any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+  }
+
 
 }
 
