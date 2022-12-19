@@ -154,6 +154,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.itemForm = this.fb.group({
             numeroCuenta: new FormControl(cuentaBanco.numeroCuenta || undefined, [Validators.required]),           
             moneda: new FormControl(cuentaBanco.moneda || undefined, [Validators.required]),
+            tipoProducto: new FormControl(cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             tipoSubproducto: new FormControl(cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(cuentaBanco.origenFondo || undefined, [Validators.required]),
             destinoCuenta: new FormControl(cuentaBanco.destinoCuenta || undefined, [Validators.required]),
