@@ -5,8 +5,10 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoRegional } from 'src/@sirio/domain/services/control-efectivo/saldo-regional.service';
 import { ListColumn } from 'src/@sirio/shared/list/list-column.model';
+import { AgenciaChartPopupComponent } from '../agencia-resumen/popup/agencia-chart.popup.component';
 
 @Component({
   selector: 'sirio-agencia-table-widget',
@@ -17,17 +19,14 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
 
   @Input() columns: ListColumn[];
   @Input() pageSize = 10;
-  /**
-   * Simulating a service with HTTP that returns Observables
-   * You probably want to remove this and do all requests in a service with HTTP
-   */
   subject$: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
   data$: Observable<SaldoRegional[]> = this.subject$.asObservable();
   dataSource: MatTableDataSource<any> | null;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog,
+    private saldoAgenciaService: SaldoAgenciaService) {
   }
 
   @Input() set data(value: any[]) {
@@ -57,6 +56,19 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
   }
   reload(){
     
+  }
+
+  openDataAgencia(agencia:string){
+
+      this.dialog.open(AgenciaChartPopupComponent, {
+        panelClass: 'dialog-frame',
+        position: {top: '3%'} ,
+        width: '60%',
+        disableClose: true,
+        data: {id:agencia,title:`Agencia ${agencia}`}
+      });
+  
+
   }
 
 }

@@ -65,6 +65,10 @@ export class SaldoAgenciaService {
         return this.apiService.config(this.apiConfig).get(`/datachart`);
     }
 
+    datachartByAgencia(agencia:string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/{agencia}/datachart`);
+    }
+
     allWithMovements(): Observable<SaldoAgencia[]> {
         return this.apiService.config(this.apiConfig).get(`/conmovimiento/list`);
     }
