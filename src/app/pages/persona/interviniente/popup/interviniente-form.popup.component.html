@@ -1,0 +1,58 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{'personAddress.form'|translate}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'Tipo Participacion' | translate: {default: 'Tipo Participacion'} | translate"
+        formControlName="tipoParticipacion" [required]="true" [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.tipoParticipacion?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'Tipo Participacion' | translate: {default: 'Tipo Participacion'} | translate"
+        formControlName="tipoFirma" [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.tipoFirma?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="25" [label]="'Tipo Participacion' | translate: {default: 'Tipo Participacion'} | translate"
+        formControlName="tipoFirmante" [required]="true" [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.tipoFirmante?.errors">
+      </sirio-select-search>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row">
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'personAddress.reference' | translate: {default: 'Punto de Referencia'} | translate }}
+        </mat-label>
+        <input matInput maxlength="60" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
+        <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharater' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.referencia.errors?.exists">{{'error.codeExists' | translate}}
+        </mat-error>
+        <mat-error *ngIf="f.referencia.errors?.minlength">Debe tener 4 caracteres</mat-error>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

@@ -45,6 +45,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     hasBasicData = false;
     showAddress = false;
 
+    showIntervinientes = false;
+
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
 
@@ -284,6 +286,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     //     }
     //     return this.moneda.value.filter(m=>m.id===this.f.moneda.value)[0]?.moneda || '';
     // }
+
+    openInterviniente(opened: boolean) {
+        this.showIntervinientes = opened;
+        this.cdr.detectChanges();
+    }
 
 
 }
