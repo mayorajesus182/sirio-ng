@@ -208,9 +208,10 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
         } else {
 
-            if (event && event.montoTotal > 0) {
-                this.f.montoCheque.setValue(event.montoTotal);
+            if(event){          
+                this.f.montoCheque.setValue(this.f.monto.value)
             }
+
             this.f.montoCheque.setErrors(undefined);
             this.f.monto.setErrors(undefined);
         }

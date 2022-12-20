@@ -118,28 +118,42 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos 
         if (Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.totalRetiro.value) : this.f.totalRetiro.value)) >= 1) {
+           
             this.f.totalRetiro.setErrors({
                 totalDifference: true
             });
             this.f.totalRetiro.markAsDirty();
+           
             this.f.monto.setErrors({
                 difference: true
             });
-            this.f.monto.markAsDirty();
-            if (event && event.montoTotal > 0) {
+    
+           //this.f.monto.markAsDirty();
+           
+           if (event && event.montoTotal > 0) {
                 this.f.totalRetiro.setValue(event.montoTotal);
             }
+
+           /* if (event && (event.montoTotal > 0)) {
+                //this.f.monto.setValue(event.montoTotal);
+                this.f.totalRetiro.setValue(this.f.monto.value)
+            }
+            this.f.totalRetiro.markAsDirty();*/
 
 
         } else {
 
-            if (event && event.montoTotal > 0) {
-                this.f.totalRetiro.setValue(event.montoTotal);
+            if(event){          
+                this.f.totalRetiro.setValue(this.f.monto.value)
             }
 
             this.f.totalRetiro.setErrors(undefined);
             this.f.monto.setErrors(undefined);
         }
+       
+
+
+
     }
 
 
