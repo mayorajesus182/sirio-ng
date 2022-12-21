@@ -63,7 +63,7 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
       this.dialog.open(AgenciaChartPopupComponent, {
         panelClass: 'dialog-frame',
         position: {top: '3%'} ,
-        width: '60%',
+        width: '75%',
         disableClose: true,
         data: {id:agencia,title:`Agencia ${agencia}`}
       });

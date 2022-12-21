@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>Movimientos en la {{defaults.title}}</h1> <span>Estatus Actual</span>
+    <h1>{{defaults.title}}</h1> <span>Estatus Actual</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -12,22 +12,36 @@
 </sirio-dialog-header>
 
 
-<div>
-  <mat-dialog-content>
-    <div fxLayout="column" fxLayout.gt-sm="row " fxLayoutGap.gt-sm="10px">
-      <div fxFlex.gt-xs="100" fxFlex="100">
-        <!-- <sirio-bar-vert-chart-widget (reload)="reload()" [moneda_curr]="moneda" [data]="dataTaquilla.asObservable()" [monedas]="coinAvailables.asObservable()"
-          title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget> -->
-      </div>
-      <div fxFlex.gt-xs="100" fxFlex="100">
-        <!-- <sirio-bar-horiz-chart-widget (reload)="reload()" [moneda_curr]="moneda" [data]="detailTaquilla.asObservable()" [monedas]="coinAvailables.asObservable()"
-          title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget> -->
-      </div>
-    </div>
-  </mat-dialog-content>
+<mat-dialog-content>
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-raised-button color="default" (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  </mat-dialog-actions>
-  <sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>
-</div>
+
+  <!-- FIRST ROW -->
+  <div fxLayout="column">
+    <!-- <div fxLayout.gt-sm="row" fxFlex="100" class="padding-sm"> -->
+      <div fxLayout="row" fxLayoutGap="20px" fxFlex="100" fxLayoutAlign="start stretch">
+        <!-- <div fxLayout="row" class="margin-bottom-md"> -->
+        <div fxFlex="auto">
+
+          <sirio-bar-vert-chart-widget (reload)="reload()" [data]="dataAgencia.asObservable()" [monedas]="coinAvailables.asObservable()"
+            title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
+        </div>
+
+        <div fxFlex="auto">
+
+          <sirio-bar-horiz-chart-widget (reload)="reload()" [data]="detailAgencia.asObservable()" [monedas]="coinAvailables.asObservable()"
+            title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget>
+
+        </div>
+        <!-- </div> -->
+      </div>
+
+    <!-- </div> -->
+
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-raised-button color="default" (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+</mat-dialog-actions>
+<sirio-loading-overlay [isLoading]="isLoading"></sirio-loading-overlay>

@@ -43,11 +43,13 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
     console.log('moneda curr ', this.moneda_curr);
     
     this.monedas.subscribe(list=>{
-      console.log(list);
-      
-      this.currentMoneda= this.moneda_curr || list[0];
-      this.availableCoins = list;
-      this.reload();
+      if(list){
+        console.log('Monedas ',list);
+        
+        this.currentMoneda= this.moneda_curr || list[0];
+        this.availableCoins = list;
+        this.reload();
+      }
     });
   }
 
