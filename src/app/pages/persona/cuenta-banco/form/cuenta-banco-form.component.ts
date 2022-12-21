@@ -32,7 +32,7 @@ import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 
 export class CuentaBancoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
     todayValue: moment.Moment;
-    totalAddress: number;
+    totalIntervinientes: number;
     totalRegistroMercantil: number;
     totalInfoLab: number;
     totalPep: number;
@@ -261,7 +261,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
                 this.cuentaBanco = data;
                 this.successResponse('La Cuenta Banco', 'creada', true);
+
+ 
+                
+
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
+
+                console.log(' this.hasBasicData  ', this.hasBasicData);
+                this.cdr.detectChanges();
 
             }, error => this.errorResponse(true));
 
@@ -288,9 +295,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     // }
 
     openInterviniente(opened: boolean) {
+
+        console.log('send data al Interviniente');
+
         this.showIntervinientes = opened;
         this.cdr.detectChanges();
     }
-
-
 }

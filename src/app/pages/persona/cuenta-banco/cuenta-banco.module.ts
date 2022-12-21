@@ -26,9 +26,8 @@ import { CuentaBancoFormComponent } from './form/cuenta-banco-form.component';
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
-
         CuentaBancoRoutingModule,
-        IntervinienteModule,
+        IntervinienteModule
     ],
     declarations: [
         CuentaBancoFormComponent,

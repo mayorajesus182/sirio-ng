@@ -345,31 +345,12 @@
                             </mat-expansion-panel>
 
                             <!-- {{printErrors() | json}} -->
-
-                            <!-- <mat-expansion-panel *ngIf="hasBasicData" (opened)="openApoderado(true)" (closed)="openApoderado(false)">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>peoples</mat-icon>
-                                        </button>
-                                        <span class="margin-top-sm semi-bold">Condición de Firma de(los) Participante(s) </span>
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-
-                                    <span class="notification-number margin-top-sm" matBadgeColor="accent" ></span>
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
-
-                                <div fxLayout="row" fxLayout="column" *ngIf="showApoderado">
-
-                                    <sirio-persona-apoderado-table [persona]="personaJuridica.id" (propagar)="updateApoderado($event)"></sirio-persona-apoderado-table>
-
-                                </div>
-
-                            </mat-expansion-panel> -->
+                            <!-- {{'holaaaa 1'}} -->
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInterviniente(true)"
                                 (closed)="openInterviniente(false)">
+
+                               
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -379,17 +360,18 @@
                                     </mat-panel-title>
                                     <mat-panel-description>
                                         <span class="notification-number margin-top-sm" matBadgeColor="accent"
-                                            [matBadge]="totalAddress"></span>
+                                            [matBadge]="totalIntervinientes"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
+                               
+                                {{printErrors() | json}} 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showIntervinientes">
-                                    <sirio-persona-interviniente-table [persona]="personaNatural.id"></sirio-persona-interviniente-table>
+                                    <sirio-persona-interviniente-table [persona]="cuentaBanco.id"></sirio-persona-interviniente-table>
 
                                 </div>
 
                             </mat-expansion-panel>
-
 
 
                         </mat-accordion>

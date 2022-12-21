@@ -15,6 +15,7 @@ export interface Interviniente {
     tipoFirma: String
     
     tipoFirmante?: String
+
 }
 
 @Injectable({
