@@ -6,6 +6,7 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 
 export interface Moneda {
+    moneda: string;
     id: string;
     nombre: string;
     siglas: string;

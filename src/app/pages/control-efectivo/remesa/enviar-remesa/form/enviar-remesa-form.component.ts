@@ -481,8 +481,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.remesa.detalleEfectivo = this.conoSave;
         this.remesa.plomos = this.plomoList.join(',');
 
-        console.log('this.remesa     ', this.remesa);
-
         if (this.isNew) {
             this.remesaService.sendCreate(this.remesa).subscribe(data => {
                 this.itemForm.reset({});

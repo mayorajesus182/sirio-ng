@@ -127,7 +127,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   esIncrementoEvent(event) {
     if (event.checked) {
       this.arqueoAtm.esRetiroAtm = false;
-      this.arqueoAtm.detalles.forEach((row,rowIndex) => {
+      this.arqueoAtm.detalles.forEach((row, rowIndex) => {
         row.retiro = 0;
         this.updateValuesErrors(row, rowIndex);
       });
@@ -137,7 +137,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   esRetiroEvent(event) {
     if (event.checked) {
       this.arqueoAtm.esIncrementoAtm = false;
-      this.arqueoAtm.detalles.forEach((row,rowIndex) => {
+      this.arqueoAtm.detalles.forEach((row, rowIndex) => {
         row.incremento = 0;
         this.updateValuesErrors(row, rowIndex);
       });
@@ -147,8 +147,16 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   save() {
     this.arqueoAtm.atm = this.atmId;
     this.arqueoAtm.tipoArqueo = TipoArqueoConstants.CHEQUEO;
-    this.saveOrUpdate(this.arqueoAtmService, this.arqueoAtm, 'El Arqueo', this.isNew);
-    this.back();
+    // this.saveOrUpdate(this.arqueoAtmService, this.arqueoAtm, 'El Arqueo', this.isNew);
+    // this.back();
+    this.swalService.show('¿Desea Realizar el Arqueo del ATM?', this.atmId + ' - ' + this.atm).then((resp) => {
+      if (!resp.dismiss) {
+        this.arqueoAtmService.save(this.arqueoAtm).subscribe(data => {
+          this.successResponse('El Arqueo', 'Realizado', false);
+          return data;
+        }, error => this.errorResponse(true));
+      }
+    });
   }
 
 }

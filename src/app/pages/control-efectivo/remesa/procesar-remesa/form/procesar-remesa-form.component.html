@@ -33,13 +33,13 @@
                                     <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="25">
+                                <mat-form-field fxFlex.gt-xs="20">
                                     <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.nombreMoneda" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="15">
+                                <mat-form-field fxFlex.gt-xs="20">
                                     <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">

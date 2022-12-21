@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
@@ -21,8 +20,15 @@ export class SaldoAgenciaReportService {
     reportResumen(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/resumen');
     }
+    reportResumenByAgencia(agencia:string): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet(`/${agencia}/resumen`);
+    }
 
     reportResumenEfectivo(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/resumen/efectivo');
+    }
+
+    reportResumenEfectivoByAgencia(agencia:string): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet(`/${agencia}/resumen/efectivo`);
     }
 }

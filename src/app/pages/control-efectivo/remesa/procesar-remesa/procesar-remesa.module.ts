@@ -9,6 +9,7 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { DespacharRemesaFormComponent } from './form/despachar-remesa-form.component';
 import { ProcesarRemesaFormComponent } from './form/procesar-remesa-form.component';
 import { ProcesarRemesaRoutingModule } from './procesar-remesa-routing.module';
 import { ProcesarRemesaTableComponent } from './table/procesar-remesa-table.component';
@@ -31,7 +32,8 @@ import { ProcesarRemesaTableComponent } from './table/procesar-remesa-table.comp
     ],
     declarations: [
         ProcesarRemesaTableComponent,
-        ProcesarRemesaFormComponent
+        ProcesarRemesaFormComponent,
+        DespacharRemesaFormComponent,
     ],
     exports: [],
 })
