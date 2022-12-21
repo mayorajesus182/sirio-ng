@@ -14,12 +14,8 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 })
 export class AgenciaChartPopupComponent extends PopupBaseComponent implements OnInit {
 
-
-
   dataAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
-
-
 
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});

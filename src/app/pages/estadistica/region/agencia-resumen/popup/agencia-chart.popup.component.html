@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>{{defaults.title}}</h1> <span>Estatus Actual</span>
+    <h1>{{defaults.title}}</h1> <span>{{defaults.subtitle}} - Estatus Actual</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -22,13 +22,13 @@
         <!-- <div fxLayout="row" class="margin-bottom-md"> -->
         <div fxFlex="auto">
 
-          <sirio-bar-vert-chart-widget (reload)="reload()" [data]="dataAgencia.asObservable()" [monedas]="coinAvailables.asObservable()"
+          <sirio-bar-vert-chart-widget (reload)="reload()" [agencia_curr]="defaults.id" [data]="dataAgencia.asObservable()" [monedas]="coinAvailables.asObservable()"
             title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-bar-vert-chart-widget>
         </div>
 
         <div fxFlex="auto">
 
-          <sirio-bar-horiz-chart-widget (reload)="reload()" [data]="detailAgencia.asObservable()" [monedas]="coinAvailables.asObservable()"
+          <sirio-bar-horiz-chart-widget (reload)="reload()" [agencia_curr]="defaults.id" [data]="detailAgencia.asObservable()" [monedas]="coinAvailables.asObservable()"
             title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-bar-horiz-chart-widget>
 
         </div>

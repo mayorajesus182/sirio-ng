@@ -21,6 +21,8 @@ export class BarHorizChartWidgetComponent extends ChartBaseComponent implements 
   @Input() title: string = 'Estadísticas';
   @Input() moneda_curr: Moneda=undefined;
 
+  @Input() agencia_curr: string=undefined;
+
   @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
@@ -41,7 +43,7 @@ export class BarHorizChartWidgetComponent extends ChartBaseComponent implements 
     exportData(this.highcharts);
     console.log('moneda curr ', this.moneda_curr);
     this.monedas.subscribe(list => {
-      if(list){
+      if(list && list.length>0){
 
         this.currentMoneda = this.moneda_curr || list[0];
         this.availableCoins = list;
@@ -55,7 +57,7 @@ export class BarHorizChartWidgetComponent extends ChartBaseComponent implements 
   reportPdf(){
 
     this.loadingDataForm.next(true);
-    this.agenciaReport.reportResumenEfectivo().subscribe(data => {
+   (this.agencia_curr?  this.agenciaReport.reportResumenEfectivoByAgencia(this.agencia_curr): this.agenciaReport.reportResumenEfectivo() ).subscribe(data => {
       this.loadingDataForm.next(false);
       // console.log('response:', data);
       const name = this.getFileName(data);

@@ -19,6 +19,7 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
   @Input() title: string = 'Estadísticas';
   @Input() monedas: Observable<Moneda[]>;
   @Input() moneda_curr: Moneda=undefined;
+  @Input() agencia_curr: string=undefined;
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
   @Input() options: any;
@@ -43,7 +44,7 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
     console.log('moneda curr ', this.moneda_curr);
     
     this.monedas.subscribe(list=>{
-      if(list){
+      if(list && list.length >0){
         console.log('Monedas ',list);
         
         this.currentMoneda= this.moneda_curr || list[0];
@@ -56,7 +57,7 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
   reportPdf(){
 
     this.loadingDataForm.next(true);
-    this.agenciaReport.reportResumen().subscribe(data => {
+    (this.agencia_curr?  this.agenciaReport.reportResumenByAgencia(this.agencia_curr): this.agenciaReport.reportResumen() ).subscribe(data => {
       this.loadingDataForm.next(false);
       console.log('response:', data);
       const name = this.getFileName(data);

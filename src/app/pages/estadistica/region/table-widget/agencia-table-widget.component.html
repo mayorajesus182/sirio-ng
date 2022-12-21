@@ -30,7 +30,7 @@
             <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }}</th>
             <td *matCellDef="let row" mat-cell>{{ column.isNumber? (row[column.property] | number:'1.2') : row[column.property] }} 
               &nbsp; 
-              <button mat-icon-button (click)="openDataAgencia(row[column.property])" class="" type="button" *ngIf="column.property=='agencia'" matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats': ''}}</mat-icon></button>  </td>
+              <button mat-icon-button (click)="openDataAgencia(row)" class="" type="button" *ngIf="column.property=='agencia'" matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats': ''}}</mat-icon></button>  </td>
           </ng-container>
           <ng-container *ngIf="!column.isModelProperty" [matColumnDef]="column.property">
             <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }}</th>
