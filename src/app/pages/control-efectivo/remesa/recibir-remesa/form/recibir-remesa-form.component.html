@@ -63,13 +63,13 @@
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex.gt-xs="25">
+                                <mat-form-field fxFlex.gt-xs="20">
                                     <mat-label>{{'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.nombreViaje" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="45">
+                                <mat-form-field fxFlex.gt-xs="35">
                                     <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.plomos" readonly>
@@ -86,6 +86,12 @@
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoRecibido" formControlName="montoRecibido"
                                         [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.montoRecibido.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex.gt-xs="15" appearance="standart">
+                                    <mat-label>{{'Diferencia' | translate: {default: 'Diferencia'} | translate }} {{diferencia > 0 ? 'Faltante' : (diferencia < 0 ? 'Sobrante' : '')}}
+                                    </mat-label>
+                                    <input matInput [value]="diferencia | number: '1.2'" readonly class="text-right">
                                 </mat-form-field>
                             </div>
                         </form>
@@ -106,12 +112,11 @@
 
                                     <mat-form-field fxLayout="column" *ngFor="let item of conos | async;let i = index" fxFlex="49">
                                         <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
-                                            'global.coin') | translate }} ({{'global.quantitySend' | translate }} {{item.enviado}})
+                                            'global.coin') | translate }}
                                         </mat-label>
                                         <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
                                             autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
                                             [disabled]="item.disponible==0" />
-                                        <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
                                     </mat-form-field>
                                 </div>
                             </div>

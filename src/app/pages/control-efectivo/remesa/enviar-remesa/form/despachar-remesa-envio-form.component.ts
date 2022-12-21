@@ -22,14 +22,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
-    selector: 'app1-despachar-remesa-form',
-    templateUrl: './despachar-remesa-form.component.html',
-    styleUrls: ['./despachar-remesa-form.component.scss'],
+    selector: 'app1-despachar-remesa-envio-form',
+    templateUrl: './despachar-remesa-envio-form.component.html',
+    styleUrls: ['./despachar-remesa-envio-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class DespacharRemesaFormComponent extends FormBaseComponent implements OnInit {
+export class DespacharRemesaEnvioFormComponent extends FormBaseComponent implements OnInit {
 
     remesa: Remesa = {} as Remesa;
     public viajes = new BehaviorSubject<Viaje[]>([]);
@@ -176,6 +176,10 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
 
         this.updateData(this.remesa);
         this.remesa.detalleEfectivo = [];
+
+        // console.log(this.remesa);
+
+
 
         this.swalService.show('¿Desea Despachar la Solicitud?', this.remesa.id).then((resp) => {
             if (!resp.dismiss) {

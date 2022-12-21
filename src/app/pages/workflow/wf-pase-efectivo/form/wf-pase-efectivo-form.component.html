@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToBoxOffice.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -42,25 +42,25 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex.gt-xs="30">
-                                    <mat-label>{{'cashPass.movementType' | translate: {default: 'global.movementType'} | translate }}
+                                    <mat-label>{{'passToBoxOffice.movementType' | translate: {default: 'global.movementType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="bovedaAgencia.movimientoEfectivoNombre" readonly>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="25">
-                                    <mat-label>{{'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                    <mat-label>{{'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="bovedaAgencia.taquillaNombre" readonly>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="25">
-                                    <mat-label>{{'cashPass.coin' | translate: {default: 'global.coin'} | translate }}
+                                    <mat-label>{{'passToBoxOffice.coin' | translate: {default: 'global.coin'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="bovedaAgencia.monedaNombre" readonly>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
+                                    <mat-label>{{'passToBoxOffice.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>

@@ -1,17 +1,17 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToBoxOffice.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'cashPass.table' | translate: {default: 'global.notfound'}" placeholder="cashPass.search"
+        <sirio-list [name]="'passToBoxOffice.table' | translate: {default: 'global.notfound'}" placeholder="passToBoxOffice.search"
             (filterChange)="onFilterChange($event)" [tooltipStats]="contentStats">
 
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="fcreacion" matSortDirection="desc">
 
                 <ng-container matColumnDef="bovagencia_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'cashPass.date' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'passToBoxOffice.date' | translate:
                         {default: 'global.date'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="font-weight-600">{{element.fecha | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
@@ -19,7 +19,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="tipoMovimiento">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'">{{'cashPass.movementType' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'">{{'passToBoxOffice.movementType' | translate:
                         {default: 'global.movementType'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="text-truncate font-weight-600">{{element.movimientoEfectivo}}</p>
@@ -27,7 +27,7 @@
                 </ng-container>
                 
                 <ng-container matColumnDef="monto">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'cashPass.amount' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'passToBoxOffice.amount' | translate:
                         {default: 'global.amount'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="text-truncate font-weight-600">{{element.ingreso+element.egreso  | number: '1.2'}}</p>
@@ -35,7 +35,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="moneda">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'">{{'cashPass.coin' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-25'">{{'passToBoxOffice.coin' | translate:
                         {default: 'global.coin'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
                         <p class="text-truncate font-weight-600">{{element.moneda}}</p>
@@ -43,7 +43,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="estatus">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'cashPass.status' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'passToBoxOffice.status' | translate:
                         {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-10'">
                         <mat-chip mat-sm-chip [color]="element.estatusEfectivo == aprobado ? 'accent' : 'warn'">

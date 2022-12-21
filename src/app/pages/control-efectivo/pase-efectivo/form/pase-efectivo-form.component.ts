@@ -28,14 +28,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class PaseEfectivoFormComponent extends FormBaseComponent implements OnInit {
 
     bovedaAgencia: BovedaAgencia = {} as BovedaAgencia;
-    public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
+    // public movimientos = new BehaviorSubject<MovimientoEfectivo[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
-    public atms = new BehaviorSubject<Atm[]>([]);
+    // public atms = new BehaviorSubject<Atm[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
     public preferencia: Preferencia = {} as Preferencia;
     saldoDisponible: number = 0;
-    movimiento = MovimientoEfectivoConstants;
+    // movimiento = MovimientoEfectivoConstants;
     atmSeleccionado: Atm = {} as Atm;
     monedaAtm: Moneda = {} as Moneda;
     public conoSave: ConoMonetario[] = [];
@@ -79,15 +79,21 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
 
             this.preferenciaService.get().subscribe(data => {
                 this.preferencia = data;
-            });
+                this.bovedaAgencia.moneda = this.preferencia.monedaConoActual;
 
-            this.buildForm(this.bovedaAgencia);
-            this.loadingDataForm.next(false);
+                this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(this.bovedaAgencia.moneda).subscribe(data => {
+                    this.conos.next(data);
+                    this.cdr.detectChanges();
+                });
+
+                this.buildForm(this.bovedaAgencia);
+                this.loadingDataForm.next(false);
+            });
         }
 
-        this.movimientoEfectivoService.all().subscribe(data => {
-            this.movimientos.next(data);
-        });
+        // this.movimientoEfectivoService.all().subscribe(data => {
+        //     this.movimientos.next(data);
+        // });
 
         this.taquillaService.activesWithUser().subscribe(data => {
             this.taquillas.next(data);
@@ -97,31 +103,31 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             this.monedas.next(data);
         });
 
-        this.atmService.actives().subscribe(data => {
-            this.atms.next(data);
-        });
+        // this.atmService.actives().subscribe(data => {
+        //     this.atms.next(data);
+        // });
     }
 
     buildForm(bovedaAgencia: BovedaAgencia) {
         this.itemForm = this.fb.group({
-            movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
-            taquilla: new FormControl(bovedaAgencia.taquilla || undefined),
-            atm: new FormControl(bovedaAgencia.atm || undefined),
+            // movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
+            taquilla: new FormControl(bovedaAgencia.taquilla || undefined, Validators.required),
+            // atm: new FormControl(bovedaAgencia.atm || undefined),
             moneda: new FormControl(bovedaAgencia.moneda || undefined, Validators.required),
-            monto: new FormControl({value: bovedaAgencia.monto || undefined}, Validators.required),
+            monto: new FormControl({ value: bovedaAgencia.monto || undefined }, Validators.required),
         });
 
-        this.f.movimientoEfectivo.valueChanges.subscribe(val => {
-            this.f.taquilla.setValue(undefined);
-            this.f.atm.setValue(undefined);
-            this.f.moneda.setValue(this.preferencia.monedaConoActual);
-            this.f.taquilla.setErrors(undefined);
-            this.f.atm.setErrors(undefined);
-            this.f.moneda.setErrors(undefined);
-            this.monedaAtm = { nombre: '' } as Moneda;
-            this.obtenerSaldo();
-            this.cdr.detectChanges();
-        });
+        // this.f.movimientoEfectivo.valueChanges.subscribe(val => {
+        //     this.f.taquilla.setValue(undefined);
+        //     this.f.atm.setValue(undefined);
+        //     this.f.moneda.setValue(this.preferencia.monedaConoActual);
+        //     this.f.taquilla.setErrors(undefined);
+        //     this.f.atm.setErrors(undefined);
+        //     this.f.moneda.setErrors(undefined);
+        //     this.monedaAtm = { nombre: '' } as Moneda;
+        //     this.obtenerSaldo();
+        //     this.cdr.detectChanges();
+        // });
 
         this.f.taquilla.valueChanges.subscribe(val => {
             if (val) {
@@ -129,14 +135,14 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             }
         });
 
-        this.f.atm.valueChanges.subscribe(val => {
-            if (val) {
-                this.atmSeleccionado = this.atms.value.filter(e => e.id == val)[0] as Atm;
-                this.monedaAtm = this.monedas.value.filter(e => e.id == this.atmSeleccionado.moneda)[0] as Moneda;
-                this.f.moneda.setValue(this.atmSeleccionado.moneda);
-                this.obtenerSaldo();
-            }
-        });
+        // this.f.atm.valueChanges.subscribe(val => {
+        //     if (val) {
+        //         this.atmSeleccionado = this.atms.value.filter(e => e.id == val)[0] as Atm;
+        //         this.monedaAtm = this.monedas.value.filter(e => e.id == this.atmSeleccionado.moneda)[0] as Moneda;
+        //         this.f.moneda.setValue(this.atmSeleccionado.moneda);
+        //         this.obtenerSaldo();
+        //     }
+        // });
 
         this.f.moneda.valueChanges.subscribe(val => {
             if (val) {
@@ -161,47 +167,49 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.saldoDisponible = 0;
         this.f.monto.setValue(undefined);
 
-        if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
+        //  if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
 
-            if (this.f.movimientoEfectivo.value !== undefined &&
-                this.f.moneda.value !== undefined &&
-                (this.f.taquilla.value !== undefined || this.f.atm.value !== undefined)) {
+        // if (this.f.movimientoEfectivo.value !== undefined &&
+        //     this.f.moneda.value !== undefined &&
+        //     (this.f.taquilla.value !== undefined || this.f.atm.value !== undefined)) {
 
-                if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_TAQUILLA ||
-                    this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_ATM) {
+        if (this.f.moneda.value !== undefined && this.f.taquilla.value !== undefined) {
 
-                    this.saldoAgenciaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
-                        this.saldoDisponible = data;
-                        this.validarBalance(this.f.monto.value);
-                        this.cdr.detectChanges();
-                    });
+            // if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_TAQUILLA ||
+            //     this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.BOVEDA_ATM) {
 
-                } else if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.TAQUILLA_BOVEDA) {
+                this.saldoAgenciaService.getSaldoByMoneda(this.f.moneda.value).subscribe(data => {
+                    this.saldoDisponible = data;
+                    this.validarBalance(this.f.monto.value);
+                    this.cdr.detectChanges();
+                });
 
-                    this.saldoTaquillaService.getSaldoByMonedaAndTaquilla(this.f.moneda.value, this.f.taquilla.value).subscribe(data => {
-                        this.saldoDisponible = data;
-                        this.validarBalance(this.f.monto.value);
-                        this.cdr.detectChanges();
+            // } else if (this.f.movimientoEfectivo.value === MovimientoEfectivoConstants.TAQUILLA_BOVEDA) {
 
-                    });
+            //     this.saldoTaquillaService.getSaldoByMonedaAndTaquilla(this.f.moneda.value, this.f.taquilla.value).subscribe(data => {
+            //         this.saldoDisponible = data;
+            //         this.validarBalance(this.f.monto.value);
+            //         this.cdr.detectChanges();
 
-                }
-            }
-        } else {
-            this.cdr.detectChanges();
+            //     });
+
+            // }
         }
+        // } else {
+        //     this.cdr.detectChanges();
+        // }
 
     }
 
     validarBalance(monto: number) {
-        if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
-            if (this.saldoDisponible < monto) {
-                this.itemForm.controls['monto'].setErrors({
-                    balance: true
-                });
-                this.cdr.detectChanges();
-            }
+        // if (this.f.movimientoEfectivo.value !== MovimientoEfectivoConstants.ATM_BOVEDA) {
+        if (this.saldoDisponible < monto) {
+            this.itemForm.controls['monto'].setErrors({
+                balance: true
+            });
+            this.cdr.detectChanges();
         }
+        // }
     }
 
 

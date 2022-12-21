@@ -54,9 +54,16 @@ export class ArqueoAtmService {
     }
 
     save(data: ArqueoAtm): Observable<any> {
-
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
+    }
+
+    allTodayByAtm(atm: string): Observable<ArqueoAtm[]> {
+        return this.apiService.config(this.apiConfig).get(`/${atm}/byatm/list`);
+    }
+
+    allDetalleByArqueo(arqueo: number): Observable<DetalleArqueo[]> {
+        return this.apiService.config(this.apiConfig).get(`/${arqueo}/detalle/list`);
     }
 
 }

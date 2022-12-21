@@ -69,8 +69,6 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       this.atm = sessionStorage.getItem('trans_nombre')
     }
 
-    console.log('sessionStorage.getItem()    ', sessionStorage.getItem('moneda_atm'))
-
     this.monedaService.get(sessionStorage.getItem('moneda_atm')).subscribe((result: Moneda) => {
       this.moneda = result;
     });
@@ -102,6 +100,10 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
   updateValuesErrors(row: any, index) {
 
+    row.sobrante = 0;
+    row.faltante = 0;
+    row.actual = 0;
+
     if (row.anterior < row.dispensado + row.rechazado) {
       this.message = row.descripcion + ': La Cantidad Dispensada más la Cantidad Rechazada no puede ser mayor al Contador Anterior';
     } else if (row.anterior == 0 && row.fisico > 0) {
@@ -110,17 +112,27 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
     } else if ((row.fisico == 0 || !row.fisico) && row.retiro > row.anterior - row.dispensado + row.rechazado) {
       this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
+    } else if (row.fisico > row.anterior) {
+      this.message = row.descripcion + ': La Cantidad Física no puede ser superior al Contador Anterior';
     } else {
+
       this.message = undefined;
-      row.sobrante = row.fisico > (row.anterior - row.dispensado) ? (row.fisico - row.anterior - row.dispensado) : 0;
-      row.faltante = (row.fisico > 0 && row.fisico < (row.anterior - row.dispensado)) ? row.anterior - row.dispensado - row.fisico : 0;
-      row.actual = row.fisico > 0 ? row.fisico + row.incremento - row.retiro : row.anterior - row.dispensado + row.rechazado + row.incremento - row.retiro;
+
+      if (row.fisico == undefined || row.fisico == 0) {
+        row.sobrante = Math.abs(((row.anterior - row.dispensado)) < 0 ? ((row.anterior - row.dispensado)) : 0);
+        row.faltante = Math.abs(((row.anterior - row.dispensado)) > 0 ? ((row.anterior - row.dispensado)) : 0);
+        row.actual = row.anterior - row.dispensado + row.incremento - row.retiro;
+      } else {
+        row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico) < 0 ? ((row.anterior - row.dispensado) - row.fisico) : 0);
+        row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico) > 0 ? ((row.anterior - row.dispensado) - row.fisico) : 0);
+        row.actual = row.fisico + row.incremento - row.retiro;
+      }
+
       row.monto = row.actual * row.denominacion;
       this.arqueoAtm.monto = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
 
     this.errorList[index] = this.message;
-    console.log(this.errorList);
   }
 
 

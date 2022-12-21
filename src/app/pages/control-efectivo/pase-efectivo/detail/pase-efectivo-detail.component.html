@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']" current="action.view"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToBoxOffice.form']" current="action.view"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -10,7 +10,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'cashPass.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'passToBoxOffice.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -27,19 +27,19 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-xs="20">
-                                <mat-label>{{'cashPass.date' | translate: {default: 'global.date'} | translate }}
+                                <mat-label>{{'passToBoxOffice.date' | translate: {default: 'global.date'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="40">
-                                <mat-label>{{'cashPass.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
+                                <mat-label>{{'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.taquilla" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="40">
-                                <mat-label>{{'cashPass.movementType' | translate: {default: 'global.movementType'} | translate }}
+                                <mat-label>{{'passToBoxOffice.movementType' | translate: {default: 'global.movementType'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.movimientoEfectivo" readonly>
                             </mat-form-field>
@@ -48,19 +48,19 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-xs="35">
-                                <mat-label>{{'cashPass.coin' | translate: {default: 'global.coin'} | translate }}
+                                <mat-label>{{'passToBoxOffice.coin' | translate: {default: 'global.coin'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.moneda" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="30">
-                                <mat-label>{{'cashPass.amount' | translate: {default: 'global.amount'} | translate }}
+                                <mat-label>{{'passToBoxOffice.amount' | translate: {default: 'global.amount'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.ingreso+d.egreso | number: '1.2'" readonly class="text-right">
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="35">
-                                <mat-label>{{'cashPass.status' | translate: {default: 'global.status'} | translate }}
+                                <mat-label>{{'passToBoxOffice.status' | translate: {default: 'global.status'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.estatusEfectivo" readonly>
                             </mat-form-field>
