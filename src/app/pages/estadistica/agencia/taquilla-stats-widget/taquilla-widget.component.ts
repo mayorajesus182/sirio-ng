@@ -61,6 +61,7 @@ export class TaquillaWidgetComponent implements OnInit {
 
     this.dialog.open(TaquillaChartPopupComponent, {
       panelClass: 'dialog-frame',
+      position: {top: '3%'} ,
       width: '60%',
       disableClose: true,
       data: datos
