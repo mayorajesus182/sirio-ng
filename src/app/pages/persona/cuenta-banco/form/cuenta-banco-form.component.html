@@ -56,7 +56,7 @@
                                             <mat-icon>person</mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">
-                                            Apertura de Cuenta
+                                            Apertura de Cuenta de Cuenta Financiera
                                         </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
@@ -203,7 +203,7 @@
                                             </button>
 
                                             <span class="margin-top-sm margin-bottom-lg semi-bold">
-                                                PERFIL DE LA CUENTA
+                                                Perfil de la Cuenta
                                             </span>
 
                                             <mat-panel-description>
@@ -344,33 +344,34 @@
 
                             </mat-expansion-panel>
 
-                            {{printErrors() | json}}
+                            <!-- {{printErrors() | json}} -->
+                            <!-- {{'holaaaa 1'}} -->
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)"
-                                (closed)="openAddress(false)">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInterviniente(true)"
+                                (closed)="openInterviniente(false)">
+
+                               
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>location_on</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">
-                                            {{'personAddress.table' | translate}}
-
-                                        </span>
+                                        <span class="margin-top-sm semi-bold">Condición de Firma de(los) Participante(s) </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
                                         <span class="notification-number margin-top-sm" matBadgeColor="accent"
-                                            [matBadge]="totalAddress"></span>
+                                            [matBadge]="totalIntervinientes"></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-                                <!-- <div fxLayout="row" fxLayout="column" *ngIf="showAddress">
-                                    <sirio-persona-direccion-table [persona]="personaNatural.id"></sirio-persona-direccion-table>
+                               
+                                {{printErrors() | json}} 
+                                <div fxLayout="row" fxLayout="column" *ngIf="showIntervinientes">
+                                    <sirio-persona-interviniente-table [persona]="cuentaBanco.id"></sirio-persona-interviniente-table>
 
-                                </div> -->
+                                </div>
 
                             </mat-expansion-panel>
-
 
 
                         </mat-accordion>

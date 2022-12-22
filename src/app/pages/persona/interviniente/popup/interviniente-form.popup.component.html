@@ -1,0 +1,125 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+     <!-- TODO: PENDIENTE IN18 -->
+    <h1>Información del Cliente</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+        <sirio-select-search autofocus="true" fxFlex="20" [label]="'Tipo de Documento' | translate"
+            formControlName="tipoDocumento" [elements]="tiposDocumentos.asObservable()"
+            [attributeName]="'nombre'" [errors]="search.tipoDocumento?.errors" [required]="true">
+        </sirio-select-search>
+
+        <!-- [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)"
+            [readonly]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)" -->
+
+        <mat-form-field fxFlex="20">
+            <mat-label>{{'global.identification' | translate }} </mat-label>
+            <input matInput maxlength="15" minlength="1" autocomplete="off"
+                (blur)="queryByPerson()" class="text-center" name="identificacion"
+                (keyup.enter)="queryByPerson()"
+                formControlName="identificacion">
+
+           
+
+            <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
+            </mat-error>
+            <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe </mat-error>
+            <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
+            </mat-error>
+            <mat-error *ngIf="search.identificacion.errors?.rif">{{search.identificacion.errors?.rif}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="auto">
+            <mat-label>{{'global.fullName' | translate }} </mat-label>
+            <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="false"
+                formControlName="nombre">
+        </mat-form-field>
+
+        
+        <!-- {{persona| json}} -->
+
+         <!-- <input matInput *ngIf="isLegalPerson()" valid-rif-number
+                [tipo_documento]="search.tipoDocumento?.value" [imask]="{mask: '0000-0000-0'}" [unmask]="true"
+                maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" class="text-center"
+                name="identificacion" (keyup.enter)="queryByPerson()"
+                [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )"
+                formControlName="identificacion"> -->
+
+                <!-- <div fxFlex="15" *ngIf="!taquilla">
+                  <button color="accent" class="btn-create" (click)="add()" *ngIf="!persona.id" mat-raised-button
+                      [disabled]="!isNew">
+                      <i class="fa-light fa-user-plus fa-lg"></i>
+                      {{'button.add' | translate: {default:'global.notfound'} | translate }}
+                  </button>
+                  <button color="accent" class="btn-create" (click)="edit()" *ngIf="persona.id || persona.numper"
+                      mat-raised-button [disabled]="!persona.id && !persona.numper">
+                      <i class="fa-light fa-user-pen fa-lg"></i>
+                      {{'button.update' | translate: {default:'global.notfound'} | translate }}
+                  </button>
+              </div>  -->
+
+    </div>
+
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+
+          <button type="button" mat-icon-button type="button" color="primary">
+              <mat-icon>person</mat-icon>
+          </button>
+
+      
+          <span class="margin-top-sm margin-bottom-lg semi-bold">
+              Condición de Firmas del(los) Participante(s)
+          </span>
+
+          <mat-panel-description>
+
+          </mat-panel-description>
+
+      </mat-panel-title>
+
+    </div>
+    
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+               
+        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'" [readonly]="!isNew"
+            formControlName="tipoParticipacion" [required]="true" [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'"
+            [errors]="f.tipoParticipacion?.errors">
+        </sirio-select-search>
+      
+        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" [readonly]="!isNew"
+          formControlName="tipoFirma" [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.tipoFirma?.errors">
+        </sirio-select-search>
+
+        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" [readonly]="!isNew"
+          formControlName="tipoFirmante" [required]="true" [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'"
+          [errors]="f.tipoFirmante?.errors">
+        </sirio-select-search>
+        
+    </div>
+       <!-- {{printErrors() | json}}  -->
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+
+</form>
