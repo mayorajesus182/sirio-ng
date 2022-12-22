@@ -270,6 +270,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
     edit() {
+
+        //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
         this.update.emit(this.persona);
 
     }
