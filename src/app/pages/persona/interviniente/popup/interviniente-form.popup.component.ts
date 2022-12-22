@@ -9,6 +9,7 @@ import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/s
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Interviniente, IntervinienteService } from 'src/@sirio/domain/services/persona/interviniente/interviniente.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
+import { GlobalConstants, RegularExpConstants } from "src/@sirio/constants";
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 @Component({
@@ -200,5 +201,17 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
   //   }
 
   // }
+
+  // isNaturalPerson() {
+  //   if (this.search.tipoDocumento.value && !this.legals.includes(this.search.tipoDocumento.value)) {
+  //       return true;
+  //   } else if (this.tipo_persona) {
+
+  //       return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
+  //   }
+
+
+  // }
+
 
 }
