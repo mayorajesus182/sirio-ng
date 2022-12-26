@@ -38,6 +38,9 @@ export class ArqueoAtmDetailPopupComponent extends PopupBaseComponent implements
     ngOnInit() {
         this.arqueoAtm = this.defaults.payload;
 
+        console.log('  this.defaults.payload  ', this.defaults.payload);
+        
+
         this.arqueoAtmService.allDetalleByArqueo(this.arqueoAtm.id).subscribe(data => {
             this.detalles.next(data);
             this.cdr.detectChanges();

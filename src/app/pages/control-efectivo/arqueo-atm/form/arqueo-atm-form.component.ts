@@ -8,6 +8,7 @@ import { TipoArqueoConstants } from 'src/@sirio/constants/tipo.arqueo.constants'
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { ArqueoAtm, ArqueoAtmService, DetalleArqueo } from 'src/@sirio/domain/services/control-efectivo/arqueo-atm.service';
+import { AtmService, Atm } from 'src/@sirio/domain/services/organizacion/atm.service';
 import { Cajetin, CajetinService } from 'src/@sirio/domain/services/organizacion/cajetin.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -24,6 +25,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   public cajetines: ReplaySubject<DetalleArqueo[]> = new ReplaySubject<DetalleArqueo[]>();
   public conos: ConoMonetario[] = [];
   public keywords: string = '';
+  atmSeleccionado: Atm = {} as Atm;
   arqueoAtm: ArqueoAtm = {} as ArqueoAtm;
   moneda: Moneda = {} as Moneda;
   atmId: string;
@@ -32,7 +34,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   datosPersona: string;
   editing: any[] = [];
   btnState: boolean = false;
-  error: boolean = false;
+  existsError: boolean = false;
   message: string = '';
   errorList = [];
 
@@ -43,6 +45,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     private cajetinService: CajetinService,
     private arqueoAtmService: ArqueoAtmService,
     private monedaService: MonedaService,
+    private atmService: AtmService,
     private cdr: ChangeDetectorRef) {
     super(dialog, injector);
   }
@@ -74,6 +77,11 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     });
 
     if (this.atmId) {
+
+      this.atmService.get(this.atmId).subscribe(data => {
+        this.atmSeleccionado = data;
+      });
+
       this.loadList();
     }
   }
@@ -99,7 +107,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
 
   updateValuesErrors(row: any, index) {
-
+    
     row.sobrante = 0;
     row.faltante = 0;
     row.actual = 0;
@@ -128,11 +136,23 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
         row.actual = row.fisico + row.incremento - row.retiro;
       }
 
+      // Aca se recorren los cajetines para verificar la cantidad máxima de cada uno
+      this.atmSeleccionado.cajetines.filter(c => {
+        if (c.id == row.cajetin && row.actual > c.cantidad) { 
+          this.message = row.descripcion + ': Excedió la Cantidad Máxima para el Cajetín (Máx. '+c.cantidad+')';
+      } })
+
       row.monto = row.actual * row.denominacion;
       this.arqueoAtm.monto = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
 
+    // Indico el Error
     this.errorList[index] = this.message;
+
+    // Se verifica si existe algún mensaje de error, si no existe se habilita el botón de guardar
+    this.existsError = false;
+    this.errorList.filter (e => { if (e != undefined) this.existsError = true; });
+
   }
 
 

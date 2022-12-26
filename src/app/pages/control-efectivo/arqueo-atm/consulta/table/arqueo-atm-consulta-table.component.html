@@ -1,17 +1,17 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['global.appraisalCosts']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['global.cosultRecountAtm']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list-simple [name]="'appraisalCosts.table' | translate: {default: 'global.notfound'}" placeholder="appraisalCosts.search"
+        <sirio-list-simple [name]="'cosultRecountAtm.form' | translate: {default: 'global.cosultRecountAtm'}" placeholder="cosultRecountAtm.search"
             (filterChange)="onFilterChange($event)">
 
             <div fxLayout="column" class="margin-h margin-top-md">
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                     <mat-form-field fxFlex="auto">
-                        <mat-label>{{'appraisalCosts.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate }}</mat-label>
+                        <mat-label>{{'cosultRecountAtm.atm' | translate: {default: 'global.atm'} | translate }}</mat-label>
                         <input matInput [value]="atmId+' - '+atm" readonly>
                     </mat-form-field>
 
@@ -25,7 +25,7 @@
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'Secuencia' | translate: {default: 'Secuencia'} |
+                            <span>{{'cosultRecountAtm.sequence' | translate: {default: 'global.sequence'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -35,7 +35,7 @@
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'Fecha' | translate: {default: 'Fecha'} |
+                            <span>{{'cosultRecountAtm.date' | translate: {default: 'global.date'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -45,7 +45,7 @@
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'Tipo' | translate: {default: 'Tipo'} |
+                            <span>{{'cosultRecountAtm.recountType' | translate: {default: 'global.recountType'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -55,7 +55,7 @@
 
                     <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'Monto' | translate: {default: 'Monto'} |
+                            <span>{{'cosultRecountAtm.amount' | translate: {default: 'global.amount'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -66,7 +66,7 @@
 
                     <ngx-datatable-column [flexGrow]="1">
                         <ng-template ngx-datatable-header-template>
-                            <span>{{'Acciones' | translate: {default: 'Acciones'} |
+                            <span>{{'cosultRecountAtm.actions' | translate: {default: 'global.actions'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
