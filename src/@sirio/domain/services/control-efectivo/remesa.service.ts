@@ -121,8 +121,6 @@ export class RemesaService {
     }
 
     dispatch(data: Remesa): Observable<any> {
-        console.log('  dataaaaaaaaaaaaaa   ', data);
-        
         return this.apiService.config(this.apiConfig).put(`/${data.id}/dispatch/update`, data)
             .pipe(map(res => data));
     }

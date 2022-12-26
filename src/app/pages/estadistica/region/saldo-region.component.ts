@@ -23,7 +23,8 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
   tableOptions = {
     pageSize: 15,
     columns: [
-      { name: 'Agencia', property: 'agencia', visible: true, isModelProperty: true },
+      { name: 'Cód.', property: 'agencia', visible: true, isModelProperty: true },
+      { name: 'Nombre', property: 'agenciaNombre', visible: true, isModelProperty: true },
       { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true,isNumber:true },
       { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true,isNumber:true },
       { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true,isNumber:true },

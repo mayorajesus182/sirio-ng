@@ -1,0 +1,248 @@
+<sirio-dialog-header mat-dialog-title>
+    <sirio-dialog-header-heading>
+        <h1>{{'Arqueo de ATM'|translate}} <span>{{('action.view') | translate}}</span></h1>
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+            <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+                <mat-icon class="close-icon" color="accent">close</mat-icon>
+            </button>
+        </div>
+    </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+
+<mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+        <mat-form-field fxFlex="40">
+            <mat-label>{{'ATM' | translate: {default: 'ATM'} | translate }}
+            </mat-label>
+            <input matInput class="text-center" [value]="arqueoAtm.atm" readonly>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30">
+            <mat-label>{{'Secuencia' | translate: {default: 'Secuencia'} | translate }}
+            </mat-label>
+            <input matInput class="text-center" [value]="arqueoAtm.secuencia" readonly>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30">
+            <mat-label>{{'Tipo' | translate: {default: 'Tipo'} | translate }}
+            </mat-label>
+            <input matInput class="text-center" [value]="arqueoAtm.tipoArqueoNombre" readonly>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+        <mat-form-field fxFlex="30">
+            <mat-label>{{'Fecha' | translate: {default: 'Fecha'} | translate }}
+            </mat-label>
+            <input matInput class="text-center" [value]="arqueoAtm.fechaCreacion" readonly>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="30">
+            <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }}
+            </mat-label>
+            <input matInput class="text-center" [value]="arqueoAtm.monto | number: '1.2'" readonly>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="40">
+            <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
+            </mat-label>
+            <input matInput class="text-center" [value]="arqueoAtm.moneda" readonly>
+        </mat-form-field>
+
+    </div>
+
+
+
+
+
+
+
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+        <div fxLayout="column" fxFlex="auto" fxLayoutAlign="start stretch">
+
+
+            <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="detalles | async">
+
+                <ngx-datatable-column [flexGrow]="1.5" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'boxes.name' | translate: {default: 'global.name'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template>
+                        <span style="white-space: break-spaces; font-size: 12px;">
+                            {{ row?.descripcion }}
+                        </span>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Denominación' | translate: {default: 'Denominación'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.denominacion | number:'1.2'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Contador Anterior' | translate: {default: 'Contador Anterior'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.anterior | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Dispensado' | translate: {default: 'Dispensado'} | translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.dispensado | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Rechazado' | translate: {default: 'Rechazado'} | translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.rechazado | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Físico' | translate: {default: 'Físico'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.fisico | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Sobrante' | translate: {default: 'Sobrante'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.sobrante | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Faltante' | translate: {default: 'Faltante'} |
+                            translate}} </span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.faltante | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esIncrementoAtm">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Incremento' | translate: {default: 'Incremento'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.incremento | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esRetiroAtm">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Retiro' | translate: {default: 'Retiro'} | translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.retiro | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Contador Actual' | translate: {default: 'Contador Actual'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.actual | number:'1.0'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+
+                <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                    <ng-template ngx-datatable-header-template>
+                        <span>{{'Monto' | translate: {default: 'Monto'} |
+                            translate}}</span>
+                    </ng-template>
+                    <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                        <div class="fullwidth input-content">
+                            <p class="fullwidth text-right "> {{ row?.monto | number:'1.2'}}
+                            </p>
+                        </div>
+                    </ng-template>
+                </ngx-datatable-column>
+            </ngx-datatable>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mat-dialog-content>

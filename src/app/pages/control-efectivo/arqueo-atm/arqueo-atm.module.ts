@@ -9,6 +9,8 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { ArqueoAtmRoutingModule } from './arqueo-atm-routing.module';
+import { ArqueoAtmDetailPopupComponent } from './consulta/popup/arqueo-atm-detail-popup.component';
+import { ArqueoAtmConsultaTableComponent } from './consulta/table/arqueo-atm-consulta-table.component';
 import { ArqueoAtmFormComponent } from './form/arqueo-atm-form.component';
 import { ArqueoAtmTableComponent } from './table/arqueo-atm-table.component';
 
@@ -24,8 +26,7 @@ import { ArqueoAtmTableComponent } from './table/arqueo-atm-table.component';
         MaterialModule,
         // Core
         SirioSharedModule,
-        SharedComponentModule,
-               
+        SharedComponentModule, 
         HighlightModule,
         SirioCardModule,
         ArqueoAtmRoutingModule,
@@ -33,11 +34,14 @@ import { ArqueoAtmTableComponent } from './table/arqueo-atm-table.component';
     declarations: [
         ArqueoAtmTableComponent,
         ArqueoAtmFormComponent,
+        ArqueoAtmConsultaTableComponent,
+        ArqueoAtmDetailPopupComponent,
         // AtmFormComponent,
         // AtmDetailComponent,
         // CajetinTableComponent,
     ],
     exports: [],
+    entryComponents:[ArqueoAtmDetailPopupComponent]
 })
 
 export class ArqueoAtmModule {

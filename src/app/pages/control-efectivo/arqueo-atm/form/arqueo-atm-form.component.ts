@@ -8,6 +8,7 @@ import { TipoArqueoConstants } from 'src/@sirio/constants/tipo.arqueo.constants'
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { ArqueoAtm, ArqueoAtmService, DetalleArqueo } from 'src/@sirio/domain/services/control-efectivo/arqueo-atm.service';
+import { AtmService, Atm } from 'src/@sirio/domain/services/organizacion/atm.service';
 import { Cajetin, CajetinService } from 'src/@sirio/domain/services/organizacion/cajetin.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -24,6 +25,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   public cajetines: ReplaySubject<DetalleArqueo[]> = new ReplaySubject<DetalleArqueo[]>();
   public conos: ConoMonetario[] = [];
   public keywords: string = '';
+  atmSeleccionado: Atm = {} as Atm;
   arqueoAtm: ArqueoAtm = {} as ArqueoAtm;
   moneda: Moneda = {} as Moneda;
   atmId: string;
@@ -32,7 +34,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   datosPersona: string;
   editing: any[] = [];
   btnState: boolean = false;
-  error: boolean = false;
+  existsError: boolean = false;
   message: string = '';
   errorList = [];
 
@@ -43,6 +45,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     private cajetinService: CajetinService,
     private arqueoAtmService: ArqueoAtmService,
     private monedaService: MonedaService,
+    private atmService: AtmService,
     private cdr: ChangeDetectorRef) {
     super(dialog, injector);
   }
@@ -69,13 +72,16 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       this.atm = sessionStorage.getItem('trans_nombre')
     }
 
-    console.log('sessionStorage.getItem()    ', sessionStorage.getItem('moneda_atm'))
-
     this.monedaService.get(sessionStorage.getItem('moneda_atm')).subscribe((result: Moneda) => {
       this.moneda = result;
     });
 
     if (this.atmId) {
+
+      this.atmService.get(this.atmId).subscribe(data => {
+        this.atmSeleccionado = data;
+      });
+
       this.loadList();
     }
   }
@@ -101,6 +107,10 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
 
   updateValuesErrors(row: any, index) {
+    
+    row.sobrante = 0;
+    row.faltante = 0;
+    row.actual = 0;
 
     if (row.anterior < row.dispensado + row.rechazado) {
       this.message = row.descripcion + ': La Cantidad Dispensada más la Cantidad Rechazada no puede ser mayor al Contador Anterior';
@@ -110,24 +120,46 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
     } else if ((row.fisico == 0 || !row.fisico) && row.retiro > row.anterior - row.dispensado + row.rechazado) {
       this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
+    } else if (row.fisico > row.anterior) {
+      this.message = row.descripcion + ': La Cantidad Física no puede ser superior al Contador Anterior';
     } else {
+
       this.message = undefined;
-      row.sobrante = row.fisico > (row.anterior - row.dispensado) ? (row.fisico - row.anterior - row.dispensado) : 0;
-      row.faltante = (row.fisico > 0 && row.fisico < (row.anterior - row.dispensado)) ? row.anterior - row.dispensado - row.fisico : 0;
-      row.actual = row.fisico > 0 ? row.fisico + row.incremento - row.retiro : row.anterior - row.dispensado + row.rechazado + row.incremento - row.retiro;
+
+      if (row.fisico == undefined || row.fisico == 0) {
+        row.sobrante = Math.abs(((row.anterior - row.dispensado)) < 0 ? ((row.anterior - row.dispensado)) : 0);
+        row.faltante = Math.abs(((row.anterior - row.dispensado)) > 0 ? ((row.anterior - row.dispensado)) : 0);
+        row.actual = row.anterior - row.dispensado + row.incremento - row.retiro;
+      } else {
+        row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico) < 0 ? ((row.anterior - row.dispensado) - row.fisico) : 0);
+        row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico) > 0 ? ((row.anterior - row.dispensado) - row.fisico) : 0);
+        row.actual = row.fisico + row.incremento - row.retiro;
+      }
+
+      // Aca se recorren los cajetines para verificar la cantidad máxima de cada uno
+      this.atmSeleccionado.cajetines.filter(c => {
+        if (c.id == row.cajetin && row.actual > c.cantidad) { 
+          this.message = row.descripcion + ': Excedió la Cantidad Máxima para el Cajetín (Máx. '+c.cantidad+')';
+      } })
+
       row.monto = row.actual * row.denominacion;
       this.arqueoAtm.monto = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
 
+    // Indico el Error
     this.errorList[index] = this.message;
-    console.log(this.errorList);
+
+    // Se verifica si existe algún mensaje de error, si no existe se habilita el botón de guardar
+    this.existsError = false;
+    this.errorList.filter (e => { if (e != undefined) this.existsError = true; });
+
   }
 
 
   esIncrementoEvent(event) {
     if (event.checked) {
       this.arqueoAtm.esRetiroAtm = false;
-      this.arqueoAtm.detalles.forEach((row,rowIndex) => {
+      this.arqueoAtm.detalles.forEach((row, rowIndex) => {
         row.retiro = 0;
         this.updateValuesErrors(row, rowIndex);
       });
@@ -137,7 +169,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   esRetiroEvent(event) {
     if (event.checked) {
       this.arqueoAtm.esIncrementoAtm = false;
-      this.arqueoAtm.detalles.forEach((row,rowIndex) => {
+      this.arqueoAtm.detalles.forEach((row, rowIndex) => {
         row.incremento = 0;
         this.updateValuesErrors(row, rowIndex);
       });
@@ -147,8 +179,16 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   save() {
     this.arqueoAtm.atm = this.atmId;
     this.arqueoAtm.tipoArqueo = TipoArqueoConstants.CHEQUEO;
-    this.saveOrUpdate(this.arqueoAtmService, this.arqueoAtm, 'El Arqueo', this.isNew);
-    this.back();
+    // this.saveOrUpdate(this.arqueoAtmService, this.arqueoAtm, 'El Arqueo', this.isNew);
+    // this.back();
+    this.swalService.show('¿Desea Realizar el Arqueo del ATM?', this.atmId + ' - ' + this.atm).then((resp) => {
+      if (!resp.dismiss) {
+        this.arqueoAtmService.save(this.arqueoAtm).subscribe(data => {
+          this.successResponse('El Arqueo', 'Realizado', false);
+          return data;
+        }, error => this.errorResponse(true));
+      }
+    });
   }
 
 }

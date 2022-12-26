@@ -1,3 +1,4 @@
+import { E } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -193,6 +194,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
 
     this.f.estado.valueChanges.subscribe(value => {
+      this.f.municipio.setValue('');
       this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
         this.municipios.next(data);
         this.cdr.detectChanges();
@@ -200,17 +202,29 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     });
 
     this.f.municipio.valueChanges.subscribe(value => {
-      this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
-        this.parroquias.next(data);
-        this.cdr.detectChanges();
-      });
+      
+      this.f.parroquia.setValue('');
+      this.parroquias.next([]);
+      
+      if(value){
+        this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+          this.parroquias.next(data);
+          this.cdr.detectChanges();
+        });
+      }
     });
-
+    
     this.f.parroquia.valueChanges.subscribe(value => {
-      this.zonaPostalService.activesByParroquia(value).subscribe(data => {
-        this.zonasPostales.next(data);
-        this.cdr.detectChanges();
-      });
+      if(value){
+        this.zonaPostalService.activesByParroquia(value).subscribe(data => {
+          this.zonasPostales.next(data);
+          this.cdr.detectChanges();
+        });
+        
+      }else{
+        this.f.zonaPostal.setValue('');
+        this.zonasPostales.next([]);
+      }
     });
 
     this.cdr.detectChanges();

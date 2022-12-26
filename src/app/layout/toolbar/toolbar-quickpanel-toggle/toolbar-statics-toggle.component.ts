@@ -27,6 +27,8 @@ export class ToolbarQuickpanelToggleComponent {
         this.router.navigate(['/sirio/estadistica/taquilla/saldos']);
       }else if(user.rols.includes(RolConstants.GERENTE_REGIONAL)){
         this.router.navigate(['/sirio/estadistica/region/saldos']);
+      } else if(user.rols.includes(RolConstants.PRINCIPAL)){
+        this.router.navigate(['/sirio/estadistica/region/saldos']);
       }
     }
   }

@@ -9,7 +9,6 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { EstadisticaRoutingModule } from '../estadistica-routing.module';
 import { BarHorizChartWidgetComponent } from './bar-horiz-chart-widget/bar-horiz-chart-widget.component';
 import { BarVertChartWidgetComponent } from './bar-vert-chart-widget/bar-vert-chart-widget.component';
 import { BarColumnRangeChartWidgetComponent } from './columnrange-chart-widget/bar-columnrange-chart-widget.component';
@@ -34,7 +33,7 @@ import { TaquillaWidgetComponent } from './taquilla-stats-widget/taquilla-widget
     LoadingOverlayModule
   ],
   declarations: [TaquillaChartPopupComponent, SaldoAgenciaComponent,BarColumnRangeChartWidgetComponent,BarHorizChartWidgetComponent, TaquillaWidgetComponent,BarVertChartWidgetComponent],
-  exports:[SaldoAgenciaComponent],
+  exports:[SaldoAgenciaComponent,BarHorizChartWidgetComponent,BarVertChartWidgetComponent],
   entryComponents:[TaquillaChartPopupComponent]
   // providers: [DashboardService]
 })

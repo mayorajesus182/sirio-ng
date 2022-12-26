@@ -29,14 +29,14 @@
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput maxlength="15" *ngIf="isNaturalPerson()" minlength="1" autocomplete="off"
                         (blur)="queryByPerson()" class="text-center" name="identificacion"
-                        (keyup.enter)="queryByPerson()"
+                        (keyup.enter)="queryByPerson()" (change)="onChangeFilter($event)"
                         [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )"
                         formControlName="identificacion">
 
                     <input matInput *ngIf="isLegalPerson()" valid-rif-number
-                        [tipo_documento]="search.tipoDocumento?.value" [imask]="{mask: '0000-0000-0'}" [unmask]="true"
+                        [tipo_documento]="search.tipoDocumento?.value" [imask]="{mask: '00000000-0'}" [unmask]="true"
                         maxlength="15" minlength="1" autocomplete="off" (blur)="queryByPerson()" class="text-center"
-                        name="identificacion" (keyup.enter)="queryByPerson()"
+                        name="identificacion" (keyup.enter)="queryByPerson()"  (change)="onChangeFilter($event)"
                         [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )"
                         formControlName="identificacion">
 
@@ -53,9 +53,9 @@
 
                 <mat-form-field fxFlex="20" *ngIf="taquilla">
                     <mat-label>{{'global.accountNumber' | translate }} </mat-label>
-                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta"
+                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" 
                         num-account-validate [disabled]="disable | async" formControlName="cuenta"
-                        (keyup.enter)="queryByAccount()" (blur)="queryByAccount()" mask="0000 0000 00 00 00000000">
+                        (keyup.enter)="queryByAccount()" (blur)="queryByAccount()"  (change)="onChangeFilter($event)" mask="0000 0000 00 00 00000000">
                     <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe
                     </mat-error>
                     <mat-error *ngIf="search.cuenta.errors?.account">Debe indicar una cuenta válida
@@ -69,15 +69,20 @@
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">
-                    <button color="accent" class="btn-create" (click)="add()" *ngIf="!persona.id" mat-raised-button
-                        [disabled]="!isNew">
+                    <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && (entity=='persona'|| entity=='interviniente')"  mat-raised-button
+                        [disabled]="!isElemNew || (disableBtn | async)">
                         <i class="fa-light fa-user-plus fa-lg"></i>
                         {{'button.add' | translate: {default:'global.notfound'} | translate }}
                     </button>
-                    <button color="accent" class="btn-create" (click)="edit()" *ngIf="persona.id || persona.numper"
-                        mat-raised-button [disabled]="!persona.id && !persona.numper">
+                    <button color="accent" class="btn-create" (click)="editOn()" *ngIf="(persona.id || persona.numper) && entity=='persona'"
+                        mat-raised-button [disabled]="!persona.id && !persona.numper || (disableBtn | async)">
                         <i class="fa-light fa-user-pen fa-lg"></i>
                         {{'button.update' | translate: {default:'global.notfound'} | translate }}
+                    </button>
+                    <button color="accent" class="btn-create" (click)="pushOn()" *ngIf="(persona.id || persona.numper) && entity=='interviniente'"
+                        mat-raised-button [disabled]="!persona.id && !persona.numper">                        
+                        <i class="fal fa-user fa-lg"></i>
+                        {{'button.add' | translate: {default:'global.notfound'} | translate }}
                     </button>
                 </div>
                 <!-- {{persona| json}} -->

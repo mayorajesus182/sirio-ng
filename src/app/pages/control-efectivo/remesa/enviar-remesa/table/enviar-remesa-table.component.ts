@@ -52,18 +52,21 @@ export class EnviarRemesaTableComponent extends TableBaseComponent implements On
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
-  dispatch(data: any) {
-    this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
-      if (!resp.dismiss) {
-        this.remesaService.dispatch(data.element).subscribe(data => {
-          this.successResponse('La Remesa', 'Procesada', false);
-          this.loadList();
-          return data;
-        }, error => this.errorResponse(true));
-      }
-    });
-  }
+  // dispatch(data: any) {
+  //   this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
+  //     if (!resp.dismiss) {
+  //       this.remesaService.dispatch(data.element).subscribe(data => {
+  //         this.successResponse('La Remesa', 'Procesada', false);
+  //         this.loadList();
+  //         return data;
+  //       }, error => this.errorResponse(true));
+  //     }
+  //   });
+  // }
 
+  dispatch(data: any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
+  }
 
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);

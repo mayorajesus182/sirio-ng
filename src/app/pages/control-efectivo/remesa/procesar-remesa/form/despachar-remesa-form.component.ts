@@ -177,10 +177,6 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
         this.updateData(this.remesa);
         this.remesa.detalleEfectivo = [];
 
-        console.log(this.remesa);
-
-
-
         this.swalService.show('¿Desea Despachar la Solicitud?', this.remesa.id).then((resp) => {
             if (!resp.dismiss) {
                 this.remesaService.dispatch(this.remesa).subscribe(data => {
