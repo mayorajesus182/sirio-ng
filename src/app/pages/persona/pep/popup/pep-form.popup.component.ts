@@ -93,14 +93,14 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     }
 
     if(val === PepConstants.ASOCIADO){
-      this.removeValidator(['ente','cargo','pais']);
+      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
     }
     if(val === PepConstants.CLIENTE){
-      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+      this.removeValidator(['ente','cargo','pais']);
     }
     
     if(val === PepConstants.PARENTESCO){
-      this.removeValidator(['ente','cargo','pais']);
+      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
     }
 
     this.cdr.detectChanges();
