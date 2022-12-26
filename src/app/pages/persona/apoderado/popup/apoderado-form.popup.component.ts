@@ -131,4 +131,5 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     this.saveOrUpdate(this.apoderadoService,this.apoderado,'APODERADO',this.apoderado.id==undefined);
 
   }
+
 }

@@ -9,6 +9,7 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { IntervinienteModule } from '../interviniente/interviniente.module';
 import { CuentaBancoRoutingModule } from './cuenta-banco-routing.module';
 import { CuentaBancoFormComponent } from './form/cuenta-banco-form.component';
 
@@ -25,10 +26,8 @@ import { CuentaBancoFormComponent } from './form/cuenta-banco-form.component';
         SharedComponentModule,
         HighlightModule,
         SirioCardModule,
-
-
         CuentaBancoRoutingModule,
-
+        IntervinienteModule
     ],
     declarations: [
         CuentaBancoFormComponent,
