@@ -38,8 +38,6 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     dialogRef: MatDialogRef<IntervinienteFormPopupComponent>,
     private intervinienteService: IntervinienteService,
 
-
-
     private tipoDocumentoService: TipoDocumentoService,
 
 
@@ -124,52 +122,30 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     // this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
   }
 
-  updatePerson(event) {
-    console.log('update ', event);
-    if (!event.id) {
-      return;
-    }
+  pullPerson(event) {
 
-    this.mode = 'global.edit';
-    this.persona = event;
-    // this.loadingDataForm.next(true);
- 
+    console.log('pul person ', event);
+    this.mode = 'global.add';
     this.interviniente = {} as Interviniente;
-    //console.log('current loaded ', this.loaded$.value);
+    // this.updateDataFromValues(this.cuentaBanco, event);
     this.buildForm();
-
     this.loaded$.next(true);
-    // this.loadingDataForm.next(true);
-    // this.cuentaBancoService.get(Number.parseInt(event.id)).subscribe(val => {
-    //     this.cuentaBanco = val;
-    //     //console.log('PERSONAAAA: ', val);
-    //     //TODO: OJO REVISAR ESTO LUEGO
-    //     // this.itemForm.reset({});
-    //     this.loadingDataForm.next(false);
-    //     this.loaded$.next(true);
-    //     this.applyFieldsDirty();
-    //     this.cdr.detectChanges();
-    // });
+    // if(this.itemForm){
+    //     this.f.tipoDocumento.setValue(this.cuentaBanco.tipoDocumento);
+    //     this.f.identificacion.setValue(this.cuentaBanco.identificacion);
+    // }
     //TODO: ESTO ES POSIBLE QUE SE USE
-    // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
+    // this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
   }
 
-  // queryResult(event) {
-  //   // console.log('event result ', event);
-
-  //   if (!event.id && !event.numper) {
-  //     this.loaded$.next(false);
-  //     this.cuentaBanco = {} as CuentaBanco;
-  //     this.isNew = true;
-  //     this.cdr.detectChanges();
-  //   }
-  // }
 
 
 
   buildForm() {
     //validar carcteres especiales
     this.itemForm = this.fb.group({
+      persona: new FormControl(this.interviniente.tipoParticipacion || undefined, [Validators.required]),
+      cuenta: new FormControl(this.interviniente.tipoParticipacion || undefined, [Validators.required]),
       tipoParticipacion: new FormControl(this.interviniente.tipoParticipacion || undefined, [Validators.required]),
 
       tipoFirma: new FormControl(this.interviniente.tipoFirma || undefined, [Validators.required]),

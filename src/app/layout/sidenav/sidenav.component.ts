@@ -59,8 +59,8 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       this.remesaService.cantidad().subscribe(data=>{
         // console.log(data);
+         this.badge=data;        
         
-        this.badge=data;
       })
 
     }

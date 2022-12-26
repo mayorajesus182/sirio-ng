@@ -13,19 +13,49 @@
 </sirio-dialog-header>
 
 
-<form [formGroup]="itemForm" *ngIf="itemForm">
-  <mat-dialog-content>
-    <div fxLayout="column">
-
-      <div fxLayout="row">
-        <div fxFlex="100">
-
-          <sirio-person-query (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
-        </div>
-
+<mat-dialog-content>
+  <div fxLayout="column">
+  
+    <div fxLayout="row">
+      <div fxFlex="100">
+  
+        <sirio-person-query  (push)="pullPerson($event)" (create)="addPerson($event)"></sirio-person-query>
       </div>
-
+  
     </div>
+  
+  </div>
+  <form [formGroup]="itemForm" *ngIf="itemForm">
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="15">
+          <mat-label>{{'person.identi' | translate: {default: 'global.code'} | translate }}
+          </mat-label>
+          <input matInput [value]="d.id" readonly class="text-center">
+      </mat-form-field>
+
+      <mat-form-field fxFlex.gt-xs="70">
+          <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
+          </mat-label>
+          <input matInput [value]="d.nombre" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="15">
+          <mat-label>{{'Cupo' | translate: {default: 'Cupo'} | translate }}
+          </mat-label>
+          <input matInput [value]="d.cupo | number: '1.2'" readonly class="text-right">
+      </mat-form-field>
+
+      <mat-form-field fxFlex="15">
+          <mat-label>{{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+          </mat-label>
+          <input matInput [value]="d.horarioExt === 1 ? 'SI' : 'NO'" readonly class="text-center">
+      </mat-form-field>
+
+  </div>
+
+
     <div fxLayout="column">
 
       <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -67,11 +97,10 @@
 
     <!-- {{printErrors() | json}}  -->
 
-  </mat-dialog-content>
+  </form>
+</mat-dialog-content>
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
-  </mat-dialog-actions>
-
-</form>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+</mat-dialog-actions>
