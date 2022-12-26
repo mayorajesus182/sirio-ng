@@ -13,11 +13,7 @@ const personaRoutes: Routes = [
         data: { title: 'Persona Jurídica' },
         loadChildren: () => import('./juridico/juridico.module').then(m => m.JuridicoModule),
     },
-    // {
-    //     path: 'empresa-relacionada',
-    //     data: { title: 'Afiliaciones' },
-    //     loadChildren: () => import('./cuenta-bancaria/cuenta-bancaria.module').then(m => m.EmpresaRelacionadaModule),
-    // },
+ 
     {
         path: 'apertura-cuenta',
         data: { title: 'Apertura de Cuenta' },

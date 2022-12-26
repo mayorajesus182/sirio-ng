@@ -53,7 +53,7 @@
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'Estatus' | translate:
                         {default: 'Estatus'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
-                        <p class="text-truncate font-weight-600">{{element.estatusRemesa}}</p>
+                        <p class="text-truncate font-weight-600">{{element.estatusRemesaNombre}}</p>
                     </mat-cell>
                 </ng-container>
 

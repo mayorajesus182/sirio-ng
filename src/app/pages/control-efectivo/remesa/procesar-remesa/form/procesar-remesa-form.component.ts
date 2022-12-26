@@ -51,6 +51,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
     esTransportista: Boolean = false;
+    existsDifference: Boolean = false;
 
     constructor(
         injector: Injector,
@@ -110,9 +111,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
                     this.preferenciaService.get().subscribe(pref => {
                         this.preferencia = pref;
-
-                        console.log(' this.preferencia.monedaConoActual ', this.preferencia.monedaConoActual);
-                        console.log(' this.remesa.moneda ', this.remesa.moneda);
 
                         // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
                         if (this.preferencia.monedaConoActual === this.remesa.moneda) {
@@ -195,17 +193,8 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
                 }
             });
-
-            // this.cdr.markForCheck();
-            // this.loadingDataForm.next(false);
-            // this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
-
-        // this.opt_swal = {};
-        // this.opt_swal.input = 'text';
-        // this.opt_swal.inputPlaceholder = 'Ingrese una Observación';
-        // this.opt_swal.preConfirm = this.preConfirmFunt;
     }
 
     buildForm() {
@@ -266,14 +255,9 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
     onLoadMaterialesUtilizados() {
         this.materialUtilizadoList.subscribe(list => {
-            console.log(' cambio materiales utilizados ', list);
-            console.log('  materiales a utilizar ', this.materialList);
-
             if (!list || list.length == 0) {
                 this.materiales.next(this.materialList);
             } else {
-                console.log(list.map(mu => mu.material));
-
                 this.materiales.next(
                     this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id))
                 );
@@ -338,16 +322,24 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             });
             this.f.montoEnviado.setValue(0.0);
             this.cdr.detectChanges();
+            this.cdr.markForCheck();
         }
-    }
 
-    preConfirmFunt(obs: string) {
+        if (this.f.montoEnviado.value > this.remesa.montoSolicitado) {
+            this.itemForm.controls['montoEnviado'].setErrors({ difference: true });
 
-        if (!obs || obs.trim().length == 0) {
-            swal.showValidationMessage(
-                'La observación es requerida!'
-            );
+            // this.f.montoEnviado.setErrors({difference: true});
+            this.f.montoEnviado.markAsDirty();
+            // this.cdr.detectChanges();
+
+
+            console.log('Mayooorrrrrrrrrrrrrrrrrrrrrrrr');
+            
         }
+
+        this.existsDifference = false;
+        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { this.existsDifference = true } })
+        
     }
 
     removePlomo(plomo: string) {
@@ -366,7 +358,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         // console.log(event);
 
         if (!value.match(/^[0-9]*$/)) {
-            // console.log('match reg ex ', value);
             this.plomoCtrl.setErrors({ pattern: true });
             // this.plomoCtrl.markAsDirty();
             // this.cdr.detectChanges();
@@ -375,6 +366,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
         if (value.length != this.preferencia.digitosPlomo) {
             this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
+            this.cdr.detectChanges();
             return;
         }
 
@@ -407,10 +399,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             return;
 
         this.updateData(this.remesa);
-
-        let existsDifference = false;
-
-        this.conoSave.filter(c => { if (c.cantidad > c.disponible) { existsDifference = true } })
 
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;

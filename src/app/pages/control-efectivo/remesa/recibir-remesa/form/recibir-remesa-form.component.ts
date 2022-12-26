@@ -17,6 +17,7 @@ import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
+import { formatNumber } from '@angular/common';
 
 @Component({
     selector: 'app-recibir-remesa-form',
@@ -41,6 +42,7 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
+    diferencia = 0.0;
 
     constructor(
         injector: Injector,
@@ -160,12 +162,15 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
     updateValuesErrors(item: ConoMonetario) {
 
         this.f.montoRecibido.setValue(0.0);
+        this.diferencia = 0.0;
 
         this.conos.subscribe(c => {
             this.f.montoRecibido.setValue(c.filter(c1 => c1.cantidad != undefined).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+            this.diferencia = this.remesa.montoEnviado - c.filter(c1 => c1.cantidad != undefined).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b);
             this.conoSave = c.filter(c => c.cantidad > 0);
             this.cdr.detectChanges();
         });
+
     }
 
     preConfirmFunt(obs: string) {
@@ -190,14 +195,25 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
 
         this.remesa.materiales = this.materialRemesaList;
         this.remesa.detalleEfectivo = this.conoSave;
-        console.log(this.remesa);
+
+        let diferenciaFormat = formatNumber(this.diferencia, 'es', '1.2');
+        let message = this.diferencia > 0 ? 'Diferencia Faltante: ' + diferenciaFormat : (this.diferencia < 0 ? 'Diferencia Sobrante: ' + diferenciaFormat : '');
+
+        this.swalService.show('¿Desea Confirmar la Recepción?', message).then((resp) => {
+            if (!resp.dismiss) {
+                this.remesaService.receive(this.remesa).subscribe(data => {
+                    this.itemForm.reset({});
+                    this.successResponse('La Remesa', 'Recibida', false);
+                    return data;
+                }, error => this.errorResponse(true));        
+            }
+        });
 
 
-        this.remesaService.receive(this.remesa).subscribe(data => {
-            this.itemForm.reset({});
-            this.successResponse('La Remesa', 'Recibida', false);
-            return data;
-        }, error => this.errorResponse(true));
+
+
+
+
 
     }
 }

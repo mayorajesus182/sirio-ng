@@ -42,7 +42,7 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
 
 
     this.saldoAgenciaService.getSaldo().subscribe(data=>{
-      console.log('Agencia Saldos ',data);
+
       data.forEach(element => {
         
         this.contentStats+=`<strong>${element.moneda}</strong> <br>`;
