@@ -9,6 +9,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 export interface ClaseTelefono {
     id: string;
     nombre: string;
+    tipoTelefonica:string;
     codigoLocal: string;
     fechaCreacion?: any;
     activo?: number;
