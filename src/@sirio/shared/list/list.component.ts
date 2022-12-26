@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -21,7 +22,7 @@ export class ListComponent implements AfterViewInit {
 
   @Input() hideHeader: boolean;
 
-  constructor(private location: Location) {
+  constructor(private location: Location, private router:Router) {
   }
 
   ngAfterViewInit() {
@@ -44,4 +45,8 @@ export class ListComponent implements AfterViewInit {
   public back() {
     this.location.back();
   }
+
+  public backHome() {
+    this.router.navigate(['/sirio/welcome']);;
+}
 }
