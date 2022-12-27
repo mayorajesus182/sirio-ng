@@ -41,7 +41,7 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
     this.init(this.bovedaAgenciaService, 'bovagencia_id');
 
 
-    this.saldoAgenciaService.getSaldo().subscribe(data=>{
+    this.saldoAgenciaService.getSaldoStats().subscribe(data=>{
 
       data.forEach(element => {
         
