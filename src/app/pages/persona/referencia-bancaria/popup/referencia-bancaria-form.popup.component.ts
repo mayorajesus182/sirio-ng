@@ -110,26 +110,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     });
 
-    this.f.numeroCuenta.valueChanges.subscribe((val: string) => {
-<<<<<<< HEAD
-      console.log('cuenta ', val);
-
-=======
-      console.log('cuenta: ',val);
-      
->>>>>>> f23e7fc0493a4402ce290af4f2136be1cef0515a
-      if (val && this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
-        this.f.numeroCuenta.setErrors({ notIsEntidad: true });
-        this.f.numeroCuenta.markAsDirty();
-        this.cdr.detectChanges();
-      }
-
-      // else {
-
-      //   this.itemForm.controls['numeroCuenta'].setErrors(null);
-      //   this.cdr.detectChanges();
-      // }
-    });
+  
 
     this.f.entidadFinanciera.valueChanges.subscribe((val: string) => {
       // console.log('entidad financiera **' + val + '**');
@@ -161,12 +142,19 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         return;
       }
       if (val) {
+        if (this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
+          this.f.numeroCuenta.setErrors({ notIsEntidad: true });
+          this.f.numeroCuenta.markAsDirty();
+          return;
+        }
         if (!this.validateNumeroCuenta(this.f.numeroCuenta ? this.f.numeroCuenta.value : undefined)) {
           this.f.numeroCuenta.setErrors({ exists: true })
+          this.f.numeroCuenta.markAsDirty();          
         }
-        //  else {
-        //   this.f.numeroCuenta.setErrors(null)
-        // }
+        
+        this.cdr.detectChanges();
+
+  
       }
     });
 
