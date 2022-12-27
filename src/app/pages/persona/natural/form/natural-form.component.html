@@ -29,8 +29,8 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" 
-                                    (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
+                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" (update)="updatePerson($event)"
+                        (create)="addPerson($event)"></sirio-person-query>
 
 
 
@@ -56,7 +56,7 @@
                                 </mat-expansion-panel-header>
                                 <div fxLayout="column" [formGroup]="itemForm">
 
- 
+
                                     <!-- {{printErrors() | json}}  -->
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -70,8 +70,8 @@
                                         <mat-form-field fxFlex="20">
                                             <mat-label>{{'naturalPerson.documentType' | translate: {default:
                                                 'global.documentType'} | translate }} </mat-label>
-                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
-                                                formControlName="tipoDocumento" uppercase required >
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento" formControlName="tipoDocumento"
+                                                uppercase required>
                                             <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
@@ -90,7 +90,7 @@
                                             <mat-label>{{'naturalPerson.identification' | translate: {default:
                                                 'global.identification'} | translate }} </mat-label>
                                             <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion"
-                                                formControlName="identificacion" uppercase required  >
+                                                formControlName="identificacion" uppercase required>
                                             <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -98,7 +98,7 @@
                                             </mat-error>
                                         </mat-form-field>
 
-                                        
+
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -166,9 +166,8 @@
                                         <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
 
                                         <sirio-select-search fxFlex="20"
-                                            [label]="'Lugar de Nacimiento' | translate: {default: 'Lugar de Nacimiento'} | translate"
-                                            formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.pais?.errors">
+                                            [label]="'Lugar de Nacimiento' | translate: {default: 'Lugar de Nacimiento'} | translate" formControlName="pais"
+                                            [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="20"
@@ -188,13 +187,12 @@
                                             [errors]="f.genero?.errors">
                                         </sirio-select-simple>
 
-                                     
+
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        
-                                        <sirio-select-search fxFlex="30"
-                                            [label]="'Profesión u Oficio' | translate: {default: 'Profesión u Oficio'} | translate"
+
+                                        <sirio-select-search fxFlex="30" [label]="'Profesión u Oficio' | translate: {default: 'Profesión u Oficio'} | translate"
                                             formControlName="profesion" [required]="true" [elements]="profesiones.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.profesion?.errors">
                                         </sirio-select-search>
@@ -272,11 +270,10 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <mat-panel-title>
 
-                                            <button type="button" mat-icon-button type="button" color="primary">
-                                                <mat-icon>person</mat-icon>
-                                            </button>
+                                            <mat-icon color="primary" class="padding-xs">
+                                                calculate
+                                            </mat-icon>
 
-                                        
                                             <span class="margin-top-sm margin-bottom-lg semi-bold">
                                                 Información Económica Financiera
                                             </span>
@@ -311,7 +308,7 @@
                                         </sirio-select-search>
 
                                     </div>
-                                    
+
                                 </div>
 
 
@@ -372,7 +369,7 @@
                                     <sirio-persona-telefono-table [persona]="personaNatural.id"></sirio-persona-telefono-table>
 
                                 </div>
-                                    
+
 
                             </mat-expansion-panel>
 
@@ -394,7 +391,8 @@
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showInformacionLaboral">
 
-                                    <sirio-persona-informacionLaboral-table [persona]="personaNatural.id" (propagar)="updateWorkingInfo($event)"></sirio-persona-informacionLaboral-table>
+                                    <sirio-persona-informacionLaboral-table [persona]="personaNatural.id" (propagar)="updateWorkingInfo($event)">
+                                    </sirio-persona-informacionLaboral-table>
 
                                 </div>
 
@@ -444,7 +442,7 @@
 
                             </mat-expansion-panel>
 
-                            
+
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPep(true)" (closed)="openPep(false)">
                                 <mat-expansion-panel-header class="odd">
@@ -481,14 +479,15 @@
                                     </mat-panel-title>
                                     <mat-panel-description>
 
-                                    <span class="notification-number margin-top-sm" matBadgeColor="accent" ></span>
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showApoderado">
 
 
-                                    <sirio-persona-apoderado-table [persona]="personaNatural.id" (propagar)="updateApoderado($event)"></sirio-persona-apoderado-table>
+                                    <sirio-persona-apoderado-table [persona]="personaNatural.id" (propagar)="updateApoderado($event)">
+                                    </sirio-persona-apoderado-table>
 
 
                                 </div>
@@ -513,8 +512,8 @@
                                 <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
 
 
-                                    <sirio-persona-empresa-relacionada-table [persona]="personaNatural.id" ></sirio-persona-empresa-relacionada-table>
-                                   
+                                    <sirio-persona-empresa-relacionada-table [persona]="personaNatural.id"></sirio-persona-empresa-relacionada-table>
+
 
                                 </div>
 
