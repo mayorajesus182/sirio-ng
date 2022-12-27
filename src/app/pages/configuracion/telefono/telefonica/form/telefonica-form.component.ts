@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
-import { ClaseTelefono, ClaseTelefonoService } from 'src/@sirio/domain/services/configuracion/telefono/clase-telefono.service';
 import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
+import { TipoTelefonica, TipoTelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefonica.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -20,7 +20,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class TelefonicaFormComponent extends FormBaseComponent implements OnInit {
 
     telefonica: Telefonica = {} as Telefonica;
-    public clases = new BehaviorSubject<ClaseTelefono[]>([]);
+    public tipos = new BehaviorSubject<TipoTelefonica[]>([]);
 
 
     constructor(
@@ -28,7 +28,7 @@ export class TelefonicaFormComponent extends FormBaseComponent implements OnInit
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private telefonicaService: TelefonicaService,
-        private claseTelefonoService: ClaseTelefonoService,
+        private tipoTelefonicaService: TipoTelefonicaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -61,8 +61,8 @@ export class TelefonicaFormComponent extends FormBaseComponent implements OnInit
             });
         }
 
-        this.claseTelefonoService.actives().subscribe(data => {
-            this.clases.next(data);
+        this.tipoTelefonicaService.actives().subscribe(data => {
+            this.tipos.next(data);
         });
 
     }
@@ -71,7 +71,7 @@ export class TelefonicaFormComponent extends FormBaseComponent implements OnInit
         this.itemForm = this.fb.group({
             id: new FormControl({value: telefonica.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombre: new FormControl(telefonica.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            claseTelefono: new FormControl(telefonica.claseTelefono || undefined, [Validators.required]),
+            tipoTelefonica: new FormControl(telefonica.tipoTelefonica || undefined, [Validators.required]),
             codigoLocal: new FormControl(telefonica.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
@@ -81,6 +81,7 @@ export class TelefonicaFormComponent extends FormBaseComponent implements OnInit
             return;
 
         this.updateData(this.telefonica);
+        
         this.saveOrUpdate(this.telefonicaService, this.telefonica, 'El Telefónica', this.isNew);
     }
 

@@ -2,8 +2,7 @@
     <sirio-card-header class="header-bg">
         <sirio-card-header-heading>
             <!-- <mat-icon color="primary">search</mat-icon>  -->
-            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;Información del
-            Cliente
+            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;{{title|translate}}
         </sirio-card-header-heading>
         <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
         <sirio-card-header-actions>
@@ -69,7 +68,7 @@
                 </mat-form-field>
 
                 <div fxFlex="15" *ngIf="!taquilla">
-                    <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && (entity=='persona'|| entity=='interviniente')"  mat-raised-button
+                    <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && entity=='persona'"  mat-raised-button
                         [disabled]="!isElemNew || (disableBtn | async)">
                         <i class="fa-light fa-user-plus fa-lg"></i>
                         {{'button.add' | translate: {default:'global.notfound'} | translate }}
@@ -79,16 +78,17 @@
                         <i class="fa-light fa-user-pen fa-lg"></i>
                         {{'button.update' | translate: {default:'global.notfound'} | translate }}
                     </button>
-                    <button color="accent" class="btn-create" (click)="pushOn()" *ngIf="(persona.id || persona.numper) && entity=='interviniente'"
-                        mat-raised-button [disabled]="!persona.id && !persona.numper">                        
-                        <i class="fal fa-user fa-lg"></i>
-                        {{'button.add' | translate: {default:'global.notfound'} | translate }}
+                    <button color="accent" class="btn-create" (click)="pushOn()" *ngIf="entity=='interviniente' || entity=='cuenta'"
+                        mat-raised-button [disabled]="disableBtn | async">                      
+                        <i class="fal fa-user-plus fa-lg" *ngIf="!persona.id && !persona.numper"></i>
+                        <i class="fal fa-user fa-lg" *ngIf="persona.id || persona.numper"></i>
+                        {{(persona.id || persona.numper? 'CARGAR' : 'CREAR') | translate }}
                     </button>
                 </div>
-                <!-- {{persona| json}} -->
-
+                
             </div>
         </div>
+        <!-- {{persona| json}} -->
     </sirio-card-content>
 </sirio-card>
 
