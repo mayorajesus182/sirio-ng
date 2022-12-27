@@ -61,7 +61,10 @@ export class ReporteTaquillaOperativaFormComponent extends FormBaseComponent imp
             return;
 
             this.reporteGestionEfectivoAgencia.region = this.f.region.value;
-            this.reporteGestionEfectivoAgenciaService.taquillaOperativa(this.reporteGestionEfectivoAgencia).subscribe(data => {
+            console.log("REGION   ", this.f.region.value); 
+            this.updateData(this.reporteGestionEfectivoAgencia);     
+           
+            this.reporteGestionEfectivoAgenciaService.taquillaOperativa(this.reporteGestionEfectivoAgencia).subscribe(data => {                                   
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
