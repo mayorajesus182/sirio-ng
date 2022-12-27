@@ -1,25 +1,19 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants, RolConstants } from 'src/@sirio/constants';
-import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
+import { RolConstants } from 'src/@sirio/constants';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
-import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
-import { Material } from 'src/@sirio/domain/services/transporte/material.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
 import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import swal, { SweetAlertOptions } from 'sweetalert2';
 
 @Component({
     selector: 'app1-despachar-remesa-form',
