@@ -67,13 +67,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
 
-        // this.disable.subscribe(val => {
-        //     if (val) {
-        //         this.search.identificacion.disable();
-        //         this.search.cuenta.disable();
-        //         this.search.tipoDocumento.disable();
-        //     }
-        // })
+        this.disable.subscribe(val => {
+            if (val) {
+                this.search.identificacion.disable();
+                this.search.cuenta.disable();
+                this.search.tipoDocumento.disable();
+            }
+        })
 
         this.search.identificacion.valueChanges.subscribe(val => {
             if (val && !this.search.cuenta.disabled) {
