@@ -21,6 +21,7 @@ import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -229,14 +230,18 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
     }
 
-    queryResult(event) {
-        // console.log('event result ', event);
+    loadResult(event) {
+        console.log('load event result ', event);
 
         if (!event.id && !event.numper) {
+            this.persona= {} as Persona;
             this.loaded$.next(false);
-            this.cuentaBanco = {} as CuentaBanco;
-            this.isNew = true;
-            this.cdr.detectChanges();
+            // this.cuentaBanco = {} as CuentaBanco;
+            // this.isNew = true;
+            // this.cdr.detectChanges();
+        }else{
+            this.persona= event;
+            //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         }
     }
 

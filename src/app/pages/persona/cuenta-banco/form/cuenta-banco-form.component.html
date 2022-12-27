@@ -32,7 +32,7 @@
                 <sirio-card-content fxLayout="column">
 
 
-                    <sirio-person-query  (result)="queryResult($event)" (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
+                    <sirio-person-query [entity]="'cuenta'"  (push)="loadResult($event)"  ></sirio-person-query>
 
 
                     <!-- {{printErrors() | json}}  -->
