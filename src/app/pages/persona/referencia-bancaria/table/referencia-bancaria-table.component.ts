@@ -65,7 +65,7 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar Referencia Bancaria : ?', undefined,
+    this.swalService.show('¿Desea Eliminar Referencia Bancaria?', undefined,
     // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
 
       { 'html': ' <b>' + row.entidadFinanciera + '</b>' }).then((resp) => {
@@ -84,8 +84,6 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   ngAfterViewInit() {
 
   }
-
-
 
   popup(data?:ReferenciaBancaria) {
     console.log(data);

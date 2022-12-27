@@ -41,9 +41,9 @@
     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO"></div> -->
 
     
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value!=Pep.CLIENTE">
-
-      <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE">
+      <!-- {{printErrors() | json}} -->
+      <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE"
         [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
       </sirio-select-search>
 
@@ -51,7 +51,7 @@
           <mat-label>{{'Número  Documento: ' | translate: {default:
               'Número  Documento'} | translate }} </mat-label>
           <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
-              uppercase required>
+               [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE">
           <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
           </mat-error>
           <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -100,6 +100,8 @@
     </div>
 
   </mat-dialog-content>
+
+  
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>

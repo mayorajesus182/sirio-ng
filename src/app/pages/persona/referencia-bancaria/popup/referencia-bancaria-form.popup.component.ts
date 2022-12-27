@@ -111,7 +111,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
     });
 
     this.f.numeroCuenta.valueChanges.subscribe((val: string) => {
-      console.log('cuenta ',val);
+      console.log('cuenta: ',val);
       
       if (val && this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
         this.f.numeroCuenta.setErrors({ notIsEntidad: true });
@@ -134,10 +134,10 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         this.f.numeroCuenta.setErrors({ notIsEntidad: true });
         this.f.numeroCuenta.markAsDirty();
         this.cdr.detectChanges();
-      } else {
-        this.itemForm.controls['numeroCuenta'].setErrors(null);
-        // this.f.numeroCuenta.clearValidators();
-        this.cdr.detectChanges();
+      // } else {
+      //   this.itemForm.controls['numeroCuenta'].setErrors(null);
+      //   // this.f.numeroCuenta.clearValidators();
+      //   this.cdr.detectChanges();
       }
     });
 

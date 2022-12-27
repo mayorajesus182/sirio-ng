@@ -24,7 +24,6 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
   public Pep = PepConstants;
 
-  //
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -112,10 +111,13 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     this.itemForm = this.fb.group({
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
 
-      tipoDocumento: new FormControl(this.pep.tipoDocumento || '', [Validators.required]),
+      // tipoDocumento: new FormControl(this.pep.tipoDocumento || '', [Validators.required]),
+      tipoDocumento: new FormControl(this.pep.tipoDocumento || undefined),
 
-      identificacion: new FormControl(this.pep.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-   
+      // identificacion: new FormControl(this.pep.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+      identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.NUMERIC)]),
+  
+
       nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
 
       ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
