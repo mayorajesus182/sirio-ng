@@ -54,6 +54,15 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         super(undefined, injector);
     }
 
+    ngAfterViewInit(): void {
+        this.itemForm.valueChanges.subscribe(val => {
+            if (val) {
+                this.result.emit(this.itemForm)
+            }
+        });
+        this.cdr.detectChanges();
+    }
+
     ngOnInit() {
 
         this.itemForm = this.fb.group({
@@ -95,7 +104,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
                 this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
                 this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
                 this.calculateDifferences();
-            }
+            }    
         });
 
         //Me trae la data de la cuenta que se selecciono
@@ -120,21 +129,13 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         });
     }
 
-    ngAfterViewInit(): void {
-        this.cdr.detectChanges();
-        this.itemForm.valueChanges.subscribe(val => {
-            if (val) {
-                this.result.emit(this.itemForm)
-            }
-        });
-    }
-
     buildChequeForm() {
         this.chequeForm = this.fb.group({
             serial: new FormControl(this.cheque.serial, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             numeroCuentaCheque: new FormControl(this.cheque.numeroCuentaCheque, [Validators.required]),
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(this.cheque.montoCheque),
+            //  ? 0.00 : ''
             // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
             motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
@@ -190,6 +191,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
         this.chequeForm.reset({});
+        // this.cf.montoCheque.setValue(0.00);
         this.refresTotalCheque();
         this.cdr.detectChanges();
     }
@@ -352,8 +354,13 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
     reset() {
         this.itemForm.reset({});
+        this.cargaDatos();
+        this.f.chequePropio.setValue(0.00);
+        this.f.chequeOtros.setValue(0.00);
+        this.f.monto.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
+        // this.cf.montoCheque.setValue(0.00);
     }
 }
 

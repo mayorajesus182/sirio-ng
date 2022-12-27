@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RolConstants } from 'src/@sirio/constants';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
@@ -83,7 +83,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
             this.rolService.getByUsuario().subscribe(rol => {
 
-                this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
+                this.esTransportista = (rol.id === RolConstants.TRANSPORTISTA);
                 this.buildForm();
                 // this.buildForm(this.remesa);
                 this.buildFormMateriales();
