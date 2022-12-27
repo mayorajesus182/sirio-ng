@@ -60,6 +60,9 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
       // if (isOpen) {
       this.isOpen = isOpen;
 
+      console.log(' this.isOpen  ', this.isOpen);
+      
+
       this.init(this.cajaTaquillaService, 'cajtaquilla_id');
 
     });
