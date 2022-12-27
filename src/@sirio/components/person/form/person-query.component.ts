@@ -29,6 +29,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
+    @Input() title: string='Información del Cliente';
     @Input() taquilla: boolean = false;
     @Input() entity:  'interviniente'|'persona'|'cuenta'='persona';
     @Input() disabled: boolean = false;
@@ -48,6 +49,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         'W'];
 
     private loading = new BehaviorSubject<boolean>(false);
+    private finding = false;
     disable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     disableBtn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -66,13 +68,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
 
-        // this.disable.subscribe(val => {
-        //     if (val) {
-        //         this.search.identificacion.disable();
-        //         this.search.cuenta.disable();
-        //         this.search.tipoDocumento.disable();
-        //     }
-        // })
+        this.disable.subscribe(val => {
+            if (val) {
+                this.search.identificacion.disable();
+                this.search.cuenta.disable();
+                this.search.tipoDocumento.disable();
+            }
+        })
 
         this.search.identificacion.valueChanges.subscribe(val => {
             if (val && !this.search.cuenta.disabled) {
@@ -126,6 +128,14 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.disableBtn.next(true);
 
 
+        this.loading.subscribe(val=>{
+            console.log('loading ', val);
+            
+            this.finding=val;
+        })
+
+
+
     }
 
     get search(): AbstractControl | any {
@@ -139,10 +149,11 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
-        if (this.search.identificacion.errors) {
+        if (this.search.identificacion.errors || this.finding) {
             return;
         }
 
+        this.disableBtn.next(true);
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
@@ -169,9 +180,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.disable.next(true);
                 this.disableBtn.next(false);
                 this.cdref.detectChanges();
-
+                
             }, err => {
-
+                
                 this.persona = {} as Persona;
                 this.isNew = true;
                 this.loading.next(false);
@@ -182,7 +193,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.search.identificacion.setErrors({ notexists: true });
                 this.search.nombre.setValue(' ');
                 this.search.cuenta.setValue('');
-
+                
+                this.disableBtn.next(false);
                 this.cdref.detectChanges();
             })
         } else if (!tipoDocumento) {
@@ -235,7 +247,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     public onChangeFilter(event:any) {
-        console.log('%% on change filter %%', event);
+        // console.log('%% on change filter %%', event);
         
         // this.persona = {} as Persona;
         // this.isNew = true;
@@ -249,7 +261,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
  
     pushOn() {
-        this.push.emit(this.searchForm.value);
+        this.push.emit(this.persona);
     }
 
 

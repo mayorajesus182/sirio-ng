@@ -26,19 +26,25 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="auto">
+                            <mat-form-field fxFlex="10">
                                 <mat-label>{{'phoneClass.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="70">
+                            <mat-form-field fxFlex="30">
+                                <mat-label>{{'phoneCompany.phoneCompanyType' | translate: {default: 'global.phoneCompanyType'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.tipoTelefonica" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="50">
                                 <mat-label>{{'phoneClass.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="auto">
+                            <mat-form-field fxFlex="10">
                                 <mat-label>{{'phoneClass.localCode' | translate: {default: 'global.localCode'} |
                                     translate }}</mat-label>
                                 <input matInput class="text-center" [value]="d.codigoLocal" readonly>
