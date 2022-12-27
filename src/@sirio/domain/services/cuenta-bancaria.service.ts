@@ -47,6 +47,10 @@ export class CuentaBancariaService {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/all`);
     }
 
+    getByPersona(persona: number): Observable<CuentaBancaria[]> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/get`);
+    }
+
     activesByNumeroCuenta(numeroCuenta: string): Observable<CuentaBancariaOperacion> {
         return this.apiService.config(this.apiConfig).get(`/${numeroCuenta}/get`);
     }

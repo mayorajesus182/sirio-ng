@@ -1,8 +1,8 @@
-<sirio-card [fxFlex.gt-sm]="100"  fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
+<sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
     <sirio-card-header class="header-bg">
         <sirio-card-header-heading> <i class="fa-light fa-pen-to-square mat-icon mat-primary fa-lg margin-top-md"></i>&nbsp; Información
             Financiera</sirio-card-header-heading>
-        <sirio-card-header-actions >
+        <sirio-card-header-actions>
             <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
             {default: 'global.notfound'} | translate }}" type="button" (click)="reset()">
                 <mat-icon>backspace</mat-icon>
@@ -15,39 +15,39 @@
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                 <mat-form-field fxFlex.gt-sm="30" *ngIf="cuentaOperacion">
                     <mat-label>{{'deposit.productType' | translate: {default: 'global.productType'} | translate }} </mat-label>
-                    <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.tipoProductoNombre"
-                        [ngModelOptions]="{standalone: true}" readonly name="numeroCuenta">
-                    <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
+                    <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.tipoProductoNombre" [ngModelOptions]="{standalone: true}" readonly
+                        name="numeroCuenta">
+                    <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                 </mat-form-field>
                 <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
-                    [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate"
-                    formControlName="cuentaBancaria" [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()"
-                    [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
+                    [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate" formControlName="cuentaBancaria"
+                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'"
+                    [errors]="f.numeroCuenta?.errors">
                 </sirio-select-search>
 
-                <mat-form-field  fxFlex.gt-xs="auto"> 
-                    <mat-label>Cheque Propio Banco </mat-label>
-                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequePropio" formControlName="chequePropio" currencyMask [options]="{precision:2}" 
-                    [required]="!f.chequeOtros.value">
+                <mat-form-field fxFlex.gt-xs="auto">
+                    <mat-label>{{'deposit.ownChecks' | translate: {default: 'global.ownChecks'} | translate }} </mat-label>
+                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequePropio" formControlName="chequePropio" currencyMask
+                        [options]="{precision:2}" [required]="!f.chequeOtros.value">
                     <mat-error *ngIf="f.chequePropio.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                     <mat-error *ngIf="f.chequePropio.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio ">No coinciden los montos</mat-error>
+                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio ">No Coinciden los Montos</mat-error>
                     <mat-error *ngIf="f.chequePropio.errors?.chequePropioDifference">Monto Incorrecto</mat-error>
-                </mat-form-field> 
-        
-                <mat-form-field  fxFlex.gt-xs="auto"> 
+                </mat-form-field>
+
+                <mat-form-field fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.checksOtherBanks' | translate: {default: 'global.checksOtherBanks'} | translate }} </mat-label>
-                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequeOtros" formControlName="chequeOtros" currencyMask [options]="{precision:2}" 
-                    [required]="!f.chequePropio.value">
+                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequeOtros" formControlName="chequeOtros" currencyMask
+                        [options]="{precision:2}" [required]="!f.chequePropio.value">
                     <mat-error *ngIf="f.chequeOtros.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                     <mat-error *ngIf="f.chequeOtros.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No coinciden los montos</mat-error>
+                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No Coinciden los Montos</mat-error>
                     <mat-error *ngIf="f.chequeOtros.errors?.chequeOtrosDifference">Monto Incorrecto</mat-error>
-                </mat-form-field> 
+                </mat-form-field>
 
                 <mat-form-field fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
-                    <input matInput max="9999999999999.99" maxlength="20"  min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask
+                    <input matInput max="9999999999999.99" maxlength="20" min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask
                         [options]="{precision:2}">
                     <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                     <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
@@ -55,82 +55,86 @@
                 </mat-form-field>
             </div>
         </div>
-       
+
         <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm">
             <mat-form-field fxFlex.gt-xs="10">
                 <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }} </mat-label>
-                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial"  class="text-center" >
+                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center">
                 <mat-error *ngIf="cf.serial.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial y cuanta ya estan suministrados</mat-error>
+                <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El Serial y Cuantas ya están Suministrados</mat-error>
             </mat-form-field>
-    
+
             <mat-form-field fxFlex.gt-sm="20">
                 <mat-label>Número de Cuenta </mat-label>
-                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required num-account-validate class="text-center" maxLength="24" >
+                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required
+                    num-account-validate class="text-center" maxLength="24">
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.required">{{'error.required' | translate}}</mat-error>
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuanta ya estan suministrados</mat-error>
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El num. de cuenta es Inválido</mat-error>
+                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El Serial y Cuantas ya están Suministrados</mat-error>
+                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El Núm. de Cuenta es Inválido</mat-error>
                 <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.notexists">{{'no existe numero de cuenta'}}</mat-error> -->
             </mat-form-field>
 
             <!-- {{cf.numeroCuentaCheque.errors| json}} -->
-    
-            <mat-form-field fxFlex.gt-xs="10">
+
+            <mat-form-field fxFlex.gt-xs="15">
                 <mat-label>{{'deposit.docType' | translate: {default: 'global.docType'} | translate }} </mat-label>
-                <input matInput autocomplete="off" maxlength="2" id="tipoDocumentoCheque" name="tipoDocumentoCheque" formControlName="tipoDocumentoCheque" uppercase  class="text-center" required>
+                <input matInput autocomplete="off" maxlength="2" id="tipoDocumentoCheque" name="tipoDocumentoCheque" formControlName="tipoDocumentoCheque"
+                    uppercase class="text-center" required>
                 <mat-error *ngIf="cf.tipoDocumentoCheque.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                 <mat-error *ngIf="cf.tipoDocumentoCheque.errors?.tipoDocumentoCheque">Tiene que ser 90 o 96</mat-error>
             </mat-form-field>
-    
-            <mat-form-field  fxFlex.gt-xs="auto"> 
+
+            <mat-form-field fxFlex.gt-xs="auto">
                 <mat-label>{{'deposit.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
-                <input matInput max="9999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="montoCheque" formControlName="montoCheque" currencyMask
-                [options]="{precision:2}" >
+                <input matInput max="9999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="montoCheque" formControlName="montoCheque"
+                    currencyMask [options]="{precision:2}" required>
                 <mat-error *ngIf="cf.montoCheque.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                 <mat-error *ngIf="cf.montoCheque.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
             </mat-form-field>
-    
+
             <!-- <mat-form-field fxFlex.gt-xs="15">
                 <mat-label>{{'deposit.securityCode' | translate: {default: 'global.securityCode'} | translate }} </mat-label>
                 <input matInput autocomplete="off" maxlength="10" id="codigoSeguridad" name="codigoSeguridad" formControlName="codigoSeguridad" uppercase  class="text-center" >
                 <mat-error *ngIf="cf.codigoSeguridad.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field> -->
-    
+
             <mat-form-field fxFlex="15">
                 <mat-label>{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</mat-label>
                 <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaEmision" formControlName="fechaEmision"
-                [matDatepicker]="fechaEmisionPicker" [max]="todayValue">
+                    [matDatepicker]="fechaEmisionPicker" [max]="todayValue">
                 <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
                 </mat-datepicker-toggle>
                 <mat-error *ngIf="cf.fechaEmision.errors?.matDatepickerParse">
                     {{'error.invalidDate' | translate}}
                 </mat-error>
             </mat-form-field>
-    
+
             <mat-datepicker #fechaEmisionPicker></mat-datepicker>
 
             <div class="text-center" fxFlex="1 1 0%">
-                <button color="black"  mat-button > 
-                <mat-icon class="margin-top-md margin-bottom-md">camera_enhance</mat-icon>
+                <button color="black" mat-button>
+                    <mat-icon class="margin-top-md margin-bottom-md">camera_enhance</mat-icon>
                 </button>
             </div>
-    
+
             <div class="text-center" fxFlex="1 1 0%">
-                <button color="black" [disabled]="chequeForm.invalid"  (click)="add()" mat-button>
-                <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
+                <button color="black" [disabled]="chequeForm.invalid" (click)="add()" mat-button>
+                    <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
                 </button>
             </div>
         </div>
-   
+
         <mat-divider class="margin-bottom-sm margin-top-sm"></mat-divider>
 
         <div>
-            <h4>Desgloses de Cheques</h4>
+            <h4>Desglose de Cheques</h4>
         </div>
 
-        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"  [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async" >
-                                            
+        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+            [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
+            [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async">
+
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}</div>
@@ -139,16 +143,18 @@
                     <div style="white-space: break-spaces;" class="text-center"> {{ row?.serial}}</div>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column [flexGrow]="1.5" [sortable]="true">
-                <ng-template ngx-datatable-header-template>
-                    <div class="text-center" >Número de Cuenta</div>
+                <ng-template ngx-datatable-header-template floatLabel="always">
+                    <div class="text-center">Número de Cuenta</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                    <div style="white-space: break-spaces;" class="text-center" [matTooltip]="esChequePropio(row)? 'Cheque Propio' : ''"> <i class="fa-light fa-building-columns" *ngIf="esChequePropio(row)" [style.color]="esChequePropio(row)? 'red' : 'white'"></i> {{ row?.numeroCuentaCheque | mask:"0000 0000 00 00 00000000"}}</div>
+                    <div style="white-space: break-spaces;" class="text-center" [matTooltip]="esChequePropio(row)? 'Cheque Propio' : ''"> <i
+                            class="fa-light fa-building-columns" *ngIf="esChequePropio(row)" [style.color]="esChequePropio(row)? 'red' : 'white'"></i> {{
+                        row?.numeroCuentaCheque | mask:"0000 0000 00 00 00000000"}}</div>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.docType' | translate: {default: 'global.docType'} | translate }}</div>
@@ -157,7 +163,7 @@
                     <div style="white-space: break-spaces;" class="text-center">{{ row?.tipoDocumentoCheque }}</div>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.amount' | translate: {default: 'global.amount'} | translate }}</div>
@@ -175,7 +181,7 @@
                     <div style="white-space: break-spaces;" class="text-center">{{ row?.codigoSeguridad }}</div>
                 </ng-template>
             </ngx-datatable-column> -->
-    
+
             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</div>
@@ -184,16 +190,17 @@
                     <div style="white-space: break-spaces;" class="text-center">{{ row?.fechaEmision }}</div>
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <ngx-datatable-column [flexGrow]="2" [sortable]="true" class="text-center">
                 <ng-template ngx-datatable-header-template class="text-center">
                     <div class="text-center">Motivo Devolución</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <mat-form-field  style="margin-top: -10px;font-size: 11px; width: 350px; align-items: center;" >
-                        <select matNativeControl (change)="selectMotivoDevolucion($event,row)" >
+                    <mat-form-field  style="margin-top: -10px;font-size: 11px; width: 300px; align-items: center;">
+                        <select matNativeControl (change)="selectMotivoDevolucion($event,row)">
                             <option value="" class="text-center">Seleccione un Motivo</option>
-                            <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id" class="text-center">{{item.nombre}}</option>
+                            <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id" class="text-center">
+                                {{item.nombre}}</option>
                         </select>
                     </mat-form-field>
                 </ng-template>
@@ -201,21 +208,25 @@
 
             <ngx-datatable-column name="" [flexGrow]="0.5">
                 <ng-template ngx-datatable-header-template>
-                    <div class="text-center">Acciones</div>
+                    <div class="text-center">Modificar</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                    <div fxLayoutAlign="center">
+                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="edit(rowIndex)"
+                            matTooltip="Editar">
+                            <mat-icon>edit </mat-icon>
+                        </button>
 
-                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="edit(rowIndex)" matTooltip="Editar">
-                        <mat-icon>edit </mat-icon>
-                    </button>
+                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)"
+                            matTooltip="Eliminar">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
 
-                    <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row)" matTooltip="Eliminar">
-                        <mat-icon>delete</mat-icon>
-                    </button>
 
                 </ng-template>
             </ngx-datatable-column>
-    
+
             <!-- <ngx-datatable-column name="" [flexGrow]="0.5">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'action.delete'| translate}}</div>
@@ -228,4 +239,4 @@
             </ngx-datatable-column> -->
         </ngx-datatable>
     </sirio-card-content>
-</sirio-card> 
+</sirio-card>

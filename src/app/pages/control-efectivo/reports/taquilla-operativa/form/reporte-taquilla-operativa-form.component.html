@@ -24,12 +24,10 @@
 
                     <div fxLayout="column">
                         <form [formGroup]="itemForm" *ngIf="itemForm">
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search
-                                    fxFlex.gt-xs="100"
-                                    [label]="'operationalBoxOfficesRep.region' | translate: {default: 'global.region'} | translate"
-                                    formControlName="region" [required]="true" [elements]="regiones.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.region?.errors">
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esGteRegional">
+                                <sirio-select-search fxFlex.gt-xs="100" 
+                                    [label]="'operationalBoxOfficesRep.region' | translate: {default: 'global.region'} | translate" formControlName="region"
+                                    [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors">
                                 </sirio-select-search>
                             </div>
                         </form>
@@ -42,7 +40,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
