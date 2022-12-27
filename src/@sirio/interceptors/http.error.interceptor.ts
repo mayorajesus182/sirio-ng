@@ -50,9 +50,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
                         }
                         break;
                     case 400:
-                        //console.log('Response error!');
-                        if (error.error && error.error.text) {
+                        // console.log('Response error!',error);
+                        if (!(error instanceof Blob) && error.error && error.error.text) {
                             this.snack.show({ message: error.error.text, type: 'danger' });
+                        }else{
+                            this.snack.show({ message:'¡Operación rechazada!' , type: 'danger' });
                         }
                         break;
                     case 403:

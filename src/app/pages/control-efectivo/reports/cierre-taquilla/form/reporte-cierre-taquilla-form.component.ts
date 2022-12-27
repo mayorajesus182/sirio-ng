@@ -42,10 +42,6 @@ export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implem
             this.taquillas.next(data);
         });
 
-        // this.monedaService.actives().subscribe(data => {
-        //     this.monedas.next(data);
-        // });
-
         this.monedaService.fisicaActives().subscribe(data => {
             this.monedas.next(data);
         });

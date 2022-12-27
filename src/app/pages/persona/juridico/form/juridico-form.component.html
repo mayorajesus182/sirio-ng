@@ -25,8 +25,8 @@
                             <mat-icon>backspace</mat-icon>
                         </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
-                        {default: 'Persona Juridica'} | translate }}" type="button" (click)="back() " >
-                        
+                        {default: 'Persona Juridica'} | translate }}" type="button" (click)="back() ">
+
                             <mat-icon>close</mat-icon>
                         </button>
                     </sirio-card-header-actions>
@@ -35,8 +35,8 @@
 
                     <!-- <input [focused]="attr.focus"> -->
 
-                    <sirio-person-query [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)" 
-                                    (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
+                    <sirio-person-query [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)" (update)="updatePerson($event)"
+                        (create)="addPerson($event)"></sirio-person-query>
 
 
                     <ng-container *ngIf="loaded$ | async">
@@ -62,13 +62,13 @@
                                 <div fxLayout="column" [formGroup]="itemForm">
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                       
+
 
                                         <mat-form-field fxFlex="20">
                                             <mat-label>{{'juridicoPerson.documentType' | translate: {default:
                                                 'global.documentType'} | translate }} </mat-label>
-                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
-                                                formControlName="tipoDocumento" uppercase required >
+                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento" formControlName="tipoDocumento"
+                                                uppercase required>
                                             <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
@@ -90,10 +90,8 @@
                                             </mat-error>
                                         </mat-form-field>
 
-                                        <sirio-select-search fxFlex="50"
-                                            [label]="'pais' | translate: {default: 'pais'} | translate"
-                                            formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.pais?.errors">
+                                        <sirio-select-search fxFlex="50" [label]="'pais' | translate: {default: 'pais'} | translate" formControlName="pais"
+                                            [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
                                         </sirio-select-search>
 
                                     </div>
@@ -115,8 +113,8 @@
                                         <mat-form-field fxFlex="50">
                                             <mat-label>{{'Nombre Comercial' | translate: {default:
                                                 'Nombre Comercial'} | translate }} </mat-label>
-                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="nombreComercial" formControlName="nombreComercial"
-                                                uppercase required>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="nombreComercial"
+                                                formControlName="nombreComercial" uppercase required>
                                             <mat-error *ngIf="f.nombreComercial.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.nombreComercial.errors?.pattern">{{'error.invalidCharacter' |
@@ -132,8 +130,7 @@
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Sitio Web' | translate: {default:
                                                 'Sitio Web'} | translate }} </mat-label>
-                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="web" formControlName="web"
-                                                uppercase required>
+                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="web" formControlName="web" uppercase required>
                                             <mat-error *ngIf="f.web.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.web.errors?.pattern">{{'error.invalidCharacter' |
@@ -142,9 +139,9 @@
                                             <mat-error *ngIf="f.web.errors?.web">Email es Inválido</mat-error>
                                         </mat-form-field>
 
-    
+
                                         <mat-form-field fxFlex="50">
-                                            
+
                                             <mat-label>{{'Correo Electrónico' | translate: {default:
                                                 'Correo Electrónico'} | translate }} </mat-label>
                                             <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
@@ -159,11 +156,9 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <mat-panel-title>
 
-                                            <button type="button" mat-icon-button type="button" color="primary">
-                                                <mat-icon>person</mat-icon>
-                                            </button>
+                                            <mat-icon class="padding-xs" color="primary">calculate</mat-icon>
 
-                                        
+
                                             <span class="margin-top-sm margin-bottom-lg semi-bold">
                                                 Información Económica Financiera
                                             </span>
@@ -175,7 +170,7 @@
                                         </mat-panel-title>
 
                                     </div>
-                                  
+
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <sirio-select-search fxFlex="auto"
@@ -189,7 +184,7 @@
                                             formControlName="actividadEspecifica" [required]="true" [elements]="actividadesEspecificas.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.actividadEspecifica?.errors">
                                         </sirio-select-search>
-                                        
+
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Categoría Especial' | translate: {default: 'Categoría Especial'} | translate"
                                             formControlName="categoriaEspecial" [required]="false" [elements]="categoriasEspeciales.asObservable()"
@@ -199,7 +194,7 @@
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                        
+
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Número Subsidiarias / Oficinas' | translate: {default:
                                                 'Número Subsidiarias / Oficinas'} | translate }}
@@ -233,9 +228,10 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ventas mensuales' | translate: {default:
                                                 'Ventas mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}" formControlName="ventas" [required]="">
-                                           
-                                    
+                                            <input maxlength="16" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}"
+                                                formControlName="ventas" [required]="">
+
+
                                             <mat-error *ngIf="f.ventas.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.ventas.errors?.pattern">{{'error.invalidCharacter' |
@@ -246,8 +242,9 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ingresos mensuales' | translate: {default:
                                                 'Ingresos mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}" formControlName="ingresos" [required]="">
-                                            
+                                            <input maxlength="16" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}"
+                                                formControlName="ingresos" [required]="">
+
                                             <mat-error *ngIf="f.ingresos.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.ingresos.errors?.pattern">{{'error.invalidCharacter' |
@@ -258,8 +255,9 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Egresos mensuales' | translate: {default:
                                                 'Egresos mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}" formControlName="egresos" [required]="">
-                                            
+                                            <input maxlength="16" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}"
+                                                formControlName="egresos" [required]="">
+
                                             <mat-error *ngIf="f.egresos.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.egresos.errors?.pattern">{{'error.invalidCharacter' |
@@ -272,9 +270,9 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <mat-panel-title>
 
-                                            <button type="button" mat-icon-button type="button" color="primary">
-                                                <mat-icon>person</mat-icon>
-                                            </button>
+                                            <mat-icon color="primary" class="padding-xs ">
+                                                difference
+                                            </mat-icon>
 
                                             <span class="margin-top-sm margin-bottom-lg semi-bold">
                                                 Última declaración ISLR:
@@ -295,25 +293,27 @@
                                                 'Año'} | translate }}
                                             </mat-label>
                                             <!-- <input matInput class="text-center" type="number" autocomplete="off" name="anhoDeclaracion" [max]="todayValue.year" min="0" formControlName="anhoDeclaracion" required> -->
-                                            <input matInput autocomplete="off" type="number" maxlength="4" name="anhoDeclaracion" [max]="todayValue.year()" [min]="todayValue.year()-3"  class="text-center" formControlName="anhoDeclaracion" required>
-                                            
+                                            <input matInput autocomplete="off" type="number" maxlength="4" name="anhoDeclaracion" [max]="todayValue.year()"
+                                                [min]="todayValue.year()-3" class="text-center" formControlName="anhoDeclaracion" required>
+
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.max">Debe ser menor o igual a {{todayValue.year()}}</mat-error>
-                                            
+
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.min">Debe ser mayor o igual a {{todayValue.year()-3}}</mat-error>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Es requerido</mat-error>
-                                            
-                                                 <!-- {{f.anhoDeclaracion.errors | json}} -->
 
-                                                 <!-- {{todayValue.year()| json}} -->
+                                            <!-- {{f.anhoDeclaracion.errors | json}} -->
+
+                                            <!-- {{todayValue.year()| json}} -->
 
                                         </mat-form-field>
 
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Monto' | translate: {default:
                                                 'Monto'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}" formControlName="montoDeclarado" [required]="">
-                                            
-                                    
+                                            <input maxlength="16" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}"
+                                                formControlName="montoDeclarado" [required]="">
+
+
                                             <mat-error *ngIf="f.montoDeclarado.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.montoDeclarado.errors?.pattern">{{'error.invalidCharacter' |
@@ -361,7 +361,7 @@
 
                                 </div>
 
-                                
+
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
@@ -379,7 +379,7 @@
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAddress(true)" (closed)="openAddress(false)">
-                                <mat-expansion-panel-header >
+                                <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>location_on</mat-icon>
@@ -401,7 +401,7 @@
 
                             </mat-expansion-panel>
 
-                            
+
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openPhones(true)" (closed)="openPhones(false)">
                                 <mat-expansion-panel-header class="odd">
@@ -430,7 +430,7 @@
                                             <mat-icon>location_on</mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">
-                                            
+
                                             {{'Registro Mercantil' | translate}}
 
                                         </span>
@@ -441,16 +441,17 @@
                                     </mat-panel-description>
 
                                 </mat-expansion-panel-header>
-                              
+
                                 <!-- {{printErrors() | json}}  -->
-                                
-                                 <div fxLayout="row" fxLayout="column" *ngIf="showRegistroMercantil">
-                                   
-                                    <sirio-persona-registro-mercantil-table [persona]="personaJuridica.id" [tipoDocumento]="personaJuridica.tipoDocumento"></sirio-persona-registro-mercantil-table>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showRegistroMercantil">
+
+                                    <sirio-persona-registro-mercantil-table [persona]="personaJuridica.id" [tipoDocumento]="personaJuridica.tipoDocumento">
+                                    </sirio-persona-registro-mercantil-table>
 
                                 </div>
-                                
-                               
+
+
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAccionistaDirectivo(true)" (closed)="openAccionistaDirectivo(false)">
@@ -486,18 +487,20 @@
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Representante(s) Legal(es) de la Empresa  Autorizados a movilizar la cuenta / Apoderado</span>
+                                        <span class="margin-top-sm semi-bold">Representante(s) Legal(es) de la Empresa Autorizados a movilizar la cuenta /
+                                            Apoderado</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
 
-                                    <span class="notification-number margin-top-sm" matBadgeColor="accent" ></span>
-                                        </mat-panel-description>
-                                    </mat-expansion-panel-header>
+                                        <span class="notification-number margin-top-sm" matBadgeColor="accent"></span>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showApoderado">
 
 
-                                    <sirio-persona-apoderado-table [persona]="personaJuridica.id" (propagar)="updateApoderado($event)"></sirio-persona-apoderado-table>
+                                    <sirio-persona-apoderado-table [persona]="personaJuridica.id" (propagar)="updateApoderado($event)">
+                                    </sirio-persona-apoderado-table>
 
 
                                 </div>
@@ -544,8 +547,8 @@
                                 <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
 
 
-                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id" ></sirio-persona-empresa-relacionada-table>
-                                   
+                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id"></sirio-persona-empresa-relacionada-table>
+
 
                                 </div>
 

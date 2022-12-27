@@ -363,13 +363,17 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.f.conoAnterior.setValue(event.desgloseConoAnterior);
         this.cdr.detectChanges();
     }
-
+    
     reset() {
         this.itemForm.reset({});
+        this.cargaDatos();
+        this.f.chequePropio.setValue(0.00);
+        this.f.chequeOtros.setValue(0.00);
+        this.f.monto.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
+        // this.cf.montoCheque.setValue(0.00);
     }
-    
 }
 
 

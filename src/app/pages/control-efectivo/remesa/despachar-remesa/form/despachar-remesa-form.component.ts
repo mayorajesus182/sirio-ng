@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RolConstants } from 'src/@sirio/constants';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
@@ -69,10 +69,10 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
             
 
             this.rolService.getByUsuario().subscribe(rol => {
-                this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
+                this.esTransportista = (rol.id === RolConstants.TRANSPORTISTA);
 
                 this.rolService.getByUsuario().subscribe(rol => {
-                    this.esTransportista = (rol.id === GlobalConstants.TRANSPORTISTA);
+                    this.esTransportista = (rol.id === RolConstants.TRANSPORTISTA);
 
                     // Si quien va a procesar la solicitud es transportista (Centro de Acopio), se buscan los viajes de esa transportista según la moneda 
                     if (this.esTransportista) {
