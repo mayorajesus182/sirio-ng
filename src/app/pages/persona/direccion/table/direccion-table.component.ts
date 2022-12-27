@@ -75,7 +75,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   }
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar Direccion?', undefined,
+    this.swalService.show('¿Desea Eliminar Dirección?', undefined,
     { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
           console.log('buscando direccion',row.id);

@@ -46,6 +46,8 @@
 
       </mat-form-field>
 
+  <!-- {{printErrors() | json}} -->
+
       <sirio-select-simple fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" [required]="true"
         [elements]="cifrasPromedioList.asObservable()" [attributeName]="'nombre'" [errors]="f.cifraPromedio?.errors">
       </sirio-select-simple>
@@ -56,7 +58,7 @@
 
 
   </mat-dialog-content>
-  <!-- {{printErrors() | json}} -->
+
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>

@@ -153,7 +153,8 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : ''),
       direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
       cargo: new FormControl(this.informacionLaboral.cargo || undefined, [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined)
+      // remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined)
+      remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),
     });
 
     this.f.tipoIngreso.valueChanges.subscribe(val => {

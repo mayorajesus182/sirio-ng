@@ -111,8 +111,13 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
     });
 
     this.f.numeroCuenta.valueChanges.subscribe((val: string) => {
+<<<<<<< HEAD
       console.log('cuenta ', val);
 
+=======
+      console.log('cuenta: ',val);
+      
+>>>>>>> f23e7fc0493a4402ce290af4f2136be1cef0515a
       if (val && this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
         this.f.numeroCuenta.setErrors({ notIsEntidad: true });
         this.f.numeroCuenta.markAsDirty();
