@@ -2,10 +2,12 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { ClaseTelefono, ClaseTelefonoService } from 'src/@sirio/domain/services/configuracion/telefono/clase-telefono.service';
+import { TipoTelefonica, TipoTelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefonica.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -19,6 +21,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnInit {
 
     claseTelefono: ClaseTelefono = {} as ClaseTelefono;
+    public tipos = new BehaviorSubject<TipoTelefonica[]>([]);
 
 
     constructor(
@@ -27,6 +30,7 @@ export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnI
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private ClaseTelefonoService: ClaseTelefonoService,
+        private tipoTelefonicaService: TipoTelefonicaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
     }
@@ -51,6 +55,10 @@ export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnI
             this.loadingDataForm.next(false);
         }
 
+        this.tipoTelefonicaService.actives().subscribe(data => {
+            this.tipos.next(data);
+        });
+
         if(!id){
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
@@ -64,6 +72,7 @@ export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnI
         this.itemForm = this.fb.group({
             id: new FormControl({value: claseTelefono.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(claseTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            tipoTelefonica: new FormControl(claseTelefono.tipoTelefonica || undefined, [Validators.required]),
             codigoLocal: new FormControl(claseTelefono.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
@@ -73,6 +82,9 @@ export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnI
             return;
 
         this.updateData(this.claseTelefono);
+
+        console.log(this.claseTelefono);
+        
         this.saveOrUpdate(this.ClaseTelefonoService, this.claseTelefono, 'La Clase de Teléfono', this.isNew);
     }
 

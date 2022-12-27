@@ -1,0 +1,100 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['global.cosultRecountAtm']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [@fadeInUp]>
+        <sirio-list-simple [name]="'cosultRecountAtm.form' | translate: {default: 'global.cosultRecountAtm'}" placeholder="cosultRecountAtm.search"
+            (filterChange)="onFilterChange($event)">
+
+            <div fxLayout="column" class="margin-h margin-top-md">
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                    <mat-form-field fxFlex="auto">
+                        <mat-label>{{'cosultRecountAtm.atm' | translate: {default: 'global.atm'} | translate }}</mat-label>
+                        <input matInput [value]="atmId+' - '+atm" readonly>
+                    </mat-form-field>
+
+                </div>
+            </div>
+
+            <div fxLayout="column" class="margin-h padding-v">
+                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                    [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="arqueos | async">
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'cosultRecountAtm.sequence' | translate: {default: 'global.sequence'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div style="white-space: break-spaces;" class="text-center">{{ row?.secuencia }}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'cosultRecountAtm.date' | translate: {default: 'global.date'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div style="white-space: break-spaces;" class="text-center">{{ row?.fechaCreacion }}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'cosultRecountAtm.recountType' | translate: {default: 'global.recountType'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div style="white-space: break-spaces;" class="text-center">{{ row?.tipoArqueoNombre }}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'cosultRecountAtm.amount' | translate: {default: 'global.amount'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div style="white-space: break-spaces;" class="text-right">{{ row?.monto | number: '1.2'}}</div>
+                        </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column [flexGrow]="1">
+                        <ng-template ngx-datatable-header-template>
+                            <span>{{'cosultRecountAtm.actions' | translate: {default: 'global.actions'} |
+                                translate}}</span>
+                        </ng-template>
+                        <ng-template let-row="row" ngx-datatable-cell-template>
+                            <div class="text-center"> 
+                            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="openPopup(row)"
+                                matTooltip="Visualizar"  class="text-center">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            </div>
+                        </ng-template>
+                    </ngx-datatable-column>
+                </ngx-datatable>
+
+
+                <!-- <div fxLayout="row" fxLayout="column">
+                    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+                        <button color="primary" (click)="update()" mat-raised-button>
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
+                            {{'button.save' | translate: {default:'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </div> -->
+
+            </div>
+
+
+
+
+        </sirio-list-simple>
+    </sirio-page-layout-content>
+</sirio-page-layout>

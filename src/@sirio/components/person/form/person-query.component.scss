@@ -20,6 +20,9 @@
     height: 50px;
     width: 100%;
     top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 400;
 }
 
 .mat-input-element:disabled, .mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {

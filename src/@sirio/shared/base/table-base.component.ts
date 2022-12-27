@@ -6,6 +6,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
 import { Router } from '@angular/router';
+import { ColumnMode } from "@swimlane/ngx-datatable";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Spinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { BehaviorSubject, iif, merge } from "rxjs";
@@ -43,7 +44,7 @@ import { MethodComponentApi } from "../actions/actions-nav.component";
     ]
 })
 export class TableBaseComponent {
-
+    public ColumnMode = ColumnMode;
     public dataSource: DatasourceService;
 
     @ViewChildren(MatPaginator) paginators: QueryList<MatPaginator>

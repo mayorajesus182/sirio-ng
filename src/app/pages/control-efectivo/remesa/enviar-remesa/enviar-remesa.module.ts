@@ -12,6 +12,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { EnviarRemesaRoutingModule } from './enviar-remesa-routing.module';
+import { DespacharRemesaEnvioFormComponent } from './form/despachar-remesa-envio-form.component';
 import { EnviarRemesaFormComponent } from './form/enviar-remesa-form.component';
 import { EnviarRemesaTableComponent } from './table/enviar-remesa-table.component';
 
@@ -37,6 +38,7 @@ import { EnviarRemesaTableComponent } from './table/enviar-remesa-table.componen
     declarations: [
         EnviarRemesaFormComponent,
         EnviarRemesaTableComponent,
+        DespacharRemesaEnvioFormComponent
     ],
     exports: [],
 })

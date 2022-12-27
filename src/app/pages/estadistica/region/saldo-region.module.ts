@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { SaldoAgenciaModule } from '../agencia/saldo-agencia.module';
 import { AgenciaChartPopupComponent } from './agencia-resumen/popup/agencia-chart.popup.component';
 import { RegionVertChartWidgetComponent } from './chart-widget/region-vert-chart-widget.component';
 
@@ -27,6 +28,7 @@ import { AgenciatTableWidgeComponent } from './table-widget/agencia-table-widget
     ScrollbarModule,
     ChartsModule,
     HighchartsChartModule,
+    SaldoAgenciaModule,
     LoadingOverlayModule
   ],
   declarations: [SaldoRegionComponent,RegionVertChartWidgetComponent,AgenciatTableWidgeComponent,AgenciaChartPopupComponent],

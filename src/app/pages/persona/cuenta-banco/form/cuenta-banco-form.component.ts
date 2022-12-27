@@ -21,6 +21,7 @@ import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -32,7 +33,7 @@ import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 
 export class CuentaBancoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
     todayValue: moment.Moment;
-    totalAddress: number;
+    totalIntervinientes: number;
     totalRegistroMercantil: number;
     totalInfoLab: number;
     totalPep: number;
@@ -44,6 +45,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
+
+    showIntervinientes = false;
 
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
@@ -227,14 +230,18 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
     }
 
-    queryResult(event) {
-        // console.log('event result ', event);
+    loadResult(event) {
+        console.log('load event result ', event);
 
         if (!event.id && !event.numper) {
+            this.persona= {} as Persona;
             this.loaded$.next(false);
-            this.cuentaBanco = {} as CuentaBanco;
-            this.isNew = true;
-            this.cdr.detectChanges();
+            // this.cuentaBanco = {} as CuentaBanco;
+            // this.isNew = true;
+            // this.cdr.detectChanges();
+        }else{
+            this.persona= event;
+            //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         }
     }
 
@@ -259,7 +266,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
                 this.cuentaBanco = data;
                 this.successResponse('La Cuenta Banco', 'creada', true);
+
+ 
+                
+
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
+
+                console.log(' this.hasBasicData  ', this.hasBasicData);
+                this.cdr.detectChanges();
 
             }, error => this.errorResponse(true));
 
@@ -285,5 +299,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     //     return this.moneda.value.filter(m=>m.id===this.f.moneda.value)[0]?.moneda || '';
     // }
 
+    openInterviniente(opened: boolean) {
 
+        console.log('send data al Interviniente');
+
+        this.showIntervinientes = opened;
+        this.cdr.detectChanges();
+    }
 }

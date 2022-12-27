@@ -29,11 +29,14 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
+    @Input() title: string='Información del Cliente';
     @Input() taquilla: boolean = false;
+    @Input() entity:  'interviniente'|'persona'|'cuenta'='persona';
     @Input() disabled: boolean = false;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     @Output('update') update: EventEmitter<any> = new EventEmitter<any>();
     @Output('create') create: EventEmitter<any> = new EventEmitter<any>();
+    @Output('push') push: EventEmitter<any> = new EventEmitter<any>();
     // busqueda : boolean = false;
     tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     persona: Persona = {} as Persona;
@@ -46,7 +49,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         'W'];
 
     private loading = new BehaviorSubject<boolean>(false);
+    private finding = false;
     disable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    disableBtn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 
     private _onDestroy = new Subject<void>();
@@ -120,33 +125,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
+        this.disableBtn.next(true);
 
 
-
-        // this.search.identificacion.valueChanges.subscribe(val => {
-
-        //     if (val && val.trim().length > 0 && !this.searchForm.controls['cuenta'].disabled) {
-
-        //         this.searchForm.controls['cuenta'].disable();
-        //     } else if ((!val || val.trim().length == 0) && this.searchForm.controls['cuenta'].disabled) {
-        //         this.searchForm.controls['cuenta'].enable();
-
-        //     }
-        //     // this.cdref.detectChanges();
-        // })
+        this.loading.subscribe(val=>{
+            console.log('loading ', val);
+            
+            this.finding=val;
+        })
 
 
-        // this.search.cuenta.valueChanges.subscribe(val => {
-        //     if (val && val.trim().length > 0 && !this.searchForm.controls['identificacion'].disabled) {
-        //         this.searchForm.controls['identificacion'].disable();
-        //         // this.searchForm.controls['tipoDocumento'].disable();                
-        //     } else if ((!val || val.trim().length == 0) && this.searchForm.controls['identificacion'].disabled) {
-        //         this.searchForm.controls['identificacion'].enable();
-        //         // this.searchForm.controls['tipoDocumento'].enable();
-        //     }
-        // });
-
-        // this.cdref.markForCheck();
 
     }
 
@@ -154,13 +142,18 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         return this.searchForm ? this.searchForm.controls : {};
     }
 
+    get isElemNew(){
+        return this.isNew;
+    }
+
 
     public queryByPerson() {
 
-        if (this.search.identificacion.errors) {
+        if (this.search.identificacion.errors || this.finding) {
             return;
         }
 
+        this.disableBtn.next(true);
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
@@ -185,20 +178,23 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 // this.searchForm.controls['cuenta'].disable();
                 // this.searchForm.controls['tipoDocumento'].disable();
                 this.disable.next(true);
+                this.disableBtn.next(false);
                 this.cdref.detectChanges();
-
+                
             }, err => {
-
+                
                 this.persona = {} as Persona;
                 this.isNew = true;
                 this.loading.next(false);
                 if (this.result) {
                     this.result.emit(this.persona);
                 }
+                this.disableBtn.next(false);
                 this.search.identificacion.setErrors({ notexists: true });
                 this.search.nombre.setValue(' ');
                 this.search.cuenta.setValue('');
-
+                
+                this.disableBtn.next(false);
                 this.cdref.detectChanges();
             })
         } else if (!tipoDocumento) {
@@ -223,30 +219,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         // this.busqueda = true;
 
         this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
-            // this.cuentaBancariaOperacion = data;
-            //const moneda = data.moneda;
-            // const monedaNombre = data.monedaNombre;
-            /*
-            identificacion:"123"
-             moneda:"928"
-             monedaNombre:"BOLÍVAR SOBERANO"
-             nombre:"Johander Javier Salcedo Delgado"
-             numper:"0198"
-             persona:1
-             tipoDocumento:"V" 
-            this.moneda.id = data.moneda;
-             this.moneda.nombre = data.monedaNombre;*/
-            //this.f.monto.disable();
+          
             this.search.tipoDocumento.setValue(data.tipoDocumento);
             this.search.identificacion.setValue(data.identificacion);
             this.search.nombre.setValue(data.nombre);
             this.persona = { id: data.id, numper: data.numper } as Persona;
             data.numeroCuenta = cuenta;
-            // this.searchForm.controls['identificacion'].disable();
-            // this.searchForm.controls['cuenta'].disable();
-            // this.searchForm.controls['tipoDocumento'].disable();
 
             this.disable.next(true);
+            this.disableBtn.next(false);
+            
             this.cdref.detectChanges();
             this.result.emit(data);
 
@@ -264,12 +246,28 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    add() {
+    public onChangeFilter(event:any) {
+        // console.log('%% on change filter %%', event);
+        
+        // this.persona = {} as Persona;
+        // this.isNew = true;
+        this.disableBtn.next(true);
+        this.cdref.detectChanges();
+        // this.result.emit({});
+    }
+
+    createOn() {
         this.create.emit(this.searchForm.value);
+    }
+ 
+    pushOn() {
+        this.push.emit(this.persona);
     }
 
 
-    edit() {
+    editOn() {
+
+        //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
         this.update.emit(this.persona);
 
     }
@@ -278,7 +276,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.searchForm.reset({});
         this.persona = {} as Persona;
         this.isNew = false;
-        this.disable.next(false);
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)

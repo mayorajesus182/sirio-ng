@@ -5,8 +5,7 @@
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -14,8 +13,7 @@
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
-                            (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -33,12 +31,12 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="10">
                                     <mat-label>{{'phoneClass.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="4" name="id" formControlName="id" uppercase required
@@ -48,21 +46,26 @@
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="70">
+                                <sirio-select-search fxFlex="30"
+                                    [label]="'phoneCompany.phoneCompanyType' | translate: {default: 'global.phoneCompanyType'} | translate"
+                                    formControlName="tipoTelefonica" [required]="true" [elements]="tipos.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.tipoTelefonica?.errors">
+                                </sirio-select-search>
+
+                                <mat-form-field fxFlex.gt-xs="50">
                                     <mat-label>{{'phoneClass.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="20" name="nombre" formControlName="nombre" uppercase
-                                        required>
-                                        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <input matInput autocomplete="off" minlength="1" maxlength="20" name="nombre" formControlName="nombre" uppercase required>
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="10">
                                     <mat-label>{{'phoneClass.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="5" name="codigoLocal" formControlName="codigoLocal"
-                                        uppercase class="text-center">
-                                        <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <input matInput autocomplete="off" minlength="1" maxlength="5" name="codigoLocal" formControlName="codigoLocal" uppercase
+                                        class="text-center">
+                                    <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
                             </div>
                         </form>

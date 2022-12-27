@@ -4,8 +4,7 @@ export class RolConstants {
   public static GERENTE_REGIONAL = 'GER-REGION';
   public static TRANSPORTISTA = 'GES-TRANSP';
   // public static GTE_REGIONAL = 'GER-REGION';
-  
-  
+  public static PRINCIPAL = 'OPE-OFPPAL';
   // public static INCREMENTO = 'I';
   // public static RETIRO = 'R';
 };
