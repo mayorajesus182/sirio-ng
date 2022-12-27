@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface ReporteGestionEfectivoAgencia {
     region: string
     agencia: string
     moneda: string
  }
+
 
 @Injectable({
     providedIn:'root'
@@ -32,7 +31,7 @@ export class ReporteGestionEfectivoAgenciaService {
     }
 
     taquillaOperativa(params: ReporteGestionEfectivoAgencia): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.region}/resumen/taquilla-operativa`);
+        return this.apiService.config(this.apiConfig).pullFileByPost('/resumen/taquilla-operativa', params);
     } 
 
     cierreAgencia(params: ReporteGestionEfectivoAgencia): Observable<any> {

@@ -20,8 +20,6 @@ export class GlobalConstants {
   public static OFICINA = 'O';
   public static CHEQUE = '90';
   public static CHEQUE_GERENCIA = '96';
-  public static TRANSPORTISTA = 'GES-TRANSP';
-  public static GTE_REGIONAL = 'GER-REGION';
   public static BOVEDA_PRINCIPAL = 'BOVPRINCIPAL';
   public static BOVEDA_PRINCIPAL_NAME = 'BÓVEDA PRINCIPAL';
   public static CUENTA_AHORRO = '01';
