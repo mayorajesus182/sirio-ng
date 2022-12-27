@@ -49,9 +49,9 @@
                             </mat-form-field>
 
                             <sirio-select-search fxFlex="30"
-                                [label]="'phoneCompany.phoneClass' | translate: {default: 'global.phoneClass'} | translate"
-                                formControlName="claseTelefono" [required]="true" [elements]="clases.asObservable()"
-                                [attributeName]="'nombre'" [errors]="f.pais?.errors">
+                                [label]="'phoneCompany.phoneCompanyType' | translate: {default: 'global.phoneCompanyType'} | translate"
+                                formControlName="tipoTelefonica" [required]="true" [elements]="tipos.asObservable()"
+                                [attributeName]="'nombre'" [errors]="f.tipoTelefonica?.errors">
                             </sirio-select-search>
 
                             <mat-form-field fxFlex.gt-xs="50">
