@@ -31,11 +31,12 @@
                         [options]="{precision:2}" [required]="!f.chequePropio.value || !f.chequeOtros.value">
                     <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                     <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                    <!-- <mat-error *ngIf="f.efectivo.errors?.differenceCA">Desglose</mat-error> -->
                     <mat-error *ngIf="f.efectivo.errors?.difference">Monto Incorrecto</mat-error>
                 </mat-form-field>
 
                 <sirio-cash-button class="text-center" [total]="f.efectivo.value" [disabled]="f.efectivo.value  == 0.00" [moneda]="f.moneda.value"
-                    (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior"></sirio-cash-button>
+                    (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
 
                 <mat-form-field fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.ownChecks' | translate: {default: 'global.ownChecks'} | translate }}</mat-label>
@@ -68,23 +69,21 @@
             </div>
         </div>
 
-        <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm">
-            <mat-form-field fxFlex.gt-xs="10">
+        <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm" style="margin-top:  10px;">
+            <mat-form-field fxFlex.gt-xs="15">
                 <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }} </mat-label>
-                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center">
-                <mat-error *ngIf="cf.serial.errors?.required">{{'error.required' | translate}}</mat-error>
+                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center" required>
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial y cuanta ya estan suministrados</mat-error>
+                <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial ya esta suministrado</mat-error>
+                <mat-error *ngIf="cf.serial.errors?.existsSerial">El serial ya esta Registrado</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex.gt-sm="20">
                 <mat-label>Número de Cuenta </mat-label>
                 <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required
-                    num-account-validate class="text-center" maxLength="24">
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.required">{{'error.required' | translate}}</mat-error>
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuantas ya están suministrados</mat-error>
+                    num-account-validate class="text-center" maxLength="24" required>
+                <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuantas ya están suministrados</mat-error> -->
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El núm. de cuenta es inválido</mat-error>
-                <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.notexists">{{'no existe numero de cuenta'}}</mat-error> -->
             </mat-form-field>
 
             <!-- {{cf.numeroCuentaCheque.errors| json}} -->
@@ -141,11 +140,11 @@
         <div>
             <h4>Desglose de Cheques</h4>
         </div>
-        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
+        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'ColumnMode.standard'"
             [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
             [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async">
 
-            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+            <ngx-datatable-column [resizeable]="false" [width]="110" [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.serial' | translate: {default: 'global.serial'} | translate }}</div>
                 </ng-template>
@@ -154,7 +153,7 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [flexGrow]="1.5" [sortable]="true">
+            <ngx-datatable-column [resizeable]="false" [width]="300" [flexGrow]="1.5" [sortable]="true">
                 <ng-template ngx-datatable-header-template floatLabel="always">
                     <div class="text-center">Número de Cuenta</div>
                 </ng-template>
@@ -165,7 +164,7 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
+            <ngx-datatable-column [resizeable]="false" [width]="100" [flexGrow]="0.5" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.docType' | translate: {default: 'global.docType'} | translate }}</div>
                 </ng-template>
@@ -174,7 +173,7 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+            <ngx-datatable-column [resizeable]="false" [width]="200" [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.amount' | translate: {default: 'global.amount'} | translate }}</div>
                 </ng-template>
@@ -192,7 +191,7 @@
                 </ng-template>
             </ngx-datatable-column> -->
 
-            <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+            <ngx-datatable-column [resizeable]="false" [width]="150" [flexGrow]="1" [sortable]="true">
                 <ng-template ngx-datatable-header-template>
                     <div class="text-center">{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</div>
                 </ng-template>
@@ -201,12 +200,12 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column [flexGrow]="2" [sortable]="true" class="text-center">
+            <ngx-datatable-column [resizeable]="false" [width]="300" [flexGrow]="2" [sortable]="true" class="text-center">
                 <ng-template ngx-datatable-header-template class="text-center">
                     <div class="text-center">Motivo Devolución</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                    <mat-form-field style="margin-top: -10px;font-size: 11px; width: 300px; align-items: center;">
+                    <mat-form-field style="margin-top: -10px;font-size: 11px; width: 250px; align-items: center;">
                         <select matNativeControl (change)="selectMotivoDevolucion($event,row)">
                             <option value="" class="text-center">Seleccione un Motivo</option>
                             <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id" class="text-center">
@@ -216,9 +215,9 @@
                 </ng-template>
             </ngx-datatable-column>
 
-            <ngx-datatable-column name="" [flexGrow]="0.5">
+            <ngx-datatable-column [resizeable]="false" [width]="150" [flexGrow]="0.5">
                 <ng-template ngx-datatable-header-template>
-                    <div class="text-center">Modificar</div>
+                    <div class="text-center">Acciones</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                     <div fxLayoutAlign="center">

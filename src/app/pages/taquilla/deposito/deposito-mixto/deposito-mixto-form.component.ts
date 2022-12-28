@@ -11,9 +11,11 @@ import { MotivoDevolucion, MotivoDevolucionService } from 'src/@sirio/domain/ser
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
+import { ChequeSerial, ChequeService } from 'src/@sirio/domain/services/taquilla/cheque.service';
 import { Cheque } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+
 @Component({
     selector: 'sirio-deposito-mixto',
     templateUrl: './deposito-mixto-form.component.html',
@@ -48,6 +50,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         injector: Injector,
         private fb: FormBuilder,
         private cuentaBancariaService: CuentaBancariaService,
+        private chequeService: ChequeService,
         private calendarioService: CalendarioService,
         private sessionService: SessionService,
         private motivoDevolucionService: MotivoDevolucionService,
@@ -55,8 +58,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         super(undefined, injector);
     }
 
-    ngOnInit() {   
-        
+    ngOnInit() {
+
         this.itemForm = this.fb.group({
             numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             cuentaBancaria: new FormControl(undefined),
@@ -69,7 +72,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            operacion: new FormControl(''),    
+            operacion: new FormControl(''),
             cantidadPropio: new FormControl(''),
             cantidadOtros: new FormControl(''),
             conoActual: new FormControl([], [Validators.required]),
@@ -77,8 +80,17 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             detalleCheques: new FormControl(undefined, [Validators.required])
         });
 
-        
+
         this.cargaDatos();
+
+        // this.f.conoActual.value
+        // console.log("logogogogog", this.f.conoActual.value);
+        
+        // if(this.f.conoActual == undefined){
+        //     this.f.efectivo.setErrors({
+        //         differenceCA: true
+        //     });
+        // }
 
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
@@ -114,8 +126,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
                 this.f.moneda.setValue({
-                    id: cuenta.moneda, 
-                    nombre: cuenta.monedaNombre, 
+                    id: cuenta.moneda,
+                    nombre: cuenta.monedaNombre,
                     siglas: cuenta.siglas
                 });
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
@@ -127,14 +139,14 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.calendarioService.today().subscribe(data => {
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
             this.cdr.detectChanges();
-        }); 
+        });
     }
 
     ngAfterViewInit(): void {
         this.cdr.detectChanges();
         this.itemForm.valueChanges.subscribe(val => {
-            if(val){ 
-                this.result.emit(this.itemForm)   
+            if (val) {
+                this.result.emit(this.itemForm)
             }
         });
     }
@@ -144,7 +156,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             serial: new FormControl(this.cheque.serial, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             numeroCuentaCheque: new FormControl(this.cheque.numeroCuentaCheque, [Validators.required]),
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(this.cheque.montoCheque),
+            montoCheque: new FormControl(this.cheque.montoCheque? '': ''),
             // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
             motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
@@ -153,8 +165,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.cf.serial.valueChanges.subscribe(val => {
             if (val) {
                 if (!this.validateSerialAccountUnique(val, this.cf.numeroCuentaCheque.value)) {
-                    this.cf.serial.setErrors({ 
-                        uniqueSerial: true 
+                    this.cf.serial.setErrors({
+                        uniqueSerial: true
                     });
                 }
             }
@@ -163,8 +175,9 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.cf.numeroCuentaCheque.valueChanges.subscribe(val => {
             if (val) {
                 if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
-                    this.cf.numeroCuentaCheque.setErrors({ 
-                        uniqueNumAccount: true 
+                    this.cf.serial.setErrors({
+                        // uniqueNumAccount: true 
+                        uniqueSerial: true
                     });
                 }
             }
@@ -175,8 +188,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
                 if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
                     this.cf.tipoDocumentoCheque.setErrors(undefined)
                 } else {
-                    this.cf.tipoDocumentoCheque.setErrors({ 
-                        tipoDocumentoCheque: true 
+                    this.cf.tipoDocumentoCheque.setErrors({
+                        tipoDocumentoCheque: true
                     });
                 }
             }
@@ -197,11 +210,11 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
         let cheque = {} as Cheque;
         this.updateDataFromValues(cheque, this.chequeForm.value);
-        cheque.fechaEmision=cheque.fechaEmision?cheque.fechaEmision.format('DD/MM/YYYY'):'';
+        cheque.fechaEmision = cheque.fechaEmision ? cheque.fechaEmision.format('DD/MM/YYYY') : '';
         this.chequeList.push(cheque);
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
-        this.chequeForm.reset({}); 
+        this.chequeForm.reset({});
         this.refresTotalCheque();
         this.cdr.detectChanges();
     }
@@ -231,12 +244,12 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         });
     }
 
-    refresTotalCheque(){
-        
-        let propios =  this.chequeList.filter(c => this.sessionService.getUser().organizationId === c.numeroCuentaCheque.substring(0, 4));
-        let otros =  this.chequeList.filter(c => this.sessionService.getUser().organizationId != c.numeroCuentaCheque.substring(0, 4));
-        this.sumMontoChequePropio =propios.length >0 ?propios.map(c => c.montoCheque).reduce((a,b)=> a+ b): 0;
-        this.sumMontoChequeOtros =otros.length > 0 ? otros.map(c => c.montoCheque).reduce((a,b)=> a+ b): 0;
+    refresTotalCheque() {
+
+        let propios = this.chequeList.filter(c => this.sessionService.getUser().organizationId === c.numeroCuentaCheque.substring(0, 4));
+        let otros = this.chequeList.filter(c => this.sessionService.getUser().organizationId != c.numeroCuentaCheque.substring(0, 4));
+        this.sumMontoChequePropio = propios.length > 0 ? propios.map(c => c.montoCheque).reduce((a, b) => a + b) : 0;
+        this.sumMontoChequeOtros = otros.length > 0 ? otros.map(c => c.montoCheque).reduce((a, b) => a + b) : 0;
         this.contarChequeOtros = otros.length;
         this.contarChequePropio = propios.length;
         this.f.cantidadPropio.setValue(this.contarChequePropio);
@@ -247,8 +260,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
     // Mostrar el Icono de color Rojo, para diferenciar los 
     // Cheques Propios de Cheques Otros Bancos
-    esChequePropio(row : Cheque){
-        return row? row.numeroCuentaCheque.startsWith(this.sessionService.getUser().organizationId ) : false;
+    esChequePropio(row: Cheque) {
+        return row ? row.numeroCuentaCheque.startsWith(this.sessionService.getUser().organizationId) : false;
     }
 
     errorDiferenciaChequesOtros(val: number) {
@@ -263,7 +276,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
     }
 
     errorDiferenciaChequesPropios(val: number) {
-        if (val != this.f.chequePropio.value) { 
+        if (val != this.f.chequePropio.value) {
             this.f.chequePropio.setErrors({
                 differencePropio: true
             });
@@ -281,44 +294,61 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         if (!serial || !numeroCuentaCheque) {
             return true;
         }
-        return this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
+        var validate = this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
+
+        if (validate) {
+            this.chequeService.exists(serial, numeroCuentaCheque).subscribe(data => {
+                if (data.exists) {
+                    this.cf.serial.setErrors({
+                        existsSerial: true
+                    });
+
+                } else {
+                    this.cf.serial.setErrors(null);
+                }
+
+                validate = !data.exists;
+            });
+
+        }
+        return validate;
     }
 
     cargaDatos() {
         if (this.persona) {
-            if (!this.persona.id && !this.persona.numper) {                
+            if (!this.persona.id && !this.persona.numper) {
                 this.loaded$.next(false);
                 this.persona = {} as Persona;
                 this.cuentaOperacion = undefined;
                 this.cdr.detectChanges();
-            } else {               
-                if (this.cuentaOperacion && this.cuentaOperacion.moneda) { 
+            } else {
+                if (this.cuentaOperacion && this.cuentaOperacion.moneda) {
                     this.f.moneda.setValue({
-                        id: this.cuentaOperacion.moneda, 
-                        nombre: this.cuentaOperacion.monedaNombre, 
+                        id: this.cuentaOperacion.moneda,
+                        nombre: this.cuentaOperacion.monedaNombre,
                         siglas: this.cuentaOperacion.monedaSiglas
                     });
                     this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
                     this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
                     this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
                     this.f.cuentaBancaria.setValue(this.cuentaOperacion.id);
-                } else {              
+                } else {
                     this.cuentaOperacion = undefined;
                     this.f.identificacion.setValue(this.persona.identificacion);
                     this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
                     this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
                         this.cuentasBancarias.next(data);
-                        if(data.length === 1){                    
+                        if (data.length === 1) {
                             this.f.cuentaBancaria.setValue(data[0].id);
                         }
-                    });  
+                    });
                 }
             }
         }
     }
 
 
-    calculateDifferences(event? : any) {
+    calculateDifferences(event?: any) {
 
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0.0;
         let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0.0;
@@ -327,20 +357,20 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         let valorTotal = (event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
         // La diferencia entre la suma Efectivo con los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        if ( Math.abs((valorTotal) - (valorMontoTotal)) >= 1) {
-            
+        if (Math.abs((valorTotal) - (valorMontoTotal)) >= 1) {
+
             this.f.efectivo.setErrors({
                 difference: true
             });
-            
+
             this.f.chequePropio.setErrors({
                 chequePropioDifference: true
             });
-            
+
             this.f.chequeOtros.setErrors({
                 chequeOtrosDifference: true
             });
-            
+
             this.f.monto.setErrors({
                 totalDifference: true
             });
@@ -363,16 +393,17 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.f.conoAnterior.setValue(event.desgloseConoAnterior);
         this.cdr.detectChanges();
     }
-    
+
     reset() {
         this.itemForm.reset({});
+        this.chequeForm.reset({});
         this.cargaDatos();
         this.f.chequePropio.setValue(0.00);
         this.f.chequeOtros.setValue(0.00);
         this.f.monto.setValue(0.00);
+        this.cf.montoCheque.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
-        // this.cf.montoCheque.setValue(0.00);
     }
 }
 
