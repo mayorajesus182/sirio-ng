@@ -8,29 +8,23 @@
     </div>
 </div>
 
+<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.standard"
+        [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
+        [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="informacionLaboralList | async" rowHeight="auto">
 
-<ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="informacionLaboralList| async">
-
-    <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>#</span>
-        </ng-template>
+    <ngx-datatable-column  [resizeable]="false" [width]="100"  name="#">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            {{ rowIndex+1 }}
+            <div class="text-center"> {{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>Tipo Ingreso</span>
-        </ng-template>
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Tipo Ingreso">        
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span style="white-space: break-spaces;">{{ row?.tipoIngreso }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="3" [sortable]="true">
+    <ngx-datatable-column [resizeable]="false" [width]="680">
         <ng-template ngx-datatable-header-template>
             <span>Descripción</span>
         </ng-template>
@@ -39,7 +33,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+    <ngx-datatable-column [resizeable]="false" [width]="300">
         <ng-template ngx-datatable-header-template>
             <span>Ingresos/Remuneración</span>
         </ng-template>
@@ -48,35 +42,18 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column name="" [flexGrow]="0.5">
-
-        <ng-template ngx-datatable-header-template>
-            <div class="text-center">{{'Modificar'| translate}}</div>
-        </ng-template>
-        
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones" >        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
-                <mat-icon>edit</mat-icon>
-            </button> 
-            <!-- <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row,$event)" matTooltip="Actualizar">
-                <mat-icon>trash</mat-icon>
-            </button> -->
+            <div class="text-center">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
+                    <mat-icon>edit</mat-icon>
+                </button> &nbsp;
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                    (click)="delete(row)" matTooltip="Eliminar">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
         </ng-template>
     </ngx-datatable-column>
-
-    <!-- Delette -->
-    <ngx-datatable-column name="" [flexGrow]="1">
-    <ng-template ngx-datatable-header-template>
-        <div class="text-center">{{'action.delete'| translate}}</div>
-    </ng-template>
-    <ng-template let-row="row" ngx-datatable-cell-template>
-        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
-            (click)="delete(row)" matTooltip="Eliminar">
-            <mat-icon>delete</mat-icon>
-        </button>
-    </ng-template>
-</ngx-datatable-column>
     
-        
 </ngx-datatable>
-<!-- /PEP -->

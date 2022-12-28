@@ -71,7 +71,7 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
   }
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar : ?', undefined,
+    this.swalService.show('¿Desea eliminar Cliente/Proveedor?', undefined,
     // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
 
       { 'html': ' <b>' + row.relacionEmpresa +' : ' + row.empresa + '</b>' }).then((resp) => {

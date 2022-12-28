@@ -38,6 +38,7 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
   }
 
   private loadList(){
+    this.telefonos=[]
     this.telefonoService.allByPersonaId(this.persona).subscribe((data) => {
 
       this.telefonos= this.telefonos.concat(data.map(t=>t.numero));
