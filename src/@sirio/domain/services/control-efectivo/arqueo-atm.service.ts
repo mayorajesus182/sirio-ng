@@ -28,6 +28,7 @@ export interface ArqueoAtm {
     tipoArqueo?: string;
     fecha?: any;
     secuencia: number;
+    secuenciaAnterior: number;
     monto?: number;
     fechaCreacion?: any;
     utimoArqueo?: any;

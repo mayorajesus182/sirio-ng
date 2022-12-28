@@ -316,20 +316,21 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             this.cdr.detectChanges();
         });
 
-        if (item && item.cantidad > item.disponible) {
-            this.itemForm.controls['montoEnviado'].setErrors({
-                cantidad: true
-            });
-            this.f.montoEnviado.setValue(0.0);
-            this.cdr.detectChanges();
-            this.cdr.markForCheck();
-        }
+        // if (item && item.cantidad > item.disponible) {
+        //     this.itemForm.controls['montoEnviado'].setErrors({
+        //         cantidad: true
+        //     });
+        //     this.f.montoEnviado.setValue(0.0);
+        //     this.cdr.detectChanges();
+        //     this.cdr.markForCheck();
+        // }
 
         if (this.f.montoEnviado.value > this.remesa.montoSolicitado) {
             this.itemForm.controls['montoEnviado'].setErrors({ difference: true });
 
             // this.f.montoEnviado.setErrors({difference: true});
-            this.f.montoEnviado.markAsDirty();
+            // this.itemForm.controls['montoEnviado'].markAsDirty();
+            this.itemForm.controls['montoEnviado'].markAsTouched();
             // this.cdr.detectChanges();
 
 

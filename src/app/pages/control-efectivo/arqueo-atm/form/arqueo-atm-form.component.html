@@ -41,10 +41,13 @@
                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                     <mat-form-field fxFlex="20">
-                        <mat-label>{{'recountAtm.sequence' | translate: {default: 'global.sequence'} | translate }}</mat-label>
-                        <input matInput [(ngModel)]="arqueoAtm.secuencia">
+                        <mat-label>{{'recountAtm.sequence' | translate: {default: 'global.sequence'} | translate }}
+                            ({{'recountAtm.lastSequence' | translate: {default: 'global.lastSequence'} | translate }}
+                            {{arqueoAtm.secuenciaAnterior}})</mat-label>
+                        <input matInput [(ngModel)]="arqueoAtm.secuencia" currencyMask [options]="{precision:0}" [min]="arqueoAtm.secuenciaAnterior+1" #sequence="ngModel">
+                        <mat-error *ngIf="sequence.invalid">Secuencia Inválida</mat-error>
                     </mat-form-field>
-    
+
                     <div fxFlex="15" class="text-center margin-top-md">
                         <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esRetiroAtm" (change)="esRetiroEvent($event)">
                             {{'recountAtm.makeWithdrawal' | translate: {default: 'global.makeWithdrawal'} | translate }}
@@ -67,7 +70,7 @@
                         <input matInput [value]="arqueoAtm.monto | number:'1.2'" readonly class="text-right">
                     </mat-form-field>
 
-                </div>       
+                </div>
 
                 <div fxLayout="column" class="margin-h padding-v">
                     <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"

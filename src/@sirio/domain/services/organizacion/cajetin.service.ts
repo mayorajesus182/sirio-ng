@@ -12,6 +12,7 @@ export interface Cajetin {
     nombre:string;
     cantidad: number;
     conoMonetario?: number;
+    disponible?: number;
     fechaCreacion?: any;
 }
 

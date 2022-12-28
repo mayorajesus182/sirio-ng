@@ -109,7 +109,9 @@
                                     
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
                                         [options]="{precision:2}" required readonly>
+                                        <mat-error *ngIf="f.montoEnviado.errors?.difference">El Monto Enviado debe ser menor al Solicitado</mat-error>
                                 </mat-form-field>
+                       
                                 <!-- <mat-error *ngIf="true">errorrrrrrrrrrrrrrrr</mat-error> -->
                                 
                             </div>
