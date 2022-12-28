@@ -37,6 +37,8 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   existsError: boolean = false;
   message: string = '';
   errorList = [];
+  cajetinesList: DetalleArqueo[] = [];
+  totalesIncremento = {};
 
   constructor(
     injector: Injector,
@@ -53,7 +55,8 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
   loadList() {
     this.arqueoAtmService.getTop(this.atmId).subscribe((data) => {
-      this.cajetines.next(data.detalles);
+      this.cajetinesList = data.detalles;
+      this.cajetines.next(this.cajetinesList);
       this.arqueoAtm = data
     });
   }
@@ -80,6 +83,9 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
       this.atmService.get(this.atmId).subscribe(data => {
         this.atmSeleccionado = data;
+
+        console.log('   this.atmSeleccionado   ', this.atmSeleccionado);
+
       });
 
       this.loadList();
@@ -105,12 +111,16 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     });
   }
 
-
   updateValuesErrors(row: any, index) {
-    
+
     row.sobrante = 0;
     row.faltante = 0;
     row.actual = 0;
+    this.totalesIncremento = {};
+
+    this.cajetinesList.forEach(d => {
+      this.totalesIncremento[d.denominacion] = (this.totalesIncremento[d.denominacion] | 0) + d.incremento;
+    });
 
     if (row.anterior < row.dispensado + row.rechazado) {
       this.message = row.descripcion + ': La Cantidad Dispensada más la Cantidad Rechazada no puede ser mayor al Contador Anterior';
@@ -136,11 +146,20 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
         row.actual = row.fisico + row.incremento - row.retiro;
       }
 
-      // Aca se recorren los cajetines para verificar la cantidad máxima de cada uno
-      this.atmSeleccionado.cajetines.filter(c => {
-        if (c.id == row.cajetin && row.actual > c.cantidad) { 
-          this.message = row.descripcion + ': Excedió la Cantidad Máxima para el Cajetín (Máx. '+c.cantidad+')';
-      } })
+      // Aca se recorren los cajetines
+      this.atmSeleccionado.cajetines.forEach(c => {
+
+        // Se verifica la cantidad máxima permitida para cada uno
+        if (c.id == row.cajetin && row.actual > c.cantidad) {
+          this.message = row.descripcion + ': Excedió la Cantidad Máxima para el Cajetín (Máx. ' + c.cantidad + ')';
+
+        } else if (row.incremento > 0 && c.id == row.cajetin) { // Se verifica que no superen la cantidad en boveda
+          if (this.totalesIncremento[row.denominacion] > c.disponible) {
+            this.message = row.descripcion + ': Excedió la Cantidad Disponible en Bóveda Para la Denominación de la Moneda (Disp. ' + c.disponible + ')';
+          }
+        }
+
+      })
 
       row.monto = row.actual * row.denominacion;
       this.arqueoAtm.monto = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
@@ -151,10 +170,9 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
     // Se verifica si existe algún mensaje de error, si no existe se habilita el botón de guardar
     this.existsError = false;
-    this.errorList.filter (e => { if (e != undefined) this.existsError = true; });
+    this.errorList.filter(e => { if (e != undefined) this.existsError = true; });
 
   }
-
 
   esIncrementoEvent(event) {
     if (event.checked) {
