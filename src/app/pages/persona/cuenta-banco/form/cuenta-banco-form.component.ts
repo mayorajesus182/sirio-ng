@@ -212,9 +212,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.isNew = true;
         this.cuentaBanco = {} as CuentaBanco;
         //console.log('current loaded ', this.loaded$.value);
+        this.loaded$.next(false);
         this.buildForm();
 
-        this.loaded$.next(true);
         // this.loadingDataForm.next(true);
         // this.cuentaBancoService.get(Number.parseInt(event.id)).subscribe(val => {
         //     this.cuentaBanco = val;
@@ -233,14 +233,25 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     loadResult(event) {
         console.log('load event result ', event);
 
+        this.loaded$.next(false);
+        
         if (!event.id && !event.numper) {
             this.persona= {} as Persona;
-            this.loaded$.next(false);
-            // this.cuentaBanco = {} as CuentaBanco;
+            this.cuentaBanco = {} as CuentaBanco;
+            this.loaded$.next(true);
             // this.isNew = true;
             // this.cdr.detectChanges();
         }else{
             this.persona= event;
+            // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
+            // DEBO REDIRECCIONAR AL USUARIO AL 
+            this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta=>{
+                console.log(cuenta);
+                this.cuentaBanco = cuenta;
+                this.buildForm();
+                this.loaded$.next(true);
+                
+            });
             //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         }
     }

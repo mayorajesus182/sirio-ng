@@ -70,9 +70,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.disable.subscribe(val => {
             if (val) {
-                this.search.identificacion.disable();
-                this.search.cuenta.disable();
-                this.search.tipoDocumento.disable();
+                this.searchForm.controls.identificacion.disable();
+                this.searchForm.controls.cuenta.disable();
+                this.searchForm.controls.tipoDocumento.disable();
             }
         })
 
@@ -124,6 +124,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             nombre: new FormControl({ value: '', disabled: true }),
             cuenta: new FormControl('')
         });
+
+        this.searchForm.markAllAsTouched();
 
         this.disableBtn.next(true);
 
@@ -257,16 +259,20 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     createOn() {
+        this.disable.next(true);
         this.create.emit(this.searchForm.value);
     }
  
     pushOn() {
+        // this.disable.next(true);
         this.push.emit(this.persona);
+        this.resetAll();
     }
-
-
+    
+    
     editOn() {
-
+        
+        this.disable.next(true);
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
         this.update.emit(this.persona);
 
