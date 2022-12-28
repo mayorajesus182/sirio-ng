@@ -18,7 +18,6 @@ export class ActividadEconomicaDetailComponent extends FormBaseComponent impleme
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private actividadEconomicaService: ActividadEconomicaService) {
     super(undefined, injector);

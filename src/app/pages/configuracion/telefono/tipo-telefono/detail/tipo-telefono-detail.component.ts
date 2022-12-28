@@ -18,7 +18,6 @@ export class TipoTelefonoDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoTelefonoService: TipoTelefonoService) {
     super(undefined, injector);

@@ -131,7 +131,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
         this.loading.subscribe(val=>{
-            console.log('loading ', val);
+            // console.log('loading ', val);
             
             this.finding=val;
         })
@@ -284,6 +284,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.isNew = false;
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
+        this.disableBtn.next(true);
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.cdref.detectChanges();
         this.result.emit({});

@@ -21,7 +21,6 @@ export class PaseABovedaDetailComponent extends FormBaseComponent implements OnI
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private cajaTaquillaService: CajaTaquillaService) {
     super(undefined, injector);

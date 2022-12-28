@@ -18,7 +18,6 @@ export class EntidadFinancieraDetailComponent extends FormBaseComponent implemen
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private entidadFinancieraService: EntidadFinancieraService) {
     super(undefined, injector);

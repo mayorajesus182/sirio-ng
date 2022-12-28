@@ -18,7 +18,6 @@ export class CategoriaEspecialDetailComponent extends FormBaseComponent implemen
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private categoriaEspecialService: CategoriaEspecialService) {
     super(undefined, injector);

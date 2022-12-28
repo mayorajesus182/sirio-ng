@@ -18,7 +18,6 @@ export class ActividadIndependienteDetailComponent extends FormBaseComponent imp
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private actividadIndependienteService: ActividadIndependienteService) {
     super(undefined, injector);

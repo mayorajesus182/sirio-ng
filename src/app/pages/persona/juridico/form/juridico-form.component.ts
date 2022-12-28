@@ -78,7 +78,6 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
-        protected router: Router,
         private personaJuridicaService: PersonaJuridicaService,
 
         private tipoDocumentoService: TipoDocumentoService,

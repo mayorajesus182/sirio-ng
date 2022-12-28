@@ -18,7 +18,6 @@ export class ParroquiaDetailComponent extends FormBaseComponent implements OnIni
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private parroquiaService: ParroquiaService) {
     super(undefined, injector);

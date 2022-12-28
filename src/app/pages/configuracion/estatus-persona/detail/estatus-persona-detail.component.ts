@@ -18,7 +18,6 @@ export class EstatusPersonaDetailComponent extends FormBaseComponent implements 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private estatusPersonaService: EstatusPersonaService) {
     super(undefined, injector);

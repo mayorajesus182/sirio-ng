@@ -28,7 +28,6 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private workflowService: WorkflowService,
     private rolService: RolService,

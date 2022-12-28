@@ -18,7 +18,6 @@ export class TipoDocumentoDetailComponent extends FormBaseComponent implements O
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoDocumentoService: TipoDocumentoService) {
     super(undefined, injector);

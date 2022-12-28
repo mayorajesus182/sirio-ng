@@ -18,7 +18,6 @@ export class TelefonicaDetailComponent extends FormBaseComponent implements OnIn
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private telefonicaService: TelefonicaService) {
     super(undefined, injector);

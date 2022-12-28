@@ -18,7 +18,6 @@ export class SectorDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private sectorService: SectorService) {
     super(undefined, injector);

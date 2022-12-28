@@ -56,7 +56,6 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
         private retiroService: RetiroService,
         private cuentaBancariaService: CuentaBancariaService,
         private tipoDocumentoService: TipoDocumentoService,

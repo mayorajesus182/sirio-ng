@@ -18,7 +18,6 @@ export class EstadoCivilDetailComponent extends FormBaseComponent implements OnI
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private estadoCivilService: EstadoCivilService) {
     super(undefined, injector);

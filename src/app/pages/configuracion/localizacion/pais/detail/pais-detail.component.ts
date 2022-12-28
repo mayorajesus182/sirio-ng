@@ -18,7 +18,6 @@ export class PaisDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private paisService: PaisService) {
     super(undefined, injector);

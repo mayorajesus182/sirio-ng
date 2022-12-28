@@ -18,7 +18,6 @@ export class TipoParticipacionDetailComponent extends FormBaseComponent implemen
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoParticipacionService: TipoParticipacionService) {
     super(undefined, injector);

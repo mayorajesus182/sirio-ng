@@ -18,7 +18,6 @@ export class CifraPromedioDetailComponent extends FormBaseComponent implements O
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private cifraPromedioService: CifraPromedioService) {
     super(undefined, injector);

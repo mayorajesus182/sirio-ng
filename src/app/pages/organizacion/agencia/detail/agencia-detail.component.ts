@@ -18,7 +18,6 @@ export class AgenciaDetailComponent extends FormBaseComponent implements OnInit 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private agenciaService: AgenciaService) {
     super(undefined, injector);

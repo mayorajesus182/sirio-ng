@@ -18,7 +18,6 @@ export class ConstruccionDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private construccionService: ConstruccionService) {
     super(undefined, injector);

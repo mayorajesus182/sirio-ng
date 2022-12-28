@@ -18,7 +18,6 @@ export class EstadoDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private estadoService: EstadoService) {
     super(undefined, injector);

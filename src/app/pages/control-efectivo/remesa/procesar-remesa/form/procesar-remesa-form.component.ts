@@ -58,7 +58,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
+        
         private rolService: RolService,
         private remesaService: RemesaService,
         private saldoAcopioService: SaldoAcopioService,
