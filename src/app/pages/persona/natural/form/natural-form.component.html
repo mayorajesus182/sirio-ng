@@ -167,7 +167,7 @@
 
                                         <sirio-select-search fxFlex="20"
                                             [label]="'Lugar de Nacimiento' | translate: {default: 'Lugar de Nacimiento'} | translate"
-                                            formControlName="País" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
+                                            formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.pais?.errors">
                                         </sirio-select-search>
 
@@ -311,7 +311,7 @@
                                     </div>
 
                                 </div>
-
+<!-- {{printErrors() | json}}  -->
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
