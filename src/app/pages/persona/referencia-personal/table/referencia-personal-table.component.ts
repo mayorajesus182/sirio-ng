@@ -64,7 +64,7 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   }
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar Referencia Personal de: ?', undefined,
+    this.swalService.show('¿Desea Eliminar Referencia Personal de?', undefined,
     { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
           // console.log('buscando telefono',row.id);

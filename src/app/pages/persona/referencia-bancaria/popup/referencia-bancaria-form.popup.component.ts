@@ -26,7 +26,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
   public entidadFinancieraList = new BehaviorSubject<EntidadFinanciera[]>([]);
 
 
-  referencias=[];
+  referencias = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -68,12 +68,12 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     });
 
-    console.log('ref bancaria',this.defaults.payload);
+    console.log('ref bancaria', this.defaults.payload);
 
     this.referencias = this.defaults.payload.referencias
 
-    console.log('Arreglo ref bancaria',this.referencias);
-    
+    console.log('Arreglo ref bancaria', this.referencias);
+
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
@@ -83,7 +83,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         this.buildForm();
         this.loadingDataForm.next(false);
         this.cdr.detectChanges();
-        
+
       })
     } else {
       this.referencia = {} as ReferenciaBancaria;
@@ -92,12 +92,12 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
       this.cdr.detectChanges();
     }
 
-    console.log('ref bancaria xx',this.defaults.payload);
+    console.log('ref bancaria xx', this.defaults.payload);
 
   }
 
 
-  
+
 
   buildForm() {
     //validar carcteres especiales
@@ -110,44 +110,51 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     });
 
-    this.f.numeroCuenta.valueChanges.subscribe((val: string) => {
-      console.log('cuenta ',val);
-      
-      if (val && this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
+  
+
+    this.f.entidadFinanciera.valueChanges.subscribe((val: string) => {
+      // console.log('entidad financiera **' + val + '**');
+      // console.log(this.f.numeroCuenta.errors);
+      if(this.f.numeroCuenta.errors){
+        return;
+      }
+
+      if (val && this.f.numeroCuenta.value && !this.f.numeroCuenta.value.startsWith(val)) {
+        // console.log(' la cuenta no pertenece a la entidad');
+
         this.f.numeroCuenta.setErrors({ notIsEntidad: true });
-        this.f.numeroCuenta.markAsDirty();
-        this.cdr.detectChanges();
-      } 
+
+        // } 
+        // else {
+        //   this.itemForm.controls['numeroCuenta'].setErrors(null);
+        //   // this.f.numeroCuenta.clearValidators();
+        //   this.cdr.detectChanges();
+      }
       
-      // else {
-      
-      //   this.itemForm.controls['numeroCuenta'].setErrors(null);
+      // if (this.f.numeroCuenta.errors) {
+      //   this.f.numeroCuenta.markAsDirty();
       //   this.cdr.detectChanges();
       // }
     });
-    
-    this.f.entidadFinanciera.valueChanges.subscribe((val: string) => {
-      console.log('entidad financiera **'+val+'**');
-      if (val && this.f.numeroCuenta.value && !this.f.numeroCuenta.value.startsWith(val)) {
-        console.log(' la cuenta no pertenece a la entidad');
-        
-        this.f.numeroCuenta.setErrors({ notIsEntidad: true });
-        this.f.numeroCuenta.markAsDirty();
-        this.cdr.detectChanges();
-      } else {
-        this.itemForm.controls['numeroCuenta'].setErrors(null);
-        // this.f.numeroCuenta.clearValidators();
-        this.cdr.detectChanges();
-      }
-    });
 
     this.f.numeroCuenta.valueChanges.subscribe(val => {
+      if(this.f.numeroCuenta.errors){
+        return;
+      }
       if (val) {
+        if (this.f.entidadFinanciera.value && !val.startsWith(this.f.entidadFinanciera.value)) {
+          this.f.numeroCuenta.setErrors({ notIsEntidad: true });
+          this.f.numeroCuenta.markAsDirty();
+          return;
+        }
         if (!this.validateNumeroCuenta(this.f.numeroCuenta ? this.f.numeroCuenta.value : undefined)) {
           this.f.numeroCuenta.setErrors({ exists: true })
-        } else {
-          this.f.numeroCuenta.setErrors(null)
+          this.f.numeroCuenta.markAsDirty();          
         }
+        
+        this.cdr.detectChanges();
+
+  
       }
     });
 
@@ -157,7 +164,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
     if (!numeroCuenta) {
       return true;
     }
-    
+
     return this.referencias.find(c => (c.numeroCuenta === numeroCuenta)) == undefined;
   }
 
