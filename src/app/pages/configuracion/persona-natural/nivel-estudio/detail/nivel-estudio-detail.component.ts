@@ -18,7 +18,6 @@ export class NivelEstudioDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private nivelEstudioService: NivelEstudioService) {
     super(undefined, injector);

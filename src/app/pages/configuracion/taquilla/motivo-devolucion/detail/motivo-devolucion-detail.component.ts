@@ -18,7 +18,6 @@ export class MotivoDevolucionDetailComponent extends FormBaseComponent implement
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private motivoDevolucionService: MotivoDevolucionService) {
     super(undefined, injector);

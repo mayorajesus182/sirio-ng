@@ -10,6 +10,7 @@ import { take, takeUntil } from 'rxjs/operators';
 @Component({
     selector: 'sirio-select-search',
     templateUrl: './select-search.component.html',
+
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         {
@@ -19,7 +20,7 @@ import { take, takeUntil } from 'rxjs/operators';
         }
     ]
 })
-export class SelectSearchComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy,Validator {
+export class SelectSearchComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, Validator {
 
     @Input() errors;
     @Input() label: string;
@@ -32,7 +33,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     @Input() multiple: boolean = false;
     @Input('elements') public items: Observable<any[]>;
     // public disabled: boolean = false;
-    
+
     public selected: any | null = null;
 
     public selectSearchControl: FormControl;
@@ -42,15 +43,18 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     public filterCtrl: FormControl = new FormControl();
     // public elements: any[] = [];
 
-    @ViewChild('searchSelect') singleSelect: MatSelect;
+    @ViewChild(MatSelect, { static: false }) singleSelect: MatSelect;
+
+    @ViewChild("searchSelect", { static: false }) selectRef: ElementRef;
 
     private _onDestroy = new Subject<void>();
     /** list of elements filtered by search keyword */
     public filteredElements: ReplaySubject<any[]> = new ReplaySubject<any[]>(1);
+    public reseted: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
 
     @HostListener('change', ['$event'])
     changeSelect(event: any) {
-        console.log('select search event ',event);
+        console.log('select search event ', event);
 
         // const file = event && event.item(0);
         // this.onChange(file);
@@ -67,12 +71,12 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             .subscribe(() => {
 
                 // this.singleSelect.compareWith = (a: any, b: any) => { return a && b && a.id === b.id };
-                if(this.singleSelect){
+                if (this.singleSelect) {
 
                     this.singleSelect.compareWith = (a: any, b: any) => {
                         // console.log('A ',a);
                         // console.log('B ',b);
-    
+
                         if (!a || !b) {
                             return false;
                         }
@@ -81,22 +85,30 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
                         //     // console.log('B keys',Object.keys(b.id));
                         //     const key1 = Object.keys(a.id)[0]; 
                         //     const key2 = Object.keys(a.id)[1]; 
-    
+
                         //     // asumo que la clave compuesta es de 2 campos
                         //     return Object.keys(a.id)[0]==Object.keys(b.id)[0] && a.id[key1]== b.id[key1] && Object.keys(a.id)[1]==Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
                         // }    
                         return a === b;
-    
+
                     };
                 }
             });
 
-            if(this.singleSelect && this.autofocus){
 
+        this.reseted.subscribe(r => {
+            console.log('reset ', r, this.selectRef);
+
+            if (r && this.singleSelect && this.autofocus) {
+
+                // this.selectRef.nativeElement.focus();
                 this.singleSelect.focus();
+                // this.singleSelectRef.nativeElement.focus()
             }
+        })
 
-      
+        this.reseted.next(true);
+
 
 
     }
@@ -146,17 +158,22 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             }
 
 
-            if (data == '' || data  == undefined) {                
+            if (data == '' || data == undefined) {
                 this.selectSearchControl.clearValidators();
                 // this.selectSearchControl.markAsTouched();
-             
+
                 // if(this.singleSelect && this.autofocus){
 
                 //     this.singleSelect.focus();
                 // }
                 // this.selectControl.updateValueAndValidity();
+
+
             }
         });
+
+
+
 
     }
 
@@ -171,19 +188,27 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
         this.propagateChange = fn;
     }
 
-    
+
     registerOnTouched(fn) {
         this.propagateTouched = fn;
     }
 
     writeValue(value) {
+        // console.log('write value');
+        this.reseted.next(false);
+
         if (value) {
             this.selectSearchControl.setValue(value);
         }
 
         if (value === null || value == undefined) {
+            console.log('reset value');
+
             this.selectSearchControl.reset();
+
+            this.reseted.next(true);
         }
+
     }
 
     // communicate the inner form validation to the parent form
@@ -200,7 +225,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
      * Function registered to propagate touched to the parent
      */
     public propagateTouched: any = () => { };
-    
+
     setDisabledState?(isDisabled: boolean): void {
         this.disabled = isDisabled;
     }
@@ -225,10 +250,10 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     }
 
 
-    showName(valSelected:any){
+    showName(valSelected: any) {
         let name = '';
-        if(valSelected){
-            this.items.subscribe(data=>name =data.filter(d=>d.id===valSelected).map(d=>d[this.attributeName])[0]);
+        if (valSelected) {
+            this.items.subscribe(data => name = data.filter(d => d.id === valSelected).map(d => d[this.attributeName])[0]);
         }
         return name;
     }

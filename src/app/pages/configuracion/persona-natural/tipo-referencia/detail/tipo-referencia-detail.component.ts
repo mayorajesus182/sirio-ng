@@ -18,7 +18,6 @@ export class TipoReferenciaDetailComponent extends FormBaseComponent implements 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoReferenciaService: TipoReferenciaService) {
     super(undefined, injector);

@@ -21,7 +21,6 @@ export class AtmDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private atmService: AtmService) {
     super(undefined, injector);

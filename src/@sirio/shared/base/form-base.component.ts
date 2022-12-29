@@ -38,6 +38,9 @@ import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.in
             provide: "location", useClass: Location
         },
         {
+            provide: "router", useClass: Router
+        },
+        {
             provide: "translateService", useClass: TranslateService
         }
     ]
@@ -66,6 +69,7 @@ export class FormBaseComponent {
     protected spinner: NgxSpinnerService;
     protected location: Location;
     protected translateService: TranslateService;
+    protected router: Router;
 
     isNew: boolean = false;
     public itemForm: FormGroup;   
@@ -111,6 +115,7 @@ export class FormBaseComponent {
         this.swalService = injector.get(SweetAlertService);
         this.location = injector.get(Location);
         this.translateService = injector.get(TranslateService);
+        this.router = injector.get(Router);
 
         this.opts.type = 'ball-scale-ripple-multiple';
         this.opts.size = 'medium';
@@ -341,6 +346,10 @@ export class FormBaseComponent {
 
     public back() {
         this.location.back();
+    }
+
+    public backHome() {
+        this.router.navigate(['/sirio/welcome']);
     }
 
     public resetForm(): void {

@@ -18,7 +18,6 @@ export class TaquillaDetailComponent extends FormBaseComponent implements OnInit
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private taquillaService: TaquillaService) {
     super(undefined, injector);

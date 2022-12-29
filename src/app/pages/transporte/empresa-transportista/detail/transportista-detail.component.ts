@@ -18,7 +18,6 @@ export class TransportistaDetailComponent extends FormBaseComponent implements O
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private transportistaService: TransportistaService) {
     super(undefined, injector);

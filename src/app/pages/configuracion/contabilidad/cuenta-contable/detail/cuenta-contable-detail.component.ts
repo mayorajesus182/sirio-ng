@@ -18,7 +18,6 @@ export class CuentaContableDetailComponent extends FormBaseComponent implements 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private claseTelefonoService: ClaseTelefonoService) {
     super(undefined, injector);

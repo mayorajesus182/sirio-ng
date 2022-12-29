@@ -70,9 +70,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.disable.subscribe(val => {
             if (val) {
-                this.search.identificacion.disable();
-                this.search.cuenta.disable();
-                this.search.tipoDocumento.disable();
+                this.searchForm.controls.identificacion.disable();
+                this.searchForm.controls.cuenta.disable();
+                this.searchForm.controls.tipoDocumento.disable();
             }
         })
 
@@ -125,11 +125,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
+        this.searchForm.markAllAsTouched();
+
         this.disableBtn.next(true);
 
 
         this.loading.subscribe(val=>{
-            console.log('loading ', val);
+            // console.log('loading ', val);
             
             this.finding=val;
         })
@@ -257,16 +259,20 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     createOn() {
+        this.disable.next(true);
         this.create.emit(this.searchForm.value);
     }
  
     pushOn() {
+        // this.disable.next(true);
         this.push.emit(this.persona);
+        this.resetAll();
     }
-
-
+    
+    
     editOn() {
-
+        
+        this.disable.next(true);
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
         this.update.emit(this.persona);
 
@@ -278,6 +284,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.isNew = false;
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
+        this.disableBtn.next(true);
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.cdref.detectChanges();
         this.result.emit({});

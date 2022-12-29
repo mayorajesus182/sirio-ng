@@ -18,7 +18,6 @@ export class TipoFirmanteDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoFirmanteService: TipoFirmanteService) {
     super(undefined, injector);

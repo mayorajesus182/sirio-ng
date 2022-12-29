@@ -32,10 +32,9 @@
                 <sirio-card-content fxLayout="column">
 
 
-                    <sirio-person-query [entity]="'cuenta'" title="Consultar Persona" (push)="loadResult($event)"  ></sirio-person-query>
+                    <sirio-person-query [entity]="'cuenta'" title="Consultar Persona" (push)="loadResult($event)"></sirio-person-query>
 
 
-                    <!-- {{printErrors() | json}}  -->
 
                     <ng-container *ngIf="loaded$ | async">
 
@@ -47,7 +46,9 @@
                                 <mat-expansion-panel-header class="odd margin-bottom-xs">
                                     <mat-panel-title>
                                         <button type="button" mat-icon-button type="button" color="primary">
-                                            <mat-icon>person</mat-icon>
+                                            <mat-icon>
+                                                account_balance_wallet                                                
+                                            </mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">
                                             Apertura de Cuenta de Cuenta Financiera
@@ -92,6 +93,32 @@
                                         
                                     </div> -->
 
+                                  
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" class="margin-top-sm">
+
+                                        <mat-form-field fxFlex="10">
+                                            <mat-label>{{'global.documentType' | translate }} </mat-label>
+                                            <input matInput   autocomplete="off" name="tipoDocumento"  [(ngModel)]="persona.tipoDocumento" 
+                                                  disabled="true" [ngModelOptions]="{standalone: true}">
+                                        </mat-form-field>
+
+                                        <mat-form-field fxFlex="30">
+                                            <mat-label>{{'global.identification' | translate }} </mat-label>
+                                            <input matInput autocomplete="off" class="text-center" name="identificacion" disabled="true"
+                                            [(ngModel)]="persona.identificacion" [ngModelOptions]="{standalone: true}">
+                                        </mat-form-field>
+
+                                        <mat-form-field fxFlex="auto">
+                                            <mat-label>{{'global.fullName' | translate }} </mat-label>
+                                            <input matInput autocomplete="off" class="text-left" name="nombre" disabled="true"
+                                            [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}" >
+                                        </mat-form-field>
+
+
+                                    </div>
+
+                                    <mat-divider class="margin-bottom-md"></mat-divider>
+
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <sirio-select-search fxFlex="33" [label]="'Producto' | translate: {default: 'Producto'} | translate"
@@ -110,21 +137,14 @@
                                             [errors]="f.moneda?.errors">
                                         </sirio-select-search>
 
-                                        <!-- <mat-form-field ffxFlex.gt-xs="25">
-                                            <mat-label>{{'Moneda' | translate: {default:
-                                                'Moneda'} | translate }} </mat-label>
-                                            <input matInput maxlength="100" minlength="1" autocomplete="off" name="" [value]="nombreCiudad()" uppercase readonly>
-                                        </mat-form-field> -->
-
                                     </div>
 
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                    <div fxLayout="column" fxLayout.gt-sm="row" >
 
                                         <mat-form-field fxFlex="100">
-                                            <mat-label>{{'Número de cuenta de banco' | translate: {default:
-                                                'Número de cuenta de banco'} | translate }} </mat-label>
-                                            <input matInput maxlength="20" minlength="1" autocomplete="off" name="numeroCuenta" formControlName="numeroCuenta"
-                                                uppercase required>
+                                            <mat-label>{{'Número de Cuenta' | translate }} </mat-label>
+                                            <input matInput maxlength="24" mask="0000 0000 00 00 00000000" minlength="1" autocomplete="off" name="numeroCuenta" formControlName="numeroCuenta"
+                                                  required>
                                             <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' |
                                                 translate}}
                                             </mat-error>
@@ -135,6 +155,7 @@
                                         </mat-form-field>
 
                                     </div>
+
 
 
                                     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -188,7 +209,10 @@
                                         <mat-panel-title>
 
                                             <button type="button" mat-icon-button type="button" color="primary">
-                                                <mat-icon>person</mat-icon>
+                                                <mat-icon>
+                                                    badge                                                    
+                                                </mat-icon>
+
                                             </button>
 
                                             <span class="margin-top-sm margin-bottom-lg semi-bold">
@@ -285,11 +309,6 @@
                                             [errors]="f.paisOrigen?.errors">
                                         </sirio-select-search>
 
-                                        <!-- <sirio-select-simple fxFlex="20"
-                                            [label]="'naturalPerson.spouseDocumentType' | translate: {default: 'global.spouseDocumentType'} | translate"
-                                            formControlName="tipoDocumentoConyuge" [required]="evaluarEstadoCivil()" [elements]="tipoDocumentos.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.tipoDocumentoConyuge?.errors">
-                                        </sirio-select-simple> -->
 
 
                                         <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
@@ -320,35 +339,34 @@
 
                             </mat-expansion-panel>
 
-                            <!-- {{printErrors() | json}} -->
-                            <!-- {{'holaaaa 1'}} -->
-
+                            
                             <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInterviniente(true)" (closed)="openInterviniente(false)">
-
-
+                                
+                                
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>location_on</mat-icon>
+                                            <mat-icon>
+                                                groups
+                                            </mat-icon>
                                         </button>
                                         <span class="margin-top-sm semi-bold">Condición de Firma de(los) Participante(s) </span>
                                     </mat-panel-title>
-                                    <mat-panel-description>
-                                        <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalIntervinientes"></span>
+                                    <mat-panel-description>                                        
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-
-                                {{printErrors() | json}}
+                                
+                                <!-- {{printErrors() | json}} -->
                                 <div fxLayout="row" fxLayout="column" *ngIf="showIntervinientes">
-                                    <sirio-persona-interviniente-table [persona]="cuentaBanco.id"></sirio-persona-interviniente-table>
-
+                                    <sirio-persona-interviniente-table [cuenta]="cuentaBanco.id"></sirio-persona-interviniente-table>                                    
                                 </div>
-
+                                
                             </mat-expansion-panel>
-
-
+                            
+                            
                         </mat-accordion>
+                        <!-- {{printErrors() | json}} -->
                     </ng-container>
                 </sirio-card-content>
 

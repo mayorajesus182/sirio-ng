@@ -18,7 +18,6 @@ export class TipoIngresoDetailComponent extends FormBaseComponent implements OnI
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoIngresoService: TipoIngresoService) {
     super(undefined, injector);

@@ -39,7 +39,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     constructor(
         injector: Injector,
-        private router: Router,
         private depositoService: DepositoService,
         private taquillaService: TaquillaService,
         private cdr: ChangeDetectorRef) {

@@ -61,9 +61,11 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       this.cdr.detectChanges();
     })
     
-    console.log('nro telefono 1',this.defaults.payload);
+    // console.log('nro telefono 1',this.defaults.payload);
 
     this.nroTelefonos = this.defaults.payload.telefonos;
+
+    this.cdr.detectChanges();
     
     console.log('nro telefono 2',this.nroTelefonos);
 
@@ -72,6 +74,8 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     if (this.defaults.payload.data) {
       this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
         this.mode = 'global.edit';
+        // console.log(data);
+        
         this.telefono = data;
         this.buildForm();
         this.loadingDataForm.next(false);
@@ -135,7 +139,8 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     }
     console.log(numero);
     
-   
+    this.cdr.detectChanges();
+
     return this.nroTelefonos.find(num => num === numero) == undefined;
   }
 
@@ -145,7 +150,9 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
     console.log('mode ', this.mode);
     this.updateData(this.telefono);// aca actualizamos la direccion
-    this.telefono.persona=this.defaults.payload.persona;
+    if(this.isNew){
+      this.telefono.persona=  this.defaults.payload.persona;
+    }
     this.telefono.numero = this.telefono.numero.split('-').join('');
     this.telefono.principal = this.telefono.principal? 1 : 0;
     console.log(this.telefono);

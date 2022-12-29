@@ -18,7 +18,6 @@ export class MunicipioDetailComponent extends FormBaseComponent implements OnIni
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private municipioService: MunicipioService) {
     super(undefined, injector);

@@ -18,7 +18,6 @@ export class ZonaDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private zonaService: ZonaService) {
     super(undefined, injector);

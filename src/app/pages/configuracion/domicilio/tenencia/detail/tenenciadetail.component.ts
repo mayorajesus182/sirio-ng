@@ -18,7 +18,6 @@ export class TenenciaDetailComponent extends FormBaseComponent implements OnInit
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tenenciaService: TenenciaService) {
     super(undefined, injector);

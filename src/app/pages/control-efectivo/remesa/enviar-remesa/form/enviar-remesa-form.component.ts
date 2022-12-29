@@ -61,7 +61,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
         private rolService: RolService,
         private remesaService: RemesaService,
         private saldoAcopioService: SaldoAcopioService,

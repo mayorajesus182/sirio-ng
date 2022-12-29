@@ -18,7 +18,6 @@ export class TipoRelacionDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoRelacionService: TipoRelacionService) {
     super(undefined, injector);

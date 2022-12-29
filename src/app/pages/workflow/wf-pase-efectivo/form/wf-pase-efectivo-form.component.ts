@@ -40,7 +40,6 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
         private bovedaAgenciaService: BovedaAgenciaService,
         private workflowService: WorkflowService,
         private rolService: RolService,

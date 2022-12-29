@@ -43,7 +43,6 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
         private cajaTaquillaService: CajaTaquillaService,
         private movimientoEfectivoService: MovimientoEfectivoService,
         private monedaService: MonedaService,

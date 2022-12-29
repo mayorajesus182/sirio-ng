@@ -18,7 +18,6 @@ export class RemesaDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private remesaService: RemesaService) {
     super(undefined, injector);
