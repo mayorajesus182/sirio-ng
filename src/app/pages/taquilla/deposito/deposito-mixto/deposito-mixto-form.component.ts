@@ -369,15 +369,18 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.f.efectivo.markAsDirty();
             this.f.monto.markAsDirty();
 
+            console.log("event", event);
+            
+
+            if(event === undefined || event.montoTotal=== 0){
+                this.f.efectivo.setErrors({
+                    differenceDesglose: true
+                });
+            }
+
         } else {
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
-        }
-
-        if(event === undefined){
-            this.f.efectivo.setErrors({
-                differenceDesglose: true
-            });
         }
 
     }
@@ -398,6 +401,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.cargaDatos();
         this.f.chequePropio.setValue(0.00);
         this.f.chequeOtros.setValue(0.00);
+        this.f.efectivo.setValue(0.00);
         this.f.monto.setValue(0.00);
         this.cf.montoCheque.setValue(0.00);
         this.chequeList = [];
