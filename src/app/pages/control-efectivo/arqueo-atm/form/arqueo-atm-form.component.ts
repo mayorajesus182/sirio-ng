@@ -83,9 +83,6 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
       this.atmService.get(this.atmId).subscribe(data => {
         this.atmSeleccionado = data;
-
-        console.log('   this.atmSeleccionado   ', this.atmSeleccionado);
-
       });
 
       this.loadList();
@@ -122,8 +119,8 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       this.totalesIncremento[d.denominacion] = (this.totalesIncremento[d.denominacion] | 0) + d.incremento;
     });
 
-    if (row.anterior < row.dispensado + row.rechazado) {
-      this.message = row.descripcion + ': La Cantidad Dispensada más la Cantidad Rechazada no puede ser mayor al Contador Anterior';
+    if (row.anterior < row.dispensado + row.rechazado + row.fisico) {
+      this.message = row.descripcion + ': Las Cantidades Dispensada+Rechazada+Físico no pueden ser mayores al Contador Anterior';
     } else if (row.anterior == 0 && row.fisico > 0) {
       this.message = row.descripcion + ': Sin Contador Anterior no puede existir una Físico';
     } else if (row.fisico > 0 && row.retiro > row.fisico) {
@@ -136,14 +133,14 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
       this.message = undefined;
 
-      if (row.fisico == undefined || row.fisico == 0) {
+      if ((row.fisico == undefined && row.rechazado == undefined) || (row.fisico == 0 && row.rechazado == 0)) {
         row.sobrante = Math.abs(((row.anterior - row.dispensado)) < 0 ? ((row.anterior - row.dispensado)) : 0);
         row.faltante = Math.abs(((row.anterior - row.dispensado)) > 0 ? ((row.anterior - row.dispensado)) : 0);
-        row.actual = row.anterior - row.dispensado + row.incremento - row.retiro;
+        row.actual = row.anterior - row.dispensado + row.incremento;
       } else {
-        row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico) < 0 ? ((row.anterior - row.dispensado) - row.fisico) : 0);
-        row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico) > 0 ? ((row.anterior - row.dispensado) - row.fisico) : 0);
-        row.actual = row.fisico + row.incremento - row.retiro;
+        row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) < 0 ? ((row.anterior - row.dispensado) - row.fisico - row.rechazado) : 0);
+        row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) > 0 ? ((row.anterior - row.dispensado) - row.fisico - row.rechazado) : 0);
+        row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
       }
 
       // Aca se recorren los cajetines
