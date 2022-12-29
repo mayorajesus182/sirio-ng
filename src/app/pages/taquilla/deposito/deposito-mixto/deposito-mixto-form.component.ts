@@ -83,15 +83,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
         this.cargaDatos();
 
-        // this.f.conoActual.value
-        // console.log("logogogogog", this.f.conoActual.value);
-        
-        // if(this.f.conoActual == undefined){
-        //     this.f.efectivo.setErrors({
-        //         differenceCA: true
-        //     });
-        // }
-
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
                 this.calculateDifferences();
@@ -382,6 +373,13 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
         }
+
+        if(event === undefined){
+            this.f.efectivo.setErrors({
+                differenceDesglose: true
+            });
+        }
+
     }
 
     updateCashDetail(event) {
