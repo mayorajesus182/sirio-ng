@@ -29,6 +29,9 @@
         <input autocomplete="off" class="text-center" matInput name="identificacion" maxlength="15" formControlName="identificacion" required>
         <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+
+        <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+  <!-- {{printErrors() | json}} -->
       </mat-form-field>
 
     </div>
