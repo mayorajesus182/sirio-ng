@@ -17,7 +17,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class ConsultarRemesaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['remesa_id', 'tipo', 'receptor', 'emisor', 'monto', 'moneda', 'actions'];
+  displayedColumns = ['remesa_id', 'tipo', 'emisor', 'receptor', 'monto', 'moneda', 'actions'];
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
 
