@@ -369,15 +369,15 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.f.efectivo.markAsDirty();
             this.f.monto.markAsDirty();
 
+            if(event === undefined){
+                this.f.efectivo.setErrors({
+                    differenceDesglose: true
+                });
+            }
+
         } else {
             this.f.monto.setErrors(undefined);
             this.f.efectivo.setErrors(undefined);
-        }
-
-        if(event === undefined){
-            this.f.efectivo.setErrors({
-                differenceDesglose: true
-            });
         }
 
     }
