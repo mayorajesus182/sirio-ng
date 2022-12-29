@@ -1,0 +1,105 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['usuario.table']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [@fadeInUp]>
+        <sirio-list [name]="'usuario.table' | translate: {default: 'Usuarios global.notfound'}" placeholder="usuario.search"
+            (filterChange)="onFilterChange($event)">
+
+            <mat-table #table id="tableContainer" [dataSource]="dataSource" [@animateStagger]="{value:'50'}" matSort
+                matSortActive="usuario_id" matSortDirection="asc">
+
+
+                <!-- Id Column -->
+                <ng-container matColumnDef="usuario_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">Usuario</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
+                        <p class="font-weight-600">{{element.id}}</p>
+                        <!-- <img class="avatar" *ngIf="element.tipo" [alt]="element.name"  [src]="element.avatar"/> -->
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="nombre">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">Nombre</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="identificacion">
+                    <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm [ngClass]="'tw-15'">Identificación
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm [ngClass]="'tw-15'">
+                        <p class="font-weight-600">
+                            {{element.identificacion}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm [ngClass]="'tw-20'">Email
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm (click)="view(element)" [ngClass]="'tw-20'">
+                        <p class="text-truncate font-weight-600">{{element.email}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="ldap">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm [ngClass]="'tw-5'"> LDAP
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'" fxHide fxShow.gt-sm>
+
+                        <mat-chip mat-sm-chip [color]="'primary'" [selected]="element.ldap">{{element.ldap ? 'SI' :
+                            'NO'}}
+                        </mat-chip>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="prev_login">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm [ngClass]="'tw-10'"> Ult.
+                        Acceso
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10'" fxHide fxShow.gt-sm>
+                        {{element.prevLogin}}
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="activo">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10 text-center'">Estatus
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10 text-center'">
+
+                        <mat-chip mat-sm-chip [color]="'primary'" [selected]="element.activo">{{element.activo ?
+                            'Activo' :
+                            'Inactivo'}}
+                        </mat-chip>
+
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5 '"></mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5 '">
+                        <div fxFlex="row" fxLayoutAlign="end center">
+                                <sirio-actions-nav [element]="element" *ngIf="element.id!='ADMIN'" [items]="actions.asObservable()" 
+                                [method]="actionAPI()"></sirio-actions-nav>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
+                    [@animate]="{value:'*',params:{y:'100%'}}">
+                </mat-row>
+            </mat-table>
+            <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
+                showFirstLastButtons></mat-paginator>
+
+        </sirio-list>
+        <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>
+    </sirio-page-layout-content>
+</sirio-page-layout>
