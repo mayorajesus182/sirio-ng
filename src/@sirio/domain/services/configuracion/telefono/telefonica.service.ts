@@ -35,6 +35,10 @@ export class TelefonicaService {
         return this.apiService.config(this.apiConfig).get(`/${clase}/byclasetelefono/actives`);
     }
 
+    activesByTipoTelefonica(tipo: string): Observable<Telefonica[]> {
+        return this.apiService.config(this.apiConfig).get(`/${tipo}/bytipotelefonica/actives`);
+    }
+
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }

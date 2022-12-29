@@ -10,56 +10,56 @@
                 matSortActive="remesa_id" matSortDirection="desc">
 
                 <ng-container matColumnDef="remesa_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'Cataporte' | translate:
-                        {default: 'Cataporte'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'consultRemittances.billOfLading' | translate:
+                        {default: 'global.billOfLading'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="font-weight-600">{{element.id}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="tipo">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'">{{'Tipo' | translate:
-                        {default: 'Tipo'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-5'">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'consultRemittances.remittanceType' | translate:
+                        {default: 'global.remittanceType'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="text-truncate font-weight-600">{{element.tipoRemesa}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="emisor">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'Unidad Emisora' | translate:
-                        {default: 'Unidad Emisora'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'consultRemittances.sendingUnit' | translate:
+                        {default: 'global.sendingUnit'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate font-weight-600">{{element.emisor}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="receptor">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'Unidad Receptora' | translate:
-                        {default: 'Unidad Receptora'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'consultRemittances.receivingUnit' | translate:
+                        {default: 'global.receivingUnit'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate font-weight-600">{{element.receptor}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="monto">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'Monto' | translate:
-                        {default: 'Monto'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'consultRemittances.amount' | translate:
+                        {default: 'global.amount'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="text-truncate font-weight-600">{{element.montoFinal | number: '1.2'}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="moneda">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'">{{'Moneda' | translate:
-                        {default: 'Moneda'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'">{{'consultRemittances.coin' | translate:
+                        {default: 'global.coin'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-5'">
                         <p class="text-truncate font-weight-600">{{element.moneda}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- <ng-container matColumnDef="estatus">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'Estatus' | translate:
-                        {default: 'Estatus'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'">{{'consultRemittances.status' | translate:
+                        {default: 'global.status'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="text-truncate font-weight-600">{{element.estatusRemesaNombre}}</p>
                     </mat-cell>
