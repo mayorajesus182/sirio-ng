@@ -1,27 +1,25 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants } from 'src/@sirio/constants';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
-import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
-import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import * as moment from 'moment';
-import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
-import { OrigenFondo, OrigenFondoService } from 'src/@sirio/domain/services/configuracion/producto/origen-fondo.service';
 import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
 import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
-import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/domain/services/configuracion/producto/promedio-transaccion.service';
+import { OrigenFondo, OrigenFondoService } from 'src/@sirio/domain/services/configuracion/producto/origen-fondo.service';
 import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/configuracion/producto/promedio-monto.service';
-import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
+import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/domain/services/configuracion/producto/promedio-transaccion.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
+import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
+import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
+import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -99,16 +97,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
-            console.log('loading ',loading);
-            
+            console.log('loading ', loading);
+
             if (!loading) {
-                // if (this.f.actividadEconomica && this.f.actividadEconomica.value) {
-                // this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
-                //     this.actividadesEspecificas.next(data);
-                //     // this.cdr.detectChanges();
-                // });
-                // }
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
+                this.cdr.detectChanges();
             }
         });
     }
@@ -159,7 +152,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         this.itemForm = this.fb.group({
             persona: new FormControl(this.persona.id, [Validators.required]),
-            numeroCuenta: new FormControl(this.cuentaBanco.numeroCuenta || undefined,[Validators.required]),
+            numeroCuenta: new FormControl(this.cuentaBanco.numeroCuenta || undefined, [Validators.required]),
             moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
             tipoProducto: new FormControl(this.cuentaBanco.tipoProducto || undefined, [Validators.required]),
             tipoSubproducto: new FormControl(this.cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
@@ -177,14 +170,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
         });
 
-        // verifico si tengo datos basicos cargados
-        // this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
-
-        // this.tipoDocumentoService.activesByTipoPersona(this.constants.CUENTA_BANCO).subscribe(data => {
-        //     this.tipoDocumentos.next(data);
-        //     const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
-        //     this.f.tipoDocumento.setValue(tipo.nombre);
-        // });
     }
 
     resetAll() {
@@ -260,10 +245,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.buildForm();
                 this.loadingDataForm.next(false);
                 this.loaded$.next(true);
-                
+                // this.cdr.detectChanges();
+
             }, err => {
                 this.loadingDataForm.next(false);
-                this.resetAll();                
+                this.resetAll();
             });
         }
     }
