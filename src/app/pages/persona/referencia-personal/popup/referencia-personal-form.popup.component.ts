@@ -26,7 +26,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
   public cifrasPromedioList = new BehaviorSubject<CifraPromedio[]>([]);
   public entidadFinancieraList = new BehaviorSubject<EntidadFinanciera[]>([]);
 
-
+  referencias=[];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -66,9 +66,15 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
     });
 
+    this.referencias = this.defaults.payload.referencias;
+
+    this.cdr.detectChanges();
+    
+    console.log('Referencias uno',this.referencias);
+
+
     console.log('ref personal',this.defaults.payload);
     
-
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.referenciaPersonalService.get(this.defaults.payload.id).subscribe(data => {
@@ -90,23 +96,60 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
   buildForm() {
     //validar carcteres especiales
-
     this.itemForm = this.fb.group({
       tipoDocumento: new FormControl(this.referencia.tipoDocumento || '', [Validators.required]),
-      identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+      // identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+
+      identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
+
+
       nombre: new FormControl(this.referencia.nombre || '', [Validators.required,Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),
       telefonoMovil: new FormControl(this.referencia.telefonoMovil || undefined, []),
-      // tipoProducto: new FormControl(this.referencia.tipoProducto || '', [Validators.required]),
-      // entidadFinanciera: new FormControl(this.referencia.entidadFinanciera || '', [Validators.required]),
-      // cifraPromedio: new FormControl(this.referencia.cifraPromedio || '', [Validators.required]),
-      // numeroCuenta: new FormControl(this.referencia.numeroCuenta || undefined, [Validators.required]),
-
     });
 
-   
+    this.f.tipoDocumento.valueChanges.subscribe(value => {
+      this.f.identificacion.setValue('');
+      this.cdr.detectChanges();
+    });
+
+
+    this.f.identificacion.valueChanges.subscribe(val => {
+      if (val) {
+        if (!this.validateReferencias(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined,this.f.identificacion ? this.f.identificacion.value : undefined)) {
+          this.f.identificacion.setErrors({ exists: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+        }
+        //  else {
+        //   this.f.numero.setErrors(null)
+        // }
+      }
+    });
+
+
+    // this.f.estado.valueChanges.subscribe(value => {
+    //   this.f.municipio.setValue('');
+    //   this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+    //     this.municipios.next(data);
+    //     this.cdr.detectChanges();
+    //   });
+    // });
+
 
   }
+
+  validateReferencias(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    console.log(identificacion);
+    
+    this.cdr.detectChanges();
+
+    return this.referencias.find(num => num ===  tipoDocumento+'-'+identificacion ) == undefined;
+  }
+
 
   save() {
 
