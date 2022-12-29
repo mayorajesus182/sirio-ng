@@ -31,7 +31,7 @@
                         [options]="{precision:2}" [required]="!f.chequePropio.value || !f.chequeOtros.value">
                     <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                     <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                    <!-- <mat-error *ngIf="f.efectivo.errors?.differenceCA">Desglose</mat-error> -->
+                    <mat-error *ngIf="f.efectivo.errors?.differenceDesglose">Debe Descriminar el efectivo </mat-error>
                     <mat-error *ngIf="f.efectivo.errors?.difference">Monto Incorrecto</mat-error>
                 </mat-form-field>
 
@@ -80,8 +80,7 @@
 
             <mat-form-field fxFlex.gt-sm="20">
                 <mat-label>Número de Cuenta </mat-label>
-                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required
-                    num-account-validate class="text-center" maxLength="24" required>
+                <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" num-account-validate class="text-center" maxLength="24" required >
                 <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuantas ya están suministrados</mat-error> -->
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El núm. de cuenta es inválido</mat-error>
             </mat-form-field>
