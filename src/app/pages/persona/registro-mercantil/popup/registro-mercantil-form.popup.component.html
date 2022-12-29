@@ -27,7 +27,7 @@
         <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre" uppercase
           [required]="!esGobierno">
         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
-        </mat-error>´
+        </mat-error>
         <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
           translate}}
         </mat-error>
