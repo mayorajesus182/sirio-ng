@@ -30,6 +30,8 @@ export interface ArqueoAtm {
     secuencia: number;
     secuenciaAnterior: number;
     monto?: number;
+    montoRetiroTotal?: number;
+    montoIncrementoTotal?: number;
     fechaCreacion?: any;
     utimoArqueo?: any;
     esRetiroAtm: boolean;
