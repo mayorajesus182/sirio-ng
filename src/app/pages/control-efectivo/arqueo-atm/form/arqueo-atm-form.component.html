@@ -48,24 +48,34 @@
                         <mat-error *ngIf="sequence.invalid">Secuencia Inválida</mat-error>
                     </mat-form-field>
 
-                    <div fxFlex="15" class="text-center margin-top-md">
+                    <div fxFlex="18" class="text-center margin-top-md">
                         <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esRetiroAtm" (change)="esRetiroEvent($event)">
                             {{'recountAtm.makeWithdrawal' | translate: {default: 'global.makeWithdrawal'} | translate }}
                         </mat-slide-toggle>
                     </div>
 
-                    <div fxFlex="20" class="text-center margin-top-md">
+                    <div fxFlex="18" class="text-center margin-top-md">
                         <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esIncrementoAtm" (change)="esIncrementoEvent($event)">
                             {{'recountAtm.makeIncrement' | translate: {default: 'global.makeIncrement'} | translate }}
                         </mat-slide-toggle>
                     </div>
 
-                    <mat-form-field fxFlex="25" appearance="standart">
+                    <mat-form-field fxFlex="auto" appearance="standart">
                         <mat-label>{{'recountAtm.lastCounting' | translate: {default: 'global.lastCounting'} | translate }}</mat-label>
                         <input matInput [value]="arqueoAtm.fecha" readonly>
                     </mat-form-field>
 
-                    <mat-form-field fxFlex="20" appearance="standart">
+                    <mat-form-field fxFlex="15" appearance="standart" *ngIf="arqueoAtm.esRetiroAtm">
+                        <mat-label>{{'recountAtm.withdrawnAmount' | translate: {default: 'global.withdrawnAmount'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.montoRetiroTotal | number:'1.2'" readonly class="text-right">
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" appearance="standart" *ngIf="arqueoAtm.esIncrementoAtm">
+                        <mat-label>{{'recountAtm.increasedAmount' | translate: {default: 'global.increasedAmount'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.montoIncrementoTotal | number:'1.2'" readonly class="text-right">
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" appearance="standart">
                         <mat-label>{{'recountAtm.totalAmount' | translate: {default: 'global.totalAmount'} | translate }}</mat-label>
                         <input matInput [value]="arqueoAtm.monto | number:'1.2'" readonly class="text-right">
                     </mat-form-field>
