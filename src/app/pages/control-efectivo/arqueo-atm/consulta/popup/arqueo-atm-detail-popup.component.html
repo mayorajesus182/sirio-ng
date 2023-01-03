@@ -57,17 +57,9 @@
 
     </div>
 
-
-
-
-
-
-
-
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
         <div fxLayout="column" fxFlex="auto" fxLayoutAlign="start stretch">
-
 
             <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
                 [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
@@ -174,7 +166,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esIncrementoAtm">
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.tipoArqueo === constants.ARQUEO_INCREMENTO">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'Incremento' | translate: {default: 'Incremento'} |
                             translate}}</span>
@@ -187,7 +179,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esRetiroAtm">
+                <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.tipoArqueo === constants.ARQUEO_RETIRO">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'Retiro' | translate: {default: 'Retiro'} | translate}}</span>
                     </ng-template>

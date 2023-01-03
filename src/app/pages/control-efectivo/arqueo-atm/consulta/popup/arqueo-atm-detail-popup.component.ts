@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { ArqueoAtm, ArqueoAtmService, DetalleArqueo } from 'src/@sirio/domain/services/control-efectivo/arqueo-atm.service';
 import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
@@ -24,6 +24,7 @@ export class ArqueoAtmDetailPopupComponent extends PopupBaseComponent implements
 
     public detalles = new BehaviorSubject<DetalleArqueo[]>([]);
     arqueoAtm: any = {} as any;
+    constants = GlobalConstants;
 
     constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
         protected injector: Injector,

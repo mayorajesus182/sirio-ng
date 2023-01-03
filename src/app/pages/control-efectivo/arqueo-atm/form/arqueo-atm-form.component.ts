@@ -136,8 +136,8 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     } else if (row.rechazado > row.anterior) {
       this.message = row.descripcion + ': La Cantidad Rechazada no puede superar al Contador Anterior';
     } else if (row.fisico > row.anterior) {
-      this.message = row.descripcion + ': La Cantidad Física no puede superar al Contador Anterior';
-    } else if ((row.rechazado + row.fisico) == 0 && (row.retiro > row.anterior)) {
+      this.message = row.descripcion + ': La Cantidad Física no puede superar al Contador Anterior Menos el Dispensado';
+    } else if ((row.rechazado + row.fisico) == 0 && (row.retiro > row.anterior-row.dispensado)) {
       this.message = row.descripcion + ': Cantidad a Retirar no puede Superar al Contador Anterior';
     } else if ((row.rechazado + row.fisico) > 0 && (row.retiro > (row.rechazado + row.fisico))) {
       this.message = row.descripcion + ': Cantidad a Retirar no puede Superar al total de Rechazado+Físico';

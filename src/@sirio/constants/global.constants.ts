@@ -27,5 +27,7 @@ export class GlobalConstants {
   public static CUENTA_BANCO = 'J';
   public static TELEFONO_FIJO = 'F';
   public static TELEFONO_MOVIL = 'M';
+  public static ARQUEO_INCREMENTO = 'I';
+  public static ARQUEO_RETIRO = 'R';
   // static CUENTA_BANCO: any;
 };
