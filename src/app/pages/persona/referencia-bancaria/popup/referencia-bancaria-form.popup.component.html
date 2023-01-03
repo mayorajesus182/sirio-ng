@@ -22,7 +22,7 @@
         formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="">
       </sirio-select-simple> -->
 
-      <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Producto'"  formControlName="tipoProducto" [required]="true"
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Producto'"  formControlName="tipoProducto" [required]="true"
         [elements]="tipoProductoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoProducto?.errors">
       </sirio-select-search>
 

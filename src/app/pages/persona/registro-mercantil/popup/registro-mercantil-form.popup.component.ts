@@ -3,6 +3,7 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 //import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { RegistroMercantil, RegistroMercantilService } from 'src/@sirio/domain/services/persona/registro-mercantil/registro-mercantil.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -15,6 +16,8 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 export class RegistroMercantilFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
+  todayValue: moment.Moment;
+
   registroMercantil: RegistroMercantil = {} as RegistroMercantil;
   esGobierno: boolean = false;
 
@@ -23,6 +26,8 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
     protected injector: Injector,
     dialogRef: MatDialogRef<RegistroMercantilFormPopupComponent>,
 
+    private calendarioService: CalendarioService,
+    
     private registroMercantilService: RegistroMercantilService,        
    // private tipoRelacionService: TipoRelacionService,
     private cdr: ChangeDetectorRef,
@@ -55,6 +60,12 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
       this.buildForm();
       this.loadingDataForm.next(false);
     }
+
+    this.calendarioService.today().subscribe(data => {
+      this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+    });
+
+    
   }
   
   

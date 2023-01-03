@@ -232,7 +232,7 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ventas mensuales' | translate: {default:
                                                 'Ventas mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}"
                                                 formControlName="ventas" [required]="">
 
 
@@ -246,7 +246,7 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ingresos mensuales' | translate: {default:
                                                 'Ingresos mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}"
                                                 formControlName="ingresos" [required]="">
 
                                             <mat-error *ngIf="f.ingresos.errors?.required">{{'error.required' | translate}}
@@ -259,7 +259,7 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Egresos mensuales' | translate: {default:
                                                 'Egresos mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}"
                                                 formControlName="egresos" [required]="">
 
                                             <mat-error *ngIf="f.egresos.errors?.required">{{'error.required' | translate}}
@@ -296,10 +296,10 @@
                                             <mat-label>{{'Año' | translate: {default:
                                                 'Año'} | translate }}
                                             </mat-label>
-                                            <!-- <input matInput class="text-center" type="number" autocomplete="off" name="anhoDeclaracion" [max]="todayValue.year" min="0" formControlName="anhoDeclaracion" required> -->
-                                            <input matInput autocomplete="off" type="number" maxlength="4" name="anhoDeclaracion" [max]="todayValue.year()"
-                                                [min]="todayValue.year()-3" class="text-center" formControlName="anhoDeclaracion" required>
-
+                                            
+                                            <input matInput maxlength="4" minlength="4" autocomplete="off" type="number" name="anhoDeclaracion" [max]="todayValue.year()"
+                                                [min]="todayValue.year()-3" class="text-center"  formControlName="anhoDeclaracion" required>
+                              
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.max">Debe ser menor o igual a {{todayValue.year()}}</mat-error>
 
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.min">Debe ser mayor o igual a {{todayValue.year()-3}}</mat-error>
@@ -316,7 +316,7 @@
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Monto' | translate: {default:
                                                 'Monto'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}"
                                                 formControlName="montoDeclarado" [required]="">
 
 
