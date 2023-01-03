@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="{{'action.updateBalances'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,8 +9,8 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{(isNew?'action.add':'action.edit')|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{('agency.form')|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.updateBalances' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
@@ -36,23 +36,23 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex="30">
-                                    <mat-label>{{'Agencia' | translate: {default: 'global.agency'} | translate }}</mat-label>
+                                    <mat-label>{{'agency.agency' | translate: {default: 'global.agency'} | translate }}</mat-label>
                                     <input matInput [value]="agenciaId + ' - ' +agencia" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="30" [label]="'passToVault.coin' | translate: {default: 'global.coin'} | translate"
+                                <sirio-select-search fxFlex="30" [label]="'agency.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="20">
-                                    <mat-label>{{'Saldo Final Anterior' | translate: {default: 'Saldo Final Anterior'} | translate }}
+                                    <mat-label>{{'agency.previousFinalBalance' | translate: {default: 'global.previousFinalBalance'} | translate }}
                                     </mat-label>
                                     <input matInput class="text-right" [value]="saldoAnterior | number: '1.2'" readonly>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="20" appearance="standart">
-                                    <mat-label>{{'Saldo Final' | translate: {default: 'Saldo Final'} | translate }} </mat-label>
+                                    <mat-label>{{'agency.finalBalance' | translate: {default: 'global.finalBalance'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
@@ -67,7 +67,7 @@
                         <div fxLayout="column">
                             <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
                                 <div fxLayout="column" fxFlex="10">
-                                    <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+                                    <h3>{{'global.cashBreakdown' | translate }}</h3>
                                 </div>
                                 <div fxLayout="column" fxFlex="auto">
                                     <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">

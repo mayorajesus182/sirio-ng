@@ -56,6 +56,20 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
+  recount(data:any) {   // arqueo
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/recount`;
+
+
+    console.log(data.element);
+    
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
+
+  consult(data:any) { // consultar arqueo
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/consult`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
+
   activateOrInactivate(data:any) {
     this.applyChangeStatus(this.atmService, data.element, data.element.nombre, this.cdr);
   }
