@@ -66,7 +66,7 @@
                 <input matInput [max]="100.0-porcentajeAccionario" min="0.01" maxlength="6"  autocomplete="off" name="monto"
                     formControlName="porcentaje" currencyMask [options]="{precision:2}">
                 <mat-error *ngIf="f.porcentaje.errors?.required">Es requerido</mat-error>
-                <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)>0">{{'Debe ser menor que '+ (100.0-porcentajeAccionario|number:'1.2-2') }}
+                <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)>0">{{'Debe ser menor que '+ (100.0-porcentajeAccionario|number:'1.2-2')+'%' }}
                 </mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)==0">Verificar la distribución del porcentaje, ya el 100% fue asignado</mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.min">Debe ser mayor que 0,01
