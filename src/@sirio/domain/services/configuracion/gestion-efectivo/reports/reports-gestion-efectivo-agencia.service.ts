@@ -31,6 +31,8 @@ export class ReporteGestionEfectivoAgenciaService {
     }
 
     taquillaOperativa(params: ReporteGestionEfectivoAgencia): Observable<any> {
+        console.log(  'PARAMS'+params.region   );
+        
         return this.apiService.config(this.apiConfig).pullFileByPost('/resumen/taquilla-operativa', params);
     } 
 

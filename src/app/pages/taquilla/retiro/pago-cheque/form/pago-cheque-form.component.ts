@@ -206,7 +206,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             }
 
         } else {
-
+            //desglose de montos con decimales
             if(event){          
                 this.f.montoCheque.setValue(this.f.monto.value)
             }
