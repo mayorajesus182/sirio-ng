@@ -17,15 +17,21 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="430" name="Relación de Empresa(s)">        
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Relación de Empresa(s)">        
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span style="white-space: break-spaces;">{{ row?.relacionEmpresa }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="750" name="Empresa(s)">        
+    <ngx-datatable-column [resizeable]="false" [width]="430" name="Empresa(s)">        
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span style="white-space: break-spaces;">{{ row?.empresa }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    
+    <ngx-datatable-column [resizeable]="false" [width]="550" name="Dirección">        
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span style="white-space: break-spaces;">{{ row?.direccion }}</span>
         </ng-template>
     </ngx-datatable-column>
 

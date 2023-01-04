@@ -24,8 +24,10 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   telefonoList:ReplaySubject<Telefono[]> = new ReplaySubject<Telefono[]>();
 
+  private principal: boolean = false;
 
   telefonos:string[]=[];
+ 
 
   constructor(
     injector: Injector,
@@ -38,14 +40,22 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
   }
 
   private loadList(){
-    this.telefonos=[]
+    this.telefonos=[]  
+
     this.telefonoService.allByPersonaId(this.persona).subscribe((data) => {
 
       this.telefonos= this.telefonos.concat(data.map(t=>t.numero));
-     console.log(this.telefonos);
+      console.log(this.telefonos);
             
       this.telefonoList.next(data.slice());
       this.propagar.emit(data.length);
+      this.cdr.detectChanges();
+
+      // debo conocer si tengo un telefono principal
+      this.principal = data.filter(d => d.principal == 1).length > 0;
+      
+      // console.log('Es principal',this.principal);
+
       this.cdr.detectChanges();
     });
   }
@@ -111,8 +121,9 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
     }    
     // this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,}:data,'40%').afterClosed().subscribe(event=>{
 
-    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos}:{data,telefonos:this.telefonos},'40%').afterClosed().subscribe(event=>{
-       
+    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos, principal: this.principal}:{data,telefonos:this.telefonos, principal: this.principal},'40%').afterClosed().subscribe(event=>{
+
+   
       console.log(event);
       
         if(event){

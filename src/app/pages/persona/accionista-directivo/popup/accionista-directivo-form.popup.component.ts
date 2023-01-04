@@ -23,6 +23,8 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   accionistaDirectivo: AccionistaDirectivo = {} as AccionistaDirectivo;
   pepAccionista: PepAccionista = {} as PepAccionista;
 
+  porcentajeAccionarios=[];
+
   public pepAccionistaForm: FormGroup;
 
   public tipoPepList = new BehaviorSubject<TipoPep[]>([]);
@@ -64,6 +66,11 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   }
 
   ngOnInit() {
+
+    this.porcentajeAccionarios = this.defaults.payload.porcentajeAccionarios;
+
+    // this.cdr.detectChanges();
+    // console.log('porcentaje Accionarios 2',this.porcentajeAccionarios);
 
     this.tipoPepService.actives().subscribe(data => {
 
