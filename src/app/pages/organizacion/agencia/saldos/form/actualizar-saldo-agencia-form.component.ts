@@ -67,11 +67,11 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
         this.monedas.next(data);
       });
 
-      this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.conoMonetarioService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
-      this.saldoAgenciaService.getSaldoByMonedaAndAgencia(this.preferencia.monedaConoActual, this.agenciaId).subscribe(saldo => {
+      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(saldo => {
         this.saldoAnterior = saldo;
       });
 
@@ -87,12 +87,12 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
     });
 
     this.f.moneda.valueChanges.subscribe(val => {
-      this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, val).subscribe(data => {
+      this.conoMonetarioService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, val).subscribe(data => {
         this.conos.next(data);
         this.cdr.detectChanges();
       });
 
-      this.saldoAgenciaService.getSaldoByMonedaAndAgencia(val, this.agenciaId).subscribe(saldo => {
+      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, val).subscribe(saldo => {
         this.saldoAnterior = saldo;
         this.cdr.detectChanges();
       });

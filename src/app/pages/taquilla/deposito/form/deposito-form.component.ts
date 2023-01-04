@@ -78,6 +78,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     queryResult(data: any) {
         // this.selected = 0;
         this.resetBusqueda();
+        this.resetVoucher();
+        
         if (data) {
             if (!data.id && !data.numper) {
                 this.loaded$.next(false);
@@ -106,6 +108,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.esEfectivo = true;
         this.esCheques = false;
         this.esMixto = false;
+        this.itemForm?this.itemForm.reset({}):'';
     }
 
     resetVoucher(){
@@ -164,6 +167,8 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.cantidadOtros = this.itemForm.controls.cantidadOtros ? this.itemForm.controls.cantidadOtros.value : 0;
                 this.updateDataFromValues(this.deposito, this.cuentaOperacion);
                 this.updateDataFromValues(this.deposito, this.voucherForm.value);
+                console.log("peurbebehehehje", this.deposito );
+                
                 this.saveOrUpdate(this.depositoService, this.deposito, 'El Depósito', false);
                 this.loadingDataForm.subscribe(status => {
                     if (!status) {

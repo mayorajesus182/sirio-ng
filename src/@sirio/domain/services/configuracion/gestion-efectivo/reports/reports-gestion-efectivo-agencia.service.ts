@@ -19,16 +19,20 @@ export class ReporteGestionEfectivoAgenciaService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_REPORT, prefix: '/gestion-efectivo/agencia'};
+        this.apiConfig = {name: ApiConfConstants.API_REPORT, prefix: '/agencia'};
     }
 
     agenciaOperativa(params: ReporteGestionEfectivoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.region}/resumen/agencia-operativa`);
     }
 
+    // cupoAgencia(params: ReporteGestionEfectivoAgencia): Observable<any> {
+    //     return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.agencia}/${params.region}/resumen/cupo-agencia`);
+    // }
+
     cupoAgencia(params: ReporteGestionEfectivoAgencia): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByGet(`/${params.agencia}/${params.region}/resumen/cupo-agencia`);
-    }
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cupo-agencia', params);
+    } 
 
     taquillaOperativa(params: ReporteGestionEfectivoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByPost('/resumen/taquilla-operativa', params);

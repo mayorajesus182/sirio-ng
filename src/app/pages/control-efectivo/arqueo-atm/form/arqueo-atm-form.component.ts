@@ -58,6 +58,8 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       this.cajetinesList = data.detalles;
       this.cajetines.next(this.cajetinesList);
       this.arqueoAtm = data
+      this.arqueoAtm.esRetiroAtm = false;
+      this.arqueoAtm.esIncrementoAtm = false;
     });
   }
 
@@ -114,19 +116,31 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     row.faltante = 0;
     row.actual = 0;
     this.totalesIncremento = {};
+    this.arqueoAtm.montoIncrementoTotal = 0;
+    this.arqueoAtm.montoRetiroTotal = 0;
 
     this.cajetinesList.forEach(d => {
       this.totalesIncremento[d.denominacion] = (this.totalesIncremento[d.denominacion] | 0) + d.incremento;
+      this.arqueoAtm.montoIncrementoTotal = this.arqueoAtm.montoIncrementoTotal + (d.denominacion * d.incremento);
+      this.arqueoAtm.montoRetiroTotal = this.arqueoAtm.montoRetiroTotal + (d.denominacion * d.retiro);
     });
 
-    if (row.anterior < row.dispensado + row.rechazado + row.fisico) {
-      this.message = row.descripcion + ': Las Cantidades Dispensada+Rechazada+Físico no pueden ser mayores al Contador Anterior';
-    } else if (row.anterior == 0 && row.fisico > 0) {
-      this.message = row.descripcion + ': Sin Contador Anterior no puede existir una Físico';
-    } else if (row.fisico > 0 && row.retiro > row.fisico) {
-      this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
-    } else if ((row.fisico == 0 || !row.fisico) && row.retiro > row.anterior - row.dispensado + row.rechazado) {
-      this.message = row.descripcion + ': La Cantidad a Retirar no puede superar a la Cantidad Disponible en el ATM';
+    // if (row.anterior < row.dispensado + row.rechazado + row.fisico) {
+    //   this.message = row.descripcion + ': Las Cantidades Dispensada+Rechazada+Físico no pueden ser mayores al Contador Anterior';
+    // } else 
+
+    if (row.anterior == 0 && (row.fisico + row.dispensado + row.rechazado) > 0) {
+      this.message = row.descripcion + ': Solo puede Registrar Incrementos';
+    } else if (row.dispensado > row.anterior) {
+      this.message = row.descripcion + ': La Cantidad Dispensada no puede superar al Contador Anterior';
+    } else if (row.rechazado > row.anterior) {
+      this.message = row.descripcion + ': La Cantidad Rechazada no puede superar al Contador Anterior';
+    } else if (row.fisico > row.anterior) {
+      this.message = row.descripcion + ': La Cantidad Física no puede superar al Contador Anterior Menos el Dispensado';
+    } else if ((row.rechazado + row.fisico) == 0 && (row.retiro > row.anterior-row.dispensado)) {
+      this.message = row.descripcion + ': Cantidad a Retirar no puede Superar al Contador Anterior';
+    } else if ((row.rechazado + row.fisico) > 0 && (row.retiro > (row.rechazado + row.fisico))) {
+      this.message = row.descripcion + ': Cantidad a Retirar no puede Superar al total de Rechazado+Físico';
     } else if (row.fisico > row.anterior) {
       this.message = row.descripcion + ': La Cantidad Física no puede ser superior al Contador Anterior';
     } else {
@@ -136,11 +150,17 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       if ((row.fisico == undefined && row.rechazado == undefined) || (row.fisico == 0 && row.rechazado == 0)) {
         row.sobrante = Math.abs(((row.anterior - row.dispensado)) < 0 ? ((row.anterior - row.dispensado)) : 0);
         row.faltante = Math.abs(((row.anterior - row.dispensado)) > 0 ? ((row.anterior - row.dispensado)) : 0);
-        row.actual = row.anterior - row.dispensado + row.incremento;
+        row.actual = row.anterior - row.dispensado + row.incremento - row.retiro;
       } else {
-        row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) < 0 ? ((row.anterior - row.dispensado) - row.fisico - row.rechazado) : 0);
-        row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) > 0 ? ((row.anterior - row.dispensado) - row.fisico - row.rechazado) : 0);
+        row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) < 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
+        row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) > 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
         row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
+      }
+
+      if (row.sobrante > row.anterior) {
+        this.message = row.descripcion + ': La Cantidad Sobrante no puede ser superior al Contador Anterior';
+      } else if (row.faltante > row.anterior) {
+        this.message = row.descripcion + ': La Cantidad Faltante no puede ser superior al Contador Anterior';
       }
 
       // Aca se recorren los cajetines
@@ -193,17 +213,39 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
   save() {
     this.arqueoAtm.atm = this.atmId;
-    this.arqueoAtm.tipoArqueo = TipoArqueoConstants.CHEQUEO;
-    // this.saveOrUpdate(this.arqueoAtmService, this.arqueoAtm, 'El Arqueo', this.isNew);
-    // this.back();
-    this.swalService.show('¿Desea Realizar el Arqueo del ATM?', this.atmId + ' - ' + this.atm).then((resp) => {
-      if (!resp.dismiss) {
-        this.arqueoAtmService.save(this.arqueoAtm).subscribe(data => {
-          this.successResponse('El Arqueo', 'Realizado', false);
-          return data;
-        }, error => this.errorResponse(true));
-      }
-    });
+    this.arqueoAtm.tipoArqueo = this.arqueoAtm.esIncrementoAtm ? TipoArqueoConstants.INCREMENTO : (this.arqueoAtm.esRetiroAtm ? TipoArqueoConstants.RETIRO : TipoArqueoConstants.ARQUEO);
+    let message = '';
+
+    if (this.arqueoAtm.esIncrementoAtm && this.arqueoAtm.montoIncrementoTotal == 0) {
+      message = 'Debe Indicar la Cantidad a Incrementar en algúno de los Cajetines del ATM'
+    } else if (this.arqueoAtm.esRetiroAtm && this.arqueoAtm.montoRetiroTotal == 0) {
+      message = 'Debe Indicar la Cantidad a Retirar en algúno de los Cajetines del ATM'
+    }
+
+
+    if (message != '') {
+
+      this.swalService.show(message, '', { showCancelButton: false }).then((resp) => {
+        if (!resp.dismiss) { }
+      });
+
+    } else {
+
+      this.swalService.show('¿Desea Realizar el Arqueo del ATM?', this.atmId + ' - ' + this.atm).then((resp) => {
+        if (!resp.dismiss) {
+          this.arqueoAtmService.save(this.arqueoAtm).subscribe(data => {
+            this.successResponse('El Arqueo', 'Realizado', false);
+            return data;
+          }, error => this.errorResponse(true));
+        }
+      });
+    }
+
+
+
+
+
+
   }
 
 }
