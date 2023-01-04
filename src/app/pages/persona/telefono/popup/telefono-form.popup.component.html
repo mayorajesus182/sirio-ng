@@ -16,17 +16,10 @@
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="evaluarEsPrincipal()">  
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >  
 
-      <div fxFlex.gt-sm="30" class="text-right margin-top-md">
- 
-        <mat-slide-toggle [color]="'primary'" formControlName="principal" name="principal">
-          {{'¿Es Principal?' }}
-        </mat-slide-toggle>
 
-      </div>
-
-    </div>
+    </div> -->
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -59,6 +52,15 @@
         <!-- {{f.numero.errors | json}} -->
 
       </mat-form-field>
+
+
+      <div fxFlex.gt-sm="20" class="text-right margin-top-md" *ngIf="evaluarEsPrincipal()">
+ 
+        <mat-slide-toggle [color]="'primary'" formControlName="principal" name="principal">
+          {{'¿Es Principal?' }}
+        </mat-slide-toggle>
+
+      </div>
 
     </div>
 

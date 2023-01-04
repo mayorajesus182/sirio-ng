@@ -48,8 +48,6 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
       console.log(this.telefonos);
             
       this.telefonoList.next(data.slice());
-      this.propagar.emit(data.length);
-      this.cdr.detectChanges();
 
       // debo conocer si tengo un telefono principal
       this.principal = data.filter(d => d.principal == 1).length > 0;
