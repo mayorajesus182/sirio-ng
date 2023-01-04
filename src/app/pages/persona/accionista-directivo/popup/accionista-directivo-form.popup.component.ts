@@ -23,7 +23,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   accionistaDirectivo: AccionistaDirectivo = {} as AccionistaDirectivo;
   pepAccionista: PepAccionista = {} as PepAccionista;
 
-  porcentajeAccionarios=[];
+  porcentajeAccionario:number=0;
 
   public pepAccionistaForm: FormGroup;
 
@@ -67,7 +67,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   ngOnInit() {
 
-    this.porcentajeAccionarios = this.defaults.payload.porcentajeAccionarios;
+    this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
 
     // this.cdr.detectChanges();
     // console.log('porcentaje Accionarios 2',this.porcentajeAccionarios);

@@ -23,7 +23,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
     @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
     accionistaDirectivoList:ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
 
-    porcentajeAccionarios:any[]=[];
+    porcentajeAccionario:number=0;
 
     constructor(
       injector: Injector,
@@ -37,12 +37,12 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
 
     private loadList(){
 
-      this.porcentajeAccionarios=[] 
+      this.porcentajeAccionario=0
 
       this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
 
-        this.porcentajeAccionarios= this.porcentajeAccionarios.concat(data.map(t => t.porcentaje ));
-        console.log(this.porcentajeAccionarios);
+        this.porcentajeAccionario= data.map(t => t.porcentaje |  0 ).reduce((a,b)=>a+b);
+        console.log(this.porcentajeAccionario);
 
               
         this.accionistaDirectivoList.next(data.slice());
@@ -110,7 +110,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
       if(data){
         data.persona=this.persona;
       }    
-      this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona, porcentajeAccionarios: this.porcentajeAccionarios}:data,'70%').afterClosed().subscribe(event=>{
+      this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona, porcentajeAccionario: this.porcentajeAccionario}:data,'70%').afterClosed().subscribe(event=>{
         console.log(event);
         
           if(event){
