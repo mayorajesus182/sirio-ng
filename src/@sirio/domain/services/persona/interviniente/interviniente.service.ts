@@ -6,16 +6,11 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface Interviniente {
-    id: string;
-   
-    persona: String;
-
-    tipoParticipacion: String;
-
-    tipoFirma: String
-    
-    tipoFirmante?: String
-
+    persona: number;   
+    cuenta: number;
+    tipoParticipacion: string;
+    tipoFirma: string    
+    tipoFirmante?: string
 }
 
 @Injectable({
@@ -30,7 +25,7 @@ export class IntervinienteService {
         this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/interviniente'};
     }
 
-    allByPersonaId(id:number): Observable<Interviniente[]> {
+    allByCuentaId(id:number): Observable<Interviniente[]> {
         return this.apiService.config(this.apiConfig).get(`/${id}/all`);
     }
 
@@ -53,7 +48,7 @@ export class IntervinienteService {
     }
 
     update(data: Interviniente): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
+        return this.apiService.config(this.apiConfig).put(`/${data.cuenta}/update`, data)
             .pipe(map(res => data));
     }
 

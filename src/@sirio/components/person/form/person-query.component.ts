@@ -4,6 +4,7 @@ import {
 } from "@angular/core";
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { Router } from "@angular/router";
 import { BehaviorSubject, Subject } from 'rxjs';
 import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
 import { fadeInUpAnimation } from "src/@sirio/animations/fade-in-up.animation";
@@ -29,9 +30,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
-    @Input() title: string='Información del Cliente';
+    @Input() title: string = 'Información del Cliente';
     @Input() taquilla: boolean = false;
-    @Input() entity:  'interviniente'|'persona'|'cuenta'='persona';
+    @Input() entity: 'interviniente' | 'persona' | 'cuenta' = 'persona';
     @Input() disabled: boolean = false;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     @Output('update') update: EventEmitter<any> = new EventEmitter<any>();
@@ -61,6 +62,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         private tipoDocumentoService: TipoDocumentoService,
         private cuentaBancariaService: CuentaBancariaService,
         private personaService: PersonaService,
+        private router: Router,
         private cdref: ChangeDetectorRef) {
 
     }
@@ -125,15 +127,15 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl('')
         });
 
-        this.searchForm.markAllAsTouched();
+        // this.searchForm.markAllAsTouched();
 
         this.disableBtn.next(true);
 
 
-        this.loading.subscribe(val=>{
-            console.log('loading ', val);
-            
-            this.finding=val;
+        this.loading.subscribe(val => {
+            // console.log('loading ', val);
+
+            this.finding = val;
         })
 
 
@@ -144,7 +146,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         return this.searchForm ? this.searchForm.controls : {};
     }
 
-    get isElemNew(){
+    get isElemNew() {
         return this.isNew;
     }
 
@@ -182,9 +184,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.disable.next(true);
                 this.disableBtn.next(false);
                 this.cdref.detectChanges();
-                
+
             }, err => {
-                
+
                 this.persona = {} as Persona;
                 this.isNew = true;
                 this.loading.next(false);
@@ -195,7 +197,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.search.identificacion.setErrors({ notexists: true });
                 this.search.nombre.setValue(' ');
                 this.search.cuenta.setValue('');
-                
+
                 this.disableBtn.next(false);
                 this.cdref.detectChanges();
             })
@@ -221,7 +223,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         // this.busqueda = true;
 
         this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
-          
+
             this.search.tipoDocumento.setValue(data.tipoDocumento);
             this.search.identificacion.setValue(data.identificacion);
             this.search.nombre.setValue(data.nombre);
@@ -230,7 +232,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
             this.disable.next(true);
             this.disableBtn.next(false);
-            
+
             this.cdref.detectChanges();
             this.result.emit(data);
 
@@ -248,9 +250,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    public onChangeFilter(event:any) {
+    public onChangeFilter(event: any) {
         // console.log('%% on change filter %%', event);
-        
+
         // this.persona = {} as Persona;
         // this.isNew = true;
         this.disableBtn.next(true);
@@ -262,16 +264,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.disable.next(true);
         this.create.emit(this.searchForm.value);
     }
- 
+
     pushOn() {
         // this.disable.next(true);
         this.push.emit(this.persona);
         this.resetAll();
     }
-    
-    
+
+
     editOn() {
-        
+
         this.disable.next(true);
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
         this.update.emit(this.persona);
@@ -284,8 +286,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.isNew = false;
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
+        this.disableBtn.next(true);
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.cdref.detectChanges();
+
         this.result.emit({});
     }
 

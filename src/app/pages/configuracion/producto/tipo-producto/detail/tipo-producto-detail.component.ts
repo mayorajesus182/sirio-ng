@@ -18,7 +18,6 @@ export class TipoProductoDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoProductoService: TipoProductoService) {
     super(undefined, injector);

@@ -49,7 +49,6 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
         private workflowService: WorkflowService,
         private rolService: RolService,
         private remesaService: RemesaService,

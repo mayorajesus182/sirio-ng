@@ -47,6 +47,6 @@ export class ListComponent implements AfterViewInit {
   }
 
   public backHome() {
-    this.router.navigate(['/sirio/welcome']);;
+    this.router.navigate(['/sirio/welcome']);
 }
 }

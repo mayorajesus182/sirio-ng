@@ -18,7 +18,6 @@ export class RamoDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private ramoService: RamoService) {
     super(undefined, injector);

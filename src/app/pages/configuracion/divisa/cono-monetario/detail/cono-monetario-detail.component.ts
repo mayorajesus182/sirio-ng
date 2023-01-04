@@ -18,7 +18,6 @@ export class ConoMonetarioDetailComponent extends FormBaseComponent implements O
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private conomonetarioService: ConoMonetarioService) {
     super(undefined, injector);

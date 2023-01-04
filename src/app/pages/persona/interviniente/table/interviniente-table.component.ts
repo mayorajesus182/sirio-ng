@@ -20,10 +20,10 @@ import { IntervinienteFormPopupComponent } from '../popup/interviniente-form.pop
 export class IntervinienteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  @Input() persona=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  intervinienteList:ReplaySubject<Interviniente[]> = new ReplaySubject<Interviniente[]>();
-  
+  @Input() cuenta = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  intervinienteList: ReplaySubject<Interviniente[]> = new ReplaySubject<Interviniente[]>();
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -35,9 +35,9 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
     super(undefined, injector);
   }
 
-  private loadList(){
-    this.intervinienteService.allByPersonaId(this.persona).subscribe((data) => {
-            
+  private loadList() {
+    this.intervinienteService.allByCuentaId(this.cuenta).subscribe((data) => {
+
       this.intervinienteList.next(data.slice());
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
@@ -46,17 +46,17 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   ngOnInit() {
 
-  
 
-  
+
+
     console.log('interviniente table');
-    
-    if(this.persona){
+
+    if (this.cuenta) {
       console.log('buscando interviniente en el servidor dado el id persona');
       this.loadList();
 
-      this.onRefresh.subscribe(val=>{
-        if(val){
+      this.onRefresh.subscribe(val => {
+        if (val) {
 
           this.loadList();
         }
@@ -76,35 +76,35 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   delete(row) {
     this.swalService.show('¿Desea Eliminar El Interviniente?', undefined,
-    { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
+      { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando interviniente',row.id);
-          this.intervinienteService.delete(row.id).subscribe(val=>{
-            if(val){
+          console.log('buscando interviniente', row.id);
+          this.intervinienteService.delete(row.id).subscribe(val => {
+            if (val) {
               this.loadList();
             }
           })
           this.cdr.detectChanges();
         }
-    });
-}
+      });
+  }
 
   view(data: any) {
 
 
   }
 
-  popup(data?:Interviniente) {
+  popup(data?: Interviniente) {
     console.log(data);
-    if(data){
-      data.persona=this.persona;
-    }    
-    this.showFormPopup(IntervinienteFormPopupComponent, !data?{persona:this.persona}:data,'70%').afterClosed().subscribe(event=>{
-      console.log(event);
-      
-        if(event){
-            this.onRefresh.next(true);
-        }
-    }); 
-}
+    if (data) {
+      data.cuenta = this.cuenta;
+    }
+    this.showFormPopup(IntervinienteFormPopupComponent, !data ? { cuenta: this.cuenta } : data, '70%').afterClosed().subscribe(event => {
+      // console.log(event);
+
+      if (event) {
+        this.onRefresh.next(true);
+      }
+    });
+  }
 }

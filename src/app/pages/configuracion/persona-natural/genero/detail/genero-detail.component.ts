@@ -18,7 +18,6 @@ export class GeneroDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private generoService: GeneroService) {
     super(undefined, injector);

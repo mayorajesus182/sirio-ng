@@ -31,7 +31,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
-        protected router: Router,
         private saldoTaquillaService: SaldoTaquillaService,
         private preferenciaService: PreferenciaService,
         private taquillaService: TaquillaService,

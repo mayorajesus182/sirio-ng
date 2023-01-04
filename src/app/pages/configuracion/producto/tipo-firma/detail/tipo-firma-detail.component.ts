@@ -18,7 +18,6 @@ export class TipoFirmaDetailComponent extends FormBaseComponent implements OnIni
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoFirmaService: TipoFirmaService) {
     super(undefined, injector);

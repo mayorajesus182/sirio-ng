@@ -81,7 +81,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
-        protected router: Router,
         private personaNaturalService: PersonaNaturalService,
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,

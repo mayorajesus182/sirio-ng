@@ -18,7 +18,6 @@ export class TipoPersonaDetailComponent extends FormBaseComponent implements OnI
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoPersonaService: TipoPersonaService) {
     super(undefined, injector);

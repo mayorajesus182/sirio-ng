@@ -18,7 +18,6 @@ export class RegionDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private regionService: RegionService) {
     super(undefined, injector);

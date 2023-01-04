@@ -18,7 +18,6 @@ export class ViajeDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private viajeService: ViajeService) {
     super(undefined, injector);
