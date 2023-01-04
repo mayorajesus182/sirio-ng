@@ -34,7 +34,6 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        protected router: Router,
         private rolService: RolService,
         private cajaTaquillaService: CajaTaquillaService,
         private preferenciaService: PreferenciaService,

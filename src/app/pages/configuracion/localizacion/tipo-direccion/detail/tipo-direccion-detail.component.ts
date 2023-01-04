@@ -18,7 +18,6 @@ export class TipoDireccionDetailComponent extends FormBaseComponent implements O
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoDireccionService: TipoDireccionService) {
     super(undefined, injector);

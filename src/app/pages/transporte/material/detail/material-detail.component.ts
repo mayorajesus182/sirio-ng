@@ -18,7 +18,6 @@ export class MaterialDetailComponent extends FormBaseComponent implements OnInit
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private materialService: MaterialService) {
     super(undefined, injector);

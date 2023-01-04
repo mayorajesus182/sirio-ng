@@ -45,6 +45,7 @@ import { CurrencyMaskModule, CURRENCY_MASK_CONFIG } from 'ng2-currency-mask';
 import { NgxMaskModule } from 'ngx-mask';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { AutofocusDirective } from './input/autofocus.directive';
 import { NumAccountValidator } from './input/cuenta-validation.directive';
 import { EmailValidate } from './input/email-validation.directive';
 import { MinorAgeValidator } from './input/minAge-validation.directive';
@@ -124,6 +125,7 @@ export const DATE_FORMATS_CUSTOM = {
 };
 
 const toInclude = [
+  AutofocusDirective,
   NumAccountValidator,
   RifValidator,
   MinorAgeValidator,

@@ -47,7 +47,6 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private router: Router,
         private workflowService: WorkflowService,
         private rolService: RolService,
         private solicitudRemesaService: RemesaService,

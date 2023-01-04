@@ -25,5 +25,7 @@ export class GlobalConstants {
   public static CUENTA_AHORRO = '01';
   public static CUENTA_CORRIENTE = '02';
   public static CUENTA_BANCO = 'J';
+  public static TELEFONO_FIJO = 'F';
+  public static TELEFONO_MOVIL = 'M';
   // static CUENTA_BANCO: any;
 };

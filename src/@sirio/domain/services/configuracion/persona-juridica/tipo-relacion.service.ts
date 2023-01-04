@@ -29,6 +29,10 @@ export class TipoRelacionService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesForNatural(): Observable<TipoRelacion[]> {
+        return this.apiService.config(this.apiConfig).get('/fornatural/actives');
+    }
+
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }

@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { ReferenciaBancaria } from 'src/@sirio/domain/services/persona/referencia-bancaria/referencia-bancaria.service';
 import { ReferenciaPersonal, ReferenciaPersonalService } from 'src/@sirio/domain/services/persona/referencia-personal/referencia-personal.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { ReferenciaPersonalFormPopupComponent } from '../popup/referencia-personal-form.popup.component';
@@ -24,6 +23,9 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
+
+  referencias:string[]=[];
+
   referenciaPersonalList:ReplaySubject<ReferenciaPersonal[]> = new ReplaySubject<ReferenciaPersonal[]>();
 
   constructor(
@@ -37,15 +39,33 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   }
   
   private loadList(){
+    this.referencias=[]
     this.referenciaPersonalService.allByPersonaId(this.persona).subscribe((data) => {
            
       console.log(data);
       this.referenciaPersonalList.next(data.slice());
+
+      this.referencias= this.referencias.concat(data.map(t=>t.identificacion));
+      console.log(this.referencias);
       
-      this.propagar.emit(data.length);
+     
       this.cdr.detectChanges();
     });
   }
+
+  // private loadList(){
+  //   this.telefonos=[]
+  //   this.telefonoService.allByPersonaId(this.persona).subscribe((data) => {
+
+  //     this.telefonos= this.telefonos.concat(data.map(t=>t.numero));
+  //    console.log(this.telefonos);
+            
+  //     this.telefonoList.next(data.slice());
+  //     this.propagar.emit(data.length);
+  //     this.cdr.detectChanges();
+  //   });
+  // }
+
 
   ngOnInit() {
     console.log('referencia personal table');
@@ -64,7 +84,7 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   }
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar Referencia Personal de: ?', undefined,
+    this.swalService.show('¿Desea Eliminar Referencia Personal de?', undefined,
     { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
           // console.log('buscando telefono',row.id);
@@ -89,12 +109,22 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona}:data,'40%').afterClosed().subscribe(event=>{
+    // this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona}:data,'40%').afterClosed().subscribe(event=>{
             
+    //     if(event){
+    //         this.onRefresh.next(true);
+    //     }
+    // }); 
+
+    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:{data,referencias:this.referencias},'40%').afterClosed().subscribe(event=>{
+       
+      console.log(event);
+      
         if(event){
             this.onRefresh.next(true);
         }
-    }); 
+    });
+
 }
 
 

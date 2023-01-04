@@ -12,6 +12,7 @@ import { MotivoDevolucion, MotivoDevolucionService } from 'src/@sirio/domain/ser
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
+import { ChequeService } from 'src/@sirio/domain/services/taquilla/cheque.service';
 import { Cheque } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -47,6 +48,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         injector: Injector,
         private fb: FormBuilder,
         private cuentaBancariaService: CuentaBancariaService,
+        private chequeService: ChequeService,
         private calendarioService: CalendarioService,
         private sessionService: SessionService,
         private motivoDevolucionService: MotivoDevolucionService,
@@ -134,7 +136,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             serial: new FormControl(this.cheque.serial, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             numeroCuentaCheque: new FormControl(this.cheque.numeroCuentaCheque, [Validators.required]),
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(this.cheque.montoCheque),
+            montoCheque: new FormControl(this.cheque.montoCheque? '': ''),
             //  ? 0.00 : ''
             // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
@@ -152,7 +154,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.cf.numeroCuentaCheque.valueChanges.subscribe(val => {
             if (val) {
                 if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
-                    this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true });
+                    // this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true });
+                    this.cf.serial.setErrors({ uniqueSerial: true });
                 }
             }
         });
@@ -191,7 +194,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
         this.chequeForm.reset({});
-        // this.cf.montoCheque.setValue(0.00);
+        this.cf.montoCheque.setValue(0.00);
         this.refresTotalCheque();
         this.cdr.detectChanges();
     }
@@ -287,7 +290,24 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         if (!serial || !numeroCuentaCheque) {
             return true;
         }
-        return this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
+        var validate = this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
+
+        if (validate) {
+            this.chequeService.exists(serial, numeroCuentaCheque).subscribe(data => {
+                if (data.exists) {
+                    this.cf.serial.setErrors({
+                        existsSerial: true
+                    });
+
+                } else {
+                    this.cf.serial.setErrors(null);
+                }
+
+                validate = !data.exists;
+            });
+
+        }
+        return validate;
     }
 
     cargaDatos() {
@@ -354,13 +374,14 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
     reset() {
         this.itemForm.reset({});
+        this.chequeForm.reset({});
         this.cargaDatos();
         this.f.chequePropio.setValue(0.00);
         this.f.chequeOtros.setValue(0.00);
         this.f.monto.setValue(0.00);
+        this.cf.montoCheque.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
-        // this.cf.montoCheque.setValue(0.00);
     }
 }
 

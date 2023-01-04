@@ -1,4 +1,3 @@
-<!-- Referencia Bancaria -->
 <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
         <button color="default" (click)="popup()" mat-button class="margin-bottom-sm">
@@ -8,75 +7,49 @@
     </div>
 </div>
 
+<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.standard"
+[messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
+[sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="referenciaPersonalList | async" rowHeight="auto">
 
-<ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="referenciaPersonalList| async">
-
-    <ngx-datatable-column [flexGrow]="0.5" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>#</span>
-        </ng-template>
+    <ngx-datatable-column  [resizeable]="false" [width]="100"  name="#">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <div class="text-center">{{ rowIndex+1 }}</div>
+            <div class="text-center"> {{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>Nombre y Apellido </span>
-        </ng-template>
+    <ngx-datatable-column [resizeable]="false" [width]="580" name="Nombre y Apellido">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="text-left">{{ row?.nombre }}</div>
+            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>Número Documento</span>
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-            <div class="text-center" [innerHTML]="row.identificacion"></div>
-        </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
-        <ng-template ngx-datatable-header-template>
-            <span>Télefonos</span>
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-          <div class="text-center">{{row.telefonos}}</div>  
-        </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column name="" [flexGrow]="0.5">
-
-        <ng-template ngx-datatable-header-template>
-            <div class="text-center">{{'Modificar'| translate}}</div>
-        </ng-template>
-        
+    <ngx-datatable-column [resizeable]="false" [width]="300" name="Número Documento">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
-                <mat-icon>edit</mat-icon>
-            </button> 
-            <!-- <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" [disabled]="" (click)="delete(row,$event)" matTooltip="Actualizar">
-                <mat-icon>trash</mat-icon>
-            </button> -->
+            <span style="white-space: break-spaces;">{{ row?.identificacion }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <!-- Delette -->
-
-    <ngx-datatable-column name="" [flexGrow]="1">
+    <ngx-datatable-column [resizeable]="false" [width]="300">
         <ng-template ngx-datatable-header-template>
-            <div class="text-center">{{'action.delete'| translate}}</div>
+            <span>Teléfonos</span>
         </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template >
+            <div class="text-center">{{row.telefonos | imask:{mask: '(0000) 000.00.00'} }}</div>
+        </ng-template>
+    </ngx-datatable-column>
+    
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones" >        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
-                (click)="delete(row)" matTooltip="Eliminar">
-                <mat-icon>delete</mat-icon>
-            </button>
+            <div class="text-center">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
+                    <mat-icon>edit</mat-icon>
+                </button> &nbsp;
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                    (click)="delete(row)" matTooltip="Eliminar">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
         </ng-template>
     </ngx-datatable-column>
 
 </ngx-datatable>
-<!-- /Referencia Bancaria -->

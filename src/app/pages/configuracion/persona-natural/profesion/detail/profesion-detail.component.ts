@@ -18,7 +18,6 @@ export class ProfesionDetailComponent extends FormBaseComponent implements OnIni
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private profesionService: ProfesionService) {
     super(undefined, injector);

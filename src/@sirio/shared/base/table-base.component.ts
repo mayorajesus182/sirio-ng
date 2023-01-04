@@ -1,7 +1,7 @@
 
 
 import { Location } from "@angular/common";
-import { ChangeDetectorRef, Component, ElementRef, Injector, QueryList, ViewChild, ViewChildren } from "@angular/core";
+import { ChangeDetectorRef, Component, Injector, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
 import { MatSort } from "@angular/material/sort";
@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
 import { ColumnMode } from "@swimlane/ngx-datatable";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Spinner } from 'ngx-spinner/lib/ngx-spinner.enum';
-import { BehaviorSubject, iif, merge } from "rxjs";
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { BehaviorSubject, merge } from "rxjs";
+import { tap } from 'rxjs/operators';
 import { ApiConfConstants } from "src/@sirio/constants";
 import { DatasourceService } from "src/@sirio/services/datasource.service";
 import { NavigationService } from "src/@sirio/services/navigation.service";
@@ -135,8 +135,8 @@ export class TableBaseComponent {
         this.dataSource.paramsOpts = paramsOpts;
         this.dataSource.loadData('', nameColumnSort, 'asc', 0, 15);
 
-        this.filter.subscribe(text=>{
-            if(text){
+        this.filter.subscribe(text => {
+            if (text) {
                 this.searchTerm = text;
                 this.refreshElementList();
             }
@@ -148,14 +148,14 @@ export class TableBaseComponent {
 
             // service.searchTerm.asObservable().pipe(
             //     debounceTime(150)).subscribe(term => {
-                    
+
             //         this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
             //         this.paginators.first.pageIndex = 0;
-                    
+
 
             //         this.searchTerm = term;
-                    // this.refreshElementList();
-                // })
+            // this.refreshElementList();
+            // })
 
         } else {
 
@@ -168,8 +168,8 @@ export class TableBaseComponent {
             //         this.paginators.first.pageIndex = 0;
             //         // console.log('term ' + term);
             //         console.log('TERM 2', term);
-                    // this.searchTerm = term;
-                    // this.refreshElementList();
+            // this.searchTerm = term;
+            // this.refreshElementList();
             //     })
             // ).subscribe();
         }
@@ -253,6 +253,11 @@ export class TableBaseComponent {
 
                     this.spinner.hide(componentNameLoading || 'componentLoading');
                 }
+                if (this.paginators.first) {
+
+                    this.paginators.first._intl = getPaginatorIntl();
+
+                }
             });
         }
 
@@ -285,7 +290,7 @@ export class TableBaseComponent {
 
         this.dialogRef = this.dialog.open(popupComponent, {
             panelClass: 'dialog-frame',
-            position: {top: '3%'} ,
+            position: { top: '3%' },
             width: withDialog,
             disableClose: true,
             data: data_aux
@@ -426,11 +431,26 @@ export class TableBaseComponent {
 export function getPaginatorIntl() {
     const paginatorIntl = new MatPaginatorIntl();
 
-    paginatorIntl.itemsPerPageLabel = 'Elementos por pag.:';
+    paginatorIntl.itemsPerPageLabel = 'Por pag.:';
     paginatorIntl.nextPageLabel = 'Pag. siguiente';
     paginatorIntl.previousPageLabel = 'Pag. anterior';
     paginatorIntl.lastPageLabel = 'Última pag.';
     paginatorIntl.firstPageLabel = 'Primera pag.';
+
+    paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number): string => {
+        if (length === 0 || pageSize === 0) {
+            return `0 / ${length}`;
+        }
+
+        length = Math.max(length, 0);
+
+        const startIndex: number = page * pageSize;
+        const endIndex: number = startIndex < length
+            ? Math.min(startIndex + pageSize, length)
+            : startIndex + pageSize;
+
+        return `${startIndex + 1} - ${endIndex} / ${length}`;
+    };
 
     return paginatorIntl;
 }

@@ -22,25 +22,25 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex.gt-xs="40">
-                                    <mat-label>{{'Unidad Emisora' | translate: {default: 'Unidad Emisora'} | translate }}
+                                    <mat-label>{{'remittancesRequested.sendingUnit' | translate: {default: 'global.sendingUnit'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.emisor + ' - ' + remesa.nombreEmisor" readonly>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="20">
-                                    <mat-label>{{'Fecha de la Solicitud' | translate: {default: 'Fecha de la Solicitud'} | translate }}
+                                    <mat-label>{{'remittancesRequested.requestDate' | translate: {default: 'global.requestDate'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="20">
-                                    <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
+                                    <mat-label>{{'remittancesRequested.coin' | translate: {default: 'global.coin'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.nombreMoneda" readonly>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex.gt-xs="20">
-                                    <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
+                                    <mat-label>{{'remittancesRequested.requestedAmount' | translate: {default: 'global.requestedAmount'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">
                                 </mat-form-field>
@@ -49,7 +49,7 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esTransportista">
                                 <mat-form-field fxFlex.gt-xs="30">
-                                    <mat-label>{{'Cajas o Bolsas Utilizadas' | translate: {default: 'Cajas o Bolsas Utilizadas'} |
+                                    <mat-label>{{'remittancesRequested.boxesOrBagsUsed' | translate: {default: 'global.boxesOrBagsUsed'} |
                                         translate }}
                                     </mat-label>
                                     <input matInput type="number" autocomplete="off" minlength="1" maxlength="200" name="cajasBolsas"
@@ -57,7 +57,7 @@
                                     <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="70" [label]="'Transportista' | translate: {default: 'Transportista'} | translate"
+                                <sirio-select-search fxFlex="70" [label]="'remittancesRequested.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
                                     formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.transportista?.errors">
                                 </sirio-select-search>
@@ -65,14 +65,14 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search fxFlex="100"
-                                    [label]="'Responsables del Transporte' | translate: {default: 'Responsables del Transporte'} | translate"
+                                    [label]="'remittancesRequested.transportReponsibles' | translate: {default: 'global.transportReponsibles'} | translate"
                                     formControlName="responsables" [required]="true" [elements]="empleados.asObservable()" [attributeName]="'nombre'"
                                     [multiple]="true" [errors]="f.responsables?.errors">
                                 </sirio-select-search>
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex="25" [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate"
+                                <sirio-select-search fxFlex="25" [label]="'remittancesRequested.tripType' | translate: {default: 'global.tripType'} | translate"
                                     formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.viaje?.errors">
                                 </sirio-select-search>
@@ -87,7 +87,7 @@
 
 
                                 <mat-form-field fxFlex="auto">
-                                    <mat-label># Plomos Utilizados</mat-label>
+                                    <mat-label># {{'remittancesRequested.leads' | translate: {default: 'global.leads'} | translate }}</mat-label>
                                     <mat-chip-list #chipList aria-label="Plomos Utilizados" [formControl]="plomoCtrl">
                                         <mat-chip *ngFor="let plo of plomoList" (removed)="removePlomo(plo)">
                                             {{plo}}
@@ -105,13 +105,11 @@
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="20" appearance="standart">
-                                    <mat-label>{{'Monto A Enviar' | translate: {default: 'Monto A Enviar'} | translate }} </mat-label>
-                                    
+                                    <mat-label>{{'remittancesRequested.amountToSend' | translate: {default: 'global.amountToSend'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
                                         [options]="{precision:2}" required readonly>
+                                        <mat-error *ngIf="f.montoEnviado.errors?.difference">El Monto Enviado debe ser menor al Solicitado</mat-error>
                                 </mat-form-field>
-                                <!-- <mat-error *ngIf="true">errorrrrrrrrrrrrrrrr</mat-error> -->
-                                
                             </div>
                         </form>
 
@@ -149,7 +147,7 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <ngx-datatable fxFlex [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
-                                            [messages]="{emptyMessage: 'No hay registros de Materiales...',totalMessage: 'Cantidad de Materiales'}"
+                                            [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Cantidad de Materiales'}"
                                             [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10"
                                             [rows]="materialUtilizadoList | async" *ngIf="materialForm">
 
@@ -196,7 +194,7 @@
                             <div fxLayout="column" fxFlex="auto"  fxLayoutAlign="start stretch">
 
                                 <!-- <div fxLayout="column" fxFlex="100"> -->
-                                <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
+                                <h3>{{'global.cashBreakdown' | translate }}</h3>
                                 <!-- </div> -->
                                 <div fxLayout="column" fxFlex>
                                     <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">

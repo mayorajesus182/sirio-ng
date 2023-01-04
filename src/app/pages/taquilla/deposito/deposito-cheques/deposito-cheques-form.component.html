@@ -31,7 +31,7 @@
                         [options]="{precision:2}" [required]="!f.chequeOtros.value">
                     <mat-error *ngIf="f.chequePropio.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                     <mat-error *ngIf="f.chequePropio.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio ">No Coinciden los Montos</mat-error>
+                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio ">No Coinciden los Montos o Banco</mat-error>
                     <mat-error *ngIf="f.chequePropio.errors?.chequePropioDifference">Monto Incorrecto</mat-error>
                 </mat-form-field>
 
@@ -41,7 +41,7 @@
                         [options]="{precision:2}" [required]="!f.chequePropio.value">
                     <mat-error *ngIf="f.chequeOtros.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                     <mat-error *ngIf="f.chequeOtros.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No Coinciden los Montos</mat-error>
+                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No Coinciden los Montos o Banco</mat-error>
                     <mat-error *ngIf="f.chequeOtros.errors?.chequeOtrosDifference">Monto Incorrecto</mat-error>
                 </mat-form-field>
 
@@ -57,27 +57,25 @@
         </div>
 
         <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm">
-            <mat-form-field fxFlex.gt-xs="10">
+            <mat-form-field fxFlex.gt-xs="15">
                 <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }} </mat-label>
-                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center">
-                <mat-error *ngIf="cf.serial.errors?.required">{{'error.required' | translate}}</mat-error>
+                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center" required>
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El Serial y Cuantas ya están Suministrados</mat-error>
+                <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial ya esta suministrado</mat-error>
+                <mat-error *ngIf="cf.serial.errors?.existsSerial">El serial ya esta Registrado</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex.gt-sm="20">
                 <mat-label>Número de Cuenta </mat-label>
                 <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" required
-                    num-account-validate class="text-center" maxLength="24">
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.required">{{'error.required' | translate}}</mat-error>
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El Serial y Cuantas ya están Suministrados</mat-error>
-                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El Núm. de Cuenta es Inválido</mat-error>
-                <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.notexists">{{'no existe numero de cuenta'}}</mat-error> -->
+                    num-account-validate class="text-center" maxLength="24" required>
+                <!-- <mat-error *ngIf="cf.numeroCuentaCheque.errors?.uniqueNumAccount">El serial y cuantas ya están suministrados</mat-error> -->
+                <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El núm. de cuenta es inválido</mat-error>
             </mat-form-field>
 
             <!-- {{cf.numeroCuentaCheque.errors| json}} -->
 
-            <mat-form-field fxFlex.gt-xs="15">
+            <mat-form-field fxFlex.gt-xs="10">
                 <mat-label>{{'deposit.docType' | translate: {default: 'global.docType'} | translate }} </mat-label>
                 <input matInput autocomplete="off" maxlength="2" id="tipoDocumentoCheque" name="tipoDocumentoCheque" formControlName="tipoDocumentoCheque"
                     uppercase class="text-center" required>

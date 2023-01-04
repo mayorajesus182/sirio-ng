@@ -18,7 +18,6 @@ export class CargoDetailComponent extends FormBaseComponent implements OnInit {
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private cargoService: CargoService) {
     super(undefined, injector);

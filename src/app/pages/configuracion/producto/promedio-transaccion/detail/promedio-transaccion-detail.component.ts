@@ -18,7 +18,6 @@ export class PromedioTransaccionDetailComponent extends FormBaseComponent implem
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private promedioTransaccionService: PromedioTransaccionService) {
     super(undefined, injector);

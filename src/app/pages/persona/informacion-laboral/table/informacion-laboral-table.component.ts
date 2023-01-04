@@ -60,7 +60,7 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
   }
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar Información Laboral: ?', undefined,
+    this.swalService.show('¿Desea Eliminar Información Laboral?', undefined,
     
       { 'html': ' <b>' + row.tipoIngreso +' : ' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {

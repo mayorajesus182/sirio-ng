@@ -50,6 +50,10 @@ export class CuentaBancoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    getByPersona(persona: number): Observable<CuentaBanco> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/get`);
+    }
+
     getByNumper(numper: string): Observable<CuentaBanco> {
         return this.apiService.config(this.apiConfig).get(`/${numper}/bynumper/get`);
     }

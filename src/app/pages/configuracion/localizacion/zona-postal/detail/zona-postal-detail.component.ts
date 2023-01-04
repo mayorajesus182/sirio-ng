@@ -18,7 +18,6 @@ export class ZonaPostalDetailComponent extends FormBaseComponent implements OnIn
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private zonaPostalService: ZonaPostalService) {
     super(undefined, injector);

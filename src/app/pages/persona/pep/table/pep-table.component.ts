@@ -69,9 +69,8 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   delete(row) {
-    this.swalService.show('¿Desea Eliminar Persona Expuesta Políticamente (PEP) : ?', undefined,
-    // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
-
+    this.swalService.show('¿Desea Eliminar Persona Expuesta Políticamente (PEP)?', undefined,
+   
       { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
           // console.log('buscando telefono',row.id);

@@ -18,7 +18,6 @@ export class OrigenFondoDetailComponent extends FormBaseComponent implements OnI
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private origenFondoService: OrigenFondoService) {
     super(undefined, injector);

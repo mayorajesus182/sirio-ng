@@ -78,7 +78,6 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
-        protected router: Router,
         private personaJuridicaService: PersonaJuridicaService,
 
         private tipoDocumentoService: TipoDocumentoService,
@@ -274,8 +273,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         if (this.isNew) {
 
             this.personaJuridicaService.save(this.personaJuridica).subscribe(data => {
-                console.log(data);
-
+                // console.log(data);
+                this.isNew= data.id==undefined;
                 this.personaJuridica = data;
                 this.successResponse('La persona', 'creada',true);
                 this.hasBasicData = this.personaJuridica.id != undefined || this.personaJuridica.numper != undefined;

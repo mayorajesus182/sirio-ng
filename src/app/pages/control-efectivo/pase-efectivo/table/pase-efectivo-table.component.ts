@@ -19,12 +19,12 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class PaseEfectivoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
+export class PaseEfectivoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['bovagencia_id', 'tipoMovimiento', 'monto', 'moneda', 'estatus', 'actions'];
   aprobado = GlobalConstants.APROBADO;
 
-  contentStats:string='';
+  contentStats: string = '';
 
   constructor(
     injector: Injector,
@@ -34,22 +34,22 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
     private saldoAgenciaService: SaldoAgenciaService,
     private bovedaAgenciaService: BovedaAgenciaService,
   ) {
-    super(undefined,  injector);
+    super(undefined, injector);
   }
 
   ngOnInit() {
     this.init(this.bovedaAgenciaService, 'bovagencia_id');
 
 
-    this.saldoAgenciaService.getSaldo().subscribe(data=>{
+    this.saldoAgenciaService.getSaldoStats().subscribe(data => {
 
       data.forEach(element => {
-        
-        this.contentStats+=`<strong>${element.moneda}</strong> <br>`;
-        this.contentStats+=`<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${ formatNumber(element.ingreso, 'es', '1.2')} &nbsp;&nbsp; `;
-        this.contentStats+=`<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${ formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
+
+        this.contentStats += `<strong>${element.moneda}</strong> <br>`;
+        this.contentStats += `<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${formatNumber(element.ingreso, 'es', '1.2')} &nbsp;&nbsp; `;
+        this.contentStats += `<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
       });
-      
+
     });
 
   }
@@ -59,15 +59,15 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
   }
 
 
-  add(path:string) {    
+  add(path: string) {
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  view(data:any) {
+  view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data:any) {
+  activateOrInactivate(data: any) {
     this.applyChangeStatus(this.bovedaAgenciaService, data.element, data.element.nombre, this.cdr);
   }
 

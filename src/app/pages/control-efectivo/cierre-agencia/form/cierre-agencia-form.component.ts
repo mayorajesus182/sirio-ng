@@ -29,7 +29,6 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
-        protected router: Router,
         private saldoAgenciaService: SaldoAgenciaService,
         private taquillaService: TaquillaService,
         private agenciaService: AgenciaService,

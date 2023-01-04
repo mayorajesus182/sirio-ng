@@ -41,9 +41,12 @@
         
         <mat-error *ngIf="f.numeroCuenta.errors?.account">Debe indicar un numero de cuenta correcto!</mat-error>
 
-        <mat-error *ngIf="f.numeroCuenta.errors?.exists">La Identificación Existe</mat-error>
+        <mat-error *ngIf="f.numeroCuenta.errors?.exists">El numero de cuenta ya existe</mat-error>
+        <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required'| translate}}</mat-error>
 
       </mat-form-field>
+
+  <!-- {{printErrors() | json}} -->
 
       <sirio-select-simple fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" [required]="true"
         [elements]="cifrasPromedioList.asObservable()" [attributeName]="'nombre'" [errors]="f.cifraPromedio?.errors">
@@ -55,7 +58,7 @@
 
 
   </mat-dialog-content>
-  <!-- {{printErrors() | json}} -->
+
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>

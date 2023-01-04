@@ -18,7 +18,6 @@ export class PromedioMontoDetailComponent extends FormBaseComponent implements O
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private promedioMontoService: PromedioMontoService) {
     super(undefined, injector);

@@ -113,7 +113,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             // movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
             taquilla: new FormControl(bovedaAgencia.taquilla || undefined, Validators.required),
             // atm: new FormControl(bovedaAgencia.atm || undefined),
-            moneda: new FormControl(bovedaAgencia.moneda || undefined, Validators.required),
+            moneda: new FormControl(bovedaAgencia.moneda || this.preferencia.monedaConoActual, Validators.required),
             monto: new FormControl({ value: bovedaAgencia.monto || undefined }, Validators.required),
         });
 

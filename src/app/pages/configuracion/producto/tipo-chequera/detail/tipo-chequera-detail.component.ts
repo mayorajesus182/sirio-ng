@@ -18,7 +18,6 @@ export class TipoChequeraDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private tipoChequeraService: TipoChequeraService) {
     super(undefined, injector);

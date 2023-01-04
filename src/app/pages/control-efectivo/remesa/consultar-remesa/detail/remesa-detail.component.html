@@ -25,25 +25,25 @@
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex="15">
-                                <mat-label>{{'Cataporte' | translate: {default: 'Cataporte'} | translate }}
+                                <mat-label>{{'consultRemittances.billOfLading' | translate: {default: 'global.billOfLading'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="15">
-                                <mat-label>{{'Tipo de Remesa' | translate: {default: 'Tipo de Remesa'} | translate }}
+                                <mat-label>{{'consultRemittances.remittanceType' | translate: {default: 'global.remittanceType'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.tipoRemesa" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="35">
-                                <mat-label>{{'Unidad Emisora' | translate: {default: 'Unidad Emisora'} | translate }}
+                                <mat-label>{{'consultRemittances.sendingUnit' | translate: {default: 'global.sendingUnit'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.emisor" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="35">
-                                <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                <mat-label>{{'consultRemittances.receivingUnit' | translate: {default: 'global.receivingUnit'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.receptor" readonly>
                             </mat-form-field>
@@ -51,25 +51,25 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="25">
-                                <mat-label>{{'Fecha de Creación' | translate: {default: 'Fecha de Creación'} | translate }}
+                                <mat-label>{{'consultRemittances.creationDate' | translate: {default: 'global.creationDate'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.fechaCreacion" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="25">
-                                <mat-label>{{'Monto Solicitado' | translate: {default: 'Monto Solicitado'} | translate }}
+                                <mat-label>{{'consultRemittances.requestedAmount' | translate: {default: 'global.requestedAmount'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-right" [value]="d.montoSolicitado | number: '1.2'" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="25">
-                                <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
+                                <mat-label>{{'consultRemittances.coin' | translate: {default: 'global.coin'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.moneda" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="25">
-                                <mat-label>{{'Estatus' | translate: {default: 'Estatus'} | translate }}
+                                <mat-label>{{'consultRemittances.status' | translate: {default: 'global.status'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.estatusRemesa" readonly>
                             </mat-form-field>
@@ -77,31 +77,31 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="18" *ngIf="d.fechaEnvio != null">
-                                <mat-label>{{'Fecha de Envío' | translate: {default: 'Fecha de Envío'} | translate }}
+                                <mat-label>{{'consultRemittances.shippingDate' | translate: {default: 'global.shippingDate'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.fechaEnvio | date: 'dd/MM/yyyy'" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="18" *ngIf="d.fechaEnvio != null">
-                                <mat-label>{{'Monto Enviado' | translate: {default: 'Monto Enviado'} | translate}}
+                                <mat-label>{{'consultRemittances.sentAmount' | translate: {default: 'global.sentAmount'} | translate}}
                                 </mat-label>
                                 <input matInput class="text-right" [value]="d.montoEnviado | number: '1.2'" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="18" *ngIf="d.montoRecibido > 0">
-                                <mat-label>{{'Fecha de Recepción' | translate: {default: 'Fecha de Recepción'} | translate }}
+                                <mat-label>{{'consultRemittances.receptionDate' | translate: {default: 'global.receptionDate'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.fechaRecibo | date: 'dd/MM/yyyy'" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="18" *ngIf="d.montoRecibido > 0">
-                                <mat-label>{{'Monto Recibido' | translate: {default: 'Monto Recibido'} | translate }}
+                                <mat-label>{{'consultRemittances.receivedAmount' | translate: {default: 'global.receivedAmount'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-right" [value]="d.montoRecibido | number: '1.2'" readonly>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="auto" *ngIf="d.viaje != null">
-                                <mat-label>{{'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate }}
+                                <mat-label>{{'consultRemittances.tripType' | translate: {default: 'global.tripType'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.viaje" readonly>
                             </mat-form-field>
@@ -119,7 +119,7 @@
 
                                     <mat-form-field fxLayout="column" *ngFor="let item of d.detalleEfectivoEnviado;let i = index" fxFlex="49">
                                         <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
-                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                            'global.coin') | translate }}
                                         </mat-label>
                                         <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
                                             autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
@@ -141,7 +141,7 @@
 
                                     <mat-form-field fxLayout="column" *ngFor="let item of d.detalleEfectivoRecibido;let i = index" fxFlex="49">
                                         <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
-                                            'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
+                                            'global.coin') | translate }}
                                         </mat-label>
                                         <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
                                             autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"

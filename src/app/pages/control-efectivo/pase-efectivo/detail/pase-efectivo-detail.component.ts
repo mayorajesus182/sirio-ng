@@ -21,7 +21,6 @@ export class PaseEfectivoDetailComponent extends FormBaseComponent implements On
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
-    private router: Router,
     private route: ActivatedRoute,
     private bovedaAgenciaService: BovedaAgenciaService) {
     super(undefined, injector);

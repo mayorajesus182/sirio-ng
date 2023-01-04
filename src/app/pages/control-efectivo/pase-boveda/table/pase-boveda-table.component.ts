@@ -46,7 +46,6 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
 
 
     this.saldoTaquillaService.all().subscribe(data => {
-      console.log('Taquilla Saldos ', data);
       data.forEach(element => {
 
         this.contentStats += `<strong>${element.siglasMoneda}</strong> <br>`;
@@ -57,11 +56,9 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
     });
 
     this.taquillaService.isOpen().subscribe(isOpen => {
-      // if (isOpen) {
       this.isOpen = isOpen;
-
       this.init(this.cajaTaquillaService, 'cajtaquilla_id');
-
+      this.cdr.detectChanges();
     });
   }
 
