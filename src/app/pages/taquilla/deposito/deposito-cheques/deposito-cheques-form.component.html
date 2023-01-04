@@ -27,22 +27,22 @@
 
                 <mat-form-field fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.ownChecks' | translate: {default: 'global.ownChecks'} | translate }} </mat-label>
-                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequePropio" formControlName="chequePropio" currencyMask
-                        [options]="{precision:2}" [required]="!f.chequeOtros.value">
+                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequePropio" formControlName="chequePropio" currencyMask [options]="{precision:2}" [required]="!f.chequeOtros.value">
                     <mat-error *ngIf="f.chequePropio.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                    <mat-error *ngIf="f.chequePropio.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio ">No Coinciden los Montos o Banco</mat-error>
+                    <!-- <mat-error *ngIf="f.chequePropio.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error> -->
                     <mat-error *ngIf="f.chequePropio.errors?.chequePropioDifference">Monto Incorrecto</mat-error>
+                    <mat-error *ngIf="f.chequePropio.errors?.differencePropio ">No Coinciden los Montos o Banco</mat-error>
+                    <mat-error *ngIf="f.chequePropio.errors?.chequePropioRequired ">Debe registrar el (los) Cheque(s)</mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.checksOtherBanks' | translate: {default: 'global.checksOtherBanks'} | translate }} </mat-label>
-                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequeOtros" formControlName="chequeOtros" currencyMask
-                        [options]="{precision:2}" [required]="!f.chequePropio.value">
+                    <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequeOtros" formControlName="chequeOtros" currencyMask [options]="{precision:2}" [required]="!f.chequePropio.value">
                     <mat-error *ngIf="f.chequeOtros.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                    <mat-error *ngIf="f.chequeOtros.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No Coinciden los Montos o Banco</mat-error>
+                    <!-- <mat-error *ngIf="f.chequeOtros.errors?.required">{{'error.beGreaterThan' | translate}} 0,01</mat-error> -->
                     <mat-error *ngIf="f.chequeOtros.errors?.chequeOtrosDifference">Monto Incorrecto</mat-error>
+                    <mat-error *ngIf="f.chequeOtros.errors?.differenceOtros">No Coinciden los Montos o Banco</mat-error>
+                    <mat-error *ngIf="f.chequeOtros.errors?.chequeOtrosRequired">Debe registrar el (los) Cheque(s)</mat-error>
                 </mat-form-field>
 
                 <mat-form-field fxFlex.gt-xs="auto">
@@ -50,7 +50,7 @@
                     <input matInput max="9999999999999.99" maxlength="20" min="0.01" autocomplete="off" name="monto" formControlName="monto" currencyMask
                         [options]="{precision:2}">
                     <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                    <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                    <!-- <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error> -->
                     <mat-error *ngIf="f.monto.errors?.totalDifference">Monto Incorrecto</mat-error>
                 </mat-form-field>
             </div>
