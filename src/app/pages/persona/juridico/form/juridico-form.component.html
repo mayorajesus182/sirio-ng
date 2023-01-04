@@ -100,7 +100,7 @@
                                         <mat-form-field fxFlex="50">
                                             <mat-label>{{'Razón Social' | translate: {default:
                                                 'Razón Social'} | translate }} </mat-label>
-                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="razonSocial" formControlName="razonSocial"
+                                            <input matInput maxlength="100" minlength="1" autocomplete="off" name="razonSocial" formControlName="razonSocial"
                                                 uppercase required>
                                             <mat-error *ngIf="f.razonSocial.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
@@ -113,7 +113,7 @@
                                         <mat-form-field fxFlex="50">
                                             <mat-label>{{'Nombre Comercial' | translate: {default:
                                                 'Nombre Comercial'} | translate }} </mat-label>
-                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="nombreComercial"
+                                            <input matInput maxlength="100" minlength="1" autocomplete="off" name="nombreComercial"
                                                 formControlName="nombreComercial" uppercase required>
                                             <mat-error *ngIf="f.nombreComercial.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
@@ -185,6 +185,9 @@
                                             [attributeName]="'nombre'" [errors]="f.actividadEspecifica?.errors">
                                         </sirio-select-search>
 
+                                    </div>
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Categoría Especial' | translate: {default: 'Categoría Especial'} | translate"
                                             formControlName="categoriaEspecial" [required]="false" [elements]="categoriasEspeciales.asObservable()"
@@ -192,6 +195,7 @@
                                         </sirio-select-search>
 
                                     </div>
+
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -205,13 +209,13 @@
                                             <mat-error *ngIf="f.oficinas.errors?.max">No puede superior a 1000</mat-error>
                                         </mat-form-field>
 
-                                        <sirio-select-search fxFlex="33"
+                                        <sirio-select-search fxFlex="47"
                                             [label]="'País con mayor presencia' | translate: {default: 'País con mayor presencia'} | translate"
                                             formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.pais?.errors">
                                         </sirio-select-search>
 
-                                        <mat-form-field fxFlex="33">
+                                        <mat-form-field fxFlex="20">
                                             <mat-label>{{'Número de empleados' | translate: {default:
                                                 'Número de empleados'} | translate }}
                                             </mat-label>
@@ -228,7 +232,7 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ventas mensuales' | translate: {default:
                                                 'Ventas mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="ventas" currencyMask [options]="{precision:2}"
                                                 formControlName="ventas" [required]="">
 
 
@@ -242,7 +246,7 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Ingresos mensuales' | translate: {default:
                                                 'Ingresos mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="ingresos" currencyMask [options]="{precision:2}"
                                                 formControlName="ingresos" [required]="">
 
                                             <mat-error *ngIf="f.ingresos.errors?.required">{{'error.required' | translate}}
@@ -255,7 +259,7 @@
                                         <mat-form-field fxFlex="33">
                                             <mat-label>{{'Egresos mensuales' | translate: {default:
                                                 'Egresos mensuales'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="egresos" currencyMask [options]="{precision:2}"
                                                 formControlName="egresos" [required]="">
 
                                             <mat-error *ngIf="f.egresos.errors?.required">{{'error.required' | translate}}
@@ -292,10 +296,10 @@
                                             <mat-label>{{'Año' | translate: {default:
                                                 'Año'} | translate }}
                                             </mat-label>
-                                            <!-- <input matInput class="text-center" type="number" autocomplete="off" name="anhoDeclaracion" [max]="todayValue.year" min="0" formControlName="anhoDeclaracion" required> -->
-                                            <input matInput autocomplete="off" type="number" maxlength="4" name="anhoDeclaracion" [max]="todayValue.year()"
-                                                [min]="todayValue.year()-3" class="text-center" formControlName="anhoDeclaracion" required>
-
+                                            
+                                            <input matInput maxlength="4" minlength="4" autocomplete="off" type="number" name="anhoDeclaracion" [max]="todayValue.year()"
+                                                [min]="todayValue.year()-3" class="text-center"  formControlName="anhoDeclaracion" required>
+                              
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.max">Debe ser menor o igual a {{todayValue.year()}}</mat-error>
 
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.min">Debe ser mayor o igual a {{todayValue.year()-3}}</mat-error>
@@ -307,10 +311,12 @@
 
                                         </mat-form-field>
 
+                                        
+
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Monto' | translate: {default:
                                                 'Monto'} | translate }} </mat-label>
-                                            <input maxlength="16" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}"
+                                            <input maxlength="20" matInput autocomplete="off" name="montoDeclarado" currencyMask [options]="{precision:2}"
                                                 formControlName="montoDeclarado" [required]="">
 
 

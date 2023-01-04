@@ -23,6 +23,8 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
     @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
     accionistaDirectivoList:ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
 
+    porcentajeAccionarios:any[]=[];
+
     constructor(
       injector: Injector,
       protected dialog: MatDialog,
@@ -34,7 +36,14 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
     }
 
     private loadList(){
+
+      this.porcentajeAccionarios=[] 
+
       this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
+
+        this.porcentajeAccionarios= this.porcentajeAccionarios.concat(data.map(t => t.porcentaje ));
+        console.log(this.porcentajeAccionarios);
+
               
         this.accionistaDirectivoList.next(data.slice());
         this.propagar.emit(data.length);
@@ -91,8 +100,6 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
       });
   }
 
-  
-
     view(data: any) {
 
 
@@ -103,7 +110,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
       if(data){
         data.persona=this.persona;
       }    
-      this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona}:data,'70%').afterClosed().subscribe(event=>{
+      this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona, porcentajeAccionarios: this.porcentajeAccionarios}:data,'70%').afterClosed().subscribe(event=>{
         console.log(event);
         
           if(event){

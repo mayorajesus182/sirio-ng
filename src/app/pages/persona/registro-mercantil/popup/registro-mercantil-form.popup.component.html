@@ -27,7 +27,7 @@
         <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre" uppercase
           [required]="!esGobierno">
         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
-        </mat-error>´
+        </mat-error>
         <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
           translate}}
         </mat-error>
@@ -63,15 +63,15 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="!esGobierno">
 
-      <mat-form-field fxFlex="44">
-        <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
-          translate }}</mat-label>
+      <mat-form-field fxFlex="33">
+        <mat-label>{{'global.date' | translate: {default: 'global.date'} |
+            translate }}</mat-label>
         <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha"
-          formControlName="fecha" [matDatepicker]="fechaPicker" [required]="!esGobierno">
+            formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue" required>
         <mat-datepicker-toggle matSuffix [for]="fechaPicker">
         </mat-datepicker-toggle>
-        <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
-          Fecha Invalida
+        <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fecha.errors?.matDatepickerMax">
+            Fecha Invalida
         </mat-error>
       </mat-form-field>
       <mat-datepicker #fechaPicker></mat-datepicker>
@@ -92,7 +92,7 @@
         <mat-label>{{'Capital Social' | translate: {default:
           'Capital Social'} | translate }} </mat-label>
         <!-- <input matInput maxlength="80" minlength="1" autocomplete="off" name="capitalSocial" formControlName="capitalSocial" -->
-        <input maxlength="16" matInput autocomplete="off" name="capitalSocial" currencyMask [options]="{precision:2}"                                   
+        <input maxlength="20" matInput autocomplete="off" name="capitalSocial" currencyMask [options]="{precision:2}"                                   
 
           formControlName="capitalSocial" [required]="!esGobierno">
         <mat-error *ngIf="f.capitalSocial.errors?.required">{{'error.required' | translate}}

@@ -90,7 +90,7 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:data,'40%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:data,'60%').afterClosed().subscribe(event=>{
             
         if(event){
             this.onRefresh.next(true);
