@@ -133,7 +133,7 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                                 <input class="mat-input" [(ngModel)]="row.dispensado" autofocus matInput type="text" currencyMask [options]="{precision:0}"
-                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" />
+                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" maxlength="5"/>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -143,7 +143,7 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                                 <input class="mat-input" [(ngModel)]="row.rechazado" autofocus matInput type="text" currencyMask [options]="{precision:0}"
-                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" />
+                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" maxlength="5"/>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -154,7 +154,7 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                                 <input class="mat-input" [(ngModel)]="row.fisico" autofocus matInput type="text" currencyMask [options]="{precision:0}"
-                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" />
+                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" maxlength="5"/>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -194,7 +194,7 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                                 <input class="mat-input" [(ngModel)]="row.incremento" autofocus matInput type="text" currencyMask [options]="{precision:0}"
-                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" />
+                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" maxlength="5"/>
                             </ng-template>
                         </ngx-datatable-column>
 
@@ -204,7 +204,7 @@
                             </ng-template>
                             <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                                 <input class="mat-input" [(ngModel)]="row.retiro" autofocus matInput type="text" currencyMask [options]="{precision:0}"
-                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" />
+                                    (ngModelChange)="updateValuesErrors(row, rowIndex)" maxlength="5"/>
                             </ng-template>
                         </ngx-datatable-column>
 

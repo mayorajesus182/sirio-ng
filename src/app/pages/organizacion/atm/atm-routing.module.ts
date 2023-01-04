@@ -4,6 +4,8 @@ import { CajetinTableComponent } from './cajetin/table/cajetin-table.component';
 import { AtmDetailComponent } from './detail/atm-detail.component';
 import { AtmFormComponent } from './form/atm-form.component';
 import { AtmTableComponent } from './table/atm-table.component';
+import { ArqueoAtmConsultaTableComponent } from '../../control-efectivo/arqueo-atm/consulta/table/arqueo-atm-consulta-table.component';
+import { ArqueoAtmFormComponent } from '../../control-efectivo/arqueo-atm/form/arqueo-atm-form.component';
 
 
 
@@ -23,6 +25,16 @@ const atmRoutes: Routes = [
         path: ':id/edit',
         component: AtmFormComponent,
         data: { title: 'Editar ATM' }
+    },
+    {
+        path: ':id/recount',
+        component: ArqueoAtmFormComponent,
+        data: { title: 'Crear Arqueo ATM' }
+    },
+    {
+        path: ':id/consult',
+        component: ArqueoAtmConsultaTableComponent,
+        data: { title: 'Consultar Arqueos ATM' }
     },
     {
         path: ':id/boxes',

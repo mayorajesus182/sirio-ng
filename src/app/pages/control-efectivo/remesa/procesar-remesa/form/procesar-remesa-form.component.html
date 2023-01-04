@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittancesRequested.form']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittancesRequested.form']" current="{{'action.process'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,8 +9,8 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{'remittancesRequested.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.process' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                     </sirio-card-header-actions>
                 </sirio-card-header>
@@ -120,17 +120,17 @@
                             <div fxLayout="column" fxFlex="40" *ngIf="esTransportista">
                                 <form [formGroup]="materialForm" *ngIf="materialForm">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <h3>{{'Materiales Utilizados' | translate: {default: 'Materiales Utilizados'} | translate }}</h3>
+                                        <h3>{{'remittancesRequested.usedMaterials' | translate: {default: 'global.usedMaterials'} | translate }}</h3>
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <sirio-select-search fxFlex="70" [label]="'Material' | translate: {default: 'Material'} | translate"
+                                        <sirio-select-search fxFlex="70" [label]="'remittancesRequested.material' | translate: {default: 'global.material'} | translate"
                                             formControlName="material" [required]="true" [elements]="materiales.asObservable()" [attributeName]="'nombre'"
                                             [errors]="mf.material?.errors">
                                         </sirio-select-search>
 
                                         <mat-form-field fxFlex="20">
-                                            <mat-label>{{'Cantidad' | translate: {default: 'Cantidad'} | translate }}
+                                            <mat-label>{{'remittancesRequested.quantity' | translate: {default: 'global.quantity'} | translate }}
                                             </mat-label>
                                             <input matInput class="text-center" max="99" min="0" type="number" autocomplete="off" name="cantidad"
                                                 formControlName="cantidad">
@@ -153,7 +153,7 @@
 
                                             <ngx-datatable-column [flexGrow]="2" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <div class="text-left">{{'Material' | translate: {default: 'Material'} | translate }}</div>
+                                                    <div class="text-left">{{'remittancesRequested.material' | translate: {default: 'global.material'} | translate }}</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                                     <div style="white-space: break-spaces;" class="text-left">{{ getNombreMaterial(row?.material) }}</div>
@@ -162,7 +162,7 @@
 
                                             <ngx-datatable-column [flexGrow]="1" [sortable]="true">
                                                 <ng-template ngx-datatable-header-template>
-                                                    <div class="text-center">{{'Cantidad' | translate: {default: 'Cantidad'} | translate }}</div>
+                                                    <div class="text-center">{{'remittancesRequested.quantity' | translate: {default: 'global.quantity'} | translate }}</div>
                                                 </ng-template>
                                                 <ng-template let-row="row" ngx-datatable-cell-template>
                                                     <div style="white-space: break-spaces;" class="text-center">{{ row?.cantidad }}</div>

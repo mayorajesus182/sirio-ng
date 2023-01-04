@@ -45,7 +45,11 @@ const personaJuridicaRoutes: Routes = [
         data: { title: 'Tipo de Relación' },
         loadChildren: () => import('./tipo-relacion/tipo-relacion.module').then(m => m.TipoRelacionModule),
     },
-   
+    {
+        path: 'condicion',
+        data: { title: 'Condición' },
+        loadChildren: () => import('./condicion/condicion.module').then(m => m.CondicionModule),
+    },
    
 
 ];
