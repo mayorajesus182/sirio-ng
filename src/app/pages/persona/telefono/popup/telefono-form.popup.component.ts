@@ -103,7 +103,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       if(val){
           this.f.numero.setValue('');
           this.telefonicaService.activesByClaseTelefono(val).subscribe(data=>{
-            console.log('telefonicas',data);
+            // console.log('telefonicas',data);
             
             this.telefonicaList.next(data);
           })
@@ -154,7 +154,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
   evaluarEsPrincipal(): boolean {
 
-    if (this.esPrincipal) {
+    if (this.esPrincipal && this.isNew) {
       return false;
     }
 
