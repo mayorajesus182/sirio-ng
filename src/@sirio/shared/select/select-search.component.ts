@@ -105,7 +105,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
             }
 
             if (r && this.select && this.autofocus) {
-                console.log('reset ', r, this.select);
+                // console.log('reset ', r, this.select);
 
                 // this.selectRef.nativeElement.focus();
                 this.select.focus();
