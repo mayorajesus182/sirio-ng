@@ -95,9 +95,10 @@ a {
 }
 
 .ngx-datatable.fixed-header .datatable-header .datatable-header-inner .datatable-header-cell {
-  border-right: 1px solid rgba(170, 170, 170, 0.22);
-  border-left: 1px solid rgba(170, 170, 170, 0.22);
-  border-top: 1px solid rgba(170, 170, 170, 0.22);
+  border-right: 0px solid rgba(170, 170, 170, 0.15);
+  border-left: 0px solid rgba(170, 170, 170, 0.15);
+  border-top: 0.1em solid rgba(170, 170, 170, 0.22);
+  background-color: rgba(235, 235, 235, 0.85);
 
   &.text-center {
     text-align: center;
