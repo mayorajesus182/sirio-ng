@@ -5,7 +5,7 @@ import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.report.service';
+import { SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia-report.service';
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 @Component({
 

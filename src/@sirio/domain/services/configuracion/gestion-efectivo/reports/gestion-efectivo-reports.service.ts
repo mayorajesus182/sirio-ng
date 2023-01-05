@@ -39,7 +39,27 @@ export class GestionEfectivoReportsService {
         return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cierre-agencia', params);
     }
 
+    cuadreAgencia(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cuadre-agencia', params);
+    }
+
     cuadreTaquilla(params: GestionEfectivoReports): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cuadre-taquilla', params);
+    }
+
+    cierreTaquilla(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cierre-taquilla', params);
+    }
+
+    remesaEnviada(): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-enviada');
+    }
+
+    remesaRecibida(): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-recibida');
+    }
+
+    remesaSolicitada(): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-solicitada');
     }
 }

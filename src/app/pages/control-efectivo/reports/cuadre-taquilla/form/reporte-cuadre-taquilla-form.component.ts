@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { GestionEfectivoReports, GestionEfectivoReportsService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/gestionEfectivoReports.service';
-import { ReporteGestionEfectivoTaquilla, ReporteGestionEfectivoTaquillaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/reports-gestion-efectivo-taquilla.service';
+import { GestionEfectivoReports, GestionEfectivoReportsService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/gestion-efectivo-reports.service';
 import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -23,14 +22,12 @@ export class ReporteCuadreTaquillaFormComponent extends FormBaseComponent implem
 
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
-    // reporteGestionEfectivoTaquilla: ReporteGestionEfectivoTaquilla = {} as ReporteGestionEfectivoTaquilla;
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        // private reporteGestionEfectivoTaquillaService: ReporteGestionEfectivoTaquillaService,
         private gestionEfectivoReportsService: GestionEfectivoReportsService,
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
