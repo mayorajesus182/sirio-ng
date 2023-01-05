@@ -37,9 +37,10 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   private loadList() {
     this.intervinienteService.allByCuentaId(this.cuenta).subscribe((data) => {
-
+      console.log(data);
+      
       this.intervinienteList.next(data.slice());
-      this.propagar.emit(data.length);
+      // this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
@@ -79,7 +80,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
       { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
           console.log('buscando interviniente', row.id);
-          this.intervinienteService.delete(row.id).subscribe(val => {
+          this.intervinienteService.delete(row.cuenta, row.persona).subscribe(val => {
             if (val) {
               this.loadList();
             }

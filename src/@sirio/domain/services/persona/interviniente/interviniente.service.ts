@@ -10,7 +10,9 @@ export interface Interviniente {
     cuenta: number;
     tipoParticipacion: string;
     tipoFirma: string    
-    tipoFirmante?: string
+    tipoFirmante: string
+    personaNombre?: string;
+    personaIdentificacion?: string;
 }
 
 @Injectable({
@@ -33,12 +35,12 @@ export class IntervinienteService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    get(id: number): Observable<Interviniente> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    get(cuenta: number,persona:number): Observable<Interviniente> {
+        return this.apiService.config(this.apiConfig).get(`/${cuenta}/${persona}/get`);
     }
 
-    detail(id: string): Observable<Interviniente> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
+    detail(cuenta: number,persona: number): Observable<Interviniente> {
+        return this.apiService.config(this.apiConfig).get(`/${cuenta}/${persona}/detail`);
     }
 
 
@@ -48,12 +50,12 @@ export class IntervinienteService {
     }
 
     update(data: Interviniente): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.cuenta}/update`, data)
+        return this.apiService.config(this.apiConfig).put(`/${data.cuenta}/${data.persona}/update`, data)
             .pipe(map(res => data));
     }
 
-    delete(id: number): Observable<Interviniente> {
-        return this.apiService.config(this.apiConfig).put(`/${id}/delete`);
+    delete(cuenta: number,persona:number): Observable<Interviniente> {
+        return this.apiService.config(this.apiConfig).put(`/${cuenta}/${persona}/delete`);
     }
 
 }

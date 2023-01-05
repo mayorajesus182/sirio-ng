@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firma.service';
 import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firmante.service';
 import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/producto/tipo-participacion.service';
-import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Interviniente, IntervinienteService } from 'src/@sirio/domain/services/persona/interviniente/interviniente.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -37,8 +37,6 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     dialogRef: MatDialogRef<IntervinienteFormPopupComponent>,
     private intervinienteService: IntervinienteService,
 
-    private tipoDocumentoService: TipoDocumentoService,
-
 
     private tipoParticipacionService: TipoParticipacionService,
     private tipoFirmaService: TipoFirmaService,
@@ -56,6 +54,9 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
 
   ngOnInit() {
 
+    console.log(this.defaults);
+    
+
     // if (!this.tipo_persona) {
     //   this.tipoDocumentoService.actives().subscribe(data => {
     //     this.tiposDocumentos.next(data);
@@ -69,7 +70,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
 
 
     this.tipoParticipacionService.actives().subscribe(data => {
-      console.log(data);
+      // console.log(data);
 
       this.tipoParticipaciones.next(data);
       this.cdr.detectChanges();
@@ -86,20 +87,21 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     });
 
     this.loadingDataForm.next(true);
-    if (this.defaults.payload.id) {
-      this.intervinienteService.get(this.defaults.payload.id).subscribe(data => {
+    if (this.defaults.payload.cuenta && this.defaults.payload.persona) {
+      this.intervinienteService.get(this.defaults.payload.cuenta,this.defaults.payload.persona).subscribe(data => {
         this.mode = 'global.edit';
         this.interviniente = data;
+        this.persona.id=data.persona;
+        this.persona.nombre=data.personaNombre;
+        this.persona.identificacion=data.personaIdentificacion;
         this.buildForm();
-
-        // console.log('mode ', this.mode);
 
         this.loadingDataForm.next(false);
 
       })
     } else {
       this.interviniente = {} as Interviniente;
-      this.buildForm();
+      // this.buildForm();
       this.loadingDataForm.next(false);
     }
   }
