@@ -297,7 +297,7 @@
                                                 'Año'} | translate }}
                                             </mat-label>
                                             
-                                            <input matInput maxlength="4" minlength="4" autocomplete="off" type="number" name="anhoDeclaracion" [max]="todayValue.year()"
+                                            <input matInput autocomplete="off" type="number" name="anhoDeclaracion" [max]="todayValue.year()"
                                                 [min]="todayValue.year()-3" class="text-center"  formControlName="anhoDeclaracion" required>
                               
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.max">Debe ser menor o igual a {{todayValue.year()}}</mat-error>
@@ -310,8 +310,6 @@
                                             <!-- {{todayValue.year()| json}} -->
 
                                         </mat-form-field>
-
-                                        
 
                                         <mat-form-field fxFlex="25">
                                             <mat-label>{{'Monto' | translate: {default:
