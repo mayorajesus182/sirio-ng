@@ -154,7 +154,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
   evaluarEsPrincipal(): boolean {
 
-    if (this.esPrincipal && this.isNew) {
+    if (this.esPrincipal && (this.isNew || this.f.principal.value)) {
       return false;
     }
 
