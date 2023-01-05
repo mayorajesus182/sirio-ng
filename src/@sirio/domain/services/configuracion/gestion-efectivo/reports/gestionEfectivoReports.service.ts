@@ -42,4 +42,8 @@ export class GestionEfectivoReportsService {
     cuadreTaquilla(params: GestionEfectivoReports): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cuadre-taquilla', params);
     }
+
+    cierreTaquilla(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cierre-taquilla', params);
+    }
 }
