@@ -18,6 +18,8 @@ export interface Apoderado {
 
     pais: string;
 
+    condicion: string;
+
     fechaNacimiento: any;
 
     telefono: string;
