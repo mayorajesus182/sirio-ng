@@ -18,6 +18,7 @@ import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.se
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 import { formatNumber } from '@angular/common';
+import { GlobalConstants } from 'src/@sirio/constants';
 
 @Component({
     selector: 'app-recibir-remesa-form',
@@ -43,6 +44,7 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
     diferencia = 0.0;
+    constants = GlobalConstants;
 
     constructor(
         injector: Injector,
@@ -71,6 +73,9 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
             this.remesa = data;
             this.buildForm(this.remesa);
             this.buildFormMateriales();
+
+            console.log(' dataaaaaaaaaaaaaaaa ', data);
+            
 
             this.conoMonetarioService.activesByMoneda(this.remesa.moneda).subscribe(cono => {
                 this.conos.next(cono);
