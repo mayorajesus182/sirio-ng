@@ -84,7 +84,6 @@
                 </mat-slide-toggle>
             </div>
 
-
         </div>
 
     </div>
@@ -102,11 +101,11 @@
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-            <sirio-select-search fxFlex="20" [label]="'Tipo Relación'" formControlName="tipoPep" [required]="true"
+            <sirio-select-search fxFlex="auto" [label]="'Tipo Relación'" formControlName="tipoPep" [required]="true"
                 [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="cf.tipoPep?.errors">
             </sirio-select-search>
 
-            <mat-form-field fxFlex="40">
+            <mat-form-field fxFlex="auto">
                 <mat-label>{{'Nombre y Apellido del Relacionado' }} </mat-label>
                 <input matInput autocomplete="off" maxlength="80" minlength="1" id="nombre" name="nombre"
                     formControlName="nombre" class="text-center" uppercase required>
@@ -114,32 +113,28 @@
                 <mat-error *ngIf="cf.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field>
 
+        </div>
 
-            <!-- <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento"
-                [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
+        
+        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
+
+            <!-- 
+            <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
+                [errors]="cf.tipoDocumento?.errors">
+            </sirio-select-search> -->
+
+            <!-- [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE"  -->
+
+            <sirio-select-search fxFlex="auto" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE"  [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
                 [errors]="cf.tipoDocumento?.errors">
             </sirio-select-search>
 
-            <mat-form-field fxFlex="20">
-                <mat-label>{{'Identificación' | translate: {default:
-                    'Identificación'} | translate }} </mat-label>
-                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"
-                    formControlName="identificacion" uppercase required>
-                <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
-                </mat-error>
-                <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-                    translate}}
-                </mat-error>
-            </mat-form-field> -->
+            <!-- <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" 
+            [errors]="f.tipoDocumento?.errors">
+          </sirio-select-search> -->
 
-            <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento"
-                [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
-                [errors]="cf.tipoDocumento?.errors">
-                <!-- <mat-error *ngIf="cf.tipoDocumento.errors?.uniquePep">El Tipo Documento ya estan suministrados</mat-error> -->
 
-            </sirio-select-search>
-
-            <mat-form-field fxFlex="20">
+            <!-- <mat-form-field fxFlex="auto">
                 <mat-label>{{'Número Documento' | translate: {default:
                     'Número Documento'} | translate }} </mat-label>
                 <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"
@@ -149,10 +144,25 @@
                 <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
                 </mat-error>
                 <mat-error *ngIf="cf.identificacion.errors?.exists">La Identificación Existe</mat-error>
+            </mat-form-field> -->
+
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'Número  Documento: ' | translate: {default:
+                    'Número  Documento'} | translate }} </mat-label>
+                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
+                     [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
+                <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
+                </mat-error>
+                <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                    translate}}
+                </mat-error>
             </mat-form-field>
+
             
 
         </div>
+
+
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -189,11 +199,13 @@
             [label]="'Pais'"
             formControlName="pais" [required]="true" [elements]="paisList.asObservable()"
             [attributeName]="'nombre'" [errors]="cf.pais?.errors">
-        </sirio-select-search> -->
+            </sirio-select-search> -->
 
             <!-- <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
                 <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
             </mat-dialog-actions> -->
+
+            
             <div class="text-center" fxFlex="1 1 0%">
                 <button color="black" [disabled]="pepAccionistaForm.invalid" (click)="add()" mat-button>
                     <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
@@ -204,7 +216,7 @@
 
         </div>
 
-
+        {{printErrors() | json}} 
 
         <mat-divider class="margin-bottom-sm margin-top-sm"></mat-divider>
 
@@ -321,10 +333,3 @@
 
 
     </mat-dialog-actions>
-
-<!-- 
- fxLayoutAlign="end center" 
-
-    mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
-</mat-dialog-actions>  -->
