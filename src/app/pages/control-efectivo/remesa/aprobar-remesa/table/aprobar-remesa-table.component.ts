@@ -35,6 +35,7 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
 
   loadList() {
     this.init(this.remesaService, 'remesa_id', 'pagePorAprobar');
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {

@@ -22,11 +22,6 @@
         [errors]="f.tipoDireccion?.errors">
       </sirio-select-simple>
 
-      <!--  <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.couciudadntry' | translate: {default: 'global.country'} | translate"
-          formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-          [errors]="f.pais?.errors">
-      </sirio-select-search> -->
-
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.state' | translate: {default: 'global.state'} | translate" formControlName="estado"
         [required]="true" [elements]="estados.asObservable()" [attributeName]="'nombre'" [errors]="f.estado?.errors">
       </sirio-select-search>
@@ -66,7 +61,7 @@
       
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Descripción de '}}{{nombreVia() | titlecase}}</mat-label>
-        <input autocomplete="off" class="text-left" matInput name="nombreVia" maxlength="100" uppercase formControlName="nombreVia" required>
+        <input autocomplete="off" class="text-left" matInput name="nombreVia" maxlength="50" uppercase formControlName="nombreVia" required>
         
         <mat-error *ngIf="f.nombreVia.errors?.required">{{'error.required' | translate}}!</mat-error>
       </mat-form-field>
@@ -83,7 +78,7 @@
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Descripción de '}}{{nombreNucleo() | titlecase}}</mat-label>
-        <input autocomplete="off" class="text-left" matInput name="nombreNucleo" maxlength="100" uppercase formControlName="nombreNucleo" required>
+        <input autocomplete="off" class="text-left" matInput name="nombreNucleo" maxlength="50" uppercase formControlName="nombreNucleo" required>
         
         <mat-error *ngIf="f.nombreNucleo.errors?.required">{{'error.required' | translate}}!</mat-error>
       </mat-form-field>
@@ -99,7 +94,7 @@
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Descripción de '}}{{nombreContruccion() | titlecase}}</mat-label>
-        <input autocomplete="off" class="text-left" matInput name="nombreConstruccion" maxlength="100" uppercase formControlName="nombreConstruccion" required>
+        <input autocomplete="off" class="text-left" matInput name="nombreConstruccion" maxlength="50" uppercase formControlName="nombreConstruccion" required>
         
         <mat-error *ngIf="f.nombreConstruccion.errors?.required">{{'error.required' | translate}}!</mat-error>
       </mat-form-field>
@@ -110,7 +105,7 @@
       <mat-form-field fxFlex="auto">
         <mat-label>{{'personAddress.reference' | translate: {default: 'Punto de Referencia'} | translate }}
         </mat-label>
-        <input matInput maxlength="60" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
+        <input matInput maxlength="50" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
         <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharater' | translate}}

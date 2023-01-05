@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['enterPurchaseBcv.form']" current="{{'action.add'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,8 +9,8 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'passToVault.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{'enterPurchaseBcv.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{('action.add') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
@@ -37,18 +37,18 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex.gt-xs="40">
-                                    <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                    <mat-label>{{'enterPurchaseBcv.incomeType' | translate: {default: 'global.incomeType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="'INGRESO A BOVEDA POR COMPRA AL BANCO CENTRAL DE VENEZUELA'" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="30" [label]="'passToVault.coin' | translate: {default: 'global.coin'} | translate"
+                                <sirio-select-search fxFlex="30" [label]="'enterPurchaseBcv.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="30">
-                                    <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
+                                    <mat-label>{{'enterPurchaseBcv.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>

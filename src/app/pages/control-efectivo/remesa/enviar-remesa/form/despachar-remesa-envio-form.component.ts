@@ -81,14 +81,16 @@ export class DespacharRemesaEnvioFormComponent extends FormBaseComponent impleme
 
                         // Si es moneda local se bucan los viajes bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
                         if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
 
-                            this.viajeTransporteService.allWithCostoByTransportista(this.remesa.receptor).subscribe(vjt => {
+                            this.viajeTransporteService.allWithCostoByTransportista(this.remesa.emisor).subscribe(vjt => {
                                 this.viajes.next(vjt);
                             });
 
+
                         } else {
 
-                            this.viajeTransporteService.allWithCostoDivisaByTransportista(this.remesa.receptor).subscribe(vjt => {
+                            this.viajeTransporteService.allWithCostoDivisaByTransportista(this.remesa.emisor).subscribe(vjt => {
                                 this.viajes.next(vjt);
                             });
                         }

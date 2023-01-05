@@ -19,13 +19,13 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class TelefonoFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   telefono: Telefono = {} as Telefono;
+  esPrincipal: boolean=false;
   
   public tipoTelefonoList = new BehaviorSubject<TipoTelefono[]>([]);
   public telefonicaList = new BehaviorSubject<TipoTelefono[]>([]);
   public claseTelefonoList = new BehaviorSubject<ClaseTelefono[]>([]);
   
   nroTelefonos=[];
-
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -48,6 +48,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
   ngOnInit() {
 
+    this.esPrincipal = this.defaults.payload.principal;
 
     this.tipoTelefonoService.actives().subscribe(data => {
       
@@ -61,25 +62,20 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       this.cdr.detectChanges();
     })
     
-    // console.log('nro telefono 1',this.defaults.payload);
-
+    // console.log('Principal 1',this.defaults.payload);
     this.nroTelefonos = this.defaults.payload.telefonos;
 
     this.cdr.detectChanges();
-    
-    console.log('nro telefono 2',this.nroTelefonos);
-
+    // console.log('Principal 2',this.esPrincipal);
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.data) {
       this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
         this.mode = 'global.edit';
-        // console.log(data);
-        
+        // console.log(data);        
         this.telefono = data;
         this.buildForm();
-        this.loadingDataForm.next(false);
-       
+        this.loadingDataForm.next(false);       
       })
     } else {
       this.telefono = {} as Telefono;
@@ -107,7 +103,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       if(val){
           this.f.numero.setValue('');
           this.telefonicaService.activesByClaseTelefono(val).subscribe(data=>{
-            console.log('telefonicas',data);
+            // console.log('telefonicas',data);
             
             this.telefonicaList.next(data);
           })
@@ -127,37 +123,41 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       }
     });
 
-
     this.cdr.detectChanges();
   }
-
-  
 
   validateNumeroTelefono(numero: string) {
     if (!numero) {
       return true;
     }
-    console.log(numero);
+    // console.log(numero);
     
     this.cdr.detectChanges();
 
     return this.nroTelefonos.find(num => num === numero) == undefined;
   }
 
-
-
   save() {
 
-    console.log('mode ', this.mode);
+    // console.log('mode ', this.mode);
     this.updateData(this.telefono);// aca actualizamos la direccion
     if(this.isNew){
       this.telefono.persona=  this.defaults.payload.persona;
     }
     this.telefono.numero = this.telefono.numero.split('-').join('');
     this.telefono.principal = this.telefono.principal? 1 : 0;
-    console.log(this.telefono);
+    // console.log(this.telefono);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.telefonoService,this.telefono,'Télefono',this.telefono.id==undefined);
 
+  }
+
+  evaluarEsPrincipal(): boolean {
+
+    if (this.esPrincipal && (this.isNew || this.f.principal.value)) {
+      return false;
+    }
+
+    return true;
   }
 }

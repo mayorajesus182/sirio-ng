@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -8,13 +9,14 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { AtmRoutingModule } from './atm-routing.module';
-import { CajetinTableComponent } from './cajetin/table/cajetin-table.component';
-import { AtmDetailComponent } from './detail/atm-detail.component';
-import { AtmFormComponent } from './form/atm-form.component';
-import { AtmTableComponent } from './table/atm-table.component';
-import { ArqueoAtmConsultaTableComponent } from '../../control-efectivo/arqueo-atm/consulta/table/arqueo-atm-consulta-table.component';
-import { ArqueoAtmFormComponent } from '../../control-efectivo/arqueo-atm/form/arqueo-atm-form.component';
+import { CondicionRoutingModule } from './condicion-routing.module';
+import { CondicionFormComponent } from './form/condicion-form.component';
+import { CondicionDetailComponent } from './detail/condicion-detail.component';
+import { CondicionTableComponent } from './table/condicion-table.component';
+
+
+
+
 
 
 @NgModule({
@@ -24,24 +26,22 @@ import { ArqueoAtmFormComponent } from '../../control-efectivo/arqueo-atm/form/a
         ReactiveFormsModule,
         TranslateModule,
         FlexLayoutModule,
-        MaterialModule,
         // Core
+        MaterialModule,
         SirioSharedModule,
         SharedComponentModule,
-               
         HighlightModule,
         SirioCardModule,
-        AtmRoutingModule,
+        CondicionRoutingModule
     ],
     declarations: [
-        AtmFormComponent,
-        AtmTableComponent,
-        AtmDetailComponent,
-        CajetinTableComponent,
+        CondicionFormComponent,
+        CondicionDetailComponent,
+        CondicionTableComponent
     ],
     exports: [],
 })
 
-export class AtmModule {
+export class CondicionModule {
 
 }

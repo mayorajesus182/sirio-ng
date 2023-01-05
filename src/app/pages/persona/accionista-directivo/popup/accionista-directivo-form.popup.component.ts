@@ -23,6 +23,8 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   accionistaDirectivo: AccionistaDirectivo = {} as AccionistaDirectivo;
   pepAccionista: PepAccionista = {} as PepAccionista;
 
+  porcentajeAccionario:number=0;
+
   public pepAccionistaForm: FormGroup;
 
   public tipoPepList = new BehaviorSubject<TipoPep[]>([]);
@@ -64,6 +66,11 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   }
 
   ngOnInit() {
+
+    this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
+
+    // this.cdr.detectChanges();
+    // console.log('porcentaje Accionarios 2',this.porcentajeAccionarios);
 
     this.tipoPepService.actives().subscribe(data => {
 
@@ -115,7 +122,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       identificacion: new FormControl(this.accionistaDirectivo.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       nombre: new FormControl(this.accionistaDirectivo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.accionistaDirectivo.cargo || undefined, [Validators.required]),
-      porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+      porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
       esPep: new FormControl(false),
 
     });
@@ -147,7 +154,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
     });
 
-    console.log('Save ', this.accionistaDirectivo);
 
     this.cf.tipoDocumento.valueChanges.subscribe(val => {
       if (val) {
@@ -206,14 +212,13 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   }
 
   save() {
+    if(this.itemForm.invalid){
+      return;
+    }
 
     // console.log('mode ', this.mode);
-    this.updateData(this.accionistaDirectivo);// aca actualizamos la direccion
+    this.updateData(this.accionistaDirectivo);
     this.accionistaDirectivo.persona = this.defaults.payload.persona;
-
-    console.log('Save ', this.accionistaDirectivo);
-
-    // {{printErrors() | json}} 
 
     // this.updateData(this.pepAccionista);// aca actualizamos la direccion
     // this.accionistaDirectivo.persona = this.defaults.payload.persona;
@@ -221,7 +226,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.accionistaDirectivo.pepList = this.pepList;
 
 
-    console.log(this.accionistaDirectivo);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.accionistaDirectivoService, this.accionistaDirectivo, 'ACCIONISTADIRECTIVO', this.accionistaDirectivo.id == undefined);
 

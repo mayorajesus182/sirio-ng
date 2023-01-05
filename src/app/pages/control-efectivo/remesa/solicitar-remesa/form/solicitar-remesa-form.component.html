@@ -10,7 +10,7 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'requestRemittances.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
@@ -36,13 +36,13 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search fxFlex="40" *ngIf="!esTransportista"
-                                    [label]="'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate" formControlName="receptor"
+                                    [label]="'requestRemittances.receivingUnit' | translate: {default: 'global.receivingUnit'} | translate" formControlName="receptor"
                                     [required]="!esTransportista" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.receptor?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex.gt-xs="40" *ngIf="esTransportista">
-                                    <mat-label>{{'Unidad Receptora' | translate: {default: 'Unidad Receptora'} | translate }}
+                                    <mat-label>{{'requestRemittances.receivingUnit' | translate: {default: 'global.receivingUnit'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="nombreReceptor" readonly>
                                 </mat-form-field>
@@ -53,13 +53,13 @@
                                 </sirio-select-search>
 
                                 <sirio-select-search *ngIf="!esTransportista && f.receptor.value !== bovedaPrincipal" fxFlex="20"
-                                    [label]="'Tipo de Viaje' | translate: {default: 'Tipo de Viaje'} | translate" formControlName="viaje"
+                                    [label]="'requestRemittances.tripType' | translate: {default: 'global.tripType'} | translate" formControlName="viaje"
                                     [required]="!esTransportista && f.receptor.value !== bovedaPrincipal" [elements]="viajes.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.viaje?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="20">
-                                    <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }} {{esTransportista ? '' : '('+('global.assignedQuota' |
+                                    <mat-label>{{'requestRemittances.amount' | translate: {default: 'global.amount'} | translate }} {{esTransportista ? '' : '('+('global.assignedQuota' |
                                         translate) }} {{esTransportista ? '' : (cupo?.maximo | number: '1.2')+')'}} </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="montoSolicitado"
                                         formControlName="montoSolicitado" [options]="{precision:2}" required>

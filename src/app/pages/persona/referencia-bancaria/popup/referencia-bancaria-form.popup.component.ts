@@ -47,9 +47,6 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
   }
 
   ngOnInit() {
-
-
-
     this.tipoProductoService.actives().subscribe(data => {
 
       this.tipoProductoList.next(data);
@@ -68,11 +65,11 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     });
 
-    console.log('ref bancaria', this.defaults.payload);
+    // console.log('ref bancaria', this.defaults.payload);
 
     this.referencias = this.defaults.payload.referencias
 
-    console.log('Arreglo ref bancaria', this.referencias);
+    // console.log('Arreglo ref bancaria', this.referencias);
 
 
     this.loadingDataForm.next(true);
@@ -92,7 +89,7 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
       this.cdr.detectChanges();
     }
 
-    console.log('ref bancaria xx', this.defaults.payload);
+    // console.log('ref bancaria xx', this.defaults.payload);
 
   }
 
