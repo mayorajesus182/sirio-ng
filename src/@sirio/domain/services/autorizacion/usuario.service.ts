@@ -65,8 +65,8 @@ export class UsuarioService {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    page(filter = '', sortProperty = 'usuario_id', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortProperty, sortOrder);
     }
 
     save(data: Usuario): Observable<any> {

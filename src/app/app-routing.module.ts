@@ -89,6 +89,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/estadistica/estadistica.module').then(m => m.EstadisticaModule),
         data:{title:'Estadísticas'}
       },
+      {
+        path: 'autorizacion',
+        loadChildren: () => import('./pages/autorizacion/autorizacion.module').then(m => m.AutorizacionModule),
+        data:{title:'menu.autorizacion'}
+      },
     ]
   },
   {

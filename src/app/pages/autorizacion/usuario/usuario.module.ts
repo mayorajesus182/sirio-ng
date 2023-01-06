@@ -5,20 +5,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
 import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
+
+
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { AgenciaRoutingModule } from './agencia-routing.module';
-import { CupoAgenciaPopupComponent } from './cupos/popup/cupo-agencia-popup.component';
-import { CupoAgenciaTableComponent } from './cupos/table/cupo-agencia-table.component';
-
-import { AgenciaDetailComponent } from './detail/agencia-detail.component';
-import { AgenciaFormComponent } from './form/agencia-form.component';
-import { ActualizarSaldoAgenciaFormComponent } from './saldos/form/actualizar-saldo-agencia-form.component';
-import { AgenciaTableComponent } from './table/agencia-table.component';
+import { UsuarioDetailComponent } from 'src/app/pages/autorizacion/usuario/detail/usuario-detail.component';
+import { UsuarioTableComponent } from 'src/app/pages/autorizacion/usuario/table/usuario-table.component';
+import { UserRoutingModule } from 'src/app/pages/autorizacion/usuario/usuario-routing.module';
 
 @NgModule({
     imports: [
+
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
@@ -31,20 +29,15 @@ import { AgenciaTableComponent } from './table/agencia-table.component';
                
         HighlightModule,
         SirioCardModule,
-        AgenciaRoutingModule,
+        UserRoutingModule,
     ],
     declarations: [
-        AgenciaFormComponent,
-        AgenciaTableComponent,
-        AgenciaDetailComponent,
-        CupoAgenciaTableComponent,
-        CupoAgenciaPopupComponent,
-        ActualizarSaldoAgenciaFormComponent,
+        // UsuarioFormComponent,
+        UsuarioTableComponent,
+        UsuarioDetailComponent,
     ],
     exports: [],
-    entryComponents:[CupoAgenciaPopupComponent]
 })
-
-export class AgenciaModule {
+export class UsuarioModule {
 
 }
