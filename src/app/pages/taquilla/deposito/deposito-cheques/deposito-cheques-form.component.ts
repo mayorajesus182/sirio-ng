@@ -101,8 +101,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
         this.f.monto.valueChanges.subscribe(val => {
             if (val) {
-                // this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
-                // this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
+                this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
+                this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
                 this.calculateDifferences();
             }
         });
@@ -232,9 +232,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.contarChequePropio = propios.length;
         this.f.cantidadPropio.setValue(this.contarChequePropio);
         this.f.cantidadOtros.setValue(this.contarChequeOtros);
-
-        this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
-        this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
+        this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
+        this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
         this.cdr.detectChanges();
     }
 
@@ -246,45 +245,35 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
     errorDiferenciaChequesOtros(val: number, cont: number) {
 
-        if ((cont === 0) && (this.sumMontoChequePropio === 0)) {
+        this.f.chequeOtros.setErrors(undefined);
+        if ((cont === 0) || (this.f.chequeOtros.value > 0 && this.sumMontoChequeOtros==0)) {
             this.f.chequeOtros.setErrors({
                 chequeOtrosRequired: true
             });
 
             this.cdr.detectChanges();
-        } else {
-            if (val != this.f.chequeOtros.value) {
-                this.f.chequeOtros.setErrors({
-                    differenceOtros: true
-                });
-                this.cdr.detectChanges();
-            } else {
-                this.f.chequeOtros.setErrors(undefined);
-                this.cdr.detectChanges();
-            }
+        } else if (val != this.f.chequeOtros.value) {
+            this.f.chequeOtros.setErrors({
+                differenceOtros: true
+            });
+            this.cdr.detectChanges();
         }
-
     }
 
     errorDiferenciaChequesPropios(val: number, cont: number) {
 
-        if ((cont === 0) && (this.sumMontoChequeOtros === 0)) {
+        this.f.chequePropio.setErrors(undefined);
+        if ((cont === 0) || (this.f.chequePropio.value >0 && this.sumMontoChequePropio == 0)) {
             this.f.chequePropio.setErrors({
                 chequePropioRequired: true
             });
 
             this.cdr.detectChanges();
-        } else {
-
-            if (val != this.f.chequePropio.value) {
-                this.f.chequePropio.setErrors({
-                    differencePropio: true
-                });
-                this.cdr.detectChanges();
-            } else {
-                this.f.chequePropio.setErrors(undefined);
-                this.cdr.detectChanges();
-            }
+        } else if (val != this.f.chequePropio.value) {
+            this.f.chequePropio.setErrors({
+                differencePropio: true
+            });
+            this.cdr.detectChanges();
         }
     }
 
@@ -404,8 +393,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.chequeList = [];
         this.cheques.next([]);
         this.calculateDifferences();
-        // this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
-        // this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
+        this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
+        this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
     }
 }
 
