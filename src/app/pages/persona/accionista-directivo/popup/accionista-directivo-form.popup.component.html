@@ -24,16 +24,14 @@
                 </mat-slide-toggle>
             </div> -->
 
-            <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Documento'" [readonly]="!isNew"
-                formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentoList.asObservable()"
-                [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+            <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Documento'" [readonly]="!isNew" formControlName="tipoDocumento" [required]="true"
+                [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
             </sirio-select-search>
 
             <mat-form-field fxFlex="20">
                 <mat-label>{{'Número Documento ' | translate: {default:
                     'Número Documento '} | translate }} </mat-label>
-                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"
-                    formControlName="identificacion" uppercase required>
+                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required>
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                 </mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -44,8 +42,7 @@
             <mat-form-field fxFlex="50">
                 <mat-label>{{'Nombres y Apellidos:' | translate: {default:
                     'Nombres y Apellidos:'} | translate }} </mat-label>
-                <input matInput maxlength="200" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
-                    uppercase required>
+                <input matInput maxlength="200" minlength="1" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
                 <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}
                 </mat-error>
                 <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
@@ -63,24 +60,26 @@
                     translate }}
                 </mat-label>
 
-                <input matInput [max]="100.0-porcentajeAccionario" min="0.01" maxlength="6"  autocomplete="off" name="monto"
-                    formControlName="porcentaje" currencyMask [options]="{precision:2}">
+                <input matInput [max]="100.0-porcentajeAccionario" min="0.01" maxlength="6" autocomplete="off" name="monto" formControlName="porcentaje"
+                    currencyMask [options]="{precision:2}">
                 <mat-error *ngIf="f.porcentaje.errors?.required">Es requerido</mat-error>
-                <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)>0">{{'Debe ser menor que '+ (100.0-porcentajeAccionario|number:'1.2-2')+'%' }}
+                <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)>0">{{'Debe ser menor que '+
+                    (100.0-porcentajeAccionario|number:'1.2-2')+'%' }}
                 </mat-error>
-                <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)==0">Verificar la distribución del porcentaje, ya el 100% fue asignado</mat-error>
+                <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)==0">Verificar la distribución del porcentaje, ya el 100% fue asignado
+                </mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.min">Debe ser mayor que 0,01
                 </mat-error>
 
             </mat-form-field>
 
-            <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo:'" formControlName="cargo" [required]="true"
-                [elements]="cargoList.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
+            <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo:'" formControlName="cargo" [required]="true" [elements]="cargoList.asObservable()"
+                [attributeName]="'nombre'" [errors]="f.cargo?.errors">
             </sirio-select-search>
 
             <div fxFlex.gt-sm="25" class="text-right margin-top-md">
                 <mat-slide-toggle [color]="'primary'" formControlName="esPep" [(ngModel)]="f.esPep.value" name="esPep">
-                  {{'¿Es PEP / Es Relacionado PEP?' }}
+                    {{'¿Es PEP / Es Relacionado PEP?' }}
                 </mat-slide-toggle>
             </div>
 
@@ -95,72 +94,54 @@
 
     <div fxLayout="column" [formGroup]="pepAccionistaForm" *ngIf="itemForm && !itemForm.invalid && f.esPep.value">
 
-        <span class="margin-top-sm margin-bottom-lg semi-bold" >
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
             Es PEP / Es Relacionado PEP
         </span>
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-            <sirio-select-search fxFlex="auto" [label]="'Tipo Relación'" formControlName="tipoPep" [required]="true"
-                [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'" [errors]="cf.tipoPep?.errors">
+            <sirio-select-search fxFlex="auto" [label]="'Tipo Relación'" formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()"
+                [attributeName]="'nombre'" [errors]="cf.tipoPep?.errors">
             </sirio-select-search>
 
             <mat-form-field fxFlex="auto">
                 <mat-label>{{'Nombre y Apellido del Relacionado' }} </mat-label>
-                <input matInput autocomplete="off" maxlength="80" minlength="1" id="nombre" name="nombre"
-                    formControlName="nombre" class="text-center" uppercase required>
+                <input matInput autocomplete="off" maxlength="80" minlength="1" id="nombre" name="nombre" formControlName="nombre" class="text-center" uppercase
+                    required>
                 <mat-error *ngIf="cf.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="cf.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field>
 
         </div>
 
-        
-        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
 
-            <!-- 
-            <sirio-select-search fxFlex="20" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
-                [errors]="cf.tipoDocumento?.errors">
-            </sirio-select-search> -->
+        <ng-container *ngIf="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
 
-            <!-- [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE"  -->
-
-            <sirio-select-search fxFlex="auto" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE"  [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
-                [errors]="cf.tipoDocumento?.errors">
-            </sirio-select-search>
-
-            <!-- <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" 
-            [errors]="f.tipoDocumento?.errors">
-          </sirio-select-search> -->
-
-
-            <!-- <mat-form-field fxFlex="auto">
-                <mat-label>{{'Número Documento' | translate: {default:
-                    'Número Documento'} | translate }} </mat-label>
-                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"
-                    formControlName="identificacion" uppercase required>
-                <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
-                </mat-error>
-                <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
-                </mat-error>
-                <mat-error *ngIf="cf.identificacion.errors?.exists">La Identificación Existe</mat-error>
-            </mat-form-field> -->
-
-            <mat-form-field fxFlex="auto">
-                <mat-label>{{'Número  Documento: ' | translate: {default:
-                    'Número  Documento'} | translate }} </mat-label>
-                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
-                     [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
-                <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
-                </mat-error>
-                <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-                    translate}}
-                </mat-error>
-            </mat-form-field>
-
-            
-
-        </div>
+            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    
+    
+                <sirio-select-search fxFlex="auto" [label]="'Tipo Documento'"  [formControl]="pepAccionistaForm.controls['tipoDocumento']"
+                    [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
+                    [errors]="cf.tipoDocumento?.errors">
+                </sirio-select-search>
+    
+    
+                <mat-form-field fxFlex="auto">
+                    <mat-label>{{'Número Documento: ' | translate: {default:
+                        'Número Documento'} | translate }} </mat-label>
+                    <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"  [formControl]="pepAccionistaForm.controls['identificacion']" 
+                        [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
+                    <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' |
+                        translate}}
+                    </mat-error>
+                </mat-form-field>
+    
+    
+    
+            </div>
+        </ng-container>
 
 
 
@@ -169,8 +150,7 @@
             <mat-form-field fxFlex="40">
                 <mat-label>{{'Nombre del ente Adscripción' | translate: {default:
                     'Nombre del ente Adscripción'} | translate }} </mat-label>
-                <input matInput maxlength="80" minlength="1" autocomplete="off" name="ente" formControlName="ente"
-                    uppercase required>
+                <input matInput maxlength="80" minlength="1" autocomplete="off" name="ente" formControlName="ente" uppercase required>
                 <mat-error *ngIf="cf.ente.errors?.required">{{'error.required' | translate}}
                 </mat-error>
                 <mat-error *ngIf="cf.ente.errors?.pattern">{{'error.invalidCharacter' |
@@ -181,8 +161,7 @@
             <mat-form-field fxFlex="30">
                 <mat-label>{{'Cargo que Desempeña' | translate: {default:
                     'Cargo que Desempeña'} | translate }} </mat-label>
-                <input matInput maxlength="100" minlength="1" autocomplete="off" name="cargo" formControlName="cargo"
-                    uppercase required>
+                <input matInput maxlength="100" minlength="1" autocomplete="off" name="cargo" formControlName="cargo" uppercase required>
                 <mat-error *ngIf="cf.cargo.errors?.required">{{'error.required' | translate}}
                 </mat-error>
                 <mat-error *ngIf="cf.cargo.errors?.pattern">{{'error.invalidCharacter' |
@@ -190,8 +169,8 @@
                 </mat-error>
             </mat-form-field>
 
-            <sirio-select-search fxFlex.gt-xs="auto" [label]="'Pais'" formControlName="pais" [required]="true"
-                [elements]="paisList.asObservable()" [attributeName]="'nombre'" [errors]="cf.pais?.errors">
+            <sirio-select-search fxFlex.gt-xs="auto" [label]="'Pais'" formControlName="pais" [required]="true" [elements]="paisList.asObservable()"
+                [attributeName]="'nombre'" [errors]="cf.pais?.errors">
             </sirio-select-search>
 
 
@@ -205,7 +184,7 @@
                 <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
             </mat-dialog-actions> -->
 
-            
+
             <div class="text-center" fxFlex="1 1 0%">
                 <button color="black" [disabled]="pepAccionistaForm.invalid" (click)="add()" mat-button>
                     <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
@@ -216,20 +195,16 @@
 
         </div>
 
-        {{printErrors() | json}} 
-
         <mat-divider class="margin-bottom-sm margin-top-sm"></mat-divider>
 
-        <div fxLayout="column" fxLayout="row" fxLayoutGap="0" fxFlex>
+        <div fxLayout="column" fxLayout="row" fxLayoutGap="0">
 
-            <ngx-datatable fxFlex [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'flex'"
-                style="min-width: 100% !important;"
-                [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}"
-                [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70"
-                [limit]="10" [rows]="pepAccionistas | async">
+            <ngx-datatable fxFlex canAutoResize="false" class="material" rowHeight="auto" [columnMode]="'standard'"
+                [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Cantidad de PEPs'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+                [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="pepAccionistas | async">
 
 
-                <ngx-datatable-column [flexGrow]="0.5">
+                <ngx-datatable-column [resizeable]="false" [width]="200">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'Tipo Relación' | translate: {default: 'Tipo Relación'} | translate
                             }}</div>
@@ -239,17 +214,16 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1">
+                <ngx-datatable-column [resizeable]="false" [width]="260">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Nombre y Apellido del Relacionado' | translate: {default: 'Nombre y
-                            Apellido del Relacionado'} | translate }}</div>
+                        <div class="text-center">{{'Nombre y Apellido del Relacionado' | translate: {default: 'Nombre y Apellido'} | translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.nombre}}</div>
                     </ng-template>
                 </ngx-datatable-column>
-
-                <ngx-datatable-column [flexGrow]="0.5">
+                <!-- 
+                <ngx-datatable-column [resizeable]="false" [width]="200">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'Tipo Documento' | translate: {default: 'Tipo Documento'} | translate
                             }}</div>
@@ -257,29 +231,27 @@
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.tipoDocumento}}</div>
                     </ng-template>
-                </ngx-datatable-column>
+                </ngx-datatable-column> -->
 
-                <ngx-datatable-column [flexGrow]="1">
+                <ngx-datatable-column [resizeable]="false" [width]="200">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Identificación' | translate: {default: 'Identificación'} | translate
-                            }}</div>
+                        <div class="text-center">{{'Documento' | translate}}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <div style="white-space: break-spaces;" class="text-center"> {{ row?.identificacion}}</div>
+                        <div style="white-space: break-spaces;" class="text-center"> {{ row?.tipoDocumento+'-'}} {{ row?.identificacion}}</div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1">
+                <ngx-datatable-column [resizeable]="false" [width]="200">
                     <ng-template ngx-datatable-header-template>
-                        <div class="text-center">{{'Nombre del ente Adscripción' | translate: {default: 'Nombre del ente
-                            Adscripción'} | translate }}</div>
+                        <div class="text-center">{{'Nombre del ente Adscripción' | translate: {default: 'Nombre del ente Adscripción'} | translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
                         <div style="white-space: break-spaces;" class="text-center"> {{ row?.ente}}</div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="1">
+                <ngx-datatable-column [resizeable]="false" [width]="200">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'Cargo que Desempeña' | translate: {default: 'Cargo que Desempeña'} |
                             translate }}</div>
@@ -289,7 +261,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [flexGrow]="0.5">
+                <ngx-datatable-column [resizeable]="false" [width]="100">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'Pais' | translate: {default: 'Pais'} | translate }}</div>
                     </ng-template>
@@ -300,13 +272,12 @@
 
 
 
-                <ngx-datatable-column name="" [flexGrow]="0.3">
+                <ngx-datatable-column name="Acciones" [resizeable]="false" [width]="100">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'action.delete'| translate}} </div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template fxLayoutAlign="center">
-                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
-                            (click)="delete(row)" matTooltip="Eliminar">
+                        <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="delete(row)" matTooltip="Eliminar">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </ng-template>
@@ -318,6 +289,7 @@
 
 
 
+            <!-- {{pepAccionistaForm.errors|json}} -->
 
         </div>
 
@@ -326,10 +298,7 @@
 
 </mat-dialog-content>
 
-    <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-        <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-        <button mat-raised-button color="primary" (click)="save()"
-            [disabled]="!itemForm || itemForm.invalid">{{'button.save'|translate}}</button>
-
-
-    </mat-dialog-actions>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="!itemForm || itemForm.invalid">{{'button.save'|translate}}</button>
+</mat-dialog-actions>

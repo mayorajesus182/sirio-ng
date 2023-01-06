@@ -155,7 +155,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
       console.log('pep Accionistas ', varpep);
 
-      this.f.esPep.setValue(varpep.length>0)
+      this.f.esPep.setValue(varpep?varpep.length>0:false)
       this.cdr.detectChanges();      
     })
 
@@ -204,6 +204,20 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
         }
       }
     });
+
+    this.cf.tipoPep.valueChanges.subscribe(val => {
+      if (val) {
+        if (val==this.Pep.CLIENTE) {
+          this.cf.identificacion.setValue('')
+          this.cf.tipoDocumento.setValue(undefined)
+          this.cf.identificacion.setErrors(undefined)
+          this.cf.tipoDocumento.setErrors(undefined)
+        } 
+        this.cdr.detectChanges();
+      }
+    });
+
+    
 
   }
 
