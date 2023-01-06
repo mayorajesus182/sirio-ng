@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { ReporteTransportista, ReporteTransportistaService } from 'src/@sirio/domain/services/transporte/reports/reporte-transportista.service';
+import {TransportistaReports,TransportistaReportsService } from 'src/@sirio/domain/services/transporte/reports/transportista-reports.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -20,14 +20,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class ReporteCostoAvaluoFormComponent extends FormBaseComponent implements OnInit {
 
     public transportistas = new BehaviorSubject<Transportista[]>([]);
-    reporteTransportista: ReporteTransportista = {} as ReporteTransportista;
+    transportistaReports:TransportistaReports = {} as TransportistaReports;
 
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private reporteTransportistaService: ReporteTransportistaService,
+        private transportistaReportsService:TransportistaReportsService,
         private transportistaService: TransportistaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -42,20 +42,21 @@ export class ReporteCostoAvaluoFormComponent extends FormBaseComponent implement
 
     buildForm() {
         this.itemForm = this.fb.group({
-            transportista: new FormControl({ value: this.reporteTransportista.transportista || undefined }, [Validators.required]),
+            transportista: new FormControl(undefined),
         });
     }
 
     generate() {
         if (this.itemForm.invalid)
             return;
-        this.updateData(this.reporteTransportista);
+        this.updateData(this.transportistaReports);
         this.loadingDataForm.next(true);
-        this.reporteTransportistaService.costoAvaluoTransportista(this.reporteTransportista).subscribe(data => {
+        this.transportistaReportsService.costoAvaluoTransportista(this.transportistaReports).subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
             this.download(name, blob);
         });
+        this.itemForm.reset({});
     }
 }

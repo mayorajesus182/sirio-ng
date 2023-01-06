@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Injector } from '@angular/core';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { ReporteTransportista, ReporteTransportistaService } from 'src/@sirio/domain/services/transporte/reports/reporte-transportista.service';
+import { TransportistaReports, TransportistaReportsService } from 'src/@sirio/domain/services/transporte/reports/transportista-reports.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -14,17 +14,17 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ReporteMaterialFormComponent extends FormBaseComponent{
 
-    reporteTransportista: ReporteTransportista = {} as ReporteTransportista;
+    transportistaReports: TransportistaReports = {} as TransportistaReports;
 
     constructor(
         injector: Injector,
-        private reporteTransportistaService: ReporteTransportistaService) {
+        private transportistaReportsService: TransportistaReportsService) {
         super(undefined, injector);
     }
 
     generate() {
         this.loadingDataForm.next(true);
-        this.reporteTransportistaService.materialTransportista().subscribe(data => {
+        this.transportistaReportsService.materialTransportista().subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });

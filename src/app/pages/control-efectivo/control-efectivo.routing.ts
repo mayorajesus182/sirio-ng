@@ -111,6 +111,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Reporte Cierre Agencia' },
         loadChildren: () => import('./reports/cierre-agencia/reporte-cierre-agencia.module').then(m => m.ReporteCierreAgenciaModule),
     },
+    {
+        path: 'reporte-cuadre-agencia',
+        data: { title: 'Reporte Cuadre Agencia' },
+        loadChildren: () => import('./reports/cuadre-agencia/reporte-cuadre-agencia.module').then(m => m.ReporteCuadreAgenciaModule),
+    },
 
 ];
 

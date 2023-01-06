@@ -115,7 +115,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       if (val) {
         if (!this.validateNumeroTelefono(this.f.numero ? this.f.numero.value : undefined)) {
           this.f.numero.setErrors({ exists: true });
-          this.f.numero.markAsDirty();
+          this.f.numero.markAsTouched();
           this.cdr.detectChanges();
         }
         //  else {
