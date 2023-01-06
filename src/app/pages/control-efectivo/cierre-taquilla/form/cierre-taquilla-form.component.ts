@@ -43,9 +43,13 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     }
 
     loadSaldos() {
-        this.saldoTaquillaService.allWithMovements().subscribe(data => {
+        this.saldoTaquillaService.allOpen().subscribe(data => {
             this.saldos.next(data);
         });
+
+        // this.saldoTaquillaService.allWithMovements().subscribe(data => {
+        //     this.saldos.next(data);
+        // });
     }
 
     ngOnInit() {
