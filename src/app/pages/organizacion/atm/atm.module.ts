@@ -13,6 +13,8 @@ import { CajetinTableComponent } from './cajetin/table/cajetin-table.component';
 import { AtmDetailComponent } from './detail/atm-detail.component';
 import { AtmFormComponent } from './form/atm-form.component';
 import { AtmTableComponent } from './table/atm-table.component';
+import { ArqueoAtmConsultaTableComponent } from '../../control-efectivo/arqueo-atm/consulta/table/arqueo-atm-consulta-table.component';
+import { ArqueoAtmFormComponent } from '../../control-efectivo/arqueo-atm/form/arqueo-atm-form.component';
 
 
 @NgModule({

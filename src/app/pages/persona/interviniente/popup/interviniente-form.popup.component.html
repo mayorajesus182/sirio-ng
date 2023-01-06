@@ -1,11 +1,10 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
     <!-- TODO: PENDIENTE IN18 -->
-    <h1>Información del Cliente</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <h1>Interviniente</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
-
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
-        <mat-icon class="close-icon">close</mat-icon>
+        <mat-icon class="close-icon" color="accent" >close</mat-icon>
       </button>
     </div>
   </sirio-dialog-header-heading>
@@ -14,93 +13,88 @@
 
 
 <mat-dialog-content>
-  <div fxLayout="column">
-  
+  <div fxLayout="column" class="margin-bottom-sm">
+
     <div fxLayout="row">
       <div fxFlex="100">
-  
-        <sirio-person-query  (push)="pullPerson($event)" (create)="addPerson($event)"></sirio-person-query>
-      </div>
-  
-    </div>
-  
-  </div>
-  <form [formGroup]="itemForm" *ngIf="itemForm">
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-      <mat-form-field fxFlex="15">
-          <mat-label>{{'person.identi' | translate: {default: 'global.code'} | translate }}
-          </mat-label>
-          <input matInput [value]="d.id" readonly class="text-center">
-      </mat-form-field>
-
-      <mat-form-field fxFlex.gt-xs="70">
-          <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
-          </mat-label>
-          <input matInput [value]="d.nombre" readonly>
-      </mat-form-field>
-
-      <mat-form-field fxFlex="15">
-          <mat-label>{{'Cupo' | translate: {default: 'Cupo'} | translate }}
-          </mat-label>
-          <input matInput [value]="d.cupo | number: '1.2'" readonly class="text-right">
-      </mat-form-field>
-
-      <mat-form-field fxFlex="15">
-          <mat-label>{{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
-          </mat-label>
-          <input matInput [value]="d.horarioExt === 1 ? 'SI' : 'NO'" readonly class="text-center">
-      </mat-form-field>
-
-  </div>
-
-
-    <div fxLayout="column">
-
-      <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-        <mat-panel-title>
-
-          <button type="button" mat-icon-button type="button" color="primary">
-            <mat-icon>person</mat-icon>
-          </button>
-
-
-          <span class="margin-top-sm margin-bottom-lg semi-bold">
-            Condición de Firmas del(los) Participante(s)
-          </span>
-
-          <mat-panel-description>
-
-          </mat-panel-description>
-
-        </mat-panel-title>
-
+        <sirio-person-query [entity]="'interviniente'" title="Consultar Persona" (push)="pullPerson($event)" (create)="addPerson($event)"></sirio-person-query>
       </div>
 
-      <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'" [readonly]="!isNew" formControlName="tipoParticipacion" [required]="true"
-          [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoParticipacion?.errors">
-        </sirio-select-search>
-
-        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" [readonly]="!isNew" formControlName="tipoFirma" [required]="true"
-          [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirma?.errors">
-        </sirio-select-search>
-
-        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" [readonly]="!isNew" formControlName="tipoFirmante" [required]="true"
-          [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirmante?.errors">
-        </sirio-select-search>
-
-      </div>
     </div>
 
-    <!-- {{printErrors() | json}}  -->
+  </div>
+  <ng-container *ngIf="itemForm">
 
-  </form>
+    <div fxLayout="column" [formGroup]="itemForm"  class="padding-h-md">
+
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+  
+        <mat-form-field fxFlex="15">
+          <mat-label>{{'global.documentType' | translate }} </mat-label>
+          <input matInput autocomplete="off" name="tipoDocumento" [(ngModel)]="persona.tipoDocumento" disabled="true" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="30">
+          <mat-label>{{'global.identification' | translate }} </mat-label>
+          <input matInput autocomplete="off" class="text-center" name="identificacion" disabled="true"  formControlName="identificacion"> 
+        
+          <mat-error *ngIf="f.identificacion.errors?.exists">El número de documento ya esta registrado</mat-error>
+        </mat-form-field>
+  
+        <mat-form-field fxFlex="auto">
+          <mat-label>{{'global.fullName' | translate }} </mat-label>
+          <input matInput autocomplete="off" class="text-left" name="nombre" disabled="true" [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+  
+      </div>
+  
+  
+        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+          <mat-panel-title>
+  
+            <button type="button" mat-icon-button type="button" color="primary">
+              <mat-icon>person</mat-icon>
+            </button>
+  
+  
+            <span class="margin-top-sm margin-bottom-lg semi-bold">
+              Condición de Firmas del(los) Participante(s)
+            </span>
+  
+            <mat-panel-description>
+  
+            </mat-panel-description>
+  
+          </mat-panel-title>
+  
+        </div>
+  
+        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+  
+          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'" [readonly]="!isNew"  [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
+            [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoParticipacion?.errors">
+          </sirio-select-search>
+  
+          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" [readonly]="!isNew"  [formControl]="itemForm.controls['tipoFirma']" [required]="true"
+            [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirma?.errors">
+          </sirio-select-search>
+  
+          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" [readonly]="!isNew"   [formControl]="itemForm.controls['tipoFirmante']" [required]="true"
+            [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirmante?.errors">
+          </sirio-select-search>
+  
+        </div>
+      
+  
+      {{printErrors() | json}} 
+  
+    </div>
+
+  </ng-container>
+  
 </mat-dialog-content>
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!itemForm ||itemForm.invalid">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

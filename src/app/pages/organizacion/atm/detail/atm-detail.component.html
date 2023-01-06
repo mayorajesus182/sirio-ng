@@ -25,15 +25,15 @@
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-xs="10" >
-                                <mat-label>{{'atm.identification' | translate: {default: 'global.identification'} | translate }}
+                                <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly class="text-center">
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="15" >
-                                <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
+                                <mat-label>{{'atm.atmIdentification' | translate: {default: 'global.atmIdentification'} | translate }}
                                 </mat-label>
-                                <input matInput class="text-center" [value]="d.codigo" readonly class="text-center">
+                                <input matInput class="text-center" [value]="d.identificacion" readonly class="text-center">
                             </mat-form-field>
 
                             <mat-form-field fxFlex.gt-xs="20" >

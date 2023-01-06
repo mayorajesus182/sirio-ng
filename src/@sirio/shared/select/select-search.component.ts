@@ -47,7 +47,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
     @ViewChild("searchSelect", { static: false }) selectRef: ElementRef;
 
-    private select:MatSelect=undefined;
+    private select: MatSelect = undefined;
 
     private _onDestroy = new Subject<void>();
     /** list of elements filtered by search keyword */
@@ -99,13 +99,13 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
 
         this.reseted.subscribe(r => {
-            if(!this.select){
+            if (!this.select) {
                 // creo copia el elemento select
-                this.select= this.singleSelect;
+                this.select = this.singleSelect;
             }
-            
+
             if (r && this.select && this.autofocus) {
-                console.log('reset ', r, this.select);
+                // console.log('reset ', r, this.select);
 
                 // this.selectRef.nativeElement.focus();
                 this.select.focus();
@@ -208,7 +208,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
         }
 
         if (value === null || value == undefined) {
-            console.log('reset value');
+            // console.log('reset value');
             this.selectSearchControl.setValue(value);
             // this.selectSearchControl.reset();
 

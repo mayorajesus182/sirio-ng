@@ -7,7 +7,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RolConstants } from 'src/@sirio/constants';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
-import { ReporteGestionEfectivoAgencia, ReporteGestionEfectivoAgenciaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/reports-gestion-efectivo-agencia.service';
+import { GestionEfectivoReports, GestionEfectivoReportsService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/gestion-efectivo-reports.service';
 import { User } from 'src/@sirio/domain/services/security/auth.service';
 import { RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { SessionService } from 'src/@sirio/services/session.service';
@@ -23,14 +23,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class ReporteTaquillaOperativaFormComponent extends FormBaseComponent implements OnInit {
 
     public regiones = new BehaviorSubject<Region[]>([]);
-    reporteGestionEfectivoAgencia: ReporteGestionEfectivoAgencia = {} as ReporteGestionEfectivoAgencia;
+    gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
     esGteRegional: Boolean = false;
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private reporteGestionEfectivoAgenciaService: ReporteGestionEfectivoAgenciaService,
+        private gestionEfectivoReportsService: GestionEfectivoReportsService,
         private regionService: RegionService,
         private sessionService: SessionService,
         private rolService: RolService,
@@ -71,16 +71,14 @@ export class ReporteTaquillaOperativaFormComponent extends FormBaseComponent imp
         if (this.itemForm.invalid)
             return;
 
-            this.reporteGestionEfectivoAgencia.region = this.f.region.value;
-
-              console.log("REGION222222   ", this.reporteGestionEfectivoAgencia.region);          
-            this.updateData(this.reporteGestionEfectivoAgencia);     
-           
-            this.reporteGestionEfectivoAgenciaService.taquillaOperativa(this.reporteGestionEfectivoAgencia).subscribe(data => {                                   
+        this.updateData(this.gestionEfectivoReports);
+        this.loadingDataForm.next(true);
+        this.gestionEfectivoReportsService.taquillaOperativa(this.gestionEfectivoReports).subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
             this.download(name, blob);
         });
+        this.itemForm.reset({});
     }
 }

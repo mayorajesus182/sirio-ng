@@ -7,6 +7,7 @@ import { GlobalConstants } from 'src/@sirio/constants/global.constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
+import { Condicion, CondicionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/condicion.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Apoderado, ApoderadoService } from 'src/@sirio/domain/services/persona/apoderado/apoderado.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -26,6 +27,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   apoderado: Apoderado = {} as Apoderado;
     
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
+  public condicionList = new BehaviorSubject<Condicion[]>([]);
+
   paises = new BehaviorSubject<Pais[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -34,6 +37,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     private apoderadoService: ApoderadoService,
     private calendarioService: CalendarioService,
     private tipoDocumentoService: TipoDocumentoService,
+    private condicionService: CondicionService,
     private paisService: PaisService,
  
     private cdr: ChangeDetectorRef,
@@ -59,6 +63,14 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
+
+    this.condicionService.actives().subscribe(data => {
+      console.log(data);
+      
+      this.condicionList.next(data);
+      this.cdr.detectChanges();
+    })
+
 
     this.paisService.actives().subscribe(data => {
       this.paises.next(data);
@@ -88,7 +100,9 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     this.itemForm = this.fb.group({
 
       tipoDocumento: new FormControl(this.apoderado.tipoDocumento || undefined, [Validators.required]),
-      
+
+      condicion: new FormControl(this.apoderado.condicion || undefined, [Validators.required]),
+            
       identificacion: new FormControl(this.apoderado.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
 
       nombre: new FormControl(this.apoderado.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),

@@ -13,26 +13,11 @@
 [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
     [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="direcciones | async" rowHeight="auto"> -->
 
-<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.standard"apoderadoList
+<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.standard"
     [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
     [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="direcciones | async" rowHeight="auto">
 
 
-    <!-- <ngx-datatable-column name="Name" [width]="300" [sortable]="true">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value }}
-        </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Gender" [width]="300">
-        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-            {{ value }}
-        </ng-template>
-    </ngx-datatable-column>
-    <ngx-datatable-column name="Age" [width]="300">
-        <ng-template let-value="value" ngx-datatable-cell-template>
-            {{ value }}
-        </ng-template>
-    </ngx-datatable-column> -->
 
     <ngx-datatable-column  [resizeable]="false" [width]="100"  name="#">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>

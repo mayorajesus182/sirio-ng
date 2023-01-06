@@ -24,6 +24,8 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   intervinienteList: ReplaySubject<Interviniente[]> = new ReplaySubject<Interviniente[]>();
 
+  intervinientes:string[]=[];
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -37,9 +39,10 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   private loadList() {
     this.intervinienteService.allByCuentaId(this.cuenta).subscribe((data) => {
-
+      console.log(data);
+      this.intervinientes= data.map(i=>i.identificacion);
       this.intervinienteList.next(data.slice());
-      this.propagar.emit(data.length);
+      // this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
@@ -79,7 +82,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
       { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
           console.log('buscando interviniente', row.id);
-          this.intervinienteService.delete(row.id).subscribe(val => {
+          this.intervinienteService.delete(row.cuenta, row.persona).subscribe(val => {
             if (val) {
               this.loadList();
             }
@@ -95,13 +98,11 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
   }
 
   popup(data?: Interviniente) {
-    console.log(data);
+    // console.log(data);
     if (data) {
       data.cuenta = this.cuenta;
     }
-    this.showFormPopup(IntervinienteFormPopupComponent, !data ? { cuenta: this.cuenta } : data, '70%').afterClosed().subscribe(event => {
-      // console.log(event);
-
+    this.showFormPopup(IntervinienteFormPopupComponent, !data ? { cuenta: this.cuenta, intervinientes:this.intervinientes } : {data, intervinientes:this.intervinientes}, '70%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

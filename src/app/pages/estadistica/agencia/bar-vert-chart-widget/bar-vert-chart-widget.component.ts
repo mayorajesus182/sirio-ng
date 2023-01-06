@@ -5,7 +5,7 @@ import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.report.service';
+import { SaldoAgenciaReports, SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia-report.service';
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 @Component({
 
@@ -25,7 +25,7 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
   @Input() options: any;
 
   @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
-
+  saldoAgenciaReports: SaldoAgenciaReports = {} as SaldoAgenciaReports;
   highcharts = Highcharts;
   barChart: any = undefined;
 
@@ -55,9 +55,9 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
   }
 
   reportPdf(){
-
+    this.saldoAgenciaReports.agencia = this.agencia_curr;
     this.loadingDataForm.next(true);
-    (this.agencia_curr?  this.agenciaReport.reportResumenByAgencia(this.agencia_curr): this.agenciaReport.reportResumen() ).subscribe(data => {
+    (this.agencia_curr?  this.agenciaReport.reportResumenByAgencia(this.saldoAgenciaReports): this.agenciaReport.reportResumen() ).subscribe(data => {
       this.loadingDataForm.next(false);
       console.log('response:', data);
       const name = this.getFileName(data);

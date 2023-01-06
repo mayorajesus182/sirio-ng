@@ -185,7 +185,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             ingresos: new FormControl(this.personaJuridica.ingresos || undefined ? personaJuridica.ingresos : '', [Validators.required]),
             egresos: new FormControl(this.personaJuridica.egresos || undefined ? personaJuridica.egresos : '', [Validators.required]),
 
-            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
 
             montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? personaJuridica.montoDeclarado : '', [Validators.required]),
 
