@@ -58,6 +58,10 @@ export class AtmService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    disponible(id: string): Observable<Atm> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/disponible`);
+    }
+
     detail(id: string): Observable<Atm> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
