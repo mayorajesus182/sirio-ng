@@ -78,10 +78,11 @@
                         <i class="fa-light fa-user-pen fa-lg"></i>
                         {{'button.update' | translate: {default:'global.notfound'} | translate }}
                     </button>
-                    <button color="accent" class="btn-create" (click)="pushOn()" *ngIf="entity=='interviniente' || entity=='cuenta'"
+                    <button color="accent" class="btn-create" (click)="pushOn()" [matTooltip]="persona.id || persona.numper? 'CARGAR' : 'CREAR'" *ngIf="entity=='interviniente' || entity=='cuenta'"
                         mat-raised-button [disabled]="disableBtn | async">                      
                         <i class="fal fa-user-plus fa-lg" *ngIf="!persona.id && !persona.numper"></i>
-                        <i class="fal fa-user fa-lg" *ngIf="persona.id || persona.numper"></i>
+                        <!-- <i class="fal fa-user fa-lg" ></i> -->
+                        <i class="fal fa-user-check fa-lg" *ngIf="persona.id || persona.numper"></i>
                         {{(persona.id || persona.numper? 'CARGAR' : 'CREAR') | translate }}
                     </button>
                 </div>
