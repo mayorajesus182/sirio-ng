@@ -52,15 +52,12 @@ export class TaquillaTableComponent extends TableBaseComponent implements OnInit
   }
 
   activateOrInactivate(data: any) {
+    data.element.usuario = undefined;
     this.applyChangeStatus(this.taquillaService, data.element, data.element.nombre, this.cdr);
   }
 
   // TODO: REVISAR ETIQUETAS
   open(data: any) {
-
-    console.log(data);
-    
-
     this.swalService.show('¿Desea Abrir La Taquilla Para La Jornada De Hoy?', undefined, { 'html': data.element.nombre + '<br/> Asignada a: ' + data.element.usuario }).then((resp) => {
       if (!resp.dismiss) {
 
