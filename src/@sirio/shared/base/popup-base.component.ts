@@ -10,6 +10,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import {MatTabGroup} from '@angular/material/tabs'
 import { NgxSpinnerService } from 'ngx-spinner';
+import { Router } from '@angular/router';
 @Component({
     template: '',
     providers: [
@@ -21,6 +22,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
         },
         {
             provide: "spinner", useClass: NgxSpinnerService
+        },
+        {
+            provide: "router", useClass: Router
         }
     ]
 })
@@ -41,6 +45,7 @@ export class PopupBaseComponent {
     protected snack: SnackbarService;
     protected swalService: SweetAlertService;
     protected spinner: NgxSpinnerService;
+    protected router: Router;
 
     public phoneMask = {mask:['(', /[0]/,/[2]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],guide:false};
     public mobilePhoneMask= {mask:['(',/[0]/,/[4]/, /[1-2]/, /[2,4,6]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],guide:false}
@@ -61,11 +66,11 @@ export class PopupBaseComponent {
         protected dialog?: MatDialog
     
         ) {
-
         
             this.spinner = injector.get(NgxSpinnerService);
             this.snack = injector.get(SnackbarService);
             this.swalService = injector.get(SweetAlertService);
+            this.router = injector.get(Router);
         // this.phoneMask = ['(', /[0]/, /[1-2]/, /[1-9]/, /[1-9]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         // this.mobilePhoneMask = ['(', /[0]/, /[4]/, /[1-2]/, /[1-6]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 

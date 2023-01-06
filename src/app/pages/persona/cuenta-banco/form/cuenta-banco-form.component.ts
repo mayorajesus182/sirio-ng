@@ -70,6 +70,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     moneda = new BehaviorSubject<Moneda[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
+    private legals: string[] = [];
 
     constructor(
         injector: Injector,
@@ -145,6 +146,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.tipoProductos.next(data);
         });
 
+
+
+        this.tipoDocumentoService.activesJuridicos().subscribe(data => this.legals = data.map(t => t.id));
+
         this.cdr.detectChanges();
     }
 
@@ -179,50 +184,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.isNew = true;
     }
 
-    addPerson(event) {
-
-        console.log('create ', event);
-        this.isNew = true;
-        this.cuentaBanco = {} as CuentaBanco;
-        // this.updateDataFromValues(this.cuentaBanco, event);
-        this.buildForm();
-        this.loaded$.next(true);
-        // if(this.itemForm){
-        //     this.f.tipoDocumento.setValue(this.cuentaBanco.tipoDocumento);
-        //     this.f.identificacion.setValue(this.cuentaBanco.identificacion);
-        // }
-        //TODO: ESTO ES POSIBLE QUE SE USE
-        // this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
-    }
-
-    updatePerson(event) {
-        // console.log('update ', event);
-        if (!event.id) {
-            return;
-        }
-
-        this.persona = event;
-        // this.loadingDataForm.next(true);
-        this.isNew = true;
-        this.cuentaBanco = {} as CuentaBanco;
-        //console.log('current loaded ', this.loaded$.value);
-        this.loaded$.next(false);
-        this.buildForm();
-
-        // this.loadingDataForm.next(true);
-        // this.cuentaBancoService.get(Number.parseInt(event.id)).subscribe(val => {
-        //     this.cuentaBanco = val;
-        //     //console.log('PERSONAAAA: ', val);
-        //     //TODO: OJO REVISAR ESTO LUEGO
-        //     // this.itemForm.reset({});
-        //     this.loadingDataForm.next(false);
-        //     this.loaded$.next(true);
-        //     this.applyFieldsDirty();
-        //     this.cdr.detectChanges();
-        // });
-        //TODO: ESTO ES POSIBLE QUE SE USE
-        // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
-    }
 
     loadResult(event) {
         console.log('load event result ', event);
@@ -233,13 +194,16 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         if (!event.id && !event.numper) {
             this.persona = {} as Persona;
             this.resetAll();
+
+            const tpersona = this.legals.includes(event.tipoDocumento) ? 'juridico' : 'natural'
+            this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
             this.persona = event;
             this.loadingDataForm.next(true);
             // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
             // DEBO REDIRECCIONAR AL USUARIO AL 
             this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
-                // console.log(cuenta);
+                // terminar proceso de apertura de cuenta
                 this.isNew = false;
                 this.cuentaBanco = cuenta;
                 this.buildForm();

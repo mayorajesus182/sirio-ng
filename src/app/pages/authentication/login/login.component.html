@@ -18,7 +18,7 @@
         <mat-form-field fxFlex="grow">
           <mat-label>Contraseña</mat-label>
           <input matInput [type]="inputType" autocomplete="off" formControlName="password" required>
-          <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()" matTooltip="Toggle Visibility">
+          <button type="button" mat-icon-button matSuffix (click)="toggleVisibility()" matTooltip="{{visible?'Ocultar':'Mostrar'}}">
             <mat-icon *ngIf="visible">visibility</mat-icon>
             <mat-icon *ngIf="!visible">visibility_off</mat-icon>
           </button>
