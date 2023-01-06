@@ -41,8 +41,8 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
 
       this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
 
-        this.porcentajeAccionario= data.map(t => t.porcentaje |  0 ).reduce((a,b)=>a+b);
-        console.log(this.porcentajeAccionario);
+        console.log(data);
+        this.porcentajeAccionario= data.length > 0? data.map(t => t.porcentaje |  0 ).reduce((a,b)=>a+b):0;
 
               
         this.accionistaDirectivoList.next(data.slice());

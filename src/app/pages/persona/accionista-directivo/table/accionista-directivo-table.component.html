@@ -1,7 +1,7 @@
 <!-- Apoderado -->
 <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-        <button color="default" (click)="popup()" mat-button class="margin-bottom-sm">
+        <button color="default" (click)="popup()" mat-button class="margin-v-sm">
             <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
             'global.notfound'} | translate }}
         </button>
@@ -48,6 +48,16 @@
             <div class="text-center">{{row.porcentaje  }}</div>
         </ng-template>
     </ngx-datatable-column>
+
+    <!-- <ngx-datatable-column [resizeable]="false" [width]="280">
+        <ng-template ngx-datatable-header-template>
+            <span>Porcentaje Accionario</span>
+        </ng-template>
+        <ng-template let-row="row" ngx-datatable-cell-template >
+            <div class="text-center">{{row.porcentaje | imask:{mask: '000'} }}</div>
+        </ng-template>
+    </ngx-datatable-column> -->
+
 
     <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones" >        
         <ng-template let-row="row" ngx-datatable-cell-template>
