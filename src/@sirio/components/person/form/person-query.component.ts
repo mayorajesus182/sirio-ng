@@ -30,7 +30,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
-    @Input()title: string = 'Información del Cliente';
+    @Input() title: string = 'Información del Cliente';
     @Input() taquilla: boolean = false;
     @Input() entity: 'interviniente' | 'persona' | 'cuenta' = 'persona';
     @Input() disabled: boolean = false;
@@ -107,7 +107,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-
 
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {

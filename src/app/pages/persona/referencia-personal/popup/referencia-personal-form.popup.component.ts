@@ -88,26 +88,20 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     if (this.defaults.payload.data.id) {
       this.referenciaPersonalService.get(this.defaults.payload.data.id).subscribe(data => {
         this.mode = 'global.edit';
-        console.log('referencia xxx1  personal',this.defaults.payload);
+        // console.log('referencia xxx1  personal',this.defaults.payload);
         this.referencia = data;
         this.buildForm();
         this.loadingDataForm.next(false);
-        this.cdr.detectChanges();
-        
+        this.cdr.detectChanges();        
       })
     } else {
       this.referencia = {} as ReferenciaPersonal;
       this.buildForm();
       this.loadingDataForm.next(false);
       this.cdr.detectChanges();
-      console.log('referencia xxx2  personal',this.defaults.payload);
+      // console.log('referencia xxx2  personal',this.defaults.payload);
     }
-
-    
-
-    
   }
-
 
   buildForm() {
     //validar carcteres especiales
