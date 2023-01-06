@@ -7,12 +7,12 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface AccionistaDirectivo {
     id: string;
-    persona: String;
+    persona: string;
     tipoDocumento: string;
     identificacion: string;
     nombre: string;
-    cargo: String;
-    porcentaje: String;
+    cargo: string;
+    porcentaje: number;
     pepList: any[];
 }
 

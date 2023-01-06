@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
-import { ReporteGestionEfectivoAgencia, ReporteGestionEfectivoAgenciaService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/reports-gestion-efectivo-agencia.service';
+import { GestionEfectivoReports, GestionEfectivoReportsService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/gestion-efectivo-reports.service';
 import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -22,15 +22,14 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
 
     public regiones = new BehaviorSubject<Region[]>([]);
     public agencias = new BehaviorSubject<Agencia[]>([]);
-
-    reporteGestionEfectivoAgencia: ReporteGestionEfectivoAgencia = {} as ReporteGestionEfectivoAgencia;
+    gestionEfectivoReportes: GestionEfectivoReports = {} as GestionEfectivoReports;
 
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private reporteGestionEfectivoAgenciaService: ReporteGestionEfectivoAgenciaService,
+        private gestionEfectivoReportsService: GestionEfectivoReportsService,
         private regionService: RegionService,
         private agenciaService: AgenciaService,
         private cdr: ChangeDetectorRef) {
@@ -46,8 +45,8 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
 
     buildForm() {
         this.itemForm = this.fb.group({
-            region: new FormControl({ value: this.reporteGestionEfectivoAgencia.region || undefined }, [Validators.required]),
-            agencia: new FormControl({ value: this.reporteGestionEfectivoAgencia.agencia|| undefined }, [Validators.required]),
+            region: new FormControl(undefined),
+            agencia: new FormControl(undefined),
         });
 
         this.f.region.valueChanges.subscribe(value => {
@@ -61,9 +60,10 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
     generate() {
         if (this.itemForm.invalid)
             return;
-        this.updateData(this.reporteGestionEfectivoAgencia);
+
+        this.updateData(this.gestionEfectivoReportes);
         this.loadingDataForm.next(true);
-        this.reporteGestionEfectivoAgenciaService.cupoAgencia(this.reporteGestionEfectivoAgencia).subscribe(data => {
+        this.gestionEfectivoReportsService.cupoAgencia(this.gestionEfectivoReportes).subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
@@ -71,4 +71,17 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
         });
         this.itemForm.reset({});
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

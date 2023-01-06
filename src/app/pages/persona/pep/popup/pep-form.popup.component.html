@@ -40,7 +40,7 @@
 
     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO"></div> -->
 
-    
+    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE"> -->
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE">
       <!-- {{printErrors() | json}} -->
       <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE"

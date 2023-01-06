@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import * as moment from 'moment';
@@ -7,7 +6,6 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
-import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { MotivoDevolucion, MotivoDevolucionService } from 'src/@sirio/domain/services/configuracion/taquilla/motivo-devolucion.service';
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
@@ -34,7 +32,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     public motivosDevoluciones: MotivoDevolucion[] = [];
-    
+
     cheque: Cheque = {} as Cheque;
     chequeList: Cheque[] = [];
     cheques: ReplaySubject<Cheque[]> = new ReplaySubject<Cheque[]>();
@@ -89,24 +87,24 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
         this.f.chequePropio.valueChanges.subscribe(val => {
             if (val) {
-                this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
+                this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
                 this.calculateDifferences();
             }
         });
 
         this.f.chequeOtros.valueChanges.subscribe(val => {
             if (val) {
-                this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+                this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
                 this.calculateDifferences();
             }
         });
 
         this.f.monto.valueChanges.subscribe(val => {
             if (val) {
-                this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
-                this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+                // this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
+                // this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
                 this.calculateDifferences();
-            }    
+            }
         });
 
         //Me trae la data de la cuenta que se selecciono
@@ -136,8 +134,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             serial: new FormControl(this.cheque.serial, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             numeroCuentaCheque: new FormControl(this.cheque.numeroCuentaCheque, [Validators.required]),
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(this.cheque.montoCheque? '': ''),
-            //  ? 0.00 : ''
+            montoCheque: new FormControl(this.cheque.montoCheque ? this.cheque.montoCheque : ''),
             // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
             motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
@@ -165,8 +162,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
                 if ((val === GlobalConstants.CHEQUE) || (val === GlobalConstants.CHEQUE_GERENCIA)) {
                     this.cf.tipoDocumentoCheque.setErrors(undefined)
                 } else {
-                    this.cf.tipoDocumentoCheque.setErrors({ 
-                        tipoDocumentoCheque: true 
+                    this.cf.tipoDocumentoCheque.setErrors({
+                        tipoDocumentoCheque: true
                     });
                 }
             }
@@ -189,7 +186,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
         let cheque = {} as Cheque;
         this.updateDataFromValues(cheque, this.chequeForm.value);
-        cheque.fechaEmision=cheque.fechaEmision?cheque.fechaEmision.format('DD/MM/YYYY'):'';
+        cheque.fechaEmision = cheque.fechaEmision ? cheque.fechaEmision.format('DD/MM/YYYY') : '';
         this.chequeList.push(cheque);
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
@@ -221,6 +218,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.chequeList.splice(index, 1);
         this.cheques.next(this.chequeList.slice());
         this.refresTotalCheque();
+        this.cf.montoCheque ? this.cf.montoCheque : ''
         this.cdr.detectChanges();
     }
 
@@ -234,38 +232,59 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.contarChequePropio = propios.length;
         this.f.cantidadPropio.setValue(this.contarChequePropio);
         this.f.cantidadOtros.setValue(this.contarChequeOtros);
-        this.errorDiferenciaChequesPropios(this.sumMontoChequePropio);
-        this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros);
+
+        this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
+        this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
         this.cdr.detectChanges();
     }
 
     // Mostrar el Icono de color Rojo, para diferenciar los 
     // Cheques Propios de Cheques Otros Bancos
-    esChequePropio(row : Cheque){
-        return row? row.numeroCuentaCheque.startsWith(this.sessionService.getUser().organizationId ) : false;
+    esChequePropio(row: Cheque) {
+        return row ? row.numeroCuentaCheque.startsWith(this.sessionService.getUser().organizationId) : false;
     }
 
-    errorDiferenciaChequesOtros(val: number) {
-        if (val != this.f.chequeOtros.value) {
+    errorDiferenciaChequesOtros(val: number, cont: number) {
+
+        if ((cont === 0) && (this.sumMontoChequePropio === 0)) {
             this.f.chequeOtros.setErrors({
-                differenceOtros: true
+                chequeOtrosRequired: true
             });
+
             this.cdr.detectChanges();
         } else {
-            this.f.chequeOtros.setErrors(undefined);
-            this.cdr.detectChanges();
+            if (val != this.f.chequeOtros.value) {
+                this.f.chequeOtros.setErrors({
+                    differenceOtros: true
+                });
+                this.cdr.detectChanges();
+            } else {
+                this.f.chequeOtros.setErrors(undefined);
+                this.cdr.detectChanges();
+            }
         }
+
     }
 
-    errorDiferenciaChequesPropios(val: number) {
-        if (val != this.f.chequePropio.value) {
+    errorDiferenciaChequesPropios(val: number, cont: number) {
+
+        if ((cont === 0) && (this.sumMontoChequeOtros === 0)) {
             this.f.chequePropio.setErrors({
-                differencePropio: true
+                chequePropioRequired: true
             });
+
             this.cdr.detectChanges();
         } else {
-            this.f.chequePropio.setErrors(undefined);
-            this.cdr.detectChanges();
+
+            if (val != this.f.chequePropio.value) {
+                this.f.chequePropio.setErrors({
+                    differencePropio: true
+                });
+                this.cdr.detectChanges();
+            } else {
+                this.f.chequePropio.setErrors(undefined);
+                this.cdr.detectChanges();
+            }
         }
     }
 
@@ -345,9 +364,9 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
     calculateDifferences() {
 
-        let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0.0;
-        let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0.0;
-        let valorMontoTotal = this.f.monto.value ? this.f.monto.value : 0.0;
+        let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0;
+        let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0;
+        let valorMontoTotal = this.f.monto.value ? this.f.monto.value : 0;
         let valorChequesTotal = valorChequePorpio + valorChequeOtros;
         // La diferencia entre la suma de los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
@@ -364,10 +383,12 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             this.f.monto.setErrors({
                 totalDifference: true
             });
-
             this.f.monto.markAsDirty();
+            this.cdr.detectChanges();
 
         } else {
+            // this.f.chequeOtros.setErrors(null);
+            // this.f.chequePropio.setErrors(null);
             this.f.monto.setErrors(undefined);
         }
     }
@@ -382,6 +403,9 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.cf.montoCheque.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
+        this.calculateDifferences();
+        // this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
+        // this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
     }
 }
 

@@ -3,13 +3,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { PepConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-natural/cargo.service';
 import { TipoPep, TipoPepService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-pep.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { AccionistaDirectivo, AccionistaDirectivoService } from 'src/@sirio/domain/services/persona/accionista-directivo/accionista-directivo.service';
 import { PepAccionista } from 'src/@sirio/domain/services/persona/pep-accionista/pep.service';
+import { Pep } from 'src/@sirio/domain/services/persona/pep/pep.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 @Component({
@@ -20,8 +21,14 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
+  pep: Pep = {} as Pep;
+
   accionistaDirectivo: AccionistaDirectivo = {} as AccionistaDirectivo;
   pepAccionista: PepAccionista = {} as PepAccionista;
+
+  public Pep = PepConstants;
+
+  porcentajeAccionario:number=0;
 
   public pepAccionistaForm: FormGroup;
 
@@ -65,6 +72,8 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   ngOnInit() {
 
+    this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
+
     this.tipoPepService.actives().subscribe(data => {
 
       this.tipoPepList.next(data);
@@ -105,8 +114,30 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       this.loadingDataForm.next(false);
     }
 
+    
+
     this.buildPepForm();
   }
+
+  refreshValidators(val:string){
+    if(!val){
+      return;
+    }
+
+    if(val === PepConstants.ASOCIADO){
+      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+    }
+    if(val === PepConstants.CLIENTE){
+      this.removeValidator(['ente','cargo','pais']);
+    }
+    
+    if(val === PepConstants.PARENTESCO){
+      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+    }
+
+    this.cdr.detectChanges();
+  }
+
 
   buildForm() {
     this.itemForm = this.fb.group({
@@ -115,7 +146,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       identificacion: new FormControl(this.accionistaDirectivo.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       nombre: new FormControl(this.accionistaDirectivo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.accionistaDirectivo.cargo || undefined, [Validators.required]),
-      porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+      porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
       esPep: new FormControl(false),
 
     });
@@ -124,12 +155,14 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
       console.log('pep Accionistas ', varpep);
 
-      this.f.esPep.setValue(varpep.length>0)
+      this.f.esPep.setValue(varpep?varpep.length>0:false)
       this.cdr.detectChanges();      
     })
 
     this.pepAccionistas.next(this.accionistaDirectivo.pepList);
     this.pepList = this.accionistaDirectivo.pepList || [];
+
+    
 
     this.cdr.detectChanges();
   }
@@ -138,8 +171,12 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.pepAccionistaForm = this.fb.group({
       // tipoPep: const newLocal = (new FormControl(this.pepAccionista.tipoPep || undefined, [Validators.required]),
       tipoPep: new FormControl(this.pepAccionista.tipoPep || '', [Validators.required]),
-      tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || '', [Validators.required]),
-      identificacion: new FormControl(this.pepAccionista.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+      // tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || '', [Validators.required]),
+
+      identificacion: new FormControl(this.pepAccionista.identificacion || undefined),
+      tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || undefined),
+      
+      // identificacion: new FormControl(this.pepAccionista.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       nombre: new FormControl(this.pepAccionista.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       ente: new FormControl(this.pepAccionista.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.pepAccionista.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
@@ -147,7 +184,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
     });
 
-    console.log('Save ', this.accionistaDirectivo);
 
     this.cf.tipoDocumento.valueChanges.subscribe(val => {
       if (val) {
@@ -168,6 +204,20 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
         }
       }
     });
+
+    this.cf.tipoPep.valueChanges.subscribe(val => {
+      if (val) {
+        if (val==this.Pep.CLIENTE) {
+          this.cf.identificacion.setValue('')
+          this.cf.tipoDocumento.setValue(undefined)
+          this.cf.identificacion.setErrors(undefined)
+          this.cf.tipoDocumento.setErrors(undefined)
+        } 
+        this.cdr.detectChanges();
+      }
+    });
+
+    
 
   }
 
@@ -205,15 +255,33 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     });
   }
 
+  //angel
+  isRdOrNp() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    // verificar si es Asociado o Parentesco
+    return this.f.tipoIngreso.value == PepConstants.ASOCIADO || this.f.tipoIngreso.value == PepConstants.PARENTESCO;
+  }
+
+  //verificar si es cliente
+
+  isOtrIng() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    
+    return this.f.tipoIngreso.value == PepConstants.CLIENTE;
+  }
+
   save() {
+    if(this.itemForm.invalid){
+      return;
+    }
 
     // console.log('mode ', this.mode);
-    this.updateData(this.accionistaDirectivo);// aca actualizamos la direccion
+    this.updateData(this.accionistaDirectivo);
     this.accionistaDirectivo.persona = this.defaults.payload.persona;
-
-    console.log('Save ', this.accionistaDirectivo);
-
-    // {{printErrors() | json}} 
 
     // this.updateData(this.pepAccionista);// aca actualizamos la direccion
     // this.accionistaDirectivo.persona = this.defaults.payload.persona;
@@ -221,9 +289,17 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.accionistaDirectivo.pepList = this.pepList;
 
 
-    console.log(this.accionistaDirectivo);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.accionistaDirectivoService, this.accionistaDirectivo, 'ACCIONISTADIRECTIVO', this.accionistaDirectivo.id == undefined);
 
+  }
+
+  private removeValidator(ignoreKeys: string[]) {
+    Object.keys(this.f).forEach(key => {
+      if (!ignoreKeys.includes(key)) {
+        this.itemForm.get(key).setErrors(null);
+        this.cdr.detectChanges();
+      }
+    });
   }
 }

@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agencyQuotasRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['balanceAgenciesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,10 +9,10 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'agencyQuotasRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'balanceAgenciesRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-
+                       
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
@@ -32,17 +32,15 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search fxFlex.gt-xs="50" [label]="'agencyQuotasRep.region' | translate: {default: 'global.region'} | translate"
-                                    formControlName="region" [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.region?.errors">
+                                <sirio-select-search
+                                    fxFlex.gt-xs="100"
+                                    [label]="'balanceAgenciesRep.agency' | translate: {default: 'global.agency'} | translate"
+                                    formControlName="agencia" [required]="true" [elements]="agencias.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
                                 </sirio-select-search>
-
-                                <sirio-select-search fxFlex.gt-xs="50" [label]="'agencyQuotasRep.agency' | translate: {default: 'global.agency'} | translate"
-                                    formControlName="agencia" [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.agencia?.errors">
-                                </sirio-select-search>
-
+                                
                             </div>
+
                         </form>
                     </div>
                 </sirio-card-content>
