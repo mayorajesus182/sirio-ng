@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 const autorizacionRoutes: Routes = [
 
     {
-        path: 'usuario',
+        path: 'usuarios',
         data: { title: 'Usuarios' },
         loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule),
     },

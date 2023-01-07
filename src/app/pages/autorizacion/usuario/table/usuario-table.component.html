@@ -1,13 +1,13 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['usuario.table']" current="global.list"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['user.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'usuario.table' | translate: {default: 'Usuarios global.notfound'}" placeholder="usuario.search"
+        <sirio-list [name]="'user.table' | translate: {default: 'global.notfound'}" placeholder="user.search"
             (filterChange)="onFilterChange($event)">
 
-            <mat-table #table id="tableContainer" [dataSource]="dataSource" [@animateStagger]="{value:'50'}" matSort
+            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="usuario_id" matSortDirection="asc">
 
 
@@ -73,7 +73,7 @@
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-10 text-center'">
 
-                        <mat-chip mat-sm-chip [color]="'primary'" [selected]="element.activo">{{element.activo ?
+                        <mat-chip mat-sm-chip [color]="'accent'" [selected]="element.activo">{{element.activo ?
                             'Activo' :
                             'Inactivo'}}
                         </mat-chip>
@@ -92,8 +92,7 @@
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
-                    [@animate]="{value:'*',params:{y:'100%'}}">
+                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
