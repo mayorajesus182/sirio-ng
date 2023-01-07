@@ -1,18 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { genialBetAnimations } from 'app/shared/animations';
-import { SnackbarService } from 'app/shared/services/snackbar.service';
-import PerfectScrollbar from 'perfect-scrollbar';
-import { FormBaseComponent } from '../../../../shared/components/base/form-base.component';
-import { Usuario, UsuarioService } from '../../../../shared/domain/services/autorizacion/usuario.service';
-import { RegularExpConstants } from 'app/shared/constants/regularexp.constants';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { SweetAlertService } from 'app/shared/services/swal.service';
 import { BehaviorSubject } from 'rxjs';
-import { Perfil, PerfilService } from 'app/shared/domain/services/autorizacion/perfil.service';
-import { Rol, RolService } from 'app/shared/domain/services/autorizacion/rol.service';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { RegularExpConstants } from 'src/@sirio/constants';
+import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
+import { Usuario, UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
+import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 
 @Component({
@@ -20,42 +16,40 @@ import { Rol, RolService } from 'app/shared/domain/services/autorizacion/rol.ser
     templateUrl: './usuario-form.component.html',
     styleUrls: ['./usuario-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: genialBetAnimations
+    animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class UsuarioFormComponent extends FormBaseComponent implements OnInit,AfterViewInit {
+export class UsuarioFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     usuario: Usuario = {} as Usuario;
     public perfiles = new BehaviorSubject<Perfil[]>([]);
     public rols = new BehaviorSubject<Rol[]>([]);
     constructor(
-        dialog: MatDialog,
+
+        injector: Injector,
         private fb: FormBuilder,
-        snack: SnackbarService,
         private route: ActivatedRoute,
-        spinner: NgxSpinnerService,
-        swal: SweetAlertService,
         private usuarioService: UsuarioService,
-        private perfilService:PerfilService,
-        private rolService:RolService,
+        private perfilService: PerfilService,
+        private rolService: RolService,
         private cdr: ChangeDetectorRef) {
-        super(dialog, snack, spinner, swal)
+        super(undefined,injector)
     }
     ngAfterViewInit(): void {
-        
+
         this.loading$.subscribe(loaded => {
             if (!loaded) {
 
                 this.perfilService.actives().subscribe(data => {
                     // console.log(data);
-                    
+
                     this.perfiles.next(data);
                     this.cdr.detectChanges();
                 });
 
                 this.rolService.actives().subscribe(data => {
                     // console.log(data);
-                    
+
                     this.rols.next(data);
                     this.cdr.detectChanges();
                 });
@@ -69,7 +63,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit,Af
                         this.codigoExists(value);
                     }
                 });
-        
+
                 this.f.email.valueChanges.subscribe(value => {
                     if (!this.f.email.errors && this.f.email.value.length > 0) {
                         this.emailExists(value);
@@ -89,7 +83,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit,Af
         if (id) {
             this.usuarioService.get(id).subscribe((art: Usuario) => {
                 this.usuario = art;
-                console.log('usr ',art); 
+                console.log('usr ', art);
                 this.buildForm(this.usuario);
                 this.itemForm.controls['id'].disable();
                 this.cdr.markForCheck();
@@ -99,9 +93,9 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit,Af
             this.buildForm(this.usuario);
             this.itemForm.controls['email'].disable();
             this.f.id.valueChanges.subscribe(value => {
-                if(!value || value == ''){
+                if (!value || value == '') {
                     this.itemForm.controls['email'].disable();
-                }else{
+                } else {
                     this.itemForm.controls['email'].enable();
                 }
             });
@@ -111,14 +105,14 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit,Af
 
 
     }
-    
+
 
     buildForm(usuario: Usuario) {
         this.itemForm = this.fb.group({
             id: new FormControl(usuario.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            identificacion: new FormControl(usuario.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHANUMERIC_ACCENTS_CHARACTERS)]),
-            nombre: new FormControl(usuario.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHANUMERIC_ACCENTS_CHARACTERS)]),
-            email: new FormControl(usuario.email || '', [Validators.required, Validators.email]),
+            identificacion: new FormControl(usuario.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(usuario.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            email: new FormControl(usuario.email || '', [Validators.required]),
             ldap: new FormControl(usuario.ldap || false),
             perfiles: new FormControl(usuario.perfiles || undefined, [Validators.required]),
             // roles: new FormControl(usuario.roles || undefined, [Validators.required]),
@@ -151,7 +145,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit,Af
     private userLdapExists(id) {
         this.usuarioService.existsLdap(id).subscribe(data => {
             console.log(data);
-            
+
             if (data.exists) {
                 // this.itemForm.controls['id'].setErrors({
                 //     usuarioExists: "El usuario existe, ingrese uno distinto"
@@ -181,7 +175,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit,Af
     //   this.todo.tag.splice(this.todo.tag.indexOf(tagId), 1);
     //   this.cdr.markForCheck();
     // }
-   
+
 }
 
     // openTagManaginDialogue() {

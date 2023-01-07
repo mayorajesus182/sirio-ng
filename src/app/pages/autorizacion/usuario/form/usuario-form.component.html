@@ -1,109 +1,104 @@
-<mat-toolbar>
-    <button mat-icon-button matTooltip="Regresar" routerLink="/autorizacion/usuarios">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-        Usuario
-    </span>
-    <!-- <span fxFlex></span> -->
-    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['user.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
 
-        <button mat-icon-button matTooltip="Activar/Inactivar" *ngIf="usuario.id" (click)="activateOrInactivate()">
-            <mat-icon>check_circle</mat-icon>
-        </button>
-        <button mat-icon-button matTooltip="Guardar" (click)="save()" [disabled]="itemForm?.invalid">
-            <mat-icon>save</mat-icon>
-        </button>
-    </div>
-</mat-toolbar>
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'user.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+                    <div [formGroup]="itemForm" *ngIf="itemForm" class="form-content">
+
+                        <div fxLayout="row wrap" fxLayoutAlign="center center">
+                            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Usuario</mat-label>
+                                    <input matInput name="id" formControlName="id" autocomplete="off" required>
+                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.id.hasError('usuarioExists')">
+                                        {{f.id.errors?.usuarioExists}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Nombre y Apellido</mat-label>
+                                    <input matInput name="nombre" formControlName="nombre" autocomplete="off" required>
+                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row wrap" fxLayoutAlign="center center">
+                            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Identificación</mat-label>
+                                    <input matInput maxlength="15" name="identificacion" autocomplete="off" formControlName="identificacion" required>
+                                    <mat-error *ngIf="f.identificacion.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.identificacion.errors?.pattern">Sólo caracteres alfanuméricos</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <mat-form-field appearance="outline" class="full-width">
+                                    <mat-label>Email</mat-label>
+                                    <input matInput name="email" formControlName="email" autocomplete="off" required>
+                                    <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.email && !f.email.errors?.required">Email inválido</mat-error>
+                                    <mat-error *ngIf="f.email.hasError('emailExists')">
+                                        {{f.email.errors?.emailExists}}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
 
 
-<!-- input fields for title and notes -->
-<div class="form-container" id="itemForm">
-    <form [formGroup]="itemForm" *ngIf="itemForm" class="form-content" (ngSubmit)="save()">
+                        <div fxLayout="row wrap" fxLayoutAlign="center center">
+                            <div fxFlex="100" fxFlex.gt-xs="100">
 
-        <div fxLayout="row wrap" fxLayoutAlign="center center">
-            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Usuario</mat-label>
-                    <input matInput name="id" formControlName="id" autocomplete="off" required>
-                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                    <mat-error *ngIf="f.id.hasError('usuarioExists')">
-                        {{f.id.errors?.usuarioExists}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div fxFlex="100" fxFlex.gt-xs="50">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Nombre y Apellido</mat-label>
-                    <input matInput name="nombre" formControlName="nombre" autocomplete="off" required>
-                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                </mat-form-field>
-            </div>
+                                <app-select-search [label]="'Perfil(es)'" formControlName="perfiles" [required]="true" [elements]="perfiles.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.perfiles?.errors">
+                                </app-select-search>
+
+                            </div>
+                        </div>
+
+
+                        <div fxLayout="row wrap" fxLayoutAlign="left left">
+                            <div fxFlex="100" fxFlex.gt-xs="50">
+                                <mat-slide-toggle [color]="'primary'" formControlName="ldap">
+                                    ¿Este usuario debe autenticar con LDAP?
+                                </mat-slide-toggle>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
         </div>
-
-        <div fxLayout="row wrap" fxLayoutAlign="center center">
-            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Identificación</mat-label>
-                    <input matInput maxlength="15" name="identificacion" autocomplete="off"
-                        formControlName="identificacion" required>
-                    <mat-error *ngIf="f.identificacion.errors?.required">Requerido</mat-error>
-                    <mat-error *ngIf="f.identificacion.errors?.pattern">Sólo caracteres alfanuméricos</mat-error>
-                </mat-form-field>
-            </div>
-            <div fxFlex="100" fxFlex.gt-xs="50">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput name="email" formControlName="email" autocomplete="off" required>
-                    <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
-                    <mat-error *ngIf="f.email.errors?.email && !f.email.errors?.required">Email inválido</mat-error>
-                    <mat-error *ngIf="f.email.hasError('emailExists')">
-                        {{f.email.errors?.emailExists}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-
-
-        <div fxLayout="row wrap" fxLayoutAlign="center center">
-            <div fxFlex="100" fxFlex.gt-xs="100">
-
-                    <app-select-search [label]="'Perfil(es)'" formControlName="perfiles" [multiple]="true" [required]="true"
-                                   [elements]="perfiles.asObservable()" [attributeName]="'nombre'"
-                                   [errors]="f.perfiles?.errors">
-                </app-select-search>
-
-            </div>
-        </div>
-
-        <!-- <div fxLayout="row wrap" fxLayoutAlign="center center">
-            <div fxFlex="100" fxFlex.gt-xs="100">
-
-                    <app-select-search [label]="'Rol(es)'" formControlName="roles" [multiple]="true" [required]="true"
-                                   [elements]="rols.asObservable()" [attributeName]="'nombre'"
-                                   [errors]="f.roles?.errors">
-                </app-select-search>
-
-            </div>
-        </div> -->
-
-        <div fxLayout="row wrap" fxLayoutAlign="left left">
-            <div fxFlex="100" fxFlex.gt-xs="50">
-                <mat-slide-toggle [color]="'primary'" formControlName="ldap">
-                    ¿Este usuario debe autenticar con LDAP?
-                </mat-slide-toggle>
-            </div>
-        </div>
-
-
-    </form>
-    <mat-toolbar>
-
-        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-            <button type="button" mat-button routerLink="/autorizacion/usuarios">Cancelar</button>
-            <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid">Guardar</button>
-        </div>
-
-    </mat-toolbar>
-</div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

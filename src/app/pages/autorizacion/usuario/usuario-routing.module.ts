@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { UsuarioDetailComponent } from './detail/usuario-detail.component';
+import { UsuarioFormComponent } from './form/usuario-form.component';
 // import { UsuarioFormComponent } from './form/usuario-form.component';
 import { UsuarioTableComponent } from './table/usuario-table.component';
 
@@ -12,16 +13,16 @@ const usuarioRoutes: Routes = [
     component: UsuarioTableComponent,
     data: { title: 'Usuarios' }
   },
-  // {
-  //   path: 'add',
-  //   component: UsuarioFormComponent,
-  //   data: { title: 'Crear Usuario' }
-  // },
-  // {
-  //   path: ':id/edit',
-  //   component: UsuarioFormComponent,
-  //   data: { title: 'Editar Usuario' }
-  // },
+  {
+    path: 'add',
+    component: UsuarioFormComponent,
+    data: { title: 'Crear Usuario' }
+  },
+  {
+    path: ':id/edit',
+    component: UsuarioFormComponent,
+    data: { title: 'Editar Usuario' }
+  },
   {
     path: ':id/view',
     component: UsuarioDetailComponent,

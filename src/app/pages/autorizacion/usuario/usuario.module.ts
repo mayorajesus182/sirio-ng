@@ -13,6 +13,7 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { UsuarioDetailComponent } from 'src/app/pages/autorizacion/usuario/detail/usuario-detail.component';
 import { UsuarioTableComponent } from 'src/app/pages/autorizacion/usuario/table/usuario-table.component';
 import { UserRoutingModule } from 'src/app/pages/autorizacion/usuario/usuario-routing.module';
+import { UsuarioFormComponent } from './form/usuario-form.component';
 
 @NgModule({
     imports: [
@@ -32,7 +33,7 @@ import { UserRoutingModule } from 'src/app/pages/autorizacion/usuario/usuario-ro
         UserRoutingModule,
     ],
     declarations: [
-        // UsuarioFormComponent,
+        UsuarioFormComponent,
         UsuarioTableComponent,
         UsuarioDetailComponent,
     ],

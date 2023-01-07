@@ -4,11 +4,16 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
+import { Perfil } from './perfil.service';
 
 
 export interface Usuario {
     id: string;
     nombre: string;
+    identificacion: string;
+    email: string;
+    ldap: number;
+    perfiles: Perfil[];
     fechaCreacion?: any;
     activo?: number;
 }
@@ -25,33 +30,23 @@ export class UsuarioService {
         this.apiConfig = {name: ApiConfConstants.API_AUTORIZACION, prefix: '/usuario'};
     }
 
+
+    pageActives(filter = '', sortPropertie = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).page('/page/actives', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
+    existsLdap(id: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/ldap/exists`);
+    }
+
+    existsEmail(email: string, id: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${email}/${id}/exists/email`);
+    }
+
     actives(): Observable<Usuario[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    gerenteRegionalPorAsignar(): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).get('/gerenteregional/porasinar/list');
-    }   
-
-    gerenteRegionalActives(): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).get('/gerenteregional/actives');
-    }   
-
-    gerenteAgenciaActives(): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).get('/gerenteagencia/actives');
-    }   
-
-    oficinaPrincipalActives(): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).get('/principal/actives');
-    }  
-
-    transportistaActives(): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).get('/transportista/actives');
-    }  
-
-    taquillaRolAactives(): Observable<Usuario[]> {
-        return this.apiService.config(this.apiConfig).get('/with-rol/actives');
-    }
 
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
@@ -82,6 +77,31 @@ export class UsuarioService {
 
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
+    }
+
+
+    gerenteRegionalPorAsignar(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/gerenteregional/porasinar/list');
+    }   
+
+    gerenteRegionalActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/gerenteregional/actives');
+    }   
+
+    gerenteAgenciaActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/gerenteagencia/actives');
+    }   
+
+    oficinaPrincipalActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/principal/actives');
+    }  
+
+    transportistaActives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/transportista/actives');
+    }  
+
+    taquillaRolAactives(): Observable<Usuario[]> {
+        return this.apiService.config(this.apiConfig).get('/with-rol/actives');
     }
 
 }
