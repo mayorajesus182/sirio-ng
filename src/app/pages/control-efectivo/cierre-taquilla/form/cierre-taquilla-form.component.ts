@@ -43,9 +43,13 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
     }
 
     loadSaldos() {
-        this.saldoTaquillaService.allWithMovements().subscribe(data => {
+        this.saldoTaquillaService.allOpen().subscribe(data => {
             this.saldos.next(data);
         });
+
+        // this.saldoTaquillaService.allWithMovements().subscribe(data => {
+        //     this.saldos.next(data);
+        // });
     }
 
     ngOnInit() {
@@ -124,7 +128,14 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
 
         this.swalService.show('Monto Declarado ' + declaradoFormat, undefined, { 'html': this.calculateDifferences(saldoSave) }).then((resp) => {
             if (!resp.dismiss) {
-                this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
+
+                    this.saldoTaquillaService.update(saldoSave).subscribe(data => {
+                        this.itemForm.reset({});
+                        this.successResponse('La declaración de cierre', 'Procesada', false);
+                        return data;
+                    }, error => this.errorResponse(true));
+           
+                // this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
             } else {
                 this.loadSaldos();
             }

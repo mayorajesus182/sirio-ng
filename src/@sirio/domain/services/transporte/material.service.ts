@@ -9,6 +9,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 export interface Material {
     id: string;
     nombre: string;
+    plomo: number;
     fechaCreacion?: any;
     activo?: number;
 }
