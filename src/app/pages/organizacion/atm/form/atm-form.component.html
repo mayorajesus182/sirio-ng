@@ -31,117 +31,124 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div fxLayout="row" fxLayoutGap="10px"  >
+                    <div fxLayout="row wrap" fxLayoutGap="10px">
 
-                        <div fxLayout="column" fxFlex.gt-sm="55" fxFlex.lt-sm="100" >
+                        <div fxLayout="row" fxFlex.gt-sm="54%">
 
-                            <form [formGroup]="itemForm" *ngIf="itemForm" fxFlex="100">
-        
-                                    <div  fxLayout.gt-sm="row" fxLayoutGap="5px">
-        
-                                        <mat-form-field fxFlex.gt-sm="20">
-                                            <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
-                                            </mat-label>
-                                            <input matInput maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
-                                            <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
-                                            <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                            <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
-                                        </mat-form-field>
-            
-                                        <mat-form-field fxFlex.gt-sm="40">
-                                            <mat-label>{{'atm.atmIdentification' | translate: {default: 'global.atmIdentification'} | translate }}
-                                            </mat-label>
-                                            <input matInput maxlength="10" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required
-                                                class="text-center">
-                                            <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
-                                            <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                            <mat-error *ngIf="f.identificacion.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
-                                        </mat-form-field>
-            
-                                        <sirio-select-search fxFlex="auto" [label]="'atm.coin' | translate: {default: 'global.coin'} | translate"
-                                            formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.moneda?.errors">
-                                        </sirio-select-search>    
-        
-                                    </div>
-        
-                                    <div   fxLayout.gt-sm="row" fxLayoutGap="5px">
-        
-        
-                                        <sirio-select-search fxFlex="auto" [label]="'atm.atmType' | translate: {default: 'global.atmType'} | translate"
-                                            formControlName="tipoAtm" [required]="true" [elements]="tipoAtms.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tipoAtm?.errors">
-                                        </sirio-select-search>
-            
-                                        <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === remoto" [label]="'atm.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
-                                            formControlName="transportista" [required]="f.tipoAtm.value === remoto" [elements]="transportistas.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.transportista?.errors">
-                                        </sirio-select-search>
-            
-                                        <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === oficina"  [label]="'atm.agency' | translate: {default: 'global.agency'} | translate"
-                                            formControlName="agencia" [required]="f.tipoAtm.value === oficina" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.agencia?.errors">
-                                        </sirio-select-search>
-        
-                                    </div>
-        
-                                    
-        
-                            </form>
+                            <div [formGroup]="itemForm" *ngIf="itemForm" fxLayout="column" fxFlex>
+
+                                <div fxLayout.gt-sm="row wrap" fxLayoutGap="5px">
+
+                                    <mat-form-field fxFlex.gt-sm="20">
+                                        <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
+                                        </mat-label>
+                                        <input matInput maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
+                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex.gt-sm="40">
+                                        <mat-label>{{'atm.atmIdentification' | translate: {default: 'global.atmIdentification'} | translate }}
+                                        </mat-label>
+                                        <input matInput maxlength="10" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
+                                            required class="text-center">
+                                        <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.identificacion.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
+                                    </mat-form-field>
+
+                                    <sirio-select-search fxFlex="auto" [label]="'atm.coin' | translate: {default: 'global.coin'} | translate"
+                                        formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
+                                        [errors]="f.moneda?.errors">
+                                    </sirio-select-search>
+
+                                </div>
+
+                                <div fxLayout.gt-sm="row wrap" fxLayoutGap="5px">
+
+
+                                    <sirio-select-search fxFlex="auto" [label]="'atm.atmType' | translate: {default: 'global.atmType'} | translate"
+                                        formControlName="tipoAtm" [required]="true" [elements]="tipoAtms.asObservable()" [attributeName]="'nombre'"
+                                        [errors]="f.tipoAtm?.errors">
+                                    </sirio-select-search>
+
+                                    <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === remoto"
+                                        [label]="'atm.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
+                                        formControlName="transportista" [required]="f.tipoAtm.value === remoto" [elements]="transportistas.asObservable()"
+                                        [attributeName]="'nombre'" [errors]="f.transportista?.errors">
+                                    </sirio-select-search>
+
+                                    <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === oficina"
+                                        [label]="'atm.agency' | translate: {default: 'global.agency'} | translate" formControlName="agencia"
+                                        [required]="f.tipoAtm.value === oficina" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
+                                        [errors]="f.agencia?.errors">
+                                    </sirio-select-search>
+
+                                </div>
+
+
+
+                            </div>
 
                         </div>
 
 
-                        <div fxLayout="column" fxFlex.gt-sm="auto" fxFlex.lt-sm="100">
-                            <ngx-datatable  canAutoResize="false" class="material" rowHeight="auto" [columnMode]="'standard'"
-                            [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
-                            [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
-        
-                            <ngx-datatable-column [resizeable]="false" [width]="200" [sortable]="true">
-                                <ng-template ngx-datatable-header-template>
-                                    <span>{{'boxes.name' | translate: {default: 'global.name'} |
-                                        translate}}</span>
-                                </ng-template>
-                                <ng-template let-row="row" ngx-datatable-cell-template >
-                                    <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
-                                </ng-template>
-                            </ngx-datatable-column>
-        
-                            <ngx-datatable-column [resizeable]="false" [width]="200" [sortable]="true">
-                                <ng-template ngx-datatable-header-template>
-                                    <span>{{'boxes.billsQuantity' | translate: {default: 'global.billsQuantity'} |
-                                        translate}}</span>
-                                </ng-template>
-                                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                    <input class="mat-input text-right" maxlength="4"  [(ngModel)]="row.cantidad" autofocus matInput type="number"  />
-                                </ng-template>
-                            </ngx-datatable-column>
-        
-                            <ngx-datatable-column [resizeable]="false" [width]="300" [sortable]="true">
-                                <ng-template ngx-datatable-header-template >
-                                    <span>{{'boxes.denomination' | translate: {default: 'global.denomination'} |
-                                        translate}}</span>
-                                </ng-template>
-                                <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                                    <mat-form-field  style="margin-top: -10px;font-size: 12px;" fxFlex="100">
-                                        <select class="text-center"  matNativeControl (change)="selectConoMonetario($event,row)">
-                                            <option value=""></option>
-                                            <option *ngFor="let item of conos" [value]="item.id" [selected]="row.conoMonetario===item.id">{{item.denominacion}} - {{item.nombreMoneda}}</option>
-                                        </select>
-                                    </mat-form-field>
-                                </ng-template>
-                            </ngx-datatable-column>
-        
+                        <div fxLayout="row" fxFlex.gt-sm="45%" fxFlex.lt-sm="100">
+                            <div fxLayout="column" fxFlex>
 
-                        </ngx-datatable>
-        
+                                <ngx-datatable [scrollbarV]="false" [scrollbarH]="true" canAutoResize="false" class="material" rowHeight="auto" [columnMode]="'standard'"
+                                    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
+                                    [headerHeight]="50" [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
+    
+                                    <ngx-datatable-column [resizeable]="false" [width]="200" [sortable]="true">
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>{{'boxes.name' | translate: {default: 'global.name'} |
+                                                translate}}</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+    
+                                    <ngx-datatable-column [resizeable]="false" [width]="200" [sortable]="true">
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>{{'boxes.billsQuantity' | translate: {default: 'global.billsQuantity'} |
+                                                translate}}</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                            <input class="mat-input text-right" maxlength="4" [(ngModel)]="row.cantidad" autofocus matInput type="number" />
+                                        </ng-template>
+                                    </ngx-datatable-column>
+    
+                                    <ngx-datatable-column [resizeable]="false" [width]="280" [sortable]="true">
+                                        <ng-template ngx-datatable-header-template>
+                                            <span>{{'boxes.denomination' | translate: {default: 'global.denomination'} |
+                                                translate}}</span>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                            <mat-form-field style="margin-top: -10px;font-size: 12px;" fxFlex="100">
+                                                <select class="text-center" matNativeControl (change)="selectConoMonetario($event,row)">
+                                                    <option value=""></option>
+                                                    <option *ngFor="let item of conos" [value]="item.id" [selected]="row.conoMonetario===item.id">
+                                                        {{item.denominacion}} - {{item.nombreMoneda}}</option>
+                                                </select>
+                                            </mat-form-field>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+    
+    
+                                </ngx-datatable>
+                            </div>
+                            
+
                         </div>
                     </div>
 
                     <!-- <div fxLayout="column" class="margin-h-lg padding-v-md">
                         
                     </div> -->
-                <!-- {{printErrors() | json}} -->
+                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
