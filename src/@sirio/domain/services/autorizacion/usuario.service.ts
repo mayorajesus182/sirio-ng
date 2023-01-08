@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { Perfil } from './perfil.service';
+import { Rol } from '../workflow/rol.service';
 
 
 export interface Usuario {
@@ -13,7 +14,8 @@ export interface Usuario {
     identificacion: string;
     email: string;
     ldap: number;
-    perfiles: Perfil[];
+    perfil: Perfil;
+    ROL: Rol;
     fechaCreacion?: any;
     activo?: number;
 }

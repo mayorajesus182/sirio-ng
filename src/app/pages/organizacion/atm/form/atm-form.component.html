@@ -39,7 +39,7 @@
 
                                 <div fxLayout.gt-sm="row wrap" fxLayoutGap="5px">
 
-                                    <mat-form-field fxFlex.gt-sm="20">
+                                    <mat-form-field fxFlex.gt-sm="20" fxFlex="100">
                                         <mat-label>{{'atm.code' | translate: {default: 'global.code'} | translate }}
                                         </mat-label>
                                         <input matInput maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
@@ -48,7 +48,7 @@
                                         <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex.gt-sm="40">
+                                    <mat-form-field fxFlex.gt-sm="40" fxFlex="100">
                                         <mat-label>{{'atm.atmIdentification' | translate: {default: 'global.atmIdentification'} | translate }}
                                         </mat-label>
                                         <input matInput maxlength="10" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase

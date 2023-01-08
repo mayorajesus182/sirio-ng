@@ -19,71 +19,74 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-                    <div [formGroup]="itemForm" *ngIf="itemForm" class="form-content">
 
-                        <div fxLayout="row wrap" fxLayoutAlign="center center">
-                            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
-                                <mat-form-field appearance="outline" class="full-width">
-                                    <mat-label>Usuario</mat-label>
-                                    <input matInput name="id" formControlName="id" autocomplete="off" required>
-                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.id.hasError('usuarioExists')">
-                                        {{f.id.errors?.usuarioExists}}
-                                    </mat-error>
-                                </mat-form-field>
+                    <div fxLayout="row" fxFlex="100%">
+                        <div [formGroup]="itemForm" *ngIf="itemForm" fxLayout="column" fxFlex>
+
+                            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                                <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Usuario</mat-label>
+                                        <input matInput name="id" formControlName="id" autocomplete="off" required>
+                                        <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                                        <mat-error *ngIf="f.id.hasError('usuarioExists')">
+                                            {{f.id.errors?.usuarioExists}}
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Nombre y Apellido</mat-label>
+                                        <input matInput name="nombre" formControlName="nombre" autocomplete="off" required>
+                                        <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                                    </mat-form-field>
+                                </div>
                             </div>
-                            <div fxFlex="100" fxFlex.gt-xs="50">
-                                <mat-form-field appearance="outline" class="full-width">
-                                    <mat-label>Nombre y Apellido</mat-label>
-                                    <input matInput name="nombre" formControlName="nombre" autocomplete="off" required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-                                </mat-form-field>
+
+                            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                                <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Identificación</mat-label>
+                                        <input matInput maxlength="15" name="identificacion" autocomplete="off" formControlName="identificacion" required>
+                                        <mat-error *ngIf="f.identificacion.errors?.required">Requerido</mat-error>
+                                        <mat-error *ngIf="f.identificacion.errors?.pattern">Sólo caracteres alfanuméricos</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <mat-form-field appearance="outline" class="full-width">
+                                        <mat-label>Email</mat-label>
+                                        <input matInput name="email" formControlName="email" autocomplete="off" required>
+                                        <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
+                                        <mat-error *ngIf="f.email.errors?.email && !f.email.errors?.required">Email inválido</mat-error>
+                                        <mat-error *ngIf="f.email.hasError('emailExists')">
+                                            {{f.email.errors?.emailExists}}
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
                             </div>
+
+
+                            <div fxLayout="row wrap" fxLayoutAlign="center center">
+                                <div fxFlex="100" fxFlex.gt-xs="100">
+
+                                    <app-select-search [label]="'Perfil(es)'" formControlName="perfiles" [required]="true" [elements]="perfiles.asObservable()"
+                                        [attributeName]="'nombre'" [errors]="f.perfiles?.errors">
+                                    </app-select-search>
+
+                                </div>
+                            </div>
+
+
+                            <div fxLayout="row wrap" fxLayoutAlign="left left">
+                                <div fxFlex="100" fxFlex.gt-xs="50">
+                                    <mat-slide-toggle [color]="'primary'" formControlName="ldap">
+                                        ¿Este usuario debe autenticar con LDAP?
+                                    </mat-slide-toggle>
+                                </div>
+                            </div>
+
+
                         </div>
-
-                        <div fxLayout="row wrap" fxLayoutAlign="center center">
-                            <div fxFlex="100" fxFlex.gt-xs="50" class="pr-10">
-                                <mat-form-field appearance="outline" class="full-width">
-                                    <mat-label>Identificación</mat-label>
-                                    <input matInput maxlength="15" name="identificacion" autocomplete="off" formControlName="identificacion" required>
-                                    <mat-error *ngIf="f.identificacion.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.identificacion.errors?.pattern">Sólo caracteres alfanuméricos</mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div fxFlex="100" fxFlex.gt-xs="50">
-                                <mat-form-field appearance="outline" class="full-width">
-                                    <mat-label>Email</mat-label>
-                                    <input matInput name="email" formControlName="email" autocomplete="off" required>
-                                    <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.email.errors?.email && !f.email.errors?.required">Email inválido</mat-error>
-                                    <mat-error *ngIf="f.email.hasError('emailExists')">
-                                        {{f.email.errors?.emailExists}}
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-
-
-                        <div fxLayout="row wrap" fxLayoutAlign="center center">
-                            <div fxFlex="100" fxFlex.gt-xs="100">
-
-                                <app-select-search [label]="'Perfil(es)'" formControlName="perfiles" [required]="true" [elements]="perfiles.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.perfiles?.errors">
-                                </app-select-search>
-
-                            </div>
-                        </div>
-
-
-                        <div fxLayout="row wrap" fxLayoutAlign="left left">
-                            <div fxFlex="100" fxFlex.gt-xs="50">
-                                <mat-slide-toggle [color]="'primary'" formControlName="ldap">
-                                    ¿Este usuario debe autenticar con LDAP?
-                                </mat-slide-toggle>
-                            </div>
-                        </div>
-
-
                     </div>
                 </sirio-card-content>
                 <mat-toolbar>

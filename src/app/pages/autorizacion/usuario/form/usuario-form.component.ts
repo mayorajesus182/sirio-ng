@@ -114,7 +114,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
             nombre: new FormControl(usuario.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             email: new FormControl(usuario.email || '', [Validators.required]),
             ldap: new FormControl(usuario.ldap || false),
-            perfiles: new FormControl(usuario.perfiles || undefined, [Validators.required]),
+            perfil: new FormControl(usuario.perfil || undefined, [Validators.required]),
             // roles: new FormControl(usuario.roles || undefined, [Validators.required]),
         });
     }
