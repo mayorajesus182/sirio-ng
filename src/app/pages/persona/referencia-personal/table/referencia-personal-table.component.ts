@@ -116,7 +116,7 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
     //     }
     // }); 
 
-    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:{data,referencias:this.referencias},'40%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:{...data,...{referencias:this.referencias}},'40%').afterClosed().subscribe(event=>{
        
       console.log(event);
       
