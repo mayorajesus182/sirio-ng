@@ -1,12 +1,15 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { RegularExpConstants, RolConstants } from 'src/@sirio/constants';
 import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
 import { Usuario, UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
+import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
+import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
+import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -23,7 +26,24 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
     usuario: Usuario = {} as Usuario;
     public perfiles = new BehaviorSubject<Perfil[]>([]);
-    public rols = new BehaviorSubject<Rol[]>([]);
+    public roles = new BehaviorSubject<Rol[]>([]);
+    public agencias = new BehaviorSubject<Agencia[]>([]);
+    public regiones = new BehaviorSubject<Region[]>([]);
+    public transportistas = new BehaviorSubject<Transportista[]>([]);
+    rolConstant=RolConstants;
+
+    agenciaMandatory:string[]=[
+        this.rolConstant.GERENTE_TESORERO_AGENCIA,
+        this.rolConstant.OPERADOR_TAQUILLA
+    ]
+
+
+
+    public agencyRols: string[] = [];
+
+    @ViewChild('username') username: ElementRef;
+    @ViewChild('email') email: ElementRef;
+
     constructor(
 
         injector: Injector,
@@ -32,44 +52,75 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
         private usuarioService: UsuarioService,
         private perfilService: PerfilService,
         private rolService: RolService,
+        private agenciaService: AgenciaService,
+        private regionService: RegionService,
+        private transportistaService: TransportistaService,
         private cdr: ChangeDetectorRef) {
-        super(undefined,injector)
+        super(undefined, injector)
     }
     ngAfterViewInit(): void {
 
-        this.loading$.subscribe(loaded => {
-            if (!loaded) {
-
+        this.loading$.subscribe(loading => {
+            if (loading==false) {
+                // finalizo la  carga de info, cargo las dependencias
                 this.perfilService.actives().subscribe(data => {
                     // console.log(data);
 
                     this.perfiles.next(data);
-                    this.cdr.detectChanges();
                 });
 
                 this.rolService.actives().subscribe(data => {
                     // console.log(data);
 
-                    this.rols.next(data);
-                    this.cdr.detectChanges();
+                    this.roles.next(data);
+                });
+
+                this.agenciaService.actives().subscribe(data => {
+                    // console.log(data);
+
+                    this.agencias.next(data);
+                });
+
+                this.regionService.actives().subscribe(data => {
+                    // console.log(data);
+
+                    this.regiones.next(data);
+                });
+
+                this.transportistaService.actives().subscribe(data => {
+                    // console.log(data);
+
+                    this.transportistas.next(data);
                 });
 
 
-                this.f.id.valueChanges.subscribe(value => {
-                    if (!this.f.id.errors && this.f.id.value.length > 0) {
-                        this.codigoExists(value);
-                    }
-                    if (!this.f.id.errors && this.f.id.value.length > 4) {
-                        this.codigoExists(value);
+                this.eventFromElement(this.username, 'keyup')?.subscribe(() => {
+                    // this.filterChange.emit(this.filter.nativeElement.value);
+                        if (!this.f.id.errors && this.username.nativeElement.value.length > 4) {
+                        this.codigoExists(this.username.nativeElement.value);
                     }
                 });
 
-                this.f.email.valueChanges.subscribe(value => {
-                    if (!this.f.email.errors && this.f.email.value.length > 0) {
-                        this.emailExists(value);
+
+                this.eventFromElement(this.email, 'keyup')?.subscribe(() => {
+                    // this.filterChange.emit(this.filter.nativeElement.value);
+                        if (!this.f.email.errors && this.email.nativeElement.value.length > 4) {
+                        this.emailExists(this.email.nativeElement.value);
                     }
                 });
 
+                this.f.rol.valueChanges.subscribe(val=>{
+                    // reiniciar los campos que depende del rol, para que no queden obligatorios
+                        this.f.region.setValue(undefined);
+                        this.f.agencia.setValue(undefined);
+                        this.f.transportista.setValue(undefined);
+                        
+                        this.f.region.setErrors(undefined);
+                        this.f.agencia.setErrors(undefined);
+                        this.f.transportista.setErrors(undefined);
+
+                    
+                })
 
             }
         });
@@ -99,8 +150,8 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
                     this.itemForm.controls['email'].enable();
                 }
             });
-
             this.loadingDataForm.next(false);
+
         }
 
 
@@ -115,7 +166,12 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
             email: new FormControl(usuario.email || '', [Validators.required]),
             ldap: new FormControl(usuario.ldap || false),
             perfil: new FormControl(usuario.perfil || undefined, [Validators.required]),
-            // roles: new FormControl(usuario.roles || undefined, [Validators.required]),
+            rol: new FormControl(usuario.rol || undefined),
+            region: new FormControl(usuario.region || undefined),
+            agencia: new FormControl(usuario.agencia || undefined),
+            transportista: new FormControl(usuario.agencia || undefined),
+            telefonoMovil: new FormControl(usuario.telefonoMovil || undefined),
+            telefonoLocal: new FormControl(usuario.telefonoLocal || undefined),
         });
     }
 
@@ -125,6 +181,8 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
         this.updateData(this.usuario);
 
         console.log(this.usuario);
+
+        this.usuario.ldap = this.usuario.ldap?1:0;
 
 
         this.saveOrUpdate(this.usuarioService, this.usuario, 'El Usuario', this.isNew);
@@ -137,8 +195,13 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
         this.usuarioService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    usuarioExists: "El usuario existe, ingrese uno distinto"
+                    usuarioExists: "El código de usuario ya existe"
                 });
+                this.cdr.detectChanges();
+            }
+            if(this.f.email.value && this.f.email.value.length > 0){
+
+                this.emailExists(this.f.email.value);
             }
         });
     }
@@ -155,11 +218,12 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     private emailExists(email) {
-        this.usuarioService.existsEmail(email, this.itemForm.value.id).subscribe(data => {
+        this.usuarioService.existsEmail(this.itemForm.value.id,email).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['email'].setErrors({
                     emailExists: "El Email ya esta registrado"
                 });
+                this.cdr.detectChanges();
             }
         });
     }

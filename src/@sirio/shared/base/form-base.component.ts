@@ -2,7 +2,7 @@
 import { Location } from "@angular/common";
 import { HttpResponse } from "@angular/common/http";
 
-import { ChangeDetectorRef, Component, Injector } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Injector } from "@angular/core";
 import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
@@ -10,7 +10,8 @@ import { Router } from "@angular/router";
 import { TranslateService } from "@ngx-translate/core";
 import { saveAs } from 'file-saver';
 import { NgxSpinnerService, Spinner } from "ngx-spinner";
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, fromEvent, Observable } from "rxjs";
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { NavigationService } from "src/@sirio/services/navigation.service";
 import { SnackbarService } from "src/@sirio/services/snackbar.service";
 import { SweetAlertService } from "src/@sirio/services/swal.service";
@@ -58,7 +59,7 @@ export class FormBaseComponent {
 
     progress: { percentage: number } = { percentage: 0 };
     public data: any;
-    public loadingDataForm = new BehaviorSubject<boolean>(false);
+    public loadingDataForm = new BehaviorSubject<boolean>(undefined);
 
     protected loading$ = this.loadingDataForm.asObservable();
 
@@ -434,6 +435,16 @@ export class FormBaseComponent {
             filename = `reporte.${ext ? ext : 'xlsx'}`
         }
         return filename
+    }
+
+    eventFromElement(el:ElementRef,event){
+        if(!el){
+            return;
+        }
+        return fromEvent(el.nativeElement, event).pipe(
+            distinctUntilChanged(),
+            debounceTime(1000)
+          );
     }
 
 }

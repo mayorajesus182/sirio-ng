@@ -35,6 +35,8 @@ $spacing-sm: 10px;
 $spacing-xs: 8px;
 $border-radius: 8px;
 
+$padding-3xl: 144px;
+$padding-2xl: 96px;
 $padding-xl: 48px;
 $padding-lg: 32px;
 $padding: 24px;
@@ -53,6 +55,8 @@ $paddings: (
   '': $padding,
   -lg: $padding-lg,
   -xl: $padding-xl,
+  -2xl: $padding-2xl,
+  -3xl: $padding-3xl,
 );
 
 $icon-sizes: (

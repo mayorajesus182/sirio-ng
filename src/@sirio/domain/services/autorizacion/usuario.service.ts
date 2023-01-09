@@ -14,8 +14,13 @@ export interface Usuario {
     identificacion: string;
     email: string;
     ldap: number;
-    perfil: Perfil;
-    ROL: Rol;
+    perfil: string;
+    rol?: string;
+    agencia?: string;
+    region?: string;
+    transportista?: string;
+    telefonoMovil?: string;
+    telefonoLocal?: string;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -41,8 +46,8 @@ export class UsuarioService {
         return this.apiService.config(this.apiConfig).get(`/${id}/ldap/exists`);
     }
 
-    existsEmail(email: string, id: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${email}/${id}/exists/email`);
+    existsEmail(id: string,email: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/${email}/exists/email`);
     }
 
     actives(): Observable<Usuario[]> {
