@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit }
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
+import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { EmpresaRelacionada, EmpresaRelacionadaService } from 'src/@sirio/domain/services/persona/empresa-relacionada/empresa-relacionada.service';
@@ -18,8 +19,6 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   empresaRelacionada: EmpresaRelacionada = {} as EmpresaRelacionada;
 
   public tipoRelacionList = new BehaviorSubject<TipoRelacion[]>([]);
-
-  
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<EmpresaRelacionadaFormPopupComponent>,
@@ -38,13 +37,22 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
 
   ngOnInit() {
 
-    
-    this.tipoRelacionService.actives().subscribe(data => {
-      console.log(data);
-      
-      this.tipoRelacionList.next(data);
-      this.cdr.detectChanges();
-    })
+    if (GlobalConstants.TIPO_PERSONA == 'J') {
+      this.tipoRelacionService.actives().subscribe(data => {
+        console.log(data);
+        
+        this.tipoRelacionList.next(data);
+        this.cdr.detectChanges();
+      })
+
+    } else {
+      this.tipoRelacionService.activesForNatural().subscribe(data => {
+        console.log(data);
+        
+        this.tipoRelacionList.next(data);
+        this.cdr.detectChanges();
+      })        
+    }
 
    
     this.loadingDataForm.next(true);

@@ -106,12 +106,17 @@
 
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    <!-- isLegalPerson -->
 
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isLegalPerson()">
+                                                                         
         <sirio-select-search fxFlex.gt-xs="auto" [label]="'Condicion'"  formControlName="condicion" [required]="true"
             [elements]="condicionList.asObservable()" [attributeName]="'nombre'" [errors]="f.condicion?.errors">
         </sirio-select-search>
 
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
         <!-- TODO: PENDIENTE IN18 -->
         <mat-form-field fxFlex="auto">
             <mat-label>{{'Nombre y Apellido' | translate: {default:
