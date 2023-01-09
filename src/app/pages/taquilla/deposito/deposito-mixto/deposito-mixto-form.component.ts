@@ -402,7 +402,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.cdr.detectChanges();
         } else {
             this.f.monto.setErrors(undefined);
-            // this.f.efectivo.setErrors(undefined);
+            this.f.efectivo.setErrors(undefined);
             this.cdr.detectChanges();
             // this.f.chequePropio.setErrors(undefined)
             // this.f.chequeOtros.setErrors(undefined)
