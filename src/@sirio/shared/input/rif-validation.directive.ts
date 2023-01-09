@@ -65,6 +65,7 @@ export class RifValidator implements Validator {
         var t = this.tipoDocumento;//modelValue.charAt(0);
 
         if (!TYPE[t]) {
+            control.markAsTouched();
             return { rif: 'El valor no representa una estructura de RIF, deben comenzar con J,V,E,G,P,C,W, H o R' };
         }
 
@@ -72,8 +73,10 @@ export class RifValidator implements Validator {
 
         if (tipoPerona !== undefined) {
             if (tipoPerona === 'NAT' && !this.legal.includes(t)) {
+                control.markAsTouched();
                 return { rif: 'El valor suministrado es inválido no pertenece al tipo de persona natural' };
             } else if (tipoPerona === 'JUR' && !this.natural.includes(t)) {
+                control.markAsTouched();
                 return { rif: 'El valor suministrado es inválido no pertenece al tipo de persona jurídica' };
             }
         }
@@ -90,6 +93,7 @@ export class RifValidator implements Validator {
         
 
         if (controlGen < 0 || controlGen != rif.charAt(rif.length - 1)) {
+            control.markAsTouched();
             return { rif: 'El valor del RIF suministrado es inválido' };
         }
 

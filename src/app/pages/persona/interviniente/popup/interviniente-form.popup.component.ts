@@ -106,10 +106,10 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
   addPerson(event) {
 
     console.log('create ', event);
-    this.mode = 'global.add';
-    this.interviniente = {} as Interviniente;
+    // this.mode = 'global.add';
+    // this.interviniente = {} as Interviniente;
     // this.updateDataFromValues(this.cuentaBanco, event);
-    this.buildForm();
+    // this.buildForm();
 
     // this.loaded$.next(true);
     // if(this.itemForm){
@@ -117,7 +117,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     //     this.f.identificacion.setValue(this.cuentaBanco.identificacion);
     // }
     //TODO: ESTO ES POSIBLE QUE SE USE
-    // this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
+    this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
   }
 
   pullPerson(event: any) {

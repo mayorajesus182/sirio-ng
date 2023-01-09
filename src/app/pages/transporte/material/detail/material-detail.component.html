@@ -32,10 +32,16 @@
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="80">
+                            <mat-form-field fxFlex.gt-xs="65">
                                 <mat-label>{{'material.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'material.useLead' | translate: {default: 'global.useLead'} |
+                                    translate }}</mat-label>
+                                <input matInput class="text-center" [value]="d.plomo ? 'SI' : 'NO'" readonly>
                             </mat-form-field>
 
                         </div>

@@ -64,6 +64,7 @@ export class MaterialFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({value: material.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(material.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            plomo: new FormControl(material.plomo || false),
         });
     }
 
@@ -72,6 +73,7 @@ export class MaterialFormComponent extends FormBaseComponent implements OnInit {
             return;
 
         this.updateData(this.material);
+        this.material.plomo = this.material.plomo ? 1 : 0;
         this.saveOrUpdate(this.materialService, this.material, 'El Material', this.isNew);
     }
 
