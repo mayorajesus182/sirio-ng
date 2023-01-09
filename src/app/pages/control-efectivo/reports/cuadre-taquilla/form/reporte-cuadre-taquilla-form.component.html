@@ -32,10 +32,10 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search
+                                <sirio-select-search *ngIf="!esOperadorTaquilla"
                                     fxFlex.gt-xs="100"
                                     [label]="'balanceBoxOfficesRep.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
-                                    formControlName="taquilla" [required]="true" [elements]="taquillas.asObservable()"
+                                    formControlName="taquilla" [required]="!esOperadorTaquilla" [elements]="taquillas.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.taquilla?.errors">
                                 </sirio-select-search>
                                 
