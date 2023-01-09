@@ -83,6 +83,11 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
     }
   }
 
+  edit(data: ReferenciaPersonal) {
+    //console.log('data event click ', data);
+
+  }
+
   delete(row) {
     this.swalService.show('¿Desea Eliminar Referencia Personal de?', undefined,
     { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
@@ -124,6 +129,8 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
             this.onRefresh.next(true);
         }
     });
+
+
 
 }
 
