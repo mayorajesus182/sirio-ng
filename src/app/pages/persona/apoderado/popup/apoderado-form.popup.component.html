@@ -13,6 +13,8 @@
 </sirio-dialog-header>
 
 
+
+
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
 
@@ -108,9 +110,9 @@
 
     <!-- isLegalPerson -->
     <!-- *ngIf="isLegalPerson()" -->
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isLegalPerson()">
                                                                          
-        <sirio-select-search fxFlex.gt-xs="auto" [label]="'Condicion'"  formControlName="condicion" 
+        <sirio-select-search fxFlex.gt-xs="auto" [label]="'Condicion'"  formControlName="condicion" [required]="isLegalPerson()"
             [elements]="condicionList.asObservable()" [attributeName]="'nombre'" [errors]="f.condicion?.errors">
         </sirio-select-search>
 

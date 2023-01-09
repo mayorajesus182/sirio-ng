@@ -1,6 +1,15 @@
-<div fxLayout="row" fxLayout="column">
+<!-- <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
         <button color="default" (click)="popup()" mat-button>
+            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
+            'global.notfound'} | translate }}
+        </button>
+    </div>
+</div> -->
+
+<div fxLayout="row" fxLayout="column">
+    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
+        <button color="default" (click)="popup()" mat-button >
             <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
             'global.notfound'} | translate }}
         </button>
@@ -32,5 +41,7 @@
             </div>
         </ng-template>
     </ngx-datatable-column>
+
+    
 
 </ngx-datatable>

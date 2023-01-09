@@ -56,7 +56,10 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
 
           this.loadList();
         }
-      })
+      }
+      
+      )
+      
     }
   }
 
