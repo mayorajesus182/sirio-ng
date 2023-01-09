@@ -30,5 +30,7 @@ export class GlobalConstants {
   public static TELEFONO_MOVIL = 'M';
   public static ARQUEO_INCREMENTO = 'I';
   public static ARQUEO_RETIRO = 'R';
+  public static ENVIO_REMESA = 'ENV';
+  public static SOLICITUD_REMESA = 'SOL';
   // static CUENTA_BANCO: any;
 };

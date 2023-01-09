@@ -63,6 +63,10 @@ export class SaldoTaquillaService {
         return this.apiService.config(this.apiConfig).get(`/conmovimiento/list`);
     }
 
+    allOpen(): Observable<SaldoTaquilla[]> {
+        return this.apiService.config(this.apiConfig).get(`/open/list`);
+    }
+
     all(): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/list`);
     }

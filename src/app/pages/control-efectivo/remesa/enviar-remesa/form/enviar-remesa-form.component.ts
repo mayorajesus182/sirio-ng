@@ -155,7 +155,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                                 this.cdr.detectChanges();
                             });
 
-
                             this.loadCostosViajeTransportista(this.remesa.moneda, this.remesa.emisor);
                             this.loadCostosMaterialTransportista(this.remesa.moneda, this.remesa.emisor);
                         }
@@ -222,6 +221,13 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             }
         });
 
+        this.f.cajasBolsas.valueChanges.subscribe(value => {
+            // if (this.f.transportista.value != null) {
+            //     this.loadCostosViajeTransportista(value, this.f.transportista.value);
+            // }
+            this.comparePlomos();
+        });
+
         this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
         this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
 
@@ -282,7 +288,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             if (!list || list.length == 0) {
                 this.materiales.next(this.materialList);
             } else {
-                console.log(list.map(mu => mu.material));
+                // console.log(list.map(mu => mu.material));
 
                 this.materiales.next(
                     this.materialList.filter(m => !list.map(mu => mu.material).includes(m.id))
@@ -354,7 +360,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.mf.material.setValue(undefined);
         this.mf.cantidad.setValue(undefined);
 
-
+        this.comparePlomos();
         this.cdr.detectChanges();
     }
 
@@ -364,6 +370,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 this.materialRemesaList.splice(index, 1);
                 this.materialUtilizadoList.next(this.materialRemesaList.slice());
             }
+            this.comparePlomos();
             this.cdr.detectChanges();
         });
     }
@@ -419,6 +426,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         if (index >= 0) {
             this.plomoList.splice(index, 1);
         }
+        this.comparePlomos();
     }
 
     addPlomo(event: MatChipInputEvent) {
@@ -457,6 +465,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.plomoCtrl.updateValueAndValidity();
         // Clear the input value
         event.chipInput!.clear();
+        this.comparePlomos();
         this.cdr.detectChanges();
 
     }
@@ -464,6 +473,33 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.plomoList, event.previousIndex, event.currentIndex);
+    }
+
+
+    comparePlomos() {
+        this.plomoCtrl.setErrors({ difference: false });
+
+        if (!this.esTransportista && this.plomoList.length != this.f.cajasBolsas.value) {
+            this.plomoCtrl.setErrors({ difference: true });
+        }
+
+        if (this.esTransportista) {
+            let total = 0;
+            this.materialUtilizadoList.subscribe(materialesSeleccionados => {
+                total = 0;
+                for (let i = 0; i < materialesSeleccionados.length; i++) {
+                    for (let j = 0; j < this.materialList.length; j++) {
+                        if (materialesSeleccionados[i].material == this.materialList[j].id) {
+                            total += materialesSeleccionados[i].cantidad * this.materialList[j].plomo;
+                        }
+                    }
+                }
+            });
+
+            if (this.plomoList.length != total) {
+                this.plomoCtrl.setErrors({ difference: true });
+            }
+        }
     }
 
     save() {

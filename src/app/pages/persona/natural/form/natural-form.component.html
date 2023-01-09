@@ -29,7 +29,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <sirio-person-query [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" (update)="updatePerson($event)"
+                    <sirio-person-query *ngIf="!fromOtherComponent" [tipo_persona]="constants.PERSONA_NATURAL" (result)="queryResult($event)" (update)="updatePerson($event)"
                         (create)="addPerson($event)"></sirio-person-query>
 
 

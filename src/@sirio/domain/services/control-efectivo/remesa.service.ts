@@ -15,6 +15,7 @@ export interface MaterialRemesa {
     nombre: string;
     cantidad: number;
     costo: number;
+    plomo: number;
 }
 
 export interface CantidadRemesa {

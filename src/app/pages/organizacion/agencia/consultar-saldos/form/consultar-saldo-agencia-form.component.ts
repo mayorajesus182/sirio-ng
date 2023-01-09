@@ -12,14 +12,14 @@ import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/pref
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-actualizar-saldo-agencia-form',
-  templateUrl: './actualizar-saldo-agencia-form.component.html',
-  styleUrls: ['./actualizar-saldo-agencia-form.component.scss'],
+  selector: 'app-consultar-saldo-agencia-form',
+  templateUrl: './consultar-saldo-agencia-form.component.html',
+  styleUrls: ['./consultar-saldo-agencia-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent implements OnInit {
+export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implements OnInit {
 
   saldoActualizado: SaldoActualizado = {} as SaldoActualizado;
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
@@ -82,9 +82,7 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
 
   buildForm() {
     this.itemForm = this.fb.group({
-      agencia: new FormControl(this.agenciaId),
       moneda: new FormControl(this.preferencia.monedaConoActual, Validators.required),
-      monto: new FormControl(undefined, Validators.required),
     });
 
     this.f.moneda.valueChanges.subscribe(val => {
@@ -97,17 +95,6 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
         this.saldoAnterior = saldo;
         this.cdr.detectChanges();
       });
-    });
-
-  }
-
-  updateValues(item: ConoMonetario) {
-
-    this.conos.subscribe(c => {
-      this.faltaDesglose = false;
-      c.forEach(cfe => { if (cfe.cantidad == null || cfe.cantidad == undefined) { this.faltaDesglose = true } });
-      this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
-      this.conoSave = c.filter(c => c.cantidad > 0);
     });
 
   }

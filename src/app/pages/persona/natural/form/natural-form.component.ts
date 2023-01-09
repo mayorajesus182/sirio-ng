@@ -1,11 +1,13 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Tenencia, TenenciaService } from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { ActividadEconomica, ActividadEconomicaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-economica.service';
@@ -18,8 +20,6 @@ import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import * as moment from 'moment';
-import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 
 @Component({
     selector: 'app-natural-form',
@@ -31,6 +31,7 @@ import { CalendarioService } from 'src/@sirio/domain/services/calendario/calenda
 
 export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
+    fromOtherComponent: boolean=false;
     todayValue: moment.Moment;
     totalAddress: number;
 
@@ -81,6 +82,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
+        private route: ActivatedRoute,
         private personaNaturalService: PersonaNaturalService,
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
@@ -165,6 +167,26 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.categoriaEspecialService.actives().subscribe(data => {
             this.categoriasEspeciales.next(data);
         });
+
+
+
+        this.route.paramMap.subscribe(data => {
+            // console.log('params', data);
+            
+            if(data.get('doc') && data.get('tdoc')){
+                // console.log('entro ');
+
+                this.fromOtherComponent=true
+                this.isNew=true;
+                this.personaNatural.identificacion=data.get('doc');
+                this.personaNatural.tipoDocumento=data.get('tdoc');
+
+                this.buildForm(this.personaNatural);
+
+                this.loaded$.next(true);
+            }
+        });
+
 
         this.cdr.detectChanges();
 

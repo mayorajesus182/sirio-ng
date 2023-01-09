@@ -5,6 +5,7 @@ import { AgenciaDetailComponent } from './detail/agencia-detail.component';
 import { AgenciaFormComponent } from './form/agencia-form.component';
 import { ActualizarSaldoAgenciaFormComponent } from './saldos/form/actualizar-saldo-agencia-form.component';
 import { AgenciaTableComponent } from './table/agencia-table.component';
+import { ConsultarSaldoAgenciaFormComponent } from './consultar-saldos/form/consultar-saldo-agencia-form.component';
 
 
 
@@ -40,7 +41,11 @@ const agenciaRoutes: Routes = [
         component: ActualizarSaldoAgenciaFormComponent,
         data: { title: 'Saldo de la Agencia' }
     },
-
+    {
+        path: ':id/check',
+        component: ConsultarSaldoAgenciaFormComponent,
+        data: { title: 'Consultar Saldo de la Agencia' }
+    },
 ];
 
 
