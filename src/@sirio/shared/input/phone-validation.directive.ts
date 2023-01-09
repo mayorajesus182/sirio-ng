@@ -43,7 +43,7 @@ export class TelefonoValidator implements Validator {
             return null;
         }
 
-        console.log('codigos',this.codigos);
+        // console.log('codigos',this.codigos);
         
         let num = control.value;
 
