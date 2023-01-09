@@ -3,10 +3,12 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
 import { CifraPromedio, CifraPromedioService } from 'src/@sirio/domain/services/configuracion/producto/cifra-promedio.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
+import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
+import { TipoTelefono } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { ReferenciaPersonal, ReferenciaPersonalService } from 'src/@sirio/domain/services/persona/referencia-personal/referencia-personal.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -25,6 +27,8 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public cifrasPromedioList = new BehaviorSubject<CifraPromedio[]>([]);
   public entidadFinancieraList = new BehaviorSubject<EntidadFinanciera[]>([]);
+  public telefonicaMovilList = new BehaviorSubject<TipoTelefono[]>([]);
+  public telefonicaFijaList = new BehaviorSubject<TipoTelefono[]>([]);
 
   referencias=[];
 
@@ -32,7 +36,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     protected injector: Injector,
     dialogRef: MatDialogRef<ReferenciaPersonalFormPopupComponent>,
     private referenciaPersonalService: ReferenciaPersonalService,
-
+    private telefonicaService: TelefonicaService,
     private tipoDocumentoService: TipoDocumentoService,
     private cifraPromedioService: CifraPromedioService,
     private entidadFinancieraService: EntidadFinancieraService,
@@ -66,33 +70,38 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
     });
 
+    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_FIJO).subscribe(data=>{
+      this.telefonicaFijaList.next(data);
+    })
+
+    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_MOVIL).subscribe(data=>{
+      this.telefonicaMovilList.next(data);
+    })
+
     this.referencias = this.defaults.payload.referencias;
 
     this.cdr.detectChanges();
     
-    console.log('Referencias uno',this.referencias);
+    // console.log('payload',this.defaults);
 
-
-    console.log('ref personal',this.defaults.payload);
-    
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.referenciaPersonalService.get(this.defaults.payload.id).subscribe(data => {
         this.mode = 'global.edit';
+        // console.log('referencia xxx1  personal',this.defaults.payload);
         this.referencia = data;
         this.buildForm();
         this.loadingDataForm.next(false);
-        this.cdr.detectChanges();
-        
+        this.cdr.detectChanges();        
       })
     } else {
       this.referencia = {} as ReferenciaPersonal;
       this.buildForm();
       this.loadingDataForm.next(false);
       this.cdr.detectChanges();
+      // console.log('referencia xxx2  personal',this.defaults.payload);
     }
   }
-
 
   buildForm() {
     //validar carcteres especiales
@@ -101,7 +110,6 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       // identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
 
       identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
-
 
       nombre: new FormControl(this.referencia.nombre || '', [Validators.required,Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),

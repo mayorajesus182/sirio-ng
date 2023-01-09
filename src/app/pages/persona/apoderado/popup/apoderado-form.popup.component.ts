@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -25,7 +25,11 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   [x: string]: any;
 
   apoderado: Apoderado = {} as Apoderado;
-    
+
+  @Input() tipo_persona: string;
+
+  private tiposDocumentos: TipoDocumento[] = [];
+
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public condicionList = new BehaviorSubject<Condicion[]>([]);
 
@@ -39,7 +43,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     private tipoDocumentoService: TipoDocumentoService,
     private condicionService: CondicionService,
     private paisService: PaisService,
- 
+
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
 
@@ -47,26 +51,27 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   }
 
   ngAfterViewInit(): void {
-   
+
   }
 
   ngOnInit() {
 
+
     this.calendarioService.today().subscribe(data => {
       this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-  });
+    });
 
 
     this.tipoDocumentoService.actives().subscribe(data => {
       console.log(data);
-      
+      this.tiposDocumentos = data;
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
 
     this.condicionService.actives().subscribe(data => {
       console.log(data);
-      
+
       this.condicionList.next(data);
       this.cdr.detectChanges();
     })
@@ -74,8 +79,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
     this.paisService.actives().subscribe(data => {
       this.paises.next(data);
-  });
-    
+    });
+
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.apoderadoService.get(this.defaults.payload.id).subscribe(data => {
@@ -86,7 +91,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
         // console.log('mode ', this.mode);
 
         this.loadingDataForm.next(false);
-       
+
       })
     } else {
       this.apoderado = {} as Apoderado;
@@ -96,19 +101,19 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   }
 
   buildForm() {
-//validar carcteres especiales
+    //validar carcteres especiales
     this.itemForm = this.fb.group({
 
       tipoDocumento: new FormControl(this.apoderado.tipoDocumento || undefined, [Validators.required]),
 
-      condicion: new FormControl(this.apoderado.condicion || undefined, [Validators.required]),
-            
+      condicion: new FormControl(this.apoderado.condicion || undefined),
+
       identificacion: new FormControl(this.apoderado.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
 
       nombre: new FormControl(this.apoderado.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
 
       fechaNacimiento: new FormControl(this.apoderado.fechaNacimiento ? moment(this.apoderado.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
-            
+
       pais: new FormControl(this.apoderado.pais || undefined, [Validators.required]),
 
       registro: new FormControl(this.apoderado.registro || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
@@ -116,14 +121,14 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
       numero: new FormControl(this.apoderado.numero || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
 
       telefono: new FormControl(this.apoderado.telefono || '', [Validators.required]),
-      
+
       tomo: new FormControl(this.apoderado.tomo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
 
       fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : ''),
 
-      esApoderado: new FormControl(this.apoderado.esApoderado===1?true:false) ,
+      esApoderado: new FormControl(this.apoderado.esApoderado === 1 ? true : false),
     });
 
 
@@ -138,12 +143,34 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     this.apoderado.fecha = this.apoderado.fecha ? this.apoderado.fecha.format('DD/MM/YYYY') : '';
     this.apoderado.fechaNacimiento = this.apoderado.fechaNacimiento ? this.apoderado.fechaNacimiento.format('DD/MM/YYYY') : '';
 
-    this.apoderado.esApoderado = this.apoderado.esApoderado? 1 : 0;
+    this.apoderado.esApoderado = this.apoderado.esApoderado ? 1 : 0;
 
     console.log(this.apoderado);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.apoderadoService,this.apoderado,'APODERADO',this.apoderado.id==undefined);
+    this.saveOrUpdate(this.apoderadoService, this.apoderado, 'APODERADO', this.apoderado.id == undefined);
 
   }
 
+  isLegalPerson() {
+
+    let isLegal = this.tiposDocumentos.filter(t => t.id == this.f.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
+    // console.log('tipo doc selected', this.f.tipoDocumento.value);
+    if (this.f.tipoDocumento.value && isLegal) {
+
+      return true;
+    } else {
+
+      return false;
+
+    }
+  }
+
 }
+// let isLegal = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
+//         // console.log('tipo doc selected', this.search.tipoDocumento.value, isLegal);
+
+
+//         if (this.search.tipoDocumento.value && isLegal) {
+
+//             return true;
+//         }

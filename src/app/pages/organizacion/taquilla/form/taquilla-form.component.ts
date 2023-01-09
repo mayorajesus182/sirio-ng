@@ -75,10 +75,4 @@ export class TaquillaFormComponent extends FormBaseComponent implements OnInit {
         this.saveOrUpdate(this.taquillaService, this.taquilla, 'La Taquilla', this.isNew);
     }
 
-    activateOrInactivate() {
-        if (this.taquilla.id) {
-            this.applyChangeStatus(this.taquillaService, this.taquilla, this.taquilla.nombre, this.cdr);
-        }
-    }
-
 }

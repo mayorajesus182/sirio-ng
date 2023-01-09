@@ -36,6 +36,8 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   public paisList = new BehaviorSubject<Pais[]>([]);
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
 
+  public tipoDocumentoNatList = new BehaviorSubject<TipoDocumento[]>([]);
+
   pepList: PepAccionista[] = [];
   pepAccionistas: ReplaySubject<PepAccionista[]> = new ReplaySubject<PepAccionista[]>();
 
@@ -65,8 +67,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.f.esPep.valueChanges.subscribe(val=>{
       this.cdr.detectChanges()
     })
-    
-
 
   }
 
@@ -83,6 +83,12 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.tipoDocumentoService.actives().subscribe(data => {
 
       this.tipoDocumentoList.next(data);
+      this.cdr.detectChanges();
+    })
+
+    this.tipoDocumentoService.activesNaturales().subscribe(data => {
+
+      this.tipoDocumentoNatList.next(data);
       this.cdr.detectChanges();
     })
 

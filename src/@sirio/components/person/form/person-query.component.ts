@@ -110,7 +110,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
-
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
                 this.tiposDocumentoList = data;

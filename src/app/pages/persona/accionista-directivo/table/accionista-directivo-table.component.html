@@ -42,12 +42,15 @@
 
     <ngx-datatable-column [resizeable]="false" [width]="200">
         <ng-template ngx-datatable-header-template>
-            <span>Porcentaje Accionario</span>
+            <span>Porcentaje Accionarios</span>
         </ng-template>
         <ng-template let-row="row" ngx-datatable-cell-template >
             <div class="text-center">{{row.porcentaje  }}</div>
         </ng-template>
     </ngx-datatable-column>
+
+    <!-- <input matInput [max]="100.0-porcentajeAccionario" min="0.01" maxlength="6" autocomplete="off" name="monto" formControlName="porcentaje"
+    currencyMask [options]="{precision:2}"> -->
 
     <!-- <ngx-datatable-column [resizeable]="false" [width]="280">
         <ng-template ngx-datatable-header-template>

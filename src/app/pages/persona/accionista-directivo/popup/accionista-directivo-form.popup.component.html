@@ -114,14 +114,13 @@
 
         </div>
 
-
         <ng-container *ngIf="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
 
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
     
     
                 <sirio-select-search fxFlex="auto" [label]="'Tipo Documento'"  [formControl]="pepAccionistaForm.controls['tipoDocumento']"
-                    [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
+                    [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE" [elements]="tipoDocumentoNatList.asObservable()" [attributeName]="'nombre'"
                     [errors]="cf.tipoDocumento?.errors">
                 </sirio-select-search>
     
@@ -138,12 +137,8 @@
                     </mat-error>
                 </mat-form-field>
     
-    
-    
             </div>
         </ng-container>
-
-
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -173,7 +168,6 @@
                 [attributeName]="'nombre'" [errors]="cf.pais?.errors">
             </sirio-select-search>
 
-
             <!-- <sirio-select-search fxFlex="20"
             [label]="'Pais'"
             formControlName="pais" [required]="true" [elements]="paisList.asObservable()"
@@ -184,14 +178,11 @@
                 <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
             </mat-dialog-actions> -->
 
-
             <div class="text-center" fxFlex="1 1 0%">
                 <button color="black" [disabled]="pepAccionistaForm.invalid" (click)="add()" mat-button>
                     <mat-icon class="margin-top-md margin-bottom-md">add_circle</mat-icon>
                 </button>
             </div>
-
-
 
         </div>
 
@@ -270,8 +261,6 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-
-
                 <ngx-datatable-column name="Acciones" [resizeable]="false" [width]="100">
                     <ng-template ngx-datatable-header-template>
                         <div class="text-center">{{'action.delete'| translate}} </div>
@@ -283,11 +272,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-
-
             </ngx-datatable>
-
-
 
             <!-- {{pepAccionistaForm.errors|json}} -->
 
