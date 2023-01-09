@@ -246,7 +246,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     errorDiferenciaChequesOtros(val: number, cont: number) {
 
         this.f.chequeOtros.setErrors(undefined);
-        if ((cont === 0) || (this.f.chequeOtros.value > 0 && this.sumMontoChequeOtros==0)) {
+        if ((cont === 0) && (this.f.chequeOtros.value > 0 && this.sumMontoChequeOtros==0)) {
             this.f.chequeOtros.setErrors({
                 chequeOtrosRequired: true
             });
@@ -263,7 +263,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     errorDiferenciaChequesPropios(val: number, cont: number) {
 
         this.f.chequePropio.setErrors(undefined);
-        if ((cont === 0) || (this.f.chequePropio.value >0 && this.sumMontoChequePropio == 0)) {
+        if ((cont === 0) && (this.f.chequePropio.value >0 && this.sumMontoChequePropio == 0)) {
             this.f.chequePropio.setErrors({
                 chequePropioRequired: true
             });
@@ -275,24 +275,12 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             });
             this.cdr.detectChanges();
         }
+        this.cdr.detectChanges();
     }
 
     selectMotivoDevolucion(event, row: Cheque) {
         row.motivoDevolucion = (event.target as HTMLSelectElement).value;
     }
-
-    // validateSerialAccountUnique(serial: string, numeroCuentaCheque: string, validarCheque?: any) {
-    //     if (!serial || !numeroCuentaCheque) {
-    //         return true;
-    //     }
-    //     console.log("validarCheque", validarCheque);
-    //     const evaluacion = this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
-    //     if (validarCheque && !evaluacion && this.chequeList.filter(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)).length > 1) {
-    //         validarCheque.control.setErrors({ exists: true });
-    //     }
-
-    //     return evaluacion;
-    // }
 
     validateSerialAccountUnique(serial: string, numeroCuentaCheque: string) {
         if (!serial || !numeroCuentaCheque) {
