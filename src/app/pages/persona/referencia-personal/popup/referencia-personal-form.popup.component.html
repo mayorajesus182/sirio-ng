@@ -44,58 +44,28 @@
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <!-- <mat-form-field fxFlex="auto">
-        <mat-label>{{'Teléfono Fijo'}}</mat-label>
-        <input [required]="!f.telefonoMovil.value" autocomplete="off" [imask]="{mask: '0200 000 00 00'}"  class="text-center" matInput name="telefonoFijo" maxlength="14" formControlName="telefonoFijo" >
-        <mat-error *ngIf="f.telefonoFijo.errors?.required">{{'error.required' | translate}}!</mat-error>
-        <mat-error *ngIf="f.telefonoFijo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-      </mat-form-field> -->
-
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Teléfono Fijo' | translate }} </mat-label>
-
-        <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaFijaList.asObservable()"  name="telefonoFijo" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefonoFijo" required>
-        <mat-error *ngIf="f.telefonoFijo.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.telefonoFijo.errors?.pattern">{{'error.invalidCharacter' |
-          translate}}
-        </mat-error>
-
-     
-
-        <mat-error *ngIf="f.telefonoFijo.errors?.phone">{{f.telefonoFijo.errors?.phone}}  </mat-error>
-        <!-- {{f.telefonoFijo.errors | json}} -->
-
-      </mat-form-field>
-
-
-
-      <!-- <mat-form-field fxFlex="auto">
-        <mat-label>{{'Teléfono Móvil'}}</mat-label>
-        <input [required]="!f.telefonoMovil.value" autocomplete="off" [imask]="{mask: '0400 000 00 00'}"  class="text-center" matInput name="telefonoMovil" maxlength="14" formControlName="telefonoMovil" >
-        <mat-error *ngIf="f.telefonoMovil.errors?.required">{{'error.required' | translate}}!</mat-error>
-        <mat-error *ngIf="f.telefonoMovil.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-      </mat-form-field> -->
-
-      <mat-form-field fxFlex="auto">
-        <mat-label>{{'Teléfono Móvil' | translate }} </mat-label>
-
-        <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaMovilList.asObservable()"  name="telefonoMovil" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefonoMovil" required>
-        <mat-error *ngIf="f.telefonoMovil.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.telefonoMovil.errors?.pattern">{{'error.invalidCharacter' |
-          translate}}
-        </mat-error>
-
-     
-
-        <mat-error *ngIf="f.telefonoMovil.errors?.phone">{{f.telefonoMovil.errors?.phone}}  </mat-error>
-        <!-- {{f.telefonoMovil.errors | json}} -->
-
-      </mat-form-field>
-
-
-
+          <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaFijaList.asObservable()"  name="telefonoFijo" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefonoFijo" required>
+          <mat-error *ngIf="f.telefonoFijo.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefonoFijo.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefonoFijo.errors?.phone">{{f.telefonoFijo.errors?.phone}}  </mat-error>
+        </mat-form-field>
+      
+        <mat-form-field fxFlex="auto">
+          <mat-label>{{'Teléfono Móvil' | translate }} </mat-label>
+          <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaMovilList.asObservable()"  name="telefonoMovil" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefonoMovil" required>
+          <mat-error *ngIf="f.telefonoMovil.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefonoMovil.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefonoMovil.errors?.phone">{{f.telefonoMovil.errors?.phone}}  </mat-error>
+        </mat-form-field>
+       <!-- {{f.telefonoMovil.errors | json}} -->
     </div>
 
   </mat-dialog-content>
