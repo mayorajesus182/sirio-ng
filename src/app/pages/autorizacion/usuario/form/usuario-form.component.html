@@ -92,7 +92,7 @@
                             <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px">
 
 
-                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Perfil'" formControlName="perfil" [required]="true"
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Perfil'" [formControl]="itemForm.controls['perfil']" [required]="true"
                                     [elements]="perfiles.asObservable()" [attributeName]="'nombre'" [errors]="f.perfil?.errors">
                                 </sirio-select-search>
 

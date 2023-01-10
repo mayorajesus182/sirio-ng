@@ -22,7 +22,7 @@ export class UsuarioTableComponent extends TableBaseComponent implements OnInit,
   protected loadingData = new BehaviorSubject<boolean>(false);
   test: string;
   unsubscribeAll: Subject<any>;
-  displayedColumns = ['usuario_id', 'nombre', 'identificacion', 'email', 'ldap', 'prev_login', 'activo', 'actions'];
+  displayedColumns = ['usuario_id', 'nombre', 'identificacion','ente', 'email', 'ldap', 'prev_login', 'activo', 'actions'];
 
   constructor(
 

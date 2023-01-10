@@ -13,8 +13,8 @@
 
                 <!-- Id Column -->
                 <ng-container matColumnDef="usuario_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">Usuario</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-100-px'">Usuario</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-100-px'">
                         <p class="font-weight-600">{{element.id}}</p>
                         <!-- <img class="avatar" *ngIf="element.tipo" [alt]="element.name"  [src]="element.avatar"/> -->
                     </mat-cell>
@@ -38,10 +38,10 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="Ente">
-                    <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm [ngClass]="'tw-10'">Ente
+                <ng-container matColumnDef="ente">
+                    <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm [ngClass]="'tw-20'">Ente
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm [ngClass]="'tw-10'">
+                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm [ngClass]="'tw-20'">
                         <p class="font-weight-600">
                             {{element.ente}}
                         </p>
@@ -49,9 +49,9 @@
                 </ng-container>
 
                 <ng-container matColumnDef="email">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm [ngClass]="'tw-20'">Email
+                    <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm [ngClass]="'tw-15'">Email
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="text-truncate font-weight-600">{{element.email}}</p>
                     </mat-cell>
                 </ng-container>
@@ -79,9 +79,9 @@
 
 
                 <ng-container matColumnDef="activo">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10 text-center'">Estatus
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5 text-center'">Estatus
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-10 text-center'">
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5 text-center'">
 
                         <mat-chip mat-sm-chip [color]="'accent'" [selected]="element.activo">{{element.activo ?
                             'Activo' :

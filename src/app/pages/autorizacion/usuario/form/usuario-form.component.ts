@@ -64,9 +64,13 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
             if (loading==false) {
                 // finalizo la  carga de info, cargo las dependencias
                 this.perfilService.actives().subscribe(data => {
-                    // console.log(data);
+                    console.log(data);
 
                     this.perfiles.next(data);
+                    if(this.f.perfil.value){
+                        this.f.perfil.setValue(this.usuario.perfil);
+                        this.cdr.detectChanges();
+                    }
                 });
 
                 this.rolService.actives().subscribe(data => {
@@ -132,16 +136,16 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
         this.isNew = id == undefined;
         this.loadingDataForm.next(true);
         if (id) {
-            this.usuarioService.get(id).subscribe((art: Usuario) => {
-                this.usuario = art;
-                console.log('usr ', art);
-                this.buildForm(this.usuario);
+            this.usuarioService.get(id).subscribe((usr: Usuario) => {
+                this.usuario = usr;
+                console.log('usr ', usr);
+                this.buildForm();
                 this.itemForm.controls['id'].disable();
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
+                this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.usuario);
+            this.buildForm();
             this.itemForm.controls['email'].disable();
             this.f.id.valueChanges.subscribe(value => {
                 if (!value || value == '') {
@@ -158,20 +162,20 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
     }
 
 
-    buildForm(usuario: Usuario) {
+    buildForm() {
         this.itemForm = this.fb.group({
-            id: new FormControl(usuario.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            identificacion: new FormControl(usuario.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(usuario.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            email: new FormControl(usuario.email || '', [Validators.required]),
-            ldap: new FormControl(usuario.ldap || false),
-            perfil: new FormControl(usuario.perfil || undefined, [Validators.required]),
-            rol: new FormControl(usuario.rol || undefined),
-            region: new FormControl(usuario.region || undefined),
-            agencia: new FormControl(usuario.agencia || undefined),
-            transportista: new FormControl(usuario.agencia || undefined),
-            telefonoMovil: new FormControl(usuario.telefonoMovil || undefined),
-            telefonoLocal: new FormControl(usuario.telefonoLocal || undefined),
+            id: new FormControl(this.usuario.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            identificacion: new FormControl(this.usuario.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(this.usuario.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            email: new FormControl(this.usuario.email || '', [Validators.required]),
+            ldap: new FormControl(this.usuario.ldap || false),
+            perfil: new FormControl(this.usuario.perfil || undefined, [Validators.required]),
+            rol: new FormControl(this.usuario.rol || undefined),
+            region: new FormControl(this.usuario.region || undefined),
+            agencia: new FormControl(this.usuario.agencia || undefined),
+            transportista: new FormControl(this.usuario.transportista || undefined),
+            telefonoMovil: new FormControl(this.usuario.telefonoMovil || undefined),
+            telefonoLocal: new FormControl(this.usuario.telefonoLocal || undefined),
         });
     }
 
