@@ -64,6 +64,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     personaNatural: PersonaNatural = {} as PersonaNatural;
     constants = GlobalConstants;
     estado_civil: string;
+
+    tipo_DocumentoMenor: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
     generos = new BehaviorSubject<Genero[]>([]);
@@ -262,6 +264,15 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         })
 
+        this.f.tipoDocumento.valueChanges.subscribe(val => {
+            if (val) {
+
+                this.tipo_DocumentoMenor = val;
+                
+            }
+
+        })
+
     }
 
 
@@ -361,6 +372,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         return this.estado_civil == this.constants.CASADO || this.estado_civil == this.constants.UNION_ESTABLE;
     }
 
+    evaluarTipoDocumentoMenor(): boolean {
+        return this.tipo_DocumentoMenor == this.constants.PN_TIPO_DOC_MENOR;
+    }
 
     updateAddress(event) {
         this.totalAddress = event;

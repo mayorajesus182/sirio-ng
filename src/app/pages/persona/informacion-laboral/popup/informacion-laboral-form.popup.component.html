@@ -64,9 +64,23 @@
       <sirio-select-search fxFlex.gt-xs="100" [label]="'Ramo'" formControlName="ramo" [required]="isRdOrNp()" [elements]="ramoList.asObservable()"
         [attributeName]="'nombre'" [errors]="f.actindependiente?.errors">
       </sirio-select-search>
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Teléfono' | translate }} </mat-label>
+          <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="z.asObservable()"  name="telefono" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefono" required>
+          <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}}  </mat-error>
+      </mat-form-field>
+      
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+
+        
 
       <mat-form-field fxFlex="50">
         <mat-label>{{ 'Registro' }} </mat-label>
