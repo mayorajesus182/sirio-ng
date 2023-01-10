@@ -24,17 +24,33 @@
                 </ng-container>
 
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-40'" mat-sort-header>{{'coin.name' | translate:
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'" mat-sort-header>{{'coin.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-40'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
                         <p class="text-truncate">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="esVirtual">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'coin.isVirtual' | translate: {default: 'global.isVirtual'} |
+                <ng-container matColumnDef="usoOperacion">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'coin.useOperations' | translate: {default: 'global.useOperations'} |
                         translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
+                        <p class="text-truncate">{{element.usoOperacion ? 'SI' : 'NO'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="usoATM">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'coin.useAtm' | translate: {default: 'global.useAtm'} |
+                        translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
+                        <p class="text-truncate">{{element.usoATM ? 'SI' : 'NO'}}</p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="esVirtual">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'coin.isVirtual' | translate: {default: 'global.isVirtual'} |
+                        translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
                         <p class="text-truncate">{{element.esVirtual ? 'SI' : 'NO'}}</p>
                     </mat-cell>
                 </ng-container>
