@@ -22,18 +22,28 @@
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="nombre">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-20'">Nombre</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">Nombre</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
                         <p class="text-truncate font-weight-600">{{element.nombre}}</p>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="identificacion">
-                    <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm [ngClass]="'tw-15'">Identificación
+                    <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm [ngClass]="'tw-10'">Identificación
                     </mat-header-cell>
-                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm [ngClass]="'tw-15'">
+                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm [ngClass]="'tw-10'">
                         <p class="font-weight-600">
                             {{element.identificacion}}
+                        </p>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="Ente">
+                    <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm [ngClass]="'tw-10'">Ente
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm [ngClass]="'tw-10'">
+                        <p class="font-weight-600">
+                            {{element.ente}}
                         </p>
                     </mat-cell>
                 </ng-container>
