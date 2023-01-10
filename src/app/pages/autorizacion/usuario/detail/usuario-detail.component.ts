@@ -2,35 +2,37 @@ import { Component, Injector, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
+import { UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-agencia-detail',
-  templateUrl: './agencia-detail.component.html',
-  styleUrls: ['./agencia-detail.component.scss'],
+  selector: 'sirio-usuario-detail',
+  templateUrl: './usuario-detail.component.html',
+  styleUrls: ['./usuario-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class AgenciaDetailComponent extends FormBaseComponent implements OnInit {
+export class UsuarioDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     injector: Injector,
     private route: ActivatedRoute,
-    private agenciaService: AgenciaService) {
+    private usuarioService: UsuarioService) {
     super(undefined, injector);
   }
 
-  // TODO: REVISAR ETIQUETAS DE LA PANTALLA
   ngOnInit() {
     let id = this.route.snapshot.params['id'];
 
     this.loadingDataForm.next(true);
 
-    this.agenciaService.detail(id).subscribe(data => {     
+    this.usuarioService.get(id).subscribe(data => {
       this.data = data;
       this.loadingDataForm.next(false);
     });
 
   }
+
+
+
 }
