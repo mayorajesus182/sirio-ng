@@ -23,6 +23,7 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   @Input() tipoDocumento=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   registroMercantilList:ReplaySubject<RegistroMercantil[]> = new ReplaySubject<RegistroMercantil[]>();
+  registros:RegistroMercantil[]=[];
 
   
 
@@ -39,8 +40,8 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   private loadList(){
 
     this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
-
-      this.registroMercantilList.next(data.slice());
+      this.registros=data.slice();
+      this.registroMercantilList.next(this.registros);
       this.cdr.detectChanges();
     });
   }
@@ -56,7 +57,10 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
 
           this.loadList();
         }
-      })
+      }
+      
+      )
+      
     }
   }
 
@@ -64,11 +68,18 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
 
   }
 
-  popup(data?:any) {
-    if(data){
-      data.persona=this.persona;
-      data.tipoDocumento = this.tipoDocumento;
-    }    
+  popup() {
+    // if(data){
+    //   data.persona=this.persona;
+    //   data.tipoDocumento = this.tipoDocumento;
+    // }   
+    
+    let data =undefined;
+    if(this.registros.length > 0){
+      data = this.registros[0];
+      
+    } 
+   
 
     this.showFormPopup(RegistroMercantilFormPopupComponent, !data?{persona:this.persona, tipoDocumento:this.tipoDocumento}:data,'60%').afterClosed().subscribe(event=>{
       console.log(event);
@@ -76,8 +87,11 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
         if(event){
             this.onRefresh.next(true);
         }
-    }); 
+    } 
+    
+    ); 
+  }
 }
-
-
-}
+// si es es 0 crea
+// si es es 1 crea
+// si es es 2 crea update del primero

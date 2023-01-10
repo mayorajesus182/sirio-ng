@@ -48,9 +48,13 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
+      
       this.registroMercantilService.get(this.defaults.payload.id).subscribe(data => {
-        this.mode = 'global.edit';
+        this.mode = 'global.add';
+
+
         this.registroMercantil = data;
+        this.registroMercantil.id =undefined;
         this.buildForm();
         this.loadingDataForm.next(false);
        
@@ -91,7 +95,10 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
     
     console.log('mode ', this.mode);
     this.updateData(this.registroMercantil);// aca actualizamos Empresas Relacionadas
-    this.registroMercantil.persona=this.defaults.payload.persona;
+    if(!this.registroMercantil.persona){
+      this.registroMercantil.persona=this.defaults.payload.persona;
+
+    }
 
     this.registroMercantil.fecha = this.registroMercantil.fecha ? this.registroMercantil.fecha.format('DD/MM/YYYY') : '';
     console.log(this.registroMercantil);

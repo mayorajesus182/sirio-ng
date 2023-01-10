@@ -33,6 +33,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <sirio-select-search
+                                    *ngIf="!esOperadorTaquilla"
                                     fxFlex.gt-xs="50"
                                     [label]="'boxOfficeClosingsRep.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
                                     formControlName="taquilla" [required]="true" [elements]="taquillas.asObservable()"

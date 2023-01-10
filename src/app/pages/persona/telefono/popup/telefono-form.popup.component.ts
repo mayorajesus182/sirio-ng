@@ -72,7 +72,8 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     if (this.defaults.payload.data) {
       this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
         this.mode = 'global.edit';
-        // console.log(data);        
+        // console.log(data);    
+        // console.log('telefono xxx  personal',this.defaults.payload);    
         this.telefono = data;
         this.buildForm();
         this.loadingDataForm.next(false);       
