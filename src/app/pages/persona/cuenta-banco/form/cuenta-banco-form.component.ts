@@ -138,9 +138,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.moneda.next(data);
         });
 
-        this.tipoSubproductoService.actives().subscribe(data => {
-            this.tipoSubproductos.next(data);
-        });
+        // this.tipoSubproductoService.actives().subscribe(data => {
+        //     this.tipoSubproductos.next(data);
+        // });
 
         this.tipoProductoService.actives().subscribe(data => {
             this.tipoProductos.next(data);
@@ -185,7 +185,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.cdr.detectChanges();
             
             if(value){
-                this.tipoSubproductoService.actives().subscribe(data => {
+                this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.f.tipoDocumento.value).subscribe(data => {
                     this.tipoSubproductos.next(data);
                     this.cdr.detectChanges();
                 });

@@ -65,4 +65,8 @@ export class TipoSubproductoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
     }
 
+    activesByTipoProductoAndTipoPersona(tipoProducto: string, tipoPersona: string): Observable<TipoSubproducto[]> {
+        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipoProducto/${tipoPersona}/tipoPersona/actives`);
+    }
+
 }
