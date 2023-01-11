@@ -16,6 +16,7 @@ import { AgenciaDetailComponent } from './detail/agencia-detail.component';
 import { AgenciaFormComponent } from './form/agencia-form.component';
 import { ActualizarSaldoAgenciaFormComponent } from './saldos/form/actualizar-saldo-agencia-form.component';
 import { AgenciaTableComponent } from './table/agencia-table.component';
+import { ConsultarSaldoAgenciaFormComponent } from './consultar-saldos/form/consultar-saldo-agencia-form.component';
 
 @NgModule({
     imports: [
@@ -31,7 +32,7 @@ import { AgenciaTableComponent } from './table/agencia-table.component';
                
         HighlightModule,
         SirioCardModule,
-        AgenciaRoutingModule
+        AgenciaRoutingModule,
     ],
     declarations: [
         AgenciaFormComponent,
@@ -40,6 +41,7 @@ import { AgenciaTableComponent } from './table/agencia-table.component';
         CupoAgenciaTableComponent,
         CupoAgenciaPopupComponent,
         ActualizarSaldoAgenciaFormComponent,
+        ConsultarSaldoAgenciaFormComponent,
     ],
     exports: [],
     entryComponents:[CupoAgenciaPopupComponent]

@@ -205,6 +205,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         if (this.agencia.id) {
             this.applyChangeStatus(this.agenciaService, this.agencia, this.agencia.nombre, this.cdr);
         }
+        // create regular expression validate email
     }
 
 }

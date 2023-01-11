@@ -16,10 +16,31 @@ $porcs: (
     80: 80%  
   );
   
+
+$pixels: (
+    25: 25px,
+    50: 50px,
+    75: 75px,
+    100: 100px,
+    120: 120px,
+    150: 150px,
+    200: 200px,
+    250: 250px,
+    300: 300px,
+    500: 500px,
+  );
+  
   
   @each $name, $value in $porcs {
     
     .tw-#{$name} {
+      max-width: $value;
+    }
+  }
+  
+  @each $name, $value in $pixels {
+    
+    .tw-#{$name}-px {
       max-width: $value;
     }
   }

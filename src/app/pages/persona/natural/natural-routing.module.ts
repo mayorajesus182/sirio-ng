@@ -4,9 +4,13 @@ import { NaturalFormComponent } from './form/natural-form.component';
 
 
 const naturalRoutes: Routes = [
-
     {
         path: '',
+        component: NaturalFormComponent,
+        data: { title: 'Persona Natural' }
+    },
+    {
+        path: ':tdoc/:doc/add',
         component: NaturalFormComponent,
         data: { title: 'Persona Natural' }
     },

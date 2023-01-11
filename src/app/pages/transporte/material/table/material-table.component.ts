@@ -18,7 +18,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class MaterialTableComponent extends TableBaseComponent implements OnInit, AfterViewInit{
 
-  displayedColumns = ['material_id', 'nombre', 'activo', 'actions'];
+  displayedColumns = ['material_id', 'nombre', 'plomo', 'activo', 'actions'];
 
   constructor(
     injector: Injector,

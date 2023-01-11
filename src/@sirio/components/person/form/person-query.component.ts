@@ -30,7 +30,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     isNew: boolean = false;
     @Input() tooltips: string = 'Crear';
     @Input() tipo_persona: string;
-    @Input()title: string = 'Información del Cliente';
+    @Input() title: string = 'Información del Cliente';
     @Input() taquilla: boolean = false;
     @Input() entity: 'interviniente' | 'persona' | 'cuenta' = 'persona';
     @Input() disabled: boolean = false;
@@ -40,14 +40,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     @Output('push') push: EventEmitter<any> = new EventEmitter<any>();
     // busqueda : boolean = false;
     tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    tiposDocumentoList = [];
     persona: Persona = {} as Persona;
-    private legals = ['C',
-        'G',
-        'H',
-        'I',
-        'J',
-        'R',
-        'W'];
+    // private legals:string[] = [];
+    // ['C',
+    //     'G',
+    //     'H',
+    //     'I',
+    //     'J',
+    //     'R',
+    //     'W'];
 
     private loading = new BehaviorSubject<boolean>(false);
     private finding = false;
@@ -108,9 +110,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
-
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
+                this.tiposDocumentoList = data;
                 this.tiposDocumentos.next(data);
             });
         } else {
@@ -119,6 +121,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             });
 
         }
+
+        // this.tipoDocumentoService.activesJuridicos().subscribe(data=>this.legals=data.map(t=>t.id));
 
         this.searchForm = this.fb.group({
             tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT),
@@ -153,6 +157,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
+        console.log(this.search.identificacion?.errors);
+
+
         if (this.search.identificacion.errors || this.finding) {
             return;
         }
@@ -161,6 +168,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
+        console.log(this.searchForm.value);
+        
         this.loading.next(true);
 
         if (tipoDocumento && identificacion) {
@@ -267,6 +276,11 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     pushOn() {
         // this.disable.next(true);
+        console.log(this.searchForm.value);
+        if (!this.persona.id && !this.persona.numper) {
+            this.persona = this.searchForm.value;
+        }
+
         this.push.emit(this.persona);
         this.resetAll();
     }
@@ -312,28 +326,36 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
     isNaturalPerson() {
-        if (this.search.tipoDocumento.value && !this.legals.includes(this.search.tipoDocumento.value)) {
+        if (this.search.tipoDocumento.value && !this.isLegalPerson()) {
             return true;
         } else if (this.tipo_persona) {
 
             return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
         }
 
-
+        return false;
     }
 
     isLegalPerson() {
-        // console.log('tipo doc selected', this.search.tipoDocumento.value);
-        // console.log('tipo persona input', this.tipo_persona);
+        // if(!this.search.tipoDocumento.value){
+        //    return; 
+        // }
+        // console.log('tipo doc ', this.tiposDocumentoList);
+        // console.log('tipo persona ', this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value));
+        // const= this.tiposDocumentos.
+        let isLegal = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
+        // console.log('tipo doc selected', this.search.tipoDocumento.value, isLegal);
 
-        if (this.search.tipoDocumento.value && this.legals.includes(this.search.tipoDocumento.value)
-        ) {
+
+        if (this.search.tipoDocumento.value && isLegal) {
 
             return true;
         } else if (this.tipo_persona) {
 
             return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA;
         }
+
+        return false;
 
     }
 

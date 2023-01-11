@@ -31,4 +31,9 @@ export class RolService {
         return this.apiService.config(this.apiConfig).get(`/byusuario/get`);
     }
 
+    
+    actives(): Observable<Rol[]> {
+        return this.apiService.config(this.apiConfig).get('/actives');
+    }
+
 }

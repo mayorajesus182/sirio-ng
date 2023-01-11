@@ -9,6 +9,7 @@ export class GlobalConstants {
   public static PERSONA_NATURAL = 'N';
   public static PERSONA_JURIDICA = 'J';
   public static TIPDOC_GOBIERNO = 'G'; 
+  public static TIPO_PERSONA = 'A';   
   public static CASADO = 'CAS';
   public static UNION_ESTABLE = 'UDH';
   public static DATE_SHORT = 'DD/MM/YYYY';
@@ -29,5 +30,7 @@ export class GlobalConstants {
   public static TELEFONO_MOVIL = 'M';
   public static ARQUEO_INCREMENTO = 'I';
   public static ARQUEO_RETIRO = 'R';
+  public static ENVIO_REMESA = 'ENV';
+  public static SOLICITUD_REMESA = 'SOL';
   // static CUENTA_BANCO: any;
 };

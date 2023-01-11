@@ -29,6 +29,7 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
   agenciaId: string;
   agencia: string;
   saldoAnterior: number;
+  faltaDesglose: boolean = false;
 
   constructor(
     injector: Injector,
@@ -103,11 +104,13 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
   updateValues(item: ConoMonetario) {
 
     this.conos.subscribe(c => {
-        this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
-        this.conoSave = c.filter(c => c.cantidad > 0);
+      this.faltaDesglose = false;
+      c.forEach(cfe => { if (cfe.cantidad == null || cfe.cantidad == undefined) { this.faltaDesglose = true } });
+      this.f.monto.setValue(c.filter(c1 => c1.cantidad > 0).map(c2 => c2.cantidad * c2.denominacion).reduce((a, b) => a + b));
+      this.conoSave = c.filter(c => c.cantidad > 0);
     });
 
-}
+  }
 
   save() {
 

@@ -16,7 +16,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
   animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
-export class ActividadIndependienteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
+export class ActividadIndependienteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit { 
 
   displayedColumns = ['actindependiente_id', 'nombre', 'activo', 'actions'];
 
