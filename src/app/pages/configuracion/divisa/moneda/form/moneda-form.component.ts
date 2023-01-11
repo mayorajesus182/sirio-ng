@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
+import { ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -19,7 +20,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class MonedaFormComponent extends FormBaseComponent implements OnInit {
 
     moneda: Moneda = {} as Moneda;
-
+    existeCono: Boolean = true;
 
     constructor(
         injector: Injector,
@@ -27,8 +28,9 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private monedaService: MonedaService,
+        private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -38,6 +40,11 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
+
+            this.conoMonetarioService.existsSomethingByMoneda(id).subscribe(result => {
+                this.existeCono = result.exists;
+            });
+
             this.monedaService.get(id).subscribe((agn: Moneda) => {
                 this.moneda = agn;
                 this.buildForm(this.moneda);
@@ -51,7 +58,7 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -62,27 +69,14 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(moneda: Moneda) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: moneda.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            id: new FormControl({ value: moneda.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             siglas: new FormControl(moneda.siglas || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(moneda.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(moneda.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS)]),
             usoOperacion: new FormControl(moneda.usoOperacion || false),
             usoAtm: new FormControl(moneda.usoAtm || false),
             esVirtual: new FormControl(moneda.esVirtual || false),
             codigoLocal: new FormControl(moneda.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
-    }
-
-    save() {
-        if (this.itemForm.invalid)
-            return;
-
-        this.updateData(this.moneda);
-        this.moneda.usoOperacion = this.moneda.usoOperacion ? 1 : 0;
-        this.moneda.usoAtm = this.moneda.usoAtm ? 1 : 0;
-        this.moneda.esVirtual = this.moneda.esVirtual ? 1 : 0;
-        this.saveOrUpdate(this.monedaService, this.moneda, 'La  Moneda', this.isNew);
-       
-       
     }
 
     private codigoExists(id) {
@@ -94,6 +88,25 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
                 this.cdr.detectChanges();
             }
         });
+    }
+
+    save() {
+        if (this.itemForm.invalid)
+            return;
+
+        this.updateData(this.moneda);
+
+        if ((this.moneda.usoOperacion || this.moneda.usoAtm) && (!this.existeCono)) {
+            this.swalService.show('No Puede Guardar la Moneda', 'Si desea usarla en Operaciones o ATM, debe crear el Cono Monetario de la Misma', { showCancelButton: false }).then((resp) => {
+                if (!resp.dismiss) { }
+            });
+        } else {
+            this.moneda.usoOperacion = this.moneda.usoOperacion ? 1 : 0;
+            this.moneda.usoAtm = this.moneda.usoAtm ? 1 : 0;
+            this.moneda.esVirtual = this.moneda.esVirtual ? 1 : 0;
+
+            this.saveOrUpdate(this.monedaService, this.moneda, 'La  Moneda', this.isNew);
+        }
     }
 
     activateOrInactivate() {

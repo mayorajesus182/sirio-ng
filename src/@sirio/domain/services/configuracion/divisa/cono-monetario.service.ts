@@ -76,6 +76,10 @@ export class ConoMonetarioService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
+    existsSomethingByMoneda(moneda: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/something/exists`);
+    }
+
     get(id: string): Observable<ConoMonetario> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }

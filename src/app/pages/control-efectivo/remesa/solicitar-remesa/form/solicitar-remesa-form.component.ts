@@ -72,7 +72,12 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
                 // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
                 if (this.esTransportista) {
 
-                    this.monedaService.actives().subscribe(data => {
+                    // this.monedaService.paraOperacionesActives().subscribe(data => {
+                    //     this.monedas.next(data);
+                    //     this.cdr.detectChanges();
+                    // });
+
+                    this.monedaService.forSolicitudRemesasAll().subscribe(data => {
                         this.monedas.next(data);
                         this.cdr.detectChanges();
                     });
@@ -111,11 +116,16 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
 
 
         this.f.receptor.valueChanges.subscribe(value => {
-            this.monedaService.forRemesasAll().subscribe(data => {
+            this.monedaService.forSolicitudRemesasAll().subscribe(data => {
                 this.f.moneda.setValue(this.preferencia.monedaConoActual);
                 this.monedas.next(data);
                 this.cdr.detectChanges();
             });
+            // this.monedaService.forRemesasAll().subscribe(data => {
+            //     this.f.moneda.setValue(this.preferencia.monedaConoActual);
+            //     this.monedas.next(data);
+            //     this.cdr.detectChanges();
+            // });
         });
 
         this.f.moneda.valueChanges.subscribe(value => {

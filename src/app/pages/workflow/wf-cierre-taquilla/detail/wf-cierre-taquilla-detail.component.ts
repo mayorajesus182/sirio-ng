@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -62,7 +62,9 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
                 });
 
                 this.cajaTaquillaService.allByExpediente(exp).subscribe(data => {
-                    this.saldos.next(data);
+                    this.saldos.next(data);      
+                    console.log(' dataaaaaaaaaa    ', data);
+                                  
                 });
             }
         });

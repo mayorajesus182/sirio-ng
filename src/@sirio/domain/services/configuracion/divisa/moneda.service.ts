@@ -85,5 +85,13 @@ export class MonedaService {
     forRemesasAll(): Observable<Moneda[]> {
         return this.apiService.config(this.apiConfig).get('/forremesas/list');
     }
+    
+    forSolicitudRemesasAll(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/forsolicitud/remesas/list');
+    }
 
+    forEnvioRemesasAll(): Observable<Moneda[]> {
+        return this.apiService.config(this.apiConfig).get('/forenvio/remesas/list');
+    }
+    
 }

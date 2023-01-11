@@ -52,6 +52,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
+    monedaDeRemesa: Moneda[] = [];
     esTransportista: Boolean = false;
     public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
@@ -107,6 +108,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                         this.buildForm();
 
                         if (this.remesa.esAgencia == 1) {
+                            
                             this.transportistaService.activesByUbicacionAgencia().subscribe(trans => {
                                 this.transportistas.next(trans);
                             });
@@ -159,6 +161,11 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                             this.loadCostosMaterialTransportista(this.remesa.moneda, this.remesa.emisor);
                         }
 
+                        this.monedaService.get(this.remesa.moneda).subscribe(mon => {
+                            this.monedaDeRemesa.push(mon);     
+                            this.monedas.next(this.monedaDeRemesa.slice()); 
+                        });
+
                     });
 
                 } else {
@@ -174,7 +181,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             this.acopios.next(data);
         });
 
-        this.monedaService.fisicaActives().subscribe(data => {
+        this.monedaService.forEnvioRemesasAll().subscribe(data => {
             this.monedas.next(data);
         });
 
