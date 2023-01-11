@@ -58,7 +58,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        
+
         private rolService: RolService,
         private remesaService: RemesaService,
         private saldoAcopioService: SaldoAcopioService,
@@ -217,22 +217,25 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             // this.preferenciaService.get().subscribe(pref => {
             //     this.preferencia = pref;
 
-                // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-                if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+            // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
+            if (this.preferencia.monedaConoActual === this.remesa.moneda) {
 
-                    this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
-                        this.viajes.next(vjt);
-                    });
+                this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
+                    this.viajes.next(vjt);
+                });
 
-                } else {
+            } else {
 
-                    this.viajeTransporteService.allWithCostoDivisaByTransportista(value).subscribe(vjt => {
-                        this.viajes.next(vjt);
-                    });
-                }
-            });
+                this.viajeTransporteService.allWithCostoDivisaByTransportista(value).subscribe(vjt => {
+                    this.viajes.next(vjt);
+                });
+            }
+        });
         // });
 
+        this.f.cajasBolsas.valueChanges.subscribe(value => {
+            this.comparePlomos();
+        });
 
         this.plomoCtrl.setValue(this.remesa.plomos ? this.remesa.plomos.split(',') : []);
         this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
@@ -282,6 +285,8 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         this.materialUtilizadoList.next(this.materialRemesaList.slice());
         this.mf.material.setValue(undefined);
         this.mf.cantidad.setValue(undefined);
+
+        this.comparePlomos();
         this.cdr.detectChanges();
     }
 
@@ -291,6 +296,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                 this.materialRemesaList.splice(index, 1);
                 this.materialUtilizadoList.next(this.materialRemesaList.slice());
             }
+            this.comparePlomos();
             this.cdr.detectChanges();
         });
     }
@@ -333,14 +339,11 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             this.itemForm.controls['montoEnviado'].markAsTouched();
             // this.cdr.detectChanges();
 
-
-            console.log('Mayooorrrrrrrrrrrrrrrrrrrrrrrr');
-            
         }
 
         this.existsDifference = false;
         this.conoSave.filter(c => { if (c.cantidad > c.disponible) { this.existsDifference = true } })
-        
+
     }
 
     removePlomo(plomo: string) {
@@ -348,6 +351,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         if (index >= 0) {
             this.plomoList.splice(index, 1);
         }
+        this.comparePlomos();
     }
 
     addPlomo(event: MatChipInputEvent) {
@@ -386,6 +390,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         this.plomoCtrl.updateValueAndValidity();
         // Clear the input value
         event.chipInput!.clear();
+        this.comparePlomos();
         this.cdr.detectChanges();
 
     }
@@ -393,6 +398,32 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.plomoList, event.previousIndex, event.currentIndex);
+    }
+
+    comparePlomos() {
+        this.plomoCtrl.setErrors({ difference: false });
+
+        if (!this.esTransportista && this.plomoList.length != this.f.cajasBolsas.value) {
+            this.plomoCtrl.setErrors({ difference: true });
+        }
+
+        if (this.esTransportista) {
+            let total = 0;
+            this.materialUtilizadoList.subscribe(materialesSeleccionados => {
+                total = 0;
+                for (let i = 0; i < materialesSeleccionados.length; i++) {
+                    for (let j = 0; j < this.materialList.length; j++) {
+                        if (materialesSeleccionados[i].material == this.materialList[j].id) {
+                            total += materialesSeleccionados[i].cantidad * this.materialList[j].plomo;
+                        }
+                    }
+                }
+            });
+
+            if (this.plomoList.length != total) {
+                this.plomoCtrl.setErrors({ difference: true });
+            }
+        }
     }
 
     save() {

@@ -31,7 +31,7 @@ export class MinorAgeValidator implements Validator {
 
         let birthday = control.value;
 
-        console.log('min age today ',this.today);
+        // console.log('min age today ',this.today);
         
 
 

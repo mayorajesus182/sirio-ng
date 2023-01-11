@@ -229,9 +229,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         });
 
         this.f.cajasBolsas.valueChanges.subscribe(value => {
-            // if (this.f.transportista.value != null) {
-            //     this.loadCostosViajeTransportista(value, this.f.transportista.value);
-            // }
             this.comparePlomos();
         });
 

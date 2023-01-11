@@ -31,18 +31,13 @@ export class AgeValidatorByDocumentType implements Validator {
         }
 
         let birthday = control.value;
-
         let ageCalc = moment.duration(moment(this.today).diff(birthday)).asYears();
-
-        console.log('min age today ',this.today);
-        console.log('document ', this.document.charAt(0));
-        console.log('ageCalc ', ageCalc);
 
         if (ageCalc > 18 && this.document.charAt(0) === 'M') {
             return { age: 'Debe ser menor de edad'};
         }
 
-        if (ageCalc < 18 && this.document.charAt(0) !== 'M') {
+        if (ageCalc <= 18 && this.document.charAt(0) !== 'M') {
             return { age: 'Debe ser mayor de edad'};
         }
 
