@@ -74,7 +74,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
                 });
 
                 this.rolService.actives().subscribe(data => {
-                    // console.log(data);
+                    console.log(data);
 
                     this.roles.next(data);
                 });
