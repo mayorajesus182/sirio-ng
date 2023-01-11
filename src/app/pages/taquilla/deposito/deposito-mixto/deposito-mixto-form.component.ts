@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -25,7 +26,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 })
 
 export class DepositoMixtoFormComponent extends FormBaseComponent implements OnInit {
-
+    public columnMode = ColumnMode;
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
@@ -426,7 +427,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.cf.montoCheque.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
-        this.errorDesglose();
         this.calculateDifferences();
         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -27,7 +28,8 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
-
+    ColumnMode = ColumnMode;
+    
     public chequeForm: FormGroup;
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
@@ -179,6 +181,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     get cf() {
         return this.chequeForm ? this.chequeForm.controls : {};
     }
+
 
     add() {
         if (this.chequeForm.invalid)
@@ -349,13 +352,13 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
         if (Math.abs((valorChequesTotal) - (valorMontoTotal)) >= 1) {
 
-            this.f.chequePropio.setErrors({
-                chequePropioDifference: true
-            });
+            // this.f.chequePropio.setErrors({
+            //     chequePropioDifference: true
+            // });
 
-            this.f.chequeOtros.setErrors({
-                chequeOtrosDifference: true
-            });
+            // this.f.chequeOtros.setErrors({
+            //     chequeOtrosDifference: true
+            // });
 
             this.f.monto.setErrors({
                 totalDifference: true
@@ -364,8 +367,6 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             this.cdr.detectChanges();
 
         } else {
-            // this.f.chequeOtros.setErrors(null);
-            // this.f.chequePropio.setErrors(null);
             this.f.monto.setErrors(undefined);
         }
     }
