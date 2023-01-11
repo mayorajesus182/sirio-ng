@@ -30,7 +30,7 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
+                    <div [formGroup]="itemForm" *ngIf="itemForm">
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                             <mat-form-field fxFlex="10">
                                 <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }} </mat-label>
@@ -178,7 +178,7 @@
                             </mat-form-field>
                         </div>
 
-                    </form>
+                    </div>
 
                 </sirio-card-content>
                 <mat-toolbar>

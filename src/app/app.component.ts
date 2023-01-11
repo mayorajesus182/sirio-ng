@@ -7,6 +7,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
 import { Idioma } from 'src/@sirio/domain/services/preferencias/idioma.service';
+import { BroadcastService, BROADCAST_SERVICE } from 'src/@sirio/services/broadcast.service';
 import { RoutePartsService } from 'src/@sirio/services/route-parts.service';
 import { SplashScreenService } from '../@sirio/services/splash-screen.service';
 import { ThemeService } from '../@sirio/services/theme.service';
@@ -19,9 +20,11 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   appTitle = 'Sirio By Novumideas';
   pageTitle = '';
-
+  tabCounter = 1;
 
   constructor(
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(BROADCAST_SERVICE) private broadCastService: BroadcastService,
     public title: Title,
     private router: Router,
     private routePartsService: RoutePartsService,
@@ -30,12 +33,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private themeService: ThemeService,
     public translate: TranslateService,
-    @Inject(DOCUMENT) private document: Document,
     private platform: Platform,
     private splashScreenService: SplashScreenService) {
 
 
-   
+
     // Translator init
     const browserLang: string = translate.getBrowserLang();
 
@@ -45,7 +47,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
 
-    translate.use(browserLang.match(/en|es|pr/) ? browserLang : lang);   
+    translate.use(browserLang.match(/en|es|pr/) ? browserLang : lang);
 
     this.activeRoute.queryParamMap.pipe(
       filter(queryParamMap => queryParamMap.has('style'))
@@ -68,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    
+
     this.changePageTitle();
   }
 
@@ -87,7 +89,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         .reverse()
         .map((part) => {
 
-          let title =  this.translate.instant(part.title);
+          let title = this.translate.instant(part.title);
 
           // console.log('tl ', title);
 
@@ -99,7 +101,18 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.title.setTitle(this.pageTitle);
 
 
+      console.log('update title ', this.appTitle);
+
     });
-    console.log('set title ', this.appTitle);
+
+
+    setTimeout(() => {
+      this.tabCounter++;
+      this.broadCastService.publish({
+        type: 'counter',
+        payload: this.tabCounter
+      })
+
+    }, 1000);
   }
 }

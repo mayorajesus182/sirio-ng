@@ -32,7 +32,7 @@ import { ConsultarSaldoAgenciaFormComponent } from './consultar-saldos/form/cons
                
         HighlightModule,
         SirioCardModule,
-        AgenciaRoutingModule
+        AgenciaRoutingModule,
     ],
     declarations: [
         AgenciaFormComponent,

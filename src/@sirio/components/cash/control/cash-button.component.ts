@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Subject } from 'rxjs';
 import { ConoMonetario } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
 import { Moneda } from "src/@sirio/domain/services/configuracion/divisa/moneda.service";
-import { CashFormPopupComponent } from "../popup/cash-form.popup.component";
+import { CashFormPopupComponent } from "src/@sirio/components/cash/popup/cash-form.popup.component";
 
 
 
