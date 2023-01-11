@@ -74,13 +74,13 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <div fxFlex="100" fxFlex.gt-xs="30" class="text-right margin-top-md">
+                                <div fxFlex="100" fxFlex.gt-xs="30" class="text-right margin-top-md" *ngIf="!isNew">
                                     <mat-slide-toggle [color]="'primary'" formControlName="usoOperacion" name="usoOperacion">
                                         {{'coin.useOperations' | translate: {default: 'global.useOperations'} | translate }}
                                     </mat-slide-toggle>
                                 </div>
 
-                                <div fxFlex="100" fxFlex.gt-xs="20" class="text-right margin-top-md">
+                                <div fxFlex="100" fxFlex.gt-xs="20" class="text-right margin-top-md" *ngIf="!isNew">
                                     <mat-slide-toggle [color]="'primary'" formControlName="usoAtm" name="usoAtm">
                                         {{'coin.useAtm' | translate: {default: 'global.useAtm'} | translate }}
                                     </mat-slide-toggle>

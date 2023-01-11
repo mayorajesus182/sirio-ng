@@ -68,7 +68,7 @@ export class CierreAgenciaFormComponent extends FormBaseComponent implements OnI
             } else {
 
                 // Se verifica si hay alguna taquilla de la agencia abierta
-                this.taquillaService.isOpenByAgencia().subscribe(isOpen => {
+                this.taquillaService.isOpenWithSaldoByAgencia().subscribe(isOpen => {
 
                     if (isOpen) {
 

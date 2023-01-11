@@ -12,11 +12,11 @@
                     <sirio-card-header-heading>{{this.rol.nombre}} </sirio-card-header-heading>
                     <sirio-card-header-actions>
                         <mat-card-title class="mat-bg-grey">
-                            <div class="card-title-text">            
+                            <div class="card-title-text">
                                 <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
                                     <mat-icon class="">more_vert</mat-icon>
                                 </button>
-                    
+
                                 <mat-menu #userMenu="matMenu">
                                     <button mat-menu-item class="mr-1" (click)="approveTask()">
                                         <mat-icon color="primary">check_circle</mat-icon>
@@ -27,7 +27,7 @@
                                         {{'action.override' | translate }}
                                     </button>
                                 </mat-menu>
-                    
+
                             </div>
                         </mat-card-title>
                     </sirio-card-header-actions>
@@ -49,8 +49,12 @@
                                         <span class="margin-top-sm semi-bold">{{item.siglasMoneda + ' - '+ item.nombreMoneda}}</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> MONTO DECLARADO: {{item.monto  | number: '1.2'}} </b>
-                                        </span>
+                                        <span *ngIf="item.ajuste != 0" class="margin-top-sm semi-bold margin-right-sm"> <b> AJUSTE: {{item.ajuste | number:
+                                                '1.2'}} </b> </span>
+                                        <span *ngIf="item.diferencia != 0" class="margin-top-sm semi-bold margin-right-sm"> <b> DIFERENCIA: {{item.diferencia |
+                                                number: '1.2'}} </b> </span>
+                                        <span *ngIf="item.diferencia+item.ajuste != 0" class="margin-top-sm semi-bold margin-right-sm"> <b> | </b> </span>
+                                        <span class="margin-top-sm semi-bold margin-right-sm"> <b> MONTO DECLARADO: {{item.monto | number: '1.2'}} </b></span>
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
@@ -88,7 +92,7 @@
 
                                 <mat-divider class="margin-bottom-md"></mat-divider>
 
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="item.detalleEfectivo?.length > 0">
                                     <div fxLayout="column" fxFlex="10">
                                         <h3>{{'Declaración de Efectivo' | translate: {default: 'Declaración de Efectivo'} | translate }}</h3>
                                     </div>
@@ -99,8 +103,10 @@
                                                     (det.esBillete?'global.bill':
                                                     'global.coin') | translate }}
                                                 </mat-label>
+                                                <!-- <input matInput class="text-right" [(ngModel)]="det.cantidad" min="0" autocomplete="off" matInput type="number"
+                                                    (ngModelChange)="updateValuesErrors(item)" /> -->
                                                 <input matInput class="text-right" [(ngModel)]="det.cantidad" min="0" autocomplete="off" matInput type="number"
-                                                    (ngModelChange)="updateValuesErrors(item)" />
+                                                    readonly />
                                             </mat-form-field>
                                         </div>
                                     </div>

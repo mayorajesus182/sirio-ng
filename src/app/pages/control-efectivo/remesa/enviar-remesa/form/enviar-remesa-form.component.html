@@ -107,7 +107,7 @@
                                     <mat-error *ngIf="plomoCtrl.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="plomoCtrl.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="plomoCtrl.errors?.exists">{{'El plomo ya esta registrado' | translate}}</mat-error>
-                                    <mat-error *ngIf="plomoCtrl.errors?.difference">{{'Los plomos deben coincidir con la cantidad indicada en materiales' | translate}}</mat-error>
+                                    <mat-error *ngIf="plomoCtrl.errors?.difference">{{'Deben coincidir con la cantidad de cajas o bolsas utilizadas' | translate}}</mat-error>
                                     <mat-error *ngIf="plomoCtrl.errors?.length">{{plomoCtrl.errors?.length}}</mat-error>
                                 </mat-form-field>
 

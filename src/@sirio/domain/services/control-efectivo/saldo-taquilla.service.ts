@@ -22,6 +22,7 @@ export interface SaldoTaquilla {
     moneda: string;
     nombreMoneda?: string;
     siglasMoneda?: string;
+    confirmado: any;
     cerrado: any;
     detalleEfectivo: ConoMonetario[];
 }
@@ -74,7 +75,6 @@ export class SaldoTaquillaService {
     dataChartAll(): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/datachart`);
     }
-
 
     dataChartAllByTaquilla(id): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/taquilla/${id}/datachart`);

@@ -122,8 +122,7 @@
                                             'global.coin') | translate }}
                                         </mat-label>
                                         <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
-                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
-                                            [disabled]="item.disponible==0" />
+                                            autocomplete="off" matInput type="number" readonly />
                                         <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
                                     </mat-form-field>
                                 </div>
@@ -144,8 +143,7 @@
                                             'global.coin') | translate }}
                                         </mat-label>
                                         <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
-                                            autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
-                                            [disabled]="item.disponible==0" />
+                                            autocomplete="off" matInput type="number" readonly/>
                                         <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
                                     </mat-form-field>
                                 </div>

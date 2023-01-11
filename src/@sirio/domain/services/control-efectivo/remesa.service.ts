@@ -92,7 +92,7 @@ export class RemesaService {
 
     pagePorRecibir(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
         return this.apiService.config(this.apiConfig).page('/porrecibir/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
-    }
+    }   
 
     pagePorAprobar(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Remesa[]> {
         return this.apiService.config(this.apiConfig).page('/poraprobar/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
@@ -154,6 +154,14 @@ export class RemesaService {
     sendUpdate(data: Remesa): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/envio/update`, data)
             .pipe(map(res => data));
+    }
+
+    cantidadSolicitadaTodayByMoneda(moneda: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/solicitada/quantity`);
+    }
+
+    cantidadEnviadaTodayByMoneda(moneda: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/enviada/quantity`);
     }
 
 }

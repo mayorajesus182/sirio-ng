@@ -57,6 +57,7 @@ import { ExcerptPipe } from './pipes/excerpt.pipe';
 import { RelativeTimePipe } from './pipes/relative-time.pipe';
 import { ShortNumberPipe } from './pipes/short-number.pipe';
 import { ShortSizePipe } from './pipes/short-size.pipe';
+import { AgeValidatorByDocumentType } from './input/age-validation-bydocumenttype.directive';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -130,6 +131,7 @@ const toInclude = [
   NumAccountValidator,
   RifValidator,
   MinorAgeValidator,
+  AgeValidatorByDocumentType,
   EmailValidate,
   TelefonoValidator,
   UppercaseDirective,

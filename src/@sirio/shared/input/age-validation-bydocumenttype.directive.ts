@@ -7,14 +7,15 @@ import * as _moment from 'moment';
 const moment = _moment;
 
 @Directive({
-    selector: '[minorAge],[minor-age]',
+    selector: '[ageDocumentType],[age-document-type]',
     providers: [
-        { provide: NG_VALIDATORS, useExisting: MinorAgeValidator, multi: true }
+        { provide: NG_VALIDATORS, useExisting: AgeValidatorByDocumentType, multi: true }
     ]
 })
-export class MinorAgeValidator implements Validator {
+export class AgeValidatorByDocumentType implements Validator {
 
     @Input('today') today: Moment;
+    @Input('document') document: String;
 
     constructor(private element: ElementRef) { }
 
@@ -30,15 +31,14 @@ export class MinorAgeValidator implements Validator {
         }
 
         let birthday = control.value;
+        let ageCalc = moment.duration(moment(this.today).diff(birthday)).asYears();
 
-        // console.log('min age today ',this.today);
-        
+        if (ageCalc > 18 && this.document.charAt(0) === 'M') {
+            return { age: 'Debe ser menor de edad'};
+        }
 
-
-        let age = moment.duration(moment(this.today).diff(birthday)).asYears();
-
-        if (age < 18) {
-            return { minAge: 'Debe ser mayor de edad'};
+        if (ageCalc <= 18 && this.document.charAt(0) !== 'M') {
+            return { age: 'Debe ser mayor de edad'};
         }
 
         return null;

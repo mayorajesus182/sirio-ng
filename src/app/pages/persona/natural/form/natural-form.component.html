@@ -154,12 +154,15 @@
                                         <mat-form-field fxFlex="auto">
                                             <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |
                                                 translate }}</mat-label>
-                                            <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
+                                            <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento" age-document-type document="{{f.tipoDocumento.value}}" today="{{todayValue}}"
                                                 formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
                                             <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
                                             </mat-datepicker-toggle>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
                                                 Fecha Invalida
+                                            </mat-error>
+                                            <mat-error *ngIf="f.fechaNacimiento.errors?.age">
+                                                {{f.fechaNacimiento.errors?.age}}
                                             </mat-error>
                                         </mat-form-field>
                                         <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
