@@ -44,6 +44,15 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
   ngAfterViewInit(): void {
 
+    this.loading$.subscribe(loading => {
+      if (this.f.entidadFinanciera.value) {
+        this.entidadFinancieraService.actives().subscribe(data => {
+          this.entidadFinancieraList.next(data);
+          this.cdr.detectChanges();
+        });
+      }
+    });
+
   }
 
   ngOnInit() {
@@ -94,8 +103,6 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
   }
 
 
-
-
   buildForm() {
     //validar carcteres especiales
 
@@ -107,9 +114,9 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     });
 
-  
-
     this.f.entidadFinanciera.valueChanges.subscribe((val: string) => {
+
+      this.f.numeroCuenta.setValue('');
       // console.log('entidad financiera **' + val + '**');
       // console.log(this.f.numeroCuenta.errors);
       if(this.f.numeroCuenta.errors){
@@ -128,10 +135,6 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         //   this.cdr.detectChanges();
       }
       
-      // if (this.f.numeroCuenta.errors) {
-      //   this.f.numeroCuenta.markAsDirty();
-      //   this.cdr.detectChanges();
-      // }
     });
 
     this.f.numeroCuenta.valueChanges.subscribe(val => {
@@ -150,10 +153,25 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         }
         
         this.cdr.detectChanges();
-
   
       }
     });
+
+
+    this.f.tipoProducto.valueChanges.subscribe(value => {
+    
+      this.f.numeroCuenta.setValue('');
+      this.f.entidadFinanciera.setValue(undefined);
+      this.cdr.detectChanges();
+      
+      if(value){
+        this.entidadFinancieraService.actives().subscribe(data => {
+          this.entidadFinancieraList.next(data);
+          this.cdr.detectChanges();
+        });
+      }
+    });
+    this.cdr.detectChanges();
 
   }
 
@@ -164,7 +182,6 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
     return this.referencias.find(c => (c.numeroCuenta === numeroCuenta)) == undefined;
   }
-
 
   save() {
 

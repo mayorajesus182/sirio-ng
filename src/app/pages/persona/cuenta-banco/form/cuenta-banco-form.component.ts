@@ -175,6 +175,32 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
         });
 
+
+        this.f.tipoProducto.valueChanges.subscribe(value => {
+            
+            this.f.tipoSubproducto.setValue(undefined);
+            this.f.moneda.setValue(undefined);
+            //this.f.numeroCuenta.setValue('');
+            
+            this.cdr.detectChanges();
+            
+            if(value){
+                this.tipoSubproductoService.actives().subscribe(data => {
+                    this.tipoSubproductos.next(data);
+                    this.cdr.detectChanges();
+                });
+
+                this.monedaService.actives().subscribe(data => {
+                    this.moneda.next(data);
+                    this.cdr.detectChanges();
+                });
+            }
+
+        });
+
+          this.cdr.detectChanges();
+          
+
     }
 
     resetAll() {

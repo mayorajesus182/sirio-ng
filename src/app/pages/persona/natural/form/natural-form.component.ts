@@ -21,6 +21,7 @@ import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccio
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
+
 @Component({
     selector: 'app-natural-form',
     templateUrl: './natural-form.component.html',
@@ -65,6 +66,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     constants = GlobalConstants;
     estado_civil: string;
 
+  
+
     tipo_DocumentoMenor: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
@@ -79,7 +82,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-
+   
     constructor(
         injector: Injector,
         dialog: MatDialog,

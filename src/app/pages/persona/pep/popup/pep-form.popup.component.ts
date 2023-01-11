@@ -115,7 +115,12 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       tipoDocumento: new FormControl(this.pep.tipoDocumento || undefined),
 
       // identificacion: new FormControl(this.pep.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-      identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.NUMERIC)]),
+
+      
+      
+      identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+
+      // identificacion2: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
   
 
       nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
@@ -126,6 +131,8 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
+
+    
 
 
     this.cdr.detectChanges();
