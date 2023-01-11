@@ -116,6 +116,21 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Reporte Cuadre Agencia' },
         loadChildren: () => import('./reports/cuadre-agencia/reporte-cuadre-agencia.module').then(m => m.ReporteCuadreAgenciaModule),
     },
+    {
+        path: 'reporte-remesas-solicitadas',
+        data: { title: 'Reporte Remesas Solicitadas' },
+        loadChildren: () => import('./reports/remesa-solicitada/reporte-remesa-solicitada.module').then(m => m.ReporteRemesaSolicitadaModule),
+    },
+    {
+        path: 'reporte-remesas-enviadas',
+        data: { title: 'Reporte Remesas Enviadas' },
+        loadChildren: () => import('./reports/remesa-enviada/reporte-remesa-enviada.module').then(m => m.ReporteRemesaEnviadaModule),
+    },
+    {
+        path: 'reporte-remesas-recibidas',
+        data: { title: 'Reporte Remesas Recibidas' },
+        loadChildren: () => import('./reports/remesa-recibida/reporte-remesa-recibida.module').then(m => m.ReporteRemesaRecibidaModule),
+    },
 
 ];
 

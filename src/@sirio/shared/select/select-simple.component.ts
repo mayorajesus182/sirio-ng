@@ -168,8 +168,11 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
         }
 
         if (value === null || value == undefined) {
-            this.selectControl.reset();
+            // this.selectControl.reset();
+            this.selectControl.setValue(value);
+
         }
+        
     }
 
 
@@ -192,7 +195,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     //     return this.selectControl.valid ? null : { profile: { valid: false } };
     // }
 
-    validate(control: AbstractControl): ValidationErrors | null {
+    validate(control: AbstractControl): ValidationErrors | null {       
         if (!this.selectControl.value || this.selectControl.value?.trim().length == 0) {
             this.selectControl.setErrors({ invalid: true });
             return {

@@ -115,7 +115,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     ngOnInit() {
-
+        GlobalConstants.TIPO_PERSONA = 'J'; 
        
         this.loadingDataForm.next(false);
 

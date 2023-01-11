@@ -13,19 +13,21 @@
 </sirio-dialog-header>
 
 
+
+
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                
-        <!-- <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew"
+        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew"
             formControlName="tipoDocumento" [required]="true" [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'"
             [errors]="f.tipoDocumento?.errors">
-        </sirio-select-search> -->
-
-        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'"  formControlName="Tipo Documento" [required]="true"
-            [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
         </sirio-select-search>
+
+        <!-- <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'"  formControlName="Tipo Documento" [required]="true"
+            [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+        </sirio-select-search> -->
 
         <mat-form-field fxFlex="33">
             <mat-label>{{'Número de Documento' | translate: {default:
@@ -106,12 +108,18 @@
 
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-        <sirio-select-search fxFlex.gt-xs="auto" [label]="'Condicion'"  formControlName="condicion" [required]="true"
+    <!-- isLegalPerson -->
+    <!-- *ngIf="isLegalPerson()" -->
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isLegalPerson()">
+                                                                         
+        <sirio-select-search fxFlex.gt-xs="auto" [label]="'Condicion'"  formControlName="condicion" [required]="isLegalPerson()"
             [elements]="condicionList.asObservable()" [attributeName]="'nombre'" [errors]="f.condicion?.errors">
         </sirio-select-search>
 
+    </div>
+    <!-- [required]="true" -->
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
         <!-- TODO: PENDIENTE IN18 -->
         <mat-form-field fxFlex="auto">
             <mat-label>{{'Nombre y Apellido' | translate: {default:

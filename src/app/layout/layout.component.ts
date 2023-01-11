@@ -1,11 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBarRef } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
 import { DEFAULT_INTERRUPTSOURCES, DocumentInterruptSource, Idle, StorageInterruptSource } from '@ng-idle/core';
+import { Subscription } from 'rxjs';
 
 import { filter, map } from 'rxjs/operators';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { BroadcastService, BROADCAST_SERVICE } from 'src/@sirio/services/broadcast.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { SnackbarService } from 'src/@sirio/services/snackbar.service';
 import { IdleWarningComponent } from 'src/@sirio/shared/idle-snack/idle-warning.component';
@@ -22,7 +24,7 @@ import { SidenavService } from './sidenav/sidenav.service';
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss']
 })
-export class LayoutComponent implements OnInit, OnDestroy {
+export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private createCustomInterruptSources = [
     new DocumentInterruptSource('keydown mousedown mouseup touchstart touchmove scroll', null),
@@ -47,7 +49,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
     map(() => checkRouterChildsData(this.router.routerState.root.snapshot, data => data.scrollDisabled))
   );
 
+
+  subscription = new Subscription();
+  tabCounter = 0;
+
   constructor(
+    @Inject(BROADCAST_SERVICE) private broadCastService: BroadcastService,
     private userIdle: Idle,
     private navService: NavigationService,
     private sidenavService: SidenavService,
@@ -57,6 +64,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private matDialogRef: MatDialog,
     private router: Router) {
 
+  }
+  ngAfterViewInit(): void {
+   
   }
 
 
@@ -103,18 +113,30 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log('loading layout');
 
-    const broadcast = new BroadcastChannel('sirio')
-    broadcast.postMessage('I am First');
-    broadcast.onmessage = (event) => {
-      if (event.data === "I am First") {
-        broadcast.postMessage(`Sorry! Already open`);
-        console.log("First Tab");
+    this.subscription.add(this.broadCastService.messagesOfType('counter').subscribe(message => {
+      console.log('broadcast received message', message);
+      if(message.payload > 1){
+            console.error("Duplicate Tab redirect login");
+        this.router.navigate(['/user/login']);
       }
-      if (event.data === `Sorry! Already open`) {
-        console.log("Duplicate Tab");
-        // this.router.navigate(['/user/login'])
-      }
-    };
+
+      this.tabCounter = message.payload;
+    }));
+
+    // this.tabCounter++;
+
+    // const broadcast = new BroadcastChannel('sirio')
+    // broadcast.onmessage = (event) => {
+    //   if (event.data === "FIRST") {
+    //     broadcast.postMessage(`Sorry! Already open`);
+    //     console.log("Open First Tab");
+    //   }
+    //   if (event.data === `Sorry! Already open`) {
+    //     console.error("Duplicate Tab");
+    //     // this.router.navigate(['/user/login'])
+    //   }
+    // };
+    // broadcast.postMessage('FIRST');
 
     let menuItems = [] as SidenavItem[];
 

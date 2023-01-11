@@ -110,7 +110,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     ngOnInit(): void {
 
-
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
                 this.tiposDocumentoList = data;
@@ -158,6 +157,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
+        console.log(this.search.identificacion?.errors);
+
+
         if (this.search.identificacion.errors || this.finding) {
             return;
         }
@@ -166,6 +168,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
+        console.log(this.searchForm.value);
+        
         this.loading.next(true);
 
         if (tipoDocumento && identificacion) {

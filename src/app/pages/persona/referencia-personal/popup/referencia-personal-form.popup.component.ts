@@ -3,10 +3,9 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { RegularExpConstants } from 'src/@sirio/constants';
-import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
-import { CifraPromedio, CifraPromedioService } from 'src/@sirio/domain/services/configuracion/producto/cifra-promedio.service';
-import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
+import { TipoTelefono } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { ReferenciaPersonal, ReferenciaPersonalService } from 'src/@sirio/domain/services/persona/referencia-personal/referencia-personal.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -23,19 +22,18 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
   referencia: ReferenciaPersonal = {} as ReferenciaPersonal;
 
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
-  public cifrasPromedioList = new BehaviorSubject<CifraPromedio[]>([]);
-  public entidadFinancieraList = new BehaviorSubject<EntidadFinanciera[]>([]);
+  public telefonicaMovilList = new BehaviorSubject<TipoTelefono[]>([]);
+  public telefonicaFijaList = new BehaviorSubject<TipoTelefono[]>([]);
 
-  referencias=[];
+  referencias = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<ReferenciaPersonalFormPopupComponent>,
     private referenciaPersonalService: ReferenciaPersonalService,
-
+    private telefonicaService: TelefonicaService,
     private tipoDocumentoService: TipoDocumentoService,
-    private cifraPromedioService: CifraPromedioService,
-    private entidadFinancieraService: EntidadFinancieraService,
+   
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
 
@@ -54,45 +52,36 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
     });
 
-    this.cifraPromedioService.actives().subscribe(data => {
+   
+    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_FIJO).subscribe(data => {
+      this.telefonicaFijaList.next(data);
+    })
 
-      this.cifrasPromedioList.next(data);
-
-    });
-
-    this.entidadFinancieraService.actives().subscribe(data => {
-
-      this.entidadFinancieraList.next(data);
-
-    });
+    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_MOVIL).subscribe(data => {
+      this.telefonicaMovilList.next(data);
+    })
 
     this.referencias = this.defaults.payload.referencias;
 
     this.cdr.detectChanges();
-    
-    console.log('Referencias uno',this.referencias);
-
-
-    console.log('ref personal',this.defaults.payload);
-    
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.referenciaPersonalService.get(this.defaults.payload.id).subscribe(data => {
         this.mode = 'global.edit';
+        console.log('referencia xxx1  personal',this.defaults.payload);
         this.referencia = data;
         this.buildForm();
         this.loadingDataForm.next(false);
         this.cdr.detectChanges();
-        
       })
     } else {
       this.referencia = {} as ReferenciaPersonal;
       this.buildForm();
       this.loadingDataForm.next(false);
       this.cdr.detectChanges();
+      console.log('referencia xxx2  personal', this.defaults.payload);
     }
   }
-
 
   buildForm() {
     //validar carcteres especiales
@@ -102,8 +91,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
       identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
 
-
-      nombre: new FormControl(this.referencia.nombre || '', [Validators.required,Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),
       telefonoMovil: new FormControl(this.referencia.telefonoMovil || undefined, []),
     });
@@ -113,10 +101,9 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       this.cdr.detectChanges();
     });
 
-
     this.f.identificacion.valueChanges.subscribe(val => {
       if (val) {
-        if (!this.validateReferencias(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined,this.f.identificacion ? this.f.identificacion.value : undefined)) {
+        if (!this.validateReferencias(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined, this.f.identificacion ? this.f.identificacion.value : undefined)) {
           this.f.identificacion.setErrors({ exists: true });
           this.f.identificacion.markAsDirty();
           this.cdr.detectChanges();
@@ -127,16 +114,6 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       }
     });
 
-
-    // this.f.estado.valueChanges.subscribe(value => {
-    //   this.f.municipio.setValue('');
-    //   this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-    //     this.municipios.next(data);
-    //     this.cdr.detectChanges();
-    //   });
-    // });
-
-
   }
 
   validateReferencias(tipoDocumento: string, identificacion: string) {
@@ -144,10 +121,10 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       return true;
     }
     console.log(identificacion);
-    
+
     this.cdr.detectChanges();
 
-    return this.referencias.find(num => num ===  tipoDocumento+'-'+identificacion ) == undefined;
+    return this.referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
 
 
@@ -156,8 +133,8 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     console.log('mode ', this.mode);
     this.updateData(this.referencia);// aca actualizamos Informacion Laboral
     this.referencia.persona = this.defaults.payload.persona;
-    this.referencia.telefonoFijo = this.referencia.telefonoFijo? this.referencia.telefonoFijo.split(' ').join(''): undefined;
-    this.referencia.telefonoMovil = this.referencia.telefonoMovil? this.referencia.telefonoMovil.split(' ').join(''): undefined;
+    this.referencia.telefonoFijo = this.referencia.telefonoFijo ? this.referencia.telefonoFijo.split(' ').join('') : undefined;
+    this.referencia.telefonoMovil = this.referencia.telefonoMovil ? this.referencia.telefonoMovil.split(' ').join('') : undefined;
     console.log(this.referencia);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.referenciaPersonalService, this.referencia, 'Referencia Personal', this.referencia.id == undefined);

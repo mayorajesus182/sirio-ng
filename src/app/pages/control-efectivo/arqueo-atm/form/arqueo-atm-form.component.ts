@@ -83,7 +83,9 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
 
     if (this.atmId) {
 
-      this.atmService.get(this.atmId).subscribe(data => {
+      this.atmService.disponible(this.atmId).subscribe(data => {
+        
+        
         this.atmSeleccionado = data;
       });
 

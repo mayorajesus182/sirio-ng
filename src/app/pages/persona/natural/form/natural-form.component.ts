@@ -124,7 +124,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     ngOnInit() {
-
+        GlobalConstants.TIPO_PERSONA = 'N'; 
 
         this.loadingDataForm.next(false);
 

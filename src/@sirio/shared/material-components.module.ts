@@ -48,6 +48,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { AutofocusDirective } from './input/autofocus.directive';
 import { NumAccountValidator } from './input/cuenta-validation.directive';
 import { EmailValidate } from './input/email-validation.directive';
+import { SirioErrorStateMatcher } from './input/error-state-matcher';
 import { MinorAgeValidator } from './input/minAge-validation.directive';
 import { TelefonoValidator } from './input/phone-validation.directive';
 import { RifValidator } from './input/rif-validation.directive';
@@ -213,6 +214,7 @@ const toInclude = [
     { provide: MAT_DATE_LOCALE, useValue: 'es-VE' },
     { provide: LOCALE_ID, useValue: 'es-VE' },
     { provide: MAT_DATE_FORMATS, useValue: DATE_FORMATS_CUSTOM },
+    { provide: ErrorStateMatcher, useClass: SirioErrorStateMatcher }
     // { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
   ]
 })
