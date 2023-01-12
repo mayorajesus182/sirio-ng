@@ -55,7 +55,7 @@ export class PrincipalTableWidgeComponent implements OnInit, AfterViewInit {
 
 
     this.monedas.subscribe(list => {
-      console.log('monedas observable',list);
+      // console.log('monedas observable',list);
 
       this.currentMoneda = this.moneda_curr || list[0];
       this.availableCoins = list;

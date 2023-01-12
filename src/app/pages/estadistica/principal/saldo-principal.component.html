@@ -2,16 +2,16 @@
 
   <!-- FIRST ROW -->
   <div fxLayout="column">
-    <div fxLayout.gt-sm="row" fxFlex="100" class="padding-lg">
+    <div fxLayout.gt-sm="row" fxFlex="100" class="padding-h-2xl">
       <div fxLayout="column" fxLayoutGap="20px" fxFlex="100" fxLayoutAlign="start stretch">
-        <!-- <div fxLayout="row" class="margin-bottom-md"> -->
+       
         <div fxFlex="100">
           <sirio-principal-vert-chart-widget (reload)="reload()" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo"
-            class="widget route-animations-elements" [data]="dataAgencia.asObservable()"></sirio-principal-vert-chart-widget>
+            class="widget route-animations-elements" [data]="data$.asObservable()"></sirio-principal-vert-chart-widget>
 
         </div>
 
-        <div fxFlex="100">
+        <div fxFlex="100" class="margin-top-md">
 
           <sirio-principal-table-widget [data]="agenciaTableData$ | async" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
           </sirio-principal-table-widget>

@@ -5,6 +5,7 @@ import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { MaterialModule } from '../../../@sirio/shared/material-components.module';
 import { SaldoAgenciaModule } from './agencia/saldo-agencia.module';
 import { EstadisticaRoutingModule } from './estadistica-routing.module';
+import { SaldoPrincipalModule } from './principal/saldo-principal.module';
 import { SaldoRegionModule } from './region/saldo-region.module';
 import { SaldoTaquillaModule } from './taquilla/saldo-taquilla.module';
 import { SaldoTransportistaModule } from './transportista/saldo-transportista.module';
@@ -19,7 +20,8 @@ import { SaldoTransportistaModule } from './transportista/saldo-transportista.mo
     SaldoAgenciaModule,
     SaldoTaquillaModule,
     SaldoRegionModule,
-    SaldoTransportistaModule
+    SaldoTransportistaModule,
+    SaldoPrincipalModule,
   ],
   declarations: [],
   // providers: [
