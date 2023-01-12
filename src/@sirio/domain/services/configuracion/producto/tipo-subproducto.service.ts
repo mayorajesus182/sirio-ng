@@ -11,6 +11,7 @@ export interface TipoSubproducto {
     nombre: string;
     tipoPersona: string;
     moneda: string;
+    monedaNombre?: string;
     codigoLocal: string;
     conChequera: number;
     conLibreta: number;

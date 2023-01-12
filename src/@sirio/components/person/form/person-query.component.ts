@@ -298,7 +298,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.disableBtn.next(true);
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.cdref.detectChanges();
-
         this.result.emit({});
     }
 
