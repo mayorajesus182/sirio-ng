@@ -136,7 +136,9 @@ export class TableBaseComponent {
         this.dataSource.loadData('', nameColumnSort, 'asc', 0, 15);
 
         this.filter.subscribe(text => {
-            if (text) {
+            
+            if (text != undefined && this.sort) {
+                console.log('search by filter **'+text+'**');
                 this.searchTerm = text;
                 this.refreshElementList();
             }

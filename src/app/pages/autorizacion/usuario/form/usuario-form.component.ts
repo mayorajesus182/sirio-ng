@@ -138,7 +138,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
         if (id) {
             this.usuarioService.get(id).subscribe((usr: Usuario) => {
                 this.usuario = usr;
-                console.log('usr ', usr);
+                // console.log('usr ', usr);
                 this.buildForm();
                 this.itemForm.controls['id'].disable();
                 this.loadingDataForm.next(false);
