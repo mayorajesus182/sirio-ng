@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['user.form']" current="action.view"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['user.form']" current="action.add"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -76,14 +76,22 @@
 
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>Teléfono Movil</mat-label>
-                                    <input matInput name="telefonoMovil" formControlName="telefonoMovil"  autocomplete="off">
+                                    <input matInput name="telefonoMovil" formControlName="telefonoMovil" phoneValidate
+                                        [telefonicas]="telefonicaMovilList.asObservable()" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true"
+                                        autocomplete="off">
                                     <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+
+                                    <mat-error *ngIf="f.telefonoMovil.errors?.phone">{{f.telefonoMovil.errors?.phone}} </mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
-                                    <mat-label>Teléfono Local</mat-label>
-                                    <input matInput name="telefonoLocal" formControlName="telefonoLocal" autocomplete="off">
+                                    <mat-label>Teléfono Fijo</mat-label>
+                                    <input matInput name="telefonoLocal" formControlName="telefonoLocal" phoneValidate
+                                        [telefonicas]="telefonicaFijaList.asObservable()" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true"
+                                        autocomplete="off">
                                     <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+
+                                    <mat-error *ngIf="f.telefonoLocal.errors?.phone">{{f.telefonoLocal.errors?.phone}} </mat-error>
                                 </mat-form-field>
 
                             </div>
@@ -92,8 +100,8 @@
                             <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px">
 
 
-                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Perfil'" [formControl]="itemForm.controls['perfil']" [required]="true"
-                                    [elements]="perfiles.asObservable()" [attributeName]="'nombre'" [errors]="f.perfil?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Perfil'" [formControl]="itemForm.controls['perfil']"
+                                    [required]="true" [elements]="perfiles.asObservable()" [attributeName]="'nombre'" [errors]="f.perfil?.errors">
                                 </sirio-select-search>
 
 
@@ -106,20 +114,21 @@
                             </div>
 
                             <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px">
-                                
-                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" *ngIf="agenciaMandatory.includes(f.rol.value)" [label]="'Agencia'" formControlName="agencia" [required]="agenciaMandatory.includes(f.rol.value)"
-                                        [elements]="agencias.asObservable()" [attributeName]="'nombre'" [errors]="f.agencia?.errors">
-                                    </sirio-select-search>
 
-                                    <sirio-select-search fxFlex="100" *ngIf="rolConstant.GERENTE_REGIONAL==f.rol.value" fxFlex.gt-xs="auto" [label]="'Región'" formControlName="region" 
-                                    [required]="rolConstant.GERENTE_REGIONAL==f.rol.value" [elements]="regiones.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.region?.errors">
-                                    </sirio-select-search>
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" *ngIf="agenciaMandatory.includes(f.rol.value)" [label]="'Agencia'"
+                                    formControlName="agencia" [required]="agenciaMandatory.includes(f.rol.value)" [elements]="agencias.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
+                                </sirio-select-search>
 
-                                    <sirio-select-search fxFlex="100" *ngIf="rolConstant.TRANSPORTISTA==f.rol.value" fxFlex.gt-xs="auto" [label]="'Transportista'" formControlName="transportista"
-                                    [required]="rolConstant.TRANSPORTISTA==f.rol.value" [elements]="transportistas.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.region?.errors">
-                                    </sirio-select-search>
+                                <sirio-select-search fxFlex="100" *ngIf="rolConstant.GERENTE_REGIONAL==f.rol.value" fxFlex.gt-xs="auto" [label]="'Región'"
+                                    formControlName="region" [required]="rolConstant.GERENTE_REGIONAL==f.rol.value" [elements]="regiones.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                </sirio-select-search>
+
+                                <sirio-select-search fxFlex="100" *ngIf="rolConstant.TRANSPORTISTA==f.rol.value" fxFlex.gt-xs="auto" [label]="'Transportista'"
+                                    formControlName="transportista" [required]="rolConstant.TRANSPORTISTA==f.rol.value"
+                                    [elements]="transportistas.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                </sirio-select-search>
 
                             </div>`
 
@@ -136,7 +145,7 @@
                         </div>
                     </div>
 
-                                    <!-- {{printErrors() | json}}  -->
+                    <!-- {{printErrors() | json}}  -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

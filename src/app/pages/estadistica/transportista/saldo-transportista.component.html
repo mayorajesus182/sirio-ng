@@ -1,0 +1,24 @@
+<sirio-page [fxLayoutGap]="gap" class="dashboard" fxLayout="column">
+
+  <!-- FIRST ROW -->
+  <div fxLayout="column">
+    <div fxLayout.gt-sm="row"  fxLayoutGap.gt-sm="8px" class="padding-h-3xl">
+      <div fxLayout="column " fxFlex="100"  [fxLayoutGap]="gap" [fxFlex]="100" >
+
+        <div fxLayout="row wrap"  >
+          <div   fxFlex.gt-xs="100" [fxFlex]="col(1)" class="margin-bottom-sm">            
+            <sirio-trans-barvert-chart-widget (reload)="reload()" [data]="data.asObservable()"  [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo" class="widget route-animations-elements"></sirio-trans-barvert-chart-widget>
+          </div>
+  
+          <div fxFlex.gt-xs="100" [fxFlex]="col(1)" class="margin-top-sm">
+            <sirio-trans-barhoriz-chart-widget (reload)="reload()" [data]="detail.asObservable()" [monedas]="coinAvailables.asObservable()" title="Disponibilidad de Efectivo" class="widget route-animations-elements"></sirio-trans-barhoriz-chart-widget>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</sirio-page>
