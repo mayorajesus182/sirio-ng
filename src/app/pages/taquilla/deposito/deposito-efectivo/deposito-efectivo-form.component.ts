@@ -174,6 +174,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
 
     reset() {
         this.itemForm.reset({});
+        this.cargaDatos();
         this.f.efectivo.setValue(0.00);
         this.f.monto.setValue(0.00);
     }

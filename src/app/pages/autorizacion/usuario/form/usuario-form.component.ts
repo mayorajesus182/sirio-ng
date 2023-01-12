@@ -4,10 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants, RolConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants, RolConstants } from 'src/@sirio/constants';
 import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
 import { Usuario, UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
+import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
@@ -30,9 +31,9 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
     public agencias = new BehaviorSubject<Agencia[]>([]);
     public regiones = new BehaviorSubject<Region[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
-    rolConstant=RolConstants;
+    rolConstant = RolConstants;
 
-    agenciaMandatory:string[]=[
+    agenciaMandatory: string[] = [
         this.rolConstant.GERENTE_TESORERO_AGENCIA,
         this.rolConstant.OPERADOR_TAQUILLA
     ]
@@ -44,30 +45,35 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
     @ViewChild('username') username: ElementRef;
     @ViewChild('email') email: ElementRef;
 
+
+    public telefonicaMovilList = new BehaviorSubject<Telefonica[]>([]);
+    public telefonicaFijaList = new BehaviorSubject<Telefonica[]>([]);
     constructor(
 
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private telefonicaService: TelefonicaService,
         private usuarioService: UsuarioService,
         private perfilService: PerfilService,
         private rolService: RolService,
         private agenciaService: AgenciaService,
         private regionService: RegionService,
         private transportistaService: TransportistaService,
+
         private cdr: ChangeDetectorRef) {
         super(undefined, injector)
     }
     ngAfterViewInit(): void {
 
         this.loading$.subscribe(loading => {
-            if (loading==false) {
+            if (loading == false) {
                 // finalizo la  carga de info, cargo las dependencias
                 this.perfilService.actives().subscribe(data => {
                     console.log(data);
 
                     this.perfiles.next(data);
-                    if(this.f.perfil.value){
+                    if (this.f.perfil.value) {
                         this.f.perfil.setValue(this.usuario.perfil);
                         this.cdr.detectChanges();
                     }
@@ -100,7 +106,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
                 this.eventFromElement(this.username, 'keyup')?.subscribe(() => {
                     // this.filterChange.emit(this.filter.nativeElement.value);
-                        if (!this.f.id.errors && this.username.nativeElement.value.length > 4) {
+                    if (!this.f.id.errors && this.username.nativeElement.value.length > 4) {
                         this.codigoExists(this.username.nativeElement.value);
                     }
                 });
@@ -108,24 +114,33 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
                 this.eventFromElement(this.email, 'keyup')?.subscribe(() => {
                     // this.filterChange.emit(this.filter.nativeElement.value);
-                        if (!this.f.email.errors && this.email.nativeElement.value.length > 4) {
+                    if (!this.f.email.errors && this.email.nativeElement.value.length > 4) {
                         this.emailExists(this.email.nativeElement.value);
                     }
                 });
 
-                this.f.rol.valueChanges.subscribe(val=>{
+                this.f.rol.valueChanges.subscribe(val => {
                     // reiniciar los campos que depende del rol, para que no queden obligatorios
-                        this.f.region.setValue(undefined);
-                        this.f.agencia.setValue(undefined);
-                        this.f.transportista.setValue(undefined);
-                        
-                        this.f.region.setErrors(undefined);
-                        this.f.agencia.setErrors(undefined);
-                        this.f.transportista.setErrors(undefined);
+                    this.f.region.setValue(undefined);
+                    this.f.agencia.setValue(undefined);
+                    this.f.transportista.setValue(undefined);
 
-                    
+                    this.f.region.setErrors(undefined);
+                    this.f.agencia.setErrors(undefined);
+                    this.f.transportista.setErrors(undefined);
+
+
                 })
 
+
+
+                this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_FIJO).subscribe(data => {
+                    this.telefonicaFijaList.next(data);
+                })
+
+                this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_MOVIL).subscribe(data => {
+                    this.telefonicaMovilList.next(data);
+                })
             }
         });
     }
@@ -138,7 +153,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
         if (id) {
             this.usuarioService.get(id).subscribe((usr: Usuario) => {
                 this.usuario = usr;
-                console.log('usr ', usr);
+                // console.log('usr ', usr);
                 this.buildForm();
                 this.itemForm.controls['id'].disable();
                 this.loadingDataForm.next(false);
@@ -186,7 +201,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
         console.log(this.usuario);
 
-        this.usuario.ldap = this.usuario.ldap?1:0;
+        this.usuario.ldap = this.usuario.ldap ? 1 : 0;
 
 
         this.saveOrUpdate(this.usuarioService, this.usuario, 'El Usuario', this.isNew);
@@ -203,7 +218,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
                 });
                 this.cdr.detectChanges();
             }
-            if(this.f.email.value && this.f.email.value.length > 0){
+            if (this.f.email.value && this.f.email.value.length > 0) {
 
                 this.emailExists(this.f.email.value);
             }
@@ -222,7 +237,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     private emailExists(email) {
-        this.usuarioService.existsEmail(this.itemForm.value.id,email).subscribe(data => {
+        this.usuarioService.existsEmail(this.itemForm.value.id, email).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['email'].setErrors({
                     emailExists: "El Email ya esta registrado"

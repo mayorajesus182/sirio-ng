@@ -1,53 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoPrincipalService } from 'src/@sirio/domain/services/control-efectivo/saldo-principal.service';
+import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
+import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 
 @Component({
-  selector: 'sirio-saldo-principal-statics',
-  templateUrl: './saldo-principal.component.html',
-  styleUrls: ['./saldo-principal.component.scss']
+  selector: 'sirio-saldo-transportista-statics',
+  templateUrl: './saldo-transportista.component.html',
+  styleUrls: ['./saldo-transportista.component.scss']
 })
-export class SaldoPrincipalComponent extends ChartBaseComponent implements OnInit {
+export class SaldoTransportistaComponent extends ChartBaseComponent implements OnInit {
 
   private static isInitialLoad = true;
-  dataAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  data: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  detail: BehaviorSubject<any> = new BehaviorSubject<any>({});
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
-  
-  agenciaTableData$: Observable<any[]>;
-  tableOptions = {
-    pageSize: 15,
-    columns: [
-      { name: 'Cód.', property: 'agencia', visible: true, isModelProperty: true },
-      { name: 'Nombre', property: 'agenciaNombre', visible: true, isModelProperty: true },
-      { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true,isNumber:true },
-      { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true,isNumber:true },
-      { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true,isNumber:true },
-      { name: '% Cubierto', property: 'porcentaje', visible: true, isModelProperty: false,isNumber:true },
-    ]
-  };
+
 
 
   constructor(
     private router: Router,
-    private saldoPrincipalService: SaldoPrincipalService,
+    private saldoAcopioService: SaldoAcopioService,
     private saldoTaquilla: SaldoTaquillaService) {
 
     super();
   }
 
   refreshData() {
-
-    this.saldoPrincipalService.datachart().subscribe(result => {
-
+    this.saldoAcopioService.datachart().subscribe(result => {
+      console.log("%% saldo acopio %%");
       console.log(result);
 
-      this.agenciaTableData$ = of(result.data.detail)
       let datasets_aument = {};
       let datasets_desmin = {};
       let datasets_final = {};
@@ -94,8 +81,8 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
       datasets.labels = result.data.labels;
 
 
-      this.dataAgencia.next(datasets);
-      this.detailAgencia.next(datasetDetail);
+      this.data.next(datasets);
+      this.detail.next(datasetDetail);
     })
   }
 

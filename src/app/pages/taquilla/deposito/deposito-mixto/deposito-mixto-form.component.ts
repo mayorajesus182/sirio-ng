@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -25,7 +26,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 })
 
 export class DepositoMixtoFormComponent extends FormBaseComponent implements OnInit {
-
+    public columnMode = ColumnMode;
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
@@ -85,8 +86,8 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
-                this.calculateDifferences();
                 this.errorDesglose();
+                this.calculateDifferences();
             }
         });
 
@@ -105,10 +106,11 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         });
 
         this.f.monto.valueChanges.subscribe(val => {
-            if (val) {
+            if (val || val === 0) {
                 this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
                 this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
                 this.calculateDifferences();
+                // this.errorDesglose();
             }
         });
 
@@ -207,6 +209,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.cheques.next(this.chequeList.slice());
         this.itemForm.controls.detalleCheques.setValue(this.chequeList);
         this.chequeForm.reset({});
+        this.cf.montoCheque.setValue(0.00);
         this.refresTotalCheque();
         this.cdr.detectChanges();
     }
@@ -359,16 +362,13 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.f.efectivo.setErrors({
                 differenceDesglose: true
             });
-            this.f.efectivo.markAsDirty();
+            this.f.efectivo.markAsTouched();
             this.cdr.detectChanges();
-        }else{
+        } else {
             this.f.efectivo.setErrors(undefined);
             this.cdr.detectChanges();
         }
-
-
     }
-
 
     calculateDifferences(event?: any) {
 
@@ -376,36 +376,32 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0.00;
         let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0.00;
         let valorMontoTotal = this.f.monto.value ? this.f.monto.value : 0.00;
-        let valorTotal = (event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
+        let valorTotal = (event ? (event?.montoTotal > 0 ? event?.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
         // La diferencia entre la suma Efectivo con los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        
-        if (Math.abs((valorTotal) - (valorMontoTotal)) >= 1) {
 
-            this.f.efectivo.setErrors({
-                difference: true
-            });
+        if (Math.abs(valorTotal - valorMontoTotal) >= 1) {
 
-            this.f.chequePropio.setErrors({
-                chequePropioDifference: true
-            });
+            // this.f.efectivo.setErrors({
+            //     difference: true
+            // });
 
-            this.f.chequeOtros.setErrors({
-                chequeOtrosDifference: true
-            });
+            // this.f.chequePropio.setErrors({
+            //     chequePropioDifference: true
+            // });
+
+            // this.f.chequeOtros.setErrors({
+            //     chequeOtrosDifference: true
+            // });
 
             this.f.monto.setErrors({
                 totalDifference: true
             });
-            // this.f.efectivo.markAsDirty();
             this.f.monto.markAsDirty();
             this.cdr.detectChanges();
         } else {
             this.f.monto.setErrors(undefined);
-            this.f.efectivo.setErrors(undefined);
             this.cdr.detectChanges();
-            // this.f.chequePropio.setErrors(undefined)
-            // this.f.chequeOtros.setErrors(undefined)
         }
     }
 
@@ -431,7 +427,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.cf.montoCheque.setValue(0.00);
         this.chequeList = [];
         this.cheques.next([]);
-        this.errorDesglose();
         this.calculateDifferences();
         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);

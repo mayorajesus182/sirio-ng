@@ -29,6 +29,8 @@ export class ToolbarQuickpanelToggleComponent {
         this.router.navigate(['/sirio/estadistica/region/saldos']);
       } else if(user.rols.includes(RolConstants.PRINCIPAL)){
         this.router.navigate(['/sirio/estadistica/region/saldos']);
+      }else if(user.rols.includes(RolConstants.TRANSPORTISTA)){
+        this.router.navigate(['/sirio/estadistica/transportista/saldos']);
       }
     }
   }

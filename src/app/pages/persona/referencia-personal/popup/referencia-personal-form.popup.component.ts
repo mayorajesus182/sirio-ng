@@ -4,8 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
-import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
-import { TipoTelefono } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
+import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { ReferenciaPersonal, ReferenciaPersonalService } from 'src/@sirio/domain/services/persona/referencia-personal/referencia-personal.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -22,8 +21,8 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
   referencia: ReferenciaPersonal = {} as ReferenciaPersonal;
 
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
-  public telefonicaMovilList = new BehaviorSubject<TipoTelefono[]>([]);
-  public telefonicaFijaList = new BehaviorSubject<TipoTelefono[]>([]);
+  public telefonicaMovilList = new BehaviorSubject<Telefonica[]>([]);
+  public telefonicaFijaList = new BehaviorSubject<Telefonica[]>([]);
 
   referencias = [];
 

@@ -68,6 +68,8 @@ export class UsuarioService {
     }
 
     page(filter = '', sortProperty = 'usuario_id', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Usuario[]> {
+        console.log('buscando usuario by ', filter);
+        
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortProperty, sortOrder);
     }
 
