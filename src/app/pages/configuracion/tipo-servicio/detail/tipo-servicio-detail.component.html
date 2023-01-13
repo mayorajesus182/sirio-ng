@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['byproductType.form']" current="action.view"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['serviceType.form']" current="action.view"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'byproductType.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'serviceType.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -23,55 +23,30 @@
 
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                        <mat-form-field fxFlex.gt-xs="15">
-                            <mat-label>{{'byproductType.code' | translate: {default: 'global.code'} | translate }}
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'serviceType.code' | translate: {default: 'global.code'} | translate }}
                             </mat-label>
                             <input matInput class="text-center" [value]="d.id" readonly class="text-center">
                         </mat-form-field>
 
                         <mat-form-field fxFlex="auto">
-                            <mat-label>{{'byproductType.name' | translate: {default: 'global.name'} | translate }}
+                            <mat-label>{{'serviceType.name' | translate: {default: 'global.name'} | translate }}
                             </mat-label>
                             <input matInput [value]="d.nombre" readonly>
-                        </mat-form-field>
-
-                        <mat-form-field fxFlex.gt-xs="15">
-                            <mat-label>{{'byproductType.localCode' | translate: {default: 'global.localCode'} | translate
-                                }}</mat-label>
-                            <input matInput class="text-center" [value]="d.codigoLocal" readonly>
                         </mat-form-field>
                     </div>
 
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                        <mat-form-field fxFlex.gt-xs="25">
-                            <mat-label>{{'byproductType.productType' | translate: {default: 'global.productType'} | translate }}
-                            </mat-label>
-                            <input matInput class="text-center" [value]="d.tipoProducto" readonly>
-                        </mat-form-field>
-
-                        <mat-form-field fxFlex="25">
-                            <mat-label>{{'byproductType.personType' | translate: {default: 'global.personType'} | translate }}
+                        <mat-form-field fxFlex="50">
+                            <mat-label>{{'serviceType.personType' | translate: {default: 'global.personType'} | translate }}
                             </mat-label>
                             <input matInput class="text-center" [value]="d.tipoPersona" readonly>
                         </mat-form-field>
 
-                        <mat-form-field fxFlex.gt-xs="30">
-                            <mat-label>{{'byproductType.coin' | translate: {default: 'global.coin'} | translate
+                        <mat-form-field fxFlex.gt-xs="50">
+                            <mat-label>{{'serviceType.coin' | translate: {default: 'global.coin'} | translate
                                 }}</mat-label>
                             <input matInput class="text-center" [value]="d.moneda" readonly>
-                        </mat-form-field>
-
-                        <mat-form-field fxFlex.gt-xs="20" *ngIf="d.tipoProducto === constants.CUENTA_CORRIENTE">
-                            <mat-label>{{'byproductType.checkbookCanBeRequested' | translate: {default: 'global.checkbookCanBeRequested'} | translate
-                                }}</mat-label>
-                            <input matInput class="text-center" [value]="d.conChequera ? 'SI' : 'NO'" readonly>
-                        </mat-form-field>
-
-                        <mat-form-field fxFlex.gt-xs="20" *ngIf="d.tipoProducto === constants.CUENTA_AHORRO">
-                            <mat-label>{{'byproductType.checkbookCanBeRequested' | translate: {default: 'global.notebookCanBeRequested'} | translate
-                                }}</mat-label>
-                            <input matInput class="text-center" [value]="d.conLibreta ? 'SI' : 'NO'" readonly>
                         </mat-form-field>
                     </div>
 

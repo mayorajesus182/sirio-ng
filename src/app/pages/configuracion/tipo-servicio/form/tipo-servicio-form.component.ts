@@ -7,23 +7,21 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
-import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoPersona, TipoPersonaService } from 'src/@sirio/domain/services/configuracion/tipo-persona.service';
+import { TipoServicio, TipoServicioService } from 'src/@sirio/domain/services/configuracion/tipo-servicio.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-tipo-subproducto-form',
-    templateUrl: './tipo-subproducto-form.component.html',
-    styleUrls: ['./tipo-subproducto-form.component.scss'],
+    selector: 'app-tipo-servicio-form',
+    templateUrl: './tipo-servicio-form.component.html',
+    styleUrls: ['./tipo-servicio-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class TipoSubproductoFormComponent extends FormBaseComponent implements OnInit {
+export class TipoServicioFormComponent extends FormBaseComponent implements OnInit {
 
-    tipoSubproducto: TipoSubproducto = {} as TipoSubproducto;
-    public tipoProductos = new BehaviorSubject<TipoProducto[]>([]);
+    tipoServicio: TipoServicio = {} as TipoServicio;
     public tipoPersonas = new BehaviorSubject<TipoPersona[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     constants = GlobalConstants;
@@ -32,9 +30,8 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private tipoSubproductoService: TipoSubproductoService,
+        private tipoServicioService: TipoServicioService,
         private tipoPersonaService: TipoPersonaService,
-        private tipoProductoService: TipoProductoService,
         private monedaService: MonedaService,
         private cdr: ChangeDetectorRef) {
             super(undefined,  injector);
@@ -47,16 +44,16 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.tipoSubproductoService.get(id).subscribe((agn: TipoSubproducto) => {
-                this.tipoSubproducto = agn;
-                this.buildForm(this.tipoSubproducto);
+            this.tipoServicioService.get(id).subscribe((agn: TipoServicio) => {
+                this.tipoServicio = agn;
+                this.buildForm(this.tipoServicio);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.tipoSubproducto);
+            this.buildForm(this.tipoServicio);
             this.loadingDataForm.next(false);
         }
 
@@ -72,25 +69,17 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
             this.monedas.next(data);
         });
 
-        this.tipoProductoService.actives().subscribe(data => {
-            this.tipoProductos.next(data);
-        });
-
         this.tipoPersonaService.actives().subscribe(data => {
             this.tipoPersonas.next(data);
         });
     }
 
-    buildForm(tipoSubproducto: TipoSubproducto) {
+    buildForm(tipoServicio: TipoServicio) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: tipoSubproducto.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(tipoSubproducto.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            codigoLocal: new FormControl(tipoSubproducto.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            tipoPersona: new FormControl(tipoSubproducto.tipoPersona || undefined, [Validators.required]),
-            tipoProducto: new FormControl(tipoSubproducto.tipoProducto || undefined, [Validators.required]),
-            moneda: new FormControl(tipoSubproducto.moneda || undefined, [Validators.required]),
-            conChequera: new FormControl(tipoSubproducto.conChequera || false),
-            conLibreta: new FormControl(tipoSubproducto.conLibreta || false),
+            id: new FormControl({value: tipoServicio.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(tipoServicio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            tipoPersona: new FormControl(tipoServicio.tipoPersona || undefined, [Validators.required]),
+            moneda: new FormControl(tipoServicio.moneda || undefined, [Validators.required]),
         });
     }
 
@@ -98,19 +87,15 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.tipoSubproducto);
-
-        this.tipoSubproducto.conChequera = this.tipoSubproducto.conChequera ? 1 : 0;
-        this.tipoSubproducto.conLibreta = this.tipoSubproducto.conLibreta ? 1 : 0;
-
-        this.saveOrUpdate(this.tipoSubproductoService, this.tipoSubproducto, 'El Tipo de Subproducto', this.isNew);
+        this.updateData(this.tipoServicio);
+        this.saveOrUpdate(this.tipoServicioService, this.tipoServicio, 'El Tipo de Servicio', this.isNew);
     }
 
     private codigoExists(id) {
-        this.tipoSubproductoService.exists(id).subscribe(data => {
+        this.tipoServicioService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
-                    exists: true
+                    exists: 'El código existe'
                 });
                 this.cdr.detectChanges();
             }
@@ -118,8 +103,8 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
     }
 
     activateOrInactivate() {
-        if (this.tipoSubproducto.id) {
-            this.applyChangeStatus(this.tipoSubproductoService, this.tipoSubproducto, this.tipoSubproducto.nombre, this.cdr);
+        if (this.tipoServicio.id) {
+            this.applyChangeStatus(this.tipoServicioService, this.tipoServicio, this.tipoServicio.nombre, this.cdr);
         }
     }
 
