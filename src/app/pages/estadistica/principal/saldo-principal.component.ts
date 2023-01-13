@@ -14,8 +14,8 @@ import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component'
 export class SaldoPrincipalComponent extends ChartBaseComponent implements OnInit {
 
   private static isInitialLoad = true;
-  dataAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  data$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  // detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
   
@@ -45,7 +45,7 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
     this.saldoPrincipalService.datachart().subscribe(result => {
 
-      console.log(result);
+      // console.log(result);
 
       this.agenciaTableData$ = of(result.data.detail)
       let datasets_aument = {};
@@ -68,7 +68,7 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
         detailCash[m.id] = result.data["detail-" + m.id];
       });
       let datasets = { series: [], labels: [] };
-      let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
+      // let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
 
       // console.log(datasetDetail);
 
@@ -94,8 +94,8 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
       datasets.labels = result.data.labels;
 
 
-      this.dataAgencia.next(datasets);
-      this.detailAgencia.next(datasetDetail);
+      this.data$.next(datasets);
+      // this.detailAgencia.next(datasetDetail);
     })
   }
 

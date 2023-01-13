@@ -31,7 +31,7 @@ import { PrincipalTableWidgeComponent } from './table-widget/principal-table-wid
     LoadingOverlayModule
   ],
   declarations: [SaldoPrincipalComponent,PrincipalTableWidgeComponent,PrincipalVertChartWidgetComponent],
-  exports:[],
+  exports:[SaldoPrincipalComponent,PrincipalTableWidgeComponent,PrincipalVertChartWidgetComponent],
 })
 export class SaldoPrincipalModule {
 }

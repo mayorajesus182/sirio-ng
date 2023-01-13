@@ -13,7 +13,7 @@ export class SaldoPrincipalService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/saldo-principal' };
+        this.apiConfig = { name: ApiConfConstants.API_CONTROL_EFECTIVO, prefix: '/principal' };
     }
 
 
