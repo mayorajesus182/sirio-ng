@@ -30,9 +30,9 @@
                     <div fxLayout="column">
                         <form [formGroup]="itemForm" *ngIf="itemForm">
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex.gt-xs="100"
+                                <sirio-select-search fxFlex.gt-xs="100" *ngIf="!esGerente"
                                     [label]="'operationalAgenciesRep.region' | translate: {default: 'global.region'} | translate" formControlName="region"
-                                    [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                    [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                             </div>
                         </form>

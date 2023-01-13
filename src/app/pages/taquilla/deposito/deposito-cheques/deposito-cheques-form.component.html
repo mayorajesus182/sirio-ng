@@ -120,7 +120,7 @@
             <h4>Desglose de Cheques</h4>
         </div>
 
-        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="'force'"
+        <ngx-datatable [scrollbarV]="false" class="material bg-white margin-top-md" [columnMode]="ColumnMode.force"
             [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cheques'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
             [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10" [rows]="cheques | async">
 

@@ -34,12 +34,12 @@
 
                                 <sirio-select-search fxFlex.gt-xs="50" [label]="'agencyQuotasRep.region' | translate: {default: 'global.region'} | translate"
                                     formControlName="region" [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.region?.errors">
+                                    [errors]="f.region?.errors" [labelDef]="'TODOS'" >
                                 </sirio-select-search>
 
                                 <sirio-select-search fxFlex.gt-xs="50" [label]="'agencyQuotasRep.agency' | translate: {default: 'global.agency'} | translate"
                                     formControlName="agencia" [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.agencia?.errors">
+                                    [errors]="f.agencia?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
                             </div>

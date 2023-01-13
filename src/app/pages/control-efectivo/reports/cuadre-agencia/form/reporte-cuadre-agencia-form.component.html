@@ -35,8 +35,8 @@
                                 <sirio-select-search
                                     fxFlex.gt-xs="100"
                                     [label]="'balanceAgenciesRep.agency' | translate: {default: 'global.agency'} | translate"
-                                    formControlName="agencia" [required]="true" [elements]="agencias.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
+                                    formControlName="agencia" [required]="false" [elements]="agencias.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                                 
                             </div>

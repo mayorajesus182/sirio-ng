@@ -35,15 +35,15 @@
                                 <sirio-select-search
                                     fxFlex.gt-xs="50"
                                     [label]="'agencyClosingsRep.agency' | translate: {default: 'global.agency'} | translate"
-                                    formControlName="agencia" [required]="true" [elements]="agencias.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
+                                    formControlName="agencia" [required]="false" [elements]="agencias.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
                                 <sirio-select-search
                                     fxFlex.gt-xs="50"
                                     [label]="'agencyClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors">
+                                    formControlName="moneda" [required]="false" [elements]="monedas.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                                 
                             </div>

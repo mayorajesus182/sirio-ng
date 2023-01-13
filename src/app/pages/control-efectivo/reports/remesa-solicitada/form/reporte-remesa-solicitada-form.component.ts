@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
+import { RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { GestionEfectivoReports, GestionEfectivoReportsService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/gestion-efectivo-reports.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -37,10 +36,6 @@ export class ReporteRemesaSolicitadaFormComponent extends FormBaseComponent impl
 
 
     generate() {
-        if (this.itemForm.invalid)
-            return;
-        this.updateData(this.gestionEfectivoReports);
-        this.loadingDataForm.next(true);
         this.gestionEfectivoReportsService.remesaSolicitada().subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);

@@ -27,7 +27,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esGteRegional">
                                 <sirio-select-search fxFlex.gt-xs="100" 
                                     [label]="'operationalBoxOfficesRep.region' | translate: {default: 'global.region'} | translate" formControlName="region"
-                                    [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                    [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                             </div>
                         </form>
