@@ -66,7 +66,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     monedaSubproducto: string = '';
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-    private legals: string[] = [];
+    // private legals: string[] = [];
 
     constructor(
         injector: Injector,
@@ -121,39 +121,32 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.tipoProductos.next(data);
         });
 
-        // console.log('SEND DATA APERTURA DE CUENTA 11');
-
-        this.tipoDocumentoService.activesJuridicos().subscribe(data => this.legals = data.map(t => t.id));
-
-        this.cdr.detectChanges();
-
-        //1111111111111
-        // this.loadingDataForm.next(true);
-        // if (this.defaults.payload.id) {
-    
-        //   this.mode = 'global.edit';
-    
-        //   this.direccionService.get(this.defaults.payload.id).subscribe(data => {
-        //     this.direccion = data;
-        //     this.buildForm();
-        //     this.loadingDataForm.next(false);
-        //     // console.log(data);
-            
-        //   })
- 
-        // }
-
-        //2222222222222222
+        this.cdr.detectChanges();        
         
     }
 
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
-            console.log('loading ', loading);
+            // console.log('loading ', loading);
 
             if (!loading) {
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
+
+
+                // console.log(.value);
+                
+                if(this.itemForm && this.f.tipoProducto.value){
+                    console.log('buscar subproductos by ', this.f.tipoProducto);
+                    
+                    this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
+                        console.log('buscar subproductos by ', data);
+                        this.tipoSubproductos.next(data);
+                        this.loadMoneda(this.f.tipoSubproducto.value);
+                        
+                    });
+                }
+
                 this.cdr.detectChanges();
             }
         });
@@ -206,13 +199,20 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.f.tipoSubproducto.valueChanges.subscribe(value => {
 
             if (value && value != '') {
-                let subProductoSel = this.tipoSubproductos.value.filter(s=> s.id == value)[0];
-                this.f.moneda.setValue(subProductoSel.moneda);
-                this.monedaSubproducto = subProductoSel.monedaNombre;
+              this.loadMoneda(value);
             }
         });
 
         this.cdr.detectChanges();
+    }
+
+    private loadMoneda(subProducto){
+        console.log("subProducto", subProducto);
+        
+        let subProductoSel = this.tipoSubproductos.value.filter(s=> s.id == subProducto).reduce(a=>a);
+        console.log(subProductoSel);
+        this.f.moneda.setValue(subProductoSel.moneda);
+        this.monedaSubproducto = subProductoSel.monedaNombre;
     }
 
     resetAll() {
@@ -239,7 +239,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         if (!event.id && !event.numper) {
             this.persona = {} as Persona;
             this.resetAll();           
-            const tpersona = this.legals.includes(event.tipoDocumento) ? 'juridico' : 'natural'
+            const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
             this.persona = event;
@@ -248,16 +248,19 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             // DEBO REDIRECCIONAR AL USUARIO AL 
             this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
                 // terminar proceso de apertura de cuenta
+                console.log(cuenta);
+                
                 this.isNew = false;
                 this.cuentaBanco = cuenta;
                 this.buildForm();
+                // this.loadMoneda(this.f.tipoSubproducto.value);
                 this.loadingDataForm.next(false);
                 this.loaded$.next(true);
                 // this.cdr.detectChanges();
-                this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                    this.tipoSubproductos.next(data);
-                    this.cdr.detectChanges();
-                });
+                // this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
+                //     this.tipoSubproductos.next(data);
+                //     this.cdr.detectChanges();
+                // });
 
 
 

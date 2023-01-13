@@ -67,7 +67,7 @@ export class TipoSubproductoService {
     }
 
     activesByTipoProductoAndTipoPersona(tipoProducto: string, tipoPersona: string): Observable<TipoSubproducto[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipoProducto/${tipoPersona}/tipoPersona/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/${tipoPersona}/tipo-persona/actives`);
     }
 
 }

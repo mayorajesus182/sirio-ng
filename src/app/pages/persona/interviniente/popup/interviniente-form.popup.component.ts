@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
+import { GlobalConstants } from 'src/@sirio/constants';
 import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firma.service';
 import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firmante.service';
 import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/producto/tipo-participacion.service';
@@ -54,7 +55,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
 
   ngOnInit() {
 
-    console.log(this.defaults);
+    // console.log(this.defaults);
 
     // if (!this.tipo_persona) {
     //   this.tipoDocumentoService.actives().subscribe(data => {
@@ -85,11 +86,20 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     this.loadingDataForm.next(true);
     if (this.defaults.payload.cuenta && this.defaults.payload.persona) {
       this.intervinienteService.get(this.defaults.payload.cuenta, this.defaults.payload.persona).subscribe(data => {
+
+        console.log(data);
+        
         this.mode = 'global.edit';
         this.interviniente = data;
         this.persona.id = data.persona;
         this.persona.nombre = data.personaNombre;
-        this.persona.identificacion = data.identificacion;
+
+        console.log(this.defaults.payload.identificacion);
+        const val = this.defaults.payload.identificacion.split('-');
+        console.log(val);
+        
+        this.persona.tipoDocumento = data.identificacion?val[0]:'';
+        this.persona.identificacion = data.identificacion?val[1]: '';
         this.buildForm();
 
         this.loadingDataForm.next(false);
@@ -103,50 +113,34 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
   }
 
 
-  addPerson(event) {
-
-    console.log('create ', event);
-    // this.mode = 'global.add';
-    // this.interviniente = {} as Interviniente;
-    // this.updateDataFromValues(this.cuentaBanco, event);
-    // this.buildForm();
-
-    // this.loaded$.next(true);
-    // if(this.itemForm){
-    //     this.f.tipoDocumento.setValue(this.cuentaBanco.tipoDocumento);
-    //     this.f.identificacion.setValue(this.cuentaBanco.identificacion);
-    // }
-    //TODO: ESTO ES POSIBLE QUE SE USE
-    this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
-  }
 
   pullPerson(event: any) {
 
     console.log('pul person ', event);
     this.mode = 'global.add';
     this.interviniente = {} as Interviniente;
-    this.itemForm=undefined;
+    this.itemForm = undefined;
 
     if (!event.id && !event.numper) {
       this.interviniente = {} as Interviniente;
-      //TODO: DEBO REDIRECCIONAR A LA CREACIÓN DEL INTERVINIENTE
-      // this.resetAll();
-      // this.router.navigate([`/sirio/persona/natural/${event.tipoDocumento}/${event.documento}/add`]);
+      const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural'
+      this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
+      this.dialogRef.close();
     } else {
       this.persona = event;
       this.interviniente.cuenta = this.defaults.payload.cuenta;
       this.interviniente.persona = event.id;
       this.buildForm();
       this.f.identificacion.setErrors(undefined);
-      console.log('intervinientes ',this.defaults.payload.intervinientes);
-      console.log('id ',this.persona.tipoDocumento+'-'+this.persona.identificacion);
+      // console.log('intervinientes ',this.defaults.payload.intervinientes);
+      // console.log('id ',this.persona.tipoDocumento+'-'+this.persona.identificacion);
 
-      if (this.defaults.payload.intervinientes.includes(this.persona.tipoDocumento+'-'+this.persona.identificacion)) {
-        console.log('ya esta asociado');
-        
-          this.f.identificacion.setErrors({exists:true});
-          this.f.identificacion.markAsTouched();
-          this.cdr.detectChanges();
+      if (this.defaults.payload.intervinientes.includes(this.persona.tipoDocumento + '-' + this.persona.identificacion)) {
+        // console.log('ya esta asociado');
+
+        this.f.identificacion.setErrors({ exists: true });
+        this.f.identificacion.markAsTouched();
+        this.cdr.detectChanges();
       }
     }
 

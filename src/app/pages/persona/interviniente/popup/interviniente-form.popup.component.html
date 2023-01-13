@@ -17,7 +17,7 @@
 
     <div fxLayout="row">
       <div fxFlex="100">
-        <sirio-person-query [entity]="'interviniente'" title="Consultar Persona" (push)="pullPerson($event)" (create)="addPerson($event)"></sirio-person-query>
+        <sirio-person-query [entity]="'interviniente'" title="Consultar Persona" (push)="pullPerson($event)" ></sirio-person-query>
       </div>
 
     </div>
@@ -71,22 +71,23 @@
   
         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
   
-          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'" [readonly]="!isNew"  [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
+          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'"   [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
             [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoParticipacion?.errors">
           </sirio-select-search>
   
-          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" [readonly]="!isNew"  [formControl]="itemForm.controls['tipoFirma']" [required]="true"
+          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'"   [formControl]="itemForm.controls['tipoFirma']" [required]="true"
             [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirma?.errors">
           </sirio-select-search>
   
-          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" [readonly]="!isNew"   [formControl]="itemForm.controls['tipoFirmante']" [required]="true"
+          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" 
+           [formControl]="itemForm.controls['tipoFirmante']" [required]="true"
             [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirmante?.errors">
           </sirio-select-search>
   
         </div>
       
   
-      {{printErrors() | json}} 
+      <!-- {{printErrors() | json}}  -->
   
     </div>
 

@@ -433,7 +433,7 @@ export class TableBaseComponent {
 export function getPaginatorIntl() {
     const paginatorIntl = new MatPaginatorIntl();
 
-    paginatorIntl.itemsPerPageLabel = 'Por pag.:';
+    paginatorIntl.itemsPerPageLabel = '';
     paginatorIntl.nextPageLabel = 'Pag. siguiente';
     paginatorIntl.previousPageLabel = 'Pag. anterior';
     paginatorIntl.lastPageLabel = 'Última pag.';
