@@ -22,6 +22,7 @@ export interface InformacionLaboral {
     folio?: string;
     cargo?: string;    
     direccion: string;
+    telefono: string;
 }
 
 

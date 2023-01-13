@@ -90,11 +90,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // console.log('rif errors ', this.search.identificacion.errors.length);
 
             if (val && this.search.identificacion.errors) {
-
-
                 // this.resetAll();
                 this.persona = {} as Persona;
                 this.isNew = false;
+                this.finding=false;
                 this.cdref.detectChanges();
             }
         })
@@ -157,7 +156,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
-        console.log(this.search.identificacion?.errors);
+        // console.log(this.search.identificacion?.errors);
 
 
         if (this.search.identificacion.errors || this.finding) {
@@ -192,6 +191,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 // this.searchForm.controls['tipoDocumento'].disable();
                 this.disable.next(true);
                 this.disableBtn.next(false);
+                this.finding=false;
                 this.cdref.detectChanges();
 
             }, err => {
@@ -206,7 +206,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.search.identificacion.setErrors({ notexists: true });
                 this.search.nombre.setValue(' ');
                 this.search.cuenta.setValue('');
-
+                this.finding=false;
                 this.disableBtn.next(false);
                 this.cdref.detectChanges();
             })
@@ -303,7 +303,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.disableBtn.next(true);
         this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.cdref.detectChanges();
-
+        this.finding=false;
         this.result.emit({});
     }
 

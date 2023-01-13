@@ -1,3 +1,4 @@
+import { LEFT_ARROW } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -31,43 +32,38 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class CuentaBancoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
     todayValue: moment.Moment;
-    totalIntervinientes: number;
-    totalRegistroMercantil: number;
-    totalInfoLab: number;
-    totalPep: number;
-    totalApoderado: number;
-    totalPhone: number;
+    // totalIntervinientes: number;
+    // totalRegistroMercantil: number;
+    // totalInfoLab: number;
+    // totalPep: number;
+    // totalApoderado: number;
+    // totalPhone: number;
     totalBankReference: number;
-    totalPersonalReference: number;
+    // totalPersonalReference: number;
     totalContact: number;
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
-
     showIntervinientes = false;
-
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
-
     cuentaBanco: CuentaBanco = {} as CuentaBanco;
-    persona: Persona = {} as Persona;
+    persona: Persona = {} as Persona;    
     constants = GlobalConstants;
-    estado_civil: string;
+    // estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
     paises = new BehaviorSubject<Pais[]>([]);
-    nacionadades = new BehaviorSubject<Pais[]>([]);
+    // nacionadades = new BehaviorSubject<Pais[]>([]);
     origenes = new BehaviorSubject<OrigenFondo[]>([]);
     destinos = new BehaviorSubject<DestinoCuenta[]>([]);
     motivos = new BehaviorSubject<MotivoSolicitud[]>([]);
     promedioTransacciones = new BehaviorSubject<PromedioTransaccion[]>([]);
     promedioMontos = new BehaviorSubject<PromedioMonto[]>([]);
-
     tipoProductos = new BehaviorSubject<TipoProducto[]>([]);
-
     tipoSubproductos = new BehaviorSubject<TipoSubproducto[]>([]);
-
-    moneda = new BehaviorSubject<Moneda[]>([]);
+    // monedas = new BehaviorSubject<Moneda[]>([]);
+    monedaSubproducto: string = '';
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
     private legals: string[] = [];
@@ -86,7 +82,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private paisService: PaisService,
         private tipoSubproductoService: TipoSubproductoService,
         private tipoProductoService: TipoProductoService,
-
         private monedaService: MonedaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
@@ -96,19 +91,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         return this.searchForm ? this.searchForm.controls : {};
     }
 
-    ngAfterViewInit(): void {
-        this.loading$.subscribe(loading => {
-            console.log('loading ', loading);
-
-            if (!loading) {
-                this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
-                this.cdr.detectChanges();
-            }
-        });
-    }
-
     ngOnInit() {
-        this.loadingDataForm.next(false);
 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
@@ -134,31 +117,54 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.promedioMontos.next(data);
         });
 
-        this.monedaService.actives().subscribe(data => {
-            this.moneda.next(data);
-        });
-
-        this.tipoSubproductoService.actives().subscribe(data => {
-            this.tipoSubproductos.next(data);
-        });
-
         this.tipoProductoService.actives().subscribe(data => {
             this.tipoProductos.next(data);
         });
 
-
+        // console.log('SEND DATA APERTURA DE CUENTA 11');
 
         this.tipoDocumentoService.activesJuridicos().subscribe(data => this.legals = data.map(t => t.id));
 
         this.cdr.detectChanges();
+
+        //1111111111111
+        // this.loadingDataForm.next(true);
+        // if (this.defaults.payload.id) {
+    
+        //   this.mode = 'global.edit';
+    
+        //   this.direccionService.get(this.defaults.payload.id).subscribe(data => {
+        //     this.direccion = data;
+        //     this.buildForm();
+        //     this.loadingDataForm.next(false);
+        //     // console.log(data);
+            
+        //   })
+ 
+        // }
+
+        //2222222222222222
+        
     }
+
+
+    ngAfterViewInit(): void {
+        this.loading$.subscribe(loading => {
+            console.log('loading ', loading);
+
+            if (!loading) {
+                this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
+                this.cdr.detectChanges();
+            }
+        });
+    }
+
 
     buildForm() {
 
         this.itemForm = this.fb.group({
             persona: new FormControl(this.persona.id, [Validators.required]),
             numeroCuenta: new FormControl(this.cuentaBanco.numeroCuenta || undefined, [Validators.required]),
-            moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
             tipoProducto: new FormControl(this.cuentaBanco.tipoProducto || undefined, [Validators.required]),
             tipoSubproducto: new FormControl(this.cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(this.cuentaBanco.origenFondo || undefined, [Validators.required]),
@@ -173,8 +179,40 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             fondoExterior: new FormControl(this.cuentaBanco.fondoExterior || false),
             paisOrigen: new FormControl(this.cuentaBanco.paisOrigen || undefined),
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
+            moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
         });
 
+        this.f.tipoProducto.valueChanges.subscribe(value => {
+            this.f.tipoSubproducto.setValue(undefined);
+            // this.f.moneda.setValue(undefined);
+            this.f.numeroCuenta.setValue('');
+            this.cdr.detectChanges();
+
+            // console.log('valueChanges  tipoSubproducto');
+
+            if(value){
+
+                this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
+                    this.tipoSubproductos.next(data);
+                    this.cdr.detectChanges();
+                });
+
+            }
+
+        });
+
+        this.cdr.detectChanges();
+
+        this.f.tipoSubproducto.valueChanges.subscribe(value => {
+
+            if (value && value != '') {
+                let subProductoSel = this.tipoSubproductos.value.filter(s=> s.id == value)[0];
+                this.f.moneda.setValue(subProductoSel.moneda);
+                this.monedaSubproducto = subProductoSel.monedaNombre;
+            }
+        });
+
+        this.cdr.detectChanges();
     }
 
     resetAll() {
@@ -184,17 +222,23 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.isNew = true;
     }
 
+    cleanForm() {
+        this.isNew = true;
+        this.loaded$.next(false);
+        // this.persona = {} as Persona;
+        this.cuentaBanco = {} as CuentaBanco;
+        //this.resetAll();  
+    }
 
     loadResult(event) {
-        console.log('load event result ', event);
+        
         //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         this.isNew = true;
         this.loaded$.next(false);
 
         if (!event.id && !event.numper) {
             this.persona = {} as Persona;
-            this.resetAll();
-
+            this.resetAll();           
             const tpersona = this.legals.includes(event.tipoDocumento) ? 'juridico' : 'natural'
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
@@ -210,11 +254,21 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.loadingDataForm.next(false);
                 this.loaded$.next(true);
                 // this.cdr.detectChanges();
+                this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
+                    this.tipoSubproductos.next(data);
+                    this.cdr.detectChanges();
+                });
+
+
+
 
             }, err => {
                 this.loadingDataForm.next(false);
                 this.resetAll();
             });
+
+
+            
         }
     }
 
@@ -235,17 +289,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         if (this.isNew) {
 
             this.cuentaBancoService.save(this.cuentaBanco).subscribe(data => {
-                console.log(data);
-
                 this.cuentaBanco = data;
                 this.successResponse('La Cuenta Banco', 'creada', true);
-
-
-
-
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
-
-                console.log(' this.hasBasicData  ', this.hasBasicData);
                 this.cdr.detectChanges();
 
             }, error => this.errorResponse(true));
@@ -264,13 +310,19 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         console.log('send data al banco');
     }
 
-    // moneda(){
+    // searchMoneda(){
 
     //     if(!this.f.moneda.value || this.f.moneda.value.length==0 || !this.moneda.value){
     //       return '';
     //     }
     //     return this.moneda.value.filter(m=>m.id===this.f.moneda.value)[0]?.moneda || '';
     // }
+
+    // creaCuenta(){
+
+    //     this.cuentaBanco.numeroCuenta = this.constants.BANCO + this.constants.AGENCIA + '84'+this.cuentaBanco.tipoProducto ;
+    // }
+
 
     openInterviniente(opened: boolean) {
 
@@ -279,4 +331,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.showIntervinientes = opened;
         this.cdr.detectChanges();
     }
+
+
+
 }

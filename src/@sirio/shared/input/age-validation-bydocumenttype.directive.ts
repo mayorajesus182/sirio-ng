@@ -17,6 +17,8 @@ export class AgeValidatorByDocumentType implements Validator {
     @Input('today') today: Moment;
     @Input('document') document: String;
 
+    private typesMinor=['M','N'];
+
     constructor(private element: ElementRef) { }
 
     validate(c: FormControl): ValidationErrors | null {
@@ -31,13 +33,18 @@ export class AgeValidatorByDocumentType implements Validator {
         }
 
         let birthday = control.value;
-        let ageCalc = moment.duration(moment(this.today).diff(birthday)).asYears();
+        console.log(moment.duration(moment(this.today).diff(birthday)).asYears());
+        
+        let ageCalc =Math.round(moment.duration(moment(this.today).diff(birthday)).asYears()) ;
 
-        if (ageCalc > 18 && this.document.charAt(0) === 'M') {
+        console.log(ageCalc);
+        
+
+        if (ageCalc > 18 && this.typesMinor.includes(this.document.charAt(0)) ) {
             return { age: 'Debe ser menor de edad'};
         }
 
-        if (ageCalc <= 18 && this.document.charAt(0) !== 'M') {
+        if (ageCalc <= 18 && !this.typesMinor.includes(this.document.charAt(0))) {
             return { age: 'Debe ser mayor de edad'};
         }
 

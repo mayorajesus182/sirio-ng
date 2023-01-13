@@ -8,6 +8,7 @@ export interface Persona{
     id: number;
     nombre: string;
     numper: string;
+    tipoPersona?: string;
     tipoDocumento: string;
     identificacion?: string;
     email?: string;
