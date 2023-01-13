@@ -82,14 +82,6 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
       }
 
 
-      // console.log('dataset', dataset);
-      // let series = [{ color: dataset.color, data: dataset.data[this.moneda.id], name: dataset.name }]
-      // let labels = dataset.data[this.moneda.id].map(d => {
-
-      //   return d.esBillete == 1 ? 'Billetes ' + d.denominacion : 'Monedas ' + d.denominacion;
-      // })
-
-
       //TODO: MEJORAS ESTO LUEGO
       let series = dataset.series.map(s => {
 
@@ -139,28 +131,11 @@ export class BarVertChartWidgetComponent extends ChartBaseComponent implements O
             }
           }
         },
-        //  plotOptions: {
-        //    columnrange: {
-        //      dataLabels: {
-        //        enabled: true,
-        //        // format: '{y} VES',
-        //        formatter: function () {
-        //        console.log(this.y);
-
-        //          return formatNumber(this.y,'es','1.2');
-        //       }
-        //      }
-        //    }
-        //  },
       } as Highcharts.ChartOptions;
 
-      // this.cdref.markForCheck();
 
-    })
-    //  }
-
-    // this.cdref.detectChanges();
-    // })
+    });
+    
 
   }
 
