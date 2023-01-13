@@ -1,5 +1,6 @@
 import { HttpResponse } from "@angular/common/http";
 import { Component } from "@angular/core";
+import { MatPaginatorIntl } from "@angular/material/paginator";
 import { BehaviorSubject } from "rxjs";
 
 @Component({
@@ -71,4 +72,34 @@ export class ChartBaseComponent {
         a.download = fileName;
         a.click();
     }
+
+    
 }
+
+
+// export function getPaginatorIntl() {
+//     const paginatorIntl = new MatPaginatorIntl();
+
+//     paginatorIntl.itemsPerPageLabel = '';
+//     paginatorIntl.nextPageLabel = 'Pag. siguiente';
+//     paginatorIntl.previousPageLabel = 'Pag. anterior';
+//     paginatorIntl.lastPageLabel = 'Última pag.';
+//     paginatorIntl.firstPageLabel = 'Primera pag.';
+
+//     paginatorIntl.getRangeLabel = (page: number, pageSize: number, length: number): string => {
+//         if (length === 0 || pageSize === 0) {
+//             return `0 / ${length}`;
+//         }
+
+//         length = Math.max(length, 0);
+
+//         const startIndex: number = page * pageSize;
+//         const endIndex: number = startIndex < length
+//             ? Math.min(startIndex + pageSize, length)
+//             : startIndex + pageSize;
+
+//         return `${startIndex + 1} - ${endIndex} / ${length}`;
+//     };
+
+//     return paginatorIntl;
+// }

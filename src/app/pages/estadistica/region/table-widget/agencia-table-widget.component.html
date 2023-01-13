@@ -19,7 +19,7 @@
   <sirio-card-content class="card-content container">
 
     <sirio-list [hideHeader]="true" class="list" fxFlex="grow" fxLayout="column">
-      <table [dataSource]="dataSource" class="table" mat-table matSort>
+      <table *ngIf="dataSource.data" [dataSource]="dataSource " class="table" #tabl mat-table matSort style="">
 
         <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
