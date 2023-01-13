@@ -31,6 +31,7 @@
                 <mat-label>Nombres y Apellidos/Razón Social</mat-label>
                 <input matInput autocomplete="off" maxlength="200" id="nombreDepositante" name="nombreDepositante"
                     formControlName="nombreDepositante" uppercase class="text-center" required>
+                <mat-error *ngIf="voucher.nombreDepositante.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="voucher.nombreDepositante.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field>
 

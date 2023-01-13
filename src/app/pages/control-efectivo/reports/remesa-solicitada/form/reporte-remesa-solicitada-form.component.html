@@ -26,22 +26,10 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-
-                    <!-- <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex.gt-xs="100"
-                                    [label]="'requestedRemittancesRep.region' | translate: {default: 'global.region'} | translate" formControlName="region"
-                                    [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors">
-                                </sirio-select-search>
-                            </div>
-                        </form>
-                    </div> -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
