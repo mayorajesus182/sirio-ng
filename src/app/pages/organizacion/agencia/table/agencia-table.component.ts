@@ -19,7 +19,7 @@ import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion
 
 export class AgenciaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['agencia_id', 'nombre', 'r.nombre', 'horarioExt',  'activo', 'actions'];
+  displayedColumns = ['agencia_id', 'nombre', 'region_id', 'horario_extendido',  'activo', 'actions'];
 
   constructor(
     injector: Injector,

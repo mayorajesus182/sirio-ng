@@ -117,15 +117,11 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
 
         this.f.receptor.valueChanges.subscribe(value => {
             this.monedaService.forSolicitudRemesasAll().subscribe(data => {
-                this.f.moneda.setValue(this.preferencia.monedaConoActual);
+                let monedaLocal = data.filter(e => e.id == this.preferencia.monedaConoActual)[0];
+                this.f.moneda.setValue(monedaLocal?.id);
                 this.monedas.next(data);
                 this.cdr.detectChanges();
             });
-            // this.monedaService.forRemesasAll().subscribe(data => {
-            //     this.f.moneda.setValue(this.preferencia.monedaConoActual);
-            //     this.monedas.next(data);
-            //     this.cdr.detectChanges();
-            // });
         });
 
         this.f.moneda.valueChanges.subscribe(value => {

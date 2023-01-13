@@ -10,6 +10,7 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { GestionComercialFormComponent } from './form/gestion-comercial-form.component';
 import { GestionComercialRoutingModule } from './gestion-comercial-routing.module';
+import { ServiciosModule } from './servicios/servicios.module';
 
 
 
@@ -27,7 +28,9 @@ import { GestionComercialRoutingModule } from './gestion-comercial-routing.modul
                
         HighlightModule,
         SirioCardModule,
-        GestionComercialRoutingModule
+        GestionComercialRoutingModule,
+        ServiciosModule,
+
     ],
     declarations: [
         GestionComercialFormComponent,

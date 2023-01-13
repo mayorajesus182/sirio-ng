@@ -10,6 +10,7 @@ import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configur
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
 import { Institucion, InstitucionService } from 'src/@sirio/domain/services/organizacion/institucion.service';
+import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -28,6 +29,8 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
 
+    public persona: Persona = {} as Persona;
+    public showServices = false;
 
     constructor(
         injector: Injector,
@@ -45,7 +48,7 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
     ngOnInit() {
 
         this.loadingDataForm.next(true);
-      
+
 
         this.institucionService.get().subscribe((inst: Institucion) => {
             this.institucion = inst;
@@ -54,7 +57,7 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
             this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
-        
+
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
             this.estados.next(data);
             this.cdr.detectChanges();
@@ -79,8 +82,8 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
                     });
                 }
 
-                if (this.f.parroquia.value) {                    
-                    this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {   
+                if (this.f.parroquia.value) {
+                    this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
                         this.zonasPostales.next(data);
                         this.cdr.detectChanges();
                     });
@@ -91,7 +94,6 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
     }
 
     buildForm(institucion: Institucion) {
-
 
         this.itemForm = this.fb.group({
             id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
@@ -119,14 +121,14 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
             });
         });
 
-        this.f.municipio.valueChanges.subscribe(value => {           
+        this.f.municipio.valueChanges.subscribe(value => {
             this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
                 this.parroquias.next(data);
                 this.cdr.detectChanges();
             });
         });
 
-        this.f.parroquia.valueChanges.subscribe(value => {           
+        this.f.parroquia.valueChanges.subscribe(value => {
             this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
                 this.zonasPostales.next(data);
                 this.cdr.detectChanges();
@@ -135,6 +137,34 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
 
         this.cdr.detectChanges();
         this.printErrors()
+    }
+
+
+    openServices(opened: boolean) {
+        this.showServices = opened;
+        this.cdr.detectChanges();
+    }
+
+
+
+
+    queryResult(event) {
+
+        if (!event.id && !event.numper) {
+
+            console.log(' event   ', event);
+            this.loaded$.next(false);
+            this.persona = {} as Persona;
+            this.cdr.detectChanges();
+
+        } else {
+  
+    
+            this.persona = event;
+            this.loaded$.next(true);
+
+            console.log(' aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii persona    ', this.persona);
+        }
     }
 
 
