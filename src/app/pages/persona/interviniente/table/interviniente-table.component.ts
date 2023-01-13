@@ -103,6 +103,8 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
       data.cuenta = this.cuenta;
     }
     this.showFormPopup(IntervinienteFormPopupComponent, !data ? { cuenta: this.cuenta, intervinientes:this.intervinientes } : {data, intervinientes:this.intervinientes}, '70%').afterClosed().subscribe(event => {
+ // this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:{...data,...{referencias:this.referencias}},'40%').afterClosed().subscribe(event=>{
+    
       if (event) {
         this.onRefresh.next(true);
       }
