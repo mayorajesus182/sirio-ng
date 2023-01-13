@@ -129,6 +129,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     
            //this.f.monto.markAsDirty();
            
+          //desglose de montos con decimales
            if (event && event.montoTotal > 0) {
                 this.f.totalRetiro.setValue(event.montoTotal);
             }
@@ -141,7 +142,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
 
         } else {
-
+            //desglose de montos con decimales
             if(event){          
                 this.f.totalRetiro.setValue(this.f.monto.value)
             }
