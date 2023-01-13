@@ -226,7 +226,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
 
             numper: new FormControl(undefined),
-            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
+            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE),Validators.required]),
             tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl('', [Validators.required]),
