@@ -42,6 +42,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
     chequeList: Cheque[] = [];
     cheques: ReplaySubject<Cheque[]> = new ReplaySubject<Cheque[]>();
     todayValue: moment.Moment;
+    valueMin: moment.Moment;
     sumMontoChequePropio: number = 0;
     sumMontoChequeOtros: number = 0;
     contarChequePropio: number = 0;
@@ -132,6 +133,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
         this.calendarioService.today().subscribe(data => {
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+            this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(180, 'days');
             this.cdr.detectChanges();
         });
     }
@@ -185,6 +187,22 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
                     });
                 }
             }
+        });
+
+        this.cf.fechaEmision.valueChanges.subscribe(val => {
+            if(val && (val < this.valueMin)){
+                this.cf.fechaEmision.setErrors({
+                    fechaMin: true
+                })
+                
+            }else if(val > this.todayValue){
+                this.cf.fechaEmision.setErrors({
+                    fechaMax: true
+                })
+            }else{
+                this.cf.fechaEmision.setErrors(undefined);
+            }
+
         });
 
         this.motivoDevolucionService.actives().subscribe(data => {

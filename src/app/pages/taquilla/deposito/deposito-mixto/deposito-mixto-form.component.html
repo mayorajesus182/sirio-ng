@@ -67,7 +67,7 @@
         <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm" style="margin-top: 10px;">
             <mat-form-field fxFlex.gt-xs="15" floatLabel="always">
                 <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }} </mat-label>
-                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center" required>
+                <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center" required numCeros="8" string-pad [control]="cf.serial">
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                 <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial ya esta suministrado</mat-error>
                 <mat-error *ngIf="cf.serial.errors?.existsSerial">El serial ya esta Registrado</mat-error>
@@ -97,11 +97,17 @@
             <mat-form-field fxFlex="15" floatLabel="always">
                 <mat-label>{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</mat-label>
                 <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaEmision" formControlName="fechaEmision"
-                    [matDatepicker]="fechaEmisionPicker" [max]="todayValue">
-                <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker">
+                    [matDatepicker]="fechaEmisionPicker" [max]="todayValue" [min]="valueMin">
+                <mat-datepicker-toggle matSuffix [for]="fechaEmisionPicker"> 
                 </mat-datepicker-toggle>
                 <mat-error *ngIf="cf.fechaEmision.errors?.matDatepickerParse">
                     {{'error.invalidDate' | translate}}
+                </mat-error>
+                <mat-error *ngIf="cf.fechaEmision.errors?.fechaMin">
+                    Fecha Errada
+                </mat-error>
+                <mat-error *ngIf="cf.fechaEmision.errors?.fechaMax">
+                    Cheque Caduco
                 </mat-error>
             </mat-form-field>
 

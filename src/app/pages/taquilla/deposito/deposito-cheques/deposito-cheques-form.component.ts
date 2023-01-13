@@ -1,3 +1,4 @@
+import { _isNumberValue } from '@angular/cdk/coercion';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -17,6 +18,7 @@ import { ChequeService } from 'src/@sirio/domain/services/taquilla/cheque.servic
 import { Cheque } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+
 @Component({
     selector: 'sirio-deposito-cheques',
     templateUrl: './deposito-cheques-form.component.html',
@@ -41,6 +43,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     chequeList: Cheque[] = [];
     cheques: ReplaySubject<Cheque[]> = new ReplaySubject<Cheque[]>();
     todayValue: moment.Moment;
+    valueMin: moment.Moment;
     sumMontoChequePropio: number = 0;
     sumMontoChequeOtros: number = 0;
     contarChequePropio: number = 0;
@@ -129,6 +132,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
         this.calendarioService.today().subscribe(data => {
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+            this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(180, 'days');
             this.cdr.detectChanges();
         });
     }
@@ -171,6 +175,22 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
                     });
                 }
             }
+        });
+
+        this.cf.fechaEmision.valueChanges.subscribe(val => {
+            if(val && (val < this.valueMin)){
+                this.cf.fechaEmision.setErrors({
+                    fechaMin: true
+                })
+                
+            }else if(val > this.todayValue){
+                this.cf.fechaEmision.setErrors({
+                    fechaMax: true
+                })
+            }else{
+                this.cf.fechaEmision.setErrors(undefined);
+            }
+
         });
 
         this.motivoDevolucionService.actives().subscribe(data => {
