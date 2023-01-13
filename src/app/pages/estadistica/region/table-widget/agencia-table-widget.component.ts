@@ -32,7 +32,8 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
   @Input() monedas: Observable<Moneda[]>;
   @Input() moneda_curr: Moneda = undefined;
   @Output('event_page') eventPage: EventEmitter<any> = new EventEmitter<any>();
-
+  total:number=0;
+  totalXPage:number=0;
 
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
@@ -61,7 +62,7 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
       )
       .subscribe((values) => {
         // console.log(values);
-
+        this.total=values.map(s=>s.saldo).reduce((a,b)=>a+b,0);
         this.dataSource.data = values
       });
 
@@ -90,8 +91,19 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
       console.log(page);
       this.eventPage.emit(page)
 
+
+      const startIndex = page.pageIndex * page.pageSize;
+      const endIndex = startIndex + page.pageSize;
+
+      this.totalXPage=this.dataSource.data.slice(startIndex, endIndex).map(s=>s.saldo).reduce((a,b)=>a+b,0);
+
     });
   }
+
+  getTotal(){
+      return this.totalXPage;
+  }
+
   progress(row: SaldoRegional) {
 
     return row.saldo * 100.0 / row.maximo;
