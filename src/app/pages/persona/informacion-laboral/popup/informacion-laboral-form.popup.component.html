@@ -64,9 +64,23 @@
       <sirio-select-search fxFlex.gt-xs="100" [label]="'Ramo'" formControlName="ramo" [required]="isRdOrNp()" [elements]="ramoList.asObservable()"
         [attributeName]="'nombre'" [errors]="f.actindependiente?.errors">
       </sirio-select-search>
+
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Teléfono' | translate }} </mat-label>
+          <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaFijaList.asObservable()"  name="telefono" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefono" required>
+          <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharacter' |
+            translate}}
+          </mat-error>
+          <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}}  </mat-error>
+      </mat-form-field>
+      
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
+
+        
 
       <mat-form-field fxFlex="50">
         <mat-label>{{ 'Registro' }} </mat-label>
@@ -129,12 +143,13 @@
           <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue" [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
           <mat-datepicker-toggle matSuffix [for]="fechaPicker">
           </mat-datepicker-toggle>
-          <!-- <mat-error *ngIf="f.fecha.errors?.matDatepickerParse"> -->
+        
           <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fecha.errors?.matDatepickerMax">
             Fecha Invalida
           </mat-error>
         </mat-form-field>
-      <mat-datepicker #fechaPicker></mat-datepicker>
+        <mat-datepicker #fechaPicker></mat-datepicker>
+          <!-- <mat-error *ngIf="f.fecha.errors?.matDatepickerParse"> -->
 <!-- 
         <mat-form-field fxFlex="20">
           <mat-label>{{'naturalPerson.birthDate' | translate: {default: 'global.birthDate'} |

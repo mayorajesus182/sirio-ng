@@ -42,12 +42,23 @@ export class ReporteTaquillaOperativaFormComponent extends FormBaseComponent imp
 
         const user = this.sessionService.getUser() as User;
         this.esGteRegional = user.rols.includes(RolConstants.GERENTE_REGIONAL);
+        console.log("esGteRegional", this.esGteRegional); 
         this.buildForm();
+       
+     //  if (this.esGteRegional) {
+           
+           
 
         this.regionService.actives().subscribe(data => {
             this.regiones.next(data);
         });
-        this.cdr.detectChanges();
+       
+      //  }
+       
+       this.cdr.detectChanges();
+  
+  
+  
     }
 
     buildForm() {

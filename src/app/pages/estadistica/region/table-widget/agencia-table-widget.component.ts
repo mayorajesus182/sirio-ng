@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,6 +8,8 @@ import { filter } from 'rxjs/operators';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoRegional } from 'src/@sirio/domain/services/control-efectivo/saldo-regional.service';
+import { } from 'src/@sirio/shared/base/chart-base.component';
+import { getPaginatorIntl } from 'src/@sirio/shared/base/table-base.component';
 import { ListColumn } from 'src/@sirio/shared/list/list-column.model';
 import { AgenciaChartPopupComponent } from '../agencia-resumen/popup/agencia-chart.popup.component';
 
@@ -29,16 +31,21 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
 
   @Input() monedas: Observable<Moneda[]>;
   @Input() moneda_curr: Moneda = undefined;
-
+  @Output('event_page') eventPage: EventEmitter<any> = new EventEmitter<any>();
+  total:number=0;
+  totalXPage:number=0;
 
   currentMoneda: Moneda;
   availableCoins: Moneda[] = [];
 
   constructor(private dialog: MatDialog,
     private saldoAgenciaService: SaldoAgenciaService) {
+
   }
 
   @Input() set data(value: any[]) {
+    // console.log('datasource ', value);
+
     this.subject$.next(value);
   };
 
@@ -49,44 +56,73 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.dataSource = new MatTableDataSource();
 
-    this.data$.pipe(
-      filter(data => !!data)
-    ).subscribe((values) => this.dataSource.data = values);
-
-
+    this.data$
+      .pipe(
+        filter(data => !!data)
+      )
+      .subscribe((values) => {
+        // console.log(values);
+        this.total=values.map(s=>s.saldo).reduce((a,b)=>a+b,0);
+        this.dataSource.data = values
+      });
 
     this.monedas.subscribe(list => {
-      console.log('monedas observable',list);
+      // console.log('monedas observable',list);
 
       this.currentMoneda = this.moneda_curr || list[0];
       this.availableCoins = list;
       this.reload();
     });
+
+
+
+
   }
 
   ngAfterViewInit() {
+    this.paginator._intl = getPaginatorIntl();
     this.dataSource.paginator = this.paginator;
+
     this.dataSource.sort = this.sort;
+
+
+    this.dataSource.paginator.page.subscribe(page => {
+      // Do something here when the page changes
+      console.log(page);
+      this.eventPage.emit(page)
+
+
+      const startIndex = page.pageIndex * page.pageSize;
+      const endIndex = startIndex + page.pageSize;
+
+      this.totalXPage=this.dataSource.data.slice(startIndex, endIndex).map(s=>s.saldo).reduce((a,b)=>a+b,0);
+
+    });
   }
-  progress(row:SaldoRegional){
 
-    return row.saldo*100.0/row.maximo;
-
-  }
-  reload(){
-    
+  getTotal(){
+      return this.totalXPage;
   }
 
-  openDataAgencia(elem){
+  progress(row: SaldoRegional) {
 
-      this.dialog.open(AgenciaChartPopupComponent, {
-        panelClass: 'dialog-frame',
-        position: {top: '3%'} ,
-        width: '75%',
-        disableClose: true,
-        data: {id:elem.agencia,title:`Agencia ${elem.agencia}`,subtitle:elem.agenciaNombre, monedas:this.availableCoins}
-      });
-  
+    return row.saldo * 100.0 / row.maximo;
+
+  }
+  reload() {
+
+  }
+
+  openDataAgencia(elem) {
+
+    this.dialog.open(AgenciaChartPopupComponent, {
+      panelClass: 'dialog-frame',
+      position: { top: '3%' },
+      width: '75%',
+      disableClose: true,
+      data: { id: elem.agencia, title: `Agencia ${elem.agencia}`, subtitle: elem.agenciaNombre, monedas: this.availableCoins }
+    });
+
 
   }
 
