@@ -12,6 +12,7 @@ import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizaci
 import { User } from 'src/@sirio/domain/services/security/auth.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 
 @Component({
     selector: 'app-reporte-cierre-taquilla-form',
@@ -23,6 +24,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implements OnInit {
     esOperadorTaquilla: Boolean = false;
+    preferencia: Preferencia = {} as Preferencia;
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
@@ -32,6 +34,7 @@ export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implem
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private gestionEfectivoReportsService: GestionEfectivoReportsService,
+        private preferenciaService: PreferenciaService,
         private sessionService: SessionService,
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
@@ -40,21 +43,27 @@ export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implem
     }
 
     ngOnInit() {
-        this.buildForm();
-        const user = this.sessionService.getUser() as User;
-        this.esOperadorTaquilla = user.rols.includes(RolConstants.OPERADOR_TAQUILLA);
+
+        this.preferenciaService.get().subscribe(data => {
+            this.preferencia = data;
+            this.buildForm();
+            const user = this.sessionService.getUser() as User;
+            this.esOperadorTaquilla = user.rols.includes(RolConstants.OPERADOR_TAQUILLA);
+        });
+   
+        this.cdr.detectChanges();
         this.taquillaService.actives().subscribe(data => {            
             this.taquillas.next(data);
         });
 
-        this.monedaService.fisicaActives().subscribe(data => {
+        this.monedaService.paraOperacionesActives().subscribe(data => {
             this.monedas.next(data);
         });
     }
 
     buildForm() {
         this.itemForm = this.fb.group({
-            moneda: new FormControl(undefined),
+            moneda: new FormControl(this.preferencia.monedaConoActual),
             taquilla: new FormControl(undefined),
         });
     }

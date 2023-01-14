@@ -33,7 +33,8 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <sirio-select-search
-                                    fxFlex.gt-xs="100"
+                                *ngIf="!esOperadorAgencia"
+                                    fxFlex.gt-xs="auto"
                                     [label]="'balanceAgenciesRep.agency' | translate: {default: 'global.agency'} | translate"
                                     formControlName="agencia" [required]="false" [elements]="agencias.asObservable()"
                                     [attributeName]="'nombre'" [errors]="f.agencia?.errors" [labelDef]="'TODOS'">

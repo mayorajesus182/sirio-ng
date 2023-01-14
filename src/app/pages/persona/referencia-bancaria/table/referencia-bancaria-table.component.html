@@ -8,46 +8,43 @@
     </div>
 </div>
 
-<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.standard"
+<ngx-datatable canAutoResize="false" class="material" [rowHeight]="70" [columnMode]="ColumnMode.force"
     [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="referenciaBancariaList | async" rowHeight="auto">
+    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="referenciaBancariaList | async" >
 
     <ngx-datatable-column  [resizeable]="false" [width]="100"  name="#">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <div class="text-center"> {{ rowIndex+1 }}</div>
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;"> {{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [resizeable]="false" [width]="200" name="Tipo Producto">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.tipoProducto }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoProducto }}</span>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [resizeable]="false" [width]="500" name="Entidad Financiera">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.entidadFinanciera }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.entidadFinanciera }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="280">
-        <ng-template ngx-datatable-header-template>
-            <span>Cuenta</span>
-        </ng-template>
+    <ngx-datatable-column [resizeable]="false" [width]="280" name="Cuenta">
         <ng-template let-row="row" ngx-datatable-cell-template >
-            <div class="text-center">{{row.numeroCuenta | imask:{mask: '0000 0000 00 00 00000000'} }}</div>
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.numeroCuenta | imask:{mask: '0000 0000 00 00 00000000'} }}</div>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [resizeable]="false" [width]="200" name="Cifras Promedio">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.cifraPromedio }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.cifraPromedio }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones" >        
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="Acciones" >        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="text-center">
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">
                 <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
                     <mat-icon>edit</mat-icon>
                 </button> &nbsp;
@@ -58,11 +55,5 @@
             </div>
         </ng-template>
     </ngx-datatable-column>
-
-    <ngx-datatable-column [resizeable]="false" [width]="590" name="Cifras Promedio">        
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.cifraPromedio }}</span>
-        </ng-template>
-    </ngx-datatable-column>    
     
 </ngx-datatable>

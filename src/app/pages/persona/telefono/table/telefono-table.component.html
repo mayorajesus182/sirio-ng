@@ -7,53 +7,49 @@
     </div>
 </div>
 
-    <ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.force"
-        [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-        [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="telefonoList | async" rowHeight="auto">
+<ngx-datatable [scrollbarV]="false" canAutoResize="false" class="material" [columnMode]="ColumnMode.force"
+    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50"
+    [rowHeight]="70" [limit]="10" [rows]="telefonoList | async">
 
-    <ngx-datatable-column  [resizeable]="false" [width]="100" [flexGrow]="1"  name="#">        
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="#">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <div class="text-center"> {{ rowIndex+1 }}</div>
+            <div class="text-center" fxLayoutAlign="center"> {{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="390" [flexGrow]="1" name="Tipo Teléfono">        
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Tipo Teléfono">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.tipo }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipo }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="390" [flexGrow]="1" name="Clase Teléfono">        
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Clase Teléfono">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.clase }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.clase }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="280" [flexGrow]="1">
-        <ng-template ngx-datatable-header-template>
-            <span>Teléfono</span>
-        </ng-template>
-        <ng-template let-row="row" ngx-datatable-cell-template >
-            <div class="text-center">{{row.numero | imask:{mask: '(0000) 000.00.00'} }}</div>
-        </ng-template>
-    </ngx-datatable-column>
-
-    
-    <ngx-datatable-column [resizeable]="false" [width]="120" [flexGrow]="1" name="¿Es Principal?" >       
-        
-        <ng-template let-row="row" fxLayoutAlign="center center" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.principal=== 1 ? 'SI' : 'NO'  }} </span>
-        </ng-template>
-    </ngx-datatable-column>
-
-    <ngx-datatable-column [resizeable]="false" [width]="200" [flexGrow]="1" name="Acciones" >        
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Teléfono">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="text-center">
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.numero | imask:{mask: '(0000) 000.00.00'} }}</div>
+        </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="¿Es Principal?">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span style="white-space: break-spaces;" fxLayoutAlign="center">{{ row?.principal=== 1 ? 'SI' : 'NO' }} </span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="Acciones">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="text-center" fxLayoutAlign="center">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="popup(row,$event)"
+                    matTooltip="{{'button.update' | translate}}">
                     <mat-icon>edit</mat-icon>
                 </button> &nbsp;
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
-                    (click)="delete(row)" matTooltip="Eliminar">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="delete(row)" matTooltip="Eliminar">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
