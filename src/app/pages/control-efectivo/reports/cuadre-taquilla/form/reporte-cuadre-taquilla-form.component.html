@@ -36,7 +36,7 @@
                                     fxFlex.gt-xs="100"
                                     [label]="'balanceBoxOfficesRep.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
                                     formControlName="taquilla" [required]="false" [elements]="taquillas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.taquilla?.errors" [labelDef]="'TODOS'">
+                                    [attributeName]="'nombre'" [errors]="f.taquilla?.errors" [labelDef]="'TODOS'"|>
                                 </sirio-select-search>
                                 
                             </div>
