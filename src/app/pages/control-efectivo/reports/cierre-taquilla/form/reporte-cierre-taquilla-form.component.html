@@ -34,17 +34,17 @@
 
                                 <sirio-select-search
                                     *ngIf="!esOperadorTaquilla"
-                                    fxFlex.gt-xs="50"
+                                    fxFlex.gt-xs="auto"
                                     [label]="'boxOfficeClosingsRep.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
-                                    formControlName="taquilla" [required]="true" [elements]="taquillas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.taquilla?.errors">
+                                    formControlName="taquilla" [required]="false" [elements]="taquillas.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.taquilla?.errors" [labelDef]="'TODOS'"> 
                                 </sirio-select-search>
 
                                 <sirio-select-search
-                                    fxFlex.gt-xs="50"
+                                    fxFlex.gt-xs="auto"
                                     [label]="'boxOfficeClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors">
+                                    formControlName="moneda" [required]="false" [elements]="monedas.asObservable()"
+                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                                 
                             </div>

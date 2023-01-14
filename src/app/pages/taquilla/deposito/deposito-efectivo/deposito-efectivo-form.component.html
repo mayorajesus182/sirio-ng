@@ -19,7 +19,7 @@
                     </mat-label>
                     <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.tipoProductoNombre"
                         [ngModelOptions]="{standalone: true}" readonly name="numeroCuenta">
-                    <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
+                    <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                 </mat-form-field>
                 <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
                     [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate"

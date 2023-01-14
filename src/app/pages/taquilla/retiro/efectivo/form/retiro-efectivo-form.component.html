@@ -82,7 +82,7 @@
                                             
                                             <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto" 
                                                 formControlName="monto" currencyMask [options]="{precision:2}" >
-                                            <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
+                                            <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
                                             <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que  9.999.999.999.999,99
                                             </mat-error>
                                             <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01
@@ -103,7 +103,7 @@
                                             </mat-label>
                                             <input matInput readonly max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="totalRetiro"
                                                 formControlName="totalRetiro" currencyMask [options]="{precision:2}" [required]="esRetiroEfectivo">
-                                            <mat-error *ngIf="f.totalRetiro.errors?.required">Es requerido</mat-error>
+                                            <mat-error *ngIf="f.totalRetiro.errors?.required">{{'error.required' | translate}}</mat-error>
                                             <mat-error *ngIf="f.totalRetiro.errors?.max">Debe ser menor que
                                                 9.999.999.999.999,99
                                             </mat-error>

@@ -62,7 +62,7 @@
                                     <input matInput name="numeroCuenta" autocomplete="off" num-account-validate
                                         formControlName="numeroCuenta" mask="0000 0000 00 00 00000000"
                                         [required]="esPagoChequeGerencia">
-                                    <mat-error *ngIf="f.numeroCuenta.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="!f.numeroCuenta.errors?.required && f.numeroCuenta.errors?.account">
                                         El num. de cuenta es Inválido</mat-error>
                                     <mat-error *ngIf="f.numeroCuenta.errors?.notexists">{{'no existe numero de cuenta'}}
@@ -79,7 +79,7 @@
                                         [required]="esPagoChequeGerencia">
                                     <mat-error *ngIf="f.serialCheque.errors?.pattern">{{'error.invalidCharacter' |
                                         translate}}</mat-error>
-                                    <mat-error *ngIf="f.serialCheque.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.serialCheque.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener 8 digitos</mat-error>
                                     
                                 </mat-form-field>
@@ -91,7 +91,7 @@
                                     </mat-label>
                                     <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="monto"
                                     formControlName="monto" currencyMask [options]="{precision:2}"  >
-                                <mat-error *ngIf="f.monto.errors?.required">Es requerido</mat-error>
+                                <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.monto.errors?.max">Debe ser menor que 99.999.999,99</mat-error>
                                 <mat-error *ngIf="f.monto.errors?.min">No debe ser menor que 0,01</mat-error>
                                 <mat-error *ngIf="f.monto.errors?.totalDifference">Verifique Monto</mat-error>     
@@ -133,7 +133,7 @@
                                     <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20"
                                     name="montoCheque" formControlName="montoCheque" readonly currencyMask
                                     [options]="{precision:2}" [required]="esPagoChequeGerencia">
-                                    <mat-error *ngIf="f.montoCheque.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 9.999.999.999.999,99
                                     </mat-error>
                                     <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>
@@ -223,7 +223,7 @@
                                             <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20"
                                     name="montoCheque" formControlName="montoCheque"  (update)="updateCashDetail($event)" currencyMask
                                     [options]="{precision:2}" [required]="esPagoChequeGerencia">
-                                    <mat-error *ngIf="f.montoCheque.errors?.required">Es requerido</mat-error>
+                                    <mat-error *ngIf="f.montoCheque.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.montoCheque.errors?.max">Debe ser menor que 9.999.999.999.999,99
                                     </mat-error>
                                     <mat-error *ngIf="f.montoCheque.errors?.min">No debe ser menor que 0,01</mat-error>

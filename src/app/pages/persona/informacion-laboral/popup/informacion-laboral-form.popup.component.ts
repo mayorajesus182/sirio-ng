@@ -10,6 +10,8 @@ import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/loca
 import { Ramo, RamoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/ramo.service';
 import { ActividadIndependiente, ActividadIndependienteService } from 'src/@sirio/domain/services/configuracion/persona-natural/actividad-independiente.service';
 import { TipoIngreso, TipoIngresoService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-ingreso.service';
+import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
+import { TipoTelefono } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { InformacionLaboral, InformacionLaboralService } from 'src/@sirio/domain/services/persona/informacion-laboral/informacion-laboral.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -29,6 +31,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
   public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public ramoList = new BehaviorSubject<Ramo[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
+  public telefonicaFijaList = new BehaviorSubject<TipoTelefono[]>([]);
   public actinDependienteList = new BehaviorSubject<ActividadIndependiente[]>([]);
   public Tipo_Ingreso = TipoIngresoConstants;
 
@@ -39,6 +42,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     private informacionLaboralService: InformacionLaboralService,
     private tipoIngresoService: TipoIngresoService,
     private tipoDocumentoService: TipoDocumentoService,
+    private telefonicaService: TelefonicaService,
     private actividadIndependienteService: ActividadIndependienteService,
     private ramoService: RamoService,
     private calendarioService: CalendarioService,
@@ -59,7 +63,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     this.calendarioService.today().subscribe(data => {
       this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-  });
+    });
 
     this.tipoIngresoService.actives().subscribe(data => {
       // console.log(data);
@@ -73,6 +77,10 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       
       this.tipodocumentoList.next(data);
       this.cdr.detectChanges();
+    })
+
+    this.telefonicaService.actives().subscribe(data => {
+      this.telefonicaFijaList.next(data);
     })
 
     this.ramoService.actives().subscribe(data => {
@@ -146,7 +154,8 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       tomo: new FormControl(this.informacionLaboral.tomo || undefined),
       folio: new FormControl(this.informacionLaboral.folio || undefined),
   
-      
+      telefono: new FormControl(this.informacionLaboral.telefono || undefined, []),
+
       tipoDocumento: new FormControl(this.informacionLaboral.tipoDocumento || undefined, [Validators.required]),
       identificacion: new FormControl(this.informacionLaboral.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),

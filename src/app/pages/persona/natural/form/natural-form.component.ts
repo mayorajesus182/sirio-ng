@@ -21,6 +21,7 @@ import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccio
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
+
 @Component({
     selector: 'app-natural-form',
     templateUrl: './natural-form.component.html',
@@ -64,6 +65,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     personaNatural: PersonaNatural = {} as PersonaNatural;
     constants = GlobalConstants;
     estado_civil: string;
+
+  
+
+    tipo_DocumentoMenor: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
     generos = new BehaviorSubject<Genero[]>([]);
@@ -77,7 +82,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-
+   
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -262,6 +267,15 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         })
 
+        this.f.tipoDocumento.valueChanges.subscribe(val => {
+            if (val) {
+
+                this.tipo_DocumentoMenor = val;
+                
+            }
+
+        })
+
     }
 
 
@@ -361,6 +375,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         return this.estado_civil == this.constants.CASADO || this.estado_civil == this.constants.UNION_ESTABLE;
     }
 
+    evaluarTipoDocumentoMenor(): boolean {
+        return this.tipo_DocumentoMenor == this.constants.PN_TIPO_DOC_MENOR;
+    }
 
     updateAddress(event) {
         this.totalAddress = event;

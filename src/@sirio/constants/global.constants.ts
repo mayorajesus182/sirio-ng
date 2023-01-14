@@ -32,5 +32,8 @@ export class GlobalConstants {
   public static ARQUEO_RETIRO = 'R';
   public static ENVIO_REMESA = 'ENV';
   public static SOLICITUD_REMESA = 'SOL';
+  public static PN_TIPO_DOC_MENOR = 'M';
+  public static BANCO = '0102';
+  public static AGENCIA = '0126';
   // static CUENTA_BANCO: any;
 };

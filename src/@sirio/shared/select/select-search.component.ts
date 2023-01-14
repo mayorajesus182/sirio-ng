@@ -25,6 +25,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     @Input() errors;
     @Input() label: string;
     @Input() icon: string;
+    @Input() labelDef: string = 'Ninguno';
     @Input() autofocus: boolean = false;
     @Input() attributeName: string;
     @Input() required: boolean = false;
@@ -258,12 +259,15 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
     showName(valSelected: any) {
         let name = '';
+        console.log("name", name); 
         if (valSelected) {
             this.items.subscribe(data => name = data.filter(d => d.id === valSelected).map(d => d[this.attributeName])[0]);
         }
         return name;
-    }
 
+        
+    }
+    
 
     validate(control: AbstractControl): ValidationErrors | null {
         if (!this.selectSearchControl.value || this.selectSearchControl.value?.trim().length == 0) {

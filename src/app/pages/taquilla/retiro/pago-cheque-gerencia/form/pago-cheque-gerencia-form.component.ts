@@ -214,9 +214,8 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
 
         } else {
 
-          /*  if (event && event.montoTotal > 0) {
-                this.f.montoCheque.setValue(event.montoTotal);
-            }*/
+    
+            //desglose de montos con decimales
             if(event){          
                 this.f.montoCheque.setValue(this.f.monto.value)
             }

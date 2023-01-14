@@ -39,7 +39,7 @@ export class TelefonicaService {
         return this.apiService.config(this.apiConfig).get(`/${tipo}/bytipotelefonica/actives`);
     }
 
-    exists(id: string): Observable<any> {
+   exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
