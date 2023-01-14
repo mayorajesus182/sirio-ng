@@ -120,7 +120,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
                 let monedaLocal = data.filter(e => e.id == this.preferencia.monedaConoActual)[0];
                 this.f.moneda.setValue(monedaLocal?.id);
                 this.monedas.next(data);
-                this.cdr.detectChanges();
+                this.cdr.detectChanges(); 
             });
         });
 

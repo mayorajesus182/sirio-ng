@@ -35,6 +35,10 @@ export class SaldoAcopioService {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldo`);
     }
 
+    getSaldoSinDetalle(): Observable<SaldoAcopio[]> {
+        return this.apiService.config(this.apiConfig).get('/sin/detalle/list');
+    }
+
     getSaldoByMonedaAndTransportista(moneda: string, transportista: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/moneda/${transportista}/acopio/saldo`);
     }

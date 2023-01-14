@@ -52,7 +52,10 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
         this.contentStats += `<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
       });
 
+      this.cdr.detectChanges();
+
     });
+
 
   }
 

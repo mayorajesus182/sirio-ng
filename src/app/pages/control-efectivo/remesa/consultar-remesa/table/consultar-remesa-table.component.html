@@ -5,7 +5,8 @@
 
     <sirio-page-layout-content [@fadeInUp]>
         <sirio-list [name]="'consultRemittances.table' | translate: {default: 'global.notfound'}" placeholder="consultRemittances.search"
-            (filterChange)="onFilterChange($event)">
+            (filterChange)="onFilterChange($event)"  [tooltipStats]="contentStats">
+            
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="remesa_id" matSortDirection="desc">
 

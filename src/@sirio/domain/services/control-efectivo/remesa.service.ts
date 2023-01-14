@@ -126,8 +126,13 @@ export class RemesaService {
             .pipe(map(res => data));
     }
 
-    annular(data: Remesa): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.id}/override`, data)
+    cancelRequest(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/cancel/request`, data)
+            .pipe(map(res => data));
+    }
+
+    cancelShipment(data: Remesa): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/cancel/shipment`, data)
             .pipe(map(res => data));
     }
 

@@ -196,7 +196,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     buildForm() {
         // console.log('remesa ', this.remesa);
 
-        this.itemForm = this.fb.group({
+        this.itemForm = this.fb.group({ 
             cajasBolsas: new FormControl(this.remesa.cajasBolsas || undefined),
             transportista: new FormControl(this.remesa.transportista || undefined),
             receptor: new FormControl(this.remesa.receptor || undefined),

@@ -32,11 +32,11 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
   }
 
   loadList() {
-    this.init(this.remesaService, 'remesa_id', 'pageSolicitudes');   
+    this.init(this.remesaService, 'remesa_id', 'pageSolicitudes');
   }
 
   ngOnInit() {
-    this.loadList();   
+    this.loadList();
   }
 
   ngAfterViewInit() {
@@ -60,13 +60,13 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
   // }
 
   override(data: any) {
-    this.swalService.show('¿Desea Anular la Solicitud?', data.element.id).then((resp) => {
+    this.swalService.show('¿Desea Anular la Solicitud de Remesa?', data.element.id).then((resp) => {
       if (!resp.dismiss) {
-        this.remesaService.annular(data.element).subscribe(data => {
+        this.remesaService.cancelRequest(data.element).subscribe(data => {
           this.loadList();
           this.successResponse('La Remesa', 'Anulada', false);
           return data;
-      }, error => this.errorResponse(true));
+        }, error => this.errorResponse(true));
       }
     });
   }

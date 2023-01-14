@@ -74,15 +74,13 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
             this.buildForm(this.remesa);
             this.buildFormMateriales();
 
-            console.log(' dataaaaaaaaaaaaaaaa ', data);
-            
-
             this.conoMonetarioService.activesByMoneda(this.remesa.moneda).subscribe(cono => {
                 this.conos.next(cono);
 
             });
 
-            this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(this.remesa.moneda).subscribe(conoData => {
+
+            this.conoMonetarioService.activesByMoneda(this.remesa.moneda).subscribe(conoData => {
 
                 conoData = conoData.map(c => {
                     let val = this.remesa.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
