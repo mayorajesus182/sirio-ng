@@ -10,7 +10,7 @@ const depositoRoutes: Routes = [
    {
         path: '',
         component: DepositoFormComponent,
-        data: { title: 'Deposito' }
+        data: { title: 'Depósito' }
     },  
 
 

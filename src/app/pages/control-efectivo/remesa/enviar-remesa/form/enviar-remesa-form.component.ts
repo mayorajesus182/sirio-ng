@@ -196,11 +196,11 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     buildForm() {
         // console.log('remesa ', this.remesa);
 
-        this.itemForm = this.fb.group({
+        this.itemForm = this.fb.group({ 
             cajasBolsas: new FormControl(this.remesa.cajasBolsas || undefined),
             transportista: new FormControl(this.remesa.transportista || undefined),
             receptor: new FormControl(this.remesa.receptor || undefined),
-            moneda: new FormControl(this.remesa.moneda || this.preferencia.monedaConoActual, [Validators.required]),
+            moneda: new FormControl(this.remesa.moneda || (this.esTransportista ? this.preferencia.monedaConoActual : undefined), [Validators.required]),
             viaje: new FormControl(this.remesa.viaje || undefined, [Validators.required]),
             montoEnviado: new FormControl(this.remesa.montoEnviado || undefined, [Validators.required]),
             responsables: new FormControl(this.remesa.responsables || undefined, [Validators.required]),
@@ -208,6 +208,11 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
         this.f.moneda.valueChanges.subscribe(value => {
             this.whenChangeMoneda(value);
+        });
+
+        this.f.receptor.valueChanges.subscribe(value => {
+            let monedaLocal = this.monedas.value.filter(e => e.id == this.preferencia.monedaConoActual)[0];
+            this.f.moneda.setValue(monedaLocal?.id);
         });
 
         // Sólo se escoge la transportista cuando quien procesa es el centro de acopio, es decir, esto sólo pasará si la pantalla se muestra al centro de acopio
@@ -220,6 +225,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             if (this.f.moneda.value != null) {
                 this.loadCostosViajeTransportista(this.f.moneda.value, value);
             }
+
         });
 
         this.f.moneda.valueChanges.subscribe(value => {

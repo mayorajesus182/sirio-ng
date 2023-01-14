@@ -94,6 +94,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/autorizacion/autorizacion.module').then(m => m.AutorizacionModule),
         data:{title:'menu.autorizacion'}
       },
+      {
+        path: 'gestion-comercial',
+        loadChildren: () => import('./pages/gestion-comercial/gestion-comercial.module').then(m => m.GestionEfectivoModule),
+        data:{title:'menu.cashControl'}
+      },
     ]
   },
   {

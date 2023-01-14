@@ -21,6 +21,7 @@ export const environment = {
     transporte: config.apiProUrl+'/api/transporte',
     workflow: config.apiProUrl+'/api/workflow',
     control_efectivo: config.apiProUrl+'/api/control-efectivo',
+    gestion_comercial: config.apiProUrl+'/api/gestion-comercial',
     organizacion: config.apiProUrl+'/api/organizacion',
     preferencia: config.apiProUrl+'/api/preferencia',
     pasivo: config.apiProUrl+'/api/pasivo',

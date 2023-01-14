@@ -111,7 +111,7 @@
                                     <mat-error *ngIf="plomoCtrl.errors?.length">{{plomoCtrl.errors?.length}}</mat-error>
                                 </mat-form-field>
 
-                                <!-- {{plomoCtrl.errors|json}} -->
+                                <!-- {{plomoCtrl.errors|json}} -->    
 
                                 <mat-form-field fxFlex="20" appearance="standart">
                                     <mat-label>{{'sendRemittances.amountToSend' | translate: {default: 'global.amountToSend'} | translate }} </mat-label>
@@ -124,7 +124,7 @@
 
                         <mat-divider class="margin-bottom-md"></mat-divider>
 
-                        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
+                        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100" *ngIf="f.moneda.value">
 
                             <div fxLayout="column" fxFlex="40" *ngIf="esTransportista">
                                 <form [formGroup]="materialForm" *ngIf="materialForm">

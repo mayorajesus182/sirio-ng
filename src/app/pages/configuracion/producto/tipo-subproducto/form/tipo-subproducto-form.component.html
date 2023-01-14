@@ -41,9 +41,7 @@
                                 <input matInput maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
                                 <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
                                 <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                <mat-error *ngIf="f.id.errors?.exists">
-                                    {{f.id.errors?.exists}}
-                                </mat-error>
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="auto">

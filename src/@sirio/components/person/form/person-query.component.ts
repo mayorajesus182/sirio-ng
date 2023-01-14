@@ -32,7 +32,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     @Input() tipo_persona: string;
     @Input() title: string = 'Información del Cliente';
     @Input() taquilla: boolean = false;
-    @Input() entity: 'interviniente' | 'persona' | 'cuenta' = 'persona';
+    @Input() entity: 'interviniente' | 'persona' | 'gestioncomercial' | 'cuenta' = 'persona' ;
     @Input() disabled: boolean = false;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     @Output('update') update: EventEmitter<any> = new EventEmitter<any>();

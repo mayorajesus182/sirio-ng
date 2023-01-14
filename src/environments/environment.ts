@@ -26,6 +26,7 @@ export const environment = {
     persona: config.apiProUrl+'/api/persona',
     configuracion: config.apiProUrl+'/api/configuracion',
     control_efectivo: config.apiProUrl+'/api/control-efectivo',
+    gestion_comercial: config.apiProUrl+'/api/gestion-comercial',
     organizacion: config.apiProUrl+'/api/organizacion',
     transporte: config.apiProUrl+'/api/transporte',
     preferencia: config.apiProUrl+'/api/preferencia',

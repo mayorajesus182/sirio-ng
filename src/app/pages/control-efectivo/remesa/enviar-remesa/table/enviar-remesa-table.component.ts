@@ -35,6 +35,7 @@ export class EnviarRemesaTableComponent extends TableBaseComponent implements On
 
   loadList() {
     this.init(this.remesaService, 'remesa_id', 'pagePorDespachar');
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {
@@ -52,17 +53,17 @@ export class EnviarRemesaTableComponent extends TableBaseComponent implements On
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
-  // dispatch(data: any) {
-  //   this.swalService.show('¿Desea Despachar la Solicitud?', '').then((resp) => {
-  //     if (!resp.dismiss) {
-  //       this.remesaService.dispatch(data.element).subscribe(data => {
-  //         this.successResponse('La Remesa', 'Procesada', false);
-  //         this.loadList();
-  //         return data;
-  //       }, error => this.errorResponse(true));
-  //     }
-  //   });
-  // }
+  override(data: any) {
+    this.swalService.show('¿Desea Anular el Envío de Remesa?', data.element.id).then((resp) => {
+      if (!resp.dismiss) {
+        this.remesaService.cancelShipment(data.element).subscribe(data => {
+          this.loadList();
+          this.successResponse('La Remesa', 'Anulada', false);
+          return data;
+        }, error => this.errorResponse(true));
+      }
+    });
+  }
 
   dispatch(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);

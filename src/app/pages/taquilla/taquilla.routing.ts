@@ -10,7 +10,7 @@ const taquillaRoutes: Routes = [
     },
     {
         path: 'deposito',
-        data: { title: 'Deposito' },
+        data: { title: 'Depósito' },
         loadChildren: () => import('./deposito/deposito.module').then(m => m.DepositoModule),
     }
 ];

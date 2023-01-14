@@ -76,35 +76,42 @@
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                            <mat-form-field fxFlex="18" *ngIf="d.fechaEnvio != null">
-                                <mat-label>{{'consultRemittances.shippingDate' | translate: {default: 'global.shippingDate'} | translate }}
-                                </mat-label>
-                                <input matInput class="text-center" [value]="d.fechaEnvio | date: 'dd/MM/yyyy'" readonly>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex="18" *ngIf="d.fechaEnvio != null">
-                                <mat-label>{{'consultRemittances.sentAmount' | translate: {default: 'global.sentAmount'} | translate}}
-                                </mat-label>
-                                <input matInput class="text-right" [value]="d.montoEnviado | number: '1.2'" readonly>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex="18" *ngIf="d.montoRecibido > 0">
-                                <mat-label>{{'consultRemittances.receptionDate' | translate: {default: 'global.receptionDate'} | translate }}
-                                </mat-label>
-                                <input matInput class="text-center" [value]="d.fechaRecibo | date: 'dd/MM/yyyy'" readonly>
-                            </mat-form-field>
-
-                            <mat-form-field fxFlex="18" *ngIf="d.montoRecibido > 0">
-                                <mat-label>{{'consultRemittances.receivedAmount' | translate: {default: 'global.receivedAmount'} | translate }}
-                                </mat-label>
-                                <input matInput class="text-right" [value]="d.montoRecibido | number: '1.2'" readonly>
-                            </mat-form-field>
-
                             <mat-form-field fxFlex="auto" *ngIf="d.viaje != null">
                                 <mat-label>{{'consultRemittances.tripType' | translate: {default: 'global.tripType'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.viaje" readonly>
                             </mat-form-field>
+
+                            <mat-form-field fxFlex="12" *ngIf="d.fechaEnvio != null">
+                                <mat-label>{{'consultRemittances.shippingDate' | translate: {default: 'global.shippingDate'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.fechaEnvio | date: 'dd/MM/yyyy'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15" *ngIf="d.fechaEnvio != null">
+                                <mat-label>{{'consultRemittances.sentAmount' | translate: {default: 'global.sentAmount'} | translate}}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.montoEnviado | number: '1.2'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="12" *ngIf="d.montoRecibido > 0">
+                                <mat-label>{{'consultRemittances.receptionDate' | translate: {default: 'global.receptionDate'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.fechaRecibo | date: 'dd/MM/yyyy'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15" *ngIf="d.montoRecibido > 0">
+                                <mat-label>{{'consultRemittances.receivedAmount' | translate: {default: 'global.receivedAmount'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.montoRecibido | number: '1.2'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15" *ngIf="d.montoRecibido > 0">
+                                <mat-label>{{'consultRemittances.difference' | translate: {default: 'global.difference'} | translate }} {{diferencia > 0 ? ('global.missing' | translate) : (diferencia < 0 ? ('global.spare' | translate) : '')}}
+                                </mat-label>
+                                <input matInput [value]="diferencia | number: '1.2'" readonly class="text-right" style="font-weight: bold; color: rgb(199, 4, 4);">
+                            </mat-form-field>
+
                         </div>
 
                         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100" *ngIf="d.detalleEfectivoEnviado.length > 0">

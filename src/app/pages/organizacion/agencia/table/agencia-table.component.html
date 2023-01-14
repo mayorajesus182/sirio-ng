@@ -25,7 +25,7 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="r.nombre">
+                <ng-container matColumnDef="region_id">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'agency.region' | translate:
                         {default: 'global.region'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-20'">
@@ -33,7 +33,7 @@
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="horarioExt">
+                <ng-container matColumnDef="horario_extendido">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'agency.extendedSchedule' | translate:
                         {default: 'global.extendedSchedule'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">

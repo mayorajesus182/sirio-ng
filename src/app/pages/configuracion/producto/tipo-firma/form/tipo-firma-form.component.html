@@ -5,8 +5,7 @@
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -14,8 +13,7 @@
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
-                            (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -33,41 +31,36 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                    <form [formGroup]="itemForm" *ngIf="itemForm">
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                    <mat-form-field fxFlex.gt-sm="10">
-                                        <mat-label>{{'signatureType.code' | translate: {default: 'global.code'} | translate }}
-                                        </mat-label>
-                                        <input matInput maxlength="2" autocomplete="off" name="id" formControlName="id" uppercase required
-                                            class="text-center">
-                                        <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.exists">
-                                            {{f.id.errors?.exists}}
-                                        </mat-error>
-                                    </mat-form-field>
+                            <mat-form-field fxFlex.gt-sm="10">
+                                <mat-label>{{'signatureType.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput maxlength="2" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
+                                <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                                <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                            </mat-form-field>
 
-                                    <mat-form-field fxFlex="auto">
-                                        <mat-label>{{'signatureType.name' | translate: {default: 'global.name'} | translate }}
-                                        </mat-label>
-                                        <input matInput maxlength="20" autocomplete="off" name="nombre" formControlName="nombre" uppercase
-                                            required>
-                                            <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
-                                            <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    </mat-form-field>
-                                
-                                    <mat-form-field fxFlex.gt-sm="10">
-                                        <mat-label>{{'signatureType.localCode' | translate: {default: 'global.localCode'} |
-                                            translate }}</mat-label>
-                                        <input matInput maxlength="5" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
-                                            uppercase class="text-center">
-                                            <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                    </mat-form-field>
-                            </div>
-                        </form>
-    
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'signatureType.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput maxlength="20" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
+                                <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-sm="10">
+                                <mat-label>{{'signatureType.localCode' | translate: {default: 'global.localCode'} |
+                                    translate }}</mat-label>
+                                <input matInput maxlength="5" autocomplete="off" name="codigoLocal" formControlName="codigoLocal" uppercase class="text-center">
+                                <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </form>
+
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

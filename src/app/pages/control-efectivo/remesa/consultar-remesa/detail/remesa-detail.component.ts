@@ -15,6 +15,8 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class RemesaDetailComponent extends FormBaseComponent implements OnInit {
 
+  public diferencia: number = 0;
+
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
@@ -29,11 +31,8 @@ export class RemesaDetailComponent extends FormBaseComponent implements OnInit {
     this.loadingDataForm.next(true);
 
     this.remesaService.detail(id).subscribe(data => {
-
-      console.log('  data   ', data);
-      
-
       this.data = data;
+      this.diferencia = this.data.montoEnviado - this.data.montoRecibido;
       this.loadingDataForm.next(false);
     });
 

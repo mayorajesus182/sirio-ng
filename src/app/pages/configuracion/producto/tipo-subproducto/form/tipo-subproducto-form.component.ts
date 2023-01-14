@@ -103,7 +103,7 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
         this.tipoSubproducto.conChequera = this.tipoSubproducto.conChequera ? 1 : 0;
         this.tipoSubproducto.conLibreta = this.tipoSubproducto.conLibreta ? 1 : 0;
 
-        this.saveOrUpdate(this.tipoSubproductoService, this.tipoSubproducto, 'La Cifra Promedio', this.isNew);
+        this.saveOrUpdate(this.tipoSubproductoService, this.tipoSubproducto, 'El Tipo de Subproducto', this.isNew);
     }
 
     private codigoExists(id) {

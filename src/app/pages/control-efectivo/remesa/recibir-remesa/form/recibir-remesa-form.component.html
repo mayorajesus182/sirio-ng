@@ -97,7 +97,7 @@
                                 <mat-form-field fxFlex.gt-xs="15" appearance="standart">
                                     <mat-label>{{'receiveRemittances.difference' | translate: {default: 'global.difference'} | translate }} {{diferencia > 0 ? ('global.missing' | translate) : (diferencia < 0 ? ('global.spare' | translate) : '')}}
                                     </mat-label>
-                                    <input matInput [value]="diferencia | number: '1.2'" readonly class="text-right">
+                                    <input matInput [value]="diferencia | number: '1.2'" readonly class="text-right" style="font-weight: bold; color: rgb(199, 4, 4);">
                                 </mat-form-field>
                             </div>
                         </form>

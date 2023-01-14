@@ -1,0 +1,87 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['serviceType.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'serviceType.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                            <mat-icon>save</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-sm="20">
+                                <mat-label>{{'serviceType.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput maxlength="5" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
+                                <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
+                                <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
+                                <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="auto">
+                                <mat-label>{{'serviceType.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput maxlength="100" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
+                                <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <sirio-select-search fxFlex="50" [label]="'serviceType.personType' | translate: {default: 'global.personType'} | translate"
+                                formControlName="tipoPersona" [required]="true" [elements]="tipoPersonas.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.tipoPersona?.errors">
+                            </sirio-select-search>
+
+                            <sirio-select-search fxFlex="50" [label]="'serviceType.coin' | translate: {default: 'global.coin'} | translate"
+                                formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
+                                [errors]="f.moneda?.errors">
+                            </sirio-select-search>
+
+                        </div>
+                    </form>
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

@@ -45,6 +45,10 @@ export class SaldoAgenciaService {
         return this.apiService.config(this.apiConfig).get('/list');
     }
 
+    getSaldoSinDetalle(): Observable<SaldoAgencia[]> {
+        return this.apiService.config(this.apiConfig).get('/sin/detalle/list');
+    }
+
     getSaldoStats(): Observable<SaldoAgencia[]> {
         return this.apiService.config(this.apiConfig).get('/stats');
     }

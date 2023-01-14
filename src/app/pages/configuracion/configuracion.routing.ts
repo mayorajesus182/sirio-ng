@@ -23,11 +23,11 @@ const configuracionRoutes: Routes = [
         data: { title: 'Persona Natural' },
         loadChildren: () => import('./persona-natural/persona-natural.module').then(m => m.PersonaNaturalModule),
     },
-    // {
-    //     path: 'estatus-persona',
-    //     data: { title: 'Estatus de Persona' },
-    //     loadChildren: () => import('./estatus-persona/estatus-persona.module').then(m => m.EstatusPersonaModule),
-    // },
+    {
+        path: 'tipo-servicio',
+        data: { title: 'Tipo de Servicio' },
+        loadChildren: () => import('./tipo-servicio/tipo-servicio.module').then(m => m.TipoServicioModule),
+    },
     {
         path: 'entidad-financiera',
         data: { title: 'Entidad Financiera' },
