@@ -60,7 +60,7 @@
                 <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center" required   numCeros="8" string-pad [control]="cf.serial">
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                 <mat-error *ngIf="cf.serial.errors?.uniqueSerial">El serial ya esta suministrado</mat-error>
-                <mat-error *ngIf="cf.serial.errors?.existsSerial">El serial ya esta Registrado</mat-error>
+                <mat-error *ngIf="cf.serial.errors?.existsSerial">Cheque Pagado</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex.gt-sm="20" floatLabel="always">
@@ -182,7 +182,7 @@
                     <div class="text-center">Motivo Devolución</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" >
-                    <mat-form-field style="margin-top: -10px;font-size: 11px; width: 300px; align-items: center;" fxLayoutAlign="center">
+                    <mat-form-field style="margin-top: -10px;font-size: 11px; width: 300px; align-items: center;"> fxLayoutAlign="center">
                         <select matNativeControl (change)="selectMotivoDevolucion($event,row)">
                             <option value="" class="text-center">Seleccione un Motivo</option>
                             <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id" class="text-center">

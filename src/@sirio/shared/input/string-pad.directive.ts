@@ -22,5 +22,3 @@ import { FormControl } from "@angular/forms";
     
     constructor(private element: ElementRef) {}
  }
- 
-//  <input type="text" autocompleteCeros lado="izquierda" numCeros="8" caracter="0">

@@ -12,7 +12,7 @@
                     <sirio-card-header-heading>{{'agencyClosingsRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                       
+
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
@@ -32,20 +32,17 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search
-                                    fxFlex.gt-xs="50"
-                                    [label]="'agencyClosingsRep.agency' | translate: {default: 'global.agency'} | translate"
-                                    formControlName="agencia" [required]="false" [elements]="agencias.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors" [labelDef]="'TODOS'">
+                                <sirio-select-search *ngIf="!esOperadorAgencia" fxFlex.gt-xs="auto"
+                                    [label]="'agencyClosingsRep.agency' | translate: {default: 'global.agency'} | translate" formControlName="agencia"
+                                    [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'" [errors]="f.agencia?.errors"
+                                    [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
-                                <sirio-select-search
-                                    fxFlex.gt-xs="50"
-                                    [label]="'agencyClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="false" [elements]="monedas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors" [labelDef]="'TODOS'">
+                                <sirio-select-search fxFlex.gt-xs="auto" [label]="'agencyClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="false" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
+                                    [errors]="f.moneda?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
-                                
+
                             </div>
 
                         </form>

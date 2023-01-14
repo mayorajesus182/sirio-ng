@@ -30,7 +30,7 @@
     
       <mat-form-field fxFlex="auto" *ngIf="isRdOrNp()">
         <mat-label>{{'RIF'}} </mat-label>
-        <input matInput maxlength="16" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
+        <input matInput maxlength="9" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase
           [required]="isRdOrNp()">
         <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
         </mat-error>

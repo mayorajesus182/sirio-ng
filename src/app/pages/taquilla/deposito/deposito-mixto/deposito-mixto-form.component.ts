@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -106,14 +107,23 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             }
         });
 
+
         this.f.monto.valueChanges.subscribe(val => {
-            if (val || val === 0) {
-                this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
-                this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
+            if (val > 0) {
+                this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
+                this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
                 this.calculateDifferences();
-                // this.errorDesglose();
             }
         });
+
+        // this.f.monto.valueChanges.subscribe(val => {
+        //     if (val || val === 0) {
+        //         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
+        //         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
+        //         this.calculateDifferences();
+        //         // this.errorDesglose();
+        //     }
+        // });
 
         //Me trae la data de la cuenta que se selecciono
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
@@ -217,27 +227,18 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
     add() {
         if (this.chequeForm.invalid)
             return;
-
-        let cheque = {} as Cheque;
-        this.updateDataFromValues(cheque, this.chequeForm.value);
-        cheque.fechaEmision = cheque.fechaEmision ? cheque.fechaEmision.format('DD/MM/YYYY') : '';
-        this.chequeList.push(cheque);
-        this.cheques.next(this.chequeList.slice());
-        this.itemForm.controls.detalleCheques.setValue(this.chequeList);
-        this.chequeForm.reset({});
-        this.cf.montoCheque.setValue(0.00);
-        this.refresTotalCheque();
-        this.cdr.detectChanges();
-    }
-
-    edit(index) {
-        this.cheque = this.chequeList[index];
-        this.buildChequeForm();
-        this.chequeList.splice(index, 1);
-        this.cheques.next(this.chequeList.slice());
-        this.refresTotalCheque();
-        this.cdr.detectChanges();
-    }
+            let cheque = {} as Cheque;
+            this.updateDataFromValues(cheque, this.chequeForm.value);
+            cheque.fechaEmision = cheque.fechaEmision ? cheque.fechaEmision.format('DD/MM/YYYY') : '';
+            this.chequeList.push(cheque);
+            this.cheques.next(this.chequeList.slice());
+            this.itemForm.controls.detalleCheques.setValue(this.chequeList);
+            this.chequeForm.reset({});
+            this.cf.montoCheque.setValue(0.00);
+            this.refresTotalCheque();
+            this.cdr.detectChanges();
+            
+    }    
 
     delete(row) {
         this.swalService.show('¿Desea Eliminar El Cheque?', '').then((resp) => {
@@ -255,6 +256,16 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         });
     }
 
+    edit(index) {
+        this.cheque = this.chequeList[index];
+        this.buildChequeForm();
+        this.chequeList.splice(index, 1);
+        this.cheques.next(this.chequeList.slice());
+        this.refresTotalCheque();
+        this.cf.montoCheque ? this.cf.montoCheque : ''
+        this.cdr.detectChanges();
+    }
+
     refresTotalCheque() {
 
         let propios = this.chequeList.filter(c => this.sessionService.getUser().organizationId === c.numeroCuentaCheque.substring(0, 4));
@@ -267,6 +278,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.f.cantidadOtros.setValue(this.contarChequeOtros);
         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
+        this.cdr.detectChanges();
     }
 
     // Mostrar el Icono de color Rojo, para diferenciar los 
@@ -282,7 +294,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.f.chequeOtros.setErrors({
                 chequeOtrosRequired: true
             });
-
+            this.f.chequeOtros.markAsTouched();
             this.cdr.detectChanges();
         } else if (val != this.f.chequeOtros.value) {
             this.f.chequeOtros.setErrors({
@@ -303,7 +315,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             this.f.chequePropio.setErrors({
                 chequePropioRequired: true
             });
-
+            this.f.chequePropio.markAsTouched();
             this.cdr.detectChanges();
         } else if (val != this.f.chequePropio.value) {
             this.f.chequePropio.setErrors({
@@ -403,6 +415,10 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
 
         if (Math.abs(valorTotal - valorMontoTotal) >= 1) {
+
+            this.f.efectivo.setErrors({
+                
+            })
 
             this.f.monto.setErrors({
                 totalDifference: true
