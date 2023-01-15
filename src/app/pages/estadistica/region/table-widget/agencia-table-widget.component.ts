@@ -64,6 +64,7 @@ export class AgenciatTableWidgeComponent implements OnInit, AfterViewInit {
         // console.log(values);
         this.total=values.map(s=>s.saldo).reduce((a,b)=>a+b,0);
         this.dataSource.data = values
+        this.totalXPage=this.dataSource.data.slice(0, this.pageSize).map(s=>s.saldo).reduce((a,b)=>a+b,0);
       });
 
     this.monedas.subscribe(list => {

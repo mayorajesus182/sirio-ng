@@ -25,11 +25,11 @@ export class SaldoRegionComponent extends ChartBaseComponent implements OnInit {
   tableOptions = {
     pageSize: 6,
     columns: [
-      { name: 'Cód.', property: 'agencia', visible: true, isModelProperty: true },
-      { name: 'Nombre', property: 'agenciaNombre', visible: true, isModelProperty: true },
-      { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true, isNumber: true },
-      { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true, isNumber: true },
-      { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true, isNumber: true },
+      { name: 'Cód.', property: 'agencia', visible: true, isModelProperty: true, width:'w-5' },
+      { name: 'Nombre', property: 'agenciaNombre', visible: true, isModelProperty: true,width:'w-30', align:'text-left' },
+      { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true, isNumber: true,width:'w-15' },
+      { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true, isNumber: true, width:'w-15'},
+      { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true, isNumber: true,width:'w-15' },
       { name: '% Cubierto', property: 'porcentaje', visible: true, isModelProperty: false, isNumber: true },
     ]
   };

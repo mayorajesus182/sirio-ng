@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } fro
 import * as Highcharts from 'highcharts';
 import exportData from 'highcharts/modules/export-data';
 import exporting from 'highcharts/modules/exporting';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia-report.service';
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
@@ -26,7 +26,9 @@ export class PrincipalVertChartWidgetComponent extends ChartBaseComponent implem
   @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
 
   highcharts = Highcharts;
-  barChart: any = undefined;
+  barChart: Highcharts.ChartOptions = undefined;
+  // barChart$ = this.chartOptions$;
+
 
   isLoading: boolean;
 
@@ -130,8 +132,8 @@ export class PrincipalVertChartWidgetComponent extends ChartBaseComponent implem
           }
         },
       } as Highcharts.ChartOptions;
-
-
+      this._chartOptionsSubject.next(this.barChart)
+      // this.barChart$ = of(this.barChart);
 
     })
 

@@ -27,19 +27,20 @@
         <!-- Model Properties Column -->
         <ng-container *ngFor="let column of columns">
           <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }}</th>
-            <td *matCellDef="let row" mat-cell>{{ column.isNumber? (row[column.property] | number:'1.2') : row[column.property] }} 
-              &nbsp; 
-              <button mat-icon-button (click)="openDataAgencia(row)" class="" type="button" *ngIf="column.property=='agencia'" matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats': ''}}</mat-icon></button>  </td>
-              <!-- <td mat-footer-cell  *ngIf="column.property=='saldo'"> <strong>{{getTotal() | number:'1.2-2'}}</strong> </td> -->
+            <th *matHeaderCellDef mat-header-cell mat-sort-header class="{{column.width}} ">{{ column.name }}</th>
+            <td *matCellDef="let row" mat-cell><div class="{{column.align?column.align:'text-center'}}">{{ column.isNumber? (row[column.property] | number:'1.2') : row[column.property] }}&nbsp; 
+              <button mat-icon-button (click)="openDataAgencia(row)" class="" type="button" *ngIf="column.property=='agencia'" matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats': ''}}</mat-icon></button> </div> 
+                </td>
+              <td mat-footer-cell   *matFooterCellDef ><div *ngIf="column.property=='saldo'" class="text-center"><strong >{{getTotal() | number:'1.2-2'}}</strong></div>  </td>
           </ng-container>
           <ng-container *ngIf="!column.isModelProperty" [matColumnDef]="column.property">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header> {{ column.name }}</th>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>{{ column.name }} </th>
             <td *matCellDef="let row;" mat-cell>              
                 <span class="text-color-muted" >{{progress(row) | number:'1.2-2' }}%</span>              
               <mat-progress-bar mode="determinate" [value]="progress(row)"
                 [color]="progress(row)>50 && progress(row)<90?'primary':(progress(row)>95?'warn':'accent')"></mat-progress-bar>
             </td>
+            <td mat-footer-cell   *matFooterCellDef ></td>
           </ng-container>
         </ng-container>
 
@@ -47,6 +48,7 @@
         <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
         <!--suppress UnnecessaryLabelJS -->
         <tr *matRowDef="let row; columns: visibleColumns;" mat-row></tr>
+        <tr mat-footer-row *matFooterRowDef="visibleColumns;"></tr>
       </table>
 
       <mat-paginator [pageSize]="pageSize" class="paginator"></mat-paginator>

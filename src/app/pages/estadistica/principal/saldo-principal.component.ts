@@ -45,7 +45,7 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
     this.saldoPrincipalService.datachart().subscribe(result => {
 
-      // console.log(result);
+      console.log(result);
 
       this.agenciaTableData$ = of(result.data.detail)
       let datasets_aument = {};

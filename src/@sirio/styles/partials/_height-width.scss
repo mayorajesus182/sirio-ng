@@ -36,6 +36,9 @@ $pixels: (
     .tw-#{$name} {
       max-width: $value;
     }
+    .w-#{$name} {
+      width: $value;
+    }
   }
   
   @each $name, $value in $pixels {

@@ -8,6 +8,9 @@ import { BehaviorSubject } from "rxjs";
 })
 export class ChartBaseComponent {
 
+    protected _chartOptionsSubject = new BehaviorSubject<Highcharts.ChartOptions>(undefined);
+    chartOptions$ = this._chartOptionsSubject.asObservable();
+
     private download_label: string = 'Descargar ';
     private _gap = 16;
     gap = `${this._gap}px`;
@@ -15,7 +18,7 @@ export class ChartBaseComponent {
     col3 = `1 1 calc(33.3333% - ${this._gap / 1.5}px)`;
 
     lang = {
-        downloadXLS: this.download_label +'Excel',
+        downloadXLS: this.download_label + 'Excel',
         decimalPoint: ',',
         downloadCSV: this.download_label + 'CSV',
         downloadJPEG: this.download_label + 'JPEG',
@@ -73,7 +76,7 @@ export class ChartBaseComponent {
         a.click();
     }
 
-    
+
 }
 
 
