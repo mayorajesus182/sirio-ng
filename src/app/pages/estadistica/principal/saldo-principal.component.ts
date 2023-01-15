@@ -15,20 +15,19 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
   private static isInitialLoad = true;
   data$: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  // detailAgencia: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  regionTableData$: Observable<any[]>;
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
   
-  agenciaTableData$: Observable<any[]>;
   tableOptions = {
-    pageSize: 15,
+    pageSize: 10,
     columns: [
-      { name: 'Cód.', property: 'agencia', visible: true, isModelProperty: true },
-      { name: 'Nombre', property: 'agenciaNombre', visible: true, isModelProperty: true },
-      { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true,isNumber:true },
-      { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true,isNumber:true },
-      { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true,isNumber:true },
-      { name: '% Cubierto', property: 'porcentaje', visible: true, isModelProperty: false,isNumber:true },
+      { name: 'Cód.', property: 'agencia', visible: true, isModelProperty: true, width:'w-5' },
+      { name: 'Nombre', property: 'agenciaNombre', visible: true, isModelProperty: true,width:'w-30', align:'text-left' },
+      { name: 'Saldo', property: 'saldo', visible: true, isModelProperty: true, isNumber: true,width:'w-15' },
+      { name: 'Cupo Min.', property: 'minimo', visible: true, isModelProperty: true, isNumber: true, width:'w-15'},
+      { name: 'Cupo Max.', property: 'maximo', visible: true, isModelProperty: true, isNumber: true,width:'w-15' },
+      { name: '% Cubierto', property: 'porcentaje', visible: true, isModelProperty: false, isNumber: true },
     ]
   };
 
@@ -45,9 +44,9 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
     this.saldoPrincipalService.datachart().subscribe(result => {
 
-      console.log(result);
+      // console.log(result);
 
-      this.agenciaTableData$ = of(result.data.detail)
+      this.regionTableData$ = of(result.data.regiones)
       let datasets_aument = {};
       let datasets_desmin = {};
       let datasets_final = {};
@@ -95,7 +94,6 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
 
       this.data$.next(datasets);
-      // this.detailAgencia.next(datasetDetail);
     })
   }
 

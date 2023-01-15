@@ -13,7 +13,7 @@
 
         <div fxFlex="100" class="margin-top-md">
 
-          <sirio-principal-table-widget [data]="agenciaTableData$ | async" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+          <sirio-principal-table-widget [data]="regionTableData$ | async" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
           </sirio-principal-table-widget>
 
         </div>

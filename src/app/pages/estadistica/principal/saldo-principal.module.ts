@@ -10,6 +10,7 @@ import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { SaldoAgenciaModule } from '../agencia/saldo-agencia.module';
+import { AgenciaChartPopupComponent } from './agencia-resumen/popup/agencia-chart.popup.component';
 import { PrincipalVertChartWidgetComponent } from './chart-widget/principal-vert-chart-widget.component';
 
 import { SaldoPrincipalComponent } from './saldo-principal.component';
@@ -30,8 +31,8 @@ import { PrincipalTableWidgeComponent } from './table-widget/principal-table-wid
     SaldoAgenciaModule,
     LoadingOverlayModule
   ],
-  declarations: [SaldoPrincipalComponent,PrincipalTableWidgeComponent,PrincipalVertChartWidgetComponent],
-  exports:[SaldoPrincipalComponent,PrincipalTableWidgeComponent,PrincipalVertChartWidgetComponent],
+  declarations: [SaldoPrincipalComponent,PrincipalTableWidgeComponent,PrincipalVertChartWidgetComponent,AgenciaChartPopupComponent],
+  exports:[],
 })
 export class SaldoPrincipalModule {
 }
