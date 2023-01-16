@@ -45,6 +45,11 @@ sirio-sidenav {
     .sidenav-user-text,
     .sidenav-user-icons {
       white-space: nowrap;
+      padding: 0px;
+      margin: 2px;
+      &.text-white {
+        color: white;
+      }
     }
   }
 

@@ -24,6 +24,7 @@ export class PrincipalVertChartWidgetComponent extends ChartBaseComponent implem
   @Input() options: any;
 
   @Output('reload') refresh: EventEmitter<any> = new EventEmitter<any>();
+  
 
   highcharts = Highcharts;
   barChart: Highcharts.ChartOptions = undefined;

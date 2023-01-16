@@ -1,13 +1,11 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['accountOpening.form']"
-            current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['accountOpening.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -17,11 +15,9 @@
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
-                            (click)="send()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="send()">
                             <mat-icon>outbox</mat-icon>
-
-                        </button>
+                        </button> 
                         <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
@@ -50,9 +46,10 @@
                                 <mat-expansion-panel-header class="odd margin-bottom-xs">
                                     <mat-panel-title>
                                         <button type="button" mat-icon-button type="button" color="primary">
-                                            <mat-icon>
+                                            <!-- <mat-icon>
                                                 account_balance_wallet
-                                            </mat-icon>
+                                            </mat-icon> -->
+                                            <i class="far fa-money-check-pen fa-lg"></i>
                                         </button>
                                         <span class="margin-top-sm semi-bold">
                                             Apertura de Cuenta de Cuenta Financiera...
@@ -65,60 +62,25 @@
 
 
                                 <div fxLayout="column" [formGroup]="itemForm">
-                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                   
+                                  
 
-                                        <mat-form-field fxFlex="20">
-                                            <mat-label>{{'naturalPerson.documentType' | translate: {default:
-                                                'global.documentType'} | translate }} </mat-label>
-                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="tipoDocumento"
-                                                formControlName="tipoDocumento" uppercase required >
-                                            <mat-error *ngIf="f.tipoDocumento.errors?.required">{{'error.required' | translate}}
-                                            </mat-error>
-                                            <mat-error *ngIf="f.tipoDocumento.errors?.pattern">{{'error.invalidCharacter' |
-                                                translate}}
-                                            </mat-error>
-
-                            
-                                        </mat-form-field>
-
-                                        <mat-form-field fxFlex="25">
-                                            <mat-label>{{'naturalPerson.identification' | translate: {default:
-                                                'global.identification'} | translate }} </mat-label>
-                                            <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion"
-                                                formControlName="identificacion" uppercase required  >
-                                            <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
-                                            </mat-error>
-                                            <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-                                                translate}}
-                                            </mat-error>
-                                        </mat-form-field>
-
-                                        
-                                    </div> -->
-
-
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"
-                                        class="margin-top-sm">
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" class="margin-top-sm">
 
                                         <mat-form-field fxFlex="10">
                                             <mat-label>{{'global.documentType' | translate }} </mat-label>
-                                            <input matInput autocomplete="off" name="tipoDocumento"
-                                                [(ngModel)]="persona.tipoDocumento" disabled="true"
+                                            <input matInput autocomplete="off" name="tipoDocumento" [(ngModel)]="persona.tipoDocumento" disabled="true"
                                                 [ngModelOptions]="{standalone: true}" class="text-center">
                                         </mat-form-field>
 
                                         <mat-form-field fxFlex="30">
                                             <mat-label>{{'global.identification' | translate }} </mat-label>
-                                            <input matInput autocomplete="off" class="text-center" name="identificacion"
-                                                disabled="true" [(ngModel)]="persona.identificacion"
-                                                [ngModelOptions]="{standalone: true}">
+                                            <input matInput autocomplete="off" class="text-center" name="identificacion" disabled="true"
+                                                [(ngModel)]="persona.identificacion" [ngModelOptions]="{standalone: true}">
                                         </mat-form-field>
 
                                         <mat-form-field fxFlex="auto">
                                             <mat-label>{{'global.fullName' | translate }} </mat-label>
-                                            <input matInput autocomplete="off" class="text-left" name="nombre"
-                                                disabled="true" [(ngModel)]="persona.nombre"
+                                            <input matInput autocomplete="off" class="text-left" name="nombre" disabled="true" [(ngModel)]="persona.nombre"
                                                 [ngModelOptions]="{standalone: true}">
                                         </mat-form-field>
 
@@ -129,41 +91,30 @@
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <sirio-select-search fxFlex="40"
-                                            [label]="'Producto' | translate: {default: 'Producto'} | translate"
-                                            formControlName="tipoProducto" [required]="true"
-                                            [elements]="tipoProductos.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tipoProducto?.errors">
+                                        <sirio-select-search fxFlex="40" [label]="'Producto' | translate: {default: 'Producto'} | translate"
+                                            formControlName="tipoProducto" [required]="true" [elements]="tipoProductos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.tipoProducto?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="40"
-                                            [label]="'Subproducto' | translate: {default: 'Subproducto'} | translate"
-                                            formControlName="tipoSubproducto" [required]="true"
-                                            [elements]="tipoSubproductos.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tipoSubproducto?.errors">
+                                        <sirio-select-search fxFlex="40" [label]="'Subproducto' | translate: {default: 'Subproducto'} | translate"
+                                            formControlName="tipoSubproducto" [required]="true" [elements]="tipoSubproductos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.tipoSubproducto?.errors">
                                         </sirio-select-search>
 
-                                        <mat-form-field fxFlex.gt-xs="20" >
+                                        <mat-form-field fxFlex.gt-xs="20">
                                             <mat-label>{{'Moneda' | translate: {default: 'Moneda'} | translate }}
                                             </mat-label>
                                             <input matInput class="text-center" [value]="monedaSubproducto" readonly>
                                         </mat-form-field>
 
-                                        <!-- <sirio-select-search fxFlex="33"
-                                            [label]="'Moneda' | translate: {default: 'Moneda'} | translate"
-                                            formControlName="moneda" [required]="true"
-                                            [elements]="moneda.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.moneda?.errors">
-                                        </sirio-select-search> -->
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row">
 
                                         <mat-form-field fxFlex="100">
                                             <mat-label>{{'Número de Cuenta' | translate }} </mat-label>
-                                            <input matInput maxlength="24" mask="0000 0000 00 00 00000000" minlength="1"
-                                                autocomplete="off" name="numeroCuenta" formControlName="numeroCuenta"
-                                                required class="text-center">
+                                            <input matInput maxlength="24" mask="0000 0000 00 00 00000000" minlength="1" autocomplete="off" name="numeroCuenta"
+                                                formControlName="numeroCuenta" required class="text-center">
                                             <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' |
                                                 translate}}
                                             </mat-error>
@@ -177,60 +128,16 @@
 
 
 
-                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <mat-panel-title>
-
-                                            <button type="button" mat-icon-button type="button" color="primary">
-                                                <mat-icon>person</mat-icon>
-                                            </button>
-
-                                            <span class="margin-top-sm margin-bottom-lg semi-bold">
-                                                PRODUCTO A SOLICITAR
-                                            </span>
-
-                                            <mat-panel-description>
-
-                                            </mat-panel-description>
-
-                                        </mat-panel-title>
-
-                                    </div> -->
-
-                                    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                        <sirio-select-search fxFlex="auto"
-                                            [label]="'Producto' | translate: {default: 'Producto'} | translate"
-                                            formControlName="producto" [required]="true" [elements]="producto.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.tipsubProducto?.errors">
-                                        </sirio-select-search>
-
-                                        <sirio-select-search fxFlex="auto"
-                                            [label]="'Sub-Producto' | translate: {default: 'Sub-Producto'} | translate"
-                                            formControlName="subProducto" [required]="true" [elements]="subProducto.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.subProducto?.errors">
-                                        </sirio-select-search>
-
-
-                                        <mat-form-field fxFlex="25">
-                                            <mat-label>{{'Moneda' | translate: {default:
-                                                'Moneda'} | translate }} </mat-label>
-                                            <input matInput maxlength="25" minlength="1" autocomplete="off" name="monedaPal" formControlName="monedaPal"
-                                                uppercase>
-
-                                            <mat-error *ngIf="f.monedaPal.errors?.pattern">{{'error.invalidCharacter' |
-                                                translate}}
-                                            </mat-error>
-                                        </mat-form-field>
-
-                                    </div> -->
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <mat-panel-title>
 
                                             <button type="button" mat-icon-button type="button" color="primary">
-                                                <mat-icon>
+                                                <!-- <mat-icon>
                                                     badge
-                                                </mat-icon>
+                                                </mat-icon> -->
+                                                <i class="far fa-memo-circle-info fa-lg"></i>
+
 
                                             </button>
 
@@ -246,26 +153,26 @@
 
                                     </div>
 
+
+
+
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Origen de los Fondos' | translate: {default: 'Origen de los Fondos'} | translate"
-                                            formControlName="origenFondo" [required]="true"
-                                            [elements]="origenes.asObservable()" [attributeName]="'nombre'"
+                                            formControlName="origenFondo" [required]="true" [elements]="origenes.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.origenFondo?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Destino de la Cuenta' | translate: {default: 'Destino de la Cuenta'} | translate"
-                                            formControlName="destinoCuenta" [required]="true"
-                                            [elements]="destinos.asObservable()" [attributeName]="'nombre'"
+                                            formControlName="destinoCuenta" [required]="true" [elements]="destinos.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.destinoCuenta?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="20"
                                             [label]="'Motivo del Servicio' | translate: {default: 'Motivo del Servicio'} | translate"
-                                            formControlName="motivoSolicitud" [required]="true"
-                                            [elements]="motivos.asObservable()" [attributeName]="'nombre'"
+                                            formControlName="motivoSolicitud" [required]="true" [elements]="motivos.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.motivoSolicitud?.errors">
                                         </sirio-select-search>
 
@@ -275,30 +182,25 @@
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Transacciones por Créditos' | translate: {default: 'Transacciones por Créditos'} | translate"
-                                            formControlName="transaccionesCredito" [required]="true"
-                                            [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.transaccionesCredito?.errors">
+                                            formControlName="transaccionesCredito" [required]="true" [elements]="promedioTransacciones.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.transaccionesCredito?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Monto por Créditos' | translate: {default: 'Monto por Créditos'} | translate"
-                                            formControlName="montoCredito" [required]="true"
-                                            [elements]="promedioMontos.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.montoCredito?.errors">
+                                            formControlName="montoCredito" [required]="true" [elements]="promedioMontos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.montoCredito?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Transacciones por Débitos' | translate: {default: 'Transacciones por Débitos'} | translate"
-                                            formControlName="transaccionesDebito" [required]="true"
-                                            [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.transaccionesDebito?.errors">
+                                            formControlName="transaccionesDebito" [required]="true" [elements]="promedioTransacciones.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.transaccionesDebito?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="auto"
-                                            [label]="'Monto por Débitos' | translate: {default: 'Monto por Débitos'} | translate"
-                                            formControlName="montoDebito" [required]="true"
-                                            [elements]="promedioMontos.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.montoDebito?.errors">
+                                        <sirio-select-search fxFlex="auto" [label]="'Monto por Débitos' | translate: {default: 'Monto por Débitos'} | translate"
+                                            formControlName="montoDebito" [required]="true" [elements]="promedioMontos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.montoDebito?.errors">
                                         </sirio-select-search>
 
                                     </div>
@@ -309,16 +211,54 @@
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Transacciones Electronicas' | translate: {default: 'Transacciones Electronicas'} | translate"
-                                            formControlName="transaccionesElectronico" [required]="true"
-                                            [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.transaccionesElectronico?.errors">
+                                            formControlName="transaccionesElectronico" [required]="true" [elements]="promedioTransacciones.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.transaccionesElectronico?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Monto por Operaciones Electrónicas' | translate: {default: 'Monto por Operaciones Electrónicas'} | translate"
-                                            formControlName="montoElectronico" [required]="true"
-                                            [elements]="promedioMontos.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.montoElectronico?.errors">
+                                            formControlName="montoElectronico" [required]="true" [elements]="promedioMontos.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.montoElectronico?.errors">
+                                        </sirio-select-search>
+
+                                    </div>
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <mat-panel-title>
+
+                                            <button type="button" mat-icon-button type="button" color="primary">
+                                                <!-- <mat-icon> -->
+                                                <i class="far fa-file-signature fa-lg"></i>
+                                                <!-- </mat-icon> -->
+
+                                            </button>
+
+                                            <span class="margin-top-sm margin-bottom-lg semi-bold">
+                                                Condición de(las) Firma(s)
+                                            </span>
+
+                                        </mat-panel-title>
+
+                                    </div>
+
+                                    <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="8px">
+
+                                        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'"
+                                            [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
+                                            [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tarticipacion?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" 
+                                            [formControl]="itemForm.controls['tipoFirma']"
+                                            [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tipoFirma?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'"
+                                            [formControl]="itemForm.controls['tipoFirmante']" [required]="true" 
+                                            [elements]="tipoFirmantes.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.titularTipoFirmante?.errors">
                                         </sirio-select-search>
 
                                     </div>
@@ -326,28 +266,27 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <div fxFlex.gt-sm="30" class="text-center margin-top-md">
-                                            <mat-slide-toggle [color]="'primary'" formControlName="fondoExterior"
-                                                [(ngModel)]="f.fondoExterior.value" name="fondoExterior">
+                                            <mat-slide-toggle [color]="'primary'" formControlName="fondoExterior" 
+                                            [(ngModel)]="f.fondoExterior.value" name="fondoExterior">
                                                 {{'¿Enviará o Recibirará Tansferencias En Divisas?' }}
                                             </mat-slide-toggle>
                                         </div>
 
                                         <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
-                                            [label]="'Pais Origen' | translate: {default: 'Pais Origen'} | translate"
-                                            formControlName="paisOrigen" [required]="f.fondoExterior.value"
-                                            [elements]="paises.asObservable()" [attributeName]="'nombre'"
+                                            [label]="'Pais Origen' | translate: {default: 'Pais Origen'} | translate" formControlName="paisOrigen"
+                                            [required]="f.fondoExterior.value" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.paisOrigen?.errors">
                                         </sirio-select-search>
 
 
 
                                         <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
-                                            [label]="'Pais Destino' | translate: {default: 'Pais Destino'} | translate"
-                                            formControlName="paisDestino" [required]="f.fondoExterior.value"
-                                            [elements]="paises.asObservable()" [attributeName]="'nombre'"
+                                            [label]="'Pais Destino' | translate: {default: 'Pais Destino'} | translate" formControlName="paisDestino"
+                                            [required]="f.fondoExterior.value" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.paisDestino?.errors">
                                         </sirio-select-search>
                                     </div>
+
 
 
 
@@ -356,11 +295,11 @@
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="primary" (click)="save()" mat-raised-button
-                                            [disabled]="itemForm?.invalid  ">
+                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
                                             <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> -->
-                                            <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> -->
-                                            <i class="fal fa-arrow-turn-down-left fa-lg "></i> &nbsp;
+                                            <!-- <i class="fal fa-arrow-turn-down-left fa-lg "></i>  -->
+                                            &nbsp;
                                             {{'button.save' | translate: {default:
                                             'global.notfound'} | translate }}
                                         </button>
@@ -372,18 +311,15 @@
                             </mat-expansion-panel>
 
 
-                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInterviniente(true)"
-                                (closed)="openInterviniente(false)">
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openInterviniente(true)" (closed)="openInterviniente(false)">
 
 
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
-                                            <mat-icon>
-                                                groups
-                                            </mat-icon>
+                                            <i class="far fa-users fa-lg"></i>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Condición de Firma de(los) Participante(s)
+                                        <span class="margin-top-sm semi-bold">Firmantes
                                         </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
@@ -393,7 +329,7 @@
 
                                 <!-- {{printErrors() | json}} -->
                                 <div fxLayout="row" fxLayout="column" *ngIf="showIntervinientes">
-                                    <sirio-persona-interviniente-table [cuenta]="cuentaBanco.id">
+                                    <sirio-persona-interviniente-table [tipoFirma]="f.tipoFirma" [cuenta]="cuentaBanco.id" >
                                     </sirio-persona-interviniente-table>
                                 </div>
 

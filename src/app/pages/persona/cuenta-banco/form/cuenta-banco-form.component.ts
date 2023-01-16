@@ -1,4 +1,3 @@
-import { LEFT_ARROW } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,16 +6,18 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
-import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
 import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
 import { OrigenFondo, OrigenFondoService } from 'src/@sirio/domain/services/configuracion/producto/origen-fondo.service';
 import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/configuracion/producto/promedio-monto.service';
 import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/domain/services/configuracion/producto/promedio-transaccion.service';
+import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firma.service';
+import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firmante.service';
+import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/producto/tipo-participacion.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
-import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
@@ -32,12 +33,10 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class CuentaBancoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
     todayValue: moment.Moment;
-    // totalIntervinientes: number;
-    // totalRegistroMercantil: number;
-    // totalInfoLab: number;
-    // totalPep: number;
-    // totalApoderado: number;
-    // totalPhone: number;
+    tipoParticipaciones = new BehaviorSubject<TipoParticipacion[]>([]);
+    tipoFirmas = new BehaviorSubject<TipoFirma[]>([]);
+    tipoFirmantes = new BehaviorSubject<TipoFirmante[]>([]);
+
     totalBankReference: number;
     // totalPersonalReference: number;
     totalContact: number;
@@ -48,7 +47,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     cuentaBanco: CuentaBanco = {} as CuentaBanco;
-    persona: Persona = {} as Persona;    
+    persona: Persona = {} as Persona;
     constants = GlobalConstants;
     // estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
@@ -73,7 +72,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         dialog: MatDialog,
         private fb: FormBuilder,
         private cuentaBancoService: CuentaBancoService,
-        private tipoDocumentoService: TipoDocumentoService,
+
+        private tipoParticipacionService: TipoParticipacionService,
+        private tipoFirmaService: TipoFirmaService,
+        private tipoFirmanteService: TipoFirmanteService,
+
         private origenFondoService: OrigenFondoService,
         private destinoCuentaService: DestinoCuentaService,
         private motivoSolicitudService: MotivoSolicitudService,
@@ -82,7 +85,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private paisService: PaisService,
         private tipoSubproductoService: TipoSubproductoService,
         private tipoProductoService: TipoProductoService,
-        private monedaService: MonedaService,
+
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -121,8 +124,24 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.tipoProductos.next(data);
         });
 
-        this.cdr.detectChanges();        
-        
+        this.tipoParticipacionService.actives().subscribe(data => {
+
+            this.tipoParticipaciones.next(data);
+            // this.cdr.detectChanges();
+        })
+
+        this.tipoFirmaService.actives().subscribe(data => {
+            this.tipoFirmas.next(data);
+            // this.cdr.detectChanges();
+        });
+
+        this.tipoFirmanteService.actives().subscribe(data => {
+            this.tipoFirmantes.next(data);
+            // this.cdr.detectChanges();
+        });
+
+        this.cdr.detectChanges();
+
     }
 
 
@@ -135,15 +154,15 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
 
                 // console.log(.value);
-                
-                if(this.itemForm && this.f.tipoProducto.value){
+
+                if (this.itemForm && this.f.tipoProducto.value) {
                     console.log('buscar subproductos by ', this.f.tipoProducto);
-                    
+
                     this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
                         console.log('buscar subproductos by ', data);
                         this.tipoSubproductos.next(data);
                         this.loadMoneda(this.f.tipoSubproducto.value);
-                        
+
                     });
                 }
 
@@ -173,6 +192,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             paisOrigen: new FormControl(this.cuentaBanco.paisOrigen || undefined),
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
             moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
+            tipoParticipacion: new FormControl(this.cuentaBanco.tipoParticipacion || undefined, [Validators.required]),
+            tipoFirma: new FormControl(this.cuentaBanco.tipoFirma || undefined, [Validators.required]),
+            tipoFirmante: new FormControl(this.cuentaBanco.tipoFirmante || undefined, [Validators.required]),
         });
 
         this.f.tipoProducto.valueChanges.subscribe(value => {
@@ -183,7 +205,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
             // console.log('valueChanges  tipoSubproducto');
 
-            if(value){
+            if (value) {
 
                 this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
                     this.tipoSubproductos.next(data);
@@ -194,22 +216,29 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         });
 
-        this.cdr.detectChanges();
 
         this.f.tipoSubproducto.valueChanges.subscribe(value => {
 
             if (value && value != '') {
-              this.loadMoneda(value);
+                this.loadMoneda(value);
+            }
+        });
+
+        this.f.tipoFirma.valueChanges.subscribe(value => {
+
+            if (value && value != '') {
+                
+                this.cdr.detectChanges();
             }
         });
 
         this.cdr.detectChanges();
     }
 
-    private loadMoneda(subProducto){
+    private loadMoneda(subProducto) {
         console.log("subProducto", subProducto);
-        
-        let subProductoSel = this.tipoSubproductos.value.filter(s=> s.id == subProducto).reduce(a=>a);
+
+        let subProductoSel = this.tipoSubproductos.value.filter(s => s.id == subProducto).reduce(a => a);
         console.log(subProductoSel);
         this.f.moneda.setValue(subProductoSel.moneda);
         this.monedaSubproducto = subProductoSel.monedaNombre;
@@ -231,14 +260,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     loadResult(event) {
-        
+
         //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         this.isNew = true;
         this.loaded$.next(false);
 
         if (!event.id && !event.numper) {
             this.persona = {} as Persona;
-            this.resetAll();           
+            this.resetAll();
             const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
@@ -249,7 +278,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
                 // terminar proceso de apertura de cuenta
                 console.log(cuenta);
-                
+
                 this.isNew = false;
                 this.cuentaBanco = cuenta;
                 this.buildForm();
@@ -271,7 +300,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             });
 
 
-            
+
         }
     }
 
