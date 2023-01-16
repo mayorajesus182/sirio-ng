@@ -10,6 +10,7 @@ import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { SaldoAgenciaModule } from '../agencia/saldo-agencia.module';
+import { SaldoTransportistaModule } from '../transportista/saldo-transportista.module';
 import { AgenciaChartPopupComponent } from './agencia-resumen/popup/agencia-chart.popup.component';
 
 import { PrincipalVertChartWidgetComponent } from './chart-widget/principal-vertchart-widget.component';
@@ -18,6 +19,7 @@ import { PrincipalHorizChartWidgetComponent } from './desglose-chart-widget/desg
 import { SaldoPrincipalComponent } from './saldo-principal.component';
 import { RegionTableWidgeComponent } from './table-widget/region/region-table-widget.component';
 import { TransportistaTableWidgeComponent } from './table-widget/transportista/transportista-table-widget.component';
+import { TransportistaChartPopupComponent } from './transportista-resumen/popup/transportista-chart.popup.component';
 
 @NgModule({
   imports: [
@@ -32,6 +34,7 @@ import { TransportistaTableWidgeComponent } from './table-widget/transportista/t
     ChartsModule,
     HighchartsChartModule,
     SaldoAgenciaModule,
+    SaldoTransportistaModule,
     LoadingOverlayModule
   ],
   declarations: [
@@ -40,6 +43,7 @@ import { TransportistaTableWidgeComponent } from './table-widget/transportista/t
     TransportistaTableWidgeComponent,
     PrincipalVertChartWidgetComponent,
     AgenciaChartPopupComponent,
+    TransportistaChartPopupComponent,
     PrincipalHorizChartWidgetComponent,
   ],
   exports:[],

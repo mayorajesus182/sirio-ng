@@ -10,6 +10,7 @@ import { SaldoRegional } from 'src/@sirio/domain/services/control-efectivo/saldo
 import { getPaginatorIntl } from 'src/@sirio/shared/base/table-base.component';
 import { ListColumn } from 'src/@sirio/shared/list/list-column.model';
 import { AgenciaChartPopupComponent } from '../../agencia-resumen/popup/agencia-chart.popup.component';
+import { TransportistaChartPopupComponent } from '../../transportista-resumen/popup/transportista-chart.popup.component';
 
 @Component({
   selector: 'sirio-transportista-table-widget',
@@ -107,23 +108,15 @@ export class TransportistaTableWidgeComponent implements OnInit, AfterViewInit {
 
   }
 
-  openDataAgencia(elem) {
+  openData(elem) {
 
-    this.dialog.open(AgenciaChartPopupComponent, {
+    this.dialog.open(TransportistaChartPopupComponent, {
       panelClass: 'dialog-frame',
       position: { top: '3%' },
       width: '75%',
       disableClose: true,
-      data: { id: elem.agencia, title: `Agencia ${elem.agencia}`, subtitle: elem.agenciaNombre, monedas: this.availableCoins }
+      data: { id: elem.transportista, title: `Transportista ${elem.transportista}`, subtitle: elem.nombreTransportista, monedas: this.availableCoins }
     });
-  }
-
-  openRegion(index: number, status) {
-
-    // this.dataSource[index].data = this.regiones$[index].data;
-    this.regiones$[index].show = status;
-
-
   }
 
   getTotalRegion(index: number) {

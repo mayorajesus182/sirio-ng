@@ -56,7 +56,7 @@ export class SaldoAcopioService {
         return this.apiService.config(this.apiConfig).get(`/datachart`);
     }
 
-    datachartByAgencia(transportista:string): Observable<any> {
+    datachartByTransportista(transportista:string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/datachart`);
     }
 

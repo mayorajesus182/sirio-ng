@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { SaldoAgenciaReports, SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia-report.service';
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
+import { SaldoAcopioReportService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio-report.service';
 
 @Component({
   selector: 'sirio-trans-barhoriz-chart-widget',
@@ -34,7 +35,7 @@ export class TransBarHorizChartWidgetComponent extends ChartBaseComponent implem
   isLoading: boolean;
 
   constructor(
-    private agenciaReport: SaldoAgenciaReportService,
+    private reportService: SaldoAcopioReportService,
     private cdref: ChangeDetectorRef) {
       super()
   }
@@ -58,7 +59,7 @@ export class TransBarHorizChartWidgetComponent extends ChartBaseComponent implem
   reportPdf(){
     this.saldoAgenciaReports.agencia = this.agencia_curr;
     this.loadingDataForm.next(true);
-   (this.agencia_curr?  this.agenciaReport.reportResumenEfectivoByAgencia(this.saldoAgenciaReports): this.agenciaReport.reportResumenEfectivo() ).subscribe(data => {
+   (this.agencia_curr?  this.reportService.reportResumenEfectivoByAcopioId(this.saldoAgenciaReports): this.reportService.reportResumenEfectivo() ).subscribe(data => {
       this.loadingDataForm.next(false);
       // console.log('response:', data);
       const name = this.getFileName(data);
