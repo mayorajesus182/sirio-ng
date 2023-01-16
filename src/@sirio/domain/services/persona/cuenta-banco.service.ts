@@ -24,6 +24,9 @@ export interface CuentaBanco {
     paisOrigen: string;
     paisDestino: string;
     tipoProducto: string;
+    tipoParticipacion: string;
+    tipoFirma: string    
+    tipoFirmante: string
 }
 
 @Injectable({

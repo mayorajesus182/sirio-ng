@@ -21,6 +21,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() cuenta = undefined;
+  @Input()tipoFirma:string = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   intervinienteList: ReplaySubject<Interviniente[]> = new ReplaySubject<Interviniente[]>();
 
