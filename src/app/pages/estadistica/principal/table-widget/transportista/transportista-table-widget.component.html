@@ -1,11 +1,10 @@
 <sirio-card>
   <sirio-card-header class="header">
-    <sirio-card-header-heading>REGIONES </sirio-card-header-heading>
+    <sirio-card-header-heading>CENTRO DE ACOPIO / TRANSPORTISTAS </sirio-card-header-heading>
     <sirio-card-header-subheading>
       <!-- {{ options.subTitle }} -->
       <sirio-card-header-subheading>
-        <!-- {{ options.subTitle }} -->
-        <span fxFlex></span> <h3>TOTAL EN {{currentMoneda?.siglas}} <strong>{{total | number:'1.2-2'}}</strong></h3> 
+         <h4>TOTAL EN {{currentMoneda?.siglas}} <strong>{{total | number:'1.2-2'}}</strong></h4> 
       </sirio-card-header-subheading>
     </sirio-card-header-subheading>
 
@@ -21,35 +20,12 @@
 
   <sirio-card-content class="card-content container">
 
-    <mat-accordion class="expansion-headers-align">
-
-
-      <mat-expansion-panel *ngFor="let rval of regiones$;let ix = index;" (opened)="openRegion(ix,true)" (closed)="openRegion(ix,false)">
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span class="margin-top-sm semi-bold">
-              <i class="fal fa-building-columns fa-lg"></i> &nbsp;
-              {{rval.name}}
-            </span>
-          </mat-panel-title>
-          <mat-panel-description>
-            <span fxFlex></span>
-            <mat-chip mat-sm-chip [color]="'primary'" [selected]="true" class="margin-top-xs">
-              #AGENCIAS {{regiones$[ix].data?.length }}
-            </mat-chip>
-            &nbsp;
-            <mat-chip mat-sm-chip [color]="'accent'" [selected]="true" class="margin-top-xs">
-              {{currentMoneda.siglas}} {{getTotalRegion(ix) |  number:'1.2-2'}}
-            </mat-chip>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-
         <div fxLayout="row">
           <!-- {{rval|json}} -->
-          <sirio-list [hideHeader]="true" class="list" fxFlex="grow" fxLayout="column" *ngIf="rval.show">
+          <sirio-list [hideHeader]="true" class="list" fxFlex="grow" fxLayout="column" >
             <!-- <i class="fa-light fa-building-columns"></i> -->
 
-            <table *ngIf="tableDataSources[ix].data" [dataSource]="tableDataSources[ix] " class="padding-0" #tabl mat-table matSort>
+            <table *ngIf="dataSource.data" [dataSource]="dataSource " class="padding-0" #tabl mat-table matSort>
 
               <!--- Note that these columns can be defined in any order.
           The actual rendered columns are set as a property on the row definition" -->
@@ -57,9 +33,9 @@
               <!-- Model Properties Column -->
               <ng-container *ngFor="let column of columns">
                 <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header class="{{column.width}} ">{{ column.name }}</th>
-                  <td *matCellDef="let row" mat-cell>
-                    <div class="{{column.align?column.align:'text-center'}}">{{ column.isNumber? (row[column.property] | number:'1.2') : row[column.property]
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header class="header-center" >{{ column.name }}</th>
+                  <td *matCellDef="let row" mat-cell class="{{column.width}}">
+                    <div class="{{column.align?column.align:'text-center'}}"> <i class="fal fa-truck-container fa-lg" *ngIf="!column.isNumber"></i> &nbsp; {{ column.isNumber? (row[column.property] | number:'1.2') :  row[column.property]
                       }}&nbsp;
                       <button mat-icon-button (click)="openDataAgencia(row)" class="" type="button" *ngIf="column.property=='agencia'"
                         matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats':
@@ -93,10 +69,5 @@
           </sirio-list>
 
         </div>
-      </mat-expansion-panel>
-
-
-    </mat-accordion>
-
   </sirio-card-content>
 </sirio-card>

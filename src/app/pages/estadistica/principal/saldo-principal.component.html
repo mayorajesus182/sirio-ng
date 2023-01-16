@@ -1,23 +1,36 @@
 <sirio-page [fxLayoutGap]="gap" class="dashboard" fxLayout="column">
-
   <!-- FIRST ROW -->
   <div fxLayout="column">
-    <div fxLayout.gt-sm="row" fxFlex="100" class="padding-h-2xl">
+    <div fxLayout.gt-sm="row" fxFlex="100" class="padding-h-xl">
       <div fxLayout="column" fxLayoutGap="20px" fxFlex="100" fxLayoutAlign="start stretch">
-       
-        <div fxFlex="100">
-          <sirio-principal-vert-chart-widget (reload)="reload()" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo"
-            class="widget route-animations-elements" [data]="data$.asObservable()"></sirio-principal-vert-chart-widget>
+        <div fxFlex="100" class="margin-bottom-sm">
+          <div class="text-center"><h1>SALDO TOTAL : {{currentSiglasCoin}} <strong>{{total|number:'1.2-2'}} </strong></h1> </div>  
+        </div>
+
+        <div fxFlex="100"  fxLayout="row" fxLayout.lt-sm="column"  fxLayoutGap="8px">
+
+          <sirio-principal-vertchart-widget fxFlex="100" fxFlex.gt-sm="50" (reload)="reload($event)" [monedas]="coinAvailables.asObservable()" title="Movimiento de Efectivo"
+            class="widget route-animations-elements" [data]="data$.asObservable()"></sirio-principal-vertchart-widget>
+
+          <sirio-principal-horizchart-widget fxFlex="100" fxFlex.gt-sm="auto" (reload)="reload($event)" [monedas]="coinAvailables.asObservable()" title="Disponibilidad de Efectivo"
+            class="widget route-animations-elements" [data]="detailCash.asObservable()"></sirio-principal-horizchart-widget>
 
         </div>
 
         <div fxFlex="100" class="margin-top-md">
 
-          <sirio-principal-table-widget [data]="regionTableData$ | async" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
-          </sirio-principal-table-widget>
+          <sirio-region-table-widget [data]="regionTableData$ | async" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+          </sirio-region-table-widget>
 
         </div>
-        <!-- </div> -->
+
+        <div fxFlex="100" class="margin-top-md">
+
+          <sirio-transportista-table-widget [data]="acopioTableData$ | async" [moneda_curr]="currentCoin" [monedas]="coinAvailables.asObservable()" [columns]="acopioTableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+          </sirio-transportista-table-widget>
+
+        </div>
+
       </div>
 
     </div>

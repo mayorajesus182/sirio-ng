@@ -11,10 +11,13 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { SaldoAgenciaModule } from '../agencia/saldo-agencia.module';
 import { AgenciaChartPopupComponent } from './agencia-resumen/popup/agencia-chart.popup.component';
-import { PrincipalVertChartWidgetComponent } from './chart-widget/principal-vert-chart-widget.component';
+
+import { PrincipalVertChartWidgetComponent } from './chart-widget/principal-vertchart-widget.component';
+import { PrincipalHorizChartWidgetComponent } from './desglose-chart-widget/desglose-horizchart-widget.component';
 
 import { SaldoPrincipalComponent } from './saldo-principal.component';
-import { PrincipalTableWidgeComponent } from './table-widget/principal-table-widget.component';
+import { RegionTableWidgeComponent } from './table-widget/region/region-table-widget.component';
+import { TransportistaTableWidgeComponent } from './table-widget/transportista/transportista-table-widget.component';
 
 @NgModule({
   imports: [
@@ -31,7 +34,14 @@ import { PrincipalTableWidgeComponent } from './table-widget/principal-table-wid
     SaldoAgenciaModule,
     LoadingOverlayModule
   ],
-  declarations: [SaldoPrincipalComponent,PrincipalTableWidgeComponent,PrincipalVertChartWidgetComponent,AgenciaChartPopupComponent],
+  declarations: [
+    SaldoPrincipalComponent,
+    RegionTableWidgeComponent,
+    TransportistaTableWidgeComponent,
+    PrincipalVertChartWidgetComponent,
+    AgenciaChartPopupComponent,
+    PrincipalHorizChartWidgetComponent,
+  ],
   exports:[],
 })
 export class SaldoPrincipalModule {

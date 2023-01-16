@@ -50,7 +50,7 @@ export class AgenciaChartPopupComponent extends PopupBaseComponent implements On
     this.isLoading = true;
     
     this.saldoAgenciaService.datachartByAgencia(this.agencia).subscribe(result => {
-      console.log(`detalle de agencia ${this.agencia}`,result);
+      // console.log(`detalle de agencia ${this.agencia}`,result);
       
       this.isLoading = false;
 

@@ -9,9 +9,9 @@ import { SaldoAgenciaReportService } from 'src/@sirio/domain/services/control-ef
 import { ChartBaseComponent } from 'src/@sirio/shared/base/chart-base.component';
 @Component({
 
-  selector: 'sirio-principal-vert-chart-widget',
-  templateUrl: './principal-vert-chart-widget.component.html',
-  styleUrls: ['./principal-vert-chart-widget.component.scss']
+  selector: 'sirio-principal-vertchart-widget',
+  templateUrl: './principal-vertchart-widget.component.html',
+  styleUrls: ['./principal-vertchart-widget.component.scss']
 })
 export class PrincipalVertChartWidgetComponent extends ChartBaseComponent implements OnInit {
 
@@ -44,7 +44,7 @@ export class PrincipalVertChartWidgetComponent extends ChartBaseComponent implem
     console.log('moneda curr ', this.moneda_curr);
 
     this.monedas.subscribe(list => {
-      console.log('monedas observable',list);
+      // console.log('monedas observable',list);
 
       this.currentMoneda = this.moneda_curr || list[0];
       this.availableCoins = list;

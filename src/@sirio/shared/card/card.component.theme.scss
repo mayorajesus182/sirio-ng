@@ -7,6 +7,9 @@
 
   .sirio-card-header-subheading {
     color: $theme-secondary-text;
+    strong{
+      color: rgba(51, 51, 51, 0.829);
+    }
   }
 
   .sirio-card-actions {

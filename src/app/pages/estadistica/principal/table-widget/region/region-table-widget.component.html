@@ -1,0 +1,103 @@
+<sirio-card>
+  <sirio-card-header class="header">
+    <sirio-card-header-heading>REGIONES </sirio-card-header-heading>
+    <sirio-card-header-subheading>
+      <!-- {{ options.subTitle }} -->
+      <sirio-card-header-subheading>
+        
+         <h4>TOTAL EN {{currentMoneda?.siglas}} <strong>{{total | number:'1.2-2'}}</strong></h4> 
+      </sirio-card-header-subheading>
+    </sirio-card-header-subheading>
+
+    <sirio-card-header-actions>
+      <button mat-icon-button (click)="reload()">
+        <mat-icon>refresh</mat-icon>
+      </button>
+      <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button> -->
+    </sirio-card-header-actions>
+  </sirio-card-header>
+
+  <sirio-card-content class="card-content container">
+
+    <mat-accordion class="expansion-headers-align">
+
+
+      <mat-expansion-panel *ngFor="let rval of regiones$;let ix = index;"  (expandedChange)="expandedOn($event,ix)" >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="margin-top-sm semi-bold">
+              <i class="fal fa-building-columns fa-lg"></i> &nbsp;
+              {{rval.name}}
+            </span>
+          </mat-panel-title>
+          <mat-panel-description>
+            <span fxFlex></span>
+            <mat-chip mat-sm-chip [color]="'primary'" [selected]="true" class="margin-top-xs">
+              #AGENCIAS {{regiones$[ix].data?.length }}
+            </mat-chip>
+            &nbsp;
+            <mat-chip mat-sm-chip [color]="'accent'" [selected]="true" class="margin-top-xs">
+              {{currentMoneda.siglas}} {{getTotalRegion(ix) |  number:'1.2-2'}}
+            </mat-chip>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div fxLayout="row">
+          <!-- {{rval|json}} -->
+          
+          <sirio-list [hideHeader]="true" class="list" fxFlex="grow" fxLayout="column" *ngIf="rval.show">
+            <!-- <i class="fa-light fa-building-columns"></i> -->
+
+            <table *ngIf="tableDataSources[ix].data" [dataSource]="tableDataSources[ix] " class="padding-0" #table mat-table matSort>
+
+              <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+              <!-- Model Properties Column -->
+              <ng-container *ngFor="let column of columns">
+                <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header class="{{column.width}} ">{{ column.name }}</th>
+                  <td *matCellDef="let row" mat-cell>
+                    <div class="{{column.align?column.align:'text-center'}}">{{ column.isNumber? (row[column.property] | number:'1.2') : row[column.property]
+                      }}&nbsp;
+                      <button mat-icon-button (click)="openDataAgencia(row)" class="" type="button" *ngIf="column.property=='agencia'"
+                        matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats':
+                          ''}}</mat-icon></button>
+                    </div>
+                  </td>
+                  <!-- <td mat-footer-cell *matFooterCellDef> -->
+                    <!-- <div *ngIf="column.property=='saldo'" class="text-center"><strong>{{getTotal() | number:'1.2-2'}}</strong></div> -->
+                  <!-- </td> -->
+                </ng-container>
+                <ng-container *ngIf="!column.isModelProperty" [matColumnDef]="column.property">
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header>{{ column.name }} </th>
+                  <td *matCellDef="let row;" mat-cell>
+                    <span class="text-color-muted">{{progress(row) | number:'1.2-2' }}%</span>
+                    <mat-progress-bar mode="determinate" [value]="progress(row)"
+                      [color]="progress(row)>50 && progress(row)<90?'primary':(progress(row)>95?'warn':'accent')"></mat-progress-bar>
+                  </td>
+                  <!-- <td mat-footer-cell *matFooterCellDef></td> -->
+                </ng-container>
+              </ng-container>
+
+
+              <tr *matHeaderRowDef="visibleColumns" mat-header-row></tr>
+              <!--suppress UnnecessaryLabelJS -->
+              <tr *matRowDef="let row; columns: visibleColumns;" mat-row></tr>
+              <!-- <tr mat-footer-row *matFooterRowDef="visibleColumns;"></tr> -->
+            </table>
+
+            <mat-paginator id="page_{{ix}}" [pageSize]="pageSize" [length]="regiones$[ix].data.length" class="paginator"></mat-paginator>
+
+          </sirio-list>
+
+        </div>
+      </mat-expansion-panel>
+
+
+    </mat-accordion>
+
+  </sirio-card-content>
+</sirio-card>

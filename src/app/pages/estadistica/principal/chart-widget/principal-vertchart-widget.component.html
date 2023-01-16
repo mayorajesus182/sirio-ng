@@ -8,12 +8,16 @@
         <mat-icon class="icon" fxHide fxShow.gt-sm>keyboard_arrow_down</mat-icon>
       </button>
       <mat-menu #coin="matMenu">
-        <div *ngFor="let c of availableCoins">
+        <!-- <div *ngFor="let c of availableCoins">
           <button mat-menu-item  (click)="changeMoneda(c)">
             <span></span>
             <span>&nbsp;{{c.siglas}} - {{c.nombre}}</span>
           </button>
-        </div>
+        </div> -->
+        <button mat-menu-item *ngFor="let coin of availableCoins" (click)="changeMoneda(coin)">
+          <span></span>
+          <span>&nbsp;{{coin.siglas}} - {{coin.nombre}}</span>
+        </button>
       </mat-menu>
       <button (click)="refreshData()" mat-icon-button matTooltip="Refrescar">
         <mat-icon>refresh</mat-icon>

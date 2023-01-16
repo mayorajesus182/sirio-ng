@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -6,18 +6,18 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Observable, ReplaySubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { SaldoRegional } from 'src/@sirio/domain/services/control-efectivo/saldo-regional.service';
 import { getPaginatorIntl } from 'src/@sirio/shared/base/table-base.component';
 import { ListColumn } from 'src/@sirio/shared/list/list-column.model';
-import { AgenciaChartPopupComponent } from '../agencia-resumen/popup/agencia-chart.popup.component';
+import { AgenciaChartPopupComponent } from '../../agencia-resumen/popup/agencia-chart.popup.component';
 
 @Component({
-  selector: 'sirio-principal-table-widget',
-  templateUrl: './principal-table-widget.component.html',
-  styleUrls: ['./principal-table-widget.component.scss']
+  selector: 'sirio-region-table-widget',
+  templateUrl: './region-table-widget.component.html',
+  styleUrls: ['./region-table-widget.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PrincipalTableWidgeComponent implements OnInit, AfterViewInit {
+export class RegionTableWidgeComponent implements OnInit, AfterViewInit {
 
   @Input() columns: ListColumn[];
   @Input() pageSize = 10;
@@ -27,14 +27,14 @@ export class PrincipalTableWidgeComponent implements OnInit, AfterViewInit {
   // private dataSource: MatTableDataSource<any>[] | null;
   tableDataSources: MatTableDataSource<any>[] = [];
   // @ViewChild(MatPaginator, { static: true })
-  paginator: MatPaginator;
+  // paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
 
   @Input() monedas: Observable<Moneda[]>;
   @Input() moneda_curr: Moneda = undefined;
 
-
+  private currentIndex = 0;
   currentMoneda: Moneda;
   total: number = 0;
   availableCoins: Moneda[] = [];
@@ -51,17 +51,22 @@ export class PrincipalTableWidgeComponent implements OnInit, AfterViewInit {
     return this.columns.filter(column => column.visible).map(column => column.property);
   }
 
+  @ViewChildren(MatPaginator)  set matPaginators(mps: QueryList<MatPaginator>) {
+    // console.log('paginators');
+    // console.log(mps);
+    // console.log('end paginators');
+    if(mps && this.tableDataSources[this.currentIndex]){
 
-  @ViewChild(MatPaginator) set matPaginator(mp: MatPaginator) {
-    this.paginator = mp;
-    if(mp){
-      this.paginator._intl = getPaginatorIntl();
-      this.paginator.pageIndex = 0;
+      this.tableDataSources[this.currentIndex].paginator = mps.last;
+        this.tableDataSources[this.currentIndex].paginator._intl = getPaginatorIntl();
+        this.tableDataSources[this.currentIndex].sort = this.sort;
+     
+        this.cdr.detectChanges();
 
     }
-    // console.log(this.paginator);
 
   }
+
 
   ngOnInit() {
 
@@ -93,6 +98,7 @@ export class PrincipalTableWidgeComponent implements OnInit, AfterViewInit {
     // this.dataSource.sort = this.sort;
 
 
+
   }
   progress(row: SaldoRegional) {
 
@@ -114,25 +120,27 @@ export class PrincipalTableWidgeComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openRegion(index: number, status) {
+  expandedOn(event, index: number) {
+    // console.log('1 evento expanded ', event, index);
 
+    if (!event) {
+      // this.tableDataSources[index].paginator = undefined;
+      // this.paginator.pageIndex = 0;
+      return;
+    }
+
+    // this.paginator=undefined;
+    this.currentIndex = index;
     // this.dataSource[index].data = this.regiones$[index].data;
-    this.regiones$[index].show = status;
+    this.regiones$[index].show = event;
 
     if (!this.tableDataSources[index]) {
-      this.tableDataSources[index] = new MatTableDataSource();
-      this.tableDataSources[index].data = this.regiones$[index].data;
-
+      this.tableDataSources[index] = new MatTableDataSource(this.regiones$[index].data);
     }
-    if (this.paginator && this.regiones$[index].show) {
-      // console.log('consegui paginador');
 
-      this.tableDataSources[index].paginator = this.paginator;
 
-    }
-    this.tableDataSources[index].sort = this.sort;
+
     this.cdr.detectChanges();
-
   }
 
   getTotalRegion(index: number) {

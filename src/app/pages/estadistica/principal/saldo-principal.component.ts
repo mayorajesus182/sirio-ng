@@ -16,8 +16,14 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
   private static isInitialLoad = true;
   data$: BehaviorSubject<any> = new BehaviorSubject<any>({});
   regionTableData$: Observable<any[]>;
+  acopioTableData$: Observable<any[]>;
   monedas: Moneda[] = [];
   coinAvailables: BehaviorSubject<Moneda[]> = new BehaviorSubject<any>({});
+  detailCash: BehaviorSubject<any> = new BehaviorSubject<any>({});
+  currentSiglasCoin:string=undefined;
+  currentCoin:string=undefined;
+
+  private acum:number=0;
   
   tableOptions = {
     pageSize: 10,
@@ -30,6 +36,15 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
       { name: '% Cubierto', property: 'porcentaje', visible: true, isModelProperty: false, isNumber: true },
     ]
   };
+  
+  acopioTableOptions = {
+    pageSize: 10,
+    columns: [
+      { name: 'Nombre', property: 'nombreTransportista', visible: true, isModelProperty: true,width:'w-60', align:'text-left' },
+      { name: 'Saldo Inicial', property: 'saldoInicial', visible: true, isModelProperty: true,isNumber:true, width:'w-20', align:'text-center' },
+      { name: 'Saldo Final', property: 'saldoFinal', visible: true, isModelProperty: true, isNumber: true,width:'w-20',align:'text-center' }
+    ]
+  };
 
 
   constructor(
@@ -40,37 +55,52 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
     super();
   }
 
+  get total(){
+    return this.acum;
+  }
+
   refreshData() {
 
     this.saldoPrincipalService.datachart().subscribe(result => {
 
-      // console.log(result);
+      console.log(result);
 
-      this.regionTableData$ = of(result.data.regiones)
+      this.regionTableData$ = of(result.data.regiones);
       let datasets_aument = {};
       let datasets_desmin = {};
       let datasets_final = {};
       let detailCash = {};
-      let series = [];
-
+      
       this.monedas = result.data.monedas;
-
+      
       this.coinAvailables.next(this.monedas);
-
+      
       this.monedas.forEach(m => {
-
+        
         datasets_aument[m.id] = result.data["aumento-" + m.id];
-
+        
         datasets_desmin[m.id] = result.data["disminucion-" + m.id];
         datasets_final[m.id] = result.data["final-" + m.id];
-
-        detailCash[m.id] = result.data["detail-" + m.id];
+        
+        detailCash[m.id] = result.data["efectivo-" + m.id];
+        this.currentSiglasCoin = this.currentSiglasCoin || m.siglas;
+        this.currentCoin = this.currentCoin || m.id;
       });
+
+
+      this.acopioTableData$ = of(result.data['acopios'][this.currentCoin]);
+
       let datasets = { series: [], labels: [] };
-      // let datasetDetail = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
-
-      // console.log(datasetDetail);
-
+      let datasetDetailCash = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
+      
+      // console.log(datasetDetailCash);
+      let data = result.data.acopios.filter(ac=>ac.name==this.currentCoin).map(ac=>ac.data).map((d,index)=>d[index]);
+      // console.log(data);
+      
+      this.acopioTableData$ = of(data);
+      
+      // this.acopioTableData$.subscribe(d=>console.log(d));
+      
 
       datasets.series = [
         {
@@ -94,6 +124,8 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
 
       this.data$.next(datasets);
+      this.detailCash.next(datasetDetailCash);
+      
     })
   }
 
@@ -103,7 +135,9 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
     this.refreshData();
   }
 
-  reload() {
+  reload($event:any) {
+    console.log('reload ',$event);
+    
     this.refreshData();
   }
 

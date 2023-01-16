@@ -1,0 +1,59 @@
+@use 'sass:math';
+@import "var";
+
+.list {
+  box-shadow: none;
+  border-radius: 0;
+
+  table {
+    th.mat-header-cell {
+      &.header-center {
+        // display: table-cell;
+        // justify-content: center;
+
+        div.mat-sort-header-content {
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+
+      }
+    }
+  }
+}
+
+
+
+.card-content {
+  padding: 0;
+  height: 10%;
+}
+
+.header {
+  padding: math.div($spacing, 1.5) $spacing;
+
+  .subheading {
+    font: var(--font-caption);
+
+    .mat-icon {
+      width: 14px;
+      height: 14px;
+      font-size: 14px;
+      vertical-align: text-top;
+    }
+  }
+}
+
+
+.container {
+  max-width: 100%;
+  position: relative;
+
+  .text-color-muted {
+    color: #6e6e6e !important;
+  }
+
+  .mat-icon {
+    transform: scale(0.88);
+  }
+
+}
