@@ -33,7 +33,7 @@
               <!-- Model Properties Column -->
               <ng-container *ngFor="let column of columns">
                 <ng-container *ngIf="column.isModelProperty" [matColumnDef]="column.property">
-                  <th *matHeaderCellDef mat-header-cell mat-sort-header class="header-center" >{{ column.name }}</th>
+                  <th *matHeaderCellDef mat-header-cell mat-sort-header  class="{{column.headerAlign?column.headerAlign:''}}">{{ column.name }}</th>
                   <td *matCellDef="let row" mat-cell class="{{column.width}}">
                     <div class="{{column.align?column.align:'text-center'}}"> <i class="fal fa-truck-container fa-lg" *ngIf="!column.isNumber"></i> &nbsp; {{ column.isNumber? (row[column.property] | number:'1.2') :  row[column.property]
                       }}&nbsp;

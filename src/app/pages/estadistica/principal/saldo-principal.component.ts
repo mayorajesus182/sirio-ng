@@ -40,9 +40,9 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
   acopioTableOptions = {
     pageSize: 10,
     columns: [
-      { name: 'Nombre', property: 'nombreTransportista', visible: true, isModelProperty: true,width:'w-60', align:'text-left' },
-      { name: 'Saldo Inicial', property: 'saldoInicial', visible: true, isModelProperty: true,isNumber:true, width:'w-20', align:'text-center' },
-      { name: 'Saldo Final', property: 'saldoFinal', visible: true, isModelProperty: true, isNumber: true,width:'w-20',align:'text-center' }
+      { name: 'Nombre', property: 'nombreTransportista', visible: true, isModelProperty: true,width:'w-60', align:'text-left',  },
+      { name: 'Saldo Inicial', property: 'saldoInicial', visible: true, isModelProperty: true,isNumber:true, width:'w-20', align:'text-center',headerAlign:'header-center' },
+      { name: 'Saldo Final', property: 'saldoFinal', visible: true, isModelProperty: true, isNumber: true,width:'w-20',align:'text-center',headerAlign:'header-center' }
     ]
   };
 

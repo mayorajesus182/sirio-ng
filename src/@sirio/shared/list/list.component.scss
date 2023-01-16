@@ -74,6 +74,14 @@
     white-space: nowrap;
     padding-left: $padding-sm;
     padding-right: $padding-0;
+    &.header-center {
+
+      .mat-sort-header-content {
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+
+    }
   }
 
   .mat-cell.actions-cell, .mat-header-cell.actions-cell {
