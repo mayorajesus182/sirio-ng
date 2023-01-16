@@ -216,12 +216,19 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         });
 
-        this.cdr.detectChanges();
 
         this.f.tipoSubproducto.valueChanges.subscribe(value => {
 
             if (value && value != '') {
                 this.loadMoneda(value);
+            }
+        });
+
+        this.f.tipoFirma.valueChanges.subscribe(value => {
+
+            if (value && value != '') {
+                
+                this.cdr.detectChanges();
             }
         });
 

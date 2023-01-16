@@ -1,4 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
@@ -19,13 +20,14 @@ import { IntervinienteFormPopupComponent } from '../popup/interviniente-form.pop
 
 export class IntervinienteTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
+
   @Input() cuenta = undefined;
-  @Input()tipoFirma:string = undefined;
+  @Input()tipoFirma:FormControl = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   intervinienteList: ReplaySubject<Interviniente[]> = new ReplaySubject<Interviniente[]>();
 
   intervinientes:string[]=[];
+  tipoFirmaCurr='01';
 
   constructor(
     injector: Injector,
@@ -50,9 +52,6 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   ngOnInit() {
 
-
-
-
     console.log('interviniente table');
 
     if (this.cuenta) {
@@ -65,7 +64,17 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
           this.loadList();
         }
       })
+
+      this.tipoFirma.valueChanges.subscribe(val=>{
+        console.log('val tipo firma ',val);
+        
+        if(val){
+          this.tipoFirmaCurr=val;
+          this.cdr.detectChanges();
+        }
+      })
     }
+
   }
 
   ngAfterViewInit() {
