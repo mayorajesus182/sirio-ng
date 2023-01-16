@@ -86,17 +86,16 @@
                             </sirio-select-search>
 
                             <mat-form-field fxFlex="15">
-                                <mat-label>{{'agency.boxOffices' | translate: {default: 'global.boxOffices'} | translate }} </mat-label>
-                                <input type="number" matInput maxlength="3" autocomplete="off" name="taquillas" formControlName="taquillas" required
-                                    class="text-right">
-                                <mat-error *ngIf="f.taquillas.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-label>{{'agency.atm' | translate: {default: 'global.atm'} | translate }} </mat-label>
+                                <input type="number" matInput maxlength="3" autocomplete="off" name="atm" formControlName="atm" required class="text-right">
+                                <mat-error *ngIf="f.atm.errors?.required">{{'error.required' | translate}}</mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="15">
-                                <mat-label>{{'agency.operationalBoxOffices' | translate: {default: 'global.operationalBoxOffices'} | translate }} </mat-label>
-                                <input type="number" matInput maxlength="3" autocomplete="off" name="taquillasOperativas" formControlName="taquillasOperativas"
-                                    required class="text-right">
-                                <mat-error *ngIf="f.taquillasOperativas.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-label>{{'agency.operationalAtm' | translate: {default: 'global.operationalAtm'} | translate }} </mat-label>
+                                <input type="number" matInput maxlength="3" autocomplete="off" name="atmOperativos" formControlName="atmOperativos" required
+                                    class="text-right">
+                                <mat-error *ngIf="f.atmOperativos.errors?.required">{{'error.required' | translate}}</mat-error>
                             </mat-form-field>
                         </div>
 
@@ -148,15 +147,17 @@
 
                             <mat-form-field fxFlex="15">
                                 <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }} </mat-label>
-                                <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00" placeholder="">
+                                <input matInput name="telefono" autocomplete="off" formControlName="telefono" [imask]="{mask: '(0000) 000.00.00'}"
+                                    [unmask]="true" class="text-center" phoneValidate [telefonicas]="telefonicas.asObservable()" required>
                                 <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
-                                <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
+                                <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}} </mat-error>
                             </mat-form-field>
 
                             <mat-form-field fxFlex="15">
                                 <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }} </mat-label>
-                                <input matInput name="telefonoAlt" autocomplete="off" formControlName="telefonoAlt" prefix="04" mask="00 000 00 00"
-                                    placeholder="">
+                                <input matInput name="telefonoAlt" autocomplete="off" formControlName="telefonoAlt" [imask]="{mask: '(0000) 000.00.00'}"
+                                    [unmask]="true" class="text-center" phoneValidate [telefonicas]="telefonicas.asObservable()">
+                                    <mat-error *ngIf="f.telefonoAlt.errors?.phone">{{f.telefonoAlt.errors?.phone}} </mat-error>
                             </mat-form-field>
                         </div>
 

@@ -11,6 +11,7 @@ import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
+import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { Agencia, AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -31,6 +32,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
     public estados = new BehaviorSubject<Estado[]>([]);
     public zonas = new BehaviorSubject<Zona[]>([]);
     public regiones = new BehaviorSubject<Region[]>([]);
+    public telefonicas = new BehaviorSubject<Telefonica[]>([]);
 
     constructor(
         injector: Injector,
@@ -43,6 +45,7 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         private estadoService: EstadoService,        
         private zonaService: ZonaService,        
         private regionService: RegionService,              
+        private telefonicaService: TelefonicaService,
         private cdr: ChangeDetectorRef) {
         super(undefined,  injector);
     }
@@ -77,6 +80,11 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
 
         this.zonaService.actives().subscribe(data => {
             this.zonas.next(data);
+            this.cdr.detectChanges();
+        });
+
+        this.telefonicaService.actives().subscribe(data => {
+            this.telefonicas.next(data);
             this.cdr.detectChanges();
         });
 

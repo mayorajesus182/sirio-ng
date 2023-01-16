@@ -54,7 +54,7 @@ export class TelefonoValidator implements Validator {
         // console.log(num);
         
         if (this.codigos.length > 0 && !this.codigos.includes(num.substring(0,4))) {
-            return { phone: 'El código de la telefónica no aplica' };
+            return { phone: 'Prefijo telefónico errado' };
         }
 
 
