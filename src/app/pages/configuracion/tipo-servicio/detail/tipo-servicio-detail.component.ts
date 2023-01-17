@@ -4,7 +4,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
-import { TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -22,7 +21,8 @@ export class TipoServicioDetailComponent extends FormBaseComponent implements On
     spinner: NgxSpinnerService,
     injector: Injector,
     private route: ActivatedRoute,
-    private tipoServicioService: TipoServicioService) {
+    // private tipoServicioService: TipoServicioService
+    ) {
     super(undefined, injector);
   }
 
@@ -31,10 +31,10 @@ export class TipoServicioDetailComponent extends FormBaseComponent implements On
 
     this.loadingDataForm.next(true);
 
-    this.tipoServicioService.detail(id).subscribe(data => {
-      this.data = data;
-      this.loadingDataForm.next(false);
-    });
+    // this.tipoServicioService.detail(id).subscribe(data => {
+    //   this.data = data;
+    //   this.loadingDataForm.next(false);
+    // });
 
   }
 

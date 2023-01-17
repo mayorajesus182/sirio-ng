@@ -8,7 +8,7 @@ import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoPersona, TipoPersonaService } from 'src/@sirio/domain/services/configuracion/tipo-persona.service';
-import { TipoServicio, TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
+// import { TipoServicio, TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -21,7 +21,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class TipoServicioFormComponent extends FormBaseComponent implements OnInit {
 
-    tipoServicio: TipoServicio = {} as TipoServicio;
+    // tipoServicio: TipoServicio = {} as TipoServicio;
     public tipoPersonas = new BehaviorSubject<TipoPersona[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     constants = GlobalConstants;
@@ -30,7 +30,7 @@ export class TipoServicioFormComponent extends FormBaseComponent implements OnIn
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private tipoServicioService: TipoServicioService,
+        // private tipoServicioService: TipoServicioService,
         private tipoPersonaService: TipoPersonaService,
         private monedaService: MonedaService,
         private cdr: ChangeDetectorRef) {
@@ -44,16 +44,16 @@ export class TipoServicioFormComponent extends FormBaseComponent implements OnIn
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.tipoServicioService.get(id).subscribe((agn: TipoServicio) => {
-                this.tipoServicio = agn;
-                this.buildForm(this.tipoServicio);
-                this.cdr.markForCheck();
-                this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
-                this.cdr.detectChanges();
-            });
+            // this.tipoServicioService.get(id).subscribe((agn: TipoServicio) => {
+            //     this.tipoServicio = agn;
+            //     this.buildForm(this.tipoServicio);
+            //     this.cdr.markForCheck();
+            //     this.loadingDataForm.next(false);
+            //     this.applyFieldsDirty();
+            //     this.cdr.detectChanges();
+            // });
         } else {
-            this.buildForm(this.tipoServicio);
+            // this.buildForm(this.tipoServicio);
             this.loadingDataForm.next(false);
         }
 
@@ -74,38 +74,38 @@ export class TipoServicioFormComponent extends FormBaseComponent implements OnIn
         });
     }
 
-    buildForm(tipoServicio: TipoServicio) {
-        this.itemForm = this.fb.group({
-            id: new FormControl({value: tipoServicio.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(tipoServicio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            tipoPersona: new FormControl(tipoServicio.tipoPersona || undefined, [Validators.required]),
-            moneda: new FormControl(tipoServicio.moneda || undefined, [Validators.required]),
-        });
-    }
+    // buildForm(tipoServicio: TipoServicio) {
+    //     this.itemForm = this.fb.group({
+    //         id: new FormControl({value: tipoServicio.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+    //         nombre: new FormControl(tipoServicio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+    //         tipoPersona: new FormControl(tipoServicio.tipoPersona || undefined, [Validators.required]),
+    //         moneda: new FormControl(tipoServicio.moneda || undefined, [Validators.required]),
+    //     });
+    // }
 
     save() {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.tipoServicio);
-        this.saveOrUpdate(this.tipoServicioService, this.tipoServicio, 'El Tipo de Servicio', this.isNew);
+        // this.updateData(this.tipoServicio);
+        // this.saveOrUpdate(this.tipoServicioService, this.tipoServicio, 'El Tipo de Servicio', this.isNew);
     }
 
     private codigoExists(id) {
-        this.tipoServicioService.exists(id).subscribe(data => {
-            if (data.exists) {
-                this.itemForm.controls['id'].setErrors({
-                    exists: 'El código existe'
-                });
-                this.cdr.detectChanges();
-            }
-        });
+        // this.tipoServicioService.exists(id).subscribe(data => {
+        //     if (data.exists) {
+        //         this.itemForm.controls['id'].setErrors({
+        //             exists: 'El código existe'
+        //         });
+        //         this.cdr.detectChanges();
+        //     }
+        // });
     }
 
     activateOrInactivate() {
-        if (this.tipoServicio.id) {
-            this.applyChangeStatus(this.tipoServicioService, this.tipoServicio, this.tipoServicio.nombre, this.cdr);
-        }
+        // if (this.tipoServicio.id) {
+            // this.applyChangeStatus(this.tipoServicioService, this.tipoServicio, this.tipoServicio.nombre, this.cdr);
+        // }
     }
 
 }

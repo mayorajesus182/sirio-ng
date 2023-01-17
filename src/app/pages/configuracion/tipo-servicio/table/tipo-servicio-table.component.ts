@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
-import { TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
+// import { TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
+// import { TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
 
@@ -26,13 +26,13 @@ export class TipoServicioTableComponent extends TableBaseComponent implements On
     protected dialog: MatDialog,
     protected router: Router,
     private cdr: ChangeDetectorRef,
-    private tipoServicioService: TipoServicioService,
+    // private tipoServicioService: TipoServicioService,
   ) {
     super(undefined,  injector);
   }
 
   ngOnInit() {
-    this.init(this.tipoServicioService, 'tipservicio_id');
+    // this.init(this.tipoServicioService, 'tipservicio_id');
   }
 
   ngAfterViewInit() {
@@ -53,7 +53,7 @@ export class TipoServicioTableComponent extends TableBaseComponent implements On
   }
 
   activateOrInactivate(data:any) {
-    this.applyChangeStatus(this.tipoServicioService, data.element, data.element.nombre, this.cdr);
+    // this.applyChangeStatus(this.tipoServicioService, data.element, data.element.nombre, this.cdr);
   }
 
 }
