@@ -10,9 +10,8 @@ export interface ServicioComercial {
     nombre: string;
     tipoPersona: string;
     moneda: string;
-    parent: string;
-    fechaCreacion?: any;
-    activo?: number;
+    parent?: ServicioComercial;
+    subservicios?: ServicioComercial[];
 }
 
 @Injectable({
@@ -24,7 +23,7 @@ export class ServicioComercialService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/tipo-servicio' };
+        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/servicio-comercial' };
     }
 
     actives(): Observable<ServicioComercial[]> {
@@ -32,11 +31,15 @@ export class ServicioComercialService {
     }
 
     activesByTipoPersonaAndMoneda(tipoPersona: string, moneda: string): Observable<ServicioComercial[]> {
-        return this.apiService.config(this.apiConfig).get(`${tipoPersona}/tipopersona/${moneda}/moneda/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/tipopersona/${moneda}/moneda/actives`);
     }
 
     activesByTipoPersona(tipoPersona: string): Observable<ServicioComercial[]> {
-        return this.apiService.config(this.apiConfig).get(`${tipoPersona}/tipopersona/actives`);
+        return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/tipopersona/actives`);
+    }
+
+    treeByPersona(persona:string, tipoPersona: string, invertido: boolean): Observable<ServicioComercial[]> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/${tipoPersona}/${invertido}/tree/servicios/get`);
     }
 
     exists(id: string): Observable<any> {
