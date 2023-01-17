@@ -10,6 +10,7 @@ export interface Taquilla {
     id: number;
     nombre: string;
     usuario: string;
+    expediente: string;
     abierta: number;
     fechaCreacion?: any;
     activo?: number;

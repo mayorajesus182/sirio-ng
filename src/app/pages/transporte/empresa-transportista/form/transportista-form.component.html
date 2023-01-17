@@ -136,17 +136,19 @@
 
                                 <mat-form-field fxFlex="15">
                                     <mat-label>{{'carrierCompany.phone' | translate: {default: 'global.phone'} | translate }} </mat-label>
-                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" prefix="04" mask="00 000 00 00"
-                                        placeholder="">
+                                    <input matInput name="telefono" autocomplete="off" formControlName="telefono" [imask]="{mask: '(0000) 000.00.00'}"
+                                        [unmask]="true" class="text-center" phoneValidate [telefonicas]="telefonicas.asObservable()" required>
                                     <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
-                                    <mat-error *ngIf="f.telefono.errors?.pattern">{{'error.invalidCharater' | translate}} </mat-error>
+                                    <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}} </mat-error>
                                 </mat-form-field>
-
+    
                                 <mat-form-field fxFlex="15">
                                     <mat-label>{{'carrierCompany.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }} </mat-label>
-                                    <input matInput name="telefonoAlt" autocomplete="off" formControlName="telefonoAlt" prefix="04" mask="00 000 00 00"
-                                        placeholder="">
+                                    <input matInput name="telefonoAlt" autocomplete="off" formControlName="telefonoAlt" [imask]="{mask: '(0000) 000.00.00'}"
+                                        [unmask]="true" class="text-center" phoneValidate [telefonicas]="telefonicas.asObservable()">
+                                        <mat-error *ngIf="f.telefonoAlt.errors?.phone">{{f.telefonoAlt.errors?.phone}} </mat-error>
                                 </mat-form-field>
+
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">

@@ -14,6 +14,7 @@ import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
 import { Parroquia, ParroquiaService } from 'src/@sirio/domain/services/configuracion/localizacion/parroquia.service';
 import { ZonaPostal, ZonaPostalService } from 'src/@sirio/domain/services/configuracion/localizacion/zona-postal.service';
+import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Transportista, TransportistaService } from 'src/@sirio/domain/services/transporte/transportista.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -39,6 +40,7 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     public cuentasContables = new BehaviorSubject<CuentaContable[]>([]);
     public usuarios = new BehaviorSubject<Usuario[]>([]);
+    public telefonicas = new BehaviorSubject<Telefonica[]>([]);
 
     constructor(
         injector: Injector,
@@ -55,6 +57,7 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         private regionService: RegionService,
         private cuentaContableService: CuentaContableService,
         private usuarioService: UsuarioService,
+        private telefonicaService: TelefonicaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -103,6 +106,11 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
 
         this.tipoDocumentoService.activesJuridicos().subscribe(data => {
             this.tiposDocumentos.next(data);
+            this.cdr.detectChanges();
+        });
+
+        this.telefonicaService.actives().subscribe(data => {
+            this.telefonicas.next(data);
             this.cdr.detectChanges();
         });
 
