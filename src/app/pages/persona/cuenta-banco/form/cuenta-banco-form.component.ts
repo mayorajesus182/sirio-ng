@@ -177,7 +177,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.itemForm = this.fb.group({
             persona: new FormControl(this.persona.id, [Validators.required]),
             numeroCuenta: new FormControl(this.cuentaBanco.numeroCuenta || undefined, [Validators.required]),
-            tipoProducto: new FormControl(this.cuentaBanco.tipoProducto || undefined, [Validators.required]),
+            tipoProducto: new FormControl(this.isNew? "0000 0000 00 00 00000000" : this.cuentaBanco.tipoProducto || undefined),
             tipoSubproducto: new FormControl(this.cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(this.cuentaBanco.origenFondo || undefined, [Validators.required]),
             destinoCuenta: new FormControl(this.cuentaBanco.destinoCuenta || undefined, [Validators.required]),
@@ -266,6 +266,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.loaded$.next(false);
 
         if (!event.id && !event.numper) {
+            this.isNew = true;
             this.persona = {} as Persona;
             this.resetAll();
             const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
@@ -287,19 +288,18 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.loaded$.next(true);
                 // this.cdr.detectChanges();
                 // this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                //     this.tipoSubproductos.next(data);
-                //     this.cdr.detectChanges();
-                // });
-
-
-
-
-            }, err => {
+                    //     this.tipoSubproductos.next(data);
+                    //     this.cdr.detectChanges();
+                    // });
+                    
+                    
+                    
+                    
+                }, err => {
+                this.isNew = true;
                 this.loadingDataForm.next(false);
                 this.resetAll();
             });
-
-
 
         }
     }

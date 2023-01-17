@@ -169,9 +169,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         console.log(this.searchForm.value);
         
-        this.loading.next(true);
-
+        
         if (tipoDocumento && identificacion) {
+            this.loading.next(true);
 
             this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
                 this.persona = data;
@@ -230,7 +230,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         }
 
         // this.busqueda = true;
-
+        this.loading.next(true);
         this.cuentaBancariaService.activesByNumeroCuenta(cuenta).subscribe(data => {
 
             this.search.tipoDocumento.setValue(data.tipoDocumento);
@@ -241,11 +241,12 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
             this.disable.next(true);
             this.disableBtn.next(false);
-
+            this.loading.next(false);
             this.cdref.detectChanges();
             this.result.emit(data);
-
+            
         }, err => {
+            this.loading.next(false);
             this.search.cuenta.setErrors({ notexists: true });
             this.persona = {} as Persona;
 

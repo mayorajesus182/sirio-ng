@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -23,28 +24,42 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-  direccionList: Direccion[] = [];
+  serviciosList: any[] = [{
+    name: 'Servicio 1',
+    reumen: 'resumen S1'
+  },
+  {
+    name: 'Servicio 2',
+    reumen: 'resumen S2'
+  },
+  {
+    name: 'Servicio 3',
+    reumen: 'resumen S3'
+  },
+  {
+    name: 'Servicio 4',
+    reumen: 'resumen S4'
+  }];
+  serviciosClienteList: any[] = [
+    {
+      name: 'Servicio 5',
+      reumen: 'resumen S5'
+    },
+  ];
   private principal: boolean = false;
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
-    protected direccionService: DireccionService,
+    // protected direccionService: Servicio,
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
   }
 
   private loadList() {
-    this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
-      
-      this.direcciones.next(data.slice());
-      this.propagar.emit(data.length);
-      // debo conocer si tengo una direccion principal
-      this.principal = data.filter(d => d.tipoDireccion == 'PRINCIPAL').length > 0;
-      this.cdr.detectChanges();
-    });
+
   }
 
   ngOnInit() {
@@ -68,26 +83,26 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   }
 
 
-  edit(data: Direccion) {
+  edit(data: any) {
     console.log('data event click ', data);
 
 
   }
 
-  delete(row) {
+  delete(row:any) {
     this.swalService.show('¿Desea Eliminar Dirección?', undefined,
-    { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
+      { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando direccion',row.id);
-          this.direccionService.delete(row.id).subscribe(val=>{
-            if(val){
-              this.loadList();
-            }
-          })
-          this.cdr.detectChanges();
+          console.log('buscando direccion', row.id);
+          // this.direccionService.delete(row.id).subscribe(val=>{
+          //         if(val){
+          //           this.loadList();
+          //         }
+          //       })
+          //       this.cdr.detectChanges();
         }
-    });
-}
+      });
+  }
 
   view(data: any) {
 
@@ -96,7 +111,7 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
 
   popup(data?: Direccion) {
-    
+
     if (data) {
       data.persona = this.persona;
     }
@@ -113,5 +128,18 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   }
 
 
+  drop(event: CdkDragDrop<Task[]>) {
+
+    console.log('event drop',event);
+    
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+  }
 
 }

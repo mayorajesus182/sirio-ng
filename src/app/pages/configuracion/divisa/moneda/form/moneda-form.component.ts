@@ -41,17 +41,6 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
         this.isNew = id == undefined;
         this.loadingDataForm.next(true);
 
-        this.servicioComercialService.treeByPersona('1','N', true).subscribe(result => {
-            console.log('Invertidooooooo   ', result);
-            
-        });
-
-        this.servicioComercialService.treeByPersona('1','N', false).subscribe(result => {
-            console.log(' nooooooooooooo  Invertidooooooo   ', result);
-        });
-
-
-
         if (id) {
 
             this.conoMonetarioService.existsSomethingByMoneda(id).subscribe(result => {

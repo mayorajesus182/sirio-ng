@@ -163,7 +163,7 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
             this.persona = event;
             this.loaded$.next(true);
 
-            console.log(' aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii persona    ', this.persona);
+            // console.log(' aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii persona    ', this.persona);
         }
     }
 

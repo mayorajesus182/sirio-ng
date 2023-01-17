@@ -1,6 +1,7 @@
 
 
 import { Location } from "@angular/common";
+import { HttpResponse } from "@angular/common/http";
 import { ChangeDetectorRef, Component, Injector, QueryList, ViewChild, ViewChildren } from "@angular/core";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatPaginator, MatPaginatorIntl, PageEvent } from "@angular/material/paginator";
@@ -15,7 +16,7 @@ import { ApiConfConstants } from "src/@sirio/constants";
 import { DatasourceService } from "src/@sirio/services/datasource.service";
 import { NavigationService } from "src/@sirio/services/navigation.service";
 import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.interface";
-
+import { saveAs } from 'file-saver';
 import { SnackbarService } from "../../services/snackbar.service";
 import { SweetAlertService } from "../../services/swal.service";
 import { MethodComponentApi } from "../actions/actions-nav.component";
@@ -266,6 +267,43 @@ export class TableBaseComponent {
 
     }
 
+    protected download(fileName, blob) {
+        console.log('archivo-saldo ' + fileName);
+
+        /*let link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        link.style.display = 'none';
+        link.click();*/
+
+        saveAs(blob, fileName);
+    }
+
+    protected getFileName(response: HttpResponse<Blob>, ext?: string) {
+        let filename: string;
+        try {
+            // console.log('headers ', response.headers);
+            // {
+            //     "key": "",
+            //     "value": [
+            //         "attachment; filename=consulta_20210711_0132.xlsx"
+            //     ]
+            // }
+
+            const contentDisposition: string = response.headers.get('content-disposition');
+            console.log('content', contentDisposition);
+
+            let i = contentDisposition.lastIndexOf('=');
+            filename = contentDisposition.substring(i + 1);
+        } catch (e) {
+
+            filename = `reporte.${ext ? ext : 'xlsx'}`
+        }
+        return filename
+    }
+
+
+
     protected refreshElementList() {
         if (!this.dataSource) {
             return;
@@ -456,3 +494,7 @@ export function getPaginatorIntl() {
 
     return paginatorIntl;
 }
+
+
+
+
