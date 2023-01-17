@@ -176,8 +176,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         this.itemForm = this.fb.group({
             persona: new FormControl(this.persona.id, [Validators.required]),
-            numeroCuenta: new FormControl(this.cuentaBanco.numeroCuenta || undefined, [Validators.required]),
-            tipoProducto: new FormControl(this.isNew? "0000 0000 00 00 00000000" : this.cuentaBanco.tipoProducto || undefined),
+            numeroCuenta: new FormControl({value:this.isNew? "0000 0000 00 00 00000000" :this.cuentaBanco.numeroCuenta, disabled: true} ),
+            tipoProducto: new FormControl( this.cuentaBanco.tipoProducto || undefined,[Validators.required]),
             tipoSubproducto: new FormControl(this.cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(this.cuentaBanco.origenFondo || undefined, [Validators.required]),
             destinoCuenta: new FormControl(this.cuentaBanco.destinoCuenta || undefined, [Validators.required]),
@@ -200,10 +200,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.f.tipoProducto.valueChanges.subscribe(value => {
             this.f.tipoSubproducto.setValue(undefined);
             // this.f.moneda.setValue(undefined);
-            this.f.numeroCuenta.setValue('');
-            this.cdr.detectChanges();
-
-            // console.log('valueChanges  tipoSubproducto');
+            // this.f.numeroCuenta.setValue('');
+            
 
             if (value) {
 

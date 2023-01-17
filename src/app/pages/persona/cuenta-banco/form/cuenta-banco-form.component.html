@@ -111,7 +111,7 @@
 
                                         <mat-form-field fxFlex="100">
                                             <mat-label>{{'Número de Cuenta' | translate }} </mat-label>
-                                            <input matInput maxlength="24" mask="0000 0000 00 00 00000000" minlength="1" autocomplete="off" name="numeroCuenta"
+                                            <input matInput    disabled="true" autocomplete="off" name="numeroCuenta"
                                                 formControlName="numeroCuenta"  class="text-center">
                                             <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' |
                                                 translate}}
@@ -335,7 +335,7 @@
 
 
                         </mat-accordion>
-                        <!-- {{printErrors() | json}} -->
+                        {{printErrors() | json}}
                     </ng-container>
                 </sirio-card-content>
 
