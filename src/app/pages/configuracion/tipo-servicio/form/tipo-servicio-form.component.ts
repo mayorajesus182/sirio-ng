@@ -8,7 +8,7 @@ import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoPersona, TipoPersonaService } from 'src/@sirio/domain/services/configuracion/tipo-persona.service';
-import { TipoServicio, TipoServicioService } from 'src/@sirio/domain/services/configuracion/tipo-servicio.service';
+import { TipoServicio, TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
