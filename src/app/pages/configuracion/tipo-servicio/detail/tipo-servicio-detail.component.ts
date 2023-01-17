@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
-import { TipoServicioService } from 'src/@sirio/domain/services/configuracion/tipo-servicio.service';
+import { TipoServicioService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
