@@ -93,7 +93,8 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
       let datasets = { series: [], labels: [] };
       let datasetDetailCash = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
       
-      // console.log(datasetDetailCash);
+      this.acum=datasets_final[this.currentCoin][datasets_final[this.currentCoin].length -1];
+      console.log(datasets_final[this.currentCoin][datasets_final[this.currentCoin].length -1]);
       let data = result.data.acopios.filter(ac=>ac.name==this.currentCoin).map(ac=>ac.data).map((d,index)=>d[index]);
       // console.log(data);
       
@@ -137,8 +138,12 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
   reload($event:any) {
     console.log('reload ',$event);
-    
+    this.acum=0;
     this.refreshData();
+  }
+
+  acumulate(event:number){
+    this.acum+=event;
   }
 
 }

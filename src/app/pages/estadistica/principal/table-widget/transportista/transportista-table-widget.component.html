@@ -37,9 +37,8 @@
                   <td *matCellDef="let row" mat-cell class="{{column.width}}">
                     <div class="{{column.align?column.align:'text-center'}}"> <i class="fal fa-truck-container fa-lg" *ngIf="!column.isNumber"></i> &nbsp; {{ column.isNumber? (row[column.property] | number:'1.2') :  row[column.property]
                       }}&nbsp;
-                      <button mat-icon-button (click)="openDataAgencia(row)" class="" type="button" *ngIf="column.property=='agencia'"
-                        matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{column.property=='agencia'?'query_stats':
-                          ''}}</mat-icon></button>
+                      <button mat-icon-button (click)="openData(row)" class="" type="button" *ngIf="column.property=='nombreTransportista'"
+                        matTooltip="Ver detalle"><mat-icon class="text-color-muted margin-bottom-xs">{{'query_stats'}}</mat-icon></button>
                     </div>
                   </td>
                   <!-- <td mat-footer-cell *matFooterCellDef> -->

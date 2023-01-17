@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,7 +9,7 @@ import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.s
 import { SaldoRegional } from 'src/@sirio/domain/services/control-efectivo/saldo-regional.service';
 import { getPaginatorIntl } from 'src/@sirio/shared/base/table-base.component';
 import { ListColumn } from 'src/@sirio/shared/list/list-column.model';
-import { AgenciaChartPopupComponent } from '../../agencia-resumen/popup/agencia-chart.popup.component';
+import { TransportistaChartPopupComponent } from '../../transportista-resumen/popup/transportista-chart.popup.component';
 
 @Component({
   selector: 'sirio-transportista-table-widget',
@@ -28,6 +28,8 @@ export class TransportistaTableWidgeComponent implements OnInit, AfterViewInit {
   // @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @Output('totales') totales: EventEmitter<number> = new EventEmitter<number>();
 
 
   @Input() monedas: Observable<Moneda[]>;
@@ -77,6 +79,8 @@ export class TransportistaTableWidgeComponent implements OnInit, AfterViewInit {
 
       this.total = values.map(r => r.saldoFinal).reduce((a, b) => a + b, 0);
 
+      this.totales.emit(this.total);
+
     });
 
 
@@ -107,23 +111,15 @@ export class TransportistaTableWidgeComponent implements OnInit, AfterViewInit {
 
   }
 
-  openDataAgencia(elem) {
+  openData(elem) {
 
-    this.dialog.open(AgenciaChartPopupComponent, {
+    this.dialog.open(TransportistaChartPopupComponent, {
       panelClass: 'dialog-frame',
       position: { top: '3%' },
       width: '75%',
       disableClose: true,
-      data: { id: elem.agencia, title: `Agencia ${elem.agencia}`, subtitle: elem.agenciaNombre, monedas: this.availableCoins }
+      data: { id: elem.transportista, title: `Transportista ${elem.transportista}`, subtitle: elem.nombreTransportista, monedas: this.availableCoins }
     });
-  }
-
-  openRegion(index: number, status) {
-
-    // this.dataSource[index].data = this.regiones$[index].data;
-    this.regiones$[index].show = status;
-
-
   }
 
   getTotalRegion(index: number) {

@@ -19,14 +19,14 @@
 
         <div fxFlex="100" class="margin-top-md">
 
-          <sirio-region-table-widget [data]="regionTableData$ | async" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+          <sirio-region-table-widget [data]="regionTableData$ | async"  (totales)="acumulate($event)" [monedas]="coinAvailables.asObservable()" [columns]="tableOptions?.columns" [pageSize]="tableOptions?.pageSize">
           </sirio-region-table-widget>
 
         </div>
 
         <div fxFlex="100" class="margin-top-md">
 
-          <sirio-transportista-table-widget [data]="acopioTableData$ | async" [moneda_curr]="currentCoin" [monedas]="coinAvailables.asObservable()" [columns]="acopioTableOptions?.columns" [pageSize]="tableOptions?.pageSize">
+          <sirio-transportista-table-widget [data]="acopioTableData$ | async" (totales)="acumulate($event)" [moneda_curr]="currentCoin" [monedas]="coinAvailables.asObservable()" [columns]="acopioTableOptions?.columns" [pageSize]="tableOptions?.pageSize">
           </sirio-transportista-table-widget>
 
         </div>

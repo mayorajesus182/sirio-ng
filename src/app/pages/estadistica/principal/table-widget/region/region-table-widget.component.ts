@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -29,6 +29,8 @@ export class RegionTableWidgeComponent implements OnInit, AfterViewInit {
   // @ViewChild(MatPaginator, { static: true })
   // paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @Output('totales') totales: EventEmitter<number> = new EventEmitter<number>();
 
 
   @Input() monedas: Observable<Moneda[]>;
@@ -80,6 +82,8 @@ export class RegionTableWidgeComponent implements OnInit, AfterViewInit {
 
       this.total = values.map(r => r.data as SaldoRegional[]).map(s => s.map(ss => ss.saldo).reduce((a, b) => a + b, 0)).reduce((a, b) => a + b, 0);
 
+
+      this.totales.emit(this.total);
     });
 
 

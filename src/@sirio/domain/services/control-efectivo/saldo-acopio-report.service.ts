@@ -4,7 +4,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 
-export interface SaldoAgenciaReports {
+export interface SaldoAcopioReports {
     agencia: string
  }
 
@@ -12,7 +12,7 @@ export interface SaldoAgenciaReports {
 @Injectable({
     providedIn:'root'
 })
-export class SaldoAgenciaReportService {
+export class SaldoAcopioReportService {
     
     private apiConfig: ApiOption;
     constructor(
@@ -28,6 +28,14 @@ export class SaldoAgenciaReportService {
     
     reportResumenEfectivo(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/resumen/efectivo');
+    }
+
+    reportResumenByAcopioId(params: SaldoAcopioReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/resumen', params);
+    }
+
+    reportResumenEfectivoByAcopioId(params: SaldoAcopioReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/resumen/efectivo', params);
     }
     
 

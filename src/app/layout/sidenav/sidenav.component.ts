@@ -28,6 +28,7 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   fullName: string;
   officeName: string;
+  unityName: string;
   logonedAt: any;
 
   badge:CantidadRemesa=undefined;
@@ -56,6 +57,7 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.officeName = data.organization;
       this.fullName = data.fullName.split(" ")[0];
       this.logonedAt = data.prevLogin;
+      this.unityName = data.unity || '';
 
       this.remesaService.cantidad().subscribe(data=>{
         // console.log(data);
