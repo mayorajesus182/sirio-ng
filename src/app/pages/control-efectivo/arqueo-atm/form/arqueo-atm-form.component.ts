@@ -30,7 +30,6 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   moneda: Moneda = {} as Moneda;
   atmId: string;
   atm: string;
-  montoRow: number = 0;
   datosPersona: string;
   editing: any[] = [];
   btnState: boolean = false;
@@ -57,7 +56,9 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     this.arqueoAtmService.getTop(this.atmId).subscribe((data) => {
       this.cajetinesList = data.detalles;
       this.cajetines.next(this.cajetinesList);
-      this.arqueoAtm = data
+      this.arqueoAtm = data;
+      this.arqueoAtm.montoFinal = 0;
+      this.arqueoAtm.montoArqueo = 0;
       this.arqueoAtm.esRetiroAtm = false;
       this.arqueoAtm.esIncrementoAtm = false;
     });
@@ -118,13 +119,13 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     row.faltante = 0;
     row.actual = 0;
     this.totalesIncremento = {};
-    this.arqueoAtm.montoIncrementoTotal = 0;
-    this.arqueoAtm.montoRetiroTotal = 0;
+    this.arqueoAtm.montoIncremento = 0;
+    this.arqueoAtm.montoRetiro = 0;
 
     this.cajetinesList.forEach(d => {
       this.totalesIncremento[d.denominacion] = (this.totalesIncremento[d.denominacion] | 0) + d.incremento;
-      this.arqueoAtm.montoIncrementoTotal = this.arqueoAtm.montoIncrementoTotal + (d.denominacion * d.incremento);
-      this.arqueoAtm.montoRetiroTotal = this.arqueoAtm.montoRetiroTotal + (d.denominacion * d.retiro);
+      this.arqueoAtm.montoIncremento = this.arqueoAtm.montoIncremento + (d.denominacion * d.incremento);
+      this.arqueoAtm.montoRetiro = this.arqueoAtm.montoRetiro + (d.denominacion * d.retiro);
     });
 
     // if (row.anterior < row.dispensado + row.rechazado + row.fisico) {
@@ -181,7 +182,8 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       })
 
       row.monto = row.actual * row.denominacion;
-      this.arqueoAtm.monto = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
+      this.arqueoAtm.montoArqueo = this.arqueoAtm.detalles.map(e => (e.denominacion * e.fisico)).reduce((a, b) => a + b);
+      this.arqueoAtm.montoFinal = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
 
     // Indico el Error
@@ -218,9 +220,9 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
     this.arqueoAtm.tipoArqueo = this.arqueoAtm.esIncrementoAtm ? TipoArqueoConstants.INCREMENTO : (this.arqueoAtm.esRetiroAtm ? TipoArqueoConstants.RETIRO : TipoArqueoConstants.ARQUEO);
     let message = '';
 
-    if (this.arqueoAtm.esIncrementoAtm && this.arqueoAtm.montoIncrementoTotal == 0) {
+    if (this.arqueoAtm.esIncrementoAtm && this.arqueoAtm.montoIncremento == 0) {
       message = 'Debe Indicar la Cantidad a Incrementar en algúno de los Cajetines del ATM'
-    } else if (this.arqueoAtm.esRetiroAtm && this.arqueoAtm.montoRetiroTotal == 0) {
+    } else if (this.arqueoAtm.esRetiroAtm && this.arqueoAtm.montoRetiro == 0) {
       message = 'Debe Indicar la Cantidad a Retirar en algúno de los Cajetines del ATM'
     }
 
