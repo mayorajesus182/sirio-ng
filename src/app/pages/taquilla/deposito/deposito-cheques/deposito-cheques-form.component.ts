@@ -96,6 +96,9 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             if (val) {
                 this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.sumMontoChequePropio);
                 this.calculateDifferences();
+            }else if(val === null || val ==  undefined){                
+                this.f.chequePropio.setValue(0.00);
+                this.cdr.detectChanges();
             }
         });
 
@@ -103,6 +106,9 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             if (val) {
                 this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.sumMontoChequeOtros);
                 this.calculateDifferences();
+            }else if(val === null || val ==  undefined){                
+                this.f.chequeOtros.setValue(0.00);
+                this.cdr.detectChanges();
             }
         });
 
@@ -132,7 +138,22 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
 
         this.calendarioService.today().subscribe(data => {
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-            this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(180, 'days');
+            this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
+                if (val) {
+
+                    if(val === GlobalConstants.CHEQUE_GERENCIA){
+                        this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(GlobalConstants.CHEQUE_GERENCIA_FECHA_MINIMA, 'days');
+                        this.cdr.detectChanges();
+                    }else  if(val === GlobalConstants.CHEQUE){
+                        this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(GlobalConstants.CHEQUE_FECHA_MINIMA, 'days');
+                        this.cdr.detectChanges();
+                    } else{
+                        this.valueMin = null;
+                        this.cdr.detectChanges();
+                    }
+                }
+            })
+
             this.cdr.detectChanges();
         });
     }
@@ -174,7 +195,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
                         tipoDocumentoCheque: true
                     });
                 }
-            }
+            } 
         });
 
         this.cf.fechaEmision.valueChanges.subscribe(val => {

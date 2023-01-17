@@ -27,7 +27,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 })
 
 export class DepositoMixtoFormComponent extends FormBaseComponent implements OnInit {
-    public columnMode = ColumnMode;
+    ColumnMode = ColumnMode;
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
@@ -90,6 +90,10 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             if (val) {
                 this.errorDesglose();
                 this.calculateDifferences();
+                this.cdr.detectChanges();
+            }else if(val === null || val ==  undefined){                
+                this.f.efectivo.setValue(0.00);
+                this.cdr.detectChanges();
             }
         });
 
@@ -97,6 +101,9 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             if (val) {
                 this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
                 this.calculateDifferences();
+            }else if(val === null || val ==  undefined){                
+                this.f.chequePropio.setValue(0.00);
+                this.cdr.detectChanges();
             }
         });
 
@@ -104,6 +111,9 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             if (val) {
                 this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
                 this.calculateDifferences();
+            }else if(val === null || val ==  undefined){                
+                this.f.chequeOtros.setValue(0.00);
+                this.cdr.detectChanges();
             }
         });
 
@@ -115,15 +125,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
                 this.calculateDifferences();
             }
         });
-
-        // this.f.monto.valueChanges.subscribe(val => {
-        //     if (val || val === 0) {
-        //         this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
-        //         this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
-        //         this.calculateDifferences();
-        //         // this.errorDesglose();
-        //     }
-        // });
 
         //Me trae la data de la cuenta que se selecciono
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
@@ -143,7 +144,22 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
         this.calendarioService.today().subscribe(data => {
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-            this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(180, 'days');
+            this.cf.tipoDocumentoCheque.valueChanges.subscribe(val => {
+                if (val) {
+
+                    if(val === GlobalConstants.CHEQUE_GERENCIA){
+                        this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(GlobalConstants.CHEQUE_GERENCIA_FECHA_MINIMA, 'days');
+                        this.cdr.detectChanges();
+                    }else  if(val === GlobalConstants.CHEQUE){
+                        this.valueMin= moment(data.today, GlobalConstants.DATE_SHORT).subtract(GlobalConstants.CHEQUE_FECHA_MINIMA, 'days');
+                        this.cdr.detectChanges();
+                    } else{
+                        this.valueMin = null;
+                        this.cdr.detectChanges();
+                    }
+                }
+            })
+
             this.cdr.detectChanges();
         });
     }
@@ -392,13 +408,20 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
 
     errorDesglose(event?: any) {
 
-        if ((event === undefined) || (event.montoTotal === 0 && this.f.efectivo.value != event.montoTotal)) {
+        if (event === undefined || event === null) {
             this.f.efectivo.setErrors({
                 differenceDesglose: true
             });
-            this.f.efectivo.markAsTouched();
+            this.f.efectivo.markAsDirty();
             this.cdr.detectChanges();
-        } else {
+        } else if((event.montoTotal === 0 || this.f.efectivo.value != event.montoTotal)  ){
+            this.f.efectivo.setErrors({
+                differenceDesglose: true
+            });
+            this.f.efectivo.markAsDirty();
+            this.cdr.detectChanges();
+        } 
+        else {
             this.f.efectivo.setErrors(undefined);
             this.cdr.detectChanges();
         }
@@ -410,15 +433,13 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0.00;
         let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0.00;
         let valorMontoTotal = this.f.monto.value ? this.f.monto.value : 0.00;
-        let valorTotal = (event ? (event?.montoTotal > 0 ? event?.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
+        let valorTotal = (event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
         // La diferencia entre la suma Efectivo con los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
 
-        if (Math.abs(valorTotal - valorMontoTotal) >= 1) {
+        // (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito))
 
-            this.f.efectivo.setErrors({
-                
-            })
+        if (Math.abs(valorTotal - valorMontoTotal) >= 1) {
 
             this.f.monto.setErrors({
                 totalDifference: true
@@ -462,6 +483,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.f.monto.markAsTouched();
         this.cdr.detectChanges();
     }
+    
 }
 
 
