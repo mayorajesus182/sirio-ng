@@ -34,6 +34,7 @@ import { ServiciosModule } from './servicios/servicios.module';
     ],
     declarations: [
         GestionComercialFormComponent,
+    
     ],
     exports: [],
 })
