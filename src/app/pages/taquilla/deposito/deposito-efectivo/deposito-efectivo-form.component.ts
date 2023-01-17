@@ -58,6 +58,9 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
                 this.calculateDifferences();
+            }else if(val === null || val ==  undefined){                
+                this.f.efectivo.setValue(0.00);
+                this.cdr.detectChanges();
             }
         });
 
@@ -126,8 +129,8 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
 
     calculateDifferences(event?: any) {
 
-        let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0;
-        let montoDeposito = this.f.monto.value;
+        let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0.00;
+        let montoDeposito = this.f.monto.value? this.f.monto.value : 0.00;
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
         if (   Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1) {
@@ -155,12 +158,6 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             this.f.efectivo.setErrors(undefined);
         }
     }
-
-    // validarMonto(event) {        
-    //     if (event && (event.montoTotal > 0)) {
-    //         this.f.monto.setValue(this.f.efectivo.value);
-    //     }
-    // }
 
     updateCashDetail(event) {
         if (!event) {

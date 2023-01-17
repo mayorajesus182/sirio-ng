@@ -99,10 +99,10 @@
                     {{'error.invalidDate' | translate}}
                 </mat-error>
                 <mat-error *ngIf="cf.fechaEmision.errors?.fechaMin">
-                    Fecha Errada
+                    Cheque Caduco
                 </mat-error>
                 <mat-error *ngIf="cf.fechaEmision.errors?.fechaMax">
-                    Cheque Caduco
+                    Fecha Errada
                 </mat-error>
             </mat-form-field>
 
@@ -182,7 +182,7 @@
                     <div class="text-center">Motivo Devolución</div>
                 </ng-template>
                 <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex" >
-                    <mat-form-field style="margin-top: -10px;font-size: 11px; width: 300px; align-items: center;"> fxLayoutAlign="center">
+                    <mat-form-field style="margin-top: -10px;font-size: 11px; width: 300px; align-items: center;">
                         <select matNativeControl (change)="selectMotivoDevolucion($event,row)">
                             <option value="" class="text-center">Seleccione un Motivo</option>
                             <option *ngFor="let item of motivosDevoluciones" [value]="item.id" [selected]="row.motivoDevolucion===item.id" class="text-center">

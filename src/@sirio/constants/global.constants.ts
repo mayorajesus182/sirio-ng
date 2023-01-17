@@ -35,5 +35,7 @@ export class GlobalConstants {
   public static PN_TIPO_DOC_MENOR = 'M';
   public static BANCO = '0102';
   public static AGENCIA = '0126';
+  public static CHEQUE_FECHA_MINIMA = '365';
+  public static CHEQUE_GERENCIA_FECHA_MINIMA = '180';
   // static CUENTA_BANCO: any;
 };
