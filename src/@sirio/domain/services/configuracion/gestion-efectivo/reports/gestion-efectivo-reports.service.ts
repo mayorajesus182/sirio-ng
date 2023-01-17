@@ -8,6 +8,7 @@ export interface GestionEfectivoReports {
     agencia: string
     moneda: string
     taquilla: string
+    remesa: string
  }
 
 
@@ -61,5 +62,9 @@ export class GestionEfectivoReportsService {
 
     remesaSolicitada(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-solicitada');
+    }
+
+    cartaPorte(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/carta-porte', params);
     }
 }
