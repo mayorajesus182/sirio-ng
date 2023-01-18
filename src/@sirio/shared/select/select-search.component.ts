@@ -57,7 +57,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
     @HostListener('change', ['$event'])
     changeSelect(event: any) {
-        console.log('select search event ', event);
+        // console.log('select search event ', event);
 
         // const file = event && event.item(0);
         // this.onChange(file);
@@ -259,7 +259,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
 
     showName(valSelected: any) {
         let name = '';
-        console.log("name", name); 
+        // console.log("name", name); 
         if (valSelected) {
             this.items.subscribe(data => name = data.filter(d => d.id === valSelected).map(d => d[this.attributeName])[0]);
         }

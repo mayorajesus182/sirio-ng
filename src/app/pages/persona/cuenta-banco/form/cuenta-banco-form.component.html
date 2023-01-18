@@ -10,8 +10,8 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'accountOpening.form'|translate}} </sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}
-                        &nbsp;&nbsp;<b>{{cuentaBanco.numeroCuenta| uppercase}}</b>
+                    <sirio-card-header-subheading>{{('action.add')| translate}}
+                        &nbsp;&nbsp;<b>{{cuentaBanco.numeroCuenta| mask:'0000 0000 00 00 00000000'}}</b>
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
@@ -111,8 +111,8 @@
 
                                         <mat-form-field fxFlex="100">
                                             <mat-label>{{'Número de Cuenta' | translate }} </mat-label>
-                                            <input matInput maxlength="24" mask="0000 0000 00 00 00000000" minlength="1" autocomplete="off" name="numeroCuenta"
-                                                formControlName="numeroCuenta"  class="text-center">
+                                            <input matInput    disabled="true" style="font-size: 1.45em;" ngx-mask mask="0000 0000 00 00 00000000" [(ngModel)]="cuentaBanco.numeroCuenta" [ngModelOptions]="{standalone: true}" autocomplete="off" name="numeroCuenta"
+                                                 class="text-center" >
                                             <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' |
                                                 translate}}
                                             </mat-error>
@@ -123,7 +123,6 @@
                                         </mat-form-field>
 
                                     </div>
-
 
 
 
