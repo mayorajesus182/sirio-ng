@@ -25,6 +25,7 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
     // esOperadorAgencia: Boolean = false;
     public regiones = new BehaviorSubject<Region[]>([]);
     public agencias = new BehaviorSubject<Agencia[]>([]);
+    esGteRegional: Boolean = false;
     gestionEfectivoReportes: GestionEfectivoReports = {} as GestionEfectivoReports;
 
     constructor(
@@ -32,6 +33,7 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private sessionService: SessionService,
         private gestionEfectivoReportsService: GestionEfectivoReportsService,
         // private sessionService: SessionService,
         private regionService: RegionService,
@@ -42,11 +44,24 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
 
     ngOnInit() {
         this.buildForm();
+        const user = this.sessionService.getUser() as User;        
+        this.esGteRegional = user.rols.includes(RolConstants.GERENTE_REGIONAL);
+
+        if(this.esGteRegional){
+
+            this.agenciaService.findActivesByRegion(user.unityId).subscribe(data => {
+                this.agencias.next(data);
+                this.cdr.detectChanges();
+            });
+            
+        }else{
+            this.regionService.actives().subscribe(data => {
+                this.regiones.next(data);
+            });
+        }
         // const user = this.sessionService.getUser() as User;
         // this.esOperadorAgencia = user.rols.includes(RolConstants.GERENTE_TESORERO_AGENCIA);
-        this.regionService.actives().subscribe(data => {
-            this.regiones.next(data);
-        });
+
     }
 
     buildForm() {
@@ -75,7 +90,7 @@ export class ReporteCupoAgenciaFormComponent extends FormBaseComponent implement
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
             this.download(name, blob);
         });
-        this.itemForm.reset({});
+        this.f.agencia.reset({});
     }
 
 

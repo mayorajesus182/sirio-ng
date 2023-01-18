@@ -3,9 +3,9 @@ import { FormBuilder, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { RolConstants } from 'src/@sirio/constants';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { RolConstants } from 'src/@sirio/constants';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
 import { GestionEfectivoReports, GestionEfectivoReportsService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/reports/gestion-efectivo-reports.service';
 import { User } from 'src/@sirio/domain/services/security/auth.service';
@@ -41,8 +41,7 @@ export class ReporteAgenciaOperativaFormComponent extends FormBaseComponent impl
         this.buildForm();
         const user = this.sessionService.getUser() as User;
         this.esGerente = user.rols.includes(RolConstants.GERENTE_REGIONAL); 
-        // || user.rols.includes(RolConstants.GERENTE_TESORERO_AGENCIA) ;
-        // this.esGerenteGeneral = user.rols.includes(RolConstants.GERENTE_TESORERO_AGENCIA);
+        
         this.regionService.actives().subscribe(data => {
             this.regiones.next(data);
         });
