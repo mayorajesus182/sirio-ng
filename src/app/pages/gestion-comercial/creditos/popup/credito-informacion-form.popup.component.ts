@@ -59,13 +59,10 @@ export class CreditoInformacionFormPopupComponent extends PopupBaseComponent imp
 
   }
 
-  save() {
-
-    // console.log('mode ', this.mode);
-    // this.updateData(this.direccion);// aca actualizamos la direccion
-
-    // this.saveOrUpdate(this.direccionService, this.direccion, 'La Dirección', this.direccion.id == undefined);
-
+  send() {
+    console.log('aquiiiiiiiiiiiiiiiiiiiiii');
+    
+    this.successResponse('La Información del Crédito', 'Enviada', false);
   }
 
 

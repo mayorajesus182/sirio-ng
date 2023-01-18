@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>{{dataCredito.servicio.nombre}}</h1> <span>{{('Envío') | translate}}</span>
+    <h1>{{dataCredito.servicio.nombre}}</h1> <span>{{('Envío de Requisitos') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -11,9 +11,17 @@
 
 </sirio-dialog-header>
 
+<img src="assets/img/demo/cintillo_emprendeYa.jpg" alt="" style="height: auto; width: 100%;">
+
 
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <h4>
+        La información referente a la descripción, características, beneficios, requisitos del crédito, será envíada al Cliente:
+      </h4>
+    </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <mat-form-field fxFlex="20">
@@ -31,9 +39,8 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <h4 class="text-center">
-        La información referente a la descripción, características, beneficios, requisitos del crédito, será envíada al Cliente a través
-        de la siguente dirección de correo
+      <h4>
+        A través de la siguente dirección de correo:
       </h4>
     </div>
 
@@ -51,6 +58,6 @@
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="send()">{{'button.send'|translate}}</button>
   </mat-dialog-actions>
 </form>
