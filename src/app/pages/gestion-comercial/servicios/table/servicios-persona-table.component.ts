@@ -24,6 +24,8 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
+
+  
   serviciosList: any[] = [{
     name: 'Servicio 1',
     reumen: 'resumen S1'
@@ -46,6 +48,8 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
       reumen: 'resumen S5'
     },
   ];
+
+
   private principal: boolean = false;
 
   constructor(
