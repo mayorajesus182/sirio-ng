@@ -7,7 +7,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { ServicioComercialService } from 'src/@sirio/domain/services/configuracion/servicio-comercial.service';
+import { ServicioComercialService } from 'src/@sirio/domain/services/gestion-comercial/servicio-comercial.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({

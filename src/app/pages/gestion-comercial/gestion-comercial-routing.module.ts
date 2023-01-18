@@ -10,11 +10,10 @@ const gestionComercialRoutes: Routes = [
     {
         path: '',
         component: GestionComercialFormComponent,
-        data: { title: 'Institucion' }
+        data: { title: 'Gestión Comercial' }
     },
 
 ];
-
 
 @NgModule({
     imports: [RouterModule.forChild(gestionComercialRoutes)],

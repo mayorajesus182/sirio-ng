@@ -23,7 +23,7 @@ export class ServicioComercialService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/servicio-comercial' };
+        this.apiConfig = { name: ApiConfConstants.API_GESTION_COMERCIAL, prefix: '/servicio-comercial' };
     }
 
     actives(): Observable<ServicioComercial[]> {
@@ -36,6 +36,14 @@ export class ServicioComercialService {
 
     activesByTipoPersona(tipoPersona: string): Observable<ServicioComercial[]> {
         return this.apiService.config(this.apiConfig).get(`/${tipoPersona}/tipopersona/actives`);
+    }
+
+    asignedToPersona(persona: number): Observable<ServicioComercial[]> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/asigned/all`);
+    }
+
+    noAsignedToPersona(persona:number, tipoPersona: string): Observable<ServicioComercial[]> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/${tipoPersona}/no/asigned/all`);
     }
 
     treeByPersona(persona:string, tipoPersona: string, invertido: boolean): Observable<ServicioComercial[]> {

@@ -14,10 +14,10 @@
                     <sirio-card-header-subheading></sirio-card-header-subheading>
                     <sirio-card-header-actions>
 
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
                             <mat-icon>save</mat-icon>
-                        </button>
+                        </button> -->
                         <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
@@ -36,7 +36,7 @@
 
                         <mat-accordion class="expansion-headers-align">
 
-                            <mat-expansion-panel (opened)="openServices(true)" (closed)="openServices(false)">
+                            <mat-expansion-panel (opened)="openServicios(true)" (closed)="openServicios(false)">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         <button mat-icon-button type="button" color="primary">
@@ -44,20 +44,55 @@
                                         </button>
                                         <span class="margin-top-sm semi-bold">
                                             {{'Servicios' | translate}}
-
                                         </span>
                                     </mat-panel-title>
                                     <mat-panel-description>
-                                        <!-- <span class="notification-number margin-top-sm" matBadgeColor="accent" [matBadge]="totalAddress"></span> -->
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-                                <div fxLayout="row" fxLayout="column" *ngIf="showServices">
-                                    
-                                            <sirio-servicios-persona-table [persona]="persona.id"></sirio-servicios-persona-table>
-                                    
+                                <div fxLayout="row" fxLayout="column" *ngIf="showServicios">
+                                    <sirio-servicios-persona-table [persona]="persona"></sirio-servicios-persona-table>
                                 </div>
+                            </mat-expansion-panel>
 
+
+                            <mat-expansion-panel (opened)="openProductos(true)" (closed)="openProductos(false)">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>design_services</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">
+                                            {{'Productos' | translate}}
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showProductos">
+                                    <sirio-productos-persona-table [persona]="persona"></sirio-productos-persona-table>
+                                </div>
+                            </mat-expansion-panel>
+
+
+                            <mat-expansion-panel (opened)="openCreditos(true)" (closed)="openCreditos(false)">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <mat-icon>design_services</mat-icon>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">
+                                            {{'Créditos' | translate}}
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <div fxLayout="row" fxLayout="column" *ngIf="showCreditos">
+                                    <sirio-creditos-persona-table [persona]="persona"></sirio-creditos-persona-table>
+                                </div>
                             </mat-expansion-panel>
 
 
@@ -69,10 +104,9 @@
 
                 </sirio-card-content>
 
-                <mat-toolbar>
+                <!-- <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
@@ -82,7 +116,7 @@
                         </button>
 
                     </div>
-                </mat-toolbar>
+                </mat-toolbar> -->
 
             </sirio-card>
         </div>

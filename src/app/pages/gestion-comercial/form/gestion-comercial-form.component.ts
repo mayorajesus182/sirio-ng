@@ -30,7 +30,9 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
     public estados = new BehaviorSubject<Estado[]>([]);
 
     public persona: Persona = {} as Persona;
-    public showServices = false;
+    public showServicios = false;
+    public showProductos = false;
+    public showCreditos = false;
 
     constructor(
         injector: Injector,
@@ -50,102 +52,111 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
         this.loadingDataForm.next(true);
 
 
-        this.institucionService.get().subscribe((inst: Institucion) => {
-            this.institucion = inst;
-            this.buildForm(this.institucion);
-            this.loadingDataForm.next(false);
-            this.applyFieldsDirty();
-            this.cdr.detectChanges();
-        });
+        // this.institucionService.get().subscribe((inst: Institucion) => {
+        //     this.institucion = inst;
+        //     this.buildForm(this.institucion);
+        //     this.loadingDataForm.next(false);
+        //     this.applyFieldsDirty();
+        //     this.cdr.detectChanges();
+        // });
 
-        this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
-            this.estados.next(data);
-            this.cdr.detectChanges();
-        });
+        // this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
+        //     this.estados.next(data);
+        //     this.cdr.detectChanges();
+        // });
 
 
     }
+
     ngAfterViewInit(): void {
-        this.loading$.subscribe(loading => {
-            if (!loading) {
-                if (this.f.estado.value) {
-                    this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-                        this.municipios.next(data);
-                        this.cdr.detectChanges();
-                    });
-                }
+        // this.loading$.subscribe(loading => {
+        //     if (!loading) {
+        //         if (this.f.estado.value) {
+        //             this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+        //                 this.municipios.next(data);
+        //                 this.cdr.detectChanges();
+        //             });
+        //         }
 
-                if (this.f.municipio.value) {
-                    this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
-                        this.parroquias.next(data);
-                        this.cdr.detectChanges();
-                    });
-                }
+        //         if (this.f.municipio.value) {
+        //             this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+        //                 this.parroquias.next(data);
+        //                 this.cdr.detectChanges();
+        //             });
+        //         }
 
-                if (this.f.parroquia.value) {
-                    this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
-                        this.zonasPostales.next(data);
-                        this.cdr.detectChanges();
-                    });
-                }
-            }
-        });
+        //         if (this.f.parroquia.value) {
+        //             this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
+        //                 this.zonasPostales.next(data);
+        //                 this.cdr.detectChanges();
+        //             });
+        //         }
+        //     }
+        // });
 
     }
 
-    buildForm(institucion: Institucion) {
+    // buildForm(institucion: Institucion) {
 
-        this.itemForm = this.fb.group({
-            id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            identificacion: [institucion.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            siglas: [institucion.siglas || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-            nombre: [institucion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            parroquia: [institucion.parroquia || undefined, [Validators.required]],
-            municipio: [institucion.municipio || undefined, [Validators.required]],
-            estado: [institucion.estado || undefined, [Validators.required]],
-            zonaPostal: [institucion.zonaPostal || undefined, [Validators.required]],
-            direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
-            email: [institucion.email || '', []],
-            web: [institucion.web || ''],
-            telefono: [institucion.telefono || '', [Validators.required]],
-            telefono_alt: [institucion.telefono_alt || ''],
-            latitud: [institucion.latitud || '', [Validators.required]],
-            longitud: [institucion.longitud || '', [Validators.required]],
+    //     this.itemForm = this.fb.group({
+    //         id: [institucion.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+    //         identificacion: [institucion.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+    //         siglas: [institucion.siglas || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
+    //         nombre: [institucion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+    //         parroquia: [institucion.parroquia || undefined, [Validators.required]],
+    //         municipio: [institucion.municipio || undefined, [Validators.required]],
+    //         estado: [institucion.estado || undefined, [Validators.required]],
+    //         zonaPostal: [institucion.zonaPostal || undefined, [Validators.required]],
+    //         direccion: [institucion.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]],
+    //         email: [institucion.email || '', []],
+    //         web: [institucion.web || ''],
+    //         telefono: [institucion.telefono || '', [Validators.required]],
+    //         telefono_alt: [institucion.telefono_alt || ''],
+    //         latitud: [institucion.latitud || '', [Validators.required]],
+    //         longitud: [institucion.longitud || '', [Validators.required]],
 
-        });
+    //     });
 
-        this.f.estado.valueChanges.subscribe(value => {
-            this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
-                this.municipios.next(data);
-                this.cdr.detectChanges();
-            });
-        });
+    //     this.f.estado.valueChanges.subscribe(value => {
+    //         this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+    //             this.municipios.next(data);
+    //             this.cdr.detectChanges();
+    //         });
+    //     });
 
-        this.f.municipio.valueChanges.subscribe(value => {
-            this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
-                this.parroquias.next(data);
-                this.cdr.detectChanges();
-            });
-        });
+    //     this.f.municipio.valueChanges.subscribe(value => {
+    //         this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+    //             this.parroquias.next(data);
+    //             this.cdr.detectChanges();
+    //         });
+    //     });
 
-        this.f.parroquia.valueChanges.subscribe(value => {
-            this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
-                this.zonasPostales.next(data);
-                this.cdr.detectChanges();
-            });
-        });
+    //     this.f.parroquia.valueChanges.subscribe(value => {
+    //         this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
+    //             this.zonasPostales.next(data);
+    //             this.cdr.detectChanges();
+    //         });
+    //     });
 
+    //     this.cdr.detectChanges();
+    //     this.printErrors()
+    // }
+
+
+    openServicios(opened: boolean) {
+        this.showServicios = opened;
         this.cdr.detectChanges();
-        this.printErrors()
     }
 
-
-    openServices(opened: boolean) {
-        this.showServices = opened;
+    openCreditos(opened: boolean) {
+        this.showCreditos = opened;
         this.cdr.detectChanges();
     }
 
-
+    openProductos(opened: boolean) {
+        this.showProductos = opened;
+        this.cdr.detectChanges();
+    }
 
 
     queryResult(event) {
@@ -162,22 +173,20 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
     
             this.persona = event;
             this.loaded$.next(true);
-
-            // console.log(' aquiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii persona    ', this.persona);
         }
     }
 
 
-    save() {
-        if (this.itemForm.invalid)
-            return;
+    // save() {
+    //     if (this.itemForm.invalid)
+    //         return;
 
 
-        this.updateData(this.institucion);
-        this.saveOrUpdate(this.institucionService, this.institucion, 'La  institucion', this.isNew);
+    //     this.updateData(this.institucion);
+    //     this.saveOrUpdate(this.institucionService, this.institucion, 'La  institucion', this.isNew);
 
 
 
-    }
+    // }
 
 }

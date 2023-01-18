@@ -1,4 +1,4 @@
-<sirio-page-layout mode="card" class="page-services">
+<sirio-page-layout mode="card" class="page-credits">
     <sirio-page-layout-header>&nbsp; </sirio-page-layout-header>
 
     <sirio-page-layout-content cdkDropListGroup fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start start" fxLayoutGap="24px">
@@ -8,8 +8,8 @@
                 <sirio-card-header-heading>Servicios</sirio-card-header-heading>
                 <sirio-card-header-subheading>El cliente aun no posee</sirio-card-header-subheading>
             </sirio-card-header>
-            <sirio-card-content  [cdkDropListData]="serviciosList" cdkDropList>
-                <div *ngFor="let serv of serviciosList | async" cdkDrag class="services card" fxLayout="column" fxLayoutAlign="center start">
+            <sirio-card-content  [cdkDropListData]="creditosList" cdkDropList>
+                <div *ngFor="let serv of creditosList | async" cdkDrag class="credits card" fxLayout="column" fxLayoutAlign="center start">
                     <div class="heading"> <i class="fa-light fa-link-slash"></i> &nbsp; {{ serv.nombre }}</div>
                     <div class="caption secondary-text">{{ serv.resumen }}</div>
                 </div>
@@ -21,8 +21,8 @@
                 <sirio-card-header-heading>Servicios</sirio-card-header-heading>
                 <sirio-card-header-subheading>El cliente los tiene activos</sirio-card-header-subheading>
             </sirio-card-header>
-            <sirio-card-content (cdkDropListDropped)="drop($event)" [cdkDropListData]="serviciosClienteList" cdkDropList>
-                <div *ngFor="let serv of serviciosClienteList | async" cdkDrag class="services card" fxLayout="row" fxLayoutAlign="space-between center">
+            <sirio-card-content (cdkDropListDropped)="drop($event)" [cdkDropListData]="creditosClienteList" cdkDropList>
+                <div *ngFor="let serv of creditosClienteList | async" cdkDrag class="credits card" fxLayout="row" fxLayoutAlign="space-between center">
                     <div> <i class="fa-light fa-link"></i> &nbsp;{{ serv.nombre }}</div>
                     <span fxFlex></span>
                     <!-- <mat-icon color="primary">edit</mat-icon>  -->
