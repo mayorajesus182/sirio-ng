@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { IMaskPipe } from 'angular-imask';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -176,7 +177,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         this.itemForm = this.fb.group({
             persona: new FormControl(this.persona.id, [Validators.required]),
-            numeroCuenta: new FormControl({value:this.isNew? "0000 0000 00 00 00000000" :this.cuentaBanco.numeroCuenta, disabled: true} ),
+            numeroCuenta: new FormControl({value:this.isNew? "0000 0000 00 00 00000000" :  this.cuentaBanco.numeroCuenta, disabled: true} ),
             tipoProducto: new FormControl( this.cuentaBanco.tipoProducto || undefined,[Validators.required]),
             tipoSubproducto: new FormControl(this.cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(this.cuentaBanco.origenFondo || undefined, [Validators.required]),
@@ -235,11 +236,18 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     private loadMoneda(subProducto) {
         console.log("subProducto", subProducto);
+        const filtered= this.tipoSubproductos.value.filter(s => s.id == subProducto);
+        if(filtered.length == 0){
 
-        let subProductoSel = this.tipoSubproductos.value.filter(s => s.id == subProducto).reduce(a => a);
+            return;
+        }
+        let subProductoSel = filtered.reduce(a => a);
         console.log(subProductoSel);
-        this.f.moneda.setValue(subProductoSel.moneda);
-        this.monedaSubproducto = subProductoSel.monedaNombre;
+        if(subProductoSel){
+
+            this.f.moneda.setValue(subProductoSel.moneda);
+            this.monedaSubproducto = subProductoSel.monedaNombre;
+        }
     }
 
     resetAll() {
@@ -276,7 +284,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             // DEBO REDIRECCIONAR AL USUARIO AL 
             this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
                 // terminar proceso de apertura de cuenta
-                console.log(cuenta);
+                // console.log(cuenta);
 
                 this.isNew = false;
                 this.cuentaBanco = cuenta;
@@ -320,6 +328,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
             this.cuentaBancoService.save(this.cuentaBanco).subscribe(data => {
                 this.cuentaBanco = data;
+                this.isNew=false;
+                console.log(data);
+                
                 this.successResponse('La Cuenta Banco', 'creada', true);
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
                 this.cdr.detectChanges();
