@@ -15,13 +15,12 @@
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="send()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || !cuentaBanco.numeroCuenta" (click)="send()">
                             <mat-icon>outbox</mat-icon>
                         </button> 
-                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>backspace</mat-icon>
-                        </button> -->
+                        <button class="icon" mat-icon-button matTooltip="'Descargar Ficha'" [disabled]="itemForm?.invalid || !cuentaBanco.numeroCuenta" type="button" (click)="reportPdf()">
+                                <i class="fal fa-file-pdf fa-xl"></i>
+                        </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="backHome()">
                             <mat-icon>close</mat-icon>

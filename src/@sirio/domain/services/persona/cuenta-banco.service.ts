@@ -62,13 +62,14 @@ export class CuentaBancoService {
     }
 
     save(data: CuentaBanco): Observable<any> {
-        return this.apiService.config(this.apiConfig).post('/create', data)
-            .pipe(map(res => Object.assign(res, data)));
+        return this.apiService.config(this.apiConfig).post('/create', data);
+    }
+    send(id:number): Observable<any> {
+        return this.apiService.config(this.apiConfig).post(`/${id}/send`);
     }
 
     update(data: CuentaBanco): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
-            .pipe(map(res => data));
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data);
     }
 
     changeStatus(id: any): Observable<any> {
