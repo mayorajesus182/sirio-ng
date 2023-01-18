@@ -19,6 +19,7 @@ import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/s
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { PersonaReportService } from 'src/@sirio/domain/services/control-efectivo/persona-report.service';
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
@@ -73,7 +74,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         dialog: MatDialog,
         private fb: FormBuilder,
         private cuentaBancoService: CuentaBancoService,
-
+        private personaReportService: PersonaReportService,
         private tipoParticipacionService: TipoParticipacionService,
         private tipoFirmaService: TipoFirmaService,
         private tipoFirmanteService: TipoFirmanteService,
@@ -349,7 +350,27 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     send() {
 
         console.log('send data al banco');
+        this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
+            
+            
+        });
+
     }
+
+    reportPdf(){
+
+        console.log('imprimir ficha de ',this.cuentaBanco);
+        
+        
+        this.loadingDataForm.next(true);
+        this.personaReportService.ficha(this.cuentaBanco.persona).subscribe(data => {
+          this.loadingDataForm.next(false);
+          console.log('response:', data);
+          const name = this.getFileName(data);
+          let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+          this.download(name, blob);
+        });
+      }
 
     // searchMoneda(){
 
