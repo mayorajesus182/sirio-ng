@@ -2,8 +2,9 @@
 import { Location } from "@angular/common";
 import { HttpResponse } from "@angular/common/http";
 
-import { ChangeDetectorRef, Component, ElementRef, Injector } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Injector, QueryList, ViewChildren } from "@angular/core";
 import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { MatButton } from "@angular/material/button";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
 import { Router } from "@angular/router";
@@ -73,10 +74,12 @@ export class FormBaseComponent {
     protected router: Router;
 
     isNew: boolean = false;
-    public itemForm: FormGroup;   
+    public itemForm: FormGroup;
     protected dialogRef: MatDialogRef<any>;
     public actions: SidenavItem[] = [];
     public buttons: SidenavItem[] = [];
+    @ViewChildren(MatButton) buttonList: QueryList<MatButton>
+
     public opts = {
         type: 'line-scale-pulse-out',
         size: 'medium',
@@ -125,10 +128,15 @@ export class FormBaseComponent {
         this.opts.bdColor = 'rgba(190, 190, 190, 0.10)';
 
         this.loading$.subscribe(status => {
-
+            console.log('send info ', status);
+            
             // console.log('loading form-regla-OSCES ',status);
-
+            // bloque todos los botonones mientras estoy enviando info al servidor
+            this.buttonList.forEach(element => {
+                element.disabled = status;
+            });
             if (status == true) {
+
                 var opts = {} as Spinner;
                 // opts.type = 'line-scale-pulse-out-rapid';
                 opts.type = 'ball-scale-ripple-multiple';
@@ -166,7 +174,7 @@ export class FormBaseComponent {
         return this.itemForm ? this.itemForm.controls : {};
     }
 
-   
+
 
 
     protected updateData(current = {}) {
@@ -178,7 +186,7 @@ export class FormBaseComponent {
     }
 
 
-    protected showFormPopup(popupComponent,  data: any, _isNew:boolean, withDialog = '60%'): MatDialogRef<any> {
+    protected showFormPopup(popupComponent, data: any, _isNew: boolean, withDialog = '60%'): MatDialogRef<any> {
         let data_aux = { payload: undefined, title: undefined, isNew: undefined };
 
         if (!data.payload) {
@@ -192,7 +200,7 @@ export class FormBaseComponent {
 
         this.dialogRef = this.dialog.open(popupComponent, {
             panelClass: 'dialog-frame',
-            position: {top: '3%'} ,
+            position: { top: '3%' },
             width: withDialog,
             disableClose: true,
             data: data_aux
@@ -236,10 +244,10 @@ export class FormBaseComponent {
         });
     }
 
-    protected successResponse(entityName: string, event: string,  notBack?: boolean) {
+    protected successResponse(entityName: string, event: string, notBack?: boolean) {
 
         this.loadingDataForm.next(false);
-        if(!notBack){
+        if (!notBack) {
             this.location.back();
         }
         this.snack.show({
@@ -273,8 +281,8 @@ export class FormBaseComponent {
 
 
 
-    public printErrors():any[] {
-        if(!this.itemForm || !this.itemForm.controls){
+    public printErrors(): any[] {
+        if (!this.itemForm || !this.itemForm.controls) {
             return null;
         }
         const result = [];
@@ -309,15 +317,15 @@ export class FormBaseComponent {
     }
 
 
-    protected saveOrUpdate(service, formData = {}, entityName,back=true, isNew?,): Observable<any> {
+    protected saveOrUpdate(service, formData = {}, entityName, back = true, isNew?,): Observable<any> {
         this.loadingDataForm.next(true);
         if (this.isNew) {
             const saveRequest = service.save(formData);
             return saveRequest.subscribe(data => {
                 this.itemForm.reset({});
                 // this.resetForm()
-                this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'),!back);
-                
+                this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'), !back);
+
                 return data;
             }, error => this.errorResponse(true));
 
@@ -437,14 +445,14 @@ export class FormBaseComponent {
         return filename
     }
 
-    eventFromElement(el:ElementRef,event){
-        if(!el){
+    eventFromElement(el: ElementRef, event) {
+        if (!el) {
             return;
         }
         return fromEvent(el.nativeElement, event).pipe(
             distinctUntilChanged(),
             debounceTime(1000)
-          );
+        );
     }
 
 }
