@@ -7,6 +7,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
+import { ServicioComercialService } from 'src/@sirio/domain/services/gestion-comercial/servicio-comercial.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -29,6 +30,7 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
         private route: ActivatedRoute,
         private monedaService: MonedaService,
         private conoMonetarioService: ConoMonetarioService,
+        private servicioComercialService: ServicioComercialService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -71,7 +73,7 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({ value: moneda.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             siglas: new FormControl(moneda.siglas || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(moneda.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS)]),
+            nombre: new FormControl(moneda.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             usoOperacion: new FormControl(moneda.usoOperacion || false),
             usoAtm: new FormControl(moneda.usoAtm || false),
             esVirtual: new FormControl(moneda.esVirtual || false),

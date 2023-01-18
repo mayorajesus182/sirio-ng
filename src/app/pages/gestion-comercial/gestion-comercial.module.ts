@@ -10,9 +10,9 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { GestionComercialFormComponent } from './form/gestion-comercial-form.component';
 import { GestionComercialRoutingModule } from './gestion-comercial-routing.module';
-import { ServiciosModule } from './servicios/servicios.module';
-
-
+import { ServicioComercialModule } from './servicios/servicio.comercial.module';
+import { ProductoComercialModule } from './productos/producto.comercial.module';
+import { CreditoComercialModule } from './creditos/credito.comercial.module';
 
 @NgModule({
     imports: [
@@ -29,12 +29,12 @@ import { ServiciosModule } from './servicios/servicios.module';
         HighlightModule,
         SirioCardModule,
         GestionComercialRoutingModule,
-        ServiciosModule,
-
+        ServicioComercialModule,
+        ProductoComercialModule,
+        CreditoComercialModule,
     ],
     declarations: [
         GestionComercialFormComponent,
-    
     ],
     exports: [],
 })

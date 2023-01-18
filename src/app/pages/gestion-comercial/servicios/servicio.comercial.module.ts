@@ -10,7 +10,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { ServiciosPersonaFormPopupComponent } from './popup/servicios-persona-form.popup.component';
+import { ServiciosPagoMovilFormPopupComponent } from './popup/servicios-pago-movil-form.popup.component';
 import { ServiciosPersonaTableComponent } from './table/servicios-persona-table.component';
 
 @NgModule({
@@ -31,12 +31,12 @@ import { ServiciosPersonaTableComponent } from './table/servicios-persona-table.
     BreadcrumbsModule
   ],
   declarations: [
-    ServiciosPersonaFormPopupComponent,
+    ServiciosPagoMovilFormPopupComponent,
     ServiciosPersonaTableComponent,
   ],
-  exports: [ServiciosPersonaTableComponent],
-  entryComponents:[ServiciosPersonaFormPopupComponent]
+  exports: [ServiciosPersonaTableComponent,],
+  entryComponents:[ServiciosPagoMovilFormPopupComponent]
 })
-export class ServiciosModule {
+export class ServicioComercialModule {
 
 }
