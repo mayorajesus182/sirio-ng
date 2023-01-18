@@ -10,8 +10,8 @@
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'accountOpening.form'|translate}} </sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}}
-                        &nbsp;&nbsp;<b>{{cuentaBanco.numeroCuenta| uppercase}}</b>
+                    <sirio-card-header-subheading>{{('action.add')| translate}}
+                        &nbsp;&nbsp;<b>{{cuentaBanco.numeroCuenta| mask:'0000 0000 00 00 00000000'}}</b>
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
