@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>{{dataServicio.servicio.nombre}}</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <h1>{{dataCredito.servicio.nombre}}</h1> <span>{{('Envío') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -16,34 +16,33 @@
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
       <mat-form-field fxFlex="20">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
-        <input matInput class="text-center" [value]="dataServicio.persona.tipoDocumento+' - '+dataServicio.persona.identificacion" readonly>
+        <input matInput class="text-center" [value]="dataCredito.persona.tipoDocumento+' - '+dataCredito.persona.identificacion" readonly>
       </mat-form-field>
 
       <mat-form-field fxFlex="80">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
-        <input matInput class="text-center" [value]="dataServicio.persona.nombre" readonly>
+        <input matInput class="text-center" [value]="dataCredito.persona.nombre" readonly>
       </mat-form-field>
 
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <h4 class="text-center">
+        La información referente a la descripción, características, beneficios, requisitos del crédito, será envíada al Cliente a través
+        de la siguente dirección de correo
+      </h4>
+    </div>
 
-      <sirio-select-search fxFlex="70" [label]="'commercialService.countNumber' | translate: {default: 'global.accountNumber'} | translate"
-        formControlName="cuenta" [required]="true" [elements]="cuentas.asObservable()" [attributeName]="'descripcion'"
-        [errors]="f.cuenta?.errors">
-      </sirio-select-search>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <mat-form-field fxFlex="30">
-        <mat-label>{{'commercialService.phone' | translate: {default: 'global.phone'} | translate }} </mat-label>
-        <input matInput name="telefono" autocomplete="off" formControlName="telefono" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center"
-          phoneValidate [telefonicas]="telefonicas.asObservable()" required>
-        <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
-        <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}} </mat-error>
+      <mat-form-field fxFlex="100">
+        <mat-label>{{'commercialService.email' | translate: {default: 'global.email'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataCredito.persona.email" readonly>
       </mat-form-field>
 
     </div>

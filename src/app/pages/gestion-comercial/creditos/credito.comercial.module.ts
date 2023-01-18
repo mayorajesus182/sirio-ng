@@ -10,7 +10,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { ServiciosPagoMovilFormPopupComponent } from './popup/servicios-pago-movil-form.popup.component';
+import { CreditoInformacionFormPopupComponent } from './popup/credito-informacion-form.popup.component';
 import { CreditosPersonaTableComponent } from './table/creditos-persona-table.component';
 
 @NgModule({
@@ -31,11 +31,11 @@ import { CreditosPersonaTableComponent } from './table/creditos-persona-table.co
     BreadcrumbsModule
   ],
   declarations: [
-    ServiciosPagoMovilFormPopupComponent,
+    CreditoInformacionFormPopupComponent,
     CreditosPersonaTableComponent,
   ],
   exports: [CreditosPersonaTableComponent],
-  entryComponents:[ServiciosPagoMovilFormPopupComponent]
+  entryComponents:[CreditoInformacionFormPopupComponent]
 })
 export class CreditoComercialModule {
 

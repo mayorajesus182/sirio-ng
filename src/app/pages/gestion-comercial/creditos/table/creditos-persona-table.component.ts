@@ -7,7 +7,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { ServiciosPagoMovilFormPopupComponent } from '../popup/servicios-pago-movil-form.popup.component';
+import { CreditoInformacionFormPopupComponent } from '../popup/credito-informacion-form.popup.component';
 import { CreditoComercial, CreditoComercialService } from 'src/@sirio/domain/services/gestion-comercial/credito-comercial.service';
 
 @Component({
@@ -85,7 +85,7 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
     // this.updateDataFromValues(data, { principal: this.principal });
     // let dir = data;
 
-    this.showFormPopup(ServiciosPagoMovilFormPopupComponent, { persona: this.persona, servicio: data }, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(CreditoInformacionFormPopupComponent, { persona: this.persona, servicio: data }, '50%').afterClosed().subscribe(event => {
       if (event) {
         this.loadList();
       }

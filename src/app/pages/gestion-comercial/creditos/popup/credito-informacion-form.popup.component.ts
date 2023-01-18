@@ -9,20 +9,20 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 
 @Component({
-  selector: 'sirio-servicios-pago_movil-form.popup',
-  templateUrl: './servicios-pago-movil-form.popup.component.html',
-  styleUrls: ['./servicios-pago-movil-form.popup.component.scss']
+  selector: 'sirio-credito-informacion-form.popup',
+  templateUrl: './credito-informacion-form.popup.component.html',
+  styleUrls: ['./credito-informacion-form.popup.component.scss']
 })
-export class ServiciosPagoMovilFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
+export class CreditoInformacionFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
 
-  dataServicio: any = {};
+  dataCredito: any = {};
   public telefonicas = new BehaviorSubject<Telefonica[]>([]);
   public cuentas = new BehaviorSubject<CuentaBanco[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
-    dialogRef: MatDialogRef<ServiciosPagoMovilFormPopupComponent>,
+    dialogRef: MatDialogRef<CreditoInformacionFormPopupComponent>,
     private cuentaBancoService: CuentaBancoService,
     private telefonicaService: TelefonicaService,
     private cdr: ChangeDetectorRef,
@@ -37,7 +37,9 @@ export class ServiciosPagoMovilFormPopupComponent extends PopupBaseComponent imp
   ngOnInit() {
     this.loadingDataForm.next(true);
     if (this.defaults.payload) {
-      this.dataServicio = this.defaults.payload;
+      this.dataCredito = this.defaults.payload;
+      console.log(this.dataCredito);
+      
       this.mode = 'global.edit';
       this.buildForm();
     }
