@@ -5,7 +5,7 @@
 
         <sirio-card [@fadeInUp] class="basic-forms" fxFlex="auto">
             <sirio-card-header>
-                <sirio-card-header-heading>Servicios</sirio-card-header-heading>
+                <sirio-card-header-heading>Créditos</sirio-card-header-heading>
                 <sirio-card-header-subheading>El cliente aun no posee</sirio-card-header-subheading>
             </sirio-card-header>
             <sirio-card-content  [cdkDropListData]="creditosList" cdkDropList>
@@ -18,7 +18,7 @@
 
         <sirio-card [@fadeInUp] class="basic-forms" fxFlex="auto">
             <sirio-card-header>
-                <sirio-card-header-heading>Servicios</sirio-card-header-heading>
+                <sirio-card-header-heading>Créditos</sirio-card-header-heading>
                 <sirio-card-header-subheading>El cliente los tiene activos</sirio-card-header-subheading>
             </sirio-card-header>
             <sirio-card-content (cdkDropListDropped)="drop($event)" [cdkDropListData]="creditosClienteList" cdkDropList>
@@ -26,12 +26,12 @@
                     <div> <i class="fa-light fa-link"></i> &nbsp;{{ serv.nombre }}</div>
                     <span fxFlex></span>
                     <!-- <mat-icon color="primary">edit</mat-icon>  -->
-                    <button class="icon" mat-icon-button matTooltip="Editar" color="primary" type="button" [disabled]="disabled" (click)="edit(serv)">    
-                        <i class="fa-light fa-pencil fa-lg "  ></i>                        
+                    <button class="icon" mat-icon-button matTooltip="Visualizar" color="primary" type="button" [disabled]="disabled" (click)="edit(serv)">    
+                        <i class="fa-light fa-eye fa-lg "  ></i>                        
                     </button>
                     &nbsp;&nbsp;&nbsp;
-                    <button class="icon" mat-icon-button matTooltip="Eliminar" type="button" color="primary" [disabled]="disabled" (click)="delete(serv)">    
-                        <i class="fa-light fa-trash-can fa-lg"></i>
+                    <button class="icon" mat-icon-button matTooltip="Enviar" type="button" color="primary" [disabled]="disabled" (click)="sendData(serv)">    
+                        <i class="fa-light fa-paper-plane fa-lg"></i>
                     </button>
                 </div>
             </sirio-card-content>

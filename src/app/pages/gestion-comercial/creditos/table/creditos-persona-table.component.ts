@@ -9,6 +9,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { CreditoInformacionFormPopupComponent } from '../popup/credito-informacion-form.popup.component';
 import { CreditoComercial, CreditoComercialService } from 'src/@sirio/domain/services/gestion-comercial/credito-comercial.service';
+import { CreditoDataFormPopupComponent } from '../popup/credito-data-form.popup.component';
 
 @Component({
   selector: 'sirio-creditos-persona-table',
@@ -60,32 +61,37 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
   }
 
   edit(data: any) {
-    console.log('data event click ', data);
+    this.popupData(data);
   }
 
-  delete(row: any) {
-    this.swalService.show('¿Desea Eliminar el Crédito?', undefined,
-      { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
-        if (!resp.dismiss) {
-          console.log('buscando direccion', row.id);
-        }
-      });
+  sendData(row: any) {
+    this.successResponse('La Información del Crédito', 'Enviada', true);
   }
 
   view(data: any) {
   }
 
 
-  popupPagoMovil(data: CreditoComercial) {
+  popupRequisito(data: CreditoComercial) {
 
     if (!data) {
       return;
     }
 
-    // this.updateDataFromValues(data, { principal: this.principal });
-    // let dir = data;
-
     this.showFormPopup(CreditoInformacionFormPopupComponent, { persona: this.persona, servicio: data }, '50%').afterClosed().subscribe(event => {
+      if (event) {
+        this.loadList();
+      }
+    });
+  }
+
+  popupData(data: CreditoComercial) {
+
+    if (!data) {
+      return;
+    }
+
+    this.showFormPopup(CreditoDataFormPopupComponent, { persona: this.persona, servicio: data }, '50%').afterClosed().subscribe(event => {
       if (event) {
         this.loadList();
       }
@@ -96,15 +102,11 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
   drop(event: CdkDragDrop<Task[]>) {
 
     if (event.previousContainer === event.container) {
-      console.log('event drop', event);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      console.log('event drop2222', event.previousContainer);
-
-
       this.creditosList.value.forEach((e, index) => {
         if (index == event.previousIndex) {
-          this.popupPagoMovil(e);
+          this.popupRequisito(e);
         }
         this.cdr.detectChanges();
       });

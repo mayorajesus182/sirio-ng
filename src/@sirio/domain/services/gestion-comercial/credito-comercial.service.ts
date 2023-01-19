@@ -12,6 +12,12 @@ export interface CreditoComercial {
     moneda: string;
     parent?: CreditoComercial;
     subservicios?: CreditoComercial[];
+    monto: string;
+    porcentaje: string;
+    cuota: string;
+    saldo: string;
+    plazo: string;
+    pendiente: string;
 }
 
 @Injectable({
