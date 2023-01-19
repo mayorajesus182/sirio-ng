@@ -9,11 +9,11 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 
 @Component({
-  selector: 'sirio-credito-informacion-form.popup',
-  templateUrl: './credito-informacion-form.popup.component.html',
-  styleUrls: ['./credito-informacion-form.popup.component.scss']
+  selector: 'sirio-credito-data-form.popup',
+  templateUrl: './credito-data-form.popup.component.html',
+  styleUrls: ['./credito-data-form.popup.component.scss']
 })
-export class CreditoInformacionFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
+export class CreditoDataFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
 
   dataCredito: any = {};
@@ -22,7 +22,7 @@ export class CreditoInformacionFormPopupComponent extends PopupBaseComponent imp
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
-    dialogRef: MatDialogRef<CreditoInformacionFormPopupComponent>,
+    dialogRef: MatDialogRef<CreditoDataFormPopupComponent>,
     private cuentaBancoService: CuentaBancoService,
     private telefonicaService: TelefonicaService,
     private cdr: ChangeDetectorRef,

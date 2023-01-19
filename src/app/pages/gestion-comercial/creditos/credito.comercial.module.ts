@@ -12,6 +12,7 @@ import { SharedComponentModule } from 'src/@sirio/shared/shared-components.modul
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { CreditoInformacionFormPopupComponent } from './popup/credito-informacion-form.popup.component';
 import { CreditosPersonaTableComponent } from './table/creditos-persona-table.component';
+import { CreditoDataFormPopupComponent } from './popup/credito-data-form.popup.component';
 
 @NgModule({
   imports: [
@@ -33,9 +34,10 @@ import { CreditosPersonaTableComponent } from './table/creditos-persona-table.co
   declarations: [
     CreditoInformacionFormPopupComponent,
     CreditosPersonaTableComponent,
+    CreditoDataFormPopupComponent,
   ],
   exports: [CreditosPersonaTableComponent],
-  entryComponents:[CreditoInformacionFormPopupComponent]
+  entryComponents:[CreditoInformacionFormPopupComponent, CreditoDataFormPopupComponent]
 })
 export class CreditoComercialModule {
 
