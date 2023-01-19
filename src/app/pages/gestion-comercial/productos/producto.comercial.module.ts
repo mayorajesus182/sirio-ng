@@ -10,8 +10,9 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { ServiciosPagoMovilFormPopupComponent } from './popup/servicios-pago-movil-form.popup.component';
+import { ProductoCuentaRegistroFormPopupComponent } from './popup/producto-cuenta-registro-form.popup.component';
 import { ProductosPersonaTableComponent } from './table/productos-persona-table.component';
+import { ProductoCuentaDataFormPopupComponent } from './popup/producto-cuenta-data-form.popup.component';
 
 @NgModule({
   imports: [
@@ -31,11 +32,12 @@ import { ProductosPersonaTableComponent } from './table/productos-persona-table.
     BreadcrumbsModule
   ],
   declarations: [
-    ServiciosPagoMovilFormPopupComponent,
+    ProductoCuentaRegistroFormPopupComponent,
+    ProductoCuentaDataFormPopupComponent,
     ProductosPersonaTableComponent,
   ],
   exports: [ProductosPersonaTableComponent],
-  entryComponents:[ServiciosPagoMovilFormPopupComponent]
+  entryComponents:[ProductoCuentaRegistroFormPopupComponent, ProductoCuentaDataFormPopupComponent]
 })
 export class ProductoComercialModule {
 

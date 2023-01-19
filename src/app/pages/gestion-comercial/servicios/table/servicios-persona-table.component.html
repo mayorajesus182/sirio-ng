@@ -25,10 +25,9 @@
                 <div *ngFor="let serv of serviciosClienteList | async" cdkDrag class="services card" fxLayout="row" fxLayoutAlign="space-between center">
                     <div> <i class="fa-light fa-link"></i> &nbsp;{{ serv.nombre }}</div>
                     <span fxFlex></span>
-                    <!-- <mat-icon color="primary">edit</mat-icon>  -->
-                    <button class="icon" mat-icon-button matTooltip="Editar" color="primary" type="button" [disabled]="disabled" (click)="edit(serv)">    
+                    <!-- <button class="icon" mat-icon-button matTooltip="Editar" color="primary" type="button" [disabled]="disabled" (click)="edit(serv)">    
                         <i class="fa-light fa-pencil fa-lg "  ></i>                        
-                    </button>
+                    </button> -->
                     &nbsp;&nbsp;&nbsp;
                     <button class="icon" mat-icon-button matTooltip="Eliminar" type="button" color="primary" [disabled]="disabled" (click)="delete(serv)">    
                         <i class="fa-light fa-trash-can fa-lg"></i>

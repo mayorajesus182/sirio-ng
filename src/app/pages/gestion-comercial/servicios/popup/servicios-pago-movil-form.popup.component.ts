@@ -51,7 +51,6 @@ export class ServiciosPagoMovilFormPopupComponent extends PopupBaseComponent imp
   buildForm() {
 
     this.itemForm = this.fb.group({
-      cuenta: new FormControl(undefined, [Validators.required]),
       telefono: new FormControl('', [Validators.required]),
     });
 
@@ -59,11 +58,7 @@ export class ServiciosPagoMovilFormPopupComponent extends PopupBaseComponent imp
 
   save() {
 
-    // console.log('mode ', this.mode);
-    // this.updateData(this.direccion);// aca actualizamos la direccion
-
-    // this.saveOrUpdate(this.direccionService, this.direccion, 'La Dirección', this.direccion.id == undefined);
-
+    this.successResponse('La Información del Crédito', 'Enviada', false);
   }
 
 
