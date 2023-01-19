@@ -24,13 +24,13 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="25">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataCredito.persona.tipoDocumento+' - '+dataCredito.persona.identificacion" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="80">
+      <mat-form-field fxFlex="75">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataCredito.persona.nombre" readonly>

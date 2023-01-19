@@ -7,8 +7,9 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { ServiciosPagoMovilFormPopupComponent } from '../popup/servicios-pago-movil-form.popup.component';
+import { ProductoCuentaRegistroFormPopupComponent } from '../popup/producto-cuenta-registro-form.popup.component';
 import { ProductoComercial, ProductoComercialService } from 'src/@sirio/domain/services/gestion-comercial/producto-comercial.service';
+import { ProductoCuentaDataFormPopupComponent } from '../popup/producto-cuenta-data-form.popup.component';
 
 @Component({
   selector: 'sirio-productos-persona-table',
@@ -60,32 +61,37 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   }
 
   edit(data: any) {
-    console.log('data event click ', data);
+    this.popupData(data);
   }
 
-  delete(row: any) {
-    this.swalService.show('¿Desea Eliminar el Producto?', undefined,
-      { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
-        if (!resp.dismiss) {
-          console.log('buscando direccion', row.id);
-        }
-      });
+  sendData(row: any) {
+    this.successResponse('La Información de la Cuenta', 'Enviada', true);
   }
 
   view(data: any) {
   }
 
 
-  popupPagoMovil(data: ProductoComercial) {
+  popupRegistro(data: ProductoComercial) {
 
     if (!data) {
       return;
     }
 
-    // this.updateDataFromValues(data, { principal: this.principal });
-    // let dir = data;
+    this.showFormPopup(ProductoCuentaRegistroFormPopupComponent, { persona: this.persona, servicio: data }, '70%').afterClosed().subscribe(event => {
+      if (event) {
+        this.loadList();
+      }
+    });
+  }
 
-    this.showFormPopup(ServiciosPagoMovilFormPopupComponent, { persona: this.persona, servicio: data }, '60%').afterClosed().subscribe(event => {
+  popupData(data: ProductoComercial) {
+
+    if (!data) {
+      return;
+    }
+
+    this.showFormPopup(ProductoCuentaDataFormPopupComponent, { persona: this.persona, servicio: data }, '50%').afterClosed().subscribe(event => {
       if (event) {
         this.loadList();
       }
@@ -96,15 +102,11 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   drop(event: CdkDragDrop<Task[]>) {
 
     if (event.previousContainer === event.container) {
-      console.log('event drop', event);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
-      console.log('event drop2222', event.previousContainer);
-
-
       this.productosList.value.forEach((e, index) => {
         if (index == event.previousIndex) {
-          this.popupPagoMovil(e);
+          this.popupRegistro(e);
         }
         this.cdr.detectChanges();
       });

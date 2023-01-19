@@ -18,19 +18,24 @@
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <h4>
-        Datos del Cliente
-      </h4>
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="far fa-user-large fa-lg"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Cliente
+        </span>
+      </mat-panel-title>
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="25">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataCredito.persona.tipoDocumento+' - '+dataCredito.persona.identificacion" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="80">
+      <mat-form-field fxFlex="75">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataCredito.persona.nombre" readonly>
@@ -39,10 +44,15 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <h4>
-        Datos del Crédito
-      </h4>
-    </div>
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="far fa-credit-card-front fa-lg"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Crédito
+        </span>
+      </mat-panel-title>
+    </div>  
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 

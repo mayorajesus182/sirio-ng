@@ -1,0 +1,158 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{dataProducto.servicio.nombre}}</h1> <span>{{'action.add' | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="far fa-user-large fa-lg"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Cliente
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="75">
+        <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
+      </mat-form-field>
+
+    </div>
+
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="far fa-memo-circle-info fa-lg"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Perfil de la Cuenta
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'commercialService.coin' | translate: {default: 'global.coin'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.servicio.monedaNombre" readonly>
+      </mat-form-field>
+
+      <sirio-select-search fxFlex="auto" [label]="'Origen de los Fondos' | translate: {default: 'Origen de los Fondos'} | translate"
+        formControlName="origenFondo" [required]="true" [elements]="origenes.asObservable()" [attributeName]="'nombre'" [errors]="f.origenFondo?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="auto" [label]="'Destino de la Cuenta' | translate: {default: 'Destino de la Cuenta'} | translate"
+        formControlName="destinoCuenta" [required]="true" [elements]="destinos.asObservable()" [attributeName]="'nombre'" [errors]="f.destinoCuenta?.errors">
+      </sirio-select-search>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <sirio-select-search fxFlex="50" [label]="'Motivo del Servicio' | translate: {default: 'Motivo del Servicio'} | translate"
+        formControlName="motivoSolicitud" [required]="true" [elements]="motivos.asObservable()" [attributeName]="'nombre'" [errors]="f.motivoSolicitud?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="auto" [label]="'Transacciones por Créditos' | translate: {default: 'Transacciones por Créditos'} | translate"
+        formControlName="transaccionesCredito" [required]="true" [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.transaccionesCredito?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="auto" [label]="'Monto por Créditos' | translate: {default: 'Monto por Créditos'} | translate" formControlName="montoCredito"
+        [required]="true" [elements]="promedioMontos.asObservable()" [attributeName]="'nombre'" [errors]="f.montoCredito?.errors">
+      </sirio-select-search>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <sirio-select-search fxFlex="auto" [label]="'Transacciones por Débitos' | translate: {default: 'Transacciones por Débitos'} | translate"
+        formControlName="transaccionesDebito" [required]="true" [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.transaccionesDebito?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="auto" [label]="'Monto por Débitos' | translate: {default: 'Monto por Débitos'} | translate" formControlName="montoDebito"
+        [required]="true" [elements]="promedioMontos.asObservable()" [attributeName]="'nombre'" [errors]="f.montoDebito?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="auto" [label]="'Transacciones Electronicas' | translate: {default: 'Transacciones Electronicas'} | translate"
+        formControlName="transaccionesElectronico" [required]="true" [elements]="promedioTransacciones.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.transaccionesElectronico?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="auto" [label]="'Monto por Operaciones Electrónicas' | translate: {default: 'Monto por Operaciones Electrónicas'} | translate"
+        formControlName="montoElectronico" [required]="true" [elements]="promedioMontos.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.montoElectronico?.errors">
+      </sirio-select-search>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="far fa-file-signature fa-lg"></i>
+        </button>
+
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Condición de(las) Firma(s)
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="8px">
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'" [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
+        [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" [errors]="f.tarticipacion?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" [formControl]="itemForm.controls['tipoFirma']" [required]="true"
+        [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirma?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" [formControl]="itemForm.controls['tipoFirmante']" [required]="true"
+        [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'" [errors]="f.titularTipoFirmante?.errors">
+      </sirio-select-search>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <div fxFlex.gt-sm="30" class="text-center margin-top-md">
+        <mat-slide-toggle [color]="'primary'" formControlName="fondoExterior" [(ngModel)]="f.fondoExterior.value" name="fondoExterior">
+          {{'¿Enviará o Recibirará Tansferencias En Divisas?' }}
+        </mat-slide-toggle>
+      </div>
+
+      <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value" [label]="'Pais Origen' | translate: {default: 'Pais Origen'} | translate"
+        formControlName="paisOrigen" [required]="f.fondoExterior.value" [elements]="paises.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.paisOrigen?.errors">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value" [label]="'Pais Destino' | translate: {default: 'Pais Destino'} | translate"
+        formControlName="paisDestino" [required]="f.fondoExterior.value" [elements]="paises.asObservable()" [attributeName]="'nombre'"
+        [errors]="f.paisDestino?.errors">
+      </sirio-select-search>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  </mat-dialog-actions>
+</form>

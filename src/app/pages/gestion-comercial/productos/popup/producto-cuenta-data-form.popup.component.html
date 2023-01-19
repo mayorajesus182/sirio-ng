@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>{{dataServicio.servicio.nombre}}</h1> <span>{{('action.add') | translate}}</span>
+    <h1>{{dataProducto.servicio.nombre}}</h1> <span>{{'action.view' | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -11,7 +11,8 @@
 
 </sirio-dialog-header>
 
-<img src="assets/img/demo/plaza_movil.jpg" alt="" style="height: auto; width: 100%;">
+<img src="assets/img/demo/cuenta_on_plaza.jpg" alt="" style="height: auto; width: 100%;">
+
 
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
@@ -28,17 +29,16 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-      <mat-form-field fxFlex="25">
+      <mat-form-field fxFlex="24">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
-        <input matInput class="text-center" [value]="dataServicio.persona.tipoDocumento+' - '+dataServicio.persona.identificacion" readonly>
+        <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
       </mat-form-field>
 
       <mat-form-field fxFlex="75">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
-        <input matInput class="text-center" [value]="dataServicio.persona.nombre" readonly>
+        <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
       </mat-form-field>
 
     </div>
@@ -46,20 +46,15 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <mat-panel-title>
         <button type="button" mat-icon-button type="button" color="primary">
-          <i class="far fa-bell-concierge fa-lg"></i>
+          <i class="far fa-book-open-cover fa-lg"></i>
         </button>
         <span class="margin-top-sm margin-bottom-lg semi-bold">
-          Datos del Servicio
+          Datos de la Cuenta
         </span>
       </mat-panel-title>
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="30">
-        <mat-label>{{'Tipo de Cuenta' | translate: {default: 'Tipo de Cuenta'} | translate }}
-        </mat-label>
-        <input matInput class="text-center" [value]="'CUENTA CORRIENTE'" readonly>
-      </mat-form-field>
 
       <mat-form-field fxFlex="40">
         <mat-label>{{'Número de Cuenta' | translate: {default: 'Número de Cuenta'} | translate }}
@@ -68,11 +63,15 @@
       </mat-form-field>
 
       <mat-form-field fxFlex="30">
-        <mat-label>{{'commercialService.phone' | translate: {default: 'global.phone'} | translate }} </mat-label>
-        <input matInput name="telefono" autocomplete="off" formControlName="telefono" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center"
-          phoneValidate [telefonicas]="telefonicas.asObservable()" required>
-        <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
-        <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}} </mat-error>
+        <mat-label>{{'Saldo Diferido' | translate: {default: 'Saldo Diferido'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'0,00'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>{{'Saldo Real' | translate: {default: 'Saldo Real'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'30.000,00'" readonly>
       </mat-form-field>
 
     </div>
@@ -80,7 +79,6 @@
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.close'|translate}}</button>
   </mat-dialog-actions>
 </form>

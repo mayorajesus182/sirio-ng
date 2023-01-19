@@ -77,15 +77,9 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
   delete(row: any) {
     this.swalService.show('¿Desea Eliminar el Servicio?', undefined,
-      { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
+      { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando direccion', row.id);
-          // this.direccionService.delete(row.id).subscribe(val=>{
-          //         if(val){
-          //           this.loadList();
-          //         }
-          //       })
-          //       this.cdr.detectChanges();
+          this.successResponse('El Servicio', 'Eliminado', true);
         }
       });
   }
