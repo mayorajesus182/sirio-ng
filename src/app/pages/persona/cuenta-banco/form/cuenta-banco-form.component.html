@@ -15,11 +15,11 @@
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.send' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || !cuentaBanco.numeroCuenta" (click)="send()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="!itemForm ||  itemForm.invalid || cuentaBanco.numeroCuenta == '00000000000000000000'" (click)="send()">
                             <!-- <mat-icon>outbox</mat-icon> -->
                             <i class="fa-light fa-inbox-out fa-xl"></i>
                         </button> 
-                        <button class="icon" mat-icon-button matTooltip="Descargar Ficha" [disabled]="itemForm?.invalid || !cuentaBanco.numeroCuenta" type="button" (click)="reportPdf()">
+                        <button class="icon" mat-icon-button matTooltip="Descargar Ficha" [disabled]="!itemForm || itemForm.invalid || cuentaBanco.numeroCuenta == '00000000000000000000'" type="button" (click)="reportPdf()">
                                 <i class="fal fa-file-pdf fa-xl"></i>
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:

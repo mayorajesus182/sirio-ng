@@ -132,9 +132,13 @@ export class FormBaseComponent {
             
             // console.log('loading form-regla-OSCES ',status);
             // bloque todos los botonones mientras estoy enviando info al servidor
-            this.buttonList.forEach(element => {
-                element.disabled = status;
-            });
+            if(this.buttonList){
+                
+                this.buttonList.forEach(element => {
+                    element.disabled = status;
+                });
+
+            }
             if (status == true) {
 
                 var opts = {} as Spinner;

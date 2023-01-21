@@ -369,6 +369,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     }
 
+
+
+
     reportPdf() {
 
         console.log('imprimir ficha de ', this.cuentaBanco);
