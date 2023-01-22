@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -73,11 +73,13 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
+    fromOtherComponent: boolean;
 
     constructor(
         injector: Injector,
         dialog: MatDialog,
         private fb: FormBuilder,
+        private route: ActivatedRoute,
         private personaJuridicaService: PersonaJuridicaService,
 
         private tipoDocumentoService: TipoDocumentoService,
@@ -160,38 +162,58 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             this.categoriasEspeciales.next(data);
         });
 
+
+
+        this.route.paramMap.subscribe(data => {
+            // console.log('params', data);
+            
+            if(data.get('doc') && data.get('tdoc')){
+                // console.log('entro ');
+
+                this.fromOtherComponent=true
+                this.isNew=true;
+                this.personaJuridica.identificacion=data.get('doc');
+                this.personaJuridica.tipoDocumento=data.get('tdoc');
+
+                this.buildForm();
+
+                this.loaded$.next(true);
+            }
+        });
+
+
     }
 
-    buildForm(personaJuridica: PersonaJuridica) {
+    buildForm() {
         // personaJuridica
 
         this.itemForm = this.fb.group({
             
-            tipoDocumento: new FormControl({ value: personaJuridica.tipoDocumento, disabled: true }, [Validators.required]),
-            identificacion: new FormControl({ value: personaJuridica.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            tipoDocumento: new FormControl({ value: this.personaJuridica.tipoDocumento, disabled: true }, [Validators.required]),
+            identificacion: new FormControl({ value: this.personaJuridica.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             
-            pais: new FormControl(personaJuridica.pais || undefined, [Validators.required]),
+            pais: new FormControl(this.personaJuridica.pais || undefined, [Validators.required]),
 
-            razonSocial: new FormControl(personaJuridica.razonSocial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            nombreComercial: new FormControl(personaJuridica.nombreComercial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            razonSocial: new FormControl(this.personaJuridica.razonSocial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            nombreComercial: new FormControl(this.personaJuridica.nombreComercial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             
-            actividadEconomica: new FormControl(personaJuridica.actividadEconomica || undefined, [Validators.required]),
-            actividadEspecifica: new FormControl(personaJuridica.actividadEspecifica || undefined, [Validators.required]),
-            categoriaEspecial: new FormControl(personaJuridica.categoriaEspecial || undefined),
+            actividadEconomica: new FormControl(this.personaJuridica.actividadEconomica || undefined, [Validators.required]),
+            actividadEspecifica: new FormControl(this.personaJuridica.actividadEspecifica || undefined, [Validators.required]),
+            categoriaEspecial: new FormControl(this.personaJuridica.categoriaEspecial || undefined),
 
-            oficinas: new FormControl(personaJuridica.oficinas != undefined ? personaJuridica.oficinas : '', [Validators.required]),
-            empleados: new FormControl(personaJuridica.empleados != undefined ? personaJuridica.empleados : '', [Validators.required]),
-            ventas: new FormControl(this.personaJuridica.ventas || undefined ? personaJuridica.ventas : '', [Validators.required]),
-            ingresos: new FormControl(this.personaJuridica.ingresos || undefined ? personaJuridica.ingresos : '', [Validators.required]),
-            egresos: new FormControl(this.personaJuridica.egresos || undefined ? personaJuridica.egresos : '', [Validators.required]),
+            oficinas: new FormControl(this.personaJuridica.oficinas != undefined ? this.personaJuridica.oficinas : '', [Validators.required]),
+            empleados: new FormControl(this.personaJuridica.empleados != undefined ? this.personaJuridica.empleados : '', [Validators.required]),
+            ventas: new FormControl(this.personaJuridica.ventas || undefined ? this.personaJuridica.ventas : '', [Validators.required]),
+            ingresos: new FormControl(this.personaJuridica.ingresos || undefined ? this.personaJuridica.ingresos : '', [Validators.required]),
+            egresos: new FormControl(this.personaJuridica.egresos || undefined ? this.personaJuridica.egresos : '', [Validators.required]),
 
-            anhoDeclaracion: new FormControl(personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            anhoDeclaracion: new FormControl(this.personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
 
-            montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? personaJuridica.montoDeclarado : '', [Validators.required]),
+            montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? this.personaJuridica.montoDeclarado : '', [Validators.required]),
 
-            email: new FormControl(personaJuridica.email || '', [Validators.required]),
+            email: new FormControl(this.personaJuridica.email || '', [Validators.required]),
 
-            web: new FormControl(personaJuridica.web || '', [Validators.required])
+            web: new FormControl(this.personaJuridica.web || '', [Validators.required])
         });
 
         // verifico si tengo datos basicos cargados
@@ -222,7 +244,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         console.log('add new person');
         this.isNew = true;
         this.updateDataFromValues(this.personaJuridica, event);
-        this.buildForm(this.personaJuridica);
+        this.buildForm();
         this.loaded$.next(true);
     }
 
@@ -244,7 +266,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             console.log('PERSONAAAA: ', val);
             //TODO: OJO REVISAR ESTO LUEGO
             // this.itemForm.reset({});
-            this.buildForm(this.personaJuridica);
+            this.buildForm();
             this.loadingDataForm.next(false);
             this.loaded$.next(true);
             this.applyFieldsDirty();

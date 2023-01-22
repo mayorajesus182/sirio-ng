@@ -58,6 +58,13 @@ export class ToolbarNotificationsComponent implements OnInit {
 
     }
 
+
+    this.workflowService.notify.subscribe(loaded=>{
+      if(loaded){
+        this.refreshCount();
+      }
+    });
+
     
   }
 

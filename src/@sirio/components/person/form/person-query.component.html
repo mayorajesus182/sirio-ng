@@ -83,7 +83,7 @@
                         <i class="fal fa-user-plus fa-lg" *ngIf="!persona.id && !persona.numper"></i>
                         <!-- <i class="fal fa-user fa-lg" ></i> -->
                         <i class="fal fa-user-check fa-lg" *ngIf="persona.id || persona.numper"></i>
-                        {{(persona.id || persona.numper? 'CARGAR' : 'CREAR') | translate }}
+                        {{(persona.id || persona.numper? 'CARGAR' : 'button.add') | translate }}
                     </button>
                 </div>
                 

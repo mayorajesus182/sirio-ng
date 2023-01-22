@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { IMaskPipe } from 'angular-imask';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -23,7 +22,6 @@ import { PersonaReportService } from 'src/@sirio/domain/services/control-efectiv
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
-import { SweetAlertService } from 'src/@sirio/services/swal.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -268,11 +266,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         //this.resetAll();  
     }
 
-    loadResult(event) {
+    loadResult(event:any) {
 
         //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         this.isNew = true;
         this.loaded$.next(false);
+
+        console.log('event person ', event);
+        
 
         if (!event.id && !event.numper) {
             this.isNew = true;
