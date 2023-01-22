@@ -88,7 +88,7 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
       });
 
 
-      this.acopioTableData$ = of(result.data['acopios'][this.currentCoin]);
+      this.acopioTableData$ = of(result.data['acopios'].filter(s=> s.name= this.currentCoin).map(s=>s.data));
 
       let datasets = { series: [], labels: [] };
       let datasetDetailCash = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
