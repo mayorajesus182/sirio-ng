@@ -8,7 +8,8 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { ServiciosPersonaFormPopupComponent } from '../popup/servicios-persona-form.popup.component';
+import { ServicioComercial, ServicioComercialService } from 'src/@sirio/domain/services/gestion-comercial/servicio-comercial.service';
+import { ServiciosPagoMovilFormPopupComponent } from '../popup/servicios-pago-movil-form.popup.component';
 
 @Component({
   selector: 'sirio-servicios-persona-table',
@@ -23,36 +24,16 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   @Input() persona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-  serviciosList: any[] = [{
-    name: 'Servicio 1',
-    reumen: 'resumen S1'
-  },
-  {
-    name: 'Servicio 2',
-    reumen: 'resumen S2'
-  },
-  {
-    name: 'Servicio 3',
-    reumen: 'resumen S3'
-  },
-  {
-    name: 'Servicio 4',
-    reumen: 'resumen S4'
-  }];
-  serviciosClienteList: any[] = [
-    {
-      name: 'Servicio 5',
-      reumen: 'resumen S5'
-    },
-  ];
+  public serviciosList = new BehaviorSubject<ServicioComercial[]>([]);
+  public serviciosClienteList = new BehaviorSubject<ServicioComercial[]>([]);
+
   private principal: boolean = false;
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
-    // protected direccionService: Servicio,
+    private servicioComercialService: ServicioComercialService,
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
@@ -60,15 +41,23 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
   private loadList() {
 
+    this.servicioComercialService.asignedToPersona(this.persona.numper).subscribe(data => {
+      this.serviciosClienteList.next(data);
+    });
+
+    this.servicioComercialService.noAsignedToPersona(this.persona.numper, this.persona.tipoPersona).subscribe(data => {
+      this.serviciosList.next(data);
+    });
+
   }
 
   ngOnInit() {
-    console.log('direcciones table');
 
     if (this.persona) {
-      console.log('buscando direccion en el servidor dado el id persona');
       this.loadList();
+      
 
+      console.log(' Personaaaaaaaaaaaaaaa ', this.persona);
       this.onRefresh.subscribe(val => {
         if (val) {
 
@@ -82,47 +71,35 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
   }
 
-
   edit(data: any) {
     console.log('data event click ', data);
-
-
   }
 
-  delete(row:any) {
-    this.swalService.show('¿Desea Eliminar Dirección?', undefined,
-      { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
+  delete(row: any) {
+    this.swalService.show('¿Desea Eliminar el Servicio?', undefined,
+      { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando direccion', row.id);
-          // this.direccionService.delete(row.id).subscribe(val=>{
-          //         if(val){
-          //           this.loadList();
-          //         }
-          //       })
-          //       this.cdr.detectChanges();
+          this.successResponse('El Servicio', 'Eliminado', true);
         }
       });
   }
 
   view(data: any) {
-
-
   }
 
 
-  popup(data?: Direccion) {
+  popupPagoMovil(data: ServicioComercial) {
 
-    if (data) {
-      data.persona = this.persona;
+    if (!data) {
+      return;
     }
-    this.updateDataFromValues(data, { principal: this.principal });
-    let dir = data;
 
-    console.log(dir);
+    // this.updateDataFromValues(data, { principal: this.principal });
+    // let dir = data;
 
-    this.showFormPopup(ServiciosPersonaFormPopupComponent, !data ? { persona: this.persona, principal: this.principal } : dir, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(ServiciosPagoMovilFormPopupComponent, { persona: this.persona, servicio: data }, '60%').afterClosed().subscribe(event => {
       if (event) {
-        this.onRefresh.next(true);
+        this.loadList();
       }
     });
   }
@@ -130,11 +107,24 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
   drop(event: CdkDragDrop<Task[]>) {
 
-    console.log('event drop',event);
-    
     if (event.previousContainer === event.container) {
+      console.log('event drop', event);
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {
+      console.log('event drop2222', event.previousContainer);
+
+
+      this.serviciosList.value.forEach((e, index) => {
+        if (index == event.previousIndex) {
+          this.popupPagoMovil(e);
+        }
+        this.cdr.detectChanges();
+      });
+
+
+
+
+
       transferArrayItem(event.previousContainer.data,
         event.container.data,
         event.previousIndex,

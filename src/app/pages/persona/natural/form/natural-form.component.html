@@ -187,26 +187,10 @@
 
                                         <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
 
-                                        <!-- <mat-form-field fxFlex="auto">
-                                            <mat-label>Fecha Nacimiento</mat-label>
-                                            <input class="text-center" autocomplete="off" minor-age today="{{todayValue}}" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
-                                              formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" required>
-                                            <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
-                                            </mat-datepicker-toggle>
-                                            <mat-error *ngIf="form.fechaNacimiento.errors?.matDatepickerParse">
-                                              Fecha Invalidad
-                                            </mat-error>
-                                            <mat-error *ngIf="form.fecha.errors?.minAge">
-                                              {{form.fechaNacimiento.errors?.minAge}}
-                                            </mat-error>
-                                        </mat-form-field>
-                                        <mat-datepicker #fechaNacimientoPicker></mat-datepicker> -->
-
-                                        <!-- {{form.fechaNacimiento.errors|json}} -->
 
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Lugar de Nacimiento' | translate: {default: 'Lugar de Nacimiento'} | translate"
+                                            [label]="'País de Nacimiento' | translate: {default: 'País de Nacimiento'} | translate"
                                             formControlName="pais" [required]="true" [elements]="paises.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.pais?.errors">
                                         </sirio-select-search>

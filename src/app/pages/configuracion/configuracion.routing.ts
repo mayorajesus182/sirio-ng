@@ -24,11 +24,6 @@ const configuracionRoutes: Routes = [
         loadChildren: () => import('./persona-natural/persona-natural.module').then(m => m.PersonaNaturalModule),
     },
     {
-        path: 'tipo-servicio',
-        data: { title: 'Tipo de Servicio' },
-        loadChildren: () => import('./tipo-servicio/tipo-servicio.module').then(m => m.TipoServicioModule),
-    },
-    {
         path: 'entidad-financiera',
         data: { title: 'Entidad Financiera' },
         loadChildren: () => import('./entidad-financiera/entidad-financiera.module').then(m => m.EntidadFinancieraModule),

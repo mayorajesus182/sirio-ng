@@ -199,7 +199,7 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
 
     resendTask() {
         this.swalService.show('message.resendTask', this.rol.nombre, this.opt_swal).then((resp) => {
-
+            this.workflowService.notify.next(false);
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.approved(data).subscribe(resp => {
@@ -215,7 +215,7 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
 
     overrideTask() {
         this.swalService.show('message.overrideTask', this.rol.nombre, this.opt_swal).then((resp) => {
-
+            this.workflowService.notify.next(false);
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.annulled(data).subscribe(resp => {

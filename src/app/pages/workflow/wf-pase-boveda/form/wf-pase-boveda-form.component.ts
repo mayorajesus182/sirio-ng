@@ -138,7 +138,7 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
 
     resendTask() {
         this.swalService.show('message.resendTask', '', this.opt_swal).then((resp) => {
-
+            this.workflowService.notify.next(false);
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.approved(data).subscribe(resp => {
@@ -154,7 +154,7 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
 
     overrideTask() {
         this.swalService.show('message.overrideTask', '', this.opt_swal).then((resp) => {
-
+            this.workflowService.notify.next(false);
             if (resp.value) {
                 let data = { id: this.workflow, observacion: resp.value };
                 this.workflowService.annulled(data).subscribe(resp => {
