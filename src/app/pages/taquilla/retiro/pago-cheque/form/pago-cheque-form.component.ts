@@ -123,7 +123,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                             this.cuentaBancariaOperacion = data;
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                            this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;
+                            this.moneda.siglas = this.cuentaBancariaOperacion.siglas;
 
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
                             this.saldoByMoneda(this.moneda);

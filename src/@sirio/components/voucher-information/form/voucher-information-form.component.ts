@@ -5,9 +5,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
-import { Deposito, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 @Component({
     selector: 'sirio-voucher-information',
     templateUrl: './voucher-information-form.component.html',

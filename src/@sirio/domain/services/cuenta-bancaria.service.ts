@@ -12,7 +12,7 @@ export interface CuentaBancariaOperacion extends CuentaBancaria{
     tipoDocumento: string;
     moneda: string;
     monedaNombre: string;
-    monedaSiglas : string;
+    siglas : string;
     email?:string;
 
 }
@@ -27,7 +27,6 @@ export interface CuentaBancaria {
     numper : string;
     siglas : string;
 
-   
 }
 
 @Injectable({
