@@ -60,7 +60,7 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
                 this.preferenciaService.get().subscribe(data => {
                     this.preferencias = data;
                 });
-
+                console.log(' expediente    ', exp);
                 this.cajaTaquillaService.allByExpediente(exp).subscribe(data => {
                     this.saldos.next(data);      
                     console.log(' dataaaaaaaaaa    ', data);
