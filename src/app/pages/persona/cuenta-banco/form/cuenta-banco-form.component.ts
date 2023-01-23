@@ -279,7 +279,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.isNew = true;
             this.persona = {} as Persona;
             this.resetAll();
-            const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
+            const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridica' : 'natural';
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
             this.persona = event;

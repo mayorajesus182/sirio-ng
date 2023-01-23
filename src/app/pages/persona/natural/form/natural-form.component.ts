@@ -150,6 +150,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
 
         this.estadoCivilService.actives().subscribe(data => {
+            console.log('estado civil ',data);
+            
             this.estadosCiviles.next(data);
         });
 
