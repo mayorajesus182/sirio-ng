@@ -11,6 +11,11 @@ const juridicoRoutes: Routes = [
         data: { title: 'Persona Jurídica' }
     },
     {
+        path: ':tdoc/:doc/add',
+        component: JuridicoFormComponent,
+        data: { title: 'Persona Jurídica' }
+    },
+    {
         path: ':id/edit',
         component: JuridicoFormComponent,
         data: { title: 'Editar Persona Jurídica' }

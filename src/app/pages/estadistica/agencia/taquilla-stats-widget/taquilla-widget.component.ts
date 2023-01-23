@@ -34,7 +34,7 @@ export class TaquillaWidgetComponent implements OnInit {
   reload() {
     this.isLoading = true;
     this.saldoTaquillaService.allByAgencia().subscribe(data => {
-      // console.log('@@@@ saldo taquilla: ');
+      console.log('@@@@ saldo taquilla: ');
       console.log('datachart', data);
       this.saldos = data;
 

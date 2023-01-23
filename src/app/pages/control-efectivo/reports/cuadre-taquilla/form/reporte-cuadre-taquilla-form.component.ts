@@ -23,7 +23,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ReporteCuadreTaquillaFormComponent extends FormBaseComponent implements OnInit {
     esOperadorTaquilla: Boolean = false;
-    public monedas = new BehaviorSubject<Moneda[]>([]);
+    // public monedas = new BehaviorSubject<Moneda[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
     constructor(
@@ -43,6 +43,7 @@ export class ReporteCuadreTaquillaFormComponent extends FormBaseComponent implem
 
         const user = this.sessionService.getUser() as User;
         this.esOperadorTaquilla = user.rols.includes(RolConstants.OPERADOR_TAQUILLA);
+        this.cdr.detectChanges();
         this.taquillaService.actives().subscribe(data => {
             this.taquillas.next(data);
         });

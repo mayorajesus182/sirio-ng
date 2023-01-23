@@ -1,7 +1,6 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { IMaskPipe } from 'angular-imask';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -176,10 +175,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     buildForm() {
 
+        this.cuentaBanco.numeroCuenta = this.isNew ? "00000000000000000000" : this.cuentaBanco.numeroCuenta;
         this.itemForm = this.fb.group({
             persona: new FormControl(this.persona.id, [Validators.required]),
-            numeroCuenta: new FormControl({value:this.isNew? "0000 0000 00 00 00000000" :  this.cuentaBanco.numeroCuenta, disabled: true} ),
-            tipoProducto: new FormControl( this.cuentaBanco.tipoProducto || undefined,[Validators.required]),
+            numeroCuenta: new FormControl({ value: this.cuentaBanco.numeroCuenta, disabled: true }),
+            tipoProducto: new FormControl(this.cuentaBanco.tipoProducto || undefined, [Validators.required]),
             tipoSubproducto: new FormControl(this.cuentaBanco.tipoSubproducto || undefined, [Validators.required]),
             origenFondo: new FormControl(this.cuentaBanco.origenFondo || undefined, [Validators.required]),
             destinoCuenta: new FormControl(this.cuentaBanco.destinoCuenta || undefined, [Validators.required]),
@@ -203,7 +203,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.f.tipoSubproducto.setValue(undefined);
             // this.f.moneda.setValue(undefined);
             // this.f.numeroCuenta.setValue('');
-            
+
 
             if (value) {
 
@@ -227,7 +227,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.f.tipoFirma.valueChanges.subscribe(value => {
 
             if (value && value != '') {
-                
+
                 this.cdr.detectChanges();
             }
         });
@@ -237,14 +237,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     private loadMoneda(subProducto) {
         console.log("subProducto", subProducto);
-        const filtered= this.tipoSubproductos.value.filter(s => s.id == subProducto);
-        if(filtered.length == 0){
+        const filtered = this.tipoSubproductos.value.filter(s => s.id == subProducto);
+        if (filtered.length == 0) {
 
             return;
         }
         let subProductoSel = filtered.reduce(a => a);
         console.log(subProductoSel);
-        if(subProductoSel){
+        if (subProductoSel) {
 
             this.f.moneda.setValue(subProductoSel.moneda);
             this.monedaSubproducto = subProductoSel.monedaNombre;
@@ -266,11 +266,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         //this.resetAll();  
     }
 
-    loadResult(event) {
+    loadResult(event:any) {
 
         //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         this.isNew = true;
         this.loaded$.next(false);
+
+        console.log('event person ', event);
+        
 
         if (!event.id && !event.numper) {
             this.isNew = true;
@@ -295,14 +298,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.loaded$.next(true);
                 // this.cdr.detectChanges();
                 // this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                    //     this.tipoSubproductos.next(data);
-                    //     this.cdr.detectChanges();
-                    // });
-                    
-                    
-                    
-                    
-                }, err => {
+                //     this.tipoSubproductos.next(data);
+                //     this.cdr.detectChanges();
+                // });
+
+
+
+
+            }, err => {
                 this.isNew = true;
                 this.loadingDataForm.next(false);
                 this.resetAll();
@@ -329,9 +332,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
             this.cuentaBancoService.save(this.cuentaBanco).subscribe(data => {
                 this.cuentaBanco = data;
-                this.isNew=false;
+                this.isNew = false;
                 console.log(data);
-                
+
                 this.successResponse('La Cuenta Banco', 'creada', true);
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
                 this.cdr.detectChanges();
@@ -350,27 +353,40 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     send() {
 
         console.log('send data al banco');
-        this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
-            
-            
+
+        this.swalService.show('¿Desea realmente desea realizar esta operación?',).then((resp) => {
+
+            if (!resp.dismiss) {
+                this.loadingDataForm.next(true);
+
+                this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
+                    this.successResponse('Operacion', 'aplicada', true);
+                    this.loadingDataForm.next(false);
+                });
+                
+            }
+
         });
 
     }
 
-    reportPdf(){
 
-        console.log('imprimir ficha de ',this.cuentaBanco);
-        
-        
+
+
+    reportPdf() {
+
+        console.log('imprimir ficha de ', this.cuentaBanco);
+
+
         this.loadingDataForm.next(true);
         this.personaReportService.ficha(this.cuentaBanco.persona).subscribe(data => {
-          this.loadingDataForm.next(false);
-          console.log('response:', data);
-          const name = this.getFileName(data);
-          let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-          this.download(name, blob);
+            this.loadingDataForm.next(false);
+            console.log('response:', data);
+            const name = this.getFileName(data);
+            let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+            this.download(name, blob);
         });
-      }
+    }
 
     // searchMoneda(){
 
@@ -394,6 +410,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.cdr.detectChanges();
     }
 
-
+   
 
 }

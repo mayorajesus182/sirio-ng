@@ -77,6 +77,11 @@ export class QuickpanelComponent implements OnInit {
     });
 
 
+    this.workflowService.notify.subscribe(loaded=>{
+      if(loaded){
+        this.refreshTaskList();
+      }
+    });
 
 
   }

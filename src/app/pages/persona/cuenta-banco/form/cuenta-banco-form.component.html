@@ -14,11 +14,12 @@
                         &nbsp;&nbsp;<b>{{cuentaBanco.numeroCuenta| mask:'0000 0000 00 00 00000000'}}</b>
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || !cuentaBanco.numeroCuenta" (click)="send()">
-                            <mat-icon>outbox</mat-icon>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.send' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="!itemForm ||  itemForm.invalid || cuentaBanco.numeroCuenta == '00000000000000000000'" (click)="send()">
+                            <!-- <mat-icon>outbox</mat-icon> -->
+                            <i class="fa-light fa-inbox-out fa-xl"></i>
                         </button> 
-                        <button class="icon" mat-icon-button matTooltip="'Descargar Ficha'" [disabled]="itemForm?.invalid || !cuentaBanco.numeroCuenta" type="button" (click)="reportPdf()">
+                        <button class="icon" mat-icon-button matTooltip="Descargar Ficha" [disabled]="!itemForm || itemForm.invalid || cuentaBanco.numeroCuenta == '00000000000000000000'" type="button" (click)="reportPdf()">
                                 <i class="fal fa-file-pdf fa-xl"></i>
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -112,12 +113,9 @@
                                             <mat-label>{{'Número de Cuenta' | translate }} </mat-label>
                                             <input matInput    disabled="true" style="font-size: 1.45em;" ngx-mask mask="0000 0000 00 00 00000000" [(ngModel)]="cuentaBanco.numeroCuenta" [ngModelOptions]="{standalone: true}" autocomplete="off" name="numeroCuenta"
                                                  class="text-center" >
-                                            <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' |
-                                                translate}}
+                                            <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' |  translate}}
                                             </mat-error>
-                                            <mat-error *ngIf="f.numeroCuenta.errors?.pattern">{{'error.invalidCharacter'
-                                                |
-                                                translate}}
+                                            <mat-error *ngIf="f.numeroCuenta.errors?.pattern">{{'error.invalidCharacter'    |     translate}}
                                             </mat-error>
                                         </mat-form-field>
 
@@ -333,7 +331,9 @@
 
 
                         </mat-accordion>
-                        <!-- {{printErrors() | json}} -->
+                        {{printErrors() | json}}
+                        {{itemForm.invalid}}
+
                     </ng-container>
                 </sirio-card-content>
 
