@@ -2,6 +2,7 @@ export class GlobalConstants {
   public static IDLE_TIMEOUT = 15;
   public static TIMEOUT_IDLE = 60 * 15;
   public static ACTIVO = true;
+  public static TIPO_FIRMA_UNICA ='01';
   public static PERSON_TIPO_DOC_DEFAULT ='V';
   public static PN_TIPO_DOC_DEFAULT ='V';
   public static PJ_TIPO_DOC_DEFAULT ='J';
