@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -26,6 +26,8 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   public productosList = new BehaviorSubject<ProductoComercial[]>([]);
   public productosClienteList = new BehaviorSubject<ProductoComercial[]>([]);
+
+  @ViewChildren('cardProduct') cardElements;
 
   constructor(
     injector: Injector,
@@ -57,6 +59,21 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
+
+    let tallestHeight = 0;
+    this.cardElements.forEach((card) => {
+      // console.log(card);
+      
+      if (card.nativeElement.offsetHeight > tallestHeight) {
+        tallestHeight = card.nativeElement.offsetHeight;
+      }
+    });
+
+    // Set all card elements to the same height
+    this.cardElements.forEach((card) => {
+      card.nativeElement.style.height = tallestHeight + 'px';
+      this.cdr.detectChanges();
+    });
 
   }
 
