@@ -24,7 +24,7 @@ export class ReporteRemesaEnviadaFormComponent extends FormBaseComponent impleme
 
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
     todayValue: moment.Moment;
-    valueMin: moment.Moment;
+  
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -41,10 +41,8 @@ export class ReporteRemesaEnviadaFormComponent extends FormBaseComponent impleme
         this.buildForm();   
         
          this.calendarioService.today().subscribe(data => {
-               this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);                 
-               //console.log("date:"+  this.todayValue.toDate) ;
-        
-
+               this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);           
+            
                 this.cdr.detectChanges();
              });
        
@@ -53,11 +51,9 @@ export class ReporteRemesaEnviadaFormComponent extends FormBaseComponent impleme
         }
 
     buildForm() {
-        this.itemForm = this.fb.group({
-           // fechainicio: new FormControl(this.gestionEfectivoReports.fechainicio ? moment(this.gestionEfectivoReports.fechainicio, 'DD/MM/YYYY'):  '' )
-            //fechainicio: new FormControl(this.gestionEfectivoReports.fechainicio),
-            fechainicio: new FormControl(undefined),
-            fechafin: new FormControl(undefined),
+        this.itemForm = this.fb.group({          
+            fechainicio: new FormControl(moment(this.gestionEfectivoReports.fechainicio)),
+            fechafin: new FormControl(moment(this.gestionEfectivoReports.fechafin)),
        });
 
    
@@ -65,8 +61,10 @@ export class ReporteRemesaEnviadaFormComponent extends FormBaseComponent impleme
 
 
     generate() {
+        if (this.itemForm.invalid)
+        return;
 
-      //  this.updateData(this.gestionEfectivoReportes);
+        this.updateData(this.gestionEfectivoReports);
         this.gestionEfectivoReportsService.remesaEnviada(this.gestionEfectivoReports).subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);

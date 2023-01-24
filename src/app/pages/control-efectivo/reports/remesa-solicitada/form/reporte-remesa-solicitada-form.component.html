@@ -26,6 +26,32 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="10px" [formGroup]="itemForm" *ngIf="itemForm">
+
+                        <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80px" >
+                            <mat-label>{{'remittancesSentRep.date' | translate: {default: 'global.date'} | translate }}</mat-label>
+                            <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechainicio" formControlName="fechainicio"
+                                [matDatepicker]="fechaInicioPicker" [max]="todayValue" [min]="valueMin">
+                            <mat-datepicker-toggle matSuffix [for]="fechaInicioPicker"> 
+                            </mat-datepicker-toggle>                                  
+                        </mat-form-field>
+            
+                        <mat-datepicker #fechaInicioPicker></mat-datepicker>
+
+                        <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80">
+                            <mat-label>{{'remittancesSentRep.date' | translate: {default: 'global.date'} | translate }}</mat-label>
+                            <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechafin" formControlName="fechafin"
+                                [matDatepicker]="fechaFinPicker" [max]="todayValue" [min]="valueMin">
+                            <mat-datepicker-toggle matSuffix [for]="fechaFinPicker"> 
+                            </mat-datepicker-toggle>                                  
+                        </mat-form-field>
+            
+                        <mat-datepicker #fechaFinPicker></mat-datepicker>
+
+                        
+                    </div>
+
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -33,7 +59,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="!itemForm || itemForm?.invalid  ">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
