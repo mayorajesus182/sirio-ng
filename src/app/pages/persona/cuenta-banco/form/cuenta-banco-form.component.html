@@ -217,45 +217,7 @@
 
                                     </div>
 
-                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <mat-panel-title>
-
-                                            <button type="button" mat-icon-button type="button" color="primary">
-                                                <!-- <mat-icon> -->
-                                                <i class="far fa-file-signature fa-lg"></i>
-                                                <!-- </mat-icon> -->
-
-                                            </button>
-
-                                            <span class="margin-top-sm margin-bottom-lg semi-bold">
-                                                Condición de(las) Firma(s)
-                                            </span>
-
-                                        </mat-panel-title>
-
-                                    </div>
-
-                                    <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="8px">
-
-                                        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'"
-                                            [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
-                                            [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tarticipacion?.errors">
-                                        </sirio-select-search>
-
-                                        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'" 
-                                            [formControl]="itemForm.controls['tipoFirma']"
-                                            [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tipoFirma?.errors">
-                                        </sirio-select-search>
-
-                                        <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'"
-                                            [formControl]="itemForm.controls['tipoFirmante']" [required]="true" 
-                                            [elements]="tipoFirmantes.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.titularTipoFirmante?.errors">
-                                        </sirio-select-search>
-
-                                    </div>
+                                  
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -281,6 +243,46 @@
                                         </sirio-select-search>
                                     </div>
 
+
+                                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                                        <mat-panel-title>
+
+                                            <button type="button" mat-icon-button type="button" color="primary">
+                                                <!-- <mat-icon> -->
+                                                <i class="far fa-file-signature fa-lg"></i>
+                                                <!-- </mat-icon> -->
+
+                                            </button>
+
+                                            <span class="margin-top-sm margin-bottom-lg semi-bold">
+                                                Condición de(las) Firma(s)
+                                            </span>
+
+                                        </mat-panel-title>
+
+                                    </div>
+
+                                    <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="8px">
+
+                                        <sirio-select-search fxFlex.gt-xs="33" [disabled]="!isNew" [label]="'Tipo Participación'"
+                                            [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
+                                            [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tarticipacion?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex.gt-xs="33" [disabled]="!isNew" [label]="'Tipo Firma'" 
+                                            [formControl]="itemForm.controls['tipoFirma']"
+                                            [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.tipoFirma?.errors">
+                                        </sirio-select-search>
+
+                                        <sirio-select-search fxFlex.gt-xs="33" [disabled]="!isNew" [label]="'Tipo Firmante'"
+                                            [formControl]="itemForm.controls['tipoFirmante']" [required]="true" 
+                                            [elements]="tipoFirmantes.asObservable()"
+                                            [attributeName]="'nombre'" [errors]="f.titularTipoFirmante?.errors">
+                                        </sirio-select-search>
+
+                                    </div>
 
 
 
@@ -331,8 +333,6 @@
 
 
                         </mat-accordion>
-                        {{printErrors() | json}}
-                        {{itemForm.invalid}}
 
                     </ng-container>
                 </sirio-card-content>

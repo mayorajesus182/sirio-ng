@@ -1,23 +1,32 @@
 import { Injectable } from "@angular/core";
-import { HttpInterceptor, HttpXsrfTokenExtractor, HttpHandler, HttpRequest, HttpEvent } from "@angular/common/http";
+import { HttpInterceptor, HttpXsrfTokenExtractor, HttpHandler, HttpRequest, HttpEvent, HttpResponse } from "@angular/common/http";
 import { JwtService } from "../services/jwt.service";
-import { Observable } from "rxjs";
+import { from, Observable, of } from "rxjs";
+import { RequestCacheService } from "../services/request.cache.service";
+import { delay, tap } from "rxjs/operators";
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
+
+    private api_chacheable = [
+        '/api/public/assets',
+        '/api/configuracion'
+    ]
+
     constructor(private jwtService: JwtService,
+        private cache: RequestCacheService,
         private tokenExtractor: HttpXsrfTokenExtractor) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-                
+
         const headersConfig = {
             'Content-Type': 'application/json',
-            'Accept':       'application/json'
+            'Accept': 'application/json'
         };
 
         const token = this.jwtService.getToken();
         // console.log("send token ",token);
-        
+
         const token_xsrf = this.tokenExtractor.getToken() as string;
 
 
@@ -26,15 +35,34 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         }
 
         if (token) {
-            headersConfig['Authorization'] = 'Bearer '+token;            
+            headersConfig['Authorization'] = 'Bearer ' + token;
         }
-        
+
         if (token || token_xsrf) {
-        
-            req = req.clone({ setHeaders: headersConfig});
+
+            req = req.clone({ setHeaders: headersConfig });
         }
 
+        // implmentación de cache
+        // const cachedResponse = this.cache.get(req);
+        // if (cachedResponse) {
+        //     // console.log(' obteniendo response del cache ', cachedResponse);
+        //     let result: Observable<HttpEvent<any>> = of(cachedResponse as HttpEvent<any>);
+        
 
-        return next.handle(req);
+        //     return result.pipe(delay(1000));
+        // }
+
+        // console.log(req);
+
+        // Obtener los datos de la petición
+        return next.handle(req).pipe(
+            tap(event => {
+                if (event instanceof HttpResponse && this.api_chacheable.find(a => req.urlWithParams.indexOf(a) >= 0) != undefined && req.url.endsWith("actives")) {
+                    // console.log(' push response al cache ', req.urlWithParams);
+                    // this.cache.put(req, event);
+                }
+            })
+        );
     }
 }

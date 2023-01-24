@@ -12,17 +12,9 @@ export class AppTranslateLoader implements TranslateLoader {
 
   getTranslation(lang: string): Observable<any> {
     console.log(' set current  lang: ' + lang);
-    const key = `${lang}.json`;
-    const data_json = localStorage.getItem(key);
-    if(data_json){
-      console.log('El idioma esta en json storage '+key);
-      
-      // return JSON.parse(data_json);
-    }
 
-    let data = this.apiService.config(this.apiConfig).get(`/${lang}.json`).pipe(catchError((_) => this.apiService.config(this.apiConfig).get(`/es.json`)));
-  
-    data.subscribe(dt =>localStorage.setItem(key,dt));
-    return data;
+
+    return this.apiService.config(this.apiConfig).get(`/${lang}.json`).pipe(catchError((_) => this.apiService.config(this.apiConfig).get(`/es.json`)));
+
   }
 } 
