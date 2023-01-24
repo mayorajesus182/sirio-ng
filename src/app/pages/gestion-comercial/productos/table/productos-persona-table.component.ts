@@ -62,7 +62,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
 
     let tallestHeight = 0;
     this.cardElements.forEach((card) => {
-      // console.log(card);
+      console.log(card);
       
       if (card.nativeElement.offsetHeight > tallestHeight) {
         tallestHeight = card.nativeElement.offsetHeight;
