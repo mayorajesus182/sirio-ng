@@ -45,6 +45,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
 
   process(data: any) {

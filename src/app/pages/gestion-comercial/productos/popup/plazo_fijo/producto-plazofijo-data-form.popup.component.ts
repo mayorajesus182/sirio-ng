@@ -9,21 +9,21 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 
 @Component({
-  selector: 'sirio-credito-data-form.popup',
-  templateUrl: './credito-data-form.popup.component.html',
-  styleUrls: ['./credito-data-form.popup.component.scss']
+  selector: 'sirio-producto-plazofijo-data-form.popup',
+  templateUrl: './producto-plazofijo-data-form.popup.component.html',
+  styleUrls: ['./producto-plazofijo-data-form.popup.component.scss']
 })
-export class CreditoDataFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
+export class ProductoPlazoFijoDataFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
 
-  dataCredito: any = {};
+  dataProducto: any = {};
   public telefonicas = new BehaviorSubject<Telefonica[]>([]);
   public cuentas = new BehaviorSubject<CuentaBanco[]>([]);
-  path: string;
+  path:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
-    dialogRef: MatDialogRef<CreditoDataFormPopupComponent>,
+    dialogRef: MatDialogRef<ProductoPlazoFijoDataFormPopupComponent>,
     private cuentaBancoService: CuentaBancoService,
     private telefonicaService: TelefonicaService,
     private cdr: ChangeDetectorRef,
@@ -38,8 +38,8 @@ export class CreditoDataFormPopupComponent extends PopupBaseComponent implements
   ngOnInit() {
     this.loadingDataForm.next(true);
     if (this.defaults.payload) {
-      this.dataCredito = this.defaults.payload;
-      this.path = GlobalConstants.PATH_IMAGE_GCOMERCIAL+this.dataCredito.servicio.imageName;
+      this.dataProducto = this.defaults.payload;
+      this.path = GlobalConstants.PATH_IMAGE_GCOMERCIAL+this.dataProducto.servicio.imageName;
       this.mode = 'global.edit';
       this.buildForm();
     }

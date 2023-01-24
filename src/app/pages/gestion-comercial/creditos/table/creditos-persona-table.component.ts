@@ -62,7 +62,7 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
   }
 
   ngAfterViewInit() {
-
+    // this.afterInit();
   }
 
   edit(data: any) {

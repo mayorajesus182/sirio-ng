@@ -55,9 +55,6 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
     if (this.persona) {
       this.loadList();
-      
-
-      console.log(' Personaaaaaaaaaaaaaaa ', this.persona);
       this.onRefresh.subscribe(val => {
         if (val) {
 
@@ -68,7 +65,7 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
-
+    // this.afterInit();
   }
 
   edit(data: any) {

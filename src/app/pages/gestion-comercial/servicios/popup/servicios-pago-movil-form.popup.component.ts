@@ -19,6 +19,7 @@ export class ServiciosPagoMovilFormPopupComponent extends PopupBaseComponent imp
   dataServicio: any = {};
   public telefonicas = new BehaviorSubject<Telefonica[]>([]);
   public cuentas = new BehaviorSubject<CuentaBanco[]>([]);
+  path:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -38,6 +39,7 @@ export class ServiciosPagoMovilFormPopupComponent extends PopupBaseComponent imp
     this.loadingDataForm.next(true);
     if (this.defaults.payload) {
       this.dataServicio = this.defaults.payload;
+      this.path = GlobalConstants.PATH_IMAGE_GCOMERCIAL+this.dataServicio.servicio.imageName;
       this.mode = 'global.edit';
       this.buildForm();
     }

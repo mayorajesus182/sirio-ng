@@ -1,6 +1,6 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
-    <h1>{{dataCredito.servicio.nombre}}</h1> <span>{{('Envío de Requisitos') | translate}}</span>
+    <h1>{{dataProducto.servicio.nombre}}</h1> <span>{{'Solicitud' | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -18,7 +18,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <h4>
-        La información referente a la descripción, características, beneficios y requisitos del crédito, será envíada al Cliente:
+        La solicitud de la tarjeta de crédito será procesada para el Cliente:
       </h4>
     </div>
 
@@ -26,29 +26,13 @@
       <mat-form-field fxFlex="25">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
-        <input matInput class="text-center" [value]="dataCredito.persona.tipoDocumento+' - '+dataCredito.persona.identificacion" readonly>
+        <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
       </mat-form-field>
 
       <mat-form-field fxFlex="75">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
-        <input matInput class="text-center" [value]="dataCredito.persona.nombre" readonly>
-      </mat-form-field>
-
-    </div>
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <h4>
-        A través de la siguente dirección de correo:
-      </h4>
-    </div>
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-      <mat-form-field fxFlex="100">
-        <mat-label>{{'commercialService.email' | translate: {default: 'global.email'} | translate }}
-        </mat-label>
-        <input matInput class="text-center" [value]="dataCredito.persona.email" readonly>
+        <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
       </mat-form-field>
 
     </div>
@@ -56,7 +40,6 @@
   </mat-dialog-content>
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="send()">{{'button.send'|translate}}</button>
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.close'|translate}}</button>
   </mat-dialog-actions>
 </form>
