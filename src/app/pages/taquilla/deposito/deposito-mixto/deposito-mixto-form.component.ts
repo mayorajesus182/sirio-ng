@@ -414,7 +414,7 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
             });
             this.f.efectivo.markAsDirty();
             this.cdr.detectChanges();
-        } else if((event.montoTotal === 0 || this.f.efectivo.value != event.montoTotal)  ){
+        } else if((event.montoTotal === 0)  ){
             this.f.efectivo.setErrors({
                 differenceDesglose: true
             });
