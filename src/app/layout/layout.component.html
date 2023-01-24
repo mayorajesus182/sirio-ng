@@ -16,12 +16,8 @@
   <mat-sidenav-container autosize fxFlex>
 
     <!-- SIDENAV -->
-    <mat-sidenav (closedStart)="closeSidenav()"
-                 (openedStart)="openSidenav()"
-                 [mode]="sidenavMode$ | async"
-                 [opened]="sidenavOpen$ | async"
-                 *ngIf="sideNavigation$ | async"
-                 class="sirio-collapsable-sidenav">
+    <mat-sidenav (closedStart)="closeSidenav()" (openedStart)="openSidenav()" [mode]="sidenavMode$ | async" [opened]="sidenavOpen$ | async"
+      *ngIf="sideNavigation$ | async" class="sirio-collapsable-sidenav">
       <sirio-sidenav [collapsed]="sidenavCollapsed$ | async" [expanded]="sidenavExpanded$ | async"></sirio-sidenav>
     </mat-sidenav>
     <!-- END SIDENAV -->
@@ -36,17 +32,16 @@
       </ng-container>
 
       <!-- CONTENT -->
-      <div 
-           cdkScrollable
-           class="content"
-           fxFlex="auto"
-           fxLayout="column">
+      <div cdkScrollable class="content" fxFlex="auto" fxLayout="column">
         <ng-container *ngIf="(toolbarPosition$ | async) === 'static'">
           <ng-container *ngTemplateOutlet="toolbar"></ng-container>
         </ng-container>
 
-        <div class="content-inner" fxFlex="auto">
+        <div class="content-inner" fxFlex="auto" style="">
           <notifier-container></notifier-container>
+          <ngx-spinner name="componentLoading">
+            <p class="text-muted text-md"> {{'content.loading' | translate}} </p>
+          </ngx-spinner>
           <router-outlet></router-outlet>
         </div>
 
@@ -69,16 +64,12 @@
 
 <ng-template #toolbar>
   <!-- TOOLBAR -->
-  <sirio-toolbar (openQuickPanel)="openQuickPanel()"
-                [hasNavigation]="topNavigation$ | async"
-                (openSidenav)="openSidenav()"
-                *ngIf="toolbarVisible$ | async"
-                fxFlex="none"></sirio-toolbar>
+  <sirio-toolbar (openQuickPanel)="openQuickPanel()" [hasNavigation]="topNavigation$ | async" (openSidenav)="openSidenav()" *ngIf="toolbarVisible$ | async"
+    fxFlex="none"></sirio-toolbar>
   <!-- END TOOLBAR -->
 
   <!-- NAVIGATION -->
-  <sirio-navigation *ngIf="topNavigation$ | async"
-                   fxFlex="none"></sirio-navigation>
+  <sirio-navigation *ngIf="topNavigation$ | async" fxFlex="none"></sirio-navigation>
   <!-- END NAVIGATION -->
 </ng-template>
 
@@ -87,5 +78,3 @@
   <sirio-footer fxFlex="none"></sirio-footer>
   <!-- END FOOTER -->
 </ng-template>
-
-

@@ -83,6 +83,7 @@ export class ConsultarRemesaTableComponent extends TableBaseComponent implements
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
 
   view(data: any) {
