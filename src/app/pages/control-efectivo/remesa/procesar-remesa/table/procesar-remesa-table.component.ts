@@ -24,7 +24,7 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
   aprobado = GlobalConstants.APROBADO;
   isOpen: boolean = false;
   gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
-  
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -36,12 +36,12 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
     super(undefined, injector);
   }
 
- loadList() {
-  this.init(this.remesaService, 'remesa_id', 'pagePorProcesar');
- } 
+  loadList() {
+    this.init(this.remesaService, 'remesa_id', 'pagePorProcesar');
+  }
 
   ngOnInit() {
-   this.loadList();
+    this.loadList();
   }
 
   ngAfterViewInit() {
@@ -54,33 +54,33 @@ export class ProcesarRemesaTableComponent extends TableBaseComponent implements 
   dispatch(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/dispatch`]);
   }
-  
+
   view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
   print(data: any) {
-    let dto = {remesa: data.element.id} as GestionEfectivoReports;
+    let dto = { remesa: data.element.id } as GestionEfectivoReports;
     this.gestionEfectivoReportsService.cartaPorte(dto).subscribe(data => {
-        // this.loadingDataForm.next(false);
-        const name = this.getFileName(data);
-        let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-        this.download(name, blob);
+      // this.loadingDataForm.next(false);
+      const name = this.getFileName(data);
+      let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+      this.download(name, blob);
     });
-}
+  }
 
 
-// reportPdf(){
-//   // this.saldoAgenciaReports.agencia = this.agencia_curr;
-//   this.loadingDataForm.next(true);
-//   (this.agencia_curr?  this.agenciaReport.reportResumenByAgencia(this.saldoAgenciaReports): this.agenciaReport.reportResumen() ).subscribe(data => {
-//     this.loadingDataForm.next(false);
-//     console.log('response:', data);
-//     const name = this.getFileName(data);
-//     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-//     this.download(name, blob);
-//   });
-// }
+  // reportPdf(){
+  //   // this.saldoAgenciaReports.agencia = this.agencia_curr;
+  //   this.loadingDataForm.next(true);
+  //   (this.agencia_curr?  this.agenciaReport.reportResumenByAgencia(this.saldoAgenciaReports): this.agenciaReport.reportResumen() ).subscribe(data => {
+  //     this.loadingDataForm.next(false);
+  //     console.log('response:', data);
+  //     const name = this.getFileName(data);
+  //     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+  //     this.download(name, blob);
+  //   });
+  // }
 
 
 

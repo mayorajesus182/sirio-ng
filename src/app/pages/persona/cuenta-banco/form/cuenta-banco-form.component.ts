@@ -18,9 +18,9 @@ import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/s
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
-import { PersonaReportService } from 'src/@sirio/domain/services/control-efectivo/persona-report.service';
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
+import { PersonaReportService } from 'src/@sirio/domain/services/persona/persona-report.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 

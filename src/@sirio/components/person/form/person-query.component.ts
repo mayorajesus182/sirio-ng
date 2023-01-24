@@ -117,7 +117,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             });
         } else {
             this.tipoDocumentoService.activesByTipoPersona(this.tipo_persona).subscribe(data => {
-                console.log(data);
+                // console.log(data);
                 
                 this.tiposDocumentoList = data;
 

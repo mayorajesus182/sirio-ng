@@ -27,7 +27,8 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class JuridicoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
-    todayValue: moment.Moment;
+    fromOtherComponent: boolean=false;
+    todayValue: moment.Moment=moment();
 
     totalAddress: number;
     totalInfoLab: number;
@@ -73,7 +74,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-    fromOtherComponent: boolean;
+    
 
     constructor(
         injector: Injector,
