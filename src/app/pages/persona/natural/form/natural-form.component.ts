@@ -33,7 +33,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     fromOtherComponent: boolean=false;
-    todayValue: moment.Moment;
+    todayValue: moment.Moment=moment();
     totalAddress: number;
 
     totalRegistroMercantil : number;
@@ -150,6 +150,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
 
         this.estadoCivilService.actives().subscribe(data => {
+            console.log('estado civil ',data);
+            
             this.estadosCiviles.next(data);
         });
 

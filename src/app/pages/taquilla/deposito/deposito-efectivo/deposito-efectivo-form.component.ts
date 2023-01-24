@@ -23,7 +23,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
-    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    // public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
 
@@ -42,7 +42,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             cuentaBancaria: new FormControl(undefined),
             numeroCuenta: new FormControl(undefined),
             moneda: new FormControl(undefined),
-            efectivo: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            efectivo: new FormControl('', [Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
@@ -70,7 +70,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             }
         });
         //Me trae la data de la cuenta que se selecciono
-        this.f.cuentaBancaria.valueChanges.subscribe(val => {
+        this.f.cuentaBancaria.valueChanges.subscribe(val => {            
             if (val && (val != '')) {
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
@@ -105,7 +105,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                     this.f.moneda.setValue({
                         id: this.cuentaOperacion.moneda, 
                         nombre: this.cuentaOperacion.monedaNombre, 
-                        siglas: this.cuentaOperacion.monedaSiglas
+                        siglas: this.cuentaOperacion.siglas
                     });
                     this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
                     this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);

@@ -1,7 +1,7 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
         <!-- Asignar etiqueta de internacionalizacion -->
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['Persona Juridica']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['legalPerson']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -35,7 +35,7 @@
 
                     <!-- <input [focused]="attr.focus"> -->
 
-                    <sirio-person-query [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)" (update)="updatePerson($event)"
+                    <sirio-person-query *ngIf="!fromOtherComponent" [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)" (update)="updatePerson($event)"
                         (create)="addPerson($event)"></sirio-person-query>
 
 

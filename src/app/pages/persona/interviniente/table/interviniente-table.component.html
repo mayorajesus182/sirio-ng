@@ -1,7 +1,7 @@
 <!-- Apoderado -->
 <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-        <button color="default" (click)="popup()" mat-button class="margin-v-sm" [disabled]="tipoFirmaCurr=='01'">
+        <button color="default" (click)="popup()" mat-button class="margin-v-sm" [disabled]="!multipleFirmantes">
             <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
             'global.notfound'} | translate }}
         </button>

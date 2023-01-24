@@ -65,6 +65,6 @@ export class GestionEfectivoReportsService {
     }
 
     cartaPorte(params: GestionEfectivoReports): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/carta-porte', params);
+        return this.apiService.config(this.apiConfig).pullFileByPost('/carta-porte', params);
     }
 }

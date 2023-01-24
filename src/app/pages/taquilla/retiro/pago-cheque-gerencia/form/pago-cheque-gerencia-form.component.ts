@@ -126,7 +126,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
                             this.cuentaBancariaOperacion = data;
                             this.moneda.id = this.cuentaBancariaOperacion.moneda;
                             this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                            this.moneda.siglas = this.cuentaBancariaOperacion.monedaSiglas;
+                            this.moneda.siglas = this.cuentaBancariaOperacion.siglas;
                             this.persona.nombre = this.cuentaBancariaOperacion.nombre;
 
 

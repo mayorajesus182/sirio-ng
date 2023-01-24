@@ -17,8 +17,8 @@ import { DatasourceService } from "src/@sirio/services/datasource.service";
 import { NavigationService } from "src/@sirio/services/navigation.service";
 import { SidenavItem } from "src/app/layout/sidenav/sidenav-item/sidenav-item.interface";
 import { saveAs } from 'file-saver';
-import { SnackbarService } from "../../services/snackbar.service";
-import { SweetAlertService } from "../../services/swal.service";
+import { SnackbarService } from "src/@sirio/services/snackbar.service";
+import { SweetAlertService } from "src/@sirio/services/swal.service";
 import { MethodComponentApi } from "../actions/actions-nav.component";
 
 @Component({
@@ -65,6 +65,7 @@ export class TableBaseComponent {
     protected swalService: SweetAlertService;
     protected spinner: NgxSpinnerService;
     protected location: Location;
+    private nameColumnSortDef: string;
 
     colors = {
         REG: 'bg-success',
@@ -134,7 +135,7 @@ export class TableBaseComponent {
 
         this.dataSource = new DatasourceService(service, method);
         this.dataSource.paramsOpts = paramsOpts;
-        this.dataSource.loadData('', nameColumnSort, 'asc', 0, 15);
+        this.nameColumnSortDef= nameColumnSort;
 
         this.filter.subscribe(text => {
             
@@ -235,6 +236,7 @@ export class TableBaseComponent {
                 tap(() => this.refreshElementList())
             ).subscribe();
 
+            this.dataSource.loadData('', this.nameColumnSortDef, this.sort.direction, 0, 15);
         }
 
         if (this.spinner) {
@@ -248,7 +250,7 @@ export class TableBaseComponent {
                     opts.type = 'ball-scale-ripple-multiple';
                     opts.size = 'medium';
                     opts.fullScreen = false;
-                    opts.color = '#3f51b5';
+                    opts.color = '#2769a7;';
                     opts.bdColor = 'rgba(190, 190, 190, 0.05)';
 
                     this.spinner.show(componentNameLoading || 'componentLoading', opts);
@@ -306,8 +308,11 @@ export class TableBaseComponent {
 
     protected refreshElementList() {
         if (!this.dataSource) {
+            console.log('no existe datasource');
+            
             return;
         }
+        console.log('sort ', this.sort);
         this.dataSource.loadData(
             this.searchTerm ? this.searchTerm : '',
             this.sort.active,

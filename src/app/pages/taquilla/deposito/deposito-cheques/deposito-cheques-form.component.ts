@@ -371,7 +371,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
                     this.f.moneda.setValue({
                         id: this.cuentaOperacion.moneda,
                         nombre: this.cuentaOperacion.monedaNombre,
-                        siglas: this.cuentaOperacion.monedaSiglas
+                        siglas: this.cuentaOperacion.siglas
                     });
                     this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
                     this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
