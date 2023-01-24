@@ -436,10 +436,10 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         let valorTotal = (event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
         // La diferencia entre la suma Efectivo con los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-
+        // Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1
         // (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito))
 
-        if (Math.abs(valorTotal - valorMontoTotal) >= 1) {
+        if (Math.abs(valorTotal -  valorMontoTotal) >= 1) {
 
             this.f.monto.setErrors({
                 totalDifference: true
