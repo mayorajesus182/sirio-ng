@@ -111,13 +111,15 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         if (!this.tipo_persona) {
             this.tipoDocumentoService.actives().subscribe(data => {
-                console.log(data);
+                
                 this.tiposDocumentoList = data;
                 this.tiposDocumentos.next(data);
             });
         } else {
             this.tipoDocumentoService.activesByTipoPersona(this.tipo_persona).subscribe(data => {
                 console.log(data);
+                
+                this.tiposDocumentoList = data;
 
                 this.tiposDocumentos.next(data);
             });
@@ -159,8 +161,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
 
     public queryByPerson() {
-
-        // console.log(this.search.identificacion?.errors);
 
 
         if (this.search.identificacion.errors || this.finding) {
@@ -212,6 +212,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.search.cuenta.setValue('');
                 this.finding = false;
                 this.disableBtn.next(false);
+
+                console.log(this.searchForm.value);
+                
                 this.cdref.detectChanges();
             })
         } else if (!tipoDocumento) {
@@ -271,15 +274,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         // this.persona = {} as Persona;
         // this.isNew = true;
-        this.disableBtn.next(true);
         this.cdref.detectChanges();
+        this.disableBtn.next(true);
         // this.result.emit({});
     }
 
     createOn() {
-        this.disable.next(true);
-        this.search.tipoPersona.setValue(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce((a, b) => a, '') || ' ');
+        // console.log(this.searchForm.value);
+        this.search.tipoPersona.setValue(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce(a => a) || '');
         this.create.emit(this.searchForm.value);
+        this.disable.next(true);
     }
 
     pushOn() {
@@ -295,7 +299,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.persona.tipoPersona = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce(a => a) || '';
 
-        console.log(this.persona);
+        // console.log(this.persona);
         this.push.emit(this.persona);
         this.resetAll();
     }
@@ -303,9 +307,10 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     editOn() {
 
-        this.disable.next(true);
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
         this.update.emit(this.persona);
+
+        this.disable.next(true);
 
     }
 
