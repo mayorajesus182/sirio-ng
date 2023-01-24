@@ -9,6 +9,8 @@ export interface GestionEfectivoReports {
     moneda: string
     taquilla: string
     remesa: string
+    fechainicio : Date
+    fechafin : Date
  }
 
 
@@ -52,16 +54,17 @@ export class GestionEfectivoReportsService {
         return this.apiService.config(this.apiConfig).pullFileByPost('/reports/cierre-taquilla', params);
     }
 
-    remesaEnviada(): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-enviada');
+    remesaEnviada(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/remesa-enviada', params);
+    }
+    
+  
+    remesaRecibida(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/remesa-recibida', params);
     }
 
-    remesaRecibida(): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-recibida');
-    }
-
-    remesaSolicitada(): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByGet('/reports/remesa-solicitada');
+    remesaSolicitada(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/remesa-solicitada',params);
     }
 
     cartaPorte(params: GestionEfectivoReports): Observable<any> {
