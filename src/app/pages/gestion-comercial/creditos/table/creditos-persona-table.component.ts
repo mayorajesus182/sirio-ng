@@ -41,10 +41,15 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
 
     this.creditoComercialService.asignedToPersona(this.persona.numper).subscribe(data => {
       this.creditosClienteList.next(data);
+
+      console.log('creditosClienteList    ', data);
+      
     });
 
     this.creditoComercialService.noAsignedToPersona(this.persona.numper, this.persona.tipoPersona).subscribe(data => {
       this.creditosList.next(data);
+
+      console.log('creditosList    ', data);
     });
 
   }

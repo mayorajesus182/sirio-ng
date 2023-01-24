@@ -19,6 +19,7 @@ export class CreditoDataFormPopupComponent extends PopupBaseComponent implements
   dataCredito: any = {};
   public telefonicas = new BehaviorSubject<Telefonica[]>([]);
   public cuentas = new BehaviorSubject<CuentaBanco[]>([]);
+  path: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -39,6 +40,8 @@ export class CreditoDataFormPopupComponent extends PopupBaseComponent implements
     if (this.defaults.payload) {
       this.dataCredito = this.defaults.payload;
       console.log(this.dataCredito);
+
+      this.path = ''
       
       this.mode = 'global.edit';
       this.buildForm();
