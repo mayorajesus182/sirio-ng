@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -30,7 +30,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   public productosList = new BehaviorSubject<ProductoComercial[]>([]);
   public productosClienteList = new BehaviorSubject<ProductoComercial[]>([]);
 
-  @ViewChildren('cardProduct') cardElements;
+  // @ViewChildren('cardProduct') cardElements;
 
   constructor(
     injector: Injector,
@@ -40,6 +40,39 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
+  }
+
+  @ViewChildren('cardProduct') set cards(cardElements: QueryList<ElementRef>) {
+    // console.log('paginators');
+    // console.log(mps);
+    // console.log('end paginators');
+    if (cardElements) {
+
+      
+      setTimeout(() => {
+        let tallestHeight = 0;
+        
+        cardElements.forEach((card) => {
+          // console.log(card.nativeElement);
+  
+          if (card.nativeElement.offsetHeight > tallestHeight) {
+            tallestHeight = card.nativeElement.offsetHeight;
+          }
+        });
+  
+        // Set all card elements to the same height
+        cardElements.forEach((card) => {
+          card.nativeElement.style.height = tallestHeight + 'px';
+  
+        });
+  
+  
+        this.cdr.detectChanges();
+
+      }, 500);
+        
+    }
+
   }
 
   private loadList() {
@@ -62,7 +95,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
-
+    
   }
 
   edit(data: any) {
