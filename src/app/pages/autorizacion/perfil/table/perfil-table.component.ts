@@ -51,19 +51,16 @@ export class PerfilTableComponent extends TableBaseComponent implements OnInit, 
   }
 
 
-  add() {
-    // /inventario/articulos/add
-
-    this.router.navigate(['/autorizacion/perfil/add']);
-
-
-
+  add(path:string) {
+    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(element) {
-    // /inventario/articulos/add
+  edit(data:any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  }
 
-    this.router.navigate([`/autorizacion/perfil/${element.id}/edit`]);
+  view(data:any) {
+    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
   // view(element) {
@@ -73,14 +70,13 @@ export class PerfilTableComponent extends TableBaseComponent implements OnInit, 
   // }
 
 
-  activateOrInactivate(element: Perfil) {
+  activateOrInactivate(data:any) {
 
-    if (!element || !element.id) {
+    if (!data.element || !data.element.id) {
       return;
     }
 
-    // console.log(element)
-    this.applyChangeStatus(this.perfilService, element, element.nombre, this.cdr);
+    this.applyChangeStatus(this.perfilService, data.element, data.element.nombre, this.cdr);
   }
 
 }
