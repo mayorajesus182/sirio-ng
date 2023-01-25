@@ -9,6 +9,7 @@ import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { PerfilFormComponent } from './form/perfil-form.component';
+import { PerfilRoutingModule } from './perfil-routing.module';
 import { PerfilTableComponent } from './table/perfil-table.component';
 import { PerfilViewComponent } from './view/perfil-view.component';
 ;
@@ -24,17 +25,16 @@ import { PerfilViewComponent } from './view/perfil-view.component';
         TranslateModule,
         FlexLayoutModule,
         MaterialModule,
-    // Core
-    SirioSharedModule,
-    SharedComponentModule,
-    BreadcrumbsModule,
-
-
+        // Core
+        SirioSharedModule,
+        SharedComponentModule,
+        BreadcrumbsModule,
+        PerfilRoutingModule
     ],
-    declarations: [PerfilFormComponent, PerfilTableComponent,PerfilViewComponent ],
+    declarations: [PerfilFormComponent, PerfilTableComponent, PerfilViewComponent],
     providers: [TreeDataService],
     exports: [],
 })
-export class PerfilModule { 
+export class PerfilModule {
 
 }

@@ -1,15 +1,15 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { PerfilFormComponent } from './form/perfil-form.component';
 
 import { PerfilTableComponent } from './table/perfil-table.component';
 import { PerfilViewComponent } from './view/perfil-view.component';
 
 
-export const PerfilRoutes: Routes = [
+export const perfilRoutes: Routes = [
   {
     path: '',
-    component: PerfilTableComponent,
-    data: { title: 'Perfiles' }
+    component: PerfilTableComponent
   },
   {
     path: 'add',
@@ -28,4 +28,11 @@ export const PerfilRoutes: Routes = [
   }
 
 ];
+
+@NgModule({
+  imports: [RouterModule.forChild(perfilRoutes)],
+  exports: [RouterModule]
+})
+export class PerfilRoutingModule {
+}
 

@@ -10,8 +10,7 @@ import { UsuarioTableComponent } from './table/usuario-table.component';
 const usuarioRoutes: Routes = [
   {
     path: '',
-    component: UsuarioTableComponent,
-    data: { title: 'Usuarios' }
+    component: UsuarioTableComponent
   },
   {
     path: 'add',

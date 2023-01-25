@@ -1,20 +1,14 @@
-<mat-toolbar fxLayoutGap="5px">
-    
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['user.table']" current="global.list"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
 
-    <div class="logo" fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">reorder</mat-icon>
-        <span class="logo-text h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-            Perfiles
-        </span>
-    </div>
-
-</mat-toolbar>
+    <sirio-page-layout-content [@fadeInUp]>
+        <sirio-list [name]="'user.table' | translate: {default: 'global.notfound'}" placeholder="user.search"
+            (filterChange)="onFilterChange($event)">
 
 
-<!-- 
-<mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
-    <mat-card-content class="p-0"> -->
-<mat-table #table id="tableContainer"  [dataSource]="dataSource" [@animateStagger]="{value:'50'}" matSort
+<mat-table #table id="tableContainer"  [dataSource]="dataSource"  matSort
            matSortActive="perfil_id" matSortDirection="asc">
 
 
@@ -69,7 +63,11 @@
              [@animate]="{value:'*',params:{y:'100%'}}">
     </mat-row>
 </mat-table>
-<!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
+
 <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
-               showFirstLastButtons></mat-paginator>
-<app-button-nav [method]="buttonAPI()"></app-button-nav>
+showFirstLastButtons></mat-paginator>
+
+</sirio-list>
+<sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>
+</sirio-page-layout-content>
+</sirio-page-layout>
