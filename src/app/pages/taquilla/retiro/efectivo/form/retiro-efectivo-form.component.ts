@@ -83,6 +83,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                         this.cdr.detectChanges();
                     }
                 });
+
                 this.cdr.detectChanges();
             }
         });
@@ -130,7 +131,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         let montoRetiro = this.f.totalRetiro.value? this.f.totalRetiro.value : 0.00;
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        if (   Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoRetiro) : montoRetiro)) >= 0.01) {
+        console.log("pruebaaaaaaaaa", event);
+        if (   Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoRetiro) : montoRetiro)) >= 1) {
 
             this.f.totalRetiro.setErrors({
                 totalDifference: true
@@ -142,6 +144,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
 
             // this.validarMonto(event);
             if (event && (event.montoTotal > 0)) {
+                
                 this.f.totalRetiro.setValue(event.montoTotal);
             }
             this.f.totalRetiro.markAsDirty();
@@ -160,6 +163,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         if (!event) {
             return;
         }
+        this.f.totalRetiro.setValue(event.montoTotal);
         this.calculateDifferences(event)
         this.f.conoActual.setValue(event.desgloseConoActual);
         this.f.conoAnterior.setValue(event.desgloseConoAnterior);
@@ -199,7 +203,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 if (this.cuentaOperacion.email) {
                     this.f.email.setValue(this.cuentaOperacion.email);
                     this.f.email.disable();
-                }else{
+                }
+                else{
                     this.f.email.enable();
                     this.f.email.value;
                 }
@@ -209,9 +214,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.persona = data;
                 this.cuentaOperacion = undefined;
                 this.f.identificacion.setValue(this.persona.identificacion)
-
-                
-                console.log("emaiiiiiiiiiiiiiiiiiiiiiiil", this.f.email.value);
                 
                 if (this.persona.email) {
                     this.f.email.setValue(this.persona.email);
@@ -219,14 +221,13 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 } 
                 else {
                     this.f.email.enable();
-                    this.f.email.valueChanges.subscribe( val => {
+                    this.f.email.value;
+                    // this.f.email.valueChanges.subscribe( val => {
 
-                        if(val){
-                        //     this.f.email.value(val);
-                        this.f.email.value;
-                            console.log('email', val);
-                        }
-                    });
+                    //     if(val){
+                    //     this.f.email.value;
+                    //     }
+                    // });
                 }
                 //lista de las cuentas bancarias de la persona
                 this.cuentaBancariaService.activesByPersona(this.persona.id).subscribe(data => {
@@ -306,21 +307,46 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         // this.f.totalRetiro.reset({});
         // this.f.monto.setValue(0.00);
         // this.f.conoActual
-        this.f.monto.setValue(0.00);
-        this.f.totalRetiro.setValue(0.00);
+        // this.f.monto.setValue(0.00);
         // this.f.totalRetiro.setValue(0.00);
+        // // this.f.totalRetiro.setValue(0.00);
+        // if(this.persona.email){
+        //     this.f.email.setValue(this.persona.email);
+        // } else {
+        //     this.f.email.setValue('');
+        // }
+        // if(this.cuentaOperacion.email){
+        //     this.f.email.setValue(this.cuentaOperacion.email)
+        // }else{
+        //     this.f.email.setValue('');
+        // }
+        
+        // this.itemForm.reset({});
         if(this.persona.email){
+            this.limpiar();
             this.f.email.setValue(this.persona.email);
+            
         } else {
-            this.f.email.setValue('');
+            this.f.email.setValue('')
         }
+        
+        
         if(this.cuentaOperacion.email){
-            this.f.email.setValue(this.cuentaOperacion.email)
+           this.limpiar();
         }else{
             this.f.email.setValue('');
         }
         this.calculateDifferences();
         this.cdr.detectChanges();
+    }
+    
+    
+    limpiar(){
+        this.f.monto.reset({});
+        this.f.totalRetiro.reset({});
+        this.f.totalRetiro.setValue(0.00);
+        this.f.monto.setValue(0.00);
+        
     }
 
 }

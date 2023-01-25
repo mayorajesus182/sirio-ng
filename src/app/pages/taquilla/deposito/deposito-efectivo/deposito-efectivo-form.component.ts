@@ -163,6 +163,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         if (!event) {
             return;
         }
+        this.f.monto.setValue(event.montoTotal);
         this.calculateDifferences(event)
         this.f.conoActual.setValue(event.desgloseConoActual);
         this.f.conoAnterior.setValue(event.desgloseConoAnterior);
