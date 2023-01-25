@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { Permiso, PermisoService } from "src/@sirio/domain/services/autorizacion/permiso.service";
 
 export class TreeItemNode {
   children: TreeItemNode[];
@@ -15,11 +16,15 @@ export class TreeItemFlatNode {
   descripcion?: string;
   icon?: string;
   level: number;
-  checked:boolean;
+  checked: boolean;
   expandable: boolean;
 }
 
-@Injectable()
+@Injectable(
+  {
+    providedIn: 'root'
+  }
+)
 export class TreeDataService {
   dataChange = null;
 
@@ -47,7 +52,7 @@ export class TreeDataService {
       const node = new TreeItemNode();
       node.item = item.id;
       node.icon = item.icon;
-      node.descripcion = item.descripcion;
+      node.descripcion = item.label;
       node.label = item.label;
 
       if (value != null) {
@@ -60,23 +65,23 @@ export class TreeDataService {
     }, []);
   }
 
-  private buildFileTreeWithPre(obj: Permiso[], level: number,preselecteds:any[]): TreeItemNode[] {
+  private buildFileTreeWithPre(obj: Permiso[], level: number, preselecteds: any[]): TreeItemNode[] {
     return obj.reduce<TreeItemNode[]>((accumulator, item) => {
       const value = item;
 
-      if(!preselecteds.find(p => p.id == item.id)){
+      if (!preselecteds.find(p => p.id == item.id)) {
         return accumulator;
       }
 
       const node = new TreeItemNode();
       node.item = item.id;
       node.icon = item.icon;
-      node.descripcion = item.descripcion;
+      node.descripcion = item.label;
       node.label = item.label;
 
-      if (value != null ) {
+      if (value != null) {
         if (value.subpermisos && value.subpermisos.length > 0) {
-          node.children = this.buildFileTreeWithPre(value.subpermisos, level + 1,preselecteds);
+          node.children = this.buildFileTreeWithPre(value.subpermisos, level + 1, preselecteds);
         }
       }
 
@@ -90,16 +95,16 @@ export class TreeDataService {
     this.permisoService.tree().subscribe(tree => {
 
 
-      const data = this.buildFileTreeWithPre(tree, 0,preselecteds);
+      const data = this.buildFileTreeWithPre(tree, 0, preselecteds);
       // Notify the change.
       this.dataChange.next(data);
     });
 
   }
 
-  private filterTree(tree:Permiso[],){
+  private filterTree(tree: Permiso[],) {
     tree.forEach(element => {
-      
+
     });
   }
 

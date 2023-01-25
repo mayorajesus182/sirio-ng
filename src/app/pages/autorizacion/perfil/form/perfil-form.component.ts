@@ -1,21 +1,18 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { genialBetAnimations } from 'app/shared/animations';
-import PerfectScrollbar from 'perfect-scrollbar';
-import { FormBaseComponent } from '../../../../shared/components/base/form-base.component';
-import { Perfil, PerfilService, Plantilla } from 'app/shared/domain/services/autorizacion/perfil.service';
-import { SnackbarService } from '../../../../shared/services/snackbar.service';
-import { TreeDataService, TreeItemFlatNode, TreeItemNode } from './tree-data.service';
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { BehaviorSubject } from 'rxjs';
-import { RegularExpConstants } from 'app/shared/constants/regularexp.constants';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { SweetAlertService } from 'app/shared/services/swal.service';
-import { Permiso } from 'app/shared/domain/services/autorizacion/permiso.service';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
+import { Permiso } from 'src/@sirio/domain/services/autorizacion/permiso.service';
+import { TreeDataService, TreeItemFlatNode, TreeItemNode } from 'src/@sirio/domain/services/autorizacion/tree-data.service';
+import { RegularExpConstants } from 'src/@sirio/constants';
 
 
 @Component({
@@ -23,17 +20,13 @@ import { Permiso } from 'app/shared/domain/services/autorizacion/permiso.service
     templateUrl: './perfil-form.component.html',
     styleUrls: ['./perfil-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    animations: genialBetAnimations
+    animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
 export class PerfilFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     perfil: Perfil = {} as Perfil;
-    plantilla: Plantilla = undefined;
-
-
-    a: PerfectScrollbar;
-
+    
     modulos = undefined;
 
     step = 0;
@@ -61,16 +54,13 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
     constructor(
         dialog: MatDialog,
+        injector: Injector,
         private fb: FormBuilder,
-        snack: SnackbarService,
         private route: ActivatedRoute,
         private perfilService: PerfilService,
         private cdr: ChangeDetectorRef,
-        spinner: NgxSpinnerService,
-        swal: SweetAlertService,
-        protected router: Router,
         public treeDataService: TreeDataService) {
-        super(dialog, snack, spinner, swal)
+        super(undefined, injector)
     }
 
     private loadTree(){
@@ -178,26 +168,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
         this.loadTree();
 
-
-        if (tpl) {
-
-            this.perfilService.getPlantilla(tpl).subscribe((tpl: Plantilla) => {
-                this.plantilla = tpl;
-                console.log('template ', tpl);
-                
-                // cargar preseleccionados cuando vengo de una plantilla
-                this.preSelecteds.next(this.plantilla.permisos);
-                // this.loadPreselecteds();
-
-                // this.initTree();
-                this.cdr.markForCheck();
-
-                // this.custom_title = data.titulo;
-
-            });
-
-        }
-
+    
         if (id) {
             this.perfilService.get(id).subscribe((art: Perfil) => {
                 this.perfil = art;
@@ -294,25 +265,11 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
         this.itemForm = this.fb.group({
             id: new FormControl({ value: item.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC),Validators.maxLength(6)]),
-            nombre: new FormControl(item.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHANUMERIC_ACCENTS_CHARACTERS)]),
-            descripcion: new FormControl(item.descripcion, [Validators.required, Validators.pattern(RegularExpConstants.ALPHANUMERIC_ACCENTS_CHARACTERS)]),
+            nombre: new FormControl(item.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            descripcion: new FormControl(item.descripcion, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
         });
     }
 
-    // save() {
-    //     if (this.itemForm.invalid)
-    //         return;
-    //     this.updateData(this.perfil);
-
-    //     // console.log(this.perfil);
-
-
-    //     this.saveOrUpdate(this.perfilService, this.perfil, 'El Perfil', this.isNew);
-    //     // this.todoService.updateTodo(this.todo).subscribe(res => {
-    //     //   this.router.navigateByUrl("/todo/list");
-    //     // });
-
-    // }
 
     save() {
 

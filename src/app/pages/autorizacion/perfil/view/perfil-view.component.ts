@@ -1,25 +1,24 @@
 
 import { SelectionModel } from '@angular/cdk/collections';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
-import { ActivatedRoute, Router } from '@angular/router';
-import { genialBetAnimations } from 'app/shared/animations';
-import { FormBaseComponent } from 'app/shared/components/base/form-base.component';
-import { Perfil, PerfilService } from 'app/shared/domain/services/autorizacion/perfil.service';
-import { Permiso } from 'app/shared/domain/services/autorizacion/permiso.service';
-import { SnackbarService } from 'app/shared/services/snackbar.service';
-import { SweetAlertService } from 'app/shared/services/swal.service';
-import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { TreeDataService, TreeItemFlatNode, TreeItemNode } from '../form/tree-data.service';
+import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
+import { Permiso } from 'src/@sirio/domain/services/autorizacion/permiso.service';
+import { TreeDataService, TreeItemFlatNode, TreeItemNode } from 'src/@sirio/domain/services/autorizacion/tree-data.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+
 
 @Component({
   selector: 'app-perfil-view',
   templateUrl: './perfil-view.component.html',
-  styleUrls:['./perfil-view.component.scss'],
+  styleUrls:['./perfil-view.component.scss'],  
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: genialBetAnimations
+  animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 export class PerfilViewComponent extends FormBaseComponent implements OnInit {
 
@@ -49,16 +48,13 @@ export class PerfilViewComponent extends FormBaseComponent implements OnInit {
   step = 0;
 
   constructor(
-    snack: SnackbarService,
+    injector: Injector,
     private route: ActivatedRoute,
     private perfilService: PerfilService,
     private cdr: ChangeDetectorRef,
-    spinner: NgxSpinnerService,
-    protected router: Router,
-    swal: SweetAlertService,
     public treeDataService: TreeDataService) {
 
-    super(undefined, snack, spinner, swal)
+    super(undefined, injector);
 
   }
   private loadPreselecteds() {

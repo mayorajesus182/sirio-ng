@@ -26,7 +26,6 @@ export class PerfilTableComponent extends TableBaseComponent implements OnInit, 
   displayedColumns = ['perfil_id', 'nombre', 'descripcion', 'activo', 'actions'];
 
   constructor(
-
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
