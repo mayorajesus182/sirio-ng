@@ -161,7 +161,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
         row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) > 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
         // row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
       }
-      
+
       row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
 
       if (row.sobrante > row.anterior) {
@@ -186,7 +186,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       })
 
       row.monto = row.actual * row.denominacion;
-      this.arqueoAtm.montoArqueo = this.arqueoAtm.detalles.map(e => (e.denominacion * e.fisico)).reduce((a, b) => a + b);
+      this.arqueoAtm.montoArqueo = this.arqueoAtm.detalles.map(e => (e.denominacion * (e.fisico+e.rechazado))).reduce((a, b) => a + b);
       this.arqueoAtm.montoFinal = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
 
