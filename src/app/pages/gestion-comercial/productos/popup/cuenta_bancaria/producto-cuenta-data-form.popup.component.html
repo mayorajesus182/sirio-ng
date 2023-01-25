@@ -1,0 +1,83 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{dataProducto.servicio.nombre}}</h1> <span>{{'action.view' | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+<img [src]="path" alt="" style="height: auto; width: 100%;">
+
+<mat-dialog-content>
+  <form [formGroup]="itemForm" *ngIf="itemForm">
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="fal fa-user-large fa-xl"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Cliente
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="24">
+        <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="75">
+        <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="fal fa-book-open-cover fa-xl"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Producto
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="40">
+        <mat-label>{{'Número de Cuenta' | translate: {default: 'Número de Cuenta'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'0138 0101 8601 0125 6098'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>{{'Saldo Diferido' | translate: {default: 'Saldo Diferido'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'0,00'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>{{'Saldo Real' | translate: {default: 'Saldo Real'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'30.000,00'" readonly>
+      </mat-form-field>
+
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.close'|translate}}</button>
+  </mat-dialog-actions>

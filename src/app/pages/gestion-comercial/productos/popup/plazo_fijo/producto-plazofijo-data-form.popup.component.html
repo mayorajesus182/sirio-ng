@@ -1,0 +1,113 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <h1>{{dataProducto.servicio.nombre}}</h1> <span>{{'action.view' | translate}}</span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+<img [src]="path" alt="" style="height: auto; width: 100%;">
+
+<form [formGroup]="itemForm" *ngIf="itemForm">
+  <mat-dialog-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="fal fa-user-large fa-xl"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Cliente
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="24">
+        <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="75">
+        <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
+      </mat-form-field>
+
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-panel-title>
+        <button type="button" mat-icon-button type="button" color="primary">
+          <i class="fal fa-book-open-cover fa-xl"></i>
+        </button>
+        <span class="margin-top-sm margin-bottom-lg semi-bold">
+          Datos del Producto
+        </span>
+      </mat-panel-title>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }}
+        </mat-label>
+        <input matInput class="text-right" [value]="'100.000,00'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="15">
+        <mat-label>{{'Tasa' | translate: {default: 'Tasa'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'5,00 %'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>{{'Cuenta a Debitar' | translate: {default: 'Cuenta a Debitar'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'0138 0101 9010 2030 4011'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="30">
+        <mat-label>{{'Cuenta a Abonar Interés' | translate: {default: 'Cuenta a Abonar Interés'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'0138 0101 9020 3044 5600'" readonly>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'Capital + Interés' | translate: {default: 'Capital + Interés'} | translate }}
+        </mat-label>
+        <input matInput class="text-right" [value]="'105.000,00'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'Estatus' | translate: {default: 'Estatus'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'ACTIVO'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'Fecha Inicial' | translate: {default: 'Fecha Inicial'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'20/01/2023'" readonly>
+      </mat-form-field>
+
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'Fecha Final' | translate: {default: 'Fecha Final'} | translate }}
+        </mat-label>
+        <input matInput class="text-center" [value]="'20/04/2023'" readonly>
+      </mat-form-field>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+    <button mat-raised-button (click)="dialogRef.close()">{{'button.close'|translate}}</button>
+  </mat-dialog-actions>
+</form>

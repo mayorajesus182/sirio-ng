@@ -38,6 +38,7 @@ export class DespacharRemesaTableComponent extends TableBaseComponent implements
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
 
   dispatch(data:any) {

@@ -19,6 +19,7 @@ export class ProductoCuentaDataFormPopupComponent extends PopupBaseComponent imp
   dataProducto: any = {};
   public telefonicas = new BehaviorSubject<Telefonica[]>([]);
   public cuentas = new BehaviorSubject<CuentaBanco[]>([]);
+  path:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -38,8 +39,7 @@ export class ProductoCuentaDataFormPopupComponent extends PopupBaseComponent imp
     this.loadingDataForm.next(true);
     if (this.defaults.payload) {
       this.dataProducto = this.defaults.payload;
-      console.log(this.dataProducto);
-      
+      this.path = GlobalConstants.PATH_IMAGE_GCOMERCIAL+this.dataProducto.servicio.imageName;
       this.mode = 'global.edit';
       this.buildForm();
     }

@@ -66,6 +66,7 @@ export class AvaluoTransporteTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
+    // this.afterInit();
   }
 
   ngOnDestroy() {

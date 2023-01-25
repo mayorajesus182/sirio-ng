@@ -63,7 +63,7 @@ export class PaseABovedaTableComponent extends TableBaseComponent implements OnI
   }
 
   ngAfterViewInit() {
-    //  this.afterInit();
+    this.afterInit();
   }
 
 

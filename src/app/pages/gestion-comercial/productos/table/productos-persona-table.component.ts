@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -7,9 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
-import { ProductoCuentaRegistroFormPopupComponent } from '../popup/producto-cuenta-registro-form.popup.component';
 import { ProductoComercial, ProductoComercialService } from 'src/@sirio/domain/services/gestion-comercial/producto-comercial.service';
-import { ProductoCuentaDataFormPopupComponent } from '../popup/producto-cuenta-data-form.popup.component';
+import { ProductoCuentaRegistroFormPopupComponent } from '../popup/cuenta_bancaria/producto-cuenta-registro-form.popup.component';
+import { ProductoCuentaDataFormPopupComponent } from '../popup/cuenta_bancaria/producto-cuenta-data-form.popup.component';
+import { ProductoPlazoFijoDataFormPopupComponent } from '../popup/plazo_fijo/producto-plazofijo-data-form.popup.component';
+import { ProductoTDCDataFormPopupComponent } from '../popup/tdc/producto-tdc-data-form.popup.component';
+import { ProductoTDCSolicitudFormPopupComponent } from '../popup/tdc/producto-tdc-solicitud-form.popup.component';
 
 @Component({
   selector: 'sirio-productos-persona-table',
@@ -27,7 +30,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   public productosList = new BehaviorSubject<ProductoComercial[]>([]);
   public productosClienteList = new BehaviorSubject<ProductoComercial[]>([]);
 
-  @ViewChildren('cardProduct') cardElements;
+  // @ViewChildren('cardProduct') cardElements;
 
   constructor(
     injector: Injector,
@@ -37,6 +40,39 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
+  }
+
+  @ViewChildren('cardProduct') set cards(cardElements: QueryList<ElementRef>) {
+    // console.log('paginators');
+    // console.log(mps);
+    // console.log('end paginators');
+    if (cardElements) {
+
+      
+      setTimeout(() => {
+        let tallestHeight = 0;
+        
+        cardElements.forEach((card) => {
+          // console.log(card.nativeElement);
+  
+          if (card.nativeElement.offsetHeight > tallestHeight) {
+            tallestHeight = card.nativeElement.offsetHeight;
+          }
+        });
+  
+        // Set all card elements to the same height
+        cardElements.forEach((card) => {
+          card.nativeElement.style.height = tallestHeight + 'px';
+  
+        });
+  
+  
+        this.cdr.detectChanges();
+
+      }, 500);
+        
+    }
+
   }
 
   private loadList() {
@@ -59,37 +95,28 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
-
-    let tallestHeight = 0;
-    this.cardElements.forEach((card) => {
-      console.log(card);
-      
-      if (card.nativeElement.offsetHeight > tallestHeight) {
-        tallestHeight = card.nativeElement.offsetHeight;
-      }
-    });
-
-    // Set all card elements to the same height
-    this.cardElements.forEach((card) => {
-      card.nativeElement.style.height = tallestHeight + 'px';
-      this.cdr.detectChanges();
-    });
-
+    // this.afterInit();
   }
 
   edit(data: any) {
-    this.popupData(data);
+    if (data.tipo == 'DPF') {
+      this.popupViewPlazoFijo(data);
+    } else if (data.tipo == 'CTA') {
+      this.popupViewCuenta(data);
+    } else if (data.tipo == 'TDC') {
+      this.popupViewTDC(data);
+    }
   }
 
   sendData(row: any) {
-    this.successResponse('La Información de la Cuenta', 'Enviada', true);
+    this.successResponse('La Información', 'Enviada', true);
   }
 
   view(data: any) {
   }
 
 
-  popupRegistro(data: ProductoComercial) {
+  popupRegistroCuenta(data: ProductoComercial) {
 
     if (!data) {
       return;
@@ -102,19 +129,58 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
     });
   }
 
-  popupData(data: ProductoComercial) {
+
+  popupSolicitudTDC(data: ProductoComercial) {
 
     if (!data) {
       return;
     }
 
-    this.showFormPopup(ProductoCuentaDataFormPopupComponent, { persona: this.persona, servicio: data }, '50%').afterClosed().subscribe(event => {
+    this.showFormPopup(ProductoTDCSolicitudFormPopupComponent, { persona: this.persona, servicio: data }, '50%').afterClosed().subscribe(event => {
       if (event) {
         this.loadList();
       }
     });
   }
 
+  popupViewCuenta(data: ProductoComercial) {
+
+    if (!data) {
+      return;
+    }
+
+    this.showFormPopup(ProductoCuentaDataFormPopupComponent, { persona: this.persona, servicio: data }, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.loadList();
+      }
+    });
+  }
+
+  popupViewPlazoFijo(data: ProductoComercial) {
+
+    if (!data) {
+      return;
+    }
+
+    this.showFormPopup(ProductoPlazoFijoDataFormPopupComponent, { persona: this.persona, servicio: data }, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.loadList();
+      }
+    });
+  }
+
+  popupViewTDC(data: ProductoComercial) {
+
+    if (!data) {
+      return;
+    }
+
+    this.showFormPopup(ProductoTDCDataFormPopupComponent, { persona: this.persona, servicio: data }, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.loadList();
+      }
+    });
+  }
 
   drop(event: CdkDragDrop<Task[]>) {
 
@@ -123,7 +189,11 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
     } else {
       this.productosList.value.forEach((e, index) => {
         if (index == event.previousIndex) {
-          this.popupRegistro(e);
+          if (e.tipo == 'TDC') {
+            this.popupSolicitudTDC(e);
+          } else if (e.tipo == 'CTA') {
+            this.popupRegistroCuenta(e);
+          }
         }
         this.cdr.detectChanges();
       });

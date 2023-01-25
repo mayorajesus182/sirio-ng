@@ -38,6 +38,7 @@ export class RecibirRemesaTableComponent extends TableBaseComponent implements O
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
 
   receive(data:any) {

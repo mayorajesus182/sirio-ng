@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -37,14 +37,53 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
     super(undefined, injector);
   }
 
+
+
+
+  @ViewChildren('cardCredit') set cards(cardElements: QueryList<ElementRef>) {
+    
+    if (cardElements) {
+
+      
+      setTimeout(() => {
+        let tallestHeight = 0;
+        
+        cardElements.forEach((card) => {
+          // console.log(card.nativeElement);
+  
+          if (card.nativeElement.offsetHeight > tallestHeight) {
+            tallestHeight = card.nativeElement.offsetHeight;
+          }
+        });
+  
+        // Set all card elements to the same height
+        cardElements.forEach((card) => {
+          card.nativeElement.style.height = tallestHeight + 'px';
+  
+        });
+  
+  
+        this.cdr.detectChanges();
+
+      }, 500);
+        
+    }
+
+  }
+
   private loadList() {
 
     this.creditoComercialService.asignedToPersona(this.persona.numper).subscribe(data => {
       this.creditosClienteList.next(data);
+
+      console.log('creditosClienteList    ', data);
+      
     });
 
     this.creditoComercialService.noAsignedToPersona(this.persona.numper, this.persona.tipoPersona).subscribe(data => {
       this.creditosList.next(data);
+
+      console.log('creditosList    ', data);
     });
 
   }
@@ -57,7 +96,7 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
   }
 
   ngAfterViewInit() {
-
+    // this.afterInit();
   }
 
   edit(data: any) {

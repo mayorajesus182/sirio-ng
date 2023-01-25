@@ -11,8 +11,7 @@
 
 </sirio-dialog-header>
 
-<img src="assets/img/demo/tu_compra_plaza.jpg" alt="" style="height: auto; width: 100%;">
-
+<img [src]="path" alt="" style="height: auto; width: 100%;">
 
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
@@ -52,7 +51,7 @@
           Datos del Crédito
         </span>
       </mat-panel-title>
-    </div>  
+    </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
