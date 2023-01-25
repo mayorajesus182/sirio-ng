@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -29,6 +29,8 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   public productosList = new BehaviorSubject<ProductoComercial[]>([]);
   public productosClienteList = new BehaviorSubject<ProductoComercial[]>([]);
+
+  @ViewChildren('cardProduct') cardElements;
 
   constructor(
     injector: Injector,
@@ -60,7 +62,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
-    // this.afterInit();
+
   }
 
   edit(data: any) {

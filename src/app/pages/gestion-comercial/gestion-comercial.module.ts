@@ -13,6 +13,7 @@ import { GestionComercialRoutingModule } from './gestion-comercial-routing.modul
 import { ServicioComercialModule } from './servicios/servicio.comercial.module';
 import { ProductoComercialModule } from './productos/producto.comercial.module';
 import { CreditoComercialModule } from './creditos/credito.comercial.module';
+import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 
 @NgModule({
     imports: [
@@ -32,6 +33,7 @@ import { CreditoComercialModule } from './creditos/credito.comercial.module';
         ServicioComercialModule,
         ProductoComercialModule,
         CreditoComercialModule,
+        ScrollbarModule
     ],
     declarations: [
         GestionComercialFormComponent,
