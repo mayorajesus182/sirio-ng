@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { TipoArqueoConstants } from 'src/@sirio/constants/tipo.arqueo.constants';
@@ -38,6 +39,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   errorList = [];
   cajetinesList: DetalleArqueo[] = [];
   totalesIncremento = {};
+  columnMode = ColumnMode;
 
   constructor(
     injector: Injector,

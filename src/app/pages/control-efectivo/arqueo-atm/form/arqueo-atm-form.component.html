@@ -12,7 +12,7 @@
                 <sirio-card-header-subheading>{{('action.add') | translate}}</sirio-card-header-subheading>
                 <sirio-card-header-actions>
                     <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="existsError || arqueoAtm.secuencia == null" (click)="save()">
                         <mat-icon>save</mat-icon>
                     </button>
 
@@ -88,11 +88,11 @@
                 </div>
 
                 <div fxLayout="column" class="margin-h padding-v">
-                    <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                    <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [columnMode]="columnMode.force"
                         [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
                         [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="cajetines | async">
 
-                        <ngx-datatable-column [flexGrow]="1.5" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="150">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.name' | translate: {default: 'global.name'} |
                                     translate}}</span>
@@ -104,7 +104,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.denomination' | translate: {default: 'global.denomination'} |
                                     translate}}</span>
@@ -119,7 +119,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.previousCounter' | translate: {default: 'global.previousCounter'} |
                                     translate}}</span>
@@ -132,7 +132,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.dispensed' | translate: {default: 'global.dispensed'} | translate}}</span>
                             </ng-template>
@@ -142,7 +142,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.rejected' | translate: {default: 'global.rejected'} | translate}}</span>
                             </ng-template>
@@ -152,7 +152,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.physical' | translate: {default: 'global.physical'} |
                                     translate}}</span>
@@ -163,7 +163,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.spare' | translate: {default: 'global.spare'} |
                                     translate}}</span>
@@ -178,7 +178,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.missing' | translate: {default: 'global.missing'} |
                                     translate}} </span>
@@ -192,7 +192,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esIncrementoAtm">
+                        <ngx-datatable-column [resizeable]="false" [width]="100" *ngIf="arqueoAtm.esIncrementoAtm">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.increment' | translate: {default: 'global.increment'} |
                                     translate}}</span>
@@ -203,7 +203,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true" *ngIf="arqueoAtm.esRetiroAtm">
+                        <ngx-datatable-column [resizeable]="false" [width]="100" *ngIf="arqueoAtm.esRetiroAtm">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.withdrawal' | translate: {default: 'global.withdrawal'} | translate}}</span>
                             </ng-template>
@@ -213,7 +213,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="100">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.currentCounter' | translate: {default: 'global.currentCounter'} |
                                     translate}}</span>
@@ -228,7 +228,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column [flexGrow]="2" [sortable]="true">
+                        <ngx-datatable-column [resizeable]="false" [width]="200">
                             <ng-template ngx-datatable-header-template>
                                 <span>{{'recountAtm.amount' | translate: {default: 'global.amount'} |
                                     translate}}</span>
