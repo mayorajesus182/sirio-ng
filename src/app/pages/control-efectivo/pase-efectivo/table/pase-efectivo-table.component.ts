@@ -48,8 +48,8 @@ export class PaseEfectivoTableComponent extends TableBaseComponent implements On
       data.forEach(element => {
 
         this.contentStats += `<strong>${element.moneda}</strong> <br>`;
-        this.contentStats += `<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${formatNumber(element.ingreso, 'es', '1.2')} &nbsp;&nbsp; `;
-        this.contentStats += `<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${formatNumber(element.egreso, 'es', '1.2')} </span> <br>`;
+        this.contentStats += `<span class="line" ><i class="fas fa-down-to-dotted-line fa-lg icon-up"></i>&nbsp; ${formatNumber(element.ingreso+element.retiroAtm, 'es', '1.2')} &nbsp;&nbsp; `;
+        this.contentStats += `<i class="fas fa-up-to-dotted-line fa-lg icon-down"></i>&nbsp; ${formatNumber(element.egreso+element.incrementoAtm, 'es', '1.2')} </span> <br>`;
       });
 
       this.cdr.detectChanges();
