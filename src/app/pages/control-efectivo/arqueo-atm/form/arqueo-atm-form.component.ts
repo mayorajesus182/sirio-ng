@@ -155,12 +155,14 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       if ((row.fisico == undefined && row.rechazado == undefined) || (row.fisico == 0 && row.rechazado == 0)) {
         row.sobrante = Math.abs(((row.anterior - row.dispensado)) < 0 ? ((row.anterior - row.dispensado)) : 0);
         row.faltante = Math.abs(((row.anterior - row.dispensado)) > 0 ? ((row.anterior - row.dispensado)) : 0);
-        row.actual = row.anterior - row.dispensado + row.incremento - row.retiro;
+        // row.actual = row.anterior - row.dispensado + row.incremento - row.retiro; 
       } else {
         row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) < 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
         row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) > 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
-        row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
+        // row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
       }
+      
+      row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
 
       if (row.sobrante > row.anterior) {
         this.message = row.descripcion + ': La Cantidad Sobrante no puede ser superior al Contador Anterior';
