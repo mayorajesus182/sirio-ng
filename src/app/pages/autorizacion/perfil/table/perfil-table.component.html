@@ -1,0 +1,75 @@
+<mat-toolbar fxLayoutGap="5px">
+    
+
+    <div class="logo" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon mr-16" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">reorder</mat-icon>
+        <span class="logo-text h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+            Perfiles
+        </span>
+    </div>
+
+</mat-toolbar>
+
+
+<!-- 
+<mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+    <mat-card-content class="p-0"> -->
+<mat-table #table id="tableContainer"  [dataSource]="dataSource" [@animateStagger]="{value:'50'}" matSort
+           matSortActive="perfil_id" matSortDirection="asc">
+
+
+    <!-- Avatar Column -->
+    <ng-container matColumnDef="perfil_id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">Usuario</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+            <p class="font-weight-600">{{element.id}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="nombre">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-30'">Nombre</mat-header-cell>
+        <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-30'">
+            <p class="text-truncate font-weight-600">{{element.nombre}}</p>
+        </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="descripcion">
+        <mat-header-cell *matHeaderCellDef mat-sort-header fxHide fxShow.gt-sm [ngClass]="'tw-40'">Descripción</mat-header-cell>
+        <mat-cell *matCellDef="let element" fxHide fxShow.gt-sm (click)="view(element)" [ngClass]="'tw-40'">
+            <p class="text-truncate font-weight-600">{{element.descripcion}}</p>
+        </mat-cell>
+    </ng-container>
+
+
+    <!-- Company Column -->
+    <ng-container matColumnDef="activo">
+        <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10 text-center'">Estatus</mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'tw-10 text-center'">
+
+            <mat-chip mat-sm-chip [color]="'primary'"
+                      [selected]="element.activo">{{element.activo ? 'Activo' : 'Inactivo'}}
+            </mat-chip>
+
+        </mat-cell>
+    </ng-container>
+
+    <!-- Buttons Column -->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5 '"></mat-header-cell>
+        <mat-cell *matCellDef="let element" [ngClass]="'tw-5 '">
+            <div fxFlex="row" fxLayoutAlign="end center">
+                <app-actions-nav [element]="element" *ngIf="element.id!='ADMIN'" [items]="actions" [method]="actionAPI()"></app-actions-nav>
+            </div>
+        </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let element; columns: displayedColumns;" class="element" 
+             [@animate]="{value:'*',params:{y:'100%'}}">
+    </mat-row>
+</mat-table>
+<!-- <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>  -->
+<mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
+               showFirstLastButtons></mat-paginator>
+<app-button-nav [method]="buttonAPI()"></app-button-nav>

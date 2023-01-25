@@ -1,0 +1,112 @@
+<mat-toolbar>
+    <button mat-icon-button matTooltip="Regresar" routerLink="/autorizacion/perfiles">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+        Perfil
+    </span>
+    <!-- <span fxFlex></span> -->
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+        <button mat-icon-button matTooltip="Activar/Inactivar" *ngIf="perfil.id" (click)="activateOrInactivate()">
+            <mat-icon>check_circle</mat-icon>
+        </button>
+        <button mat-icon-button matTooltip="Guardar" (click)="save()" [disabled]="itemForm?.invalid">
+            <mat-icon>save</mat-icon>
+        </button>
+    </div>
+</mat-toolbar>
+
+
+<!-- input fields for title and notes -->
+<div class="form-container" id="itemForm">
+    <form [formGroup]="itemForm" *ngIf="itemForm" class="form-content" (ngSubmit)="save()">
+
+        <div fxLayout="row wrap" fxLayoutAlign="center center">
+            <div fxFlex="100" fxFlex.gt-xs="20" class="pr-10">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Código</mat-label>
+                    <input matInput name="id" formControlName="id" uppercase required autocomplete="off">
+                    <mat-error *ngIf="f.id.hasError('exists')">
+                        {{f.id.errors?.exists}}
+                    </mat-error>
+                    <mat-error *ngIf="f.id?.errors?.maxlength">Longitud superior a 6 caracteres</mat-error>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="80">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput name="nombre" uppercase formControlName="nombre" required autocomplete="off">
+                    <mat-error *ngIf="f.nombre.hasError('existsName')">
+                        {{f.nombre.errors?.existsName}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div fxFlex="100" fxFlex.gt-xs="100">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Descripción</mat-label>
+                    <input matInput type="text" autocomplete="off" uppercase name="descripcion" required
+                        formControlName="descripcion" maxlength="100">
+                    <mat-error *ngIf="f.descripcion.errors?.required">Requerido</mat-error>
+                    <mat-error *ngIf="f.descripcion.errors?.pattern">Caracteres inválidos</mat-error>
+                </mat-form-field>
+            </div>
+
+
+        </div>
+
+
+        <mat-accordion class="expansion-headers-align" *ngIf="modulos">
+
+            <mat-expansion-panel #mep="matExpansionPanel" *ngFor="let item of modulos.value; index as i"
+                (expanded)="false" (opened)="setStep(i)">
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold !important;">
+                        <mat-checkbox [color]="'primary'" [checked]="checklistSelection.isSelected(item) || item.checked" class="pr-10"
+                            (click)="$event.stopPropagation();" (change)="checkAll(i,$event)"></mat-checkbox>
+                        {{ item.label }}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{ item.descripcion }}
+                        <fa-icon [icon]="['fas', item.icon]" size="lg" style="margin-right: 0.5em;"></fa-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-tree [dataSource]="dataSource[i]" [treeControl]="treeControl[i]">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                        <button mat-icon-button disabled></button>
+                        <mat-checkbox [color]="'primary'" class="checklist-leaf-node"
+                            [checked]="checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
+                            (change)="leafItemSelectionToggle(node)"><span>{{getLabel(node)}}</span></mat-checkbox>
+                    </mat-tree-node>
+
+
+                    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                        <button mat-icon-button matTreeNodeToggle type="button"
+                            [attr.aria-label]="'toggle ' + node.filename">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl[i].isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                        </button>
+                        <mat-checkbox [color]="'primary'"
+                            [checked]="descendantsAllSelected(node)||checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
+                            (change)="itemSelectionToggle(node)"><span>{{getLabel(node)}}</span></mat-checkbox>
+
+                    </mat-tree-node>
+                </mat-tree>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+
+    </form>
+    <mat-toolbar>
+
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+            <button type="button" mat-button routerLink="/autorizacion/perfiles">Cancelar</button>
+            <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid">Guardar</button>
+        </div>
+
+    </mat-toolbar>
+</div>
