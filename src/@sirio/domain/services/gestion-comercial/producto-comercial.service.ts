@@ -9,7 +9,7 @@ export interface ProductoComercial {
     id: number;
     nombre: string;
     tipoPersona: string;
-    moneda: string;
+    tipo: string;
     parent?: ProductoComercial;
     subservicios?: ProductoComercial[];
 }

@@ -3,12 +3,11 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, E
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
-import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { ServicioComercial, ServicioComercialService } from 'src/@sirio/domain/services/gestion-comercial/servicio-comercial.service';
+import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { ServiciosPagoMovilFormPopupComponent } from '../popup/servicios-pago-movil-form.popup.component';
 
 @Component({
@@ -88,9 +87,6 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
 
     if (this.persona) {
       this.loadList();
-      
-
-      console.log(' Personaaaaaaaaaaaaaaa ', this.persona);
       this.onRefresh.subscribe(val => {
         if (val) {
 
@@ -101,7 +97,7 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
-
+    // this.afterInit();
   }
 
   edit(data: any) {

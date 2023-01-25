@@ -43,6 +43,7 @@ export class AprobarRemesaTableComponent extends TableBaseComponent implements O
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
 
   approve(data: any) {

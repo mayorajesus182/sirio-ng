@@ -4,27 +4,26 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
-import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
+import { CuentaBanco } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 
 @Component({
-  selector: 'sirio-credito-data-form.popup',
-  templateUrl: './credito-data-form.popup.component.html',
-  styleUrls: ['./credito-data-form.popup.component.scss']
+  selector: 'sirio-producto-tdc-solicitud-form.popup',
+  templateUrl: './producto-tdc-solicitud-form.popup.component.html',
+  styleUrls: ['./producto-tdc-solicitud-form.popup.component.scss']
 })
-export class CreditoDataFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
+export class ProductoTDCSolicitudFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
 
-  dataCredito: any = {};
+  dataProducto: any = {};
   public telefonicas = new BehaviorSubject<Telefonica[]>([]);
   public cuentas = new BehaviorSubject<CuentaBanco[]>([]);
-  path: string;
+  path:string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
-    dialogRef: MatDialogRef<CreditoDataFormPopupComponent>,
-    private cuentaBancoService: CuentaBancoService,
+    dialogRef: MatDialogRef<ProductoTDCSolicitudFormPopupComponent>,
     private telefonicaService: TelefonicaService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
@@ -38,8 +37,8 @@ export class CreditoDataFormPopupComponent extends PopupBaseComponent implements
   ngOnInit() {
     this.loadingDataForm.next(true);
     if (this.defaults.payload) {
-      this.dataCredito = this.defaults.payload;
-      this.path = GlobalConstants.PATH_IMAGE_GCOMERCIAL+this.dataCredito.servicio.imageName;
+      this.dataProducto = this.defaults.payload;
+      this.path = GlobalConstants.PATH_IMAGE_GCOMERCIAL+this.dataProducto.servicio.imageName;
       this.mode = 'global.edit';
       this.buildForm();
     }

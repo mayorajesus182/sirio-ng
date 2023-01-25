@@ -40,8 +40,8 @@ export class SolicitarRemesaTableComponent extends TableBaseComponent implements
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
-
 
   add(path: string) {
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);

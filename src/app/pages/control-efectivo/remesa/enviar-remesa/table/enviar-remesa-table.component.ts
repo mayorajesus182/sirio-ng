@@ -45,6 +45,7 @@ export class EnviarRemesaTableComponent extends TableBaseComponent implements On
   }
 
   ngAfterViewInit() {
+    this.afterInit();
   }
 
   add(path: string) {
