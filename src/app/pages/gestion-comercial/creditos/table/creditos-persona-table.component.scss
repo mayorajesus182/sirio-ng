@@ -20,3 +20,12 @@
     cursor: pointer;
     display: flex;
 }
+
+
+.card-credits{
+    display: flex;
+    min-height: 100%;
+    flex: 1 1 auto;
+    flex-direction: column;
+    overflow: hidden;
+}

@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Router } from '@angular/router';
@@ -37,6 +37,39 @@ export class ServiciosPersonaTableComponent extends TableBaseComponent implement
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
+  }
+
+
+
+  @ViewChildren('cardService') set cards(cardElements: QueryList<ElementRef>) {
+    
+    if (cardElements) {
+
+      
+      setTimeout(() => {
+        let tallestHeight = 0;
+        
+        cardElements.forEach((card) => {
+          // console.log(card.nativeElement);
+  
+          if (card.nativeElement.offsetHeight > tallestHeight) {
+            tallestHeight = card.nativeElement.offsetHeight;
+          }
+        });
+  
+        // Set all card elements to the same height
+        cardElements.forEach((card) => {
+          card.nativeElement.style.height = tallestHeight + 'px';
+  
+        });
+  
+  
+        this.cdr.detectChanges();
+
+      }, 500);
+        
+    }
+
   }
 
   private loadList() {

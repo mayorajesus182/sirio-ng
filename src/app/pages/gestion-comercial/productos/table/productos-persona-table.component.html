@@ -3,13 +3,13 @@
 
     <sirio-page-layout-content cdkDropListGroup fxLayout="row" fxLayout.lt-sm="column" fxLayoutAlign="start start" fxLayoutGap="24px">
 
-        <sirio-card [@fadeInUp] class="card-product"  fxFlex="auto">
+        <sirio-card [@fadeInUp]   fxFlex="auto">
             <sirio-card-header>
                 <sirio-card-header-heading>Productos</sirio-card-header-heading>
                 <sirio-card-header-subheading>El cliente aun no posee</sirio-card-header-subheading>
             </sirio-card-header>
-            <sirio-card-content  [cdkDropListData]="productosList" cdkDropList>
-                <div #cardProduct>
+            <sirio-card-content  >
+                <div #cardProduct class="card-product" [cdkDropListData]="productosList" cdkDropList>
                     <div *ngFor="let serv of productosList | async" cdkDrag class="products card" fxLayout="column" fxLayoutAlign="center start">
                         <div class="heading"> <i class="fa-light fa-link-slash"></i> &nbsp; {{ serv.nombre }}</div>
                         <div class="caption secondary-text">{{ serv.resumen }}</div>
@@ -18,14 +18,13 @@
             </sirio-card-content>
         </sirio-card>
 
-        <sirio-card [@fadeInUp] class="card-product"  fxFlex="auto" >
+        <sirio-card [@fadeInUp]   fxFlex="auto" > 
             <sirio-card-header>
                 <sirio-card-header-heading>Productos</sirio-card-header-heading>
                 <sirio-card-header-subheading>El cliente los tiene activos</sirio-card-header-subheading>
             </sirio-card-header>
-            <sirio-card-content (cdkDropListDropped)="drop($event)" [cdkDropListData]="productosClienteList" cdkDropList>
-                <div #cardProduct>
-
+            <sirio-card-content >
+                <div #cardProduct class="card-product" (cdkDropListDropped)="drop($event)" [cdkDropListData]="productosClienteList" cdkDropList>
                     <div *ngFor="let serv of productosClienteList | async" cdkDrag class="products card" fxLayout="row" fxLayoutAlign="space-between center">
                         <div> <i class="fa-light fa-link"></i> &nbsp;{{ serv.nombre }}</div>
                         <span fxFlex></span>
