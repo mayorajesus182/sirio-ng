@@ -35,8 +35,8 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         super(undefined, injector);
     }
 
-    ngOnInit() {   
-        
+    ngOnInit() {
+
         this.itemForm = this.fb.group({
             numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             cuentaBancaria: new FormControl(undefined),
@@ -50,7 +50,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             conoActual: new FormControl([]),
             conoAnterior: new FormControl([]),
             operacion: new FormControl(''),
-            
+
         });
 
         this.cargaDatos();
@@ -58,25 +58,20 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
                 this.calculateDifferences();
-            }else if(val === null || val ==  undefined){                
+            } else if (val === null || val == undefined) {
                 this.f.efectivo.setValue(0.00);
                 this.cdr.detectChanges();
             }
         });
 
-        this.f.monto.valueChanges.subscribe(val => {
-            if (val) {
-                this.calculateDifferences();
-            }
-        });
         //Me trae la data de la cuenta que se selecciono
-        this.f.cuentaBancaria.valueChanges.subscribe(val => {            
+        this.f.cuentaBancaria.valueChanges.subscribe(val => {
             if (val && (val != '')) {
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
                 this.f.moneda.setValue({
-                    id: cuenta.moneda, 
-                    nombre: cuenta.monedaNombre, 
+                    id: cuenta.moneda,
+                    nombre: cuenta.monedaNombre,
                     siglas: cuenta.siglas
                 });
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
@@ -87,40 +82,40 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     ngAfterViewInit(): void {
         this.cdr.detectChanges();
         this.itemForm.valueChanges.subscribe(val => {
-            if(val){                
-            this.result.emit(this.itemForm)   
+            if (val) {
+                this.result.emit(this.itemForm)
             }
         })
     }
 
     cargaDatos() {
         if (this.persona) {
-            if (!this.persona.id && !this.persona.numper) {                
+            if (!this.persona.id && !this.persona.numper) {
                 this.loaded$.next(false);
                 this.persona = {} as Persona;
                 this.cuentaOperacion = undefined;
                 this.cdr.detectChanges();
-            } else {               
-                if (this.cuentaOperacion && this.cuentaOperacion.moneda) { 
+            } else {
+                if (this.cuentaOperacion && this.cuentaOperacion.moneda) {
                     this.f.moneda.setValue({
-                        id: this.cuentaOperacion.moneda, 
-                        nombre: this.cuentaOperacion.monedaNombre, 
+                        id: this.cuentaOperacion.moneda,
+                        nombre: this.cuentaOperacion.monedaNombre,
                         siglas: this.cuentaOperacion.siglas
                     });
                     this.f.numeroCuenta.setValue(this.cuentaOperacion.numeroCuenta);
                     this.f.tipoDocumento.setValue(this.cuentaOperacion.tipoDocumento);
                     this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
                     this.f.cuentaBancaria.setValue(this.cuentaOperacion.id);
-                } else {              
+                } else {
                     this.cuentaOperacion = undefined;
                     this.f.identificacion.setValue(this.persona.identificacion);
                     this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
                     this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
                         this.cuentasBancarias.next(data);
-                        if(data.length === 1){                    
+                        if (data.length === 1) {
                             this.f.cuentaBancaria.setValue(data[0].id);
                         }
-                    });  
+                    });
                 }
             }
         }
@@ -130,32 +125,38 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     calculateDifferences(event?: any) {
 
         let valorEfectivo = this.f.efectivo.value ? this.f.efectivo.value : 0.00;
-        let montoDeposito = this.f.monto.value? this.f.monto.value : 0.00;
+        let montoDeposito = this.f.monto.value ? this.f.monto.value : 0.00;
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        if (   Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1) {
-
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
+        if ((Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1) || (event?.montoTotal===0)) {
 
             this.f.efectivo.setErrors({
                 difference: true
             });
-
-            // this.validarMonto(event);
-            if (event && (event.montoTotal > 0)) {
+            // && (event.montoTotal > 0)
+            if (event && event.montoTotal > 0) {
                 this.f.monto.setValue(event.montoTotal);
+                this.f.monto.setErrors({
+                    totalDifference: true
+                });
+                this.f.monto.markAsDirty();
+                this.cdr.detectChanges();
             }
             this.f.monto.markAsDirty();
-
+            this.f.efectivo.markAsDirty();
         } else {
-            if(event){
+            if (event) {
 
                 this.f.monto.setValue(this.f.efectivo.value);
+                // this.f.totalRetiro.setValue(event.montoTotal);
+                this.f.monto.setErrors(undefined);
+                this.f.efectivo.setErrors(undefined);
+            }else{
+                this.f.efectivo.setErrors({
+                    difference: true
+                });
+                this.f.efectivo.markAsDirty();
             }
-            this.f.monto.setErrors(undefined);
-            this.f.efectivo.setErrors(undefined);
         }
     }
 
