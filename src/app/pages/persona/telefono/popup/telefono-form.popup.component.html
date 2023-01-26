@@ -4,7 +4,7 @@
     <h1>Teléfono</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
-        <mat-icon class="close-icon" color="accent" >close</mat-icon>
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
       </button>
     </div>
   </sirio-dialog-header-heading>
@@ -12,9 +12,9 @@
 </sirio-dialog-header>
 
 
-<form [formGroup]="itemForm" *ngIf="itemForm">
-  <mat-dialog-content>
 
+<mat-dialog-content>
+  <form [formGroup]="itemForm" *ngIf="itemForm">
     <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >  
 
 
@@ -22,23 +22,24 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'"  formControlName="tipoTelefono" [required]="true"
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'" formControlName="tipoTelefono" [required]="true"
         [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoTelefono?.errors">
       </sirio-select-search>
 
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Clase Teléfono'"  formControlName="claseTelefono" [required]="true"
+      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Clase Teléfono'" formControlName="claseTelefono" [required]="true"
         [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'" [errors]="f.claseTelefono?.errors">
       </sirio-select-search>
 
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">  
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Número' | translate }} </mat-label>
 
-        <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaList.asObservable()"  name="numero" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="numero" required>
+        <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="numero"
+          [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="numero" required>
         <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
@@ -47,14 +48,14 @@
 
         <mat-error *ngIf="f.numero.errors?.exists">Número Existe</mat-error>
 
-        <mat-error *ngIf="f.numero.errors?.phone">{{f.numero.errors?.phone}}  </mat-error>
+        <mat-error *ngIf="f.numero.errors?.phone">{{f.numero.errors?.phone}} </mat-error>
         <!-- {{f.numero.errors | json}} -->
 
       </mat-form-field>
 
 
       <div fxFlex.gt-sm="20" class="text-right margin-top-md" *ngIf="evaluarEsPrincipal()">
- 
+
         <mat-slide-toggle [color]="'primary'" formControlName="principal" name="principal">
           {{'¿Es Principal?' }}
         </mat-slide-toggle>
@@ -63,13 +64,10 @@
 
     </div>
 
-  
+  </form>
+</mat-dialog-content>
 
-
-  </mat-dialog-content>
-
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
-  </mat-dialog-actions>
-</form>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
+  <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+</mat-dialog-actions>
