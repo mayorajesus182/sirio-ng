@@ -1,12 +1,6 @@
 export class SidenavItem {
-  // name: string;
-  // icon?: string;
-  // routeOrFunction?: any;
-  // subItems?: SidenavItem[];
-  // position?: number;
   badge?: number;
   badgeColor?: string;
-  // type?: 'item' | 'subheading';
   id?: string;
   pathMatchExact?: boolean;
   customClass?: string;

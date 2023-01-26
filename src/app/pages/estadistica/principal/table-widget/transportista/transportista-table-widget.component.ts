@@ -73,7 +73,7 @@ export class TransportistaTableWidgeComponent implements OnInit, AfterViewInit {
     ).subscribe((values) => {
 
 
-      console.log(values);
+      // console.log(values);
       this.dataSource.data=values;
       // this.regiones$ = values
 
