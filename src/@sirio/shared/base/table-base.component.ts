@@ -338,6 +338,7 @@ export class TableBaseComponent {
             position: { top: '3%' },
             width: withDialog,
             disableClose: true,
+            autoFocus: false,
             data: data_aux
         });
 
