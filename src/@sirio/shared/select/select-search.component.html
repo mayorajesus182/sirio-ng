@@ -18,7 +18,7 @@
             <small>{{elem[attributeName]}}</small>
         </mat-option>
     </mat-select>
-    <mat-error *ngIf="selectSearchControl.errors?.invalid&&!readonly">Requerido</mat-error>
+    <mat-error *ngIf="selectSearchControl.errors?.required">Requerido</mat-error>
     <!-- {{errors|json}} -->
     <input matInput [value]="showName(selectSearchControl.value)" readonly *ngIf="readonly" [disabled]="disabled">
 

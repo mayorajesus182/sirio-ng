@@ -9,6 +9,7 @@ import { CalendarioService } from 'src/@sirio/domain/services/calendario/calenda
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { Ramo, RamoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/ramo.service';
 import { ActividadIndependiente, ActividadIndependienteService } from 'src/@sirio/domain/services/configuracion/persona-natural/actividad-independiente.service';
+import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-natural/cargo.service';
 import { TipoIngreso, TipoIngresoService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-ingreso.service';
 import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { TipoTelefono } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
@@ -30,6 +31,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
   public tipoingresoList = new BehaviorSubject<TipoIngreso[]>([]);
   public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public ramoList = new BehaviorSubject<Ramo[]>([]);
+  public cargoList = new BehaviorSubject<Cargo[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
   public telefonicaFijaList = new BehaviorSubject<TipoTelefono[]>([]);
   public actinDependienteList = new BehaviorSubject<ActividadIndependiente[]>([]);
@@ -45,6 +47,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     private telefonicaService: TelefonicaService,
     private actividadIndependienteService: ActividadIndependienteService,
     private ramoService: RamoService,
+    private cargoService: CargoService,
     private calendarioService: CalendarioService,
 
     private paisService: PaisService,
@@ -105,6 +108,15 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     })
 
+    this.cargoService.actives().subscribe(data => {
+      //console.log(data);
+
+      this.cargoList.next(data);
+
+    })
+
+
+
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.informacionLaboralService.get(this.defaults.payload.id).subscribe(data => {
@@ -161,7 +173,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : ''),
       direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
-      cargo: new FormControl(this.informacionLaboral.cargo || undefined, [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      cargo: new FormControl(this.informacionLaboral.cargo || undefined ),
       // remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined)
       remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),
     });

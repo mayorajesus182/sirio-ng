@@ -1,7 +1,9 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
         <!-- Asignar etiqueta de internacionalizacion -->
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['legalPerson']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+        <!-- <sirio-breadcrumbs [@fadeInRight] [crumbs]="['naturalPerson.form']"
+            current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs> -->
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['legalPerson.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">

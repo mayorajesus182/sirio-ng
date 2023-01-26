@@ -131,6 +131,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Reporte Remesas Recibidas' },
         loadChildren: () => import('./reports/remesa-recibida/reporte-remesa-recibida.module').then(m => m.ReporteRemesaRecibidaModule),
     },
+    {
+        path: 'reporte-atm',
+        data: { title: 'Reporte de Atm' },
+        loadChildren: () => import('./reports/atm/reporte-atm.module').then(m => m.ReporteAtmModule),
+    },
 
 ];
 
