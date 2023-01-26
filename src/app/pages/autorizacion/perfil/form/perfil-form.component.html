@@ -32,38 +32,38 @@
                     <div fxLayout="row" fxFlex="100%">
                         <div [formGroup]="itemForm" *ngIf="itemForm" fxLayout="column" fxFlex class="padding-h-2xl">
 
-                            <div fxLayout="row wrap" fxLayoutAlign="center center">
-                                <div fxFlex="100" fxFlex.gt-xs="20" class="pr-10">
-                                    <mat-form-field appearance="outline" class="full-width">
-                                        <mat-label>Código</mat-label>
-                                        <input matInput name="id" formControlName="id" uppercase required autocomplete="off">
-                                        <mat-error *ngIf="f.id.hasError('exists')">
-                                            {{f.id.errors?.exists}}
-                                        </mat-error>
-                                        <mat-error *ngIf="f.id?.errors?.maxlength">Longitud superior a 6 caracteres</mat-error>
-                                    </mat-form-field>
-                                </div>
-                                <div fxFlex="100" fxFlex.gt-xs="80">
-                                    <mat-form-field appearance="outline" class="full-width">
-                                        <mat-label>Nombre</mat-label>
-                                        <input matInput name="nombre" uppercase formControlName="nombre" required autocomplete="off">
-                                        <mat-error *ngIf="f.nombre.hasError('existsName')">
-                                            {{f.nombre.errors?.existsName}}
-                                        </mat-error>
-                                    </mat-form-field>
-                                </div>
 
-                                <div fxFlex="100" fxFlex.gt-xs="100">
-                                    <mat-form-field class="full-width" appearance="outline">
-                                        <mat-label>Descripción</mat-label>
-                                        <input matInput type="text" autocomplete="off" uppercase name="descripcion" required formControlName="descripcion"
-                                            maxlength="100">
-                                        <mat-error *ngIf="f.descripcion.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.descripcion.errors?.pattern">Caracteres inválidos</mat-error>
-                                    </mat-form-field>
-                                </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
+
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
+                                    <mat-label>Código</mat-label>
+                                    <input matInput name="id" formControlName="id" uppercase required autocomplete="off">
+                                    <mat-error *ngIf="f.id.hasError('exists')">
+                                        {{f.id.errors?.exists}}
+                                    </mat-error>
+                                    <mat-error *ngIf="f.id?.errors?.maxlength">Longitud superior a 6 caracteres</mat-error>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="80">
+                                    <mat-label>Nombre</mat-label>
+                                    <input matInput name="nombre" uppercase formControlName="nombre" required autocomplete="off">
+                                    <mat-error *ngIf="f.nombre.hasError('existsName')">
+                                        {{f.nombre.errors?.existsName}}
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
 
 
+                            <div fxLayout="row">
+
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="100">
+                                    <mat-label>Descripción</mat-label>
+                                    <input matInput type="text" autocomplete="off" uppercase name="descripcion" required formControlName="descripcion"
+                                        maxlength="100">
+                                    <mat-error *ngIf="f.descripcion.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.descripcion.errors?.pattern">Caracteres inválidos</mat-error>
+                                </mat-form-field>
                             </div>
 
 

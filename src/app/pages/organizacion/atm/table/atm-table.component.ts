@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { AtmReportService } from 'src/@sirio/domain/services/organizacion/atm.reports.service';
 import { AtmService } from 'src/@sirio/domain/services/organizacion/atm.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
@@ -19,13 +20,13 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 export class AtmTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['atm_id', 'identificacion', 'moneda_id', 'tipatm_id', 'responsable', 'activo', 'actions'];
-
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
     private cdr: ChangeDetectorRef,
     private atmService: AtmService,
+    // private atmReportService: AtmReportService,
   ) {
     super(undefined,  injector);
   }
@@ -74,5 +75,14 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     this.applyChangeStatus(this.atmService, data.element, data.element.nombre, this.cdr);
   }
 
+  // print() {
+  //   this.atmReportService.reporte().subscribe(data => {
+  //     const name = this.getFileName(data);
+  //     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+  //     this.download(name, blob);
+  //   });
+  // }
+
 }
+
 
