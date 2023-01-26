@@ -21,7 +21,6 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 
 export class PerfilTableComponent extends TableBaseComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  test: string;
   unsubscribeAll: Subject<any>;
   displayedColumns = ['perfil_id', 'nombre', 'descripcion', 'activo', 'actions'];
 
