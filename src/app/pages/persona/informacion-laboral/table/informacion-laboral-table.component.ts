@@ -36,23 +36,17 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
   
   private loadList(){
     this.informacionLaboralService.allByPersonaId(this.persona).subscribe((data) => {
-           
       this.informacionLaboralList.next(data.slice());
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
 
-  ngOnInit() {
-    console.log('informacionLaboral table');
-    
+  ngOnInit() {    
     if(this.persona){
-      console.log('buscando Informacion Laboral en el servidor dado el id persona');
       this.loadList();
-
       this.onRefresh.subscribe(val=>{
         if(val){
-
           this.loadList();
         }
       })
@@ -61,10 +55,8 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
 
   delete(row) {
     this.swalService.show('¿Desea Eliminar Información Laboral?', undefined,
-    
       { 'html': ' <b>' + row.tipoIngreso +' : ' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          // console.log('buscando telefono',row.id);
           this.informacionLaboralService.delete(row.id).subscribe(val=>{
             if(val){
               this.loadList();
@@ -79,21 +71,14 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
 
   }
 
-
-
   popup(data?:InformacionLaboral) {
-    console.log(data);
     if(data){
       data.persona=this.persona;
     }    
     this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
-      console.log(event);
-      
         if(event){
             this.onRefresh.next(true);
         }
     }); 
 }
-
-
 }

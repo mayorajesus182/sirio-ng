@@ -18,12 +18,9 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class PepFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   pep: Pep = {} as Pep;
-  
   public tipoPepList = new BehaviorSubject<TipoPep[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
-
   public Pep = PepConstants;
-
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -32,13 +29,9 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     private pepService: PepService,
     private tipoPepService: TipoPepService,
     private paisService: PaisService,
-
-    //
     private tipoDocumentoService: TipoDocumentoService,
-
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
-
     super(dialogRef, injector)
   }
 
@@ -48,24 +41,17 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
   ngOnInit() {
 
-    this.tipoPepService.actives().subscribe(data => {
-      console.log(data);
-      
+    this.tipoPepService.actives().subscribe(data => {      
       this.tipoPepList.next(data);
       this.cdr.detectChanges();
     })
 
-    this.tipoDocumentoService.actives().subscribe(data => {
-      console.log(data);
-      
+    this.tipoDocumentoService.actives().subscribe(data => {      
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
    
-
-    this.paisService.actives().subscribe(data => {
-      console.log(data);
-      
+    this.paisService.actives().subscribe(data => {      
       this.paisList.next(data);
       this.cdr.detectChanges();
     })
@@ -107,33 +93,15 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
 
   buildForm() {
-//validar carcteres especiales
     this.itemForm = this.fb.group({
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
-
-      // tipoDocumento: new FormControl(this.pep.tipoDocumento || '', [Validators.required]),
       tipoDocumento: new FormControl(this.pep.tipoDocumento || undefined),
-
-      // identificacion: new FormControl(this.pep.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-
-      
-      
       identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-
-      // identificacion2: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-  
-
       nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-
       ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-
       cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
-
-    
-
 
     this.cdr.detectChanges();
   }
@@ -142,7 +110,6 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     if (!this.f.tipoIngreso.value) {
       return;
     }
-    // verificar si es Asociado o Parentesco
     return this.f.tipoIngreso.value == PepConstants.ASOCIADO || this.f.tipoIngreso.value == PepConstants.PARENTESCO;
   }
 
@@ -150,17 +117,13 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     if (!this.f.tipoIngreso.value) {
       return;
     }
-    // verificar si es cliente
     return this.f.tipoIngreso.value == PepConstants.CLIENTE;
   }
 
 
   save() {
-
-    console.log('mode ', this.mode);
     this.updateData(this.pep);// aca actualizamos la direccion
     this.pep.persona=this.defaults.payload.persona;
-    console.log(this.pep);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.pepService,this.pep,'PEP',this.pep.id==undefined);
   }

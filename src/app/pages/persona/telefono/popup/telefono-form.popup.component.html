@@ -11,60 +11,35 @@
 
 </sirio-dialog-header>
 
-
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
 
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" >  
-
-
-    </div> -->
-
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'"  formControlName="tipoTelefono" [required]="true"
-        [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoTelefono?.errors">
+        [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
-
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'Clase Teléfono'"  formControlName="claseTelefono" [required]="true"
-        [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'" [errors]="f.claseTelefono?.errors">
+        [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
-
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">  
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Número' | translate }} </mat-label>
-
         <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaList.asObservable()"  name="numero" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="numero" required>
-        <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
-        </mat-error>
-        <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
-          translate}}
-        </mat-error>
-
+        <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}} </mat-error>
+        <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
         <mat-error *ngIf="f.numero.errors?.exists">Número Existe</mat-error>
-
-        <mat-error *ngIf="f.numero.errors?.phone">{{f.numero.errors?.phone}}  </mat-error>
-        <!-- {{f.numero.errors | json}} -->
-
+        <mat-error *ngIf="f.numero.errors?.phone">{{f.numero.errors?.phone}} </mat-error>
       </mat-form-field>
-
-
       <div fxFlex.gt-sm="20" class="text-right margin-top-md" *ngIf="evaluarEsPrincipal()">
- 
         <mat-slide-toggle [color]="'primary'" formControlName="principal" name="principal">
           {{'¿Es Principal?' }}
         </mat-slide-toggle>
-
       </div>
-
     </div>
-
-  
-
 
   </mat-dialog-content>
 

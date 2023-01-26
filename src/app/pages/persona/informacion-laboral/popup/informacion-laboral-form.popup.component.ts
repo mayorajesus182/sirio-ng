@@ -33,7 +33,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
   public ramoList = new BehaviorSubject<Ramo[]>([]);
   public cargoList = new BehaviorSubject<Cargo[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
-  public telefonicaFijaList = new BehaviorSubject<TipoTelefono[]>([]);
+  public telefonicaList = new BehaviorSubject<TipoTelefono[]>([]);
   public actinDependienteList = new BehaviorSubject<ActividadIndependiente[]>([]);
   public Tipo_Ingreso = TipoIngresoConstants;
 
@@ -69,53 +69,39 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     });
 
     this.tipoIngresoService.actives().subscribe(data => {
-      // console.log(data);
-
       this.tipoingresoList.next(data);
 
     })
 
     this.tipoDocumentoService.actives().subscribe(data => {
-      console.log(data);
-      
       this.tipodocumentoList.next(data);
       this.cdr.detectChanges();
     })
 
     this.telefonicaService.actives().subscribe(data => {
-      this.telefonicaFijaList.next(data);
+      this.telefonicaList.next(data);
+      this.cdr.detectChanges();
     })
 
     this.ramoService.actives().subscribe(data => {
-      // console.log(data);
-
       this.ramoList.next(data);
 
     })
 
     this.actividadIndependienteService.actives().subscribe(data => {
-      // console.log(data);
-
       this.actinDependienteList.next(data);
 
     })
 
-
     this.paisService.actives().subscribe(data => {
-      // console.log(data);
-
       this.paisList.next(data);
 
     })
 
     this.cargoService.actives().subscribe(data => {
-      //console.log(data);
-
       this.cargoList.next(data);
 
     })
-
-
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
@@ -143,49 +129,43 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       this.removeValidator(['tipoIngreso','remuneracion','actividadIndependiente']);
     }
     if(val === TipoIngresoConstants.NEGOCIO_PROPIO){
-      this.removeValidator(['tipoIngreso','remuneracion','ramo','direccion']);
+      this.removeValidator(['tipoIngreso','remuneracion','ramo','direccion', 'telefono', 'registro', 'numero', 'tomo', 'folio', 'fecha' ]);
     }
     
     if(val === TipoIngresoConstants.RELACION_DEPENDENCIA){
-      this.removeValidator(['tipoIngreso','remuneracion','ramo','cargo','empresa','direccion']);
+      this.removeValidator(['tipoIngreso','remuneracion','ramo','cargo','empresa','direccion', 'identificacion', 'fecha', 'telefono']);
     }
 
     this.cdr.detectChanges();
   }
 
   buildForm() {
-    //validar carcteres especiales
-
     this.itemForm = this.fb.group({
       tipoIngreso: new FormControl(this.informacionLaboral.tipoIngreso || undefined, [Validators.required]),
-
       actividadIndependiente: new FormControl(this.informacionLaboral.actividadIndependiente || undefined),
       ramo: new FormControl(this.informacionLaboral.ramo || undefined),
       registro: new FormControl(this.informacionLaboral.registro || undefined),
       numero: new FormControl(this.informacionLaboral.numero || undefined),
       tomo: new FormControl(this.informacionLaboral.tomo || undefined),
       folio: new FormControl(this.informacionLaboral.folio || undefined),
-  
-      telefono: new FormControl(this.informacionLaboral.telefono || undefined, []),
-
+      telefono: new FormControl(this.informacionLaboral.telefono || undefined),
       tipoDocumento: new FormControl(this.informacionLaboral.tipoDocumento || undefined, [Validators.required]),
       identificacion: new FormControl(this.informacionLaboral.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : ''),
+      fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : '', [Validators.required]),
       direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
-      cargo: new FormControl(this.informacionLaboral.cargo || undefined ),
-      // remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined)
+      cargo: new FormControl(this.informacionLaboral.cargo || undefined, [Validators.required] ),
       remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),
     });
 
     this.f.tipoIngreso.valueChanges.subscribe(val => {
       if (val) {
         this.refreshValidators(val);
+        this.cdr.detectChanges();
       }
     });
 
     this.refreshValidators(this.informacionLaboral.tipoIngreso);
-
     this.cdr.detectChanges();
   }
 
@@ -194,7 +174,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       return;
     }
     // verificar si es relacion de dependencia o negocio propopio
-    return this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA || this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO ;
+    return (this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA) || (this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO) ;
   }
 
   isOtrIng() {
@@ -203,20 +183,24 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     }
     // verificar si es otros ingresos
     return this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS;
+  }  
+
+  isRd() {
+    if (!this.f.tipoIngreso.value) {
+      return;
+    }
+    // verificar si es relacion de dependencia
+    return this.f.tipoIngreso.value === TipoIngresoConstants.RELACION_DEPENDENCIA;
+
   }
 
-  // || this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS
-  
   save() {
 
-    console.log('mode ', this.mode);
     this.updateData(this.informacionLaboral);// aca actualizamos Informacion Laboral
     this.informacionLaboral.persona = this.defaults.payload.persona;
     this.informacionLaboral.fecha = this.informacionLaboral.fecha ? this.informacionLaboral.fecha.format('DD/MM/YYYY') : '';
-    console.log(this.informacionLaboral);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.informacionLaboralService, this.informacionLaboral, 'Información Laboral', this.informacionLaboral.id == undefined);
-
   }
 
   private removeValidator(ignoreKeys: string[]) {

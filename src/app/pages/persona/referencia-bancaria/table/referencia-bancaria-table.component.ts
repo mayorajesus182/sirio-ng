@@ -19,12 +19,11 @@ import { ReferenciaBancariaFormPopupComponent } from '../popup/referencia-bancar
 
 export class ReferenciaBancariaTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  @Input() persona=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+  @Input() persona = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  referenciaBancariaList:ReplaySubject<ReferenciaBancaria[]> = new ReplaySubject<ReferenciaBancaria[]>();
-  
-  referencias:ReferenciaBancaria[]=[];
+  referenciaBancariaList: ReplaySubject<ReferenciaBancaria[]> = new ReplaySubject<ReferenciaBancaria[]>();
+  referencias: ReferenciaBancaria[] = [];
 
   constructor(
     injector: Injector,
@@ -35,68 +34,54 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   ) {
     super(undefined, injector);
   }
-  
-  private loadList(){
+
+  private loadList() {
     this.referenciaBancariaService.allByPersonaId(this.persona).subscribe((data) => {
-           this.referencias=data;
-      console.log(data);
+      this.referencias = data;
       this.referenciaBancariaList.next(data.slice());
-      
-      // this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
 
   ngOnInit() {
-    console.log('referencia bancaria table');
-    
-    if(this.persona){
-      
+    if (this.persona) {
       this.loadList();
-
-      this.onRefresh.subscribe(val=>{
-        if(val){
-
+      this.onRefresh.subscribe(val => {
+        if (val) {
           this.loadList();
         }
       })
     }
   }
-  
+
 
   delete(row) {
     this.swalService.show('¿Desea Eliminar Referencia Bancaria?', undefined,
-    // { 'html': ' <b>' + ', Banco: '+ row.entidadFinanciera + ', Cuenta: '+ row.numeroCuenta +'</b>' }).then((resp) => {
-
       { 'html': ' <b>' + row.entidadFinanciera + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          // console.log('buscando telefono',row.id);
-          this.referenciaBancariaService.delete(row.id).subscribe(val=>{
-            if(val){
+          this.referenciaBancariaService.delete(row.id).subscribe(val => {
+            if (val) {
               this.loadList();
             }
           })
           this.cdr.detectChanges();
         }
-    });
-}
+      });
+  }
 
   ngAfterViewInit() {
 
   }
 
-  popup(data?:ReferenciaBancaria) {
+  popup(data?: ReferenciaBancaria) {
     console.log(data);
-    if(data){
-      data.persona=this.persona;
-    }    
-    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:data,'60%').afterClosed().subscribe(event=>{
-            
-        if(event){
-            this.onRefresh.next(true);
-        }
-    }); 
-}
-
-
+    if (data) {
+      data.persona = this.persona;
+    }
+    this.showFormPopup(ReferenciaBancariaFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : data, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.onRefresh.next(true);
+      }
+    });
+  }
 }

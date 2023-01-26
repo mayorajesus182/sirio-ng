@@ -21,25 +21,25 @@
 
     <ngx-datatable-column [resizeable]="false" [width]="200" name="Tipo de Documento">
         <ng-template let-row="row" ngx-datatable-cell-template >
-            <div class="text-center" fxLayoutAlign="center">{{row.tipoDocumento  }}</div>
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.tipoDocumento  }}</div>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [resizeable]="false" [width]="250" name="Número Documento">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center">{{ row?.identificacion }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.identificacion }}</span>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [resizeable]="false" [width]="530" name="Nombre">        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center">{{ row?.nombre }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.nombre }}</span>
         </ng-template>
     </ngx-datatable-column>
 
     <ngx-datatable-column [resizeable]="false" [width]="200" name="Porcentaje Accionarios">
         <ng-template let-row="row" ngx-datatable-cell-template >
-            <div class="text-center" fxLayoutAlign="center">{{row.porcentaje  }}</div>
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.porcentaje  }}</div>
         </ng-template>
     </ngx-datatable-column>
 

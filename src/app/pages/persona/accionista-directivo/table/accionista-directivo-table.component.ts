@@ -18,104 +18,69 @@ import { AccionistaDirectivoFormPopupComponent } from '../popup/accionista-direc
 
 export class AccionistaDirectivoTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-    @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-    @Input() persona=undefined;
-    @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-    accionistaDirectivoList:ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
+  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
+  @Input() persona = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  accionistaDirectivoList: ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
 
-    porcentajeAccionario:number=0;
+  porcentajeAccionario: number = 0;
 
-    constructor(
-      injector: Injector,
-      protected dialog: MatDialog,
-      protected router: Router,
-      protected accionistaDirectivoService: AccionistaDirectivoService,
-      private cdr: ChangeDetectorRef,
-    ) {
-      super(undefined, injector);
-    }
-
-    private loadList(){
-
-      this.porcentajeAccionario=0
-
-      this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
-
-        console.log(data);
-        this.porcentajeAccionario= data.length > 0? data.map(t => t.porcentaje |  0 ).reduce((a,b)=>a+b):0;
-
-              
-        this.accionistaDirectivoList.next(data.slice());
-        this.propagar.emit(data.length);
-        this.cdr.detectChanges();
-      });
-    }
-
-    ngOnInit() {
-      console.log('accionistaDirectivo table');
-      
-      if(this.persona){
-        console.log('buscando Accionista Directivo en el servidor dado el id persona');
-        this.loadList();
-
-        this.onRefresh.subscribe(val=>{
-          if(val){
-
-            this.loadList();
-          }
-        })
-      }
-    }
-
-    ngAfterViewInit() {
-
-    }
-
-
-    edit(data: AccionistaDirectivo) {
-      //console.log('data event click ', data);
-
-    }
-
-    // delete(data: AccionistaDirectivo) {
-    //   //console.log('data event click ', data);
-    //   // if(data){
-
-    //   // }
-    // }
-
-    delete(row) {
-      this.swalService.show('¿Desea Eliminar Accionistas / Junta Directiva: ?', undefined,
-      
-        { 'html': ' <b>'  + row.nombre + '</b>' }).then((resp) => {
-          if (!resp.dismiss) {
-            // console.log('buscando telefono',row.id);
-            this.accionistaDirectivoService.delete(row.id).subscribe(val=>{
-              if(val){
-                this.loadList();
-              }
-            })
-            this.cdr.detectChanges();
-          }
-      });
+  constructor(
+    injector: Injector,
+    protected dialog: MatDialog,
+    protected router: Router,
+    protected accionistaDirectivoService: AccionistaDirectivoService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    super(undefined, injector);
   }
 
-    view(data: any) {
+  private loadList() {
+    this.porcentajeAccionario = 0
+    this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
+      this.porcentajeAccionario = data.length > 0 ? data.map(t => t.porcentaje | 0).reduce((a, b) => a + b) : 0;
+      this.accionistaDirectivoList.next(data.slice());
+      this.propagar.emit(data.length);
+      this.cdr.detectChanges();
+    });
+  }
 
-
+  ngOnInit() {
+    if (this.persona) {
+      this.loadList();
+      this.onRefresh.subscribe(val => {
+        if (val) {
+          this.loadList();
+        }
+      })
     }
+  }
 
-    popup(data?:AccionistaDirectivo) {
-      console.log(data);
-      if(data){
-        data.persona=this.persona;
-      }    
-      this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data?{persona:this.persona, porcentajeAccionario: this.porcentajeAccionario}:data,'70%').afterClosed().subscribe(event=>{
-        console.log(event);
-        
-          if(event){
-              this.onRefresh.next(true);
-          }
-      }); 
+  ngAfterViewInit() {
+
+  }
+
+  delete(row) {
+    this.swalService.show('¿Desea Eliminar Accionistas / Junta Directiva: ?', undefined,
+      { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
+        if (!resp.dismiss) {
+          this.accionistaDirectivoService.delete(row.id).subscribe(val => {
+            if (val) {
+              this.loadList();
+            }
+          })
+          this.cdr.detectChanges();
+        }
+      });
+  }
+  popup(data?: AccionistaDirectivo) {
+    if (data) {
+      data.persona = this.persona;
     }
+    this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data ? { persona: this.persona, porcentajeAccionario: this.porcentajeAccionario } : data, '70%').afterClosed().subscribe(event => {
+      if (event) {
+        this.onRefresh.next(true);
+      }
+    });
+  }
 }

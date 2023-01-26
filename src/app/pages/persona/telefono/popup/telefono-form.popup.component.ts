@@ -34,8 +34,6 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     private telefonicaService: TelefonicaService,
     private tipoTelefonoService: TipoTelefonoService,
     private claseTelefonoService: ClaseTelefonoService,
-    // private prefijoService: Prefijoser,
-
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
 
@@ -49,9 +47,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
   ngOnInit() {
 
     this.esPrincipal = this.defaults.payload.principal;
-
     this.tipoTelefonoService.actives().subscribe(data => {
-      
       this.tipoTelefonoList.next(data);
       this.cdr.detectChanges();
     })
@@ -62,18 +58,13 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       this.cdr.detectChanges();
     })
     
-    // console.log('Principal 1',this.defaults.payload);
     this.nroTelefonos = this.defaults.payload.telefonos;
-
     this.cdr.detectChanges();
-    // console.log('Principal 2',this.esPrincipal);
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.data) {
       this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
-        this.mode = 'global.edit';
-        // console.log(data);    
-        // console.log('telefono xxx  personal',this.defaults.payload);    
+        this.mode = 'global.edit';   
         this.telefono = data;
         this.buildForm();
         this.loadingDataForm.next(false);       
@@ -86,26 +77,17 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
   }
 
   buildForm() {
-//validar carcteres especiales
     this.itemForm = this.fb.group({
-      
       tipoTelefono: new FormControl(this.telefono.tipoTelefono || undefined, [Validators.required]),
-      
       claseTelefono: new FormControl(this.telefono.claseTelefono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-   
       numero: new FormControl(this.telefono.numero || '', [Validators.required]),
-
       principal: new FormControl(this.telefono.principal===1?true:false) 
-    
     });
 
     this.f.claseTelefono.valueChanges.subscribe(val=>{
-    
       if(val){
           this.f.numero.setValue('');
           this.telefonicaService.activesByClaseTelefono(val).subscribe(data=>{
-            // console.log('telefonicas',data);
-            
             this.telefonicaList.next(data);
           })
       }
@@ -118,9 +100,6 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
           this.f.numero.markAsTouched();
           this.cdr.detectChanges();
         }
-        //  else {
-        //   this.f.numero.setErrors(null)
-        // }
       }
     });
 
@@ -131,34 +110,25 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     if (!numero) {
       return true;
     }
-    // console.log(numero);
-    
     this.cdr.detectChanges();
-
     return this.nroTelefonos.find(num => num === numero) == undefined;
   }
 
   save() {
-
-    // console.log('mode ', this.mode);
     this.updateData(this.telefono);// aca actualizamos la direccion
     if(this.isNew){
       this.telefono.persona=  this.defaults.payload.persona;
     }
     this.telefono.numero = this.telefono.numero.split('-').join('');
     this.telefono.principal = this.telefono.principal? 1 : 0;
-    // console.log(this.telefono);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.telefonoService,this.telefono,'Télefono',this.telefono.id==undefined);
-
   }
 
   evaluarEsPrincipal(): boolean {
-
     if (this.esPrincipal && (this.isNew || this.f.principal.value)) {
       return false;
     }
-
     return true;
   }
 }
