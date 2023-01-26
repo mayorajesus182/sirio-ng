@@ -20,13 +20,12 @@ import { ReferenciaPersonalFormPopupComponent } from '../popup/referencia-person
 
 export class ReferenciaPersonalTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  @Input() persona=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+  @Input() persona = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
 
-  referencias:string[]=[];
-
-  referenciaPersonalList:ReplaySubject<ReferenciaPersonal[]> = new ReplaySubject<ReferenciaPersonal[]>();
+  referencias: string[] = [];
+  referenciaPersonalList: ReplaySubject<ReferenciaPersonal[]> = new ReplaySubject<ReferenciaPersonal[]>();
 
   constructor(
     injector: Injector,
@@ -37,102 +36,53 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   ) {
     super(undefined, injector);
   }
-  
-  private loadList(){
-    this.referencias=[]
-    this.referenciaPersonalService.allByPersonaId(this.persona).subscribe((data) => {
-           
-      console.log(data);
-      this.referenciaPersonalList.next(data.slice());
 
-      this.referencias= this.referencias.concat(data.map(t=>t.identificacion));
-      console.log(this.referencias);
-      
-     
+  private loadList() {
+    this.referencias = []
+    this.referenciaPersonalService.allByPersonaId(this.persona).subscribe((data) => {
+      this.referenciaPersonalList.next(data.slice());
+      this.referencias = this.referencias.concat(data.map(t => t.identificacion));
       this.cdr.detectChanges();
     });
   }
 
-  // private loadList(){
-  //   this.telefonos=[]
-  //   this.telefonoService.allByPersonaId(this.persona).subscribe((data) => {
-
-  //     this.telefonos= this.telefonos.concat(data.map(t=>t.numero));
-  //    console.log(this.telefonos);
-            
-  //     this.telefonoList.next(data.slice());
-  //     this.propagar.emit(data.length);
-  //     this.cdr.detectChanges();
-  //   });
-  // }
-
-
   ngOnInit() {
-    console.log('referencia personal table');
-    
-    if(this.persona){
-      
+    if (this.persona) {
       this.loadList();
-
-      this.onRefresh.subscribe(val=>{
-        if(val){
-
+      this.onRefresh.subscribe(val => {
+        if (val) {
           this.loadList();
         }
       })
     }
   }
 
-  edit(data: ReferenciaPersonal) {
-    //console.log('data event click ', data);
-
-  }
-
   delete(row) {
     this.swalService.show('¿Desea Eliminar Referencia Personal de?', undefined,
-    { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
+      { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          // console.log('buscando telefono',row.id);
-          this.referenciaPersonalService.delete(row.id).subscribe(val=>{
-            if(val){
+          this.referenciaPersonalService.delete(row.id).subscribe(val => {
+            if (val) {
               this.loadList();
             }
           })
           this.cdr.detectChanges();
         }
-    });
-}
+      });
+  }
 
   ngAfterViewInit() {
 
   }
 
-
-
-  popup(data?:ReferenciaPersonal) {
-    console.log(data);
-    if(data){
-      data.persona=this.persona;
-    }    
-    // this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona}:data,'40%').afterClosed().subscribe(event=>{
-            
-    //     if(event){
-    //         this.onRefresh.next(true);
-    //     }
-    // }); 
-
-    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:{...data,...{referencias:this.referencias}},'40%').afterClosed().subscribe(event=>{
-       
-      console.log(event);
-      
-        if(event){
-            this.onRefresh.next(true);
-        }
+  popup(data?: ReferenciaPersonal) {
+    if (data) {
+      data.persona = this.persona;
+    }
+    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : { ...data, ...{ referencias: this.referencias } }, '40%').afterClosed().subscribe(event => {
+      if (event) {
+        this.onRefresh.next(true);
+      }
     });
-
-
-
-}
-
-
+  }
 }

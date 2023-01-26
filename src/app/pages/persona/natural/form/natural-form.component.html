@@ -19,12 +19,7 @@
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
                             (click)="send()">
                             <mat-icon>outbox</mat-icon>
-
                         </button>
-                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>backspace</mat-icon>
-                        </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
@@ -37,11 +32,7 @@
                         (result)="queryResult($event)" (update)="updatePerson($event)" (create)="addPerson($event)">
                     </sirio-person-query>
 
-
-
                     <ng-container *ngIf="loaded$ | async">
-
-                        <!-- Put the component which needs to be destroyed + rerendered inside -->
 
                         <mat-accordion class="expansion-headers-align">
 
@@ -60,10 +51,6 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div fxLayout="column" [formGroup]="itemForm">
-
-
-                                    <!-- {{printErrors() | json}}  -->
-
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <mat-form-field fxFlex="auto">
@@ -169,9 +156,7 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <mat-form-field fxFlex="auto">
-                                            <mat-label>{{'naturalPerson.birthDate' | translate: {default:
-                                                'global.birthDate'} |
-                                                translate }}</mat-label>
+                                            <mat-label>{{'naturalPerson.birthDate' | translate: {default:'global.birthDate'} | translate }}</mat-label>
                                             <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento" age-document-type document="{{f.tipoDocumento.value}}" today="{{todayValue}}"
                                                 formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
                                             <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
@@ -183,6 +168,7 @@
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.age">
                                                 {{f.fechaNacimiento.errors?.age}}
                                             </mat-error>
+                                            <mat-error *ngIf="f.fechaNacimiento.errors?.required">{{'error.required' | translate}} </mat-error>
                                         </mat-form-field>
 
                                         <mat-datepicker #fechaNacimientoPicker></mat-datepicker>

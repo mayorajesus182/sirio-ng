@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
 import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -8,6 +7,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { DireccionFormPopupComponent } from '../popup/direccion-form.popup.component';
+
 
 @Component({
   selector: 'sirio-persona-direccion-table',
@@ -38,7 +38,6 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
   private loadList() {
     this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
-      
       this.direcciones.next(data.slice());
       this.propagar.emit(data.length);
       // debo conocer si tengo una direccion principal
@@ -48,15 +47,10 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   }
 
   ngOnInit() {
-    console.log('direcciones table');
-
     if (this.persona) {
-      console.log('buscando direccion en el servidor dado el id persona');
       this.loadList();
-
       this.onRefresh.subscribe(val => {
         if (val) {
-
           this.loadList();
         }
       })
@@ -67,44 +61,27 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
   }
 
-
-  edit(data: Direccion) {
-    console.log('data event click ', data);
-
-
-  }
-
   delete(row) {
     this.swalService.show('¿Desea Eliminar Dirección?', undefined,
-    { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
+      { 'html': ' <b>' + row.descripcion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando direccion',row.id);
-          this.direccionService.delete(row.id).subscribe(val=>{
-            if(val){
+          this.direccionService.delete(row.id).subscribe(val => {
+            if (val) {
               this.loadList();
             }
           })
           this.cdr.detectChanges();
         }
-    });
-}
-
-  view(data: any) {
-
-
+      });
   }
 
-
   popup(data?: Direccion) {
-    
+
     if (data) {
       data.persona = this.persona;
     }
     this.updateDataFromValues(data, { principal: this.principal });
     let dir = data;
-
-    console.log(dir);
-
     this.showFormPopup(DireccionFormPopupComponent, !data ? { persona: this.persona, principal: this.principal } : dir, '60%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);

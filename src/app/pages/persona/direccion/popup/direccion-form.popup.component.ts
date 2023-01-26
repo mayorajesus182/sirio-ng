@@ -1,4 +1,3 @@
-import { E } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -28,16 +27,11 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   public tiposDirecciones = new BehaviorSubject<TipoDireccion[]>([]);
   public parroquias = new BehaviorSubject<Parroquia[]>([]);
   public municipios = new BehaviorSubject<Municipio[]>([]);
-  // public paises = new BehaviorSubject<Pais[]>([]);
   public estados = new BehaviorSubject<Estado[]>([]);
   public zonasPostales = new BehaviorSubject<ZonaPostal[]>([]);
   public vias = new BehaviorSubject<Via[]>([]);
   public nucleos = new BehaviorSubject<Nucleo[]>([]);
   public construcciones = new BehaviorSubject<Construccion[]>([]);
-
-  // public nombreVia = new BehaviorSubject<NombreVia[]>([]);
-  // public nombreNucleo = new BehaviorSubject<NombreNucleo[]>([]);
-  // public estadonombreCostruccion = new BehaviorSubject<EstadonombreCostruccion[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -49,12 +43,6 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     private parroquiaService: ParroquiaService,
     private zonaPostalService: ZonaPostalService,
     private viaService: ViaService,
-
-    // private nombreVia: nombreViaService,
-    // private nombreNucleo: NombreNucleoService,
-    // private nombreCostruccion: NombreCostruccionService,
-
-
     private nucleoService: NucleoService,
     private construccionService: ConstruccionService,
     private cdr: ChangeDetectorRef,
@@ -64,16 +52,11 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   }
   ngAfterViewInit(): void {
     // esto se utiliza en modo edición
-
     this.loading$.subscribe(loading => {
       if (!loading) {
-
         if (this.f.estado.value) {
-
           this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
             this.municipios.next(data);
-
-            // this.ciudad.next(data);
             this.cdr.detectChanges();
           });
         }
@@ -131,37 +114,14 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
   ngOnInit() {
 
-    // console.log('default',this.defaults.payload);
     this.principal = this.defaults.payload.principal;
-
-    
-
-    // this.nombreViaService.actives().subscribe(data => {
-    //   this.nombreVia.next(data);
-    //   this.cdr.detectChanges();
-    // });
-
-    // this.nombreNucleoService.actives().subscribe(data => {
-    //   this.nombreNucleo.next(data);
-    //   this.cdr.detectChanges();
-    // });
-
-    // this.estadonombreCostruccionService.actives().subscribe(data => {
-    //   this.estadonombreCostruccion.next(data);
-    //   this.cdr.detectChanges();
-    // });
-
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
-
       this.mode = 'global.edit';
-
       this.direccionService.get(this.defaults.payload.id).subscribe(data => {
         this.direccion = data;
         this.buildForm();
         this.loadingDataForm.next(false);
-        // console.log(data);
-        
       })
     } else {
       this.direccion = {} as Direccion;
@@ -177,18 +137,13 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       parroquia: new FormControl(this.direccion.parroquia || '', [Validators.required]),
       estado: new FormControl(this.direccion.estado || '', [Validators.required]),
       municipio: new FormControl(this.direccion.municipio || '', [Validators.required]),
-      
-      
       zonaPostal: new FormControl(this.direccion.zonaPostal || '', [Validators.required]),
       via: new FormControl(this.direccion.via || '', [Validators.required]),
       nucleo: new FormControl(this.direccion.nucleo || '', [Validators.required]),
       construccion: new FormControl(this.direccion.construccion || '', [Validators.required]),
       referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-
       nombreVia: new FormControl(this.direccion.nombreVia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
- 
       nombreNucleo: new FormControl(this.direccion.nombreNucleo || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
- 
       nombreConstruccion: new FormControl(this.direccion.nombreConstruccion || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
     });
 
@@ -202,7 +157,6 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     });
 
     this.f.municipio.valueChanges.subscribe(value => {
-      
       this.f.parroquia.setValue('');
       this.parroquias.next([]);
       
@@ -231,17 +185,12 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   }
 
   save() {
-
-    // console.log('mode ', this.mode);
     this.updateData(this.direccion);// aca actualizamos la direccion
     if(this.isNew){
       this.direccion.persona = this.defaults.payload.persona;
     }
-    // console.log(this.direccion);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.direccionService, this.direccion, 'La Dirección', this.direccion.id == undefined);
-
-    // this.dialogRef.close();
   }
 
   nombreVia(){
@@ -266,7 +215,6 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   }
 
   nombreCiudad(){
-
     if(!this.f.municipio.value || this.f.municipio.value.length==0 || !this.municipios.value){
       return '';
     }

@@ -3,15 +3,12 @@
      <!-- TODO: PENDIENTE IN18 -->
     <h1>Persona Expuesta Políticamente (PEP)</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
-
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
         <mat-icon class="close-icon" color="accent">close</mat-icon>
       </button>
     </div>
   </sirio-dialog-header-heading>
-
 </sirio-dialog-header>
-
 
 <form [formGroup]="itemForm" *ngIf="itemForm">
   <mat-dialog-content>
@@ -19,8 +16,7 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Relación'" [readonly]="!isNew"
-          formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'"
-          [errors]="f.tipoPep?.errors">
+          formControlName="tipoPep" [required]="true" [elements]="tipoPepList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
  
       <!-- TODO: PENDIENTE IN18 -->
@@ -38,13 +34,9 @@
 
     </div>
 
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO"></div> -->
-
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE"> -->
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px"  *ngIf="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE">
-      <!-- {{printErrors() | json}} -->
       <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE"
-        [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
+        [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
 
       <mat-form-field fxFlex="50">
@@ -57,13 +49,9 @@
           <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
               translate}}
           </mat-error>
-
       </mat-form-field>
-
     </div>
-
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
       <mat-form-field fxFlex="100">
           <mat-label>{{'Nombre del ente adscripción: ' | translate: {default:
               'Nombre del ente adscripción'} | translate }} </mat-label>
@@ -75,9 +63,7 @@
               translate}}
           </mat-error>
       </mat-form-field>
-
     </div>
-
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -94,15 +80,10 @@
       </mat-form-field>
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'País'"
-          formControlName="pais" [required]="true" [elements]="paisList.asObservable()" [attributeName]="'nombre'"
-          [errors]="f.pais?.errors">
+          formControlName="pais" [required]="true" [elements]="paisList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
-
     </div>
-
   </mat-dialog-content>
-
-  
 
   <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>

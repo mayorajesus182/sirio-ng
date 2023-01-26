@@ -19,11 +19,9 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   referencia: ReferenciaPersonal = {} as ReferenciaPersonal;
-
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public telefonicaMovilList = new BehaviorSubject<Telefonica[]>([]);
   public telefonicaFijaList = new BehaviorSubject<Telefonica[]>([]);
-
   referencias = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -32,10 +30,8 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     private referenciaPersonalService: ReferenciaPersonalService,
     private telefonicaService: TelefonicaService,
     private tipoDocumentoService: TipoDocumentoService,
-   
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
-
     super(dialogRef, injector)
   }
 
@@ -46,12 +42,9 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
   ngOnInit() {
 
     this.tipoDocumentoService.actives().subscribe(data => {
-
       this.tipoDocumentoList.next(data);
-
     });
 
-   
     this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_FIJO).subscribe(data => {
       this.telefonicaFijaList.next(data);
     })
@@ -61,13 +54,11 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     })
 
     this.referencias = this.defaults.payload.referencias;
-
     this.cdr.detectChanges();
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.referenciaPersonalService.get(this.defaults.payload.id).subscribe(data => {
         this.mode = 'global.edit';
-        console.log('referencia xxx1  personal',this.defaults.payload);
         this.referencia = data;
         this.buildForm();
         this.loadingDataForm.next(false);
@@ -78,18 +69,13 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       this.buildForm();
       this.loadingDataForm.next(false);
       this.cdr.detectChanges();
-      console.log('referencia xxx2  personal', this.defaults.payload);
     }
   }
 
   buildForm() {
-    //validar carcteres especiales
     this.itemForm = this.fb.group({
       tipoDocumento: new FormControl(this.referencia.tipoDocumento || '', [Validators.required]),
-      // identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-
       identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
-
       nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),
       telefonoMovil: new FormControl(this.referencia.telefonoMovil || undefined, []),
@@ -107,34 +93,24 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
           this.f.identificacion.markAsDirty();
           this.cdr.detectChanges();
         }
-        //  else {
-        //   this.f.numero.setErrors(null)
-        // }
       }
     });
-
   }
 
   validateReferencias(tipoDocumento: string, identificacion: string) {
     if (!identificacion) {
       return true;
     }
-    console.log(identificacion);
-
     this.cdr.detectChanges();
-
     return this.referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
 
 
   save() {
-
-    console.log('mode ', this.mode);
     this.updateData(this.referencia);// aca actualizamos Informacion Laboral
     this.referencia.persona = this.defaults.payload.persona;
     this.referencia.telefonoFijo = this.referencia.telefonoFijo ? this.referencia.telefonoFijo.split(' ').join('') : undefined;
     this.referencia.telefonoMovil = this.referencia.telefonoMovil ? this.referencia.telefonoMovil.split(' ').join('') : undefined;
-    console.log(this.referencia);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.referenciaPersonalService, this.referencia, 'Referencia Personal', this.referencia.id == undefined);
 
