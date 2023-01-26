@@ -1,14 +1,14 @@
 <!-- Informacion Laboral -->
 <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-        <button color="default" (click)="popup()" mat-button class="margin-bottom-sm">
+        <button color="default" (click)="popup()" mat-button class="margin-v-sm">
             <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
             'global.notfound'} | translate }}
         </button>
     </div>
 </div>
 
-<ngx-datatable canAutoResize="false" class="material" [scrollbarV]="false" [columnMode]="ColumnMode.force"
+<ngx-datatable canAutoResize="false" class="material" [columnMode]="ColumnMode.force"
         [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
         [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="informacionLaboralList | async" [rowHeight]="70">
 

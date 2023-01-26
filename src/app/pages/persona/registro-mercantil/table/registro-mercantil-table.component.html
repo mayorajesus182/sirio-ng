@@ -1,54 +1,34 @@
-<!-- <div fxLayout="row" fxLayout="column">
-    <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-        <button color="default" (click)="popup()" mat-button>
-            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-            'global.notfound'} | translate }}
-        </button>
-    </div>
-</div> -->
-
 <div fxLayout="row" fxLayout="column">
     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-        
-        <!-- <button color="default" (click)="popup()" mat-button >
-            <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
-            'global.notfound'} | translate }}
-        </button> -->
-
-        <button color="default" (click)="popup()" mat-button >
+        <button color="default" (click)="popup()" mat-button class="margin-v-sm">
             <mat-icon class="margin-bottom-xxs">add_circle</mat-icon> {{'button.add' | translate: {default:
             'global.notfound'} | translate }}
         </button>
-
     </div>
 </div>
 
-<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.standard"
+<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.force"
     [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="registroMercantilList | async" rowHeight="auto">
-
-    <ngx-datatable-column  [resizeable]="false" [width]="100"  name="#">        
+    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="registroMercantilList | async" >
+   
+    <ngx-datatable-column  [resizeable]="false" [width]="50" name="#">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <div class="text-center"> {{ rowIndex+1 }}</div>
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;"> {{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
-
-    <ngx-datatable-column [resizeable]="false" [width]="1400" name="Datos del Registro">        
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
-        </ng-template>
-    </ngx-datatable-column>
-
-    <!-- <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones" >        
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <div class="text-center">
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
-                    <mat-icon>edit</mat-icon>
-                </button> &nbsp;
-            </div>
-        </ng-template>
-    </ngx-datatable-column> -->
-
     
+    <ngx-datatable-column [resizeable]="false" [width]="800" name="Datos del Registro">        
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.nombre }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Capital Social">        
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;" >{{ row?.capitalSocial | number:'1.2' }}</span>
+        </ng-template>
+    </ngx-datatable-column>
 
 </ngx-datatable>
+
+
