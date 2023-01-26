@@ -149,7 +149,7 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     this.telefono.principal = this.telefono.principal? 1 : 0;
     // console.log(this.telefono);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.telefonoService,this.telefono,'Télefono',this.telefono.id==undefined);
+    this.saveOrUpdate(this.telefonoService,this.telefono,'Teléfono',this.telefono.id==undefined);
 
   }
 

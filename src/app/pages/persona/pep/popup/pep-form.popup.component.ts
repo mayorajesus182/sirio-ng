@@ -48,7 +48,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
   ngOnInit() {
 
-    this.tipoPepService.actives().subscribe(data => {
+    this.tipoPepService.activesForNatural().subscribe(data => {
       console.log(data);
       
       this.tipoPepList.next(data);

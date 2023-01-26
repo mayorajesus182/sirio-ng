@@ -31,11 +31,10 @@
             <mat-form-field fxFlex="20">
                 <mat-label>{{'Número Documento ' | translate: {default:
                     'Número Documento '} | translate }} </mat-label>
-                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required>
+                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required class="text-center">
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                 </mat-error>
-                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
-                    translate}}
+                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
                 </mat-error>
             </mat-form-field>
 
@@ -56,11 +55,11 @@
 
             <mat-form-field fxFlex="25" class="highlight">
 
-                <mat-label>{{'Porcentaje Accionarios' | translate: {default: 'Porcentaje Accionarios'} |
+                <mat-label>{{'Porcentaje Accionario' | translate: {default: 'Porcentaje Accionario'} |
                     translate }}
                 </mat-label>
 
-                <input matInput [max]="100.0-porcentajeAccionario" min="0.01" maxlength="6" autocomplete="off" name="monto" formControlName="porcentaje"
+                <input matInput [max]="100.0-porcentajeAccionario" maxlength="6" autocomplete="off" name="monto" formControlName="porcentaje"
                     currencyMask [options]="{precision:2}">
                 <mat-error *ngIf="f.porcentaje.errors?.required">Es requerido</mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)>0">{{'Debe ser menor que '+
@@ -68,8 +67,8 @@
                 </mat-error>
                 <mat-error *ngIf="f.porcentaje.errors?.max && (100-porcentajeAccionario)==0">Verificar la distribución del porcentaje, ya el 100% fue asignado
                 </mat-error>
-                <mat-error *ngIf="f.porcentaje.errors?.min">Debe ser mayor que 0,01
-                </mat-error>
+                <!-- <mat-error *ngIf="f.porcentaje.errors?.min">Debe ser mayor que 0,01
+                </mat-error> -->
 
             </mat-form-field>
 
@@ -114,22 +113,19 @@
 
         </div>
 
-        <ng-container *ngIf="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
+        <ng-container *ngIf="cf.tipoPep.value && cf.tipoPep.value!=pepConstants.CLIENTE">
 
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-    
-    
                 <sirio-select-search fxFlex="auto" [label]="'Tipo Documento'"  [formControl]="pepAccionistaForm.controls['tipoDocumento']"
-                    [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE" [elements]="tipoDocumentoNatList.asObservable()" [attributeName]="'nombre'"
+                    [required]="cf.tipoPep.value && cf.tipoPep.value!=pepConstants.CLIENTE" [elements]="tipoDocumentoNatList.asObservable()" [attributeName]="'nombre'"
                     [errors]="cf.tipoDocumento?.errors">
                 </sirio-select-search>
-    
     
                 <mat-form-field fxFlex="auto">
                     <mat-label>{{'Número Documento: ' | translate: {default:
                         'Número Documento'} | translate }} </mat-label>
                     <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion"  [formControl]="pepAccionistaForm.controls['identificacion']" 
-                        [required]="cf.tipoPep.value && cf.tipoPep.value!=Pep.CLIENTE">
+                        [required]="cf.tipoPep.value && cf.tipoPep.value!=pepConstants.CLIENTE">
                     <mat-error *ngIf="cf.identificacion.errors?.required">{{'error.required' | translate}}
                     </mat-error>
                     <mat-error *ngIf="cf.identificacion.errors?.pattern">{{'error.invalidCharacter' |
@@ -210,7 +206,7 @@
                         <div class="text-center">{{'Nombre y Apellido del Relacionado' | translate: {default: 'Nombre y Apellido'} | translate }}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <div style="white-space: break-spaces;" class="text-center"> {{ row?.nombre}}</div>
+                        <div style="white-space: break-spaces;"> {{ row?.nombre}}</div>
                     </ng-template>
                 </ngx-datatable-column>
                 <!-- 
