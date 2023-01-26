@@ -137,6 +137,12 @@ const controlEfectivoRoutes: Routes = [
         loadChildren: () => import('./reports/atm/reporte-atm.module').then(m => m.ReporteAtmModule),
     },
 
+    {
+        path: 'reporte-agencia-excedente',
+        data: { title: 'Reporte de Agencia con Excedente' },    
+        loadChildren: () => import('./reports/agencia-excedente/reporte-agencia-excedente.module').then(m => m.ReporteAgenciaExcedenteModule),
+    },
+
 ];
 
 

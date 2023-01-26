@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['operationalAgenciesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['surplusAgenciesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'operationalAgenciesRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'surplusAgenciesRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
 
@@ -30,14 +30,15 @@
                     <div fxLayout="column">
                         <form [formGroup]="itemForm" *ngIf="itemForm">
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                               
                                 <sirio-select-search fxFlex.gt-xs="100" *ngIf="!esGerente"
-                                    [label]="'operationalAgenciesRep.region' | translate: {default: 'global.region'} | translate" formControlName="region"
+                                    [label]="'surplusAgencies.region' | translate: {default: 'global.region'} | translate" formControlName="region"
                                     [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors" [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
 
                                 <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80px" >
-                                    <mat-label>{{'remittancesSentRep.date' | translate: {default: 'global.date'} | translate }}</mat-label>
+                                    <mat-label>{{'remittancesSentRep.fromDate' | translate: {default: 'global.fromDate'} | translate }}</mat-label>
                                     <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechainicio" formControlName="fechainicio"
                                         [matDatepicker]="fechaInicioPicker" [max]="todayValue" [min]="valueMin">
                                     <mat-datepicker-toggle matSuffix [for]="fechaInicioPicker"> 
@@ -47,7 +48,7 @@
                                 <mat-datepicker #fechaInicioPicker></mat-datepicker>
 
                                 <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80">
-                                    <mat-label>{{'remittancesSentRep.date' | translate: {default: 'global.date'} | translate }}</mat-label>
+                                    <mat-label>{{'remittancesSentRep.toDate' | translate: {default: 'global.toDate'} | translate }}</mat-label>
                                     <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechafin" formControlName="fechafin"
                                         [matDatepicker]="fechaFinPicker" [max]="todayValue" [min]="valueMin">
                                     <mat-datepicker-toggle matSuffix [for]="fechaFinPicker"> 

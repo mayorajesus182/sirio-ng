@@ -72,6 +72,6 @@ export class GestionEfectivoReportsService {
     }
 
     agenciaExcedente(params: GestionEfectivoReports): Observable<any> {
-        return this.apiService.config(this.apiConfig).pullFileByPost('/agencia-excedente', params);
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/agencia-excedente', params);
     }
 }
