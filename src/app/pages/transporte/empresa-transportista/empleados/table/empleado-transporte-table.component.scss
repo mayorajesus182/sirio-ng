@@ -2,7 +2,7 @@
 
 .btn-add {
     position: fixed;
-    bottom: $spacing + $footer-height;
+    bottom: $spacing-xs + $footer-height;
     right: $spacing;
     z-index: 100;
 }

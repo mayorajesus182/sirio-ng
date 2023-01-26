@@ -9,11 +9,11 @@ const autorizacionRoutes: Routes = [
         data: { title: 'Usuarios' },
         loadChildren: () => import('./usuario/usuario.module').then(m => m.UsuarioModule),
     },
-    // {
-    //     path: 'perfiles',
-    //     data: { title: 'Perfiles' },
-    //     loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilModule),
-    // },
+    {
+        path: 'perfiles',
+        data: { title: 'Perfiles' },
+        loadChildren: () => import('./perfil/perfil.module').then(m => m.PerfilModule),
+    },
     // {
     //     path: 'roles',
     //     data: { title: 'Roles' },

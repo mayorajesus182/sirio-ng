@@ -1,0 +1,124 @@
+<mat-toolbar>
+    <button mat-icon-button matTooltip="Regresar" routerLink="/autorizacion/perfiles">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class=" h1 mt-10" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
+        Perfil {{perfil.nombre?perfil.nombre:''}}
+    </span>
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+
+    </div>
+</mat-toolbar>
+
+
+<div class="form-container" id="itemForm">
+          <div fxLayout="row" fxLayout.lt-sm="column" fxLayoutWrap="wrap">
+              <div fxFlex="25" class="pr-8 pb-1">
+                  <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Código</mat-label>
+                      <input matInput [value]="d.id" readonly>
+                  </mat-form-field>
+              </div>
+  
+              <div fxFlex="75" class="pr-8 pb-1">
+                  <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Nombre</mat-label>
+                      <input matInput [value]="d.nombre" readonly>
+                  </mat-form-field>
+              </div>
+  
+              <div fxFlex="100" class=" pb-1">
+                  <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Descripción</mat-label>
+                      <input matInput [value]="d.descripcion" readonly>
+                  </mat-form-field>
+              </div>
+          </div>
+  
+  
+          <mat-accordion class="expansion-headers-align">
+
+            <mat-expansion-panel #mep="matExpansionPanel" *ngFor="let item of modulos.value; index as i" (expanded)="false"  (opened)="setStep(i)">      
+
+                <!-- <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold !important;">
+                        <mat-checkbox [color]="'primary'" [disabled]="true" [checked]="checklistSelection.isSelected(item)" class="pr-1" (click)="$event.stopPropagation();"></mat-checkbox>
+                        {{ item.label }} 
+                    </mat-panel-title>   
+                    <mat-panel-description>
+                        {{ item.descripcion }}
+                        <fa-icon [icon]="['fas', item.icon]" size="lg" style="margin-right: 0.5em;"></fa-icon>
+                    </mat-panel-description> 
+                </mat-expansion-panel-header>
+                    
+                <mat-tree [dataSource]="dataSource[i]" [treeControl]="treeControl[i]">
+                        <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding >
+                            <button mat-icon-button disabled></button>
+                            <mat-checkbox [color]="'primary'" class="checklist-leaf-node" [disabled]="true"
+                                        [checked]="checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
+                                        ><span >{{getLabel(node)}}</span></mat-checkbox>
+                        </mat-tree-node>
+                        
+                        
+                        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding >
+                            <button mat-icon-button matTreeNodeToggle
+                                    [attr.aria-label]="'toggle ' + node.filename">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl[i].isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                            </button>
+                            <mat-checkbox [color]="'primary'" [disabled]="true"
+                                [checked]="descendantsAllSelected(node)||checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
+                                        
+                                         ><span >{{getLabel(node)}}</span></mat-checkbox>
+                            
+                        </mat-tree-node>
+                </mat-tree> -->
+
+
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="font-weight: bold !important;">
+                        <mat-checkbox [color]="'primary'" [disabled]="true" [checked]="checklistSelection.isSelected(item) || item.checked" class="pr-10"
+                            (click)="$event.stopPropagation();" (change)="checkAll(i,$event)"></mat-checkbox>
+                        {{ item.label }}
+                    </mat-panel-title>
+                    <mat-panel-description>
+                        {{ item.descripcion }}
+                        <fa-icon [icon]="['fas', item.icon]" size="lg" style="margin-right: 0.5em;"></fa-icon>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <mat-tree [dataSource]="dataSource[i]" [treeControl]="treeControl[i]">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
+                        <button mat-icon-button disabled></button>
+                        <mat-checkbox [color]="'primary'" class="checklist-leaf-node" [disabled]="true"
+                            [checked]="checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
+                            (change)="leafItemSelectionToggle(node)"><span>{{getLabel(node)}}</span></mat-checkbox>
+                    </mat-tree-node>
+
+
+                    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                        <button mat-icon-button matTreeNodeToggle type="button"
+                            [attr.aria-label]="'toggle ' + node.filename">
+                            <mat-icon class="mat-icon-rtl-mirror">
+                                {{treeControl[i].isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                            </mat-icon>
+                        </button>
+                        <mat-checkbox [color]="'primary'" [disabled]="true"
+                            [checked]="descendantsAllSelected(node)||checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
+                            (change)="itemSelectionToggle(node)"><span>{{getLabel(node)}}</span></mat-checkbox>
+
+                    </mat-tree-node>
+                </mat-tree>
+                
+            </mat-expansion-panel>
+        </mat-accordion>
+  
+    <mat-toolbar>
+
+        <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+            <button type="button" mat-button routerLink="/autorizacion/perfiles">Cancelar</button>
+        </div>
+
+    </mat-toolbar>
+</div>
