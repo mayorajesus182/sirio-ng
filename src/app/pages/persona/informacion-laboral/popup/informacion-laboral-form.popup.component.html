@@ -166,10 +166,12 @@
 
       </div>
 
-      <mat-form-field fxFlex="auto" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-        <mat-label>{{'Cargo'}}</mat-label>
-        <input autocomplete="off" matInput name="cargo" formControlName="cargo" uppercase [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
-      </mat-form-field>
+       <!--<mat-form-field fxFlex="auto" *ngIf="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA">
+        <mat-label>{{'Cargo'}}</mat-label>--> 
+        <sirio-select-search fxFlex.gt-xs="100" [label]="'Cargo'" formControlName="cargo" [required]="f.tipoIngreso.value==Tipo_Ingreso.RELACION_DEPENDENCIA" [elements]="cargoList.asObservable()"
+        [attributeName]="'nombre'" [errors]="">
+      </sirio-select-search>
+       
 
     </div>
 
