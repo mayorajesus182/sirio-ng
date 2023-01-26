@@ -23,14 +23,13 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'" formControlName="tipoTelefono" [required]="true"
-        [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoTelefono?.errors">
+        [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
 
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'Clase Teléfono'" formControlName="claseTelefono" [required]="true"
-        [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'" [errors]="f.claseTelefono?.errors">
+        [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
-
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -52,16 +51,11 @@
         <!-- {{f.numero.errors | json}} -->
 
       </mat-form-field>
-
-
       <div fxFlex.gt-sm="20" class="text-right margin-top-md" *ngIf="evaluarEsPrincipal()">
-
         <mat-slide-toggle [color]="'primary'" formControlName="principal" name="principal">
           {{'¿Es Principal?' }}
         </mat-slide-toggle>
-
       </div>
-
     </div>
 
   </form>

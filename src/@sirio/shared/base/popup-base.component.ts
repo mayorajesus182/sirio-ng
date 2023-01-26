@@ -11,6 +11,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import {MatTabGroup} from '@angular/material/tabs'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 @Component({
     template: '',
     providers: [
@@ -29,6 +30,7 @@ import { Router } from '@angular/router';
     ]
 })
 export class PopupBaseComponent {
+    public ColumnMode = ColumnMode;
     // isNew=true;
     mode: 'global.add' | 'global.edit' = 'global.add';
     @ViewChild('tabGroup') tabGroup: MatTabGroup;

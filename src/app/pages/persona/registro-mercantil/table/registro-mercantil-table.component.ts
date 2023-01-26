@@ -19,13 +19,11 @@ import { RegistroMercantilFormPopupComponent } from '../popup/registro-mercantil
 export class RegistroMercantilTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  @Input() persona=undefined;
-  @Input() tipoDocumento=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  registroMercantilList:ReplaySubject<RegistroMercantil[]> = new ReplaySubject<RegistroMercantil[]>();
-  registros:RegistroMercantil[]=[];
-
-  
+  @Input() persona = undefined;
+  @Input() tipoDocumento = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  registroMercantilList: ReplaySubject<RegistroMercantil[]> = new ReplaySubject<RegistroMercantil[]>();
+  registros: RegistroMercantil[] = [];
 
   constructor(
     injector: Injector,
@@ -36,31 +34,25 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   ) {
     super(undefined, injector);
   }
-  
-  private loadList(){
+
+  private loadList() {
 
     this.registroMercantilService.allByPersonaId(this.persona).subscribe((data) => {
-      this.registros=data.slice();
+      this.registros = data.slice();
       this.registroMercantilList.next(this.registros);
       this.cdr.detectChanges();
     });
   }
- 
+
   ngOnInit() {
 
-    if(this.persona){
-      console.log('buscando Registro Mercantil en el servidor dado el id persona');
+    if (this.persona) {
       this.loadList();
-
-      this.onRefresh.subscribe(val=>{
-        if(val){
-
+      this.onRefresh.subscribe(val => {
+        if (val) {
           this.loadList();
         }
-      }
-      
-      )
-      
+      })
     }
   }
 
@@ -69,27 +61,18 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   }
 
   popup() {
-    // if(data){
-    //   data.persona=this.persona;
-    //   data.tipoDocumento = this.tipoDocumento;
-    // }   
-    
-    let data =undefined;
-    if(this.registros.length > 0){
+    let data = undefined;
+    if (this.registros.length > 0) {
       data = this.registros[0];
-      
-    } 
-   
+    }
 
-    this.showFormPopup(RegistroMercantilFormPopupComponent, !data?{persona:this.persona, tipoDocumento:this.tipoDocumento}:data,'60%').afterClosed().subscribe(event=>{
-      console.log(event);
-      
-        if(event){
-            this.onRefresh.next(true);
-        }
-    } 
-    
-    ); 
+    this.showFormPopup(RegistroMercantilFormPopupComponent, !data ? { persona: this.persona, tipoDocumento: this.tipoDocumento } : data, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.onRefresh.next(true);
+      }
+    }
+
+    );
   }
 }
 // si es es 0 crea

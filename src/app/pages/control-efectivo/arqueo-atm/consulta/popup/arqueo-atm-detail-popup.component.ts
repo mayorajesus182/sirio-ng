@@ -39,9 +39,12 @@ export class ArqueoAtmDetailPopupComponent extends PopupBaseComponent implements
         this.arqueoAtm = this.defaults.payload;
 
         console.log('  this.defaults.payload  ', this.defaults.payload);
-        
+        this.loadingDataForm.next(false);
 
         this.arqueoAtmService.allDetalleByArqueo(this.arqueoAtm.id).subscribe(data => {
+            setTimeout(() => {
+                this.loadingDataForm.next(true);                
+            }, 500);
             this.detalles.next(data);
             this.cdr.detectChanges();
         });

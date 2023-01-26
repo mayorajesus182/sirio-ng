@@ -34,7 +34,7 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="10px" >
 
                                 <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80px" >
-                                    <mat-label>{{'remittancesSentRep.date' | translate: {default: 'global.date'} | translate }}</mat-label>
+                                    <mat-label>{{'remittancesSentRep.fromDate' | translate: {default: 'global.fromDate'} | translate }}</mat-label>
                                     <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechainicio" formControlName="fechainicio"
                                         [matDatepicker]="fechaInicioPicker" [max]="todayValue" [min]="valueMin">
                                     <mat-datepicker-toggle matSuffix [for]="fechaInicioPicker"> 
@@ -44,7 +44,7 @@
                                 <mat-datepicker #fechaInicioPicker></mat-datepicker>
 
                                 <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80">
-                                    <mat-label>{{'remittancesSentRep.date' | translate: {default: 'global.date'} | translate }}</mat-label>
+                                    <mat-label>{{'remittancesSentRep.toDate' | translate: {default: 'global.toDate'} | translate }}</mat-label>
                                     <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechafin" formControlName="fechafin"
                                         [matDatepicker]="fechaFinPicker" [max]="todayValue" [min]="valueMin">
                                     <mat-datepicker-toggle matSuffix [for]="fechaFinPicker"> 

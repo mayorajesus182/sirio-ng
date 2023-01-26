@@ -1,5 +1,4 @@
 
-import { C } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -20,25 +19,20 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   referencia: ReferenciaBancaria = {} as ReferenciaBancaria;
-
   public tipoProductoList = new BehaviorSubject<TipoProducto[]>([]);
   public cifrasPromedioList = new BehaviorSubject<CifraPromedio[]>([]);
   public entidadFinancieraList = new BehaviorSubject<EntidadFinanciera[]>([]);
-
-
   referencias = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<ReferenciaBancariaFormPopupComponent>,
     private referenciaBancariaService: ReferenciaBancariaService,
-
     private tipoProductoService: TipoProductoService,
     private cifraPromedioService: CifraPromedioService,
     private entidadFinancieraService: EntidadFinancieraService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
-
     super(dialogRef, injector)
   }
 
@@ -57,30 +51,18 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
 
   ngOnInit() {
     this.tipoProductoService.actives().subscribe(data => {
-
       this.tipoProductoList.next(data);
-
     });
 
     this.cifraPromedioService.actives().subscribe(data => {
-
       this.cifrasPromedioList.next(data);
-
     });
 
     this.entidadFinancieraService.actives().subscribe(data => {
-
       this.entidadFinancieraList.next(data);
-
     });
 
-    // console.log('ref bancaria', this.defaults.payload);
-
     this.referencias = this.defaults.payload.referencias
-
-    // console.log('Arreglo ref bancaria', this.referencias);
-
-
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.referenciaBancariaService.get(this.defaults.payload.id).subscribe(data => {
@@ -97,15 +79,10 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
       this.loadingDataForm.next(false);
       this.cdr.detectChanges();
     }
-
-    // console.log('ref bancaria xx', this.defaults.payload);
-
   }
 
 
   buildForm() {
-    //validar carcteres especiales
-
     this.itemForm = this.fb.group({
       tipoProducto: new FormControl(this.referencia.tipoProducto || '', [Validators.required]),
       entidadFinanciera: new FormControl(this.referencia.entidadFinanciera || '', [Validators.required]),
@@ -117,28 +94,17 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
     this.f.entidadFinanciera.valueChanges.subscribe((val: string) => {
 
       this.f.numeroCuenta.setValue('');
-      // console.log('entidad financiera **' + val + '**');
-      // console.log(this.f.numeroCuenta.errors);
-      if(this.f.numeroCuenta.errors){
+      if (this.f.numeroCuenta.errors) {
         return;
       }
 
       if (val && this.f.numeroCuenta.value && !this.f.numeroCuenta.value.startsWith(val)) {
-        // console.log(' la cuenta no pertenece a la entidad');
-
         this.f.numeroCuenta.setErrors({ notIsEntidad: true });
-
-        // } 
-        // else {
-        //   this.itemForm.controls['numeroCuenta'].setErrors(null);
-        //   // this.f.numeroCuenta.clearValidators();
-        //   this.cdr.detectChanges();
       }
-      
     });
 
     this.f.numeroCuenta.valueChanges.subscribe(val => {
-      if(this.f.numeroCuenta.errors){
+      if (this.f.numeroCuenta.errors) {
         return;
       }
       if (val) {
@@ -149,22 +115,20 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
         }
         if (!this.validateNumeroCuenta(this.f.numeroCuenta ? this.f.numeroCuenta.value : undefined)) {
           this.f.numeroCuenta.setErrors({ exists: true })
-          this.f.numeroCuenta.markAsDirty();          
+          this.f.numeroCuenta.markAsDirty();
         }
-        
         this.cdr.detectChanges();
-  
       }
     });
 
 
     this.f.tipoProducto.valueChanges.subscribe(value => {
-    
+
       this.f.numeroCuenta.setValue('');
       this.f.entidadFinanciera.setValue(undefined);
       this.cdr.detectChanges();
-      
-      if(value){
+
+      if (value) {
         this.entidadFinancieraService.actives().subscribe(data => {
           this.entidadFinancieraList.next(data);
           this.cdr.detectChanges();
@@ -184,11 +148,8 @@ export class ReferenciaBancariaFormPopupComponent extends PopupBaseComponent imp
   }
 
   save() {
-
-    console.log('mode ', this.mode);
     this.updateData(this.referencia);// aca actualizamos Informacion Laboral
     this.referencia.persona = this.defaults.payload.persona;
-    console.log(this.referencia);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.referenciaBancariaService, this.referencia, 'Referencia Bancaria', this.referencia.id == undefined);
 

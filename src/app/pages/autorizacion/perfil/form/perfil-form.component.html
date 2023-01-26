@@ -66,6 +66,8 @@
                                 </mat-form-field>
                             </div>
 
+                            <mat-divider class="margin-v-md" ></mat-divider>
+
 
                             <mat-accordion class="expansion-headers-align" *ngIf="modulos">
 
@@ -74,13 +76,17 @@
 
                                     <mat-expansion-panel-header>
                                         <mat-panel-title style="font-weight: bold !important;">
-                                            <mat-checkbox [color]="'primary'" [checked]="checklistSelection.isSelected(item) || item.checked" class="pr-10"
+                                            <mat-checkbox [color]="'primary'" [checked]="checklistSelection.isSelected(item) || item.checked" class="margin-right-sm"
                                                 (click)="$event.stopPropagation();" (change)="checkAll(i,$event)"></mat-checkbox>
-                                            {{ item.label }}
+                                            {{ 'menu.'+item.label | translate}}
                                         </mat-panel-title>
                                         <mat-panel-description>
-                                            {{ item.descripcion }}
-                                            <fa-icon [icon]="['fas', item.icon]" size="lg" style="margin-right: 0.5em;"></fa-icon>
+                                            <!-- {{ item.descripcion | translate}} -->
+                                            <span fxFlex></span>
+                                            <div class="mat-icon-primary">
+                                                <i class="fal fa-{{ item.icon}}  fa-lg fa-icon margin-right-sm margin-top-sm "></i>
+                                            </div>
+                                            <!-- <fa-icon [icon]="['fas', item.icon]" size="lg" style="margin-right: 0.5em;"></fa-icon> -->
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
 
@@ -89,7 +95,7 @@
                                             <button mat-icon-button disabled></button>
                                             <mat-checkbox [color]="'primary'" class="checklist-leaf-node"
                                                 [checked]="checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
-                                                (change)="leafItemSelectionToggle(node)"><span>{{getLabel(node)}}</span></mat-checkbox>
+                                                (change)="leafItemSelectionToggle(node)"><span>{{'menu.'+getLabel(node) |  translate}}</span></mat-checkbox>
                                         </mat-tree-node>
 
 
@@ -101,7 +107,7 @@
                                             </button>
                                             <mat-checkbox [color]="'primary'"
                                                 [checked]="descendantsAllSelected(node)||checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
-                                                (change)="itemSelectionToggle(node)"><span>{{getLabel(node)}}</span></mat-checkbox>
+                                                (change)="itemSelectionToggle(node)"><span>{{'menu.'+getLabel(node) | translate}}</span></mat-checkbox>
 
                                         </mat-tree-node>
                                     </mat-tree>

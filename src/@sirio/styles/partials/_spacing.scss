@@ -117,7 +117,7 @@ $spacings:(
 
 
 
-@each $property in $spacings {
+// @each $property in $spacings {
   // @each $direction in $property {
   //   @each $prefix, $value in $spac {
   //     @if ($direction == -vertical) {
@@ -137,5 +137,5 @@ $spacings:(
   //     }
   //   }
   // }
-}
+// }
 

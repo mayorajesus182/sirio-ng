@@ -25,7 +25,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
-        formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" [errors]="f.municipio?.errors">
+        formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" >
       </sirio-select-search>
 
       <mat-form-field ffxFlex.gt-xs="25">

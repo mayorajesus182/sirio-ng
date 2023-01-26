@@ -19,9 +19,9 @@ import { PepFormPopupComponent } from '../popup/pep-form.popup.component';
 export class PepTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  @Input() persona=undefined;
-  @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  pepList:ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
+  @Input() persona = undefined;
+  @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  pepList: ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
 
   constructor(
     injector: Injector,
@@ -33,9 +33,8 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
     super(undefined, injector);
   }
 
-  private loadList(){
+  private loadList() {
     this.pepService.allByPersonaId(this.persona).subscribe((data) => {
-            
       this.pepList.next(data.slice());
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
@@ -43,15 +42,10 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   ngOnInit() {
-    console.log('pep table');
-    
-    if(this.persona){
-      console.log('buscando pep en el servidor dado el id persona');
+    if (this.persona) {
       this.loadList();
-
-      this.onRefresh.subscribe(val=>{
-        if(val){
-
+      this.onRefresh.subscribe(val => {
+        if (val) {
           this.loadList();
         }
       })
@@ -62,46 +56,28 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   }
 
-
-  edit(data: Pep) {
-    //console.log('data event click ', data);
-
-  }
-
   delete(row) {
     this.swalService.show('¿Desea Eliminar Persona Expuesta Políticamente (PEP)?', undefined,
-   
       { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          // console.log('buscando telefono',row.id);
-          this.pepService.delete(row.id).subscribe(val=>{
-            if(val){
+          this.pepService.delete(row.id).subscribe(val => {
+            if (val) {
               this.loadList();
             }
           })
           this.cdr.detectChanges();
         }
-    });
-}
-
-  view(data: any) {
-
-
+      });
   }
 
-  popup(data?:Pep) {
-    console.log(data);
-    if(data){
-      data.persona=this.persona;
-    }    
-    this.showFormPopup(PepFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
-      console.log(event);
-      
-        if(event){
-            this.onRefresh.next(true);
-        }
-    }); 
-}
-
-
+  popup(data?: Pep) {
+    if (data) {
+      data.persona = this.persona;
+    }
+    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona } : data, '60%').afterClosed().subscribe(event => {
+      if (event) {
+        this.onRefresh.next(true);
+      }
+    });
+  }
 }

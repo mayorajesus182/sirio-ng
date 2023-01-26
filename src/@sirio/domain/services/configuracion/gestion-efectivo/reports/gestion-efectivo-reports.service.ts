@@ -70,4 +70,8 @@ export class GestionEfectivoReportsService {
     cartaPorte(params: GestionEfectivoReports): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByPost('/carta-porte', params);
     }
+
+    agenciaExcedente(params: GestionEfectivoReports): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByPost('/reports/agencia-excedente', params);
+    }
 }

@@ -13,104 +13,97 @@
 
 
 <mat-dialog-content>
+    <div fxLayout="column" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
+            <mat-form-field fxFlex="30">
+                <mat-label>{{'recountAtm.atm' | translate: {default: 'global.atm'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.atm" readonly>
+            </mat-form-field>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+            <mat-form-field fxFlex="30">
+                <mat-label>{{'recountAtm.date' | translate: {default: 'global.date'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.fechaCreacion" readonly>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="30">
-            <mat-label>{{'recountAtm.atm' | translate: {default: 'global.atm'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.atm" readonly>
-        </mat-form-field>
+            <mat-form-field fxFlex="20">
+                <mat-label>{{'recountAtm.sequence' | translate: {default: 'global.sequence'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.secuencia" readonly>
+            </mat-form-field>
 
-        <mat-form-field fxFlex="30">
-            <mat-label>{{'recountAtm.date' | translate: {default: 'global.date'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.fechaCreacion" readonly>
-        </mat-form-field>
+            <mat-form-field fxFlex="20">
+                <mat-label>{{'recountAtm.recountType' | translate: {default: 'global.recountType'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.tipoArqueoNombre" readonly>
+            </mat-form-field>
+        </div>
 
-        <mat-form-field fxFlex="20">
-            <mat-label>{{'recountAtm.sequence' | translate: {default: 'global.sequence'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.secuencia" readonly>
-        </mat-form-field>
+        <div fxLayout.gt-sm="row" fxLayout.xs="column" fxLayoutGap.gt-sm="10px">
 
-        <mat-form-field fxFlex="20">
-            <mat-label>{{'recountAtm.recountType' | translate: {default: 'global.recountType'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.tipoArqueoNombre" readonly>
-        </mat-form-field>
-    </div>
+            <mat-form-field fxFlex="25">
+                <mat-label>{{'recountAtm.recountAmount' | translate: {default: 'global.recountAmount'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.montoArqueo | number: '1.2'" readonly>
+            </mat-form-field>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+            <mat-form-field fxFlex="25" *ngIf="arqueoAtm.montoRetiro > 0">
+                <mat-label>{{'recountAtm.withdrawnAmount' | translate: {default: 'global.withdrawnAmount'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.montoRetiro | number: '1.2'" readonly>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="25" *ngIf="arqueoAtm.montoIncremento > 0">
+                <mat-label>{{'recountAtm.increasedAmount' | translate: {default: 'global.increasedAmount'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.montoIncremento | number: '1.2'" readonly>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="25">
+                <mat-label>{{'recountAtm.totalAmount' | translate: {default: 'global.totalAmount'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.monto | number: '1.2'" readonly>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="auto">
+                <mat-label>{{'recountAtm.coin' | translate: {default: 'global.coin'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.moneda" readonly>
+            </mat-form-field>
+
+        </div>
+
+        <div fxLayout.gt-sm="row" fxLayout.xs="column" *ngIf="loading$ | async">
 
 
-
-        <mat-form-field fxFlex="25">
-            <mat-label>{{'recountAtm.recountAmount' | translate: {default: 'global.recountAmount'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.montoArqueo | number: '1.2'" readonly>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25" *ngIf="arqueoAtm.montoRetiro > 0">
-            <mat-label>{{'recountAtm.withdrawnAmount' | translate: {default: 'global.withdrawnAmount'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.montoRetiro | number: '1.2'" readonly>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25" *ngIf="arqueoAtm.montoIncremento > 0">
-            <mat-label>{{'recountAtm.increasedAmount' | translate: {default: 'global.increasedAmount'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.montoIncremento | number: '1.2'" readonly>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="25">
-            <mat-label>{{'recountAtm.totalAmount' | translate: {default: 'global.totalAmount'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.monto | number: '1.2'" readonly>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="auto">
-            <mat-label>{{'recountAtm.coin' | translate: {default: 'global.coin'} | translate }}
-            </mat-label>
-            <input matInput class="text-center" [value]="arqueoAtm.moneda" readonly>
-        </mat-form-field>
-
-    </div>
-
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
-
-        <div fxLayout="column" class="margin-h padding-v" fxFlex="100">
-
-            <ngx-datatable fxFlex="100" [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [columnMode]="columnMode.force"
+            <ngx-datatable fxFlex canAutoResize="false" class="material" rowHeight="auto" class="material bg-white" [columnMode]="ColumnMode.force"
                 [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
                 [footerHeight]="50" [rowHeight]="55" [limit]="10" [rows]="detalles | async">
 
-                <ngx-datatable-column [resizeable]="false" [width]="150">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'recountAtm.name' | translate: {default: 'global.name'} |
-                            translate}}</span>
-                    </ng-template>
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true" name="{{'recountAtm.name' | translate: {default: 'global.name'} |
+                translate}}">
                     <ng-template let-row="row" ngx-datatable-cell-template>
-                        <span style="white-space: break-spaces; font-size: 12px;">
+                        <div style="white-space: break-spaces; font-size: 12px;" class="text-center">
                             {{ row?.descripcion }}
-                        </span>
+                        </div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
-                        <span>{{'recountAtm.denomination' | translate: {default: 'global.denomination'} |
-                            translate}}</span>
+                        <div class="text-center" fxLayoutAlign="center">{{'recountAtm.denomination' | translate: {default: 'global.denomination'} |
+                            translate}}</div>
                     </ng-template>
                     <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
-                        <div class="fullwidth input-content">
+                        <div class="text-center" fxLayoutAlign="center">
                             <p class="fullwidth text-right "> {{ row?.denominacion | number:'1.2'}}
                             </p>
                         </div>
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'recountAtm.previousCounter' | translate: {default: 'global.previousCounter'} |
                             translate}}</span>
@@ -123,7 +116,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'recountAtm.dispensed' | translate: {default: 'global.dispensed'} | translate}}</span>
                     </ng-template>
@@ -135,7 +128,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'recountAtm.rejected' | translate: {default: 'global.rejected'} | translate}}</span>
                     </ng-template>
@@ -147,7 +140,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'recountAtm.physical' | translate: {default: 'global.physical'} |
                             translate}}</span>
@@ -160,7 +153,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'recountAtm.spare' | translate: {default: 'global.spare'} |
                             translate}}</span>
@@ -173,7 +166,7 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true">
                     <ng-template ngx-datatable-header-template>
                         <span>{{'recountAtm.missing' | translate: {default: 'global.missing'} |
                             translate}} </span>
@@ -186,11 +179,9 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100" *ngIf="arqueoAtm.tipoArqueo === constants.ARQUEO_INCREMENTO">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'recountAtm.increment' | translate: {default: 'global.increment'} |
-                            translate}}</span>
-                    </ng-template>
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true" *ngIf="arqueoAtm.tipoArqueo === constants.ARQUEO_INCREMENTO" name="{{'recountAtm.increment' | translate: {default: 'global.increment'} |
+                    translate}}">
+
                     <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                         <div class="fullwidth input-content">
                             <p class="fullwidth text-right "> {{ row?.incremento | number:'1.0'}}
@@ -199,10 +190,9 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100" *ngIf="arqueoAtm.tipoArqueo === constants.ARQUEO_RETIRO">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'recountAtm.withdrawal' | translate: {default: 'global.withdrawal'} | translate}}</span>
-                    </ng-template>
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true" *ngIf="arqueoAtm.tipoArqueo === constants.ARQUEO_RETIRO"
+                    name="{{'recountAtm.withdrawal' | translate: {default: 'global.withdrawal'} | translate}}">
+
                     <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                         <div class="fullwidth input-content">
                             <p class="fullwidth text-right "> {{ row?.retiro | number:'1.0'}}
@@ -211,11 +201,9 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="100">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'recountAtm.currentCounter' | translate: {default: 'global.currentCounter'} |
-                            translate}}</span>
-                    </ng-template>
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true" name="{{'recountAtm.currentCounter' | translate: {default: 'global.currentCounter'} |
+                    translate}}">
+
                     <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                         <div class="fullwidth input-content">
                             <p class="fullwidth text-right "> {{ row?.actual | number:'1.0'}}
@@ -224,11 +212,8 @@
                     </ng-template>
                 </ngx-datatable-column>
 
-                <ngx-datatable-column [resizeable]="false" [width]="200">
-                    <ng-template ngx-datatable-header-template>
-                        <span>{{'recountAtm.amount' | translate: {default: 'global.amount'} |
-                            translate}}</span>
-                    </ng-template>
+                <ngx-datatable-column [resizeable]="false" [width]="150" [sortable]="true" name="{{'recountAtm.amount' | translate: {default: 'global.amount'} |
+                    translate}}">
                     <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
                         <div class="fullwidth input-content">
                             <p class="fullwidth text-right "> {{ row?.monto | number:'1.2'}}
@@ -238,6 +223,6 @@
                 </ngx-datatable-column>
             </ngx-datatable>
         </div>
-    </div>
 
+    </div>
 </mat-dialog-content>

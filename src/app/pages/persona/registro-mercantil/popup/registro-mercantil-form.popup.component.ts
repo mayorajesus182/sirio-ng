@@ -17,47 +17,35 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class RegistroMercantilFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   todayValue: moment.Moment;
-
   registroMercantil: RegistroMercantil = {} as RegistroMercantil;
   esGobierno: boolean = false;
 
-  
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<RegistroMercantilFormPopupComponent>,
-
     private calendarioService: CalendarioService,
-    
-    private registroMercantilService: RegistroMercantilService,        
-   // private tipoRelacionService: TipoRelacionService,
+    private registroMercantilService: RegistroMercantilService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
-
     super(dialogRef, injector)
   }
 
   ngAfterViewInit(): void {
-   
+
   }
 
   ngOnInit() {
 
-    console.log('this.defaults.payload    ', this.defaults.payload);
-
     this.esGobierno = (this.defaults.payload.tipoDocumento === GlobalConstants.TIPDOC_GOBIERNO);
-
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
-      
       this.registroMercantilService.get(this.defaults.payload.id).subscribe(data => {
         this.mode = 'global.add';
-
-
         this.registroMercantil = data;
-        this.registroMercantil.id =undefined;
+        this.registroMercantil.id = undefined;
         this.buildForm();
         this.loadingDataForm.next(false);
-       
+
       })
     } else {
       this.registroMercantil = {} as RegistroMercantil;
@@ -68,13 +56,10 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
     this.calendarioService.today().subscribe(data => {
       this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
     });
-
-    
   }
-  
-  
+
+
   buildForm() {
-//validar carcteres especiales
     this.itemForm = this.fb.group({
       nombre: new FormControl(this.registroMercantil.nombre || undefined),
       folio: new FormControl(this.registroMercantil.folio || undefined),
@@ -86,27 +71,17 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
       decreto: new FormControl(this.registroMercantil.decreto || undefined),
       codigoOnt: new FormControl(this.registroMercantil.codigoOnt || undefined),
     });
-
-
     this.cdr.detectChanges();
   }
 
   save() {
-    
-    console.log('mode ', this.mode);
     this.updateData(this.registroMercantil);// aca actualizamos Empresas Relacionadas
-    if(!this.registroMercantil.persona){
-      this.registroMercantil.persona=this.defaults.payload.persona;
-
+    if (!this.registroMercantil.persona) {
+      this.registroMercantil.persona = this.defaults.payload.persona;
     }
 
     this.registroMercantil.fecha = this.registroMercantil.fecha ? this.registroMercantil.fecha.format('DD/MM/YYYY') : '';
-    console.log(this.registroMercantil);
-    
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.registroMercantilService,this.registroMercantil,'RegistroMercantil',this.registroMercantil.id==undefined);
-    console.log(this.registroMercantil);
-    console.log(this.registroMercantilService);
+    this.saveOrUpdate(this.registroMercantilService, this.registroMercantil, 'RegistroMercantil', this.registroMercantil.id == undefined);
   }
-
 }
