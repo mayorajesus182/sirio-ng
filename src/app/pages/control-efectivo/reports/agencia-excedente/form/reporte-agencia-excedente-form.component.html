@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['remittancesReceivedRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['surplusAgenciesRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'remittancesReceivedRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{'surplusAgenciesRep.form'|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
 
@@ -29,8 +29,13 @@
 
                     <div fxLayout="column">
                         <form [formGroup]="itemForm" *ngIf="itemForm">
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                               
+                                <sirio-select-search fxFlex.gt-xs="100" *ngIf="!esGerente"
+                                    [label]="'surplusAgencies.region' | translate: {default: 'global.region'} | translate" formControlName="region"
+                                    [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors" [labelDef]="'TODOS'">
+                                </sirio-select-search>
 
-                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="10px" >
 
                                 <mat-form-field fxFlex="auto" floatLabel="always" fxLayoutGap.gt-sm="80px" >
                                     <mat-label>{{'remittancesSentRep.fromDate' | translate: {default: 'global.fromDate'} | translate }}</mat-label>
@@ -52,18 +57,16 @@
                     
                                 <mat-datepicker #fechaFinPicker></mat-datepicker>
 
-                                
+
+
                             </div>
                         </form>
                     </div>
-                
-
-
-
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
+                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
