@@ -27,19 +27,14 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class RetiroEfectivoFormComponent extends FormBaseComponent implements OnInit {
 
-    // public tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     retiro: Retiro = {} as Retiro;
     persona: Persona = {} as Persona;
     cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-    // isNew: boolean = false;
+    isNew: boolean = false;
     loading = new BehaviorSubject<boolean>(false);
-    // agencia: Agencia = {} as Agencia;
-    // moneda: Moneda = {} as Moneda;
-    // esRetiroEfectivo: boolean = false;
-    // detalleEfectivo: number = 0;
 
     constructor(
         injector: Injector,
@@ -66,7 +61,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.loadingDataForm.next(false);
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
-                        // console.log("priermemee", val);
                         this.calculateDifferences();
                         this.cdr.detectChanges();
                     } else if (val === null || val === '') {
@@ -74,19 +68,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                         this.cdr.detectChanges();
                     }
                 });
-
-                // this.f.totalRetiro.valueChanges.subscribe(val => {
-                //     if (val) {
-                //         // console.log("priermemee", val);
-
-                //         this.calculateDifferences();
-                //         // this.cdr.detectChanges();
-                //     } 
-                //     else if (val === null || val === '') {
-                //         this.f.totalRetiro.setValue(0.00);
-                //         this.cdr.detectChanges();
-                //     }
-                // });
 
                 this.cdr.detectChanges();
             }
@@ -96,14 +77,11 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     buildForm() {
 
         this.itemForm = this.fb.group({
-            // nombre: new FormControl(''),
             tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            // numper: new FormControl(undefined),
             numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             numeroCuenta: new FormControl(undefined),
-            // cuenta: new FormControl(undefined),
             moneda: new FormControl(undefined),
             tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             totalRetiro: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
@@ -197,32 +175,40 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
         let valor = (Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoRetiro) : montoRetiro)) >= 1);
-        if (valor) {
-
-            this.f.totalRetiro.setErrors({
-                totalDifference: true
-            });
+        if (valor || (event?.montoTotal===0)) {
 
             this.f.monto.setErrors({
                 difference: true
             });
-
+            
             if (event && (event.montoTotal > 0)) {
-
+                
                 this.f.totalRetiro.setValue(event.montoTotal);
+                this.f.totalRetiro.setErrors({
+                    totalDifference: true
+                });
+    
+                this.f.totalRetiro.markAsDirty();
+                this.cdr.detectChanges();
             }
+
             this.f.totalRetiro.markAsDirty();
+            this.f.monto.markAsDirty();
+            this.cdr.detectChanges()
 
         } else {
             if (event) {
 
-                // this.f.totalRetiro.setValue(this.f.monto.value);
-                this.f.totalRetiro.setValue(event.montoTotal);
+                this.f.totalRetiro.setValue(this.f.monto.value);
+                // this.f.totalRetiro.setValue(event.montoTotal);
+                this.f.totalRetiro.setErrors(undefined);
                 this.f.monto.setErrors(undefined);
-                this.cdr.detectChanges();
+            }else{
+                this.f.monto.setErrors({
+                    difference: true
+                });
+                this.f.monto.markAsDirty();
             }
-            this.f.totalRetiro.setErrors(undefined);
-            this.cdr.detectChanges();
         }
     }
 
@@ -236,8 +222,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.f.conoAnterior.setValue(event.desgloseConoAnterior);
         this.cdr.detectChanges();
     }
-
-
 
     save() {
         if (this.itemForm.invalid)
@@ -301,25 +285,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     }
 
     reset() {
-        // this.f.monto.reset({});
-        // this.f.totalRetiro.reset({});
-        // this.f.monto.setValue(0.00);
-        // this.f.conoActual
-        // this.f.monto.setValue(0.00);
-        // this.f.totalRetiro.setValue(0.00);
-        // // this.f.totalRetiro.setValue(0.00);
-        // if(this.persona.email){
-        //     this.f.email.setValue(this.persona.email);
-        // } else {
-        //     this.f.email.setValue('');
-        // }
-        // if(this.cuentaOperacion.email){
-        //     this.f.email.setValue(this.cuentaOperacion.email)
-        // }else{
-        //     this.f.email.setValue('');
-        // }
-
-        // this.itemForm.reset({});
         this.limpiar();
         if (this.persona.email) {
             this.f.email.setValue(this.persona.email);
