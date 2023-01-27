@@ -60,6 +60,7 @@ import { ShortSizePipe } from './pipes/short-size.pipe';
 import { AgeValidatorByDocumentType } from './input/age-validation-bydocumenttype.directive';
 import { StringPadDirective } from './input/string-pad.directive';
 import { MatTreeModule } from '@angular/material/tree';
+import { DisableZoomDirective } from './screen/zoom-disable.directive';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -129,6 +130,7 @@ export const DATE_FORMATS_CUSTOM = {
 };
 
 const toInclude = [
+  DisableZoomDirective,
   AutofocusDirective,
   NumAccountValidator,
   RifValidator,

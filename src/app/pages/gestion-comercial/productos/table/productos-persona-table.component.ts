@@ -62,7 +62,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   
         // Set all card elements to the same height
         cardElements.forEach((card) => {
-          card.nativeElement.style.height = tallestHeight + 'px';
+          // card.nativeElement.style.height = tallestHeight + 'px';
   
         });
   

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,6 +24,11 @@ import { RegularExpConstants } from 'src/@sirio/constants';
 })
 
 export class PerfilFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
+
+
+    @ViewChild('codigo') codigo: ElementRef;
+    @ViewChild('nombre') nombre: ElementRef;
+
 
     perfil: Perfil = {} as Perfil;
     
@@ -141,7 +146,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
     ngOnInit() {
 
         let id = this.route.snapshot.params['id'];
-        let tpl = this.route.snapshot.queryParams['t'];
+        // let tpl = this.route.snapshot.queryParams['t'];
         this.isNew = id == undefined;
         this.loadingDataForm.next(true);
 
@@ -150,16 +155,30 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
         this.loading$.subscribe(loaded => {
             if (!loaded) {
 
-                this.f.id.valueChanges.subscribe(value => {
+                // this.f.id.valueChanges.subscribe(value => {
 
-                    if (!this.f.id.errors) {
-                        this.codigoExists(value);
+                //     if (!this.f.id.errors) {
+                //         this.codigoExists(value);
+                //     }
+                // });
+
+                // this.f.nombre.valueChanges.subscribe(value => {
+                //     if (!this.f.nombre.errors) {
+                //         this.nameExists(value);
+                //     }
+                // });
+
+                this.eventFromElement(this.codigo, 'keyup')?.subscribe(() => {
+                    // this.filterChange.emit(this.filter.nativeElement.value);
+                    if (!this.f.id.errors && this.codigo.nativeElement.value.length > 4) {
+                        this.codigoExists(this.codigo.nativeElement.value);
                     }
                 });
 
-                this.f.nombre.valueChanges.subscribe(value => {
-                    if (!this.f.nombre.errors) {
-                        this.nameExists(value);
+                this.eventFromElement(this.codigo, 'keyup')?.subscribe(() => {
+                    // this.filterChange.emit(this.filter.nativeElement.value);
+                    if (!this.f.email.errors && this.codigo.nativeElement.value.length > 4) {
+                        this.nameExists(this.codigo.nativeElement.value);
                     }
                 });
             }
@@ -175,38 +194,39 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
                 
                 this.buildItemForm(this.perfil);
                 console.log('perfil ', this.perfil);
-                // cargar preseleccionados desde el modo edicion   
+        //         // cargar preseleccionados desde el modo edicion   
                 this.preSelecteds.next(this.perfil.permisos);
                 // this.loadPreselecteds();
 
                 // this.initTree();
 
 
-                // console.log('preseleecionados ', this.preSelecteds);
+                console.log('preseleecionados ', this.preSelecteds);
 
-                this.cdr.markForCheck();
-                this.loadingDataForm.next(false);
+        //         this.cdr.markForCheck();
+        //         this.loadingDataForm.next(false);
 
             }, err => {
 
                 this.loadingDataForm.next(false);
-                this.router.navigate(['/autorizacion/perfiles']);
+                this.buildItemForm({} as Perfil);
+        //         this.router.navigate(['/autorizacion/perfiles']);
 
-                this.snack.show({
-                    message: 'La Perfil solicitado no esta registrado!',
-                    verticalPosition: 'bottom',
-                    type: 'danger'
-                });
+        //         this.snack.show({
+        //             message: 'La Perfil solicitado no esta registrado!',
+        //             verticalPosition: 'bottom',
+        //             type: 'danger'
+        //         });
             });
         } else {
             
             this.buildItemForm(this.perfil);
             this.loadingDataForm.next(false);
 
-            if (!tpl) {
-                console.log('init tree sin template');
+            // if (!tpl) {
+            //     console.log('init tree sin template');
                 // this.initTree();
-            }
+            // }
         }
 
     }
@@ -219,7 +239,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
             if (data.length == 0) {
                 return;
             }
-            // console.log('data tree ',data);
+            console.log('data tree ',data);
 
             data.forEach((element, index) => {
 
@@ -243,7 +263,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
             // console.log(this.modulos);
 
-            this.cdr.markForCheck();
+            this.cdr.detectChanges();
         });
     }
 
@@ -294,7 +314,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
         });
 
 
-        console.log(this.perfil);
+        // console.log(this.perfil);
 
 
         this.saveOrUpdate(this.perfilService, this.perfil, 'El perfil', this.isNew).subscribe(result => {

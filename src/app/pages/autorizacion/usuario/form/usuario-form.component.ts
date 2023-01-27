@@ -179,7 +179,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
     buildForm() {
         this.itemForm = this.fb.group({
-            id: new FormControl(this.usuario.id || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({value:this.usuario.id || '',disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             identificacion: new FormControl(this.usuario.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(this.usuario.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             email: new FormControl(this.usuario.email || '', [Validators.required]),
