@@ -25,7 +25,8 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   apoderadoList:ReplaySubject<Apoderado[]> = new ReplaySubject<Apoderado[]>();
-  
+  apoderados: string[] = [];
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -38,23 +39,18 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
   }
 
   private loadList(){
+    this.apoderados = []
     this.apoderadoService.allByPersonaId(this.persona).subscribe((data) => {
-            
       this.apoderadoList.next(data.slice());
+      this.apoderados = this.apoderados.concat(data.map(t => t.identificacion));
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
 
   ngOnInit() {
-
-  
-
-  
-    console.log('apoderado table');
     
     if(this.persona){
-      console.log('buscando apoderado en el servidor dado el id persona');
       this.loadList();
 
       this.onRefresh.subscribe(val=>{
@@ -72,15 +68,12 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
 
 
   edit(data: Apoderado) {
-    //console.log('data event click ', data);
-
   }
 
   delete(row) {
     this.swalService.show('¿Desea Eliminar El Apoderado?', undefined,
     { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando apoderado',row.id);
           this.apoderadoService.delete(row.id).subscribe(val=>{
             if(val){
               this.loadList();
@@ -97,12 +90,10 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
   }
 
   popup(data?:Apoderado) {
-    console.log(data);
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona}:data,'80%').afterClosed().subscribe(event=>{
-      console.log(event);
+    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona, apoderados: this.apoderados}:{ ...data, ...{ apoderados: this.apoderados } },'80%').afterClosed().subscribe(event=>{
       
         if(event){
             this.onRefresh.next(true);

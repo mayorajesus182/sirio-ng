@@ -33,32 +33,18 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
     super(undefined, injector);
   }
   
-  // private loadList(){
-  //   this.empresaRelacionadaService.allByPersonaId(this.persona).subscribe((data) => {
-  //     console.log(data);
-      
-  //     this.empresaRelacionadaList.next(data.slice());
-  //     this.cdr.detectChanges();
-  //   });
-  // }
 
   private loadList(){
     this.empresaRelacionadaService.allByPersonaId(this.persona).subscribe((data) => {
             
       this.empresaRelacionadaList.next(data.slice());
-      console.log('empresa relacionadas',data);
-      
-      // this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
   }
 
   
   ngOnInit() {
-    console.log('empresaRelacionada table');
-    
     if(this.persona){
-      console.log('buscando Relación Empresa en el servidor dado el id persona');
       this.loadList();
 
       this.onRefresh.subscribe(val=>{
@@ -76,7 +62,6 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
 
       { 'html': ' <b>' + row.relacionEmpresa +' : ' + row.empresa + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          // console.log('buscando telefono',row.id);
           this.empresaRelacionadaService.delete(row.id).subscribe(val=>{
             if(val){
               this.loadList();
@@ -92,13 +77,11 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
   }
 
   popup(data?:EmpresaRelacionada) {
-    console.log(data);
     if(data){
       data.persona=this.persona;
     }    
     this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
-      console.log(event);
-      
+
         if(event){
             this.onRefresh.next(true);
         }

@@ -22,7 +22,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
   @Input() persona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   accionistaDirectivoList: ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
-
+  accionistas: string[] = [];
   porcentajeAccionario: number = 0;
 
   constructor(
@@ -36,10 +36,12 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
   }
 
   private loadList() {
+    this.accionistas = []
     this.porcentajeAccionario = 0
     this.accionistaDirectivoService.allByPersonaId(this.persona).subscribe((data) => {
       this.porcentajeAccionario = data.length > 0 ? data.map(t => t.porcentaje | 0).reduce((a, b) => a + b) : 0;
       this.accionistaDirectivoList.next(data.slice());
+      this.accionistas = this.accionistas.concat(data.map(t => t.tipoDocumento+'-'+t.identificacion));
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
@@ -77,7 +79,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
     if (data) {
       data.persona = this.persona;
     }
-    this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data ? { persona: this.persona, porcentajeAccionario: this.porcentajeAccionario } : data, '70%').afterClosed().subscribe(event => {
+    this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data ? { persona: this.persona, porcentajeAccionario: this.porcentajeAccionario, accionistas: this.accionistas  } : { ...data, ...{ accionistas: this.accionistas } }, '70%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit }
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { Construccion, ConstruccionService } from 'src/@sirio/domain/services/configuracion/domicilio/construccion.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
@@ -24,6 +24,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
   direccion: Direccion = {} as Direccion;
   principal: boolean=false;
+  primerRegistro: boolean=false;
   public tiposDirecciones = new BehaviorSubject<TipoDireccion[]>([]);
   public parroquias = new BehaviorSubject<Parroquia[]>([]);
   public municipios = new BehaviorSubject<Municipio[]>([]);
@@ -50,6 +51,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
     super(dialogRef, injector)
   }
+
   ngAfterViewInit(): void {
     // esto se utiliza en modo edición
     this.loading$.subscribe(loading => {
@@ -76,15 +78,15 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
         }
 
         this.tipoDireccionesService.actives().subscribe(data => {
-          if(this.isNew ){
-            if(!this.principal){
-              this.tiposDirecciones.next(data);              
-            }else{              
-              this.tiposDirecciones.next(data.filter(t=>t.id!='PR'));
-            }
-          }else{
+          // if(this.isNew ){
+          //   if(!this.principal){
+          //     this.tiposDirecciones.next(data);              
+          //   }else{              
+          //     this.tiposDirecciones.next(data.filter(t=>t.id!='PR'));
+          //   }
+          // }else{
             this.tiposDirecciones.next(data);
-          }
+          // }
           this.cdr.detectChanges();
         })
     
@@ -114,16 +116,17 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
   ngOnInit() {
 
-    this.principal = this.defaults.payload.principal;
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.mode = 'global.edit';
+      this.principal = this.defaults.payload.tipoDireccion == GlobalConstants.DIRECCION_PRINCIPAL;
       this.direccionService.get(this.defaults.payload.id).subscribe(data => {
         this.direccion = data;
         this.buildForm();
         this.loadingDataForm.next(false);
       })
     } else {
+      this.primerRegistro = this.defaults.payload.primero;
       this.direccion = {} as Direccion;
       this.buildForm();
       this.loadingDataForm.next(false);
@@ -133,7 +136,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   buildForm() {
 
     this.itemForm = this.fb.group({
-      tipoDireccion: new FormControl(this.direccion.tipoDireccion || '', [Validators.required]),
+      tipoDireccion: new FormControl(this.direccion.tipoDireccion || (this.primerRegistro ? GlobalConstants.DIRECCION_PRINCIPAL : undefined), [Validators.required]),
       parroquia: new FormControl(this.direccion.parroquia || '', [Validators.required]),
       estado: new FormControl(this.direccion.estado || '', [Validators.required]),
       municipio: new FormControl(this.direccion.municipio || '', [Validators.required]),
@@ -185,7 +188,8 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   }
 
   save() {
-    this.updateData(this.direccion);// aca actualizamos la direccion
+    this.updateData(this.direccion);
+
     if(this.isNew){
       this.direccion.persona = this.defaults.payload.persona;
     }

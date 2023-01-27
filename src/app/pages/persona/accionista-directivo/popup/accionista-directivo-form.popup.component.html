@@ -18,12 +18,6 @@
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-            <!-- <div fxFlex.gt-sm="30" class="text-right margin-top-md">
-                <mat-slide-toggle [color]="'primary'" formControlName="activo" name="activo">
-                {{'¿Es Principal?' }}
-                </mat-slide-toggle>
-            </div> -->
-
             <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Documento'" [readonly]="!isNew" formControlName="tipoDocumento" [required]="true"
                 [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
             </sirio-select-search>
@@ -32,10 +26,9 @@
                 <mat-label>{{'Número Documento ' | translate: {default:
                     'Número Documento '} | translate }} </mat-label>
                 <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required class="text-center">
-                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
-                </mat-error>
-                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
-                </mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex="50">

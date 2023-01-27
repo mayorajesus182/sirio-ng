@@ -123,14 +123,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         this.loadingDataForm.next(false);
 
         this.calendarioService.today().subscribe(data => {
-
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-
-            console.log('AA Referencia1 ', this.todayValue.year());
             this.cdr.detectChanges();
-
-            // console.log('AA Referencia 2', this.todayValue.year);
-
         });
 
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_JURIDICA).subscribe(data => {
@@ -160,11 +154,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
 
         this.route.paramMap.subscribe(data => {
-            // console.log('params', data);
-            
-            if(data.get('doc') && data.get('tdoc')){
-                // console.log('entro ');
 
+            if(data.get('doc') && data.get('tdoc')){
                 this.fromOtherComponent=true
                 this.isNew=true;
                 this.personaJuridica.identificacion=data.get('doc');
@@ -228,8 +219,6 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
 
     addPerson(event) {
-        console.log('create ', event);
-        console.log('add new person');
         this.isNew = true;
         this.updateDataFromValues(this.personaJuridica, event);
         this.buildForm();
@@ -237,7 +226,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     updatePerson(event) {
-        console.log('update ', event);
+
         if(!event.id){
             return;
         }
@@ -245,13 +234,11 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
         this.loadingDataForm.next(true);
         this.isNew = false;
-        console.log('current loaded ', this.loaded$.value);
 
         this.loaded$.next(false);
         this.loadingDataForm.next(true);
         this.personaJuridicaService.get(Number.parseInt(event.id)).subscribe(val => {
             this.personaJuridica = val;
-            console.log('PERSONAAAA: ', val);
             //TODO: OJO REVISAR ESTO LUEGO
             // this.itemForm.reset({});
             this.buildForm();
@@ -264,8 +251,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     queryResult(event) {
-        console.log('event result ',event);
-        
+
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
             this.personaJuridica = {} as PersonaJuridica;
@@ -285,7 +271,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         if (this.isNew) {
 
             this.personaJuridicaService.save(this.personaJuridica).subscribe(data => {
-                // console.log(data);
+     
                 this.isNew= data.id==undefined;
                 this.personaJuridica = data;
                 this.successResponse('La persona', 'creada',true);
@@ -304,8 +290,6 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     send() {
-
-        console.log('send data al banco');
     }
 
 
@@ -328,12 +312,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     updateApoderado(event){
-        console.log('apoderado', event);
         this.totalApoderado= event;
     }
 
     updateEmpresaRelacionada(event){
-        console.log('peps', event);
         this.totalPep= event;
     }
 

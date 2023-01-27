@@ -49,7 +49,7 @@
                     matTooltip="{{'button.update' | translate}}">
                     <mat-icon>edit</mat-icon>
                 </button> &nbsp;
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="delete(row)" matTooltip="Eliminar">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="delete(row)" matTooltip="Eliminar" *ngIf="row?.principal !== 1">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>

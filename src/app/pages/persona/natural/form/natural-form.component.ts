@@ -150,8 +150,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
 
         this.estadoCivilService.actives().subscribe(data => {
-            console.log('estado civil ',data);
-            
             this.estadosCiviles.next(data);
         });
 
@@ -178,11 +176,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
         this.route.paramMap.subscribe(data => {
-            // console.log('params', data);
             
             if(data.get('doc') && data.get('tdoc')){
-                // console.log('entro ');
-
                 this.fromOtherComponent=true
                 this.isNew=true;
                 this.personaNatural.identificacion=data.get('doc');
@@ -282,21 +277,14 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
     addPerson(event) {
-        //console.log('create ', event);
-        //console.log('add new person');
         this.isNew = true;
         this.updateDataFromValues(this.personaNatural, event);
         this.buildForm(this.personaNatural);
         this.loaded$.next(true);
-        // if(this.itemForm){
-        //     this.f.tipoDocumento.setValue(this.personaNatural.tipoDocumento);
-        //     this.f.identificacion.setValue(this.personaNatural.identificacion);
-        // }
 
     }
 
     updatePerson(event) {
-        //console.log('update ', event);
         if (!event.id) {
             return;
         }
@@ -304,13 +292,12 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         this.loadingDataForm.next(true);
         this.isNew = false;
-        //console.log('current loaded ', this.loaded$.value);
 
         this.loaded$.next(false);
         this.loadingDataForm.next(true);
         this.personaNaturalService.get(Number.parseInt(event.id)).subscribe(val => {
             this.personaNatural = val;
-            //console.log('PERSONAAAA: ', val);
+ 
             //TODO: OJO REVISAR ESTO LUEGO
             // this.itemForm.reset({});
             this.buildForm(this.personaNatural);
@@ -323,7 +310,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     queryResult(event) {
-        //console.log('event result ', event);
 
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
@@ -338,17 +324,11 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             return;
 
         this.updateData(this.personaNatural);
-
-        // console.log(this.personaNatural);
         this.personaNatural.fechaNacimiento = this.personaNatural.fechaNacimiento.format('DD/MM/YYYY');
-
-
-        // this.saveOrUpdate(this.personaNaturalService, this.personaNatural, 'El Registro de Persona').subscribe(resp=>//console.log(resp));
 
         if (this.isNew) {
 
             this.personaNaturalService.save(this.personaNatural).subscribe(data => {
-                //console.log(data);
                 this.isNew= data.id==undefined;
                 this.personaNatural = data;
                 this.successResponse('La persona', 'creada',true);
@@ -367,8 +347,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     send() {
-
-        //console.log('send data al banco');
     }
 
 
@@ -394,12 +372,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     updateApoderado(event) {
-        //console.log('apoderado', event);
         this.totalApoderado = event;
     }
 
     updateEmpresaRelacionada(event) {
-        //console.log('peps', event);
         this.totalPep = event;
     }
 

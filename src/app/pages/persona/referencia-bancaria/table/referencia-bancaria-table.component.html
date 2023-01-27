@@ -30,7 +30,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="280" name="Cuenta">
+    <ngx-datatable-column [resizeable]="false" [width]="280" name="Número de Cuenta">
         <ng-template let-row="row" ngx-datatable-cell-template >
             <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.numeroCuenta | imask:{mask: '0000 0000 00 00 00000000'} }}</div>
         </ng-template>

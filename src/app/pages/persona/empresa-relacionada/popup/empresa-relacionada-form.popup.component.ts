@@ -39,16 +39,12 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
 
     if (GlobalConstants.TIPO_PERSONA == 'J') {
       this.tipoRelacionService.actives().subscribe(data => {
-        console.log(data);
-        
         this.tipoRelacionList.next(data);
         this.cdr.detectChanges();
       })
 
     } else {
       this.tipoRelacionService.activesForNatural().subscribe(data => {
-        console.log(data);
-        
         this.tipoRelacionList.next(data);
         this.cdr.detectChanges();
       })        
@@ -76,8 +72,8 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
     this.itemForm = this.fb.group({
       
       relacionEmpresa: new FormControl(this.empresaRelacionada.relacionEmpresa || undefined, [Validators.required]),
-      empresa: new FormControl(this.empresaRelacionada.empresa || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      direccion: new FormControl(this.empresaRelacionada.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)])
+      empresa: new FormControl(this.empresaRelacionada.empresa || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+      direccion: new FormControl(this.empresaRelacionada.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)])
     });
 
 
@@ -86,13 +82,9 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
 
   save() {
     
-    console.log('mode ', this.mode);
     this.updateData(this.empresaRelacionada);// aca actualizamos Empresas Relacionadas
     this.empresaRelacionada.persona=this.defaults.payload.persona;
-    console.log(this.empresaRelacionada);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.empresaRelacionadaService,this.empresaRelacionada,'EmpresaRelacionada',this.empresaRelacionada.id==undefined);
-    console.log(this.empresaRelacionada);
-    console.log(this.empresaRelacionadaService);
   }
 }
