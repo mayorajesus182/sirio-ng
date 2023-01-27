@@ -69,7 +69,7 @@
                                             <mat-label>{{'naturalPerson.identification' | translate: {default:
                                                 'global.identification'} | translate }} </mat-label>
                                             <input matInput maxlength="15" minlength="1" autocomplete="off" name="identificacion"
-                                                formControlName="identificacion" uppercase required>
+                                                formControlName="identificacion" uppercase required class="text-center">
                                             <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' |
                                                 translate}}
                                             </mat-error>
@@ -77,16 +77,6 @@
                                                 {{'error.invalidCharacter' |
                                                 translate}}
                                             </mat-error>
-                                        </mat-form-field>
-
-                                        <mat-form-field fxFlex="auto">
-                                            <mat-label>{{'naturalPerson.email' | translate: {default:
-                                                'global.email'} | translate }} </mat-label>
-                                            <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
-                                                email-validate>
-                                            <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}
-                                            </mat-error>
-                                            <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
                                         </mat-form-field>
 
 
@@ -150,7 +140,7 @@
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <mat-form-field fxFlex="auto">
+                                        <mat-form-field fxFlex="25">
                                             <mat-label>{{'naturalPerson.birthDate' | translate: {default:'global.birthDate'} | translate }}</mat-label>
                                             <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
                                                 age-document-type document="{{f.tipoDocumento.value}}" today="{{todayValue}}" formControlName="fechaNacimiento"
@@ -170,29 +160,29 @@
 
 
 
-                                        <sirio-select-search fxFlex="auto"
+                                        <sirio-select-search fxFlex="25"
                                             [label]="'País de Nacimiento' | translate: {default: 'País de Nacimiento'} | translate" formControlName="pais"
                                             [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="auto"
+                                        <sirio-select-search fxFlex="25"
                                             [label]="'naturalPerson.nationality' | translate: {default: 'global.nationality'} | translate"
                                             formControlName="nacionalidad" [required]="true" [elements]="nacionadades.asObservable()"
                                             [attributeName]="'nombre'">
                                         </sirio-select-search>
 
-
+                                        <sirio-select-search fxFlex="25"
+                                            [label]="'naturalPerson.anotherNationality' | translate: {default: 'global.anotherNationality'} | translate"
+                                            formControlName="otraNacionalidad" [required]="false" [elements]="paises.asObservable()" [attributeName]="'nombre'">
+                                        </sirio-select-search>
 
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                        <sirio-select-search fxFlex="auto"
-                                            [label]="'naturalPerson.anotherNationality' | translate: {default: 'global.anotherNationality'} | translate"
-                                            formControlName="otraNacionalidad" [required]="false" [elements]="paises.asObservable()" [attributeName]="'nombre'">
-                                        </sirio-select-search>
 
-                                        <sirio-select-simple fxFlex="auto" [label]="'naturalPerson.gender' | translate: {default: 'global.gender'} | translate"
+
+                                        <sirio-select-simple fxFlex="20" [label]="'naturalPerson.gender' | translate: {default: 'global.gender'} | translate"
                                             formControlName="genero" [required]="true" [elements]="generos.asObservable()" [attributeName]="'nombre'">
                                         </sirio-select-simple>
 
@@ -201,19 +191,31 @@
                                             [required]="true" [elements]="profesiones.asObservable()" [attributeName]="'nombre'">
                                         </sirio-select-search>
 
+
+                                        <mat-form-field fxFlex="auto">
+                                            <mat-label>{{'naturalPerson.email' | translate: {default:
+                                                'global.email'} | translate }} </mat-label>
+                                            <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
+                                                email-validate>
+                                            <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                        </mat-form-field>
+
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                        <sirio-select-simple fxFlex="auto" [label]="'naturalPerson.tenure' | translate: {default: 'global.tenure'} | translate"
-                                            formControlName="tenencia" [required]="true" [elements]="tenencias.asObservable()" [attributeName]="'nombre'">
-                                        </sirio-select-simple>
 
                                         <sirio-select-simple fxFlex="auto"
                                             [label]="'naturalPerson.maritalStatus' | translate: {default: 'global.maritalStatus'} | translate"
                                             formControlName="estadoCivil" [required]="true" [elements]="estadosCiviles.asObservable()"
                                             [attributeName]="'nombre'">
                                         </sirio-select-simple>
+
+                                        <sirio-select-simple fxFlex="auto" [label]="'naturalPerson.tenure' | translate: {default: 'global.tenure'} | translate"
+                                            formControlName="tenencia" [required]="true" [elements]="tenencias.asObservable()" [attributeName]="'nombre'">
+                                        </sirio-select-simple>
+
 
                                         <mat-form-field fxFlex="auto">
                                             <mat-label>{{'naturalPerson.familyBurden' | translate: {default:

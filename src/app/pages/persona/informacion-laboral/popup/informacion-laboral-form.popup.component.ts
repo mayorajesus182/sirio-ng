@@ -129,7 +129,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       this.removeValidator(['tipoIngreso','remuneracion','actividadIndependiente']);
     }
     if(val === TipoIngresoConstants.NEGOCIO_PROPIO){
-      this.removeValidator(['tipoIngreso','remuneracion','ramo','direccion', 'telefono', 'registro', 'numero', 'tomo', 'folio', 'fecha' ]);
+      this.removeValidator(['tipoIngreso','remuneracion','ramo','direccion', 'telefono', 'registro', 'numero', 'tomo', 'folio', 'fecha','empresa', 'identificacion' ]);
     }
     
     if(val === TipoIngresoConstants.RELACION_DEPENDENCIA){

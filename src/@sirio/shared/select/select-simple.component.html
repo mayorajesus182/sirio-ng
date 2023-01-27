@@ -3,7 +3,7 @@
 
     <mat-select  *ngIf="!readonly" [formControl]="selectControl" #singleSelect
         (change)="propagateChange($event.target.value)" (blur)="propagateTouched($event)" [required]="required">
-        <mat-option *ngIf="!required" ><small>Ninguno</small></mat-option>
+        <mat-option *ngIf="!required" ><small>NINGUNO</small></mat-option>
         <mat-option *ngFor="let elem of filteredElements | async" [value]="elem.id">
             <small>{{elem[attributeName]}}</small>
         </mat-option>

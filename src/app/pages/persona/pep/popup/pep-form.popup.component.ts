@@ -22,6 +22,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   public paisList = new BehaviorSubject<Pais[]>([]);
   public Pep = PepConstants;
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
+  peps = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -40,6 +41,8 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   }
 
   ngOnInit() {
+
+    this.peps = this.defaults.payload.peps;
 
     this.tipoPepService.activesForNatural().subscribe(data => {
       this.tipoPepList.next(data);
@@ -72,25 +75,6 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     }
   }
 
-  // refreshValidators(val:string){
-  //   if(!val){
-  //     return;
-  //   }
-
-  //   if(val === PepConstants.ASOCIADO){
-  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-  //   }
-  //   if(val === PepConstants.CLIENTE){
-  //     this.removeValidator(['ente','cargo','pais']);
-  //   }
-    
-  //   if(val === PepConstants.PARENTESCO){
-  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-  //   }
-
-  //   this.cdr.detectChanges();
-  // }
-
 
   buildForm() {
     this.itemForm = this.fb.group({
@@ -103,7 +87,27 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
 
+    this.f.identificacion.valueChanges.subscribe(val => {
+
+      if (val) {
+        if (!this.validatePeps(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined, this.f.identificacion ? this.f.identificacion.value : undefined)) {
+          this.f.identificacion.setErrors({ exists: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+        }
+      }
+    });
+
     this.cdr.detectChanges();
+  }
+
+
+  validatePeps(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    this.cdr.detectChanges();
+    return this.peps.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
 
   isRdOrNp() {
