@@ -220,7 +220,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             estadoCivil: new FormControl(personaNatural.estadoCivil || undefined, [Validators.required]),
             actividadEconomica: new FormControl(personaNatural.actividadEconomica || undefined, [Validators.required]),
             actividadEspecifica: new FormControl(personaNatural.actividadEspecifica || undefined, [Validators.required]),
-            categoriaEspecial: new FormControl(personaNatural.categoriaEspecial || undefined),
+            categoriaEspecial: new FormControl(personaNatural.categoriaEspecial || undefined, [Validators.required]),
             tipoDocumentoConyuge: new FormControl(personaNatural.tipoDocumentoConyuge || undefined),
             identificacionConyuge: new FormControl(personaNatural.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombreConyuge: new FormControl(personaNatural.nombreConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),

@@ -42,7 +42,7 @@ export class RifValidator implements Validator {
         }
 
         if(!this.tipoDocumento){
-            return { rif: 'El valor no representa una estructura de RIF, deben seleccionar el tipo de documento' };
+            return { rif: 'Número de Documento Inválido' };
         }
 
         var TYPE = {
@@ -66,7 +66,7 @@ export class RifValidator implements Validator {
 
         if (!TYPE[t]) {
             control.markAsTouched();
-            return { rif: 'El valor no representa una estructura de RIF, deben comenzar con J,V,E,G,P,C,W, H o R' };
+            return { rif: 'Número de Documento Inválido' };
         }
 
         let rif = modelValue;
@@ -74,15 +74,15 @@ export class RifValidator implements Validator {
         if (tipoPerona !== undefined) {
             if (tipoPerona === 'NAT' && !this.legal.includes(t)) {
                 control.markAsTouched();
-                return { rif: 'El valor suministrado es inválido no pertenece al tipo de persona natural' };
+                return { rif: 'Número de Documento Inválido' };
             } else if (tipoPerona === 'JUR' && !this.natural.includes(t)) {
                 control.markAsTouched();
-                return { rif: 'El valor suministrado es inválido no pertenece al tipo de persona jurídica' };
+                return { rif: 'Número de Documento Inválido' };
             }
         }
 
         if (rif.length != 9) {
-            return { rif: 'El valor no representa una estructura de RIF, su longitud debe ser de diez(9) digitos' };
+            return { rif: 'Número de Documento Inválido' };
         }
 
         rif = TYPE[t] + rif;
@@ -94,7 +94,7 @@ export class RifValidator implements Validator {
 
         if (controlGen < 0 || controlGen != rif.charAt(rif.length - 1)) {
             control.markAsTouched();
-            return { rif: 'El valor del RIF suministrado es inválido' };
+            return { rif: 'Número de Documento Inválido' };
         }
 
 
