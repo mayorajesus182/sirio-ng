@@ -29,6 +29,10 @@ export class CargoService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesForAccionistas(): Observable<Cargo[]> {
+        return this.apiService.config(this.apiConfig).get('/foraccionistas/actives');
+    }
+
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }

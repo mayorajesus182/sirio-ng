@@ -12,8 +12,9 @@
 </sirio-dialog-header>
 
 
-<form [formGroup]="itemForm" *ngIf="itemForm">
-  <mat-dialog-content>
+<mat-dialog-content>
+    <form [formGroup]="itemForm" *ngIf="itemForm">
+
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
         [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'">
@@ -59,10 +60,12 @@
           <mat-error *ngIf="f.telefonoMovil.errors?.phone">{{f.telefonoMovil.errors?.phone}}  </mat-error>
         </mat-form-field>
     </div>
+
+  </form>
   </mat-dialog-content>
   <!-- {{printErrors() | json}} -->
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
     <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
   </mat-dialog-actions>
-</form>

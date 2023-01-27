@@ -41,7 +41,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
   ngOnInit() {
 
-    this.tipoPepService.actives().subscribe(data => {      
+    this.tipoPepService.activesForNatural().subscribe(data => {
       this.tipoPepList.next(data);
       this.cdr.detectChanges();
     })
@@ -72,24 +72,24 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     }
   }
 
-  refreshValidators(val:string){
-    if(!val){
-      return;
-    }
+  // refreshValidators(val:string){
+  //   if(!val){
+  //     return;
+  //   }
 
-    if(val === PepConstants.ASOCIADO){
-      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-    }
-    if(val === PepConstants.CLIENTE){
-      this.removeValidator(['ente','cargo','pais']);
-    }
+  //   if(val === PepConstants.ASOCIADO){
+  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+  //   }
+  //   if(val === PepConstants.CLIENTE){
+  //     this.removeValidator(['ente','cargo','pais']);
+  //   }
     
-    if(val === PepConstants.PARENTESCO){
-      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-    }
+  //   if(val === PepConstants.PARENTESCO){
+  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+  //   }
 
-    this.cdr.detectChanges();
-  }
+  //   this.cdr.detectChanges();
+  // }
 
 
   buildForm() {
@@ -128,13 +128,13 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     this.saveOrUpdate(this.pepService,this.pep,'PEP',this.pep.id==undefined);
   }
 
-  private removeValidator(ignoreKeys: string[]) {
-    Object.keys(this.f).forEach(key => {
-      if (!ignoreKeys.includes(key)) {
-        this.itemForm.get(key).setErrors(null);
-        this.cdr.detectChanges();
-      }
-    });
-  }
+  // private removeValidator(ignoreKeys: string[]) {
+  //   Object.keys(this.f).forEach(key => {
+  //     if (!ignoreKeys.includes(key)) {
+  //       this.itemForm.get(key).setErrors(null);
+  //       this.cdr.detectChanges();
+  //     }
+  //   });
+  // }
 
 }

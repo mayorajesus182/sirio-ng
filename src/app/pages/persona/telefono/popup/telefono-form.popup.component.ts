@@ -122,7 +122,8 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     this.telefono.numero = this.telefono.numero.split('-').join('');
     this.telefono.principal = this.telefono.principal? 1 : 0;
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.telefonoService,this.telefono,'Télefono',this.telefono.id==undefined);
+    this.saveOrUpdate(this.telefonoService,this.telefono,'Teléfono',this.telefono.id==undefined);
+
   }
 
   evaluarEsPrincipal(): boolean {

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -22,6 +23,7 @@ export class ArqueoAtmDetailPopupComponent extends PopupBaseComponent implements
     public detalles = new BehaviorSubject<DetalleArqueo[]>([]);
     arqueoAtm: any = {} as any;
     constants = GlobalConstants;
+    columnMode = ColumnMode;
 
     constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
         protected injector: Injector,

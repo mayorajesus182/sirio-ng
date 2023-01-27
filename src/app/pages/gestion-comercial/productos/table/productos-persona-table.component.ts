@@ -95,7 +95,7 @@ export class ProductosPersonaTableComponent extends TableBaseComponent implement
   }
 
   ngAfterViewInit() {
-    // this.afterInit();
+    
   }
 
   edit(data: any) {

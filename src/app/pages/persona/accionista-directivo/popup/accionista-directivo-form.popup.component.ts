@@ -26,7 +26,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   accionistaDirectivo: AccionistaDirectivo = {} as AccionistaDirectivo;
   pepAccionista: PepAccionista = {} as PepAccionista;
 
-  public Pep = PepConstants;
+  public pepConstants = PepConstants;
 
   porcentajeAccionario:number=0;
 
@@ -74,7 +74,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
     this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
 
-    this.tipoPepService.actives().subscribe(data => {
+    this.tipoPepService.activesForJuridico().subscribe(data => {
 
       this.tipoPepList.next(data);
       this.cdr.detectChanges();
@@ -98,7 +98,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       this.cdr.detectChanges();
     })
 
-    this.cargoService.actives().subscribe(data => {
+    this.cargoService.activesForAccionistas().subscribe(data => {
 
       this.cargoList.next(data);
       this.cdr.detectChanges();
@@ -125,24 +125,24 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.buildPepForm();
   }
 
-  refreshValidators(val:string){
-    if(!val){
-      return;
-    }
+  // refreshValidators(val:string){
+  //   if(!val){
+  //     return;
+  //   }
 
-    if(val === PepConstants.ASOCIADO){
-      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-    }
-    if(val === PepConstants.CLIENTE){
-      this.removeValidator(['ente','cargo','pais']);
-    }
+  //   if(val === PepConstants.ASOCIADO){
+  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+  //   }
+  //   if(val === PepConstants.CLIENTE){
+  //     this.removeValidator(['ente','cargo','pais']);
+  //   }
     
-    if(val === PepConstants.PARENTESCO){
-      this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-    }
+  //   if(val === PepConstants.PARENTESCO){
+  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
+  //   }
 
-    this.cdr.detectChanges();
-  }
+  //   this.cdr.detectChanges();
+  // }
 
 
   buildForm() {
@@ -152,7 +152,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       identificacion: new FormControl(this.accionistaDirectivo.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       nombre: new FormControl(this.accionistaDirectivo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.accionistaDirectivo.cargo || undefined, [Validators.required]),
-      porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+      porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || 0, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
       esPep: new FormControl(false),
 
     });
@@ -176,7 +176,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   buildPepForm() {
     this.pepAccionistaForm = this.fb.group({
       // tipoPep: const newLocal = (new FormControl(this.pepAccionista.tipoPep || undefined, [Validators.required]),
-      tipoPep: new FormControl(this.pepAccionista.tipoPep || '', [Validators.required]),
+      tipoPep: new FormControl(this.pepAccionista.tipoPep || undefined, [Validators.required]),
       // tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || '', [Validators.required]),
 
       identificacion: new FormControl(this.pepAccionista.identificacion || undefined),
@@ -213,7 +213,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
     this.cf.tipoPep.valueChanges.subscribe(val => {
       if (val) {
-        if (val==this.Pep.CLIENTE) {
+        if (val==this.pepConstants.CLIENTE) {
           this.cf.identificacion.setValue('')
           this.cf.tipoDocumento.setValue(undefined)
           this.cf.identificacion.setErrors(undefined)
@@ -300,12 +300,12 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   }
 
-  private removeValidator(ignoreKeys: string[]) {
-    Object.keys(this.f).forEach(key => {
-      if (!ignoreKeys.includes(key)) {
-        this.itemForm.get(key).setErrors(null);
-        this.cdr.detectChanges();
-      }
-    });
-  }
+  // private removeValidator(ignoreKeys: string[]) {
+  //   Object.keys(this.f).forEach(key => {
+  //     if (!ignoreKeys.includes(key)) {
+  //       this.itemForm.get(key).setErrors(null);
+  //       this.cdr.detectChanges();
+  //     }
+  //   });
+  // }
 }

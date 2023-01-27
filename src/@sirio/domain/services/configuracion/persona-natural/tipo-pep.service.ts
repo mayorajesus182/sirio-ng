@@ -29,6 +29,14 @@ export class TipoPepService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesForNatural(): Observable<TipoPep[]> {
+        return this.apiService.config(this.apiConfig).get('/fornatural/actives');
+    }
+
+    activesForJuridico(): Observable<TipoPep[]> {
+        return this.apiService.config(this.apiConfig).get('/forjuridico/actives');
+    }
+
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }

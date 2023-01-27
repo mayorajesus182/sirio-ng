@@ -186,29 +186,22 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             
             tipoDocumento: new FormControl({ value: this.personaJuridica.tipoDocumento, disabled: true }, [Validators.required]),
             identificacion: new FormControl({ value: this.personaJuridica.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            
             pais: new FormControl(this.personaJuridica.pais || undefined, [Validators.required]),
-
             razonSocial: new FormControl(this.personaJuridica.razonSocial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
             nombreComercial: new FormControl(this.personaJuridica.nombreComercial || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            
+            nacionalidad: new FormControl(this.personaJuridica.nacionalidad || undefined, [Validators.required]),
             actividadEconomica: new FormControl(this.personaJuridica.actividadEconomica || undefined, [Validators.required]),
             actividadEspecifica: new FormControl(this.personaJuridica.actividadEspecifica || undefined, [Validators.required]),
             categoriaEspecial: new FormControl(this.personaJuridica.categoriaEspecial || undefined),
-
             oficinas: new FormControl(this.personaJuridica.oficinas != undefined ? this.personaJuridica.oficinas : '', [Validators.required]),
             empleados: new FormControl(this.personaJuridica.empleados != undefined ? this.personaJuridica.empleados : '', [Validators.required]),
             ventas: new FormControl(this.personaJuridica.ventas || undefined ? this.personaJuridica.ventas : '', [Validators.required]),
             ingresos: new FormControl(this.personaJuridica.ingresos || undefined ? this.personaJuridica.ingresos : '', [Validators.required]),
             egresos: new FormControl(this.personaJuridica.egresos || undefined ? this.personaJuridica.egresos : '', [Validators.required]),
-
             anhoDeclaracion: new FormControl(this.personaJuridica.anhoDeclaracion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-
             montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? this.personaJuridica.montoDeclarado : '', [Validators.required]),
-
             email: new FormControl(this.personaJuridica.email || '', [Validators.required]),
-
-            web: new FormControl(this.personaJuridica.web || '', [Validators.required])
+            web: new FormControl(this.personaJuridica.web || '')
         });
 
         // verifico si tengo datos basicos cargados
@@ -286,6 +279,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             return;
 
         this.updateData(this.personaJuridica);
+
+
 
         if (this.isNew) {
 

@@ -14,8 +14,12 @@
 </sirio-dialog-header>
 
 
-<form [formGroup]="itemForm" *ngIf="itemForm">
+
   <mat-dialog-content>
+
+    <form [formGroup]="itemForm" *ngIf="itemForm">
+    <!-- PERSONA_JURIDICA = 'J' -->
+
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esGobierno">
 
       <mat-form-field fxFlex="33">
@@ -150,13 +154,15 @@
       </mat-form-field>
     </div>
 
+ <!-- {{printErrors() | json}} -->
+
+
+</form>
   </mat-dialog-content>
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
     <button mat-raised-button color="primary" (click)="save()"
       [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
   </mat-dialog-actions>
 
-
-</form>

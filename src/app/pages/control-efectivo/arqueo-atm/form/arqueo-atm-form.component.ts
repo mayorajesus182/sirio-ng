@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, I
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
+import { ColumnMode } from '@swimlane/ngx-datatable';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { TipoArqueoConstants } from 'src/@sirio/constants/tipo.arqueo.constants';
@@ -38,6 +39,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
   errorList = [];
   cajetinesList: DetalleArqueo[] = [];
   totalesIncremento = {};
+  columnMode = ColumnMode;
 
   constructor(
     injector: Injector,
@@ -153,12 +155,14 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       if ((row.fisico == undefined && row.rechazado == undefined) || (row.fisico == 0 && row.rechazado == 0)) {
         row.sobrante = Math.abs(((row.anterior - row.dispensado)) < 0 ? ((row.anterior - row.dispensado)) : 0);
         row.faltante = Math.abs(((row.anterior - row.dispensado)) > 0 ? ((row.anterior - row.dispensado)) : 0);
-        row.actual = row.anterior - row.dispensado + row.incremento - row.retiro;
+        // row.actual = row.anterior - row.dispensado + row.incremento - row.retiro; 
       } else {
         row.sobrante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) < 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
         row.faltante = Math.abs(((row.anterior - row.dispensado) - row.fisico - row.rechazado) > 0 ? (row.anterior - row.dispensado - row.fisico - row.rechazado) : 0);
-        row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
+        // row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
       }
+
+      row.actual = row.fisico + row.rechazado + row.incremento - row.retiro;
 
       if (row.sobrante > row.anterior) {
         this.message = row.descripcion + ': La Cantidad Sobrante no puede ser superior al Contador Anterior';
@@ -182,7 +186,7 @@ export class ArqueoAtmFormComponent extends FormBaseComponent implements OnInit,
       })
 
       row.monto = row.actual * row.denominacion;
-      this.arqueoAtm.montoArqueo = this.arqueoAtm.detalles.map(e => (e.denominacion * e.fisico)).reduce((a, b) => a + b);
+      this.arqueoAtm.montoArqueo = this.arqueoAtm.detalles.map(e => (e.denominacion * (e.fisico+e.rechazado))).reduce((a, b) => a + b);
       this.arqueoAtm.montoFinal = this.arqueoAtm.detalles.map(e => (e.denominacion * e.actual)).reduce((a, b) => a + b);
     }
 
