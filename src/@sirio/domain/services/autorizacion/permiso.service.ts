@@ -7,9 +7,7 @@ import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.in
 
 export interface Permiso {
     id?: string;
-    pathMatchExact?: boolean;
-    customClass?: string;
-    parent?: SidenavItem;
+    // parent?: Permiso;
     label: string;
     view?: string;
     icon?: string;
