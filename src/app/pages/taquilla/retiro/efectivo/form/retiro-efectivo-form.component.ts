@@ -32,6 +32,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     public conoAnterior: ConoMonetario[] = [];
     retiro: Retiro = {} as Retiro;
     persona: Persona = {} as Persona;
+    moneda: Moneda = {} as Moneda;
     cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     isNew: boolean = false;
     loading = new BehaviorSubject<boolean>(false);
@@ -105,7 +106,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
             }
         });
-
     }
 
     queryResult(data: any) {
@@ -175,35 +175,31 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
         let valor = (Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoRetiro) : montoRetiro)) >= 1);
-        if (valor || (event?.montoTotal===0)) {
+        if (valor || (event?.montoTotal === 0)) {
 
             this.f.monto.setErrors({
                 difference: true
             });
-            
+
             if (event && (event.montoTotal > 0)) {
-                
                 this.f.totalRetiro.setValue(event.montoTotal);
                 this.f.totalRetiro.setErrors({
                     totalDifference: true
                 });
-    
+
                 this.f.totalRetiro.markAsDirty();
                 this.cdr.detectChanges();
             }
-
             this.f.totalRetiro.markAsDirty();
             this.f.monto.markAsDirty();
             this.cdr.detectChanges()
 
         } else {
             if (event) {
-
                 this.f.totalRetiro.setValue(this.f.monto.value);
-                // this.f.totalRetiro.setValue(event.montoTotal);
                 this.f.totalRetiro.setErrors(undefined);
                 this.f.monto.setErrors(undefined);
-            }else{
+            } else {
                 this.f.monto.setErrors({
                     difference: true
                 });
@@ -223,12 +219,24 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.cdr.detectChanges();
     }
 
+    saldoByMoneda(moneda: Moneda) {
+        this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
+            if (saldo == 0) {
+                let mensaje = 'Para la Moneda <b>' + moneda.nombre + '</b> <br> No Existe Disponibilidad en su Caja'
+                this.swalService.show('No Hay Disponibilidad De Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
+                    if (!resp.dismiss) {
+                        this.router.navigate(['/sirio/welcome']);
+                    }
+                });
+            }
+        });
+    }
+
     save() {
         if (this.itemForm.invalid)
             return;
 
         this.updateData(this.retiro);
-
         let montoFormat = formatNumber(this.retiro.monto, 'es', '1.2');
         this.swalService.show('¿Desea Realizar el Retiro?', undefined,
             { 'html': 'Titular: <b>' + (this.persona.nombre ? this.persona.nombre : this.cuentaOperacion.nombre) + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.f.moneda.value.siglas + '</b>' }
@@ -263,25 +271,6 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             }
 
         })
-
-
-    }
-
-    saldoByMoneda(moneda: Moneda) {
-        this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
-            if (saldo == 0) {
-
-                let mensaje = 'Para la Moneda <b>' + moneda.nombre + '</b> <br> No Existe Disponibilidad en su Caja'
-                this.swalService.show('No Hay Disponibilidad De Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
-                    if (!resp.dismiss) {
-                        this.router.navigate(['/sirio/welcome']);
-                    }
-                });
-
-            }
-        })
-
-
     }
 
     reset() {
@@ -295,9 +284,7 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
             this.cdr.detectChanges();
         }
 
-
         if (this.cuentaOperacion.email) {
-            //    this.limpiar();
             this.f.email.setValue(this.cuentaOperacion.email);
         } else {
             this.limpiar();
@@ -307,19 +294,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
         this.cdr.detectChanges();
     }
 
-
     limpiar() {
-        // this.f.monto.reset();
-        // this.f.totalRetiro.reset();
         this.f.totalRetiro.setValue(0.00);
-        // this.f.totalRetiro.setErrors({
-        //     required: true,
-        // })
         this.f.monto.setValue(0.00);
-        // this.f.monto.setErrors({
-        //     required: true,
-        // });
-
     }
-
 }
