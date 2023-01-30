@@ -58,7 +58,7 @@ export class CreditosPersonaTableComponent extends TableBaseComponent implements
   
         // Set all card elements to the same height
         cardElements.forEach((card) => {
-          card.nativeElement.style.height = tallestHeight + 'px';
+          // card.nativeElement.style.height = tallestHeight + 'px';
   
         });
   
