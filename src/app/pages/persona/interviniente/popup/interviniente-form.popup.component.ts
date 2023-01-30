@@ -4,6 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { Condicion, CondicionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/condicion.service';
+import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-natural/cargo.service';
 import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firma.service';
 import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firmante.service';
 import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/producto/tipo-participacion.service';
@@ -22,7 +24,6 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
 
   todayValue: moment.Moment;
 
-
   interviniente: Interviniente = {} as Interviniente;
   persona: Persona = {} as Persona;
 
@@ -32,6 +33,8 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
   tipoFirmas = new BehaviorSubject<TipoFirma[]>([]);
   tipoFirmantes = new BehaviorSubject<TipoFirmante[]>([]);
 
+  condiciones = new BehaviorSubject<Condicion[]>([]);
+  cargos = new BehaviorSubject<Cargo[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -42,6 +45,9 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     private tipoParticipacionService: TipoParticipacionService,
     private tipoFirmaService: TipoFirmaService,
     private tipoFirmanteService: TipoFirmanteService,
+
+    private condicionService: CondicionService,
+    private cargoService: CargoService,
 
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
@@ -70,6 +76,18 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     this.tipoParticipacionService.actives().subscribe(data => {
 
       this.tipoParticipaciones.next(data);
+      this.cdr.detectChanges();
+    })
+
+    this.condicionService.actives().subscribe(data => {
+
+      this.condiciones.next(data);
+      this.cdr.detectChanges();
+    })
+    
+    this.cargoService.actives().subscribe(data => {
+
+      this.cargos.next(data);
       this.cdr.detectChanges();
     })
 
@@ -158,6 +176,8 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
       tipoParticipacion: new FormControl(this.interviniente.tipoParticipacion || undefined, [Validators.required]),
       tipoFirma: new FormControl(this.interviniente.tipoFirma || undefined, [Validators.required]),
       tipoFirmante: new FormControl(this.interviniente.tipoFirmante || undefined, [Validators.required]),
+      condicion: new FormControl(this.interviniente.condicion || undefined, [Validators.required]),
+      cargo: new FormControl(this.interviniente.cargo || undefined, [Validators.required]),
     });
 
     this.cdr.detectChanges();

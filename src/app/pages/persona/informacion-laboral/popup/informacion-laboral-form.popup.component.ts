@@ -9,7 +9,7 @@ import { CalendarioService } from 'src/@sirio/domain/services/calendario/calenda
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { Ramo, RamoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/ramo.service';
 import { ActividadIndependiente, ActividadIndependienteService } from 'src/@sirio/domain/services/configuracion/persona-natural/actividad-independiente.service';
-import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-natural/cargo.service';
+import { Profesion, ProfesionService } from 'src/@sirio/domain/services/configuracion/persona-natural/profesion.service';
 import { TipoIngreso, TipoIngresoService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-ingreso.service';
 import { TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { TipoTelefono } from 'src/@sirio/domain/services/configuracion/telefono/tipo-telefono.service';
@@ -31,7 +31,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
   public tipoingresoList = new BehaviorSubject<TipoIngreso[]>([]);
   public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public ramoList = new BehaviorSubject<Ramo[]>([]);
-  public cargoList = new BehaviorSubject<Cargo[]>([]);
+  public profesionList = new BehaviorSubject<Profesion[]>([]);
   public paisList = new BehaviorSubject<Pais[]>([]);
   public telefonicaList = new BehaviorSubject<TipoTelefono[]>([]);
   public actinDependienteList = new BehaviorSubject<ActividadIndependiente[]>([]);
@@ -47,7 +47,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     private telefonicaService: TelefonicaService,
     private actividadIndependienteService: ActividadIndependienteService,
     private ramoService: RamoService,
-    private cargoService: CargoService,
+    private profesionService: ProfesionService,
     private calendarioService: CalendarioService,
 
     private paisService: PaisService,
@@ -98,8 +98,8 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     })
 
-    this.cargoService.actives().subscribe(data => {
-      this.cargoList.next(data);
+    this.profesionService.actives().subscribe(data => {
+      this.profesionList.next(data);
 
     })
 
@@ -120,20 +120,20 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     }
   }
 
-  refreshValidators(val:string){
-    if(!val){
+  refreshValidators(val: string) {
+    if (!val) {
       return;
     }
 
-    if(val === TipoIngresoConstants.OTROS_INGRESOS){
-      this.removeValidator(['tipoIngreso','remuneracion','actividadIndependiente']);
+    if (val === TipoIngresoConstants.OTROS_INGRESOS) {
+      this.removeValidator(['tipoIngreso', 'remuneracion', 'actividadIndependiente']);
     }
     if(val === TipoIngresoConstants.NEGOCIO_PROPIO){
       this.removeValidator(['tipoIngreso','remuneracion','ramo','direccion', 'telefono', 'registro', 'numero', 'tomo', 'folio', 'fecha','empresa', 'identificacion' ]);
     }
-    
-    if(val === TipoIngresoConstants.RELACION_DEPENDENCIA){
-      this.removeValidator(['tipoIngreso','remuneracion','ramo','cargo','empresa','direccion', 'identificacion', 'fecha', 'telefono']);
+
+    if (val === TipoIngresoConstants.RELACION_DEPENDENCIA) {
+      this.removeValidator(['tipoIngreso', 'remuneracion', 'ramo', 'profesion', 'empresa', 'direccion', 'identificacion', 'fecha', 'telefono']);
     }
 
     this.cdr.detectChanges();
@@ -154,7 +154,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : '', [Validators.required]),
       direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
-      cargo: new FormControl(this.informacionLaboral.cargo || undefined, [Validators.required] ),
+      profesion: new FormControl(this.informacionLaboral.profesion || undefined),
       remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),
     });
 
@@ -174,7 +174,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       return;
     }
     // verificar si es relacion de dependencia o negocio propopio
-    return (this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA) || (this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO) ;
+    return (this.f.tipoIngreso.value == TipoIngresoConstants.RELACION_DEPENDENCIA) || (this.f.tipoIngreso.value == TipoIngresoConstants.NEGOCIO_PROPIO);
   }
 
   isOtrIng() {
@@ -183,7 +183,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     }
     // verificar si es otros ingresos
     return this.f.tipoIngreso.value == TipoIngresoConstants.OTROS_INGRESOS;
-  }  
+  }
 
   isRd() {
     if (!this.f.tipoIngreso.value) {
@@ -196,7 +196,11 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
   save() {
 
+    console.log("pruebas log informacionLaboral", this.informacionLaboral)
+
     this.updateData(this.informacionLaboral);// aca actualizamos Informacion Laboral
+   this.informacionLaboral.profesion = this.informacionLaboral.profesion;
+
     this.informacionLaboral.persona = this.defaults.payload.persona;
     this.informacionLaboral.fecha = this.informacionLaboral.fecha ? this.informacionLaboral.fecha.format('DD/MM/YYYY') : '';
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD

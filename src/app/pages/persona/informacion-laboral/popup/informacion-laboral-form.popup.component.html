@@ -132,10 +132,12 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isRd()">
+      
       <div fxFlex="100">
-        <sirio-select-search [label]="'Cargo'" formControlName="cargo" [required]="true" [elements]="cargoList.asObservable()" [attributeName]="'nombre'">
+        <sirio-select-search [label]="'Cargo'" formControlName="profesion" [required]="true" [elements]="profesionList.asObservable()" [attributeName]="'nombre'">
         </sirio-select-search>
       </div>
+
 
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isRdOrNp()">
