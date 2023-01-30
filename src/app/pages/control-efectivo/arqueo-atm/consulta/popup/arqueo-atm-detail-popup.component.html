@@ -42,25 +42,37 @@
 
         <div fxLayout.gt-sm="row" fxLayout.xs="column" fxLayoutGap.gt-sm="10px">
 
-            <mat-form-field fxFlex="25">
+            <mat-form-field fxFlex="15">
+                <mat-label>{{'recountAtm.leftoverAmount' | translate: {default: 'global.leftoverAmount'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.montoSobrante | number: '1.2'" readonly>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="15">
+                <mat-label>{{'recountAtm.missingAmount' | translate: {default: 'global.missingAmount'} | translate }}
+                </mat-label>
+                <input matInput class="text-center" [value]="arqueoAtm.montoFaltante | number: '1.2'" readonly>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="15">
                 <mat-label>{{'recountAtm.recountAmount' | translate: {default: 'global.recountAmount'} | translate }}
                 </mat-label>
                 <input matInput class="text-center" [value]="arqueoAtm.montoArqueo | number: '1.2'" readonly>
             </mat-form-field>
 
-            <mat-form-field fxFlex="25" *ngIf="arqueoAtm.montoRetiro > 0">
+            <mat-form-field fxFlex="15" *ngIf="arqueoAtm.montoRetiro > 0">
                 <mat-label>{{'recountAtm.withdrawnAmount' | translate: {default: 'global.withdrawnAmount'} | translate }}
                 </mat-label>
                 <input matInput class="text-center" [value]="arqueoAtm.montoRetiro | number: '1.2'" readonly>
             </mat-form-field>
 
-            <mat-form-field fxFlex="25" *ngIf="arqueoAtm.montoIncremento > 0">
+            <mat-form-field fxFlex="15" *ngIf="arqueoAtm.montoIncremento > 0">
                 <mat-label>{{'recountAtm.increasedAmount' | translate: {default: 'global.increasedAmount'} | translate }}
                 </mat-label>
                 <input matInput class="text-center" [value]="arqueoAtm.montoIncremento | number: '1.2'" readonly>
             </mat-form-field>
 
-            <mat-form-field fxFlex="25">
+            <mat-form-field fxFlex="15">
                 <mat-label>{{'recountAtm.totalAmount' | translate: {default: 'global.totalAmount'} | translate }}
                 </mat-label>
                 <input matInput class="text-center" [value]="arqueoAtm.monto | number: '1.2'" readonly>

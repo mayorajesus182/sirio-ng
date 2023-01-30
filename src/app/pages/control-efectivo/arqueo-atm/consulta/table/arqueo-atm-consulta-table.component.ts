@@ -51,6 +51,8 @@ export class ArqueoAtmConsultaTableComponent extends TableBaseComponent implemen
 
   loadList() {
     this.arqueoAtmService.allTodayByAtm(this.atmId).subscribe((data) => {
+      console.log(' dataaaaaaaaa   ', data);
+      
       this.arqueoData = data;
       this.arqueos.next(data.slice());
     });
@@ -111,7 +113,7 @@ export class ArqueoAtmConsultaTableComponent extends TableBaseComponent implemen
     data.moneda = this.moneda.siglas + ' - ' + this.moneda.nombre;
     data.atm = this.atmId + ' - ' + this.atm;
 
-    this.showFormPopup(ArqueoAtmDetailPopupComponent, data, '70%');
+    this.showFormPopup(ArqueoAtmDetailPopupComponent, data, '80%');
 
     this.dialogRef.afterClosed().subscribe(event => {
       this.loadList()
