@@ -1,18 +1,15 @@
+import { FlatTreeControl, TreeControl } from '@angular/cdk/tree';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FlatTreeControl } from '@angular/cdk/tree';
-import { SelectionModel } from '@angular/cdk/collections';
-import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
-import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
-import { Permiso } from 'src/@sirio/domain/services/autorizacion/permiso.service';
-import { TreeDataService, TreeItemFlatNode, TreeItemNode } from 'src/@sirio/domain/services/autorizacion/tree-data.service';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
+import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
+import { Permiso, PermisoService } from 'src/@sirio/domain/services/autorizacion/permiso.service';
+import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 
 @Component({
@@ -29,112 +26,184 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
     @ViewChild('codigo') codigo: ElementRef;
     @ViewChild('nombre') nombre: ElementRef;
 
+    treeControl: FlatTreeControl<Permiso>[] = [];
 
     perfil: Perfil = {} as Perfil;
-    
+
     modulos = undefined;
 
     step = 0;
     disableExpanded = [];
 
-    public dataSourceArray = [{}];
+    public dataSourceList: Permiso[] = [];
 
     private preSelecteds = new BehaviorSubject<Permiso[]>([]);
 
     /** Map from flat node to nested node. This helps us finding the nested node to be modified */
-    flatNodeMap = new Map<TreeItemFlatNode, TreeItemNode>();
+    // flatNodeMap = new Map<TreeItemFlatNode, TreeItemNode>();
 
     /** Map from nested node to flattened node. This helps us to keep the same object for selection */
-    nestedNodeMap = new Map<TreeItemNode, TreeItemFlatNode>();
+    // nestedNodeMap = new Map<TreeItemNode, TreeItemFlatNode>();
 
-    treeControl: FlatTreeControl<TreeItemFlatNode>[] = [];
 
-    treeFlattener: MatTreeFlattener<TreeItemNode, TreeItemFlatNode>;
+    // dataSource: MatTreeFlatDataSource<TreeItemNode, TreeItemFlatNode>[] = [];
 
-    dataSource: MatTreeFlatDataSource<TreeItemNode, TreeItemFlatNode>[] = [];
-
-    checklistSelection = new SelectionModel<TreeItemFlatNode>(
-        true /* multiple */
-    );
 
     constructor(
         dialog: MatDialog,
         injector: Injector,
         private fb: FormBuilder,
+        private permisoService: PermisoService,
         private route: ActivatedRoute,
         private perfilService: PerfilService,
-        private cdr: ChangeDetectorRef,
-        public treeDataService: TreeDataService) {
+        private cdr: ChangeDetectorRef) {
         super(undefined, injector)
     }
 
-    private loadTree(){
+    getLevel = (node: Permiso) => node.level;
 
-        this.treeFlattener = new MatTreeFlattener(
-            this.transformer,
-            this.getLevel,
-            this.isExpandable,
-            this.getChildren
-        );
+    isExpandable = (node: Permiso) => {
+        // console.log('is expandable ', node);
 
-        this.treeDataService.initialize();
+        return node.expandable;
+    };
 
-        this.modulos = new BehaviorSubject<TreeItemFlatNode[]>([]);
-        this.initTree();
+    hasChild = (_: number, _nodeData: Permiso) => _nodeData.expandable;
 
-        this.loadPreselecteds();
+
+    private loadTree() {
+
+        // this.treeFlattener = new MatTreeFlattener(
+        //     this.transformer,
+        //     this.getLevel,
+        //     this.isExpandable,
+        //     this.getChildren
+        // );
+        this.dataSourceList = [];
+
+
+        // this.modulos = new BehaviorSubject<TreeItemFlatNode[]>([]);
+        // this.initTree();
+        this.permisoService.tree().subscribe(permisos => {
+            // console.log(permisos);
+            permisos.forEach(p => {
+                if (!this.dataSourceList.filter(d => d.parent == undefined).map(d => d.id).includes(p.id) && p.parent == undefined) {
+                    // console.log('add modulo ',p);
+
+                    this.dataSourceList.push(p);
+
+                    // this.dataSourceList.sort((a, b) => (a.ordination > b.ordination) ? 1 : -1);
+                } else {
+                    let modulo = this.dataSourceList.filter(d => d.id == p.parent || p.parent.startsWith(d.id));
+                    // console.log('modulo', modulo);
+
+                    if (modulo.length == 1) {
+                        // console.log('add child modulo', modulo);
+                        // agregando un hijo al modulo
+                        p.level = p.parent ? p.parent.split('-').length : 0;
+                        // p.expandable= p.parent?p.parent.split('-').length:0;
+                        modulo[0].children = modulo[0].children || [];
+                        modulo[0].children.push(p);
+                        // buscar a mi padre y ponerlo expandable
+                        let parent = modulo[0].children.find(pp => pp.id === p.parent);
+                        // console.log('parent by ', p.id, parent);
+
+                        // parent = parent || this.dataSourceList.find(pp=> pp.id==p.parent);
+                        if (parent && !parent.expandable) {
+                            // si me padre existe hago que este sea expandible
+                            parent.expandable = true;
+                        }
+                    }
+                }
+            });
+            this.loadwithPreselecteds();
+        })
     }
 
-    private loadPreselecteds() {
+    private loadwithPreselecteds() {
         /**
-         * preseleccionar items, dado la plantilla
+         * preseleccionar items
          */
+        // console.log('tree data source', this.dataSourceList);
+
+        this.dataSourceList.forEach((val, index) => {
+            this.treeControl[index] = new FlatTreeControl<Permiso>(
+                this.getLevel,
+                this.isExpandable
+            );
+
+
+            this.treeControl[index].dataNodes = val.children;
+        });
+
 
         this.preSelecteds.subscribe(pres => {
 
-            // console.log('preselecciones ', pres);
             if (!pres || pres.length == 0) {
                 return;
             }
 
+            console.log(pres);
 
 
 
-            this.modulos.value.forEach((mod, index) => {
-                const checked = pres.filter(el => el.id === mod.item).length > 0
-                if (checked) {
-                    // console.log('mod checked ' + mod.item);
-                    this.modulos.value[index].checked = true;
-                    this.checklistSelection.select(mod);
+            this.dataSourceList.forEach((val, index) => {
+
+                if (pres.map(p => p.id).includes(val.id)) {
+                    val.checked = true;
                 }
-                //this.itemChecked(mod, checked);
+                // verifico si hay hijos preseleccionados
+                if (val.children) {
+                    val.children.forEach(c => {
+                        if (pres.map(p => p.id).includes(c.id)) {
+                            c.checked = true;
+                        }
+                    });
+
+                }
+
+
             });
 
 
-            this.treeControl.forEach(treeCtrl => {
-
-                if (treeCtrl && treeCtrl.dataNodes) {
-
-                    for (let i = 0; i < treeCtrl.dataNodes.length; i++) {
-                        const node = treeCtrl.dataNodes[i];
-
-                        pres.forEach(el => {
-                            if (el.id == node.item) {
-                                // console.log('compare node ' + node.item + ' ' + el.id);
-
-                                this.checklistSelection.select(node);
-                                this.checkAllRootParentsSelection(node, treeCtrl);
-                                // this.cdr.markForCheck()
-
-                            }
-
-                        });
+            // this.treeDataService.initializeWithPre(pres);
 
 
-                    }
-                }
-            });
-            this.cdr.markForCheck();
+            // this.modulos.value.forEach((mod, index) => {
+            //     const checked = pres.filter(el => el.id === mod.item).length > 0
+            //     if (checked) {
+            //         // console.log('mod checked ' + mod.item);
+            //         this.modulos.value[index].checked = true;
+            //         this.checklistSelection.select(mod);
+            //     }
+            //     //this.itemChecked(mod, checked);
+            // });
+
+
+            // this.treeControl.forEach(treeCtrl => {
+
+            //     if (treeCtrl && treeCtrl.dataNodes) {
+
+            //         for (let i = 0; i < treeCtrl.dataNodes.length; i++) {
+            //             const node = treeCtrl.dataNodes[i];
+
+            //             pres.forEach(el => {
+            //                 if (el.id == node.item) {
+            //                     // console.log('compare node ' + node.item + ' ' + el.id);
+
+            //                     this.checklistSelection.select(node);
+            //                     this.checkAllRootParentsSelection(node, treeCtrl);
+            //                     // this.cdr.detectChanges()
+
+            //                 }
+
+            //             });
+
+
+            //         }
+            //     }
+            // });
+            this.cdr.detectChanges();
             // console.log('preseleccion ', this.checklistSelection);
 
         });
@@ -187,14 +256,14 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
         this.loadTree();
 
-    
+
         if (id) {
             this.perfilService.get(id).subscribe((art: Perfil) => {
                 this.perfil = art;
-                
-                this.buildItemForm(this.perfil);
+
+                this.buildForm();
                 console.log('perfil ', this.perfil);
-        //         // cargar preseleccionados desde el modo edicion   
+                //         // cargar preseleccionados desde el modo edicion   
                 this.preSelecteds.next(this.perfil.permisos);
                 // this.loadPreselecteds();
 
@@ -203,69 +272,32 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
                 console.log('preseleecionados ', this.preSelecteds);
 
-        //         this.cdr.markForCheck();
-        //         this.loadingDataForm.next(false);
+                //         this.cdr.markForCheck();
+                //         this.loadingDataForm.next(false);
 
             }, err => {
-
+                this.perfil = {} as Perfil
                 this.loadingDataForm.next(false);
-                this.buildItemForm({} as Perfil);
-        //         this.router.navigate(['/autorizacion/perfiles']);
+                this.buildForm();
+                this.preSelecteds.next([]);
+                //TODO: REVISAR ESTO LUEGO         this.router.navigate(['/autorizacion/perfiles']);
 
-        //         this.snack.show({
-        //             message: 'La Perfil solicitado no esta registrado!',
-        //             verticalPosition: 'bottom',
-        //             type: 'danger'
-        //         });
+                //         this.snack.show({
+                //             message: 'La Perfil solicitado no esta registrado!',
+                //             verticalPosition: 'bottom',
+                //             type: 'danger'
+                //         });
             });
         } else {
-            
-            this.buildItemForm(this.perfil);
-            this.loadingDataForm.next(false);
 
-            // if (!tpl) {
-            //     console.log('init tree sin template');
-                // this.initTree();
-            // }
+            this.buildForm();
+            this.loadingDataForm.next(false);
+            this.preSelecteds.next([]);
         }
 
     }
 
-    private initTree() {
 
-
-        this.treeDataService.dataChange.subscribe(data => {
-
-            if (data.length == 0) {
-                return;
-            }
-            console.log('data tree ',data);
-
-            data.forEach((element, index) => {
-
-                this.treeControl[index] = new FlatTreeControl<TreeItemFlatNode>(
-                    this.getLevel,
-                    this.isExpandable
-                );
-
-                this.dataSource[index] = new MatTreeFlatDataSource(
-                    this.treeControl[index],
-                    this.treeFlattener
-                );
-
-                if (element.children) {
-                    this.modulos.value.push(this.transformer(element, 0));
-                    this.dataSource[index].data = element.children;
-                }
-
-
-            });
-
-            // console.log(this.modulos);
-
-            this.cdr.detectChanges();
-        });
-    }
 
 
     ngAfterViewInit(): void {
@@ -273,7 +305,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
             if (!loading) {
                 console.log('cargado el arbol');
 
-                this.cdr.markForCheck();
+                this.cdr.detectChanges();
             }
 
 
@@ -281,15 +313,123 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
     }
 
-    private buildItemForm(item: Perfil) {
+    private buildForm() {
 
         this.itemForm = this.fb.group({
-            id: new FormControl({ value: item.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC),Validators.maxLength(6)]),
-            nombre: new FormControl(item.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-            descripcion: new FormControl(item.descripcion, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            id: new FormControl({ value: this.perfil.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC), Validators.maxLength(6)]),
+            nombre: new FormControl(this.perfil.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+            descripcion: new FormControl(this.perfil.descripcion, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
         });
     }
 
+
+    // Función para actualizar la matriz de elementos
+    updateTreeElements(element: Permiso, event, index) {
+
+
+        element.checked = event.checked;
+        // Obtener el elemento seleccionado y su padre
+        let parentElement = this.dataSourceList[index].children?.find(e => e.id === element.parent);
+        parentElement = parentElement || this.dataSourceList.find(e => e.id === element.parent);
+        // console.log(' parent',parentElement);
+
+
+        let descendants = this.treeControl[index].getDescendants(element);
+        // console.log(descendants);
+
+        element.checked
+            ? descendants.forEach(p => { p.checked = true; return p; })
+            : descendants.forEach(p => { p.checked = false; return p; });
+
+        if (parentElement && parentElement.checked != event.checked) {
+            const descendants = this.treeControl[index].getDescendants(parentElement);
+
+            parentElement.checked = descendants.filter(p => p.checked == true).length > 0 || event.checked;
+
+            // parentElement.checked=event.checked;
+            if (descendants.length == 0 && parentElement.parent == undefined) {
+                // console.log('parent desce 1', parentElement.children?.filter(c => c.checked));
+                parentElement.checked = parentElement.children.filter(c => c.checked).length > 0 || event.checked;
+            }
+        }
+
+
+
+        if (descendants.length == 0 && element.parent == undefined) {
+            // puede que el node este fuera de este control
+            this.dataSourceList[index].children?.forEach(n => n.checked = event.checked);
+        }
+
+        // busco padres desde los hijos hacia arriba en el arbol
+        while (parentElement) {
+            // mientras tenga padres sin checkear voy chequeandolos
+            let parentId = parentElement.parent;
+
+            parentElement = this.dataSourceList[index].children.find(e => e.id == parentId && e.checked != event.checked);
+            if (!parentElement) {
+                parentElement = this.dataSourceList.find(e => e.id == parentId && e.checked != event.checked);
+            }
+
+            if (parentElement && parentElement.checked != event.checked) {
+                const descendants = this.treeControl[index].getDescendants(parentElement);
+                parentElement.checked = descendants.filter(p => p.checked == true).length > 0 || event.checked;
+                // console.log('parent desce 1', descendants);
+
+                // revisar si algun padre quedo sin hijos checkeados y debo tambien deschearlo a el
+                if (descendants.length == 0 && !parentElement.parent) {
+                    // el parent no tiene decendientes
+                    // tal vez este este en el dataSourceList y verifico que los hermano este al menos un chequedo, para no cambiar su estatus
+                    // console.log('hermanos selected ',this.dataSourceList[index].children?.filter(p => p.checked == true));
+                    // console.log('parent ',parentElement);
+
+
+                    parentElement.checked = this.dataSourceList[index].children?.filter(p => p.checked == true).length > 0 || event.checked;
+                }
+            }
+
+
+        }
+
+
+        this.cdr.detectChanges();
+    }
+
+
+    // Función para obtener los elementos seleccionados
+    private getSelectedElements() {
+
+        let elements= [];
+
+        elements = elements.concat(this.dataSourceList.filter(p=> p.checked).map(p=>p.id));
+        // elements = elements.concat(this.dataSourceList.map(p=>p.children).filter(p=> p && p.filter(pp=>pp.checked)).map(p1=>p1.map(p2=>p2.id)));
+        this.dataSourceList.forEach(element => {
+    
+            if(element.children){
+                elements = elements.concat(element.children.filter(p=>p.checked).map(p=>p.id));
+            }
+
+        });
+
+        console.log('selecteds',elements);
+        
+
+
+        return elements;
+    }
+    
+    public hasCheckedlements() {
+
+        let hasChecked= false;
+        this.dataSourceList.forEach(element => {
+            if(element.checked){
+                hasChecked=true;
+                return;
+            }
+        });
+
+
+        return hasChecked;
+    }
 
     save() {
 
@@ -301,28 +441,14 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
         this.perfil.permisos = [];
 
 
-
-        console.log('Elementos seleccionados', this.checklistSelection.selected);
-
-
-        this.checklistSelection.selected.forEach(element => {
-
-            this.perfil.permisos.push({
-                'id': element.item,
-            })
-
-        });
+        this.perfil.permisos = this.getSelectedElements();
 
 
-        // console.log(this.perfil);
+        console.log(this.perfil);
 
 
-        this.saveOrUpdate(this.perfilService, this.perfil, 'El perfil', this.isNew).subscribe(result => {
-            console.log('result', result);
-            this.perfil = {} as Perfil;
-        });
-
-        this.checklistSelection.clear();
+        this.saveOrUpdate(this.perfilService, this.perfil, 'El perfil')
+        // this.checklistSelection.clear();
 
     }
 
@@ -341,218 +467,8 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
         return label;
     }
 
-    getLevel = (node: TreeItemFlatNode) => node.level;
+  
 
-    isExpandable = (node: TreeItemFlatNode) => node.expandable;
-
-    getChildren = (node: TreeItemNode): TreeItemNode[] => node.children;
-
-    hasChild = (_: number, _nodeData: TreeItemFlatNode) => _nodeData.expandable;
-
-    parentIs = (_: number, _nodeData: TreeItemFlatNode) => {
-        if (_nodeData.item === this.treeDataService.data[this.step].item) {
-            return _nodeData;
-        }
-    };
-
-    transformer = (node: TreeItemNode, level: number) => {
-        const existingNode = this.nestedNodeMap.get(node);
-        const flatNode =
-            existingNode && existingNode.item === node.item
-                ? existingNode
-                : new TreeItemFlatNode();
-        flatNode.item = node.item;
-        flatNode.level = level;
-        flatNode.label = node.label;
-        flatNode.icon = node.icon;
-        flatNode.descripcion = node.descripcion;
-        flatNode.expandable = !!node.children;
-        this.flatNodeMap.set(flatNode, node);
-        this.nestedNodeMap.set(node, flatNode);
-        return flatNode;
-    };
-
-    /** Whether all the descendants of the node are selected. */
-    descendantsAllSelected(node: TreeItemFlatNode): boolean {
-        const descendants = this.treeControl[this.step].getDescendants(node);
-        const descAllSelected = descendants.every(child =>
-            this.checklistSelection.isSelected(child)
-        );
-        // console.log('descendants all checked',descAllSelected);
-
-        return descAllSelected;
-    }
-
-    /** Whether part of the descendants are selected */
-    descendantsPartiallySelected(node: TreeItemFlatNode): boolean {
-
-        // console.log('node descendants ',node);
-
-        const descendants = this.treeControl[this.step].getDescendants(node);
-        // console.log('descendants ',descendants);
-
-        const result = descendants.some(child =>
-            this.checklistSelection.isSelected(child)
-        );
-        return result && !this.descendantsAllSelected(node);
-    }
-
-
-    /** Toggle the to-do item selection. Select/deselect all the descendants node */
-    itemSelectionToggle(node: TreeItemFlatNode): void {
-        // console.log(this.treeControl[this.step].dataNodes);
-        this.checklistSelection.toggle(node);
-        const descendants = this.treeControl[this.step].getDescendants(node);
-        this.checklistSelection.isSelected(node)
-            ? this.checklistSelection.select(...descendants)
-            : this.checklistSelection.deselect(...descendants);
-
-        // Force update for the parent
-        descendants.every(child => this.checklistSelection.isSelected(child));
-        this.checkAllParentsSelection(node);
-        console.log('Node: ', node);
-        console.log('Modulo step index', this.modulos.value[this.step]);
-
-        if (this.checklistSelection.isSelected(node) && !this.modulos.value[this.step].checked) {
-            console.log('select node parent module');
-            this.modulos.value[this.step].checked = true;
-            this.checklistSelection.select(this.modulos.value[this.step]);
-            this.cdr.markForCheck();
-        } else if (!this.checklistSelection.isSelected(node) && !this.hasBrothersChecked(node)) {
-            this.modulos.value[this.step].checked = false;
-            this.checklistSelection.deselect(this.modulos.value[this.step]);
-            this.cdr.markForCheck();
-        }
-
-
-        // this.cdr.detectChanges();
-    }
-
-    /** Toggle a leaf to-do item selection. Check all the parents to see if they changed */
-    leafItemSelectionToggle(node: TreeItemFlatNode): void {
-        this.checklistSelection.toggle(node);
-        this.checkAllParentsSelection(node);
-
-        if (!this.checklistSelection.isSelected(node) && !this.hasBrothersChecked(node)) {
-            // mantener al modulo checked porque tiene castigo hijos checked
-            console.log('unchecked modulo ', this.modulos.value[this.step]);
-            this.modulos.value[this.step].checked = false;
-            this.checklistSelection.deselect(this.modulos.value[this.step]);
-            this.cdr.markForCheck();
-        } else if (this.checklistSelection.isSelected(node) && !this.modulos.value[this.step].checked) {
-            this.modulos.value[this.step].checked = true;
-            this.checklistSelection.select(this.modulos.value[this.step]);
-            this.cdr.markForCheck();
-        }
-        // this.cdr.detectChanges();
-    }
-
-    private itemChecked(node: TreeItemFlatNode, status): void {
-        // console.log(this.treeControl);
-        status ? this.checklistSelection.select(node) : this.checklistSelection.deselect(node);
-        const descendants = this.treeControl[this.step].getDescendants(node);
-        this.checklistSelection.isSelected(node)
-            ? this.checklistSelection.select(...descendants)
-            : this.checklistSelection.deselect(...descendants);
-
-        // Force update for the parent
-        descendants.every(child => this.checklistSelection.isSelected(child));
-        this.checkAllParentsSelection(node);
-    }
-
-
-    /* Checks all the parents when a leaf node is selected/unselected */
-    checkAllParentsSelection(node: TreeItemFlatNode): void {
-        let parent: TreeItemFlatNode | null = this.getParentNode(node);
-        while (parent) {
-            this.checkRootNodeSelection(parent);
-            parent = this.getParentNode(parent);
-        }
-
-    }
-
-    /** Check root node checked state and change it accordingly */
-    checkRootNodeSelection(node: TreeItemFlatNode): void {
-        const nodeSelected = this.checklistSelection.isSelected(node);
-        const descendants = this.treeControl[this.step].getDescendants(node);
-        const descAllSelected = descendants.every(child =>
-            this.checklistSelection.isSelected(child)
-        );
-        if (nodeSelected && !descAllSelected) {
-            this.checklistSelection.deselect(node);
-        } else if (!nodeSelected) {// && descAllSelected
-            this.checklistSelection.select(node);
-        }
-    }
-
-
-    /* Checks all the parents when a leaf node is selected/unselected */
-    checkAllRootParentsSelection(node: TreeItemFlatNode, treeControl): void {
-        let parent: TreeItemFlatNode | null = this.getParentNodeFromTreeCtrl(node, treeControl);
-        while (parent) {
-            const nodeSelected = this.checklistSelection.isSelected(parent);
-            if (!nodeSelected) {// && descAllSelected
-                this.checklistSelection.select(parent);
-            }
-            parent = this.getParentNodeFromTreeCtrl(parent, treeControl);
-        }
-
-    }
-
-    /* Get the parent node of a node */
-    getParentNodeFromTreeCtrl(node: TreeItemFlatNode, treeControl): TreeItemFlatNode | null {
-        const currentLevel = this.getLevel(node);
-
-        if (currentLevel < 1) {
-            return null;
-        }
-
-        const startIndex = treeControl.dataNodes.indexOf(node) - 1;
-
-        for (let i = startIndex; i >= 0; i--) {
-            const currentNode = treeControl.dataNodes[i];
-
-            if (this.getLevel(currentNode) < currentLevel) {
-                return currentNode;
-            }
-        }
-        return null;
-    }
-    /* Get the parent node of a node */
-    getParentNode(node: TreeItemFlatNode): TreeItemFlatNode | null {
-        const currentLevel = this.getLevel(node);
-
-        if (currentLevel < 1) {
-            return null;
-        }
-
-        const startIndex = this.treeControl[this.step].dataNodes.indexOf(node) - 1;
-
-        for (let i = startIndex; i >= 0; i--) {
-            const currentNode = this.treeControl[this.step].dataNodes[i];
-
-            if (this.getLevel(currentNode) < currentLevel) {
-                return currentNode;
-            }
-        }
-        return null;
-    }
-
-    private hasBrothersChecked(node: TreeItemFlatNode) {
-        const currentLevel = this.getLevel(node);
-
-        for (let i = 0; i < this.treeControl[this.step].dataNodes.length; i++) {
-            const currentNode = this.treeControl[this.step].dataNodes[i];
-
-            if (this.getLevel(currentNode) == currentLevel) {
-                if (this.checklistSelection.isSelected(currentNode) || this.descendantsPartiallySelected(currentNode)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
 
     private codigoExists(id) {
         this.perfilService.exists(id).subscribe(data => {
@@ -587,56 +503,5 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
     }
 
-    checkAll(index: number, event) {
-
-        if (index == undefined) {
-            return;
-        }
-
-        if (!this.treeControl[index].dataNodes) {
-            return;
-        }
-
-        this.modulos.value[index].checked = event.checked;
-        let checkedMod = this.modulos.value[index].checked || false;
-
-        console.log('checked mod ', event)
-        // this.checklistSelection.deselect(this.modulos.value[index])
-        console.log('checklist', this.checklistSelection);
-
-
-        if (this.modulos.value[index].checked) {
-            console.log('seleccionando module');
-            this.checklistSelection.select(this.modulos.value[index]);
-            // this.modulos.value[index].checked=true;
-            // checkedMod=true;
-        } else if (!this.modulos.value[index].checked) {
-            console.log('deseleccionar module');
-            this.checklistSelection.deselect(this.modulos.value[index]);
-            // this.modulos.value[index].checked=false;
-        }
-
-        for (let i = 0; i < this.treeControl[index].dataNodes.length; i++) {
-            const currentNode = this.treeControl[index].dataNodes[i];
-
-            if (checkedMod && !this.checklistSelection.isSelected(currentNode)) {
-
-                this.checklistSelection.select(currentNode);
-                // console.log('node current', currentNode);
-            } else if (!checkedMod && this.checklistSelection.isSelected(currentNode)) {
-                this.checklistSelection.deselect(currentNode);
-                // this.checklistSelection.select(this.modulos.value[index]);
-            }
-
-
-        }
-
-        this.cdr.markForCheck();
-
-    }
-
-    captureEvent(evt) {
-        console.log('event capture ', evt);
-
-    }
 }
+

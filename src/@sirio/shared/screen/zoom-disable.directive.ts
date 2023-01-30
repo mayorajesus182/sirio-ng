@@ -8,7 +8,7 @@ export class DisableZoomDirective {
 
   @HostListener('keydown', ['$event'])
   onKeyDown(event: KeyboardEvent) {
-    console.log('keydown event ', event);
+    // console.log('keydown event ', event);
     if (event.ctrlKey && (event.code === 'NumpadAdd' || event.code === 'NumpadSubtract')) {
       
       event.preventDefault();
@@ -19,7 +19,7 @@ export class DisableZoomDirective {
   @HostListener('keydown.ctrl.+', ['$event'])
   @HostListener('keydown.ctrl.-', ['$event'])
   onKeyDown2(event: KeyboardEvent) {
-    console.log('keydown2 event ', event);
+    // console.log('keydown2 event ', event);
     event.preventDefault();
   }
 

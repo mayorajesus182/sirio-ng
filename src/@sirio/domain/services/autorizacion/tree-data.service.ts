@@ -7,6 +7,7 @@ export class TreeItemNode {
   label: string;
   item: string;
   icon: string;
+  parentId?:string;
   descripcion?: string;
 }
 
@@ -41,7 +42,17 @@ export class TreeDataService {
     this.permisoService.tree().subscribe(tree => {
 
       const data = this.buildFileTree(tree, 0);
-      // console.log('data tree ',data);
+      console.log('data response ',data);
+      this.dataChange.next(data);
+    });
+  }
+
+  initializeWithPre(preselecteds: any[]) {
+    this.dataChange = new BehaviorSubject<TreeItemNode[]>([]);
+    this.permisoService.tree().subscribe(tree => {
+      const data = this.buildFileTreeWithPre(tree, 0,preselecteds);
+
+      console.log('data tree ',data);
       this.dataChange.next(data);
     });
   }
@@ -52,13 +63,14 @@ export class TreeDataService {
       const node = new TreeItemNode();
       node.item = item.id;
       node.icon = item.icon;
+      node.parentId = item.parent;
       node.descripcion = item.label;
       node.label = item.label;
 
       if (value != null) {
-        if (value.subpermisos && value.subpermisos.length > 0) {
-          node.children = this.buildFileTree(value.subpermisos, level + 1);
-        }
+        // if (value.subpermisos && value.subpermisos.length > 0) {
+        //   node.children = this.buildFileTree(value.subpermisos, level + 1);
+        // }
       }
 
       return accumulator.concat(node);
@@ -80,9 +92,9 @@ export class TreeDataService {
       node.label = item.label;
 
       if (value != null) {
-        if (value.subpermisos && value.subpermisos.length > 0) {
-          node.children = this.buildFileTreeWithPre(value.subpermisos, level + 1, preselecteds);
-        }
+        // if (value.subpermisos && value.subpermisos.length > 0) {
+        //   node.children = this.buildFileTreeWithPre(value.subpermisos, level + 1, preselecteds);
+        // }
       }
 
       return accumulator.concat(node);
