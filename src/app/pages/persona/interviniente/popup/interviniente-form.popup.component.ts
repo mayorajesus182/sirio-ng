@@ -138,10 +138,9 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     this.mode = 'global.add';
     this.interviniente = {} as Interviniente;
     this.itemForm = undefined;
-
     if (!event.id && !event.numper) {
       this.interviniente = {} as Interviniente;
-      const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural'
+      const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
       this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
       this.dialogRef.close();
     } else {
@@ -155,9 +154,8 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
 
       if (this.defaults.payload.intervinientes.includes(this.persona.tipoDocumento + '-' + this.persona.identificacion)) {
         // console.log('ya esta asociado');
-
         this.f.identificacion.setErrors({ exists: true });
-        this.f.identificacion.markAsTouched();
+        // this.f.identificacion.markAsTouched();
         this.cdr.detectChanges();
       }
     }
@@ -176,8 +174,8 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
       tipoParticipacion: new FormControl(this.interviniente.tipoParticipacion || undefined, [Validators.required]),
       tipoFirma: new FormControl(this.interviniente.tipoFirma || undefined, [Validators.required]),
       tipoFirmante: new FormControl(this.interviniente.tipoFirmante || undefined, [Validators.required]),
-      condicion: new FormControl(this.interviniente.condicion || undefined, [Validators.required]),
-      cargo: new FormControl(this.interviniente.cargo || undefined, [Validators.required]),
+      condicion: new FormControl(this.interviniente.condicion || undefined),
+      cargo: new FormControl(this.interviniente.cargo || undefined),
     });
 
     this.cdr.detectChanges();
@@ -189,7 +187,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     this.interviniente.cuenta = this.defaults.payload.cuenta;
     console.log(this.interviniente);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.intervinienteService, this.interviniente, 'INTERVINIENTE');
+    this.saveOrUpdate(this.intervinienteService, this.interviniente, 'INTERVINIENTE', false);
 
   }
 

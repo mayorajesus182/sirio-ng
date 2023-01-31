@@ -36,9 +36,7 @@
   
         <mat-form-field fxFlex="30">
           <mat-label>{{'global.identification' | translate }} </mat-label>
-          <input matInput autocomplete="off" class="text-center" name="identificacion" disabled="true"  formControlName="identificacion"> 
-        
-          <mat-error *ngIf="f.identificacion.errors?.exists">El número de documento ya esta registrado</mat-error>
+          <input matInput autocomplete="off" class="text-center" name="identificacion" disabled="true"  [(ngModel)]="persona.identificacion"  [ngModelOptions]="{standalone: true}"> 
         </mat-form-field>
   
         <mat-form-field fxFlex="auto">
@@ -72,11 +70,11 @@
         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
   
           <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'"   [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
-            [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoParticipacion?.errors">
+            [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
   
           <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'"   [formControl]="itemForm.controls['tipoFirma']" [required]="true"
-            [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirma?.errors">
+            [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
   
           <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" 
@@ -89,13 +87,13 @@
         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
           <!-- condicion -->
 
-          <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['condicion']" [required]="true"
-            [elements]="condiciones.asObservable()" [attributeName]="'nombre'" [errors]="f.condicion?.errors">
+          <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['condicion']" 
+            [elements]="condiciones.asObservable()" [attributeName]="'nombre'">
           </sirio-select-search>
   
           <!-- cargo -->
-          <sirio-select-search fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['cargo']" [required]="true"
-            [elements]="cargos.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
+          <sirio-select-search fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['cargo']" 
+            [elements]="cargos.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
         </div>
       
