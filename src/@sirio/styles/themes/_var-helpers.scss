@@ -1,4 +1,6 @@
 @use '@angular/material' as mat;
+
+
 $config: mat.get-color-config($theme);
 
 $theme-foreground-map: map-get($config, foreground);

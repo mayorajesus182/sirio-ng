@@ -1,4 +1,8 @@
-@use '@angular/material' as mat;
+/* perfil-form */
+// @use '@angular/material' as mat;
+// @import "../../../../../@sirio/styles/themes/var-helpers";
+
+// $theme-color-primary: mat.get-color-from-palette($theme-color-primary-palette);
 
 #itemForm {
   form {
@@ -13,9 +17,6 @@
   
 }
 
-.mat-icon-primary{
-  color: darken($theme-color-primary, 3%);
-}
 
 @media only screen and (max-width: 480px) {
   .padding-h-2xl{
