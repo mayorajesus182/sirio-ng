@@ -63,6 +63,6 @@
 
     <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
         <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-        <button mat-raised-button color="primary" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+        <button mat-raised-button color="primary" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
     </mat-dialog-actions>
 </form>

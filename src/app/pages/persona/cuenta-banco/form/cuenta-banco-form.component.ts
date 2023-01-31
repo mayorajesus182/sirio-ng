@@ -6,6 +6,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
 import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
@@ -37,6 +38,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     tipoParticipaciones = new BehaviorSubject<TipoParticipacion[]>([]);
     tipoFirmas = new BehaviorSubject<TipoFirma[]>([]);
     tipoFirmantes = new BehaviorSubject<TipoFirmante[]>([]);
+
+    monedaVirtuales = new BehaviorSubject<Moneda[]>([]);
 
     totalBankReference: number;
     // totalPersonalReference: number;
@@ -76,7 +79,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private personaReportService: PersonaReportService,
         private tipoParticipacionService: TipoParticipacionService,
         private tipoFirmaService: TipoFirmaService,
+
         private tipoFirmanteService: TipoFirmanteService,
+        
+        private monedaService: MonedaService,
+        
 
         private origenFondoService: OrigenFondoService,
         private destinoCuentaService: DestinoCuentaService,
@@ -96,6 +103,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     ngOnInit() {
+
+       this.monedaService. virtualActives().subscribe(data => {
+            this.monedaVirtuales.next(data);
+        });
 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
@@ -136,6 +147,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             // this.cdr.detectChanges();
         });
 
+        
         this.tipoFirmanteService.actives().subscribe(data => {
             this.tipoFirmantes.next(data);
             // this.cdr.detectChanges();
@@ -148,7 +160,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
-            // console.log('loading ', loading);
+            
 
             if (!loading) {
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
@@ -157,10 +169,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 // console.log(.value);
 
                 if (this.itemForm && this.f.tipoProducto.value) {
-                    console.log('buscar subproductos by ', this.f.tipoProducto);
+                    
 
                     this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                        console.log('buscar subproductos by ', data);
+                        
                         this.tipoSubproductos.next(data);
                         this.loadMoneda(this.f.tipoSubproducto.value);
 
@@ -193,6 +205,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             fondoExterior: new FormControl(this.cuentaBanco.fondoExterior || false),
             paisOrigen: new FormControl(this.cuentaBanco.paisOrigen || undefined),
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
+
+            monedaVirtual: new FormControl(this.cuentaBanco.monedaVirtual || undefined),
+            
+
             moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
             tipoParticipacion: new FormControl(this.cuentaBanco.tipoParticipacion || undefined, [Validators.required]),
             tipoFirma: new FormControl(this.cuentaBanco.tipoFirma || undefined, [Validators.required]),
@@ -236,14 +252,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     private loadMoneda(subProducto) {
-        console.log("subProducto", subProducto);
+        // console.log("subProducto", subProducto);
         const filtered = this.tipoSubproductos.value.filter(s => s.id == subProducto);
         if (filtered.length == 0) {
 
             return;
         }
         let subProductoSel = filtered.reduce(a => a);
-        console.log(subProductoSel);
+        // console.log(subProductoSel);
         if (subProductoSel) {
 
             this.f.moneda.setValue(subProductoSel.moneda);
@@ -272,7 +288,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.isNew = true;
         this.loaded$.next(false);
 
-        console.log('event person ', event);
+        // console.log('event person ', event);
         
 
         if (!event.id && !event.numper) {
@@ -333,7 +349,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.cuentaBancoService.save(this.cuentaBanco).subscribe(data => {
                 this.cuentaBanco = data;
                 this.isNew = false;
-                console.log(data);
+                // console.log(data);
 
                 this.successResponse('La Cuenta Banco', 'creada', true);
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
@@ -381,7 +397,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.loadingDataForm.next(true);
         this.personaReportService.ficha(this.cuentaBanco.persona|| this.persona.id).subscribe(data => {
             this.loadingDataForm.next(false);
-            console.log('response:', data);
+            // console.log('response:', data);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
             this.download(name, blob);

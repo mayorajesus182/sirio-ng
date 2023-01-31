@@ -13,6 +13,8 @@ export interface Interviniente {
     tipoFirmante: string
     personaNombre?: string;
     identificacion?: string;
+    condicion?: string;
+    cargo?: string;
 }
 
 @Injectable({

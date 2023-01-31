@@ -151,6 +151,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         });
 
         this.f.estado.valueChanges.subscribe(value => {
+            this.f.municipio.setValue(undefined);
+            this.municipios.next([]);
             this.ciudad='';
             this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
@@ -159,6 +161,8 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         });
 
         this.f.municipio.valueChanges.subscribe(value => {  
+            this.f.parroquia.setValue(undefined);
+            this.parroquias.next([]);
             this.ciudad=this.municipios.value.filter(m=>m.id===value).map(m=>m.ciudad)[0];         
             this.parroquiaService.activesByMunicipio(value).subscribe(data => {
                 this.parroquias.next(data);
@@ -166,14 +170,18 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
             });
         });
 
-        this.f.parroquia.valueChanges.subscribe(value => {           
+        this.f.parroquia.valueChanges.subscribe(value => { 
+            this.f.zonaPostal.setValue(undefined);
+            this.zonasPostales.next([]);          
             this.zonaPostalService.activesByParroquia(value).subscribe(data => {
                 this.zonasPostales.next(data);
                 this.cdr.detectChanges();
             });
         });
 
-        this.f.zona.valueChanges.subscribe(value => {           
+        this.f.zona.valueChanges.subscribe(value => {    
+            this.f.region.setValue(undefined);
+            this.regiones.next([]);          
             this.regionService.activesByZona(value).subscribe(data => {
                 this.regiones.next(data);
                 this.cdr.detectChanges();
@@ -187,7 +195,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         });
 
         this.cdr.detectChanges();
-        //this.printErrors()
     }
 
     save() {
@@ -213,7 +220,6 @@ export class AgenciaFormComponent extends FormBaseComponent implements OnInit {
         if (this.agencia.id) {
             this.applyChangeStatus(this.agenciaService, this.agencia, this.agencia.nombre, this.cdr);
         }
-        // create regular expression validate email
     }
 
 }

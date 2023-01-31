@@ -15,59 +15,37 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
 
-                
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
-                    <div fxLayout="column" *ngIf="loading | async" >
-                        <div fxLayout="column"  fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="300px">
+                    <div fxLayout="column" *ngIf="loading | async">
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="300px">
 
-                            <!--fxLayoutAlign="center" 
-                                <button color="accent" class="btn-deposito margin-bottom-md"  mat-raised-button (click)="selected = 0" 
-                            [color]="this.selected == 0 ? 'primary' : 'accent'" [disabled]="selected != 0">
-                                <i class="fa-light fa-money-bills fa-lg" ></i> &nbsp; Depósito en Efectivo &nbsp; <i class="fa-light fa-money-bills fa-lg" ></i>
-                            </button>
-                            <button color="accent" class="btn-deposito margin-bottom-md"  mat-raised-button (click)="selected = 1" [color]="this.selected == 1 ? 'primary' : 'accent'"  
-                            [disabled]="selected === 2" >
-                                <i class="fa-light fa-money-check fa-lg"></i>&nbsp; Depósito de Cheques &nbsp; <i class="fa-light fa-money-check fa-lg"></i>
-                            </button>
-                            <button color="accent" class="btn-deposito margin-bottom-md"  mat-raised-button (click)="selected = 2" [color]="this.selected == 2 ? 'primary' : 'accent'"  
-                            [disabled]="selected  === 1 ">
-                                <i class="fa-light fa-money-bills fa-lg" ></i>&nbsp; Depósito Mixto &nbsp; <i class="fa-light fa-money-check fa-lg"></i>
-                            </button>
-                            <button class=" fa-lg" mat-icon-button matTooltip="{{'button.clean' | translate:
-                            {default: 'global.notfound'} | translate }}" type="button" (click)="reset()">
-                            <i class="fa-light fa-arrows-repeat"></i>
-                            </button> -->
-                            
-                            <div  class="margin-bottom-md">
-                                <mat-slide-toggle [color]="'primary'" [(ngModel)]="esEfectivo" (change)="esEfectivoEvent($event)" >
+                            <div class="margin-bottom-md">
+                                <mat-slide-toggle [color]="'primary'" [(ngModel)]="esEfectivo" (change)="esEfectivoEvent($event)">
                                     Depósito en Efectivo
                                 </mat-slide-toggle>
                             </div>
-                            <div  class="margin-bottom-md">
+                            <div class="margin-bottom-md">
                                 <mat-slide-toggle [color]="'primary'" [(ngModel)]="esCheques" (change)="esChequesEvent($event)">
                                     Depósito de Cheques
                                 </mat-slide-toggle>
                             </div>
-                            <div  class="margin-bottom-md">
+                            <div class="margin-bottom-md">
                                 <mat-slide-toggle [color]="'primary'" [(ngModel)]="esMixto" (change)="esMixtoEvent($event)">
                                     Depósito Mixto
                                 </mat-slide-toggle>
                             </div>
                         </div>
-                        <!-- Injectar componente de Deposito en Efectivo *ngIf="this.selected == 0" -->
-                        <sirio-deposito-efectivo (result)="depositoEfectivo($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion" *ngIf="this.esEfectivo"></sirio-deposito-efectivo>
-                        <!-- Fin del Componente -->
-                        <!-- Injectar componente de Deposito en Efectivo *ngIf="this.selected === 1"-->
-                        <sirio-deposito-cheques (result)="depositoCheques($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion" *ngIf="this.esCheques"></sirio-deposito-cheques>
-                        <!-- Fin del Componente -->
-                        <!-- Injectar componente de Deposito en Efectivo *ngIf="this.selected === 2"-->
-                        <sirio-deposito-mixto (result)="depositoMixto($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion" *ngIf="this.esMixto"></sirio-deposito-mixto>                
-                        <!-- Injectar componente *ngIf="this.selected >= 0 "-->
-                        <sirio-voucher-information (result)="voucher($event)" [persona]="persona" *ngIf="this.esEfectivo || this.esCheques || this.esMixto "></sirio-voucher-information>
-                        <!-- Fin del Componente -->
+                        <sirio-deposito-efectivo (result)="depositoEfectivo($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
+                            *ngIf="this.esEfectivo"></sirio-deposito-efectivo>
+                        <sirio-deposito-cheques (result)="depositoCheques($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
+                            *ngIf="this.esCheques"></sirio-deposito-cheques>
+                        <sirio-deposito-mixto (result)="depositoMixto($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion" *ngIf="this.esMixto">
+                        </sirio-deposito-mixto>
+                        <sirio-voucher-information (result)="voucher($event)" [persona]="persona" *ngIf="this.esEfectivo || this.esCheques || this.esMixto ">
+                        </sirio-voucher-information>
                     </div>
-                    
+
                 </sirio-card-content>
                 <mat-toolbar *ngIf="loading | async">
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -75,13 +53,13 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid  || !voucherForm ||  voucherForm.invalid">
+                        <button color="primary" (click)="save()" mat-raised-button
+                            [disabled]="!itemForm || itemForm.invalid  || !voucherForm ||  voucherForm.invalid || (loading$ | async )">
                             {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>
                 </mat-toolbar>
-                <!-- {{printErrors() | json}} -->
             </sirio-card>
         </div>
     </sirio-page-layout-content>

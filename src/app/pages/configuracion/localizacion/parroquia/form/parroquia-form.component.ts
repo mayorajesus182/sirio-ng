@@ -21,10 +21,10 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ParroquiaFormComponent extends FormBaseComponent implements OnInit {
 
-    parroquia: Parroquia = {} as Parroquia;
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public paises = new BehaviorSubject<Pais[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
+    parroquia: Parroquia = {} as Parroquia;
 
     constructor(
         injector: Injector,
@@ -35,7 +35,7 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
         private estadoService: EstadoService,
         private paisService: PaisService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -58,7 +58,7 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -69,7 +69,7 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
         });
-        
+
     }
 
     ngAfterViewInit(): void {
@@ -96,7 +96,7 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
 
     buildForm(parroquia: Parroquia) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: parroquia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: parroquia.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(parroquia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             municipio: new FormControl(parroquia.municipio || undefined, [Validators.required]),
             estado: new FormControl(parroquia.estado || undefined, [Validators.required]),
@@ -105,7 +105,9 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
+            this.f.estado.setValue(undefined);
+            this.estados.next([]);
+            this.estadoService.activesByPais(value).subscribe(data => {
                 this.estados.next(data);
                 this.cdr.detectChanges();
             });
@@ -113,7 +115,9 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
 
 
         this.f.estado.valueChanges.subscribe(value => {
-            this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+            this.f.municipio.setValue(undefined);
+            this.municipios.next([]);
+            this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
             });

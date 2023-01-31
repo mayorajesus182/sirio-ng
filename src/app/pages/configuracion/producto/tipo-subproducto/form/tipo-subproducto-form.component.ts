@@ -22,11 +22,11 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class TipoSubproductoFormComponent extends FormBaseComponent implements OnInit {
 
-    tipoSubproducto: TipoSubproducto = {} as TipoSubproducto;
     public tipoProductos = new BehaviorSubject<TipoProducto[]>([]);
     public tipoPersonas = new BehaviorSubject<TipoPersona[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     constants = GlobalConstants;
+    tipoSubproducto: TipoSubproducto = {} as TipoSubproducto;
 
     constructor(
         injector: Injector,
@@ -67,11 +67,7 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
                 }
             });
         }
-
-        this.monedaService.actives().subscribe(data => {
-            this.monedas.next(data);
-        });
-
+        
         this.tipoProductoService.actives().subscribe(data => {
             this.tipoProductos.next(data);
         });
@@ -79,6 +75,12 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
         this.tipoPersonaService.actives().subscribe(data => {
             this.tipoPersonas.next(data);
         });
+
+        this.monedaService.actives().subscribe(data => {
+            this.monedas.next(data);
+        });
+
+
     }
 
     buildForm(tipoSubproducto: TipoSubproducto) {

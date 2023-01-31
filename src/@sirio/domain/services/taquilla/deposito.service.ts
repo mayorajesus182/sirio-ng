@@ -7,7 +7,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface Cheque {
-   
+
     serial: string;
     numeroCuentaCheque: string;
     tipoDocumentoCheque: string;
@@ -23,7 +23,7 @@ export interface Deposito {
     id: number;
     // institucion: string;
     // agencia: string;
-    persona:number;
+    persona: number;
     numper: string;
     cuentaBancaria: number;
     tipoDocumento: string;
@@ -44,17 +44,20 @@ export interface Deposito {
     linea: string;
     telefono: string;
     email: string;
-    tipoDocumentoDepositante: String ;
-    identificacionDepositante: String ;
-    nombreDepositante: String ;
+    // tipoDocumentoDepositante: String ;
+    // identificacionDepositante: String ;
+    // nombreDepositante: String ;
+    tipoDocumentoBeneficiario: String;
+    identificacionBeneficiario: String;
+    nombreBeneficiario: String;
     estatusOperacion: string;
-    detalles:ConoMonetario[];
+    detalles: ConoMonetario[];
     cheques: Cheque[];
-    operacion?:'efectivo' | 'cheques' | 'mixto';
-    
+    operacion?: 'efectivo' | 'cheques' | 'mixto';
+
 }
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class DepositoService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -62,8 +65,8 @@ export class DepositoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/deposito'};
-    
+        this.apiConfig = { name: ApiConfConstants.API_TAQUILLA, prefix: '/deposito' };
+
     }
 
     // save(data: Deposito): Observable<any> {
@@ -71,9 +74,9 @@ export class DepositoService {
     //         .pipe(map(res => data));
     // }
 
-    save(data: Deposito): Observable<any> {       
+    save(data: Deposito): Observable<any> {
         return this.apiService.config(this.apiConfig).post(`/${data.operacion}/create`, data)
             .pipe(map(res => data));
     }
-   
+
 }

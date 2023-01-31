@@ -5,6 +5,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 @Component({
     selector: 'sirio-voucher-information',
@@ -17,6 +18,7 @@ import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
     public voucherForm: FormGroup;
     @Input() persona: Persona = {} as Persona;
+    @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     public tiposDocumentoNaturales = new BehaviorSubject<TipoDocumento[]>([]);
     
@@ -42,9 +44,9 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
         });
 
         this.voucherForm = this.fb.group({
-            tipoDocumentoDepositante: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
-            identificacionDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            nombreDepositante: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            tipoDocumentoBeneficiario: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
+            identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            nombreBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             telefono: new FormControl(''),
             email: new FormControl(''),
             // libreta: new FormControl('', Validators.pattern(RegularExpConstants.NUMERIC)),
@@ -53,14 +55,14 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
             // conMovimiento: new FormControl(false),
         });
 
-        this.voucher.identificacionDepositante.valueChanges.subscribe(val => {
+        this.voucher.identificacionBeneficiario.valueChanges.subscribe(val => {
             if (val) {
-                if (val === this.persona.identificacion ) {
-                    this.voucher.nombreDepositante.setValue(this.persona.nombre);
+                if (val === this.persona.identificacion) {
+                    this.voucher.nombreBeneficiario.setValue(this.persona.nombre);
                     this.voucher.email.setValue(this.persona.email);
                     this.cdref.detectChanges();
                 } else {
-                    this.voucher.nombreDepositante.setValue('');
+                    this.voucher.nombreBeneficiario.setValue('');
                     this.voucher.email.setValue('');
                     this.cdref.detectChanges();
                 }
@@ -93,12 +95,14 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
     // }
 
     resetAll() {
-        this.voucher.identificacionDepositante.setValue('');
-        this.voucher.nombreDepositante.setValue('');
-        this.voucher.email.setValue('');
-        this.voucher.identificacionDepositante.setErrors(undefined);
-        this.voucher.nombreDepositante.setErrors(undefined);
-        this.voucher.email.setErrors(undefined);
+        // this.voucher.identificacionBeneficiario.setValue('');
+        // this.voucher.nombreBeneficiario.setValue('');
+        // this.voucher.email.setValue('');
+        // this.voucher.identificacionBeneficiario.setErrors(undefined);
+        // this.voucher.nombreBeneficiario.setErrors(undefined);
+        // this.voucher.email.setErrors(undefined);
+        this.voucherForm.reset({});
+        this.voucher.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
     }
 }
 

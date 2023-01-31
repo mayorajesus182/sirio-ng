@@ -113,21 +113,27 @@ export class InstitucionFormComponent extends FormBaseComponent implements OnIni
         });
 
         this.f.estado.valueChanges.subscribe(value => {
-            this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+            this.f.municipio.setValue(undefined);
+            this.municipios.next([]);
+            this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
             });
         });
 
-        this.f.municipio.valueChanges.subscribe(value => {           
-            this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+        this.f.municipio.valueChanges.subscribe(value => {          
+            this.f.parroquia.setValue(undefined);
+            this.parroquias.next([]); 
+            this.parroquiaService.activesByMunicipio(value).subscribe(data => {
                 this.parroquias.next(data);
                 this.cdr.detectChanges();
             });
         });
 
-        this.f.parroquia.valueChanges.subscribe(value => {           
-            this.zonaPostalService.activesByParroquia(this.f.parroquia.value).subscribe(data => {
+        this.f.parroquia.valueChanges.subscribe(value => {   
+            this.f.zonaPostal.setValue(undefined);
+            this.zonasPostales.next([]);     
+            this.zonaPostalService.activesByParroquia(value).subscribe(data => {
                 this.zonasPostales.next(data);
                 this.cdr.detectChanges();
             });

@@ -20,7 +20,7 @@ export interface InformacionLaboral {
     numero?: string;
     tomo?: string;
     folio?: string;
-    cargo?: string;    
+    profesion?: string;    
     direccion: string;
     telefono: string;
 }
