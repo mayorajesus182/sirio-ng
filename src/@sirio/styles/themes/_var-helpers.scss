@@ -16,7 +16,7 @@ $theme-divider: mat.get-color-from-palette($theme-foreground-map, divider);
 $theme-icon: mat.get-color-from-palette($theme-foreground-map, icon);
 $theme-elevation: mat.get-color-from-palette($theme-foreground-map, elevation);
 
-$theme-background-login: #335514;
+$theme-background-login: #141a2e;
 $theme-background: mat.get-color-from-palette($theme-background-map, background);
 $theme-app-bar: mat.get-color-from-palette($theme-background-map, app-bar);
 $theme-status-bar: mat.get-color-from-palette($theme-background-map, status-bar);
