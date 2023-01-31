@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { Condicion, CondicionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/condicion.service';
-import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-natural/cargo.service';
+import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/cargo.service';
 import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firma.service';
 import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firmante.service';
 import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/producto/tipo-participacion.service';

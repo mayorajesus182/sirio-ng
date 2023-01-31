@@ -152,19 +152,19 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
 
 
     this.f.estado.valueChanges.subscribe(value => {
-      this.f.municipio.setValue('');
-      this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+      this.f.municipio.setValue(undefined);
+      this.municipioService.activesByEstado(value).subscribe(data => {
         this.municipios.next(data);
         this.cdr.detectChanges();
       });
     });
 
     this.f.municipio.valueChanges.subscribe(value => {
-      this.f.parroquia.setValue('');
+      this.f.parroquia.setValue(undefined);
       this.parroquias.next([]);
       
       if(value){
-        this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+        this.parroquiaService.activesByMunicipio(value).subscribe(data => {
           this.parroquias.next(data);
           this.cdr.detectChanges();
         });
@@ -179,7 +179,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
         });
         
       }else{
-        this.f.zonaPostal.setValue('');
+        this.f.zonaPostal.setValue(undefined);
         this.zonasPostales.next([]);
       }
     });

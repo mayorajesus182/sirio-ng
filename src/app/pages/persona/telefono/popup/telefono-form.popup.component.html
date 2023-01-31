@@ -55,5 +55,5 @@
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

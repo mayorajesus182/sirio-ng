@@ -299,9 +299,9 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
 
-    updateAddress(event){
-        this.totalAddress= event;
-    }
+    // updateAddress(event){
+    //     this.totalAddress= event;
+    // }
     
     updateWorkingInfo(event){
         this.totalInfoLab= event;

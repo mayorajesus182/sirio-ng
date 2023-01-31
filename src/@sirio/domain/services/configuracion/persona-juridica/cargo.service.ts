@@ -22,7 +22,7 @@ export class CargoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-natural/cargo'};
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/persona-juridica/cargo'};
     }
 
     actives(): Observable<Cargo[]> {

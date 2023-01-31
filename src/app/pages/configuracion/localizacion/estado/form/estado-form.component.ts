@@ -19,9 +19,8 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class EstadoFormComponent extends FormBaseComponent implements OnInit {
 
-    estado: Estado = {} as Estado;
     public paises = new BehaviorSubject<Pais[]>([]);
-
+    estado: Estado = {} as Estado;
 
     constructor(
         injector: Injector,
@@ -30,7 +29,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
         private estadoService: EstadoService,
         private paisService: PaisService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -53,7 +52,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -69,7 +68,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(estado: Estado) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: estado.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
+            id: new FormControl({ value: estado.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(estado.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             pais: new FormControl(estado.pais || undefined, [Validators.required]),
             codigoLocal: new FormControl(estado.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),

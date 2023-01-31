@@ -12,7 +12,7 @@
                 <sirio-card-header-subheading>{{('action.add') | translate}}</sirio-card-header-subheading>
                 <sirio-card-header-actions>
                     <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="existsError || arqueoAtm.secuencia == null" (click)="save()">
+                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="existsError || arqueoAtm.secuencia == null || (loading$ | async)" (click)="save()">
                         <mat-icon>save</mat-icon>
                     </button>
 
@@ -265,7 +265,7 @@
                         {{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}
                     </button>
-                    <button color="primary" (click)="save()" mat-raised-button [disabled]="existsError || arqueoAtm.secuencia == null">
+                    <button color="primary" (click)="save()" mat-raised-button [disabled]="existsError || arqueoAtm.secuencia == null || (loading$ | async)">
                         <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                         'global.notfound'} | translate }}
                     </button>

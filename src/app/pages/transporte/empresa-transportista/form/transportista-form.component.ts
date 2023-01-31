@@ -187,6 +187,8 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         });
 
         this.f.estado.valueChanges.subscribe(value => {
+            this.f.municipio.setValue(undefined);
+            this.municipios.next([]);
             this.ciudad = '';
             this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
@@ -196,6 +198,8 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
 
         this.f.municipio.valueChanges.subscribe(value => {
             this.ciudad = this.municipios.value.filter(m => m.id === value).map(m => m.ciudad)[0];
+            this.f.parroquia.setValue(undefined);
+            this.parroquias.next([]);
             this.parroquiaService.activesByMunicipio(value).subscribe(data => {
                 this.parroquias.next(data);
                 this.cdr.detectChanges();
@@ -203,6 +207,8 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         });
 
         this.f.parroquia.valueChanges.subscribe(value => {
+            this.f.zonaPostal.setValue(undefined);
+            this.zonasPostales.next([]);
             this.zonaPostalService.activesByParroquia(value).subscribe(data => {
                 this.zonasPostales.next(data);
                 this.cdr.detectChanges();
@@ -210,6 +216,8 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
         });
 
         this.f.zona.valueChanges.subscribe(value => {
+            this.f.region.setValue(undefined);
+            this.regiones.next([]);
             this.regionService.activesByZona(value).subscribe(data => {
                 this.regiones.next(data);
                 this.cdr.detectChanges();

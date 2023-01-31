@@ -19,14 +19,13 @@ export class TipoDireccionFormComponent extends FormBaseComponent implements OnI
 
     tipoDireccion: TipoDireccion = {} as TipoDireccion;
 
-
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private tipoDireccionService: TipoDireccionService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -49,7 +48,7 @@ export class TipoDireccionFormComponent extends FormBaseComponent implements OnI
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -60,7 +59,7 @@ export class TipoDireccionFormComponent extends FormBaseComponent implements OnI
 
     buildForm(tipoDireccion: TipoDireccion) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: tipoDireccion.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: tipoDireccion.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(tipoDireccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
         });
     }

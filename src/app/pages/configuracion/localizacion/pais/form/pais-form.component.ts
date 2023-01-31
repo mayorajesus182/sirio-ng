@@ -19,14 +19,13 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
 
     pais: Pais = {} as Pais;
 
-
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private paisService: PaisService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -42,14 +41,14 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.markForCheck();
-                
+
             });
         } else {
             this.buildForm(this.pais);
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -60,7 +59,7 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(pais: Pais) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: pais.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: pais.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(pais.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             gentilicio: new FormControl(pais.gentilicio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]),
             codigoLocal: new FormControl(pais.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
