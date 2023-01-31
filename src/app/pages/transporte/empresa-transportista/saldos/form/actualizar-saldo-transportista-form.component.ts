@@ -7,27 +7,27 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoActualizadoAgencia, SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
+import { SaldoAcopioService, SaldoActualizadoAcopio } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-actualizar-saldo-agencia-form',
-  templateUrl: './actualizar-saldo-agencia-form.component.html',
-  styleUrls: ['./actualizar-saldo-agencia-form.component.scss'],
+  selector: 'app-actualizar-saldo-transportista-form',
+  templateUrl: './actualizar-saldo-transportista-form.component.html',
+  styleUrls: ['./actualizar-saldo-transportista-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent implements OnInit {
+export class ActualizarSaldoTransportistaFormComponent extends FormBaseComponent implements OnInit {
 
-  saldoActualizado: SaldoActualizadoAgencia = {} as SaldoActualizadoAgencia;
+  saldoActualizado: SaldoActualizadoAcopio = {} as SaldoActualizadoAcopio;
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
   public monedas = new BehaviorSubject<Moneda[]>([]);
   public conoSave: ConoMonetario[] = [];
   preferencia: Preferencia = {} as Preferencia;
-  agenciaId: string;
-  agencia: string;
+  transportistaId: string;
+  transportista: string;
   saldoAnterior: number;
   faltaDesglose: boolean = false;
 
@@ -39,22 +39,22 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
     private conoMonetarioService: ConoMonetarioService,
     private preferenciaService: PreferenciaService,
     private monedaService: MonedaService,
-    private saldoAgenciaService: SaldoAgenciaService,
+    private saldoAcopioService: SaldoAcopioService,
     private cdr: ChangeDetectorRef) {
     super(undefined, injector);
   }
 
   ngOnInit() {
 
-    this.agenciaId = this.route.snapshot.params['id'];
+    this.transportistaId = this.route.snapshot.params['id'];
 
     const data = history.state.data;
 
     if (data) {
-      this.agencia = data.nombre;
-      sessionStorage.setItem('agencia_nombre', data.nombre);
+      this.transportista = data.nombre;
+      sessionStorage.setItem('transportista_nombre', data.nombre);
     } else {
-      this.agencia = sessionStorage.getItem('agencia_nombre')
+      this.transportista = sessionStorage.getItem('transportista_nombre')
     }
 
 
@@ -68,11 +68,11 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
         this.monedas.next(data);
       });
 
-      this.conoMonetarioService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.conoMonetarioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
-      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(saldo => {
+      this.saldoAcopioService.getLastSaldoByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual).subscribe(saldo => {
         this.saldoAnterior = saldo;
       });
 
@@ -82,18 +82,18 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
 
   buildForm() {
     this.itemForm = this.fb.group({
-      agencia: new FormControl(this.agenciaId),
+      transportista: new FormControl(this.transportistaId),
       moneda: new FormControl(this.preferencia.monedaConoActual, Validators.required),
       monto: new FormControl(undefined, Validators.required),
     });
 
     this.f.moneda.valueChanges.subscribe(val => {
-      this.conoMonetarioService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, val).subscribe(data => {
+      this.conoMonetarioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, val).subscribe(data => {
         this.conos.next(data);
         this.cdr.detectChanges();
       });
 
-      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, val).subscribe(saldo => {
+      this.saldoAcopioService.getLastSaldoByTransportistaAndMoneda(this.transportistaId, val).subscribe(saldo => {
         this.saldoAnterior = saldo;
         this.cdr.detectChanges();
       });
@@ -120,8 +120,8 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
     this.updateData(this.saldoActualizado);
     this.saldoActualizado.detalleEfectivo = this.conoSave;
 
-    this.saldoAgenciaService.update(this.saldoActualizado).subscribe(data => {
-      this.successResponse('El Saldo de la Agencia', 'Actualizado', false);
+    this.saldoAcopioService.update(this.saldoActualizado).subscribe(data => {
+      this.successResponse('El Saldo del Centro de Acopio', 'Actualizado', false);
       return data;
     }, error => this.errorResponse(true));
 

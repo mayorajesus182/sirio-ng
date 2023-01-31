@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.form']" current="{{'action.checkBalances'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="{{'action.updateBalances'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,9 +9,13 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{('carrierCompany.form')|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.checkBalances' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{('agency.form')|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.updateBalances' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                            <mat-icon>save</mat-icon>
+                        </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
@@ -26,20 +30,29 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="40">
-                                    <mat-label>{{'carrierCompany.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate }}</mat-label>
-                                    <input matInput [value]="agenciaId + ' - ' +agencia" readonly>
+                                <mat-form-field fxFlex="30">
+                                    <mat-label>{{'agency.agency' | translate: {default: 'global.agency'} | translate }}</mat-label>
+                                    <input matInput [value]="transportistaId + ' - ' +transportista" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="30" [label]="'carrierCompany.coin' | translate: {default: 'global.coin'} | translate"
+                                <sirio-select-search fxFlex="30" [label]="'agency.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="30">
-                                    <mat-label>{{'carrierCompany.finalBalance' | translate: {default: 'global.finalBalance'} | translate }}
+                                <mat-form-field fxFlex="20">
+                                    <mat-label>{{'agency.previousFinalBalance' | translate: {default: 'global.previousFinalBalance'} | translate }}
                                     </mat-label>
                                     <input matInput class="text-right" [value]="saldoAnterior | number: '1.2'" readonly>
+                                </mat-form-field>
+
+                                <mat-form-field fxFlex="20" appearance="standart">
+                                    <mat-label>{{'agency.finalBalance' | translate: {default: 'global.finalBalance'} | translate }} </mat-label>
+                                    <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
+                                        [options]="{precision:2}" required readonly>
+                                    <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
                             </div>
                         </form>
@@ -54,11 +67,11 @@
                                 <div fxLayout="column" fxFlex="auto">
                                     <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
                                         <mat-form-field fxLayout="column" *ngFor="let item of conos | async" fxFlex="32">
-                                            <mat-label>{{'global.available' | translate }} ({{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}}
-                                                {{ (item.esBillete?'global.bill':
-                                                'global.coin') | translate }})
+                                            <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill':
+                                                'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                             </mat-label>
-                                            <input matInput class="text-right" [value]="item.disponible | number: '1.0'" readonly>
+                                            <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" autocomplete="off" matInput
+                                                type="number" (ngModelChange)="updateValues(item)" />
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -73,6 +86,10 @@
                         <button type="button" mat-button (click)="back()">
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || faltaDesglose">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
                         </button>
                     </div>
 

@@ -9,6 +9,8 @@ import { MaterialTransporteTableComponent } from './materiales/table/material-tr
 import { TransportistaTableComponent } from './table/transportista-table.component';
 import { TerminosTransporteFormComponent } from './terminos/form/terminos-transporte-form.component';
 import { ViajeTransporteTableComponent } from './viajes/table/viaje-transporte-table.component';
+import { ActualizarSaldoTransportistaFormComponent } from './saldos/form/actualizar-saldo-transportista-form.component';
+import { ConsultarSaldoTransportistaFormComponent } from './consultar-saldos/form/consultar-saldo-transportista-form.component';
 
 
 const transportistaRoutes: Routes = [
@@ -57,8 +59,17 @@ const transportistaRoutes: Routes = [
         path: ':id/view',
         component: TransportistaDetailComponent,
         data: { title: 'Visualizar Transportista' }
-    }
-
+    },
+    {
+        path: ':id/balance',
+        component: ActualizarSaldoTransportistaFormComponent,
+        data: { title: 'Saldo del Centro de Acopio' }
+    },
+    {
+        path: ':id/check',
+        component: ConsultarSaldoTransportistaFormComponent,
+        data: { title: 'Consultar Saldo del Centro de Acopio' }
+    },
 ];
 
 
