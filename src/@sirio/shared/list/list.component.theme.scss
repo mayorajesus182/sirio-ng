@@ -24,7 +24,11 @@ sirio-list {
     }
 
     .sirio-filter-input-icon, .sirio-column-filter {
-      color: $theme-icon;
+      // color: $theme-icon;
+        color: rgb(53, 53, 53);
+        .fa-lg{
+          font-size: 1.4em;
+        }
     }
 
     .sirio-list-name {

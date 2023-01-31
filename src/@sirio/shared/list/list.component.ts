@@ -15,10 +15,14 @@ export class ListComponent implements AfterViewInit {
   @Input() name: string;
   @Input() placeholder: string;
   @Input() tooltipStats: string=undefined;
+  @Input() icon_btn: string='file-pdf';
+  @Input() showBottonHelper: boolean=false;
   // @Input() columns: ListColumn[];
 
   @ViewChild('filter') filter: ElementRef;
   @Output() filterChange = new EventEmitter<string>();
+
+  @Output() bottonClick = new EventEmitter<boolean>();
 
   @Input() hideHeader: boolean;
 
