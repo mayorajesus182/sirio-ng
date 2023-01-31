@@ -11,7 +11,7 @@
                     <sirio-card-header-heading>{{'Cierre de Taquilla'|translate}} </sirio-card-header-heading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid ">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)">
                             <mat-icon>outbox</mat-icon>
 
                         </button>

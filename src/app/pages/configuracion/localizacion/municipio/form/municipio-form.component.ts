@@ -20,11 +20,11 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class MunicipioFormComponent extends FormBaseComponent implements OnInit {
 
-    municipio: Municipio = {} as Municipio;
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public paises = new BehaviorSubject<Pais[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
 
+    municipio: Municipio = {} as Municipio;
     constructor(
         injector: Injector,
         private fb: FormBuilder,
@@ -33,7 +33,7 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
         private estadoService: EstadoService,
         private paisService: PaisService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -56,7 +56,7 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -67,7 +67,7 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
         });
-        
+
     }
 
     ngAfterViewInit(): void {
@@ -94,7 +94,7 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
 
     buildForm(municipio: Municipio) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: municipio.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: municipio.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(municipio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             ciudad: new FormControl(municipio.ciudad || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             estado: new FormControl(municipio.estado || undefined, [Validators.required]),
@@ -103,16 +103,17 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
+            this.f.estado.setValue(undefined);
+            this.estados.next([]);
+            this.estadoService.activesByPais(value).subscribe(data => {
                 this.estados.next(data);
-
                 this.cdr.detectChanges();
             });
         });
 
 
         this.f.estado.valueChanges.subscribe(value => {
-                this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+            this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
             });

@@ -22,11 +22,11 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit {
 
-    zonaPostal: ZonaPostal = {} as ZonaPostal;
     public parroquias = new BehaviorSubject<Parroquia[]>([]);
     public municipios = new BehaviorSubject<Municipio[]>([]);
     public paises = new BehaviorSubject<Pais[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
+    zonaPostal: ZonaPostal = {} as ZonaPostal;
 
     constructor(
         injector: Injector,
@@ -38,7 +38,7 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
         private estadoService: EstadoService,
         private paisService: PaisService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -64,7 +64,7 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
         });
-        
+
     }
 
     ngAfterViewInit(): void {
@@ -103,7 +103,7 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
     buildForm(zonaPostal: ZonaPostal) {
 
         this.itemForm = this.fb.group({
-            id: new FormControl({value: zonaPostal.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: zonaPostal.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(zonaPostal.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             municipio: new FormControl(zonaPostal.municipio || undefined, [Validators.required]),
             estado: new FormControl(zonaPostal.estado || undefined, [Validators.required]),
@@ -114,31 +114,37 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            this.estadoService.activesByPais(this.f.pais.value).subscribe(data => {
+            this.f.estado.setValue(undefined);
+            this.estados.next([]);
+            this.estadoService.activesByPais(value).subscribe(data => {
                 this.estados.next(data);
                 this.cdr.detectChanges();
             });
         });
 
         this.f.estado.valueChanges.subscribe(value => {
-                this.municipioService.activesByEstado(this.f.estado.value).subscribe(data => {
+            this.f.municipio.setValue(undefined);
+            this.municipios.next([]);
+            this.municipioService.activesByEstado(value).subscribe(data => {
                 this.municipios.next(data);
                 this.cdr.detectChanges();
             });
         });
 
         this.f.municipio.valueChanges.subscribe(value => {
-                this.parroquiaService.activesByMunicipio(this.f.municipio.value).subscribe(data => {
+            this.f.parroquia.setValue(undefined);
+            this.parroquias.next([]);
+            this.parroquiaService.activesByMunicipio(value).subscribe(data => {
                 this.parroquias.next(data);
                 this.cdr.detectChanges();
             });
         });
 
         this.f.id.valueChanges.subscribe(value => {
-                    if (!this.f.id.errors && this.f.id.value.length > 0) {
-                        this.codigoExists(value);
-                    }
-                });
+            if (!this.f.id.errors && this.f.id.value.length > 0) {
+                this.codigoExists(value);
+            }
+        });
 
         this.cdr.detectChanges();
     }

@@ -235,10 +235,19 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         this.f.actividadEconomica.valueChanges.subscribe(value => {
             if (value) {
-                this.f.actividadEspecifica.setValue('');
-
+                this.f.actividadEspecifica.setValue(undefined);
                 this.actividadEspecificaService.activesByActividadEconomica(this.f.actividadEconomica.value).subscribe(data => {
                     this.actividadesEspecificas.next(data);
+                    this.cdr.detectChanges();
+                });
+            }
+        });
+
+        this.f.actividadEspecifica.valueChanges.subscribe(value => {
+            if (value) {
+                this.f.categoriaEspecial.setValue(undefined);
+                this.categoriaEspecialService.actives().subscribe(data => {
+                    this.categoriasEspeciales.next(data);
                     this.cdr.detectChanges();
                 });
             }

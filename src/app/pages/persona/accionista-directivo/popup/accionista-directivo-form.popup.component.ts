@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { PepConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
-import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-natural/cargo.service';
+import { Cargo, CargoService } from 'src/@sirio/domain/services/configuracion/persona-juridica/cargo.service';
 import { TipoPep, TipoPepService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-pep.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { AccionistaDirectivo, AccionistaDirectivoService } from 'src/@sirio/domain/services/persona/accionista-directivo/accionista-directivo.service';
