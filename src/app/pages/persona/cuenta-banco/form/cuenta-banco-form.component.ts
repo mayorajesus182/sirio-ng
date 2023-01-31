@@ -6,6 +6,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
 import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
@@ -37,6 +38,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     tipoParticipaciones = new BehaviorSubject<TipoParticipacion[]>([]);
     tipoFirmas = new BehaviorSubject<TipoFirma[]>([]);
     tipoFirmantes = new BehaviorSubject<TipoFirmante[]>([]);
+
+    monedaVirtuales = new BehaviorSubject<Moneda[]>([]);
 
     totalBankReference: number;
     // totalPersonalReference: number;
@@ -76,7 +79,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private personaReportService: PersonaReportService,
         private tipoParticipacionService: TipoParticipacionService,
         private tipoFirmaService: TipoFirmaService,
+
         private tipoFirmanteService: TipoFirmanteService,
+        
+        private monedaService: MonedaService,
+        
 
         private origenFondoService: OrigenFondoService,
         private destinoCuentaService: DestinoCuentaService,
@@ -96,6 +103,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     ngOnInit() {
+
+       this.monedaService. virtualActives().subscribe(data => {
+            this.monedaVirtuales.next(data);
+        });
 
         this.paisService.actives().subscribe(data => {
             this.paises.next(data);
@@ -136,6 +147,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             // this.cdr.detectChanges();
         });
 
+        
         this.tipoFirmanteService.actives().subscribe(data => {
             this.tipoFirmantes.next(data);
             // this.cdr.detectChanges();
@@ -193,6 +205,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             fondoExterior: new FormControl(this.cuentaBanco.fondoExterior || false),
             paisOrigen: new FormControl(this.cuentaBanco.paisOrigen || undefined),
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
+
+            monedaVirtual: new FormControl(this.cuentaBanco.monedaVirtual || undefined),
+            
+
             moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
             tipoParticipacion: new FormControl(this.cuentaBanco.tipoParticipacion || undefined, [Validators.required]),
             tipoFirma: new FormControl(this.cuentaBanco.tipoFirma || undefined, [Validators.required]),
@@ -333,7 +349,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.cuentaBancoService.save(this.cuentaBanco).subscribe(data => {
                 this.cuentaBanco = data;
                 this.isNew = false;
-                console.log(data);
+                // console.log(data);
 
                 this.successResponse('La Cuenta Banco', 'creada', true);
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;

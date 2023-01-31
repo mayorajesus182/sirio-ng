@@ -189,6 +189,13 @@
                                             formControlName="montoElectronico" [required]="true" [elements]="promedioMontos.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.montoElectronico?.errors">
                                         </sirio-select-search>
+
+                                        <sirio-select-search fxFlex="auto"
+                                            [label]="'Uso Modena Virtual' | translate: {default: 'Uso Modena Virtual'} | translate"
+                                            formControlName="monedaVirtual"  [elements]="monedaVirtuales.asObservable()" [attributeName]="'nombre'"
+                                            [errors]="f.monedaVirtual?.errors">
+                                        </sirio-select-search>
+
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
