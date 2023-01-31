@@ -30,7 +30,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   intervinientes: string[] = [];
   tipoFirmaCurr = '01';
-  multipleFirmantes:boolean=false;
+  multipleFirmantes: boolean = false;
 
   constructor(
     injector: Injector,
@@ -47,7 +47,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
     this.intervinienteService.allByCuentaId(this.cuenta).subscribe((data) => {
       console.log(data);
       this.intervinientes = data.map(i => i.identificacion);// esto es para validar que no incluyan el mismo interviniente
-      this.multipleFirmantes = data.filter(f=> f.tipoFirma!=GlobalConstants.TIPO_FIRMA_UNICA).length > 0;// verificar si la firma es conjunta o separada
+      this.multipleFirmantes = data.filter(f => f.tipoFirma != GlobalConstants.TIPO_FIRMA_UNICA).length > 0;// verificar si la firma es conjunta o separada
 
       this.intervinienteList.next(data.slice());
       // this.propagar.emit(data.length);
@@ -110,7 +110,6 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
       data.cuenta = this.cuenta;
     }
     this.showFormPopup(IntervinienteFormPopupComponent, !data ? { cuenta: this.cuenta, intervinientes: this.intervinientes } : { ...data, ...{ intervinientes: this.intervinientes } }, '70%').afterClosed().subscribe(event => {
-      // this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data?{persona:this.persona,referencias:this.referencias}:{...data,...{referencias:this.referencias}},'40%').afterClosed().subscribe(event=>{
 
       if (event) {
         this.onRefresh.next(true);
