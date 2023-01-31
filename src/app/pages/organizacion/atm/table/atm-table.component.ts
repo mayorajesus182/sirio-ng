@@ -75,13 +75,20 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     this.applyChangeStatus(this.atmService, data.element, data.element.nombre, this.cdr);
   }
 
-  // print() {
-  //   this.atmReportService.reporte().subscribe(data => {
-  //     const name = this.getFileName(data);
-  //     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-  //     this.download(name, blob);
-  //   });
-  // }
+
+
+  print(event) {
+    if(event){
+
+      console.log(" por aca  se debe imprimir ");
+      
+      // this.atmReportService.reporte().subscribe(data => {
+      //   const name = this.getFileName(data);
+      //   let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+      //   this.download(name, blob);
+      // });
+    }
+  }
 
 }
 

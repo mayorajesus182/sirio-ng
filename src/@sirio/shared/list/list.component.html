@@ -4,7 +4,7 @@
        fxLayout="row"
        fxLayoutAlign="start center"
        fxLayoutGap="8px"
-       fxLayoutGap.gt-xs="24px">
+       fxLayoutGap.gt-xs="18px">
     <div class="sirio-list-name">{{ name }}</div>
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
@@ -19,6 +19,10 @@
 
     <button class="icon" class="sirio-column-filter" *ngIf="tooltipStats" mat-icon-button [tooltip]="tooltipStats" type="button" >
       <mat-icon>query_stats</mat-icon>
+    </button>
+
+    <button class="icon" class="sirio-column-filter" *ngIf="showBottonHelper" matTooltip="Generar" mat-icon-button (click)="bottonClick.emit(true)" type="button" >      
+      <i class="fal fa-{{icon_btn}} fa-lg"></i>
     </button>
 
     <button class="sirio-column-filter" type="button" mat-icon-button matTooltip="{{'button.cancel' | translate:
