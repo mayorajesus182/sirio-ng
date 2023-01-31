@@ -62,7 +62,7 @@ export class FormBaseComponent {
     public data: any;
     public loadingDataForm = new BehaviorSubject<boolean>(undefined);
 
-    protected loading$ = this.loadingDataForm.asObservable();
+    public loading$ = this.loadingDataForm.asObservable();
 
 
     protected snack: SnackbarService;

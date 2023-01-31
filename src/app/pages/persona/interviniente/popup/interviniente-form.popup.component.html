@@ -85,6 +85,19 @@
           </sirio-select-search>
   
         </div>
+
+        <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+          <!-- condicion -->
+
+          <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['condicion']" [required]="true"
+            [elements]="condiciones.asObservable()" [attributeName]="'nombre'" [errors]="f.condicion?.errors">
+          </sirio-select-search>
+  
+          <!-- cargo -->
+          <sirio-select-search fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['cargo']" [required]="true"
+            [elements]="cargos.asObservable()" [attributeName]="'nombre'" [errors]="f.cargo?.errors">
+          </sirio-select-search>
+        </div>
       
   
       <!-- {{printErrors() | json}}  -->
@@ -97,5 +110,5 @@
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="!itemForm ||itemForm.invalid">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="!itemForm || itemForm.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

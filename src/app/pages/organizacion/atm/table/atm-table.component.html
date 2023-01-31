@@ -5,7 +5,7 @@
 
     <sirio-page-layout-content [@fadeInUp]>
         <sirio-list [name]="'atm.table' | translate: {default: 'global.notfound'}" placeholder="atm.search"
-            (filterChange)="onFilterChange($event)">
+            (filterChange)="onFilterChange($event)" (bottonClick)="print($event)" showBottonHelper="true">
 
             <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
                 matSortActive="fcreacion" matSortDirection="desc">

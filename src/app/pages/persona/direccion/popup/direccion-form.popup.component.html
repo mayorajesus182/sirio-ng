@@ -15,7 +15,7 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
       <sirio-select-simple fxFlex="33" autofocus="true" [label]="'personAddress.addressType' | translate: {default: 'global.addressType'} | translate"
-        formControlName="tipoDireccion" [required]="true" [elements]="tiposDirecciones.asObservable()" [readonly]="!isNew" [attributeName]="'nombre'">
+        formControlName="tipoDireccion" [required]="true" [elements]="tiposDirecciones.asObservable()" [readonly]="principal || primerRegistro" [attributeName]="'nombre'">
       </sirio-select-simple>
 
       <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.state' | translate: {default: 'global.state'} | translate" formControlName="estado"
@@ -24,21 +24,20 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <sirio-select-search fxFlex.gt-xs="25" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'personAddress.municipality' | translate: {default: 'global.municipality'} | translate"
         formControlName="municipio" [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" >
       </sirio-select-search>
 
-      <mat-form-field ffxFlex.gt-xs="25">
-        <mat-label>{{'Ciudad' | translate: {default:
-          'Ciudad'} | translate }} </mat-label>
-        <input matInput maxlength="100" minlength="1" autocomplete="off" name="" [value]="nombreCiudad()" uppercase readonly>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
+        <mat-label>{{'Ciudad' | translate: {default: 'Ciudad'} | translate }} </mat-label>
+        <input matInput autocomplete="off" name="" [value]="nombreCiudad()" readonly>
       </mat-form-field>
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.parish' | translate: {default: 'global.parish'} | translate" formControlName="parroquia"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'personAddress.parish' | translate: {default: 'global.parish'} | translate" formControlName="parroquia"
         [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'personAddress.postalZone' | translate: {default: 'global.postalZone'} | translate"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'personAddress.postalZone' | translate: {default: 'global.postalZone'} | translate"
         formControlName="zonaPostal" [required]="true" [elements]="zonasPostales.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
     </div>
@@ -97,5 +96,5 @@
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

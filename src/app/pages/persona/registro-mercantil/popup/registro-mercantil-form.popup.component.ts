@@ -1,8 +1,8 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { GlobalConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 //import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { RegistroMercantil, RegistroMercantilService } from 'src/@sirio/domain/services/persona/registro-mercantil/registro-mercantil.service';
@@ -19,6 +19,7 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
   todayValue: moment.Moment;
   registroMercantil: RegistroMercantil = {} as RegistroMercantil;
   esGobierno: boolean = false;
+  ultimaModificacion: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -37,6 +38,8 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
   ngOnInit() {
 
     this.esGobierno = (this.defaults.payload.tipoDocumento === GlobalConstants.TIPDOC_GOBIERNO);
+    this.ultimaModificacion = this.defaults.payload.ultimaModificacion;
+
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.registroMercantilService.get(this.defaults.payload.id).subscribe(data => {
@@ -61,15 +64,16 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
 
   buildForm() {
     this.itemForm = this.fb.group({
-      nombre: new FormControl(this.registroMercantil.nombre || undefined),
-      folio: new FormControl(this.registroMercantil.folio || undefined),
-      numero: new FormControl(this.registroMercantil.numero || undefined),
+      nombre: new FormControl(this.registroMercantil.nombre || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)),
+      folio: new FormControl(this.registroMercantil.folio || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
+      numero: new FormControl(this.registroMercantil.numero || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
       fecha: new FormControl(this.registroMercantil.fecha ? moment(this.registroMercantil.fecha, 'DD/MM/YYYY') : ''),
-      tomo: new FormControl(this.registroMercantil.tomo || undefined),
+      tomo: new FormControl(this.registroMercantil.tomo || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
       capitalSocial: new FormControl(this.registroMercantil.capitalSocial || undefined),
-      gaceta: new FormControl(this.registroMercantil.gaceta || undefined),
-      decreto: new FormControl(this.registroMercantil.decreto || undefined),
-      codigoOnt: new FormControl(this.registroMercantil.codigoOnt || undefined),
+      ente: new FormControl(this.registroMercantil.ente || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)),
+      gaceta: new FormControl(this.registroMercantil.gaceta || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
+      decreto: new FormControl(this.registroMercantil.decreto || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
+      codigoOnt: new FormControl(this.registroMercantil.codigoOnt || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
     });
     this.cdr.detectChanges();
   }

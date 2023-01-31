@@ -5,7 +5,6 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { RegularExpConstants } from 'src/@sirio/constants';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -23,7 +22,6 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
-    // public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
 
@@ -128,12 +126,11 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         let montoDeposito = this.f.monto.value ? this.f.monto.value : 0.00;
         // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        if ((Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1) || (event?.montoTotal===0)) {
+        if ((Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1) || (event?.montoTotal === 0)) {
 
             this.f.efectivo.setErrors({
                 difference: true
             });
-            // && (event.montoTotal > 0)
             if (event && event.montoTotal > 0) {
                 this.f.monto.setValue(event.montoTotal);
                 this.f.monto.setErrors({
@@ -146,12 +143,10 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             this.f.efectivo.markAsDirty();
         } else {
             if (event) {
-
                 this.f.monto.setValue(this.f.efectivo.value);
-                // this.f.totalRetiro.setValue(event.montoTotal);
                 this.f.monto.setErrors(undefined);
                 this.f.efectivo.setErrors(undefined);
-            }else{
+            } else {
                 this.f.efectivo.setErrors({
                     difference: true
                 });
@@ -172,7 +167,6 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     }
 
     reset() {
-        this.itemForm.reset({});
         this.cargaDatos();
         this.f.efectivo.setValue(0.00);
         this.f.monto.setValue(0.00);

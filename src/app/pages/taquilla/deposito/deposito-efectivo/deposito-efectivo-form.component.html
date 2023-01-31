@@ -33,7 +33,6 @@
                         [options]="{precision:2}">
                     <mat-error *ngIf="f.efectivo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                     <mat-error *ngIf="f.efectivo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                    <!-- <mat-error *ngIf="f.efectivo.errors?.difference">Monto Incorrecto</mat-error> -->
                     <mat-error *ngIf="f.efectivo.errors?.difference">Debe Descriminar el efectivo</mat-error>
                 </mat-form-field>
 

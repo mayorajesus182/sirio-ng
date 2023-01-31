@@ -19,21 +19,26 @@
             </div>
 
             <div fxLayout="column" class="margin-h padding-v">
-                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'"
+                <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [columnMode]="ColumnMode.force"
                     [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
                     [footerHeight]="50" [rowHeight]="50" [limit]="10" [rows]="arqueos | async">
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ngx-datatable-column [resizeable]="false" [width]="100" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'cosultRecountAtm.sequence' | translate: {default: 'global.sequence'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <div style="white-space: break-spaces;" class="text-center">{{ row?.secuencia }}</div>
+                            <div style="white-space: break-spaces;" class="text-center">
+                                <button mat-icon-button mat-sm-button color="error" >
+                                    <i *ngIf="row?.montoSobrante+row?.montoFaltante > 0" class="fa-light fa-triangle-exclamation fa-lg"></i>
+                                </button>
+                                {{ row?.secuencia }}
+                            </div>
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ngx-datatable-column [resizeable]="false" [width]="100" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'cosultRecountAtm.date' | translate: {default: 'global.date'} |
                                 translate}}</span>
@@ -43,7 +48,7 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ngx-datatable-column [resizeable]="false" [width]="100" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'cosultRecountAtm.recountType' | translate: {default: 'global.recountType'} |
                                 translate}}</span>
@@ -53,32 +58,31 @@
                         </ng-template>
                     </ngx-datatable-column>
 
-                    <ngx-datatable-column [flexGrow]="1" [sortable]="true">
+                    <ngx-datatable-column [resizeable]="false" [width]="100" [sortable]="true">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'cosultRecountAtm.amount' | translate: {default: 'global.amount'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <div style="white-space: break-spaces;" class="text-right">{{ row?.monto | number: '1.2'}}</div>
+                            <div style="white-space: break-spaces;" class="text-right">{{ (row?.montoIncremento+row?.montoRetiro > 0 ? row?.montoIncremento+row?.montoRetiro : row?.monto) | number: '1.2'}}</div>
                         </ng-template>
                     </ngx-datatable-column>
 
-
-                    <ngx-datatable-column [flexGrow]="1">
+                    <ngx-datatable-column [resizeable]="false" [width]="100">
                         <ng-template ngx-datatable-header-template>
                             <span>{{'cosultRecountAtm.actions' | translate: {default: 'global.actions'} |
                                 translate}}</span>
                         </ng-template>
                         <ng-template let-row="row" ngx-datatable-cell-template>
-                            <div class="text-center"> 
-                            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="openPopup(row)"
-                                matTooltip="Visualizar"  class="text-center">
-                                <mat-icon>visibility</mat-icon>
-                            </button> &nbsp;
-                            <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="print(row)"
-                                matTooltip="Reporte"  class="text-center">
-                                <mat-icon>receipt_long</mat-icon>
-                            </button>
+                            <div class="text-center">
+                                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="openPopup(row)" matTooltip="Visualizar"
+                                    class="text-center">
+                                    <mat-icon>visibility</mat-icon>
+                                </button> &nbsp;
+                                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="print(row)" matTooltip="Reporte"
+                                    class="text-center">
+                                    <mat-icon>receipt_long</mat-icon>
+                                </button>
                             </div>
                         </ng-template>
                     </ngx-datatable-column>

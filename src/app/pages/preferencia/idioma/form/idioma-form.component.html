@@ -78,7 +78,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}</button>
                         <button color="primary" (click)="save()" mat-raised-button
-                            [disabled]="itemForm?.invalid  ">  
+                            [disabled]="itemForm?.invalid || (loading$ | async) ">  
                             <mat-icon class="margin-bottom-xxs" >save</mat-icon> {{'button.save' | translate: {default: 'global.notfound'} | translate }}</button>
                     </div>
                 </mat-toolbar>

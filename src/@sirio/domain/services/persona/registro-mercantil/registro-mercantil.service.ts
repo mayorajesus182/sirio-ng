@@ -7,25 +7,16 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface RegistroMercantil {
     id: string;
-   
     persona: string;
-
     nombre: string;
-
     numero: string;
-
     tomo: string;
-
     folio: string;
-
     capitalSocial: string;
-
+    ente: string;
     gaceta: string;
-
     decreto: string;
-
     fecha: any;
-
     codigoOnt: string;
 }
 

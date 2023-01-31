@@ -45,7 +45,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  || (loading$ | async)">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i>{{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

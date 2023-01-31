@@ -45,7 +45,6 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   }
 
   ngOnInit() {
-
     if (this.persona) {
       this.loadList();
       this.onRefresh.subscribe(val => {
@@ -63,7 +62,9 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
   popup() {
     let data = undefined;
     if (this.registros.length > 0) {
-      data = this.registros[0];
+      data = this.registros[this.registros.length-1];
+      data.tipoDocumento = this.tipoDocumento;
+      data.ultimaModificacion = true;
     }
 
     this.showFormPopup(RegistroMercantilFormPopupComponent, !data ? { persona: this.persona, tipoDocumento: this.tipoDocumento } : data, '60%').afterClosed().subscribe(event => {

@@ -11,10 +11,13 @@
                 matSortActive="remesa_id" matSortDirection="desc">
 
                 <ng-container matColumnDef="remesa_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'consultRemittances.billOfLading' | translate:
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'consultRemittances.billOfLading' | translate:
                         {default: 'global.billOfLading'} | translate }}</mat-header-cell>
-                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-10'">
-                        <p class="font-weight-600">{{element.id}}</p>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <button mat-icon-button mat-sm-button color="error" >
+                            <i *ngIf="element.diferencia != 0" class="fa-light fa-triangle-exclamation fa-lg"></i>
+                        </button>
+                        <p class="font-weight-600">{{element.id}}</p> <p class="font-weight-600">{{element.montoEnviado}}</p>
                     </mat-cell>
                 </ng-container>
 

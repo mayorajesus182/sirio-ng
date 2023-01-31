@@ -74,7 +74,6 @@ export class ReferenciaBancariaTableComponent extends TableBaseComponent impleme
   }
 
   popup(data?: ReferenciaBancaria) {
-    console.log(data);
     if (data) {
       data.persona = this.persona;
     }

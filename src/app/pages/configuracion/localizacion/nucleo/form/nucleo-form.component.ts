@@ -19,14 +19,13 @@ export class NucleoFormComponent extends FormBaseComponent implements OnInit {
 
     nucleo: Nucleo = {} as Nucleo;
 
-
     constructor(
         injector: Injector,
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private nucleoService: NucleoService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -49,7 +48,7 @@ export class NucleoFormComponent extends FormBaseComponent implements OnInit {
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -60,7 +59,7 @@ export class NucleoFormComponent extends FormBaseComponent implements OnInit {
 
     buildForm(nucleo: Nucleo) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: nucleo.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: nucleo.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(nucleo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(nucleo.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });

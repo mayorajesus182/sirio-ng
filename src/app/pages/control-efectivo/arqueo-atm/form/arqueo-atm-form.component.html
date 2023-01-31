@@ -12,7 +12,7 @@
                 <sirio-card-header-subheading>{{('action.add') | translate}}</sirio-card-header-subheading>
                 <sirio-card-header-actions>
                     <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="existsError || arqueoAtm.secuencia == null" (click)="save()">
+                    {default: 'global.notfound'} | translate }}" type="button" [disabled]="existsError || arqueoAtm.secuencia == null || (loading$ | async)" (click)="save()">
                         <mat-icon>save</mat-icon>
                     </button>
 
@@ -54,6 +54,16 @@
                     </mat-form-field>
 
                     <mat-form-field fxFlex="15" appearance="standart">
+                        <mat-label>{{'recountAtm.leftoverAmount' | translate: {default: 'global.leftoverAmount'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.montoSobrante | number:'1.2'" readonly class="text-right">
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" appearance="standart">
+                        <mat-label>{{'recountAtm.missingAmount' | translate: {default: 'global.missingAmount'} | translate }}</mat-label>
+                        <input matInput [value]="arqueoAtm.montoFaltante | number:'1.2'" readonly class="text-right">
+                    </mat-form-field>
+
+                    <mat-form-field fxFlex="15" appearance="standart">
                         <mat-label>{{'recountAtm.recountAmount' | translate: {default: 'global.recountAmount'} | translate }}</mat-label>
                         <input matInput [value]="arqueoAtm.montoArqueo | number:'1.2'" readonly class="text-right">
                     </mat-form-field>
@@ -73,19 +83,22 @@
                         <input matInput [value]="arqueoAtm.montoFinal | number:'1.2'" readonly class="text-right">
                     </mat-form-field>
 
-                    <div fxFlex="15" class="text-center margin-top-md">
+                </div>
+
+                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                    <div fxFlex="45" class="text-right margin-top-md">
                         <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esRetiroAtm" (change)="esRetiroEvent($event)">
                             {{'recountAtm.makeWithdrawal' | translate: {default: 'global.makeWithdrawal'} | translate }}
                         </mat-slide-toggle>
                     </div>
-
-                    <div fxFlex="18" class="text-center margin-top-md">
+                    <div fxFlex="10"></div>
+                    <div fxFlex="45" class="text-left margin-top-md">
                         <mat-slide-toggle [color]="'primary'" [(ngModel)]="arqueoAtm.esIncrementoAtm" (change)="esIncrementoEvent($event)">
                             {{'recountAtm.makeIncrement' | translate: {default: 'global.makeIncrement'} | translate }}
                         </mat-slide-toggle>
                     </div>
-
-                </div>
+               </div>   
 
                 <div fxLayout="column" class="margin-h padding-v">
                     <ngx-datatable [scrollbarV]="false" class="material bg-white" [columnMode]="'flex'" [columnMode]="columnMode.force"
@@ -252,7 +265,7 @@
                         {{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}
                     </button>
-                    <button color="primary" (click)="save()" mat-raised-button [disabled]="existsError || arqueoAtm.secuencia == null">
+                    <button color="primary" (click)="save()" mat-raised-button [disabled]="existsError || arqueoAtm.secuencia == null || (loading$ | async)">
                         <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                         'global.notfound'} | translate }}
                     </button>

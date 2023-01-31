@@ -1,14 +1,10 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <!-- TODO: I18n -->
         <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashWithdrawal.form']" current="{{isNew?'action.add':'action.edit'}}">
         </sirio-breadcrumbs>
     </sirio-page-layout-header>
-
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
-
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
-
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
                     <sirio-card-header-heading>{{'cashWithdrawal.form'|translate}}</sirio-card-header-heading>
@@ -25,7 +21,6 @@
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
                     <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
                         <div fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="(loaded$ | async)">
-                            <!-- pruebaaaaaaaaaaaaaaaaaaaaa JJSD-->
                             <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp
                                 fxFlex="grow">
                                 <sirio-card-header class="header-bg">
@@ -65,26 +60,20 @@
                                             [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
                                         </sirio-select-simple>
 
-                                        <!--total efectivo-->
                                         <mat-form-field fxFlex.gt-xs="auto">
                                             <mat-label>{{'withdrawal.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
                                             <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="monto" formControlName="monto"
                                                 min="0.01" currencyMask [options]="{precision:2}" required>
                                             <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                            <!-- <mat-error *ngIf="f.efectivo.errors?.difference">Monto Incorrecto</mat-error> -->
                                             <mat-error *ngIf="f.monto.errors?.difference">Debe Descriminar el efectivo</mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.required">{{'error.required'
-                                                | translate}}</mat-error>
                                         </mat-form-field>
-
 
                                         <sirio-cash-button operation="retiro" [moneda]="f.moneda.value" [total]="f.monto.value" class="margin-top-sm"
                                             [disabled]="f.monto.value == 0.00 " (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                             [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 
-                                        <!--total retiro -->
                                         <mat-form-field fxFlex.gt-xs="auto">
                                             <mat-label>{{'withdrawal.totalWithdrawal' | translate: {default: 'global.totalWithdrawal'} | translate }}
                                             </mat-label>
@@ -93,8 +82,6 @@
                                             <mat-error *ngIf="f.totalRetiro.errors?.totalDifference">Monto Incorrecto</mat-error>
                                             <mat-error *ngIf="f.totalRetiro.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.totalRetiro.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                            <mat-error *ngIf="f.totalRetiro.errors?.required">{{'error.required'
-                                                | translate}}</mat-error>
                                         </mat-form-field>
 
 
@@ -106,9 +93,6 @@
                                 <sirio-card-header class="header-bg">
                                     <sirio-card-header-heading><i class="fa-light fa-address-card mat-icon mat-primary fa-lg margin-top-md"></i> &nbsp;
                                         Información del Beneficiario</sirio-card-header-heading>
-                                    <sirio-card-header-actions>
-                                        <!-- eliminacion del button de reset  -->
-                                    </sirio-card-header-actions>
                                 </sirio-card-header>
                                 <sirio-card-content fxLayout="column">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -130,14 +114,13 @@
                     </div>
 
                 </sirio-card-content>
-                {{printErrors() | json}}
                 <mat-toolbar *ngIf="loaded$ | async">
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || (loading$ | async ) ">
                             {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

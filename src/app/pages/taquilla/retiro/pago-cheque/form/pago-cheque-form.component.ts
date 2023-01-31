@@ -1,27 +1,25 @@
+import { formatNumber } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
-import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoProducto } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
-
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
+import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Agencia } from 'src/@sirio/domain/services/organizacion/agencia.service';
+import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { Retiro, RetiroService } from 'src/@sirio/domain/services/taquilla/retiro.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
-import { formatNumber } from '@angular/common';
-import * as moment from 'moment';
-import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
-import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
+
 
 @Component({
     selector: 'app-pago-cheque-form',
@@ -32,23 +30,18 @@ import { TaquillaService } from 'src/@sirio/domain/services/organizacion/taquill
 })
 
 export class PagoChequeFormComponent extends FormBaseComponent implements OnInit {
-
-    retiro: Retiro = {} as Retiro;
+    public voucherForm: FormGroup;
+    public itemForm: FormGroup;
     public tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]); //lista  
-    cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
+    cuentaBancariaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
+    retiro: Retiro = {} as Retiro;
     persona: Persona = {} as Persona;
     agencia: Agencia = {} as Agencia;
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
-    esPagoCheque: boolean = true;
-    esPagoChequeGerencia: boolean = false;
-    esRetiroEfectivo: boolean = false;
-    esEfectivo: boolean = false;
-    esAbonoCuenta: boolean = false;
-    detalleEfectivo: number = 0;
-    todayValue: moment.Moment;
+    loading = new BehaviorSubject<boolean>(false);
 
     constructor(
         injector: Injector,
@@ -58,14 +51,11 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
         private cuentaBancariaService: CuentaBancariaService,
         private tipoDocumentoService: TipoDocumentoService,
         private personaService: PersonaService,
-        private calendarioService: CalendarioService,
         private taquillaService: TaquillaService,
         private saldoTaquillaService: SaldoTaquillaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
-
-
 
     ngOnInit() {
 
@@ -79,9 +69,6 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 this.isNew = true;
                 this.buildForm();
                 this.loadingDataForm.next(false);
-
-
-
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
                     if (val) {
                         this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
@@ -92,23 +79,15 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                     }
                 });
 
-
-
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
                         this.calculateDifferences();
+                        this.cdr.detectChanges();
+                    } else if (val === null || val === '') {
+                        this.f.monto.setValue(0.00);
+                        this.cdr.detectChanges();
                     }
                 });
-
-                this.f.montoCheque.valueChanges.subscribe(val => {
-                    if (val) {
-                        this.calculateDifferences();
-                    }
-                });
-
-
-
-
 
                 // manejo de escritura en el campo NUMERO DE CUENTA
                 this.f.numeroCuenta.valueChanges.pipe(
@@ -117,227 +96,163 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 ).subscribe(() => {
                     // se busca los dato que el usuario suministro    
                     const numeroCuenta = this.f.numeroCuenta.value;
-
                     if (numeroCuenta) {
                         this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
-                            this.cuentaBancariaOperacion = data;
-                            this.moneda.id = this.cuentaBancariaOperacion.moneda;
-                            this.moneda.nombre = this.cuentaBancariaOperacion.monedaNombre;
-                            this.moneda.siglas = this.cuentaBancariaOperacion.siglas;
-
+                            let cuenta = this.cuentaBancariaOperacion = data;
+                            this.f.moneda.setValue({
+                                id: cuenta.moneda,
+                                nombre: cuenta.monedaNombre,
+                                siglas: cuenta.siglas
+                            });
+                            
                             // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
-                            this.saldoByMoneda(this.moneda);
-                            this.persona.nombre = this.cuentaBancariaOperacion.nombre;
-                            //console.log("DATOS", data);
-                            this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
-                            this.cdr.markForCheck();
-
+                            this.saldoByMoneda(this.f.moneda.value);
+                            this.loading.next(true);
+                            // this.persona.nombre = this.cuentaBancariaOperacion.nombre;
+                            // Guarda la Data cuando es solo Abono en Efectivo
+                            this.persona.identificacion = cuenta.identificacion;
+                            this.persona.nombre = cuenta.nombre;
+                            this.persona.email = cuenta.email;
+                            this.persona.tipoDocumento = cuenta.tipoDocumento;
+                            this.persona.id = cuenta.id;
+                            // this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
                         }, err => {
-                            //console.log(err);
                             this.f.numeroCuenta.setErrors({ notexists: true });
-                            this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-                            this.persona = {} as Persona;
-                            this.conoActual = [];
-                            this.conoAnterior = [];
-                            this.detalleEfectivo = 0;
-                            this.f.serialCheque.reset();
-                            this.f.montoCheque.reset(0);
-                            this.f.monto.reset(0);
-                            this.f.identificacionBeneficiario.reset();
-                            this.f.email.reset();
-                            this.tipoDocumentos.next([]);
-                            this.f.tipoDocumentoBeneficiario.setValue(undefined)
+                            this.limpiar();
+                            // this.resetInfobeneficiary();
+                            this.loading.next(false)
                             this.cdr.detectChanges();
 
                         })
                     }
                 });
 
-
-                this.f.identificacionBeneficiario.valueChanges.subscribe(val => {
-                    if (val) {
-                        if (this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion) {
-                            this.f.email.setValue(this.cuentaBancariaOperacion.email);
-                            this.f.beneficiario.setValue(this.cuentaBancariaOperacion.nombre);
-                            this.cdr.detectChanges();
-                        } else {
-                            this.f.email.setValue('');
-                            this.f.beneficiario.setValue('');
-                            this.cdr.detectChanges();
-                        }
-                    }
-                })
-
-                this.loading$.subscribe(val => {
-                    if (val) {
-                        this.persona = {} as Persona;
-                        this.cuentaBancariaOperacion = {} as CuentaBancariaOperacion;
-
-                    }
-                });
-
-                this.calendarioService.today().subscribe(data => {
-                    this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-                    this.cdr.detectChanges();
-                });
+                // this.f.identificacionBeneficiario.valueChanges.subscribe(val => {
+                //     if (val) {
+                //         if (this.f.identificacionBeneficiario.value === this.cuentaBancariaOperacion.identificacion) {
+                //             this.f.email.setValue(this.cuentaBancariaOperacion.email);
+                //             this.f.beneficiario.setValue(this.cuentaBancariaOperacion.nombre);
+                //             this.cdr.detectChanges();
+                //         } else {
+                //             this.f.email.setValue('');
+                //             this.f.beneficiario.setValue('');
+                //             this.cdr.detectChanges();
+                //         }
+                //     }
+                // });
+                this.cdr.detectChanges();
             }
         });
     }
-
-
-    calculateDifferences(event?: any) {
-
-
-        let valorEfectivo = this.f.monto.value > 0 ? this.f.monto.value : 0;
-
-        // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
-        // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos 
-        if (Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : this.f.montoCheque.value) : this.f.montoCheque.value)) >= 1) {
-            this.f.montoCheque.setErrors({
-                difference: true
-            });
-            this.f.montoCheque.markAsDirty();
-            this.f.monto.setErrors({
-                totalDifference: true
-            });
-            this.f.monto.markAsDirty();
-            if (event && event.montoTotal > 0) {
-                this.f.montoCheque.setValue(event.montoTotal);
-            }
-
-        } else {
-            //desglose de montos con decimales
-            if(event){          
-                this.f.montoCheque.setValue(this.f.monto.value)
-            }
-
-            this.f.montoCheque.setErrors(undefined);
-            this.f.monto.setErrors(undefined);
-        }
-
-
-    }
-
-
 
     buildForm() {
 
         this.itemForm = this.fb.group({
-
-
             numper: new FormControl(undefined),
-            beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE),Validators.required]),
-            tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
-            identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            // beneficiario: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE), Validators.required]),
+            // tipoDocumentoBeneficiario: new FormControl(undefined, [Validators.required]),
+            // identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             monto: new FormControl('', [Validators.required]),
             numeroCuenta: new FormControl('', [Validators.required]),
-            moneda: new FormControl(''),
+            moneda: new FormControl(undefined),
             tipoProducto: new FormControl(''),
             serialCheque: new FormControl(undefined, [Validators.pattern(RegularExpConstants.NUMERIC)]),
-            montoCheque: new FormControl(''),
-            email: new FormControl(undefined,),
-
-
+            montoCheque: new FormControl('', [Validators.required]),
+            // email: new FormControl(undefined),
+            conoActual: new FormControl([]),
+            conoAnterior: new FormControl([]),
         });
-
-
     }
 
+    voucher(voucherForm: FormGroup) {
+        this.voucherForm = voucherForm;
+    }
+
+    calculateDifferences(event?: any) {
+
+        let valorEfectivo = this.f.monto.value ? this.f.monto.value : 0.00;
+        let montoCheque = this.f.montoCheque.value ? this.f.montoCheque.value : 0.00;
+        // La diferencia entre el efectivo y el total depositado no puede ser mayor a 1 ni menor a -1
+        // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
+        let valor = (Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoCheque) : montoCheque)) >= 1);
+        if (valor || (event?.montoTotal === 0)) {
+
+            this.f.monto.setErrors({
+                difference: true
+            });
+
+            if (event && (event.montoTotal > 0)) {
+                this.f.montoCheque.setValue(event.montoTotal);
+                this.f.montoCheque.setErrors({
+                    totalDifference: true
+                });
+
+                this.f.montoCheque.markAsDirty();
+                this.cdr.detectChanges();
+            }
+
+            this.f.montoCheque.markAsDirty();
+            this.f.monto.markAsDirty();
+            this.cdr.detectChanges()
+
+        } else {
+            if (event) {
+                this.f.montoCheque.setValue(this.f.monto.value);
+                this.f.montoCheque.setErrors(undefined);
+                this.f.monto.setErrors(undefined);
+            } else {
+                this.f.monto.setErrors({
+                    difference: true
+                });
+                this.f.monto.markAsDirty();
+            }
+        }
+    }
 
     updateCashDetail(event) {
-        // console.log('update cash detail ', event)
         if (!event) {
             return;
         }
-        this.calculateDifferences(event);
-
-        this.conoActual = event.desgloseConoActual;
-        this.conoAnterior = event.desgloseConoAnterior;
+        this.f.montoCheque.setValue(event.montoTotal);
+        this.calculateDifferences(event)
+        this.f.conoActual.setValue(event.desgloseConoActual);
+        this.f.conoAnterior.setValue(event.desgloseConoAnterior);
         this.cdr.detectChanges();
-
     }
 
-    retiroEfectivoEvaluate(event) {
-        if (event.checked) {
-
-            this.esPagoCheque = false;
-            this.esPagoChequeGerencia = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
-
-        }
+    saldoByMoneda(moneda: Moneda) {
+        this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
+            if (saldo == 0) {
+                let mensaje = 'Para La Moneda <b>' + moneda.nombre + '</b> <br> No existe Disponibilidad En Su Caja'
+                this.swalService.show('No Hay Disponibilidad De Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
+                    if (!resp.dismiss) {
+                        this.router.navigate(['/sirio/welcome']);
+                    }
+                });
+            }
+        })
     }
-
-    pagoChequeEvaluate(event) {
-        if (event.checked) {
-
-            this.esRetiroEfectivo = false;
-            this.esPagoChequeGerencia = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
-            this.conoActual = [];
-            this.conoAnterior = [];
-            this.detalleEfectivo = 0;
-            this.f.beneficiario.setValue(undefined);
-            this.f.comprador.setValue(undefined);
-        }
-    }
-
-    pagoChequeGerenciaEvaluate(event) {
-        if (event.checked) {
-            this.esRetiroEfectivo = false;
-            this.esPagoCheque = false;
-            this.itemForm.reset();
-            this.cdr.detectChanges();
-            this.conoActual = [];
-            this.conoAnterior = [];
-            this.detalleEfectivo = 0;
-
-        }
-    }
-
 
     save() {
         if (this.itemForm.invalid)
             return;
 
         this.updateData(this.retiro);
-
         let montoFormat = formatNumber(this.retiro.monto, 'es', '1.2');
-        this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
-        this.updateDataFromValues(this.retiro, this.persona);
-
-        if (this.cuentaBancariaOperacion.email != this.f.email.value || this.persona.email) {
-            this.retiro.email = this.f.email.value;
-            //this.retiro.email
-        }
-        if (this.cuentaBancariaOperacion.nombre != this.f.beneficiario.value || this.persona.nombre) {
-            this.retiro.beneficiario = this.f.beneficiario.value;
-        }
-
-
         this.swalService.show('¿Desea Realizar el Pago de Cheque?', undefined,
-            { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.moneda.siglas + '</b>' }
+            { 'html': 'Titular: <b>' + this.persona.nombre + '</b> <br/> ' + ' Por el Monto Total de: <b>' + montoFormat + ' ' + this.f.moneda.value.siglas + '</b>' }
         ).then((resp) => {
             if (!resp.dismiss) {
-
-                //this.retiro.email = this.retiro.email;
+                this.updateDataFromValues(this.retiro, this.cuentaBancariaOperacion);
                 this.retiro.cuentaBancaria = this.cuentaBancariaOperacion.id;
                 this.retiro.tipoDocumento = this.cuentaBancariaOperacion.tipoDocumento;
                 this.retiro.tipoDocumentoCheque = GlobalConstants.CHEQUE;
-                //this.retiro.fechaEmision = this.retiro.fechaEmision?this.retiro.fechaEmision.format('DD/MM/YYYY'):undefined;  
-                //this.retiro.codSeguridad = this.retiro.codSeguridad;                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-                //this.retiro.telefono = this.retiro.telefono ? "04".concat(this.retiro.telefono) : undefined   
-                // console.log("RETIRO   ", this.retiro);        
-
-                this.retiro.detalles = this.conoActual.concat(this.conoAnterior);
-                this.retiro.moneda = this.moneda.id;
+                // this.retiro.email = (this.retiro.email != undefined && this.retiro.email != '') ? this.retiro.email : this.f.email.value;
+                this.retiro.detalles = this.f.conoActual.value.concat(this.f.conoAnterior.value);
+                this.retiro.moneda = this.f.moneda.value.id;
                 this.retiro.operacion = 'cheque';
-
-                this.saveOrUpdate(this.retiroService, this.retiro, 'el pago del cheque', false);
-                this.conoActual = [];
-                this.conoAnterior = [];
-                this.detalleEfectivo = 0;
+                this.updateDataFromValues(this.retiro, this.voucherForm.value)
+                this.saveOrUpdate(this.retiroService, this.retiro, 'El Pago del Cheque', false);
                 this.loadingDataForm.subscribe(status => {
                     if (!status) {
                         this.router.navigate(['/sirio/welcome']).then(data => { });
@@ -349,42 +264,25 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
     }
 
-    saldoByMoneda(moneda: Moneda) {
-        this.saldoTaquillaService.getSaldoByMoneda(moneda.id).subscribe(saldo => {
-            if (saldo == 0) {
-
-                let mensaje = 'Para La Moneda <b>' + moneda.nombre + '</b> <br> No existe Disponibilidad En Su Caja'
-                this.swalService.show('No Hay Disponibilidad De Efectivo', undefined, { html: mensaje, showCancelButton: false }).then((resp) => {
-                    if (!resp.dismiss) {
-                        this.router.navigate(['/sirio/welcome']);
-                    }
-                });
-
-            }
-        })
-
-
-    }
-
-
     resetInfoFinance() {
         this.f.numeroCuenta.reset();
-        this.f.montoCheque.reset({});
-        this.f.monto.reset({});
+        this.limpiar();
+    }
+
+    limpiar() {
         this.f.serialCheque.reset();
-        this.tipoDocumentos.next([]);
-        this.f.tipoDocumentoBeneficiario.reset();
-        this.f.identificacionBeneficiario.reset();
-        this.f.email.reset();
+        this.f.monto.reset();
+        this.f.monto.setValue(0.00);
+        this.f.montoCheque.reset();
+        this.f.montoCheque.setValue(0.00);
     }
 
+    // resetInfobeneficiary() {
+    //     this.tipoDocumentos.next([]);
+    //     this.f.beneficiario.reset();
+    //     this.f.tipoDocumentoBeneficiario.reset();
+    //     this.f.identificacionBeneficiario.reset();
+    //     this.f.email.reset();
+    // }
 
-    resetInfobeneficiary() {
-
-        this.f.email.reset();
-        this.f.tipoDocumentoBeneficiario.reset();
-        this.f.identificacionBeneficiario.reset();
-        this.f.beneficiario.setValue('');
-
-    }
 }

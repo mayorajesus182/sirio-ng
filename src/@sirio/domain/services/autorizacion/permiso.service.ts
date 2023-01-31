@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
-import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.interface';
 
 
 export interface Permiso {
@@ -11,7 +10,12 @@ export interface Permiso {
     label: string;
     view?: string;
     icon?: string;
-    subpermisos?: Permiso[];// Dropdown items
+    parent?: string;
+    checked?: boolean;
+    level?:number;
+    ordination?:number;
+    expandable?:boolean;
+    children?: Permiso[];
 }
 
 
