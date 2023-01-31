@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -13,7 +12,7 @@ import { MotivoDevolucion, MotivoDevolucionService } from 'src/@sirio/domain/ser
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
-import { ChequeSerial, ChequeService } from 'src/@sirio/domain/services/taquilla/cheque.service';
+import { ChequeService } from 'src/@sirio/domain/services/taquilla/cheque.service';
 import { Cheque } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -433,14 +432,10 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         let valorChequePorpio = this.f.chequePropio.value ? this.f.chequePropio.value : 0.00;
         let valorChequeOtros = this.f.chequeOtros.value ? this.f.chequeOtros.value : 0.00;
         let valorMontoTotal = this.f.monto.value ? this.f.monto.value : 0.00;
-        let valorTotal = (event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros;
+        let valorTotal = Math.round(((event ? (event.montoTotal > 0 ? event.montoTotal : valorEfectivo) : valorEfectivo) + valorChequePorpio + valorChequeOtros)*100)/100;
         // La diferencia entre la suma Efectivo con los Cheques y el total depositado no puede ser mayor a 1 ni menor a -1
         // Esto es porque pueden existir depositos con centavos y no hay cambio para centavos  
-        // Math.abs(valorEfectivo - (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito)) >= 1
-        // (event ? (event.montoTotal > 0 ? event.montoTotal : montoDeposito) : montoDeposito))
-
-        if (Math.abs(valorTotal -  valorMontoTotal) >= 1) {
-
+        if (valorTotal != valorMontoTotal) {
             this.f.monto.setErrors({
                 totalDifference: true
             });
@@ -472,10 +467,6 @@ export class DepositoMixtoFormComponent extends FormBaseComponent implements OnI
         this.f.efectivo.setValue(0.00);
         this.f.monto.setValue(0.00);
         this.cf.montoCheque.setValue(0.00);
-        // this.chequeList = [];
-        // this.cheques.next([]);
-        // this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
-        // this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
         this.calculateDifferences();
         this.f.monto.setErrors({
             required: true,

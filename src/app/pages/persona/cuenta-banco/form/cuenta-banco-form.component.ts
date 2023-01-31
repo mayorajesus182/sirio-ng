@@ -148,7 +148,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
-            // console.log('loading ', loading);
+            
 
             if (!loading) {
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
@@ -157,10 +157,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 // console.log(.value);
 
                 if (this.itemForm && this.f.tipoProducto.value) {
-                    console.log('buscar subproductos by ', this.f.tipoProducto);
+                    
 
                     this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                        console.log('buscar subproductos by ', data);
+                        
                         this.tipoSubproductos.next(data);
                         this.loadMoneda(this.f.tipoSubproducto.value);
 
@@ -236,14 +236,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     private loadMoneda(subProducto) {
-        console.log("subProducto", subProducto);
+        // console.log("subProducto", subProducto);
         const filtered = this.tipoSubproductos.value.filter(s => s.id == subProducto);
         if (filtered.length == 0) {
 
             return;
         }
         let subProductoSel = filtered.reduce(a => a);
-        console.log(subProductoSel);
+        // console.log(subProductoSel);
         if (subProductoSel) {
 
             this.f.moneda.setValue(subProductoSel.moneda);
@@ -272,7 +272,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.isNew = true;
         this.loaded$.next(false);
 
-        console.log('event person ', event);
+        // console.log('event person ', event);
         
 
         if (!event.id && !event.numper) {
@@ -381,7 +381,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.loadingDataForm.next(true);
         this.personaReportService.ficha(this.cuentaBanco.persona|| this.persona.id).subscribe(data => {
             this.loadingDataForm.next(false);
-            console.log('response:', data);
+            // console.log('response:', data);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
             this.download(name, blob);
