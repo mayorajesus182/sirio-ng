@@ -1,7 +1,6 @@
 import { formatNumber } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
@@ -24,13 +23,12 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     public voucherForm: FormGroup;
     public itemForm: FormGroup;
+    public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
+    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     isNew: boolean = false;
     esEfectivo: boolean = true;
     esCheques: boolean = false;
     esMixto: boolean = false;
-    // selected = 0;
-    public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
-    public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     deposito: Deposito = {} as Deposito;
     persona: Persona = {} as Persona;
@@ -76,7 +74,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     }
 
     queryResult(data: any) {
-        // this.selected = 0;
         this.resetBusqueda();
         this.resetVoucher();
         
@@ -113,7 +110,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     resetVoucher(){
         this.voucherForm?this.voucherForm.reset({}):'';
-        this.voucherForm? this.voucherForm.controls.tipoDocumentoDepositante.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT): '';
+        this.voucherForm? this.voucherForm.controls.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT): '';
     }
    
     esEfectivoEvent(event) {
@@ -158,7 +155,6 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.deposito.numper = this.persona.numper;
                 this.deposito.tipoDocumento = this.persona.tipoDocumento;
                 this.deposito.identificacion = this.persona.identificacion;
-                // this.deposito.operacion = (this.selected == 0) ? 'efectivo' : (this.selected == 1 ? 'cheques' : 'mixto');
                 this.deposito.operacion = (this.esEfectivo) ? 'efectivo' : (this.esCheques ? 'cheques' : 'mixto');
                 this.deposito.moneda = this.deposito.moneda.id;
                 this.deposito.detalles = this.f.conoActual ? this.f.conoActual.value.concat(this.f.conoAnterior ? this.f.conoAnterior.value : undefined) : [];

@@ -11,7 +11,7 @@ export interface Retiro {
  
     //institucion: string;
    // agencia: string;
-    persona: number; 
+    persona?: number; 
     numper: string;
     cuentaBancaria: number;   
     tipoDocumento: string; 
@@ -26,15 +26,18 @@ export interface Retiro {
     codSeguridad: string;
     montoCheque: number ;
     monto: number;
-    tipoDocumentoBeneficiario: string; 
-    identificacionBeneficiario: string;  
+    tipoDocumentoBeneficiario: String ;
+    identificacionBeneficiario: String ;
+    nombreBeneficiario: String ;
+    // tipoDocumentoBeneficiario: string; 
+    // identificacionBeneficiario: string;  
     libreta: string;
     linea: string;
-    conoAnterior: number;
-    telefono: string;
+    // conoAnterior: number;
+    telefono?: string;
     email:string;
     comprador: string;
-    beneficiario: string;
+    // beneficiario: string;
     detalles:ConoMonetario[];
     operacion?:'efectivo' | 'cheque' | 'cheque-gerencia' ;
     conAbonoCta?: Boolean;

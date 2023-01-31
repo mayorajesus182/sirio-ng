@@ -1,9 +1,6 @@
-import { _isNumberValue } from '@angular/cdk/coercion';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ColumnMode } from '@swimlane/ngx-datatable';
-import { trackByHourSegment } from 'angular-calendar/modules/common/util';
 import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
@@ -32,13 +29,13 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
     @Input() cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     @Input() persona: Persona = {} as Persona;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
-    ColumnMode = ColumnMode;
     
     public chequeForm: FormGroup;
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     public motivosDevoluciones: MotivoDevolucion[] = [];
-
+    
+    ColumnMode = ColumnMode;
     cheque: Cheque = {} as Cheque;
     chequeList: Cheque[] = [];
     cheques: ReplaySubject<Cheque[]> = new ReplaySubject<Cheque[]>();
@@ -164,7 +161,6 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
             numeroCuentaCheque: new FormControl(this.cheque.numeroCuentaCheque, [Validators.required]),
             tipoDocumentoCheque: new FormControl(this.cheque.tipoDocumentoCheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             montoCheque: new FormControl(this.cheque.montoCheque ? this.cheque.montoCheque : ''),
-            // codigoSeguridad: new FormControl(this.cheque, [Validators.pattern(RegularExpConstants.NUMERIC)]),
             fechaEmision: new FormControl(this.cheque.fechaEmision ? moment(this.cheque.fechaEmision, 'DD/MM/YYYY') : ''),
             motivoDevolucion: new FormControl(this.cheque.motivoDevolucion),
         });
@@ -180,7 +176,6 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.cf.numeroCuentaCheque.valueChanges.subscribe(val => {
             if (val) {
                 if (!this.validateSerialAccountUnique(this.cf.serial.value, val)) {
-                    // this.cf.numeroCuentaCheque.setErrors({ uniqueNumAccount: true });
                     this.cf.serial.setErrors({ uniqueSerial: true });
                 }
             }
@@ -421,10 +416,6 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         this.f.chequeOtros.setValue(0.00);
         this.f.monto.setValue(0.00);
         this.cf.montoCheque.setValue(0.00);
-        // this.chequeList = [];
-        // this.cheques.next([]);
-        // this.errorDiferenciaChequesPropios(this.sumMontoChequePropio, this.contarChequePropio);
-        // this.errorDiferenciaChequesOtros(this.sumMontoChequeOtros, this.contarChequeOtros);
         this.calculateDifferences();
         this.f.monto.setErrors({
             required: true,
