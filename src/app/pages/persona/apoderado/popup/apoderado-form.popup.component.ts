@@ -32,7 +32,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public condicionList = new BehaviorSubject<Condicion[]>([]);
-
+  apoderados = [];
   paises = new BehaviorSubject<Pais[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
@@ -56,6 +56,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
   ngOnInit() {
 
+    this.apoderados = this.defaults.payload.apoderados;
 
     this.calendarioService.today().subscribe(data => {
       this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
@@ -63,15 +64,12 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
 
     this.tipoDocumentoService.actives().subscribe(data => {
-      console.log(data);
       this.tiposDocumentos = data;
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
 
     this.condicionService.actives().subscribe(data => {
-      console.log(data);
-
       this.condicionList.next(data);
       this.cdr.detectChanges();
     })
@@ -87,9 +85,6 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
         this.mode = 'global.edit';
         this.apoderado = data;
         this.buildForm();
-
-        // console.log('mode ', this.mode);
-
         this.loadingDataForm.next(false);
 
       })
@@ -103,41 +98,46 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   buildForm() {
     //validar carcteres especiales
     this.itemForm = this.fb.group({
-
       tipoDocumento: new FormControl(this.apoderado.tipoDocumento || undefined, [Validators.required]),
-
       condicion: new FormControl(this.apoderado.condicion || undefined),
-
       identificacion: new FormControl(this.apoderado.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-
       nombre: new FormControl(this.apoderado.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-
       fechaNacimiento: new FormControl(this.apoderado.fechaNacimiento ? moment(this.apoderado.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
-
       pais: new FormControl(this.apoderado.pais || undefined, [Validators.required]),
-
       registro: new FormControl(this.apoderado.registro || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-
       numero: new FormControl(this.apoderado.numero || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-
       telefono: new FormControl(this.apoderado.telefono || '', [Validators.required]),
-
       tomo: new FormControl(this.apoderado.tomo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-
       folio: new FormControl(this.apoderado.folio || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
-
       fecha: new FormControl(this.apoderado.fecha ? moment(this.apoderado.fecha, 'DD/MM/YYYY') : ''),
-
       esApoderado: new FormControl(this.apoderado.esApoderado === 1 ? true : false),
     });
 
+    this.f.identificacion.valueChanges.subscribe(val => {
+
+      if (val) {
+        if (!this.validateApoderados(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined, this.f.identificacion ? this.f.identificacion.value : undefined)) {
+          this.f.identificacion.setErrors({ exists: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+        }
+      }
+    });
 
     this.cdr.detectChanges();
   }
 
+
+  validateApoderados(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    this.cdr.detectChanges();
+    return this.apoderados.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+  }
+
   save() {
 
-    // console.log('mode ', this.mode);
     this.updateData(this.apoderado);// aca actualizamos la direccion
     this.apoderado.persona = this.defaults.payload.persona;
     this.apoderado.fecha = this.apoderado.fecha ? this.apoderado.fecha.format('DD/MM/YYYY') : '';
@@ -145,7 +145,6 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
     this.apoderado.esApoderado = this.apoderado.esApoderado ? 1 : 0;
 
-    console.log(this.apoderado);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.apoderadoService, this.apoderado, 'APODERADO', this.apoderado.id == undefined);
 
@@ -154,7 +153,6 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   isLegalPerson() {
 
     let isLegal = this.tiposDocumentos.filter(t => t.id == this.f.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
-    // console.log('tipo doc selected', this.f.tipoDocumento.value);
     if (this.f.tipoDocumento.value && isLegal) {
 
       return true;
@@ -168,11 +166,3 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   }
 
 }
-// let isLegal = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
-//         // console.log('tipo doc selected', this.search.tipoDocumento.value, isLegal);
-
-
-//         if (this.search.tipoDocumento.value && isLegal) {
-
-//             return true;
-//         }

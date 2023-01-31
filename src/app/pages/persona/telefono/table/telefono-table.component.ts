@@ -24,6 +24,7 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
   telefonoList:ReplaySubject<Telefono[]> = new ReplaySubject<Telefono[]>();
   private principal: boolean = false;
   telefonos:string[]=[];
+  cantidadTelefonos: number = 0;
 
   constructor(
     injector: Injector,
@@ -39,6 +40,7 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
     this.telefonos=[]  
 
     this.telefonoService.allByPersonaId(this.persona).subscribe((data) => {
+      this.cantidadTelefonos = data.length;
       this.telefonos= this.telefonos.concat(data.map(t=>t.numero));            
       this.telefonoList.next(data.slice());
       this.principal = data.filter(d => d.principal == 1).length > 0;
@@ -76,12 +78,11 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
 }
 
   popup(data?:Telefono) {
-    console.log(data);
     if(data){
       data.persona=this.persona;
-      
     }    
-    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos, principal: this.principal}:{data,telefonos:this.telefonos, principal: this.principal},'40%').afterClosed().subscribe(event=>{
+
+    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos, principal: this.principal, primero: this.cantidadTelefonos == 0 ? true : false }:{data,telefonos:this.telefonos, principal: this.principal, primero: false},'40%').afterClosed().subscribe(event=>{
         if(event){
             this.onRefresh.next(true);
         }

@@ -142,6 +142,11 @@ const controlEfectivoRoutes: Routes = [
         data: { title: 'Reporte de Agencia con Excedente' },    
         loadChildren: () => import('./reports/agencia-excedente/reporte-agencia-excedente.module').then(m => m.ReporteAgenciaExcedenteModule),
     },
+    {
+        path: 'reporte-agencia-deficit',
+        data: { title: 'Reporte de Agencia con Deficit' },    
+        loadChildren: () => import('./reports/agencia-deficit/reporte-agencia-deficit.module').then(m => m.ReporteAgenciaDeficitModule),
+    },
 
 ];
 

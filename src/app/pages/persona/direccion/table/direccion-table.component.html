@@ -20,7 +20,7 @@
 
     <ngx-datatable-column [resizeable]="false" [width]="300" name="Tipo Dirección" >        
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoDireccion }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoDireccionNombre }}</span>
         </ng-template>
     </ngx-datatable-column>
 
@@ -31,14 +31,14 @@
           </span>  
         </ng-template>
     </ngx-datatable-column>
-
+    
     <ngx-datatable-column [resizeable]="false" [width]="50" name="Acciones" >        
         <ng-template let-row="row" ngx-datatable-cell-template>
             <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">
                 <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
                     <mat-icon>edit</mat-icon>
                 </button> &nbsp;
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" *ngIf="row.tipoDireccion !== direccionPrincipal"
                     (click)="delete(row)" matTooltip="Eliminar">
                     <mat-icon>delete</mat-icon>
                 </button>

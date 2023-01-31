@@ -10,6 +10,7 @@ export interface CuentaBanco {
     persona: number;
     numeroCuenta: string;
     moneda: string;
+    monedaVirtual: string;
     tipoSubproducto: string;
     origenFondo: string;
     destinoCuenta: string;

@@ -376,10 +376,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     reportPdf() {
 
         console.log('imprimir ficha de ', this.cuentaBanco);
-
-
+        console.log('imprimir ficha de ', this.persona);
+        
         this.loadingDataForm.next(true);
-        this.personaReportService.ficha(this.cuentaBanco.persona).subscribe(data => {
+        this.personaReportService.ficha(this.cuentaBanco.persona|| this.persona.id).subscribe(data => {
             this.loadingDataForm.next(false);
             console.log('response:', data);
             const name = this.getFileName(data);

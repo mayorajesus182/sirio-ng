@@ -32,13 +32,14 @@
         <mat-form-field fxFlex="33">
             <mat-label>{{'Número de Documento' | translate: {default:
             'Número de Documento'} | translate }} </mat-label>
-            <input matInput maxlength="33" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
+            <input matInput maxlength="33" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center"
             uppercase required>
             <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
             </mat-error>
             <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
             translate}}
             </mat-error>
+            <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
         </mat-form-field>
 
         <div fxFlex.gt-sm="20" class="text-right margin-top-md">
@@ -48,24 +49,6 @@
 
         </div>
 
-        <!-- <mat-form-field fxFlex="auto">
-            <mat-label>{{'¿Es Apoderado?' | translate: {default: 'global.isBill'} |
-                translate }}</mat-label>
-            <input matInput class="text-center" [value]="d.esApoderado ? 'SI' : 'NO'">
-        </mat-form-field> -->
-
-
-        <!-- <ng-container matColumnDef="activo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-5'">{{'tenure.status' | translate:
-                {default: 'global.status'} | translate }}</mat-header-cell>
-            <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
-                <mat-chip mat-sm-chip [color]="element.activo ? 'accent' : 'warn'" [selected]="element.activo">
-                    {{element.activo ? 'Activo' : 'Inactivo'}}
-                </mat-chip>
-            </mat-cell>
-        </ng-container> -->
-
-
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -74,11 +57,16 @@
             <mat-label>{{'Fecha de Nacimiento' | translate: {default: 'Fecha de Nacimiento'} |
                 translate }}</mat-label>
             <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
-                formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
+                formControlName="fechaNacimiento" [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" 
+                age-document-type document="{{f.tipoDocumento.value}}" today="{{todayValue}}" required>
             <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
             </mat-datepicker-toggle>
             <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
                 Fecha Invalida
+            </mat-error>
+            <mat-error *ngIf="f.fechaNacimiento.errors?.required">{{'error.required' | translate}} </mat-error>
+            <mat-error *ngIf="f.fechaNacimiento.errors?.age">
+                {{f.fechaNacimiento.errors?.age}}
             </mat-error>
         </mat-form-field>
         <mat-datepicker #fechaNacimientoPicker></mat-datepicker>
@@ -91,11 +79,6 @@
 
         <mat-form-field fxFlex="33">
             <mat-label>{{'Teléfono' | translate }} </mat-label>
-    
-            <!-- [unmask]="true"  (accept)="onAccept" -->
-
-            <!-- [telefonicas]="telefonicaList.asObservable()" -->
-
             <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate    name="telefono" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefono" required>
             <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}}
             </mat-error>
@@ -108,8 +91,6 @@
 
     </div>
 
-    <!-- isLegalPerson -->
-    <!-- *ngIf="isLegalPerson()" -->
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isLegalPerson()">
                                                                          
         <sirio-select-search fxFlex.gt-xs="auto" [label]="'Condicion'"  formControlName="condicion" [required]="isLegalPerson()"
@@ -117,11 +98,9 @@
         </sirio-select-search>
 
     </div>
-    <!-- [required]="true" -->
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-        <!-- TODO: PENDIENTE IN18 -->
-        <mat-form-field fxFlex="auto">
+        <mat-form-field fxFlex="100">
             <mat-label>{{'Nombre y Apellido' | translate: {default:
                 ' Nombres y Apellidos'} | translate }} </mat-label>
             <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
@@ -137,7 +116,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <mat-form-field fxFlex="50">
+      <mat-form-field fxFlex="100">
           <mat-label>{{'registro' | translate: {default:
               'Registro'} | translate }} </mat-label>
           <input matInput maxlength="200" minlength="1" autocomplete="off" name="registro" formControlName="registro"
@@ -148,27 +127,42 @@
               translate}}
           </mat-error>
       </mat-form-field>
-
-      <mat-form-field fxFlex="50">
-          <mat-label>{{'Número' | translate: {default:
-              'Número'} | translate }} </mat-label>
-          <input matInput maxlength="100" minlength="1" autocomplete="off" name="numero" formControlName="numero"
-              uppercase required>
-          <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
-          </mat-error>
-          <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
-              translate}}
-          </mat-error>
-      </mat-form-field>
     
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-        <mat-form-field fxFlex="33">
+
+      <mat-form-field fxFlex="25">
+        <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
+            translate }}</mat-label>
+        <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha"
+            formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue"  required>
+        <mat-datepicker-toggle matSuffix [for]="fechaPicker">
+        </mat-datepicker-toggle>
+        <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
+            Fecha Invalida
+        </mat-error>
+        <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}} </mat-error>
+    </mat-form-field>
+    <mat-datepicker #fechaPicker></mat-datepicker> 
+
+        <mat-form-field fxFlex="25">
+            <mat-label>{{'Número' | translate: {default:
+                'Número'} | translate }} </mat-label>
+            <input matInput maxlength="100" minlength="1" autocomplete="off" name="numero" formControlName="numero" class="text-center"
+                uppercase required>
+            <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
+                translate}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="25">
             <mat-label>{{'Tomo' | translate: {default:
                 'Tomo'} | translate }} </mat-label>
-            <input matInput maxlength="100" minlength="1" autocomplete="off" name="tomo" formControlName="tomo"
+            <input matInput maxlength="100" minlength="1" autocomplete="off" name="tomo" formControlName="tomo" class="text-center"
                 uppercase required>
             <mat-error *ngIf="f.tomo.errors?.required">{{'error.required' | translate}}
             </mat-error>
@@ -177,10 +171,10 @@
             </mat-error>
         </mat-form-field>
 
-      <mat-form-field fxFlex="33">
+      <mat-form-field fxFlex="25">
         <mat-label>{{'Folio' | translate: {default:
             'Folio'} | translate }} </mat-label>
-        <input matInput maxlength="100" minlength="1" autocomplete="off" name="folio" formControlName="folio"
+        <input matInput maxlength="100" minlength="1" autocomplete="off" name="folio" formControlName="folio" class="text-center"
             uppercase required>
         <mat-error *ngIf="f.folio.errors?.required">{{'error.required' | translate}}
         </mat-error>
@@ -189,19 +183,6 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="44">
-          <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
-              translate }}</mat-label>
-          <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha"
-              formControlName="fecha" [matDatepicker]="fechaPicker" [max]="todayValue"  required>
-          <mat-datepicker-toggle matSuffix [for]="fechaPicker">
-          </mat-datepicker-toggle>
-          <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
-              Fecha Invalida
-          </mat-error>
-      </mat-form-field>
-      <mat-datepicker #fechaPicker></mat-datepicker> 
-    
     </div>
 
        <!-- {{printErrors() | json}}  -->

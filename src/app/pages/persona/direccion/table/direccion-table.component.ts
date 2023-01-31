@@ -7,6 +7,7 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { DireccionFormPopupComponent } from '../popup/direccion-form.popup.component';
+import { GlobalConstants } from 'src/@sirio/constants';
 
 
 @Component({
@@ -25,6 +26,8 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
   direccionList: Direccion[] = [];
   private principal: boolean = false;
+  cantidadDirecciones: number = 0;
+  direccionPrincipal = GlobalConstants.DIRECCION_PRINCIPAL;
 
   constructor(
     injector: Injector,
@@ -38,10 +41,10 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
 
   private loadList() {
     this.direccionService.allByPersonaId(this.persona).subscribe((data) => {
+      this.cantidadDirecciones = data.length;
       this.direcciones.next(data.slice());
       this.propagar.emit(data.length);
-      // debo conocer si tengo una direccion principal
-      this.principal = data.filter(d => d.tipoDireccion == 'PRINCIPAL').length > 0;
+      this.principal = data.filter(d => d.tipoDireccion == this.direccionPrincipal).length > 0;
       this.cdr.detectChanges();
     });
   }
@@ -82,7 +85,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
     }
     this.updateDataFromValues(data, { principal: this.principal });
     let dir = data;
-    this.showFormPopup(DireccionFormPopupComponent, !data ? { persona: this.persona, principal: this.principal } : dir, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(DireccionFormPopupComponent, !data ? { persona: this.persona, principal: this.principal, primero: this.cantidadDirecciones == 0 ? true : false } : dir, '80%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

@@ -40,22 +40,17 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   pepList: PepAccionista[] = [];
   pepAccionistas: ReplaySubject<PepAccionista[]> = new ReplaySubject<PepAccionista[]>();
-
+  accionistas = [];
   public cargoList = new BehaviorSubject<Cargo[]>([]);
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<AccionistaDirectivoFormPopupComponent>,
     private accionistaDirectivoService: AccionistaDirectivoService,
-
     private tipoDocumentoService: TipoDocumentoService,
-
     private paisService: PaisService,
-
     private tipoPepService: TipoPepService,
-
     private cargoService: CargoService,
-
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
 
@@ -73,6 +68,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   ngOnInit() {
 
     this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
+    this.accionistas = this.defaults.payload.accionistas;
 
     this.tipoPepService.activesForJuridico().subscribe(data => {
 
@@ -111,7 +107,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
         this.mode = 'global.edit';
         this.accionistaDirectivo = data;
         this.buildForm();
-        // console.log('mode ', this.mode);
         this.loadingDataForm.next(false);
       })
     } else {
@@ -124,25 +119,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
     this.buildPepForm();
   }
-
-  // refreshValidators(val:string){
-  //   if(!val){
-  //     return;
-  //   }
-
-  //   if(val === PepConstants.ASOCIADO){
-  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-  //   }
-  //   if(val === PepConstants.CLIENTE){
-  //     this.removeValidator(['ente','cargo','pais']);
-  //   }
-    
-  //   if(val === PepConstants.PARENTESCO){
-  //     this.removeValidator(['tipoDocumento','identificacion','ente','cargo','pais']);
-  //   }
-
-  //   this.cdr.detectChanges();
-  // }
 
 
   buildForm() {
@@ -159,8 +135,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
     this.pepAccionistas.subscribe(varpep =>{
 
-      console.log('pep Accionistas ', varpep);
-
       this.f.esPep.setValue(varpep?varpep.length>0:false)
       this.cdr.detectChanges();      
     })
@@ -168,6 +142,16 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.pepAccionistas.next(this.accionistaDirectivo.pepList);
     this.pepList = this.accionistaDirectivo.pepList || [];
 
+    this.f.identificacion.valueChanges.subscribe(val => {
+
+      if (val) {
+        if (!this.validateAccionistas(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined, this.f.identificacion ? this.f.identificacion.value : undefined)) {
+          this.f.identificacion.setErrors({ exists: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+        }
+      }
+    });
     
 
     this.cdr.detectChanges();
@@ -175,14 +159,9 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   buildPepForm() {
     this.pepAccionistaForm = this.fb.group({
-      // tipoPep: const newLocal = (new FormControl(this.pepAccionista.tipoPep || undefined, [Validators.required]),
       tipoPep: new FormControl(this.pepAccionista.tipoPep || undefined, [Validators.required]),
-      // tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || '', [Validators.required]),
-
       identificacion: new FormControl(this.pepAccionista.identificacion || undefined),
       tipoDocumento: new FormControl(this.pepAccionista.tipoDocumento || undefined),
-      
-      // identificacion: new FormControl(this.pepAccionista.identificacion || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
       nombre: new FormControl(this.pepAccionista.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       ente: new FormControl(this.pepAccionista.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.pepAccionista.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
@@ -222,9 +201,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
         this.cdr.detectChanges();
       }
     });
-
-    
-
   }
 
   get cf() {
@@ -240,14 +216,19 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.cdr.detectChanges();
   }
 
+  validateAccionistas(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    this.cdr.detectChanges();
+    return this.accionistas.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+  }
+
 
   validateIdentificacionPep(tipoDocumento: string, identificacion: string) {
     if (!tipoDocumento || !identificacion) {
       return true;
     }
-
-    console.log(this.pepList.find(c => (c.tipoDocumento === tipoDocumento) && (c.identificacion === identificacion)) == undefined);
-    
     return this.pepList.find(c => (c.tipoDocumento === tipoDocumento) && (c.identificacion === identificacion)) == undefined;
   }
 
@@ -285,7 +266,6 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
       return;
     }
 
-    // console.log('mode ', this.mode);
     this.updateData(this.accionistaDirectivo);
     this.accionistaDirectivo.persona = this.defaults.payload.persona;
 

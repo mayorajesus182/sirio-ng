@@ -19,13 +19,14 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 export class TelefonoFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   telefono: Telefono = {} as Telefono;
-  esPrincipal: boolean=false;
-  
+  esPrincipal: boolean = false;
+  primerRegistro: boolean=false;
+  mostrarToggle: boolean=true;
   public tipoTelefonoList = new BehaviorSubject<TipoTelefono[]>([]);
   public telefonicaList = new BehaviorSubject<TipoTelefono[]>([]);
   public claseTelefonoList = new BehaviorSubject<ClaseTelefono[]>([]);
-  
-  nroTelefonos=[];
+
+  nroTelefonos = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -41,35 +42,39 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
   }
 
   ngAfterViewInit(): void {
-   
+
   }
 
   ngOnInit() {
 
     this.esPrincipal = this.defaults.payload.principal;
+    this.primerRegistro = this.defaults.payload.primero;
+
     this.tipoTelefonoService.actives().subscribe(data => {
       this.tipoTelefonoList.next(data);
       this.cdr.detectChanges();
     })
 
     this.claseTelefonoService.actives().subscribe(data => {
-      
+
       this.claseTelefonoList.next(data);
       this.cdr.detectChanges();
     })
-    
+
     this.nroTelefonos = this.defaults.payload.telefonos;
     this.cdr.detectChanges();
 
     this.loadingDataForm.next(true);
     if (this.defaults.payload.data) {
       this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
-        this.mode = 'global.edit';   
+        this.mode = 'global.edit';
         this.telefono = data;
+        this.mostrarToggle = this.telefono.principal !== 1;
         this.buildForm();
-        this.loadingDataForm.next(false);       
+        this.loadingDataForm.next(false);
       })
     } else {
+      this.mostrarToggle = !this.primerRegistro;
       this.telefono = {} as Telefono;
       this.buildForm();
       this.loadingDataForm.next(false);
@@ -81,15 +86,15 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
       tipoTelefono: new FormControl(this.telefono.tipoTelefono || undefined, [Validators.required]),
       claseTelefono: new FormControl(this.telefono.claseTelefono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       numero: new FormControl(this.telefono.numero || '', [Validators.required]),
-      principal: new FormControl(this.telefono.principal===1?true:false) 
+      principal: new FormControl(this.telefono.principal == 1 ? true : this.primerRegistro)
     });
 
-    this.f.claseTelefono.valueChanges.subscribe(val=>{
-      if(val){
-          this.f.numero.setValue('');
-          this.telefonicaService.activesByClaseTelefono(val).subscribe(data=>{
-            this.telefonicaList.next(data);
-          })
+    this.f.claseTelefono.valueChanges.subscribe(val => {
+      if (val) {
+        this.f.numero.setValue('');
+        this.telefonicaService.activesByClaseTelefono(val).subscribe(data => {
+          this.telefonicaList.next(data);
+        })
       }
     })
 
@@ -116,13 +121,13 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
   save() {
     this.updateData(this.telefono);// aca actualizamos la direccion
-    if(this.isNew){
-      this.telefono.persona=  this.defaults.payload.persona;
+    if (this.isNew) {
+      this.telefono.persona = this.defaults.payload.persona;
     }
     this.telefono.numero = this.telefono.numero.split('-').join('');
-    this.telefono.principal = this.telefono.principal? 1 : 0;
+    this.telefono.principal = this.telefono.principal ? 1 : 0;
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.telefonoService,this.telefono,'Teléfono',this.telefono.id==undefined);
+    this.saveOrUpdate(this.telefonoService, this.telefono, 'Teléfono', this.telefono.id == undefined);
 
   }
 

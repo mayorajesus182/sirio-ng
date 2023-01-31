@@ -50,6 +50,7 @@
           <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
               translate}}
           </mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">

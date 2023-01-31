@@ -22,6 +22,7 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   @Input() persona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   pepList: ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
+  peps: string[] = [];
 
   constructor(
     injector: Injector,
@@ -34,8 +35,10 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   private loadList() {
+    this.peps = []
     this.pepService.allByPersonaId(this.persona).subscribe((data) => {
       this.pepList.next(data.slice());
+      this.peps = this.peps.concat(data.map(t => t.tipoDocumento+'-'+t.identificacion));
       this.propagar.emit(data.length);
       this.cdr.detectChanges();
     });
@@ -74,7 +77,7 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
     if (data) {
       data.persona = this.persona;
     }
-    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona } : data, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona, peps: this.peps } : { ...data, ...{ peps: this.peps } }, '60%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

@@ -9,8 +9,8 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'user.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{'profile.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew? 'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
@@ -59,61 +59,56 @@
 
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="100">
                                     <mat-label>Descripción</mat-label>
-                                    <input matInput type="text" autocomplete="off" uppercase name="descripcion" maxlength="500" required formControlName="descripcion"
-                                        >
+                                    <input matInput type="text" autocomplete="off" uppercase name="descripcion" maxlength="500" required
+                                        formControlName="descripcion">
                                     <mat-error *ngIf="f.descripcion.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.descripcion.errors?.pattern">Caracter inválido</mat-error>
                                 </mat-form-field>
                             </div>
 
-                            <mat-divider class="margin-v-md" ></mat-divider>
+                            <mat-divider class="margin-v-md"></mat-divider>
 
-
-                            <mat-accordion class="expansion-headers-align" *ngIf="modulos">
-
-                                <mat-expansion-panel #mep="matExpansionPanel" *ngFor="let item of modulos.value; index as i" (expanded)="false"
-                                    (opened)="setStep(i)">
+                            <mat-accordion class="expansion-headers-align" *ngIf="dataSourceList && dataSourceList.length > 0">
+                                <mat-expansion-panel *ngFor="let tree of dataSourceList;let i = index;">
 
                                     <mat-expansion-panel-header>
-                                        <mat-panel-title style="font-weight: bold !important;">
-                                            <mat-checkbox [color]="'primary'" [checked]="checklistSelection.isSelected(item) || item.checked" class="margin-right-sm"
-                                                (click)="$event.stopPropagation();" (change)="checkAll(i,$event)"></mat-checkbox>
-                                            {{ 'menu.'+item.label | translate}}
+                                        <mat-panel-title style="font-weight: 600 !important;">
+                                            <mat-checkbox [color]="'primary'" class="margin-right-sm" [checked]="tree.checked" (click)="$event.stopPropagation();"
+                                                (change)="updateTreeElements(tree,$event, i)"></mat-checkbox>
+                                            {{ 'menu.'+tree.label | translate}}
                                         </mat-panel-title>
                                         <mat-panel-description>
-                                            <!-- {{ item.descripcion | translate}} -->
                                             <span fxFlex></span>
                                             <div class="mat-icon-primary">
-                                                <i class="fal fa-{{ item.icon}}  fa-lg fa-icon margin-right-sm margin-top-sm "></i>
+                                                <i class="fal fa-{{ tree.icon}}  fa-lg fa-icon margin-right-sm margin-top-sm "></i>
                                             </div>
-                                            <!-- <fa-icon [icon]="['fas', item.icon]" size="lg" style="margin-right: 0.5em;"></fa-icon> -->
                                         </mat-panel-description>
                                     </mat-expansion-panel-header>
+                                   
 
-                                    <mat-tree [dataSource]="dataSource[i]" [treeControl]="treeControl[i]">
+                                    <mat-tree [dataSource]="tree.children" [treeControl]="treeControl[i]">
                                         <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                                             <button mat-icon-button disabled></button>
-                                            <mat-checkbox [color]="'primary'" class="checklist-leaf-node"
-                                                [checked]="checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
-                                                (change)="leafItemSelectionToggle(node)"><span>{{'menu.'+getLabel(node) |  translate}}</span></mat-checkbox>
+                                            <mat-checkbox [color]="'primary'" class="checklist-leaf-node" [checked]="node.checked"
+                                                (change)="updateTreeElements(node,$event,i)"><span>{{ 'menu.'+node.label | translate: {default: 'action.'+node.label} | translate}}</span></mat-checkbox>
                                         </mat-tree-node>
 
 
                                         <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-                                            <button mat-icon-button matTreeNodeToggle type="button" [attr.aria-label]="'toggle ' + node.filename">
+                                            <button mat-icon-button matTreeNodeToggle type="button" [attr.aria-label]="'toggle ' + node.id">
                                                 <mat-icon class="mat-icon-rtl-mirror">
-                                                    {{treeControl[i].isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                                                    {{treeControl[i].isExpandable(node) ? 'expand_more' : 'chevron_right'}}
                                                 </mat-icon>
                                             </button>
-                                            <mat-checkbox [color]="'primary'"
-                                                [checked]="descendantsAllSelected(node)||checklistSelection.isSelected(node) || descendantsPartiallySelected(node)"
-                                                (change)="itemSelectionToggle(node)"><span>{{'menu.'+getLabel(node) | translate}}</span></mat-checkbox>
+                                            <mat-checkbox [color]="'primary'"   [checked]="node.checked" (change)="updateTreeElements(node,$event,i)">
+                                                <span>{{ 'menu.'+node.label | translate: {default: 'action.'+node.label} | translate}}</span></mat-checkbox>
 
                                         </mat-tree-node>
                                     </mat-tree>
 
                                 </mat-expansion-panel>
                             </mat-accordion>
+
 
                         </div>
                     </div>
@@ -124,7 +119,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || checklistSelection.selected.length == 0 ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || !hasCheckedlements ">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

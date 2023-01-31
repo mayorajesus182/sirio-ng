@@ -25,7 +25,7 @@ export class SelectSearchComponent implements ControlValueAccessor, OnInit, Afte
     @Input() errors;
     @Input() label: string;
     @Input() icon: string;
-    @Input() labelDef: string = 'Ninguno';
+    @Input() labelDef: string = 'NINGUNO';
     @Input() autofocus: boolean = false;
     @Input() attributeName: string;
     @Input() required: boolean = false;
