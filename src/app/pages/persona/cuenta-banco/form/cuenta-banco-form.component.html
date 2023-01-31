@@ -264,22 +264,21 @@
 
                                     <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="8px">
 
-                                        <sirio-select-search fxFlex.gt-xs="33" [disabled]="!isNew" [label]="'Tipo Participación'"
+                                        <sirio-select-search fxFlex.gt-xs="33"  [label]="'Tipo Participación'"
                                             [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
                                             [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.tarticipacion?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex.gt-xs="33" [disabled]="!isNew" [label]="'Tipo Firma'" 
+                                        <sirio-select-search fxFlex.gt-xs="33"  [label]="'Tipo Firma'" 
                                             [formControl]="itemForm.controls['tipoFirma']"
-                                            [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'"
-                                            [errors]="f.tipoFirma?.errors">
+                                            [required]="true" [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex.gt-xs="33" [disabled]="!isNew" [label]="'Tipo Firmante'"
+                                        <sirio-select-search fxFlex.gt-xs="33"  [label]="'Tipo Firmante'"
                                             [formControl]="itemForm.controls['tipoFirmante']" [required]="true" 
                                             [elements]="tipoFirmantes.asObservable()"
-                                            [attributeName]="'nombre'" [errors]="f.titularTipoFirmante?.errors">
+                                            [attributeName]="'nombre'" >
                                         </sirio-select-search>
 
                                     </div>
@@ -325,7 +324,7 @@
 
                                 <!-- {{printErrors() | json}} -->
                                 <div fxLayout="row" fxLayout="column" *ngIf="showIntervinientes">
-                                    <sirio-persona-interviniente-table [tipoFirma]="f.tipoFirma" [cuenta]="cuentaBanco.id" >
+                                    <sirio-persona-interviniente-table  [cuenta]="cuentaBanco.id" >
                                     </sirio-persona-interviniente-table>
                                 </div>
 

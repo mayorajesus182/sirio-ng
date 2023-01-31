@@ -57,7 +57,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
 
   ngOnInit() {
 
-    console.log('interviniente table');
+    // console.log('interviniente table');
 
     if (this.cuenta) {
       console.log('buscando interviniente en el servidor dado el id persona');
@@ -70,14 +70,6 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
         }
       })
 
-      this.tipoFirma.valueChanges.subscribe(val => {
-        console.log('val tipo firma ', val);
-
-        if (val) {
-          this.tipoFirmaCurr = val;
-          this.cdr.detectChanges();
-        }
-      })
     }
 
   }
@@ -96,7 +88,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
     this.swalService.show('¿Desea Eliminar El Interviniente?', undefined,
       { 'html': ' <b>' + row.identificacion + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
-          console.log('buscando interviniente', row.id);
+          // console.log('buscando interviniente', row.id);
           this.intervinienteService.delete(row.cuenta, row.persona).subscribe(val => {
             if (val) {
               this.loadList();
