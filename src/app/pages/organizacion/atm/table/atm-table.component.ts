@@ -26,7 +26,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     protected router: Router,
     private cdr: ChangeDetectorRef,
     private atmService: AtmService,
-    // private atmReportService: AtmReportService,
+    private atmReportService: AtmReportService,
   ) {
     super(undefined,  injector);
   }
@@ -79,14 +79,16 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
 
   print(event) {
     if(event){
-
-      console.log(" por aca  se debe imprimir ");
       
-      // this.atmReportService.reporte().subscribe(data => {
-      //   const name = this.getFileName(data);
-      //   let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-      //   this.download(name, blob);
-      // });
+      console.log(" por aca  se debe imprimir "); 
+    
+       this.atmReportService.atmreporte().subscribe(event => {        
+           //this.loadingDataForm.next(false);
+            const name = this.getFileName(event);
+            let blob: any = new Blob([event.body], { type: 'application/octet-stream' });
+            this.download(name, blob);
+        });        
+       
     }
   }
 
