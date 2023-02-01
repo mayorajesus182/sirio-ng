@@ -4,6 +4,13 @@ import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
+export interface SaldoActualizadoAcopio {
+    transportista: string;
+    moneda: string;
+    monto: number;
+    detalleEfectivo: any[];
+}
+
 export interface SaldoAcopio {
     id: number;
     transportista: string;
@@ -58,6 +65,15 @@ export class SaldoAcopioService {
 
     datachartByTransportista(transportista:string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${transportista}/datachart`);
+    }
+
+    getLastSaldoByTransportistaAndMoneda(transportista: string, moneda: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${transportista}/acopio/${moneda}/moneda/last/saldo`);
+    }
+
+    update(data: SaldoActualizadoAcopio): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/update`, data)
+            .pipe(map(res => data));
     }
 
 }

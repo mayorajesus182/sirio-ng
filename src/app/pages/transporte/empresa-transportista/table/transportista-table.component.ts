@@ -80,5 +80,15 @@ export class TransportistaTableComponent extends TableBaseComponent implements O
     this.applyChangeStatus(this.transportistaService, data.element, data.element.nombre, this.cdr);
   }
 
+  balance(data:any) {
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/balance`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
+
+  checkbalance(data:any) {
+    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/check`;
+    this.router.navigateByUrl(url, { state: {data: data.element}  });
+  }
+
 }
 
