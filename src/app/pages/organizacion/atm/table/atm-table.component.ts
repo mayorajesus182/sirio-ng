@@ -5,7 +5,10 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { AtmReportService } from 'src/@sirio/domain/services/organizacion/atm.reports.service';
 import { AtmService } from 'src/@sirio/domain/services/organizacion/atm.service';
+import { SessionService } from 'src/@sirio/services/session.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
+import { RolConstants } from 'src/@sirio/constants';
+import { User } from 'src/@sirio/domain/services/security/auth.service';
 
 
 
@@ -18,7 +21,7 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 })
 
 export class AtmTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
-
+  esGerente: Boolean = false;
   displayedColumns = ['atm_id', 'identificacion', 'moneda_id', 'tipatm_id', 'responsable', 'activo', 'actions'];
   constructor(
     injector: Injector,
@@ -27,6 +30,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     private cdr: ChangeDetectorRef,
     private atmService: AtmService,
     private atmReportService: AtmReportService,
+    private sessionService: SessionService,
   ) {
     super(undefined,  injector);
   }
@@ -79,9 +83,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
 
   print(event) {
     if(event){
-      
-      console.log(" por aca  se debe imprimir "); 
-    
+          
        this.atmReportService.atmreporte().subscribe(event => {        
            //this.loadingDataForm.next(false);
             const name = this.getFileName(event);
@@ -90,6 +92,8 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
         });        
        
     }
+   
+    
   }
 
 }
