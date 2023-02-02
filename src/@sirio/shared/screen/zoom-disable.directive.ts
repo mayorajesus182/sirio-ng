@@ -6,22 +6,29 @@ import { Directive, ElementRef, HostListener } from "@angular/core";
 export class DisableZoomDirective {
   constructor(private element: ElementRef) { }
 
-  @HostListener('keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    // console.log('keydown event ', event);
-    if (event.ctrlKey && (event.code === 'NumpadAdd' || event.code === 'NumpadSubtract')) {
-      
+  @HostListener('keydown', ['$event']) onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Control' || event.key === '+' || event.key === '-') {
+      // Aquí puede incluir el código necesario para manejar los eventos de teclado
       event.preventDefault();
     }
   }
-  
-  
-  @HostListener('keydown.ctrl.+', ['$event'])
-  @HostListener('keydown.ctrl.-', ['$event'])
-  onKeyDown2(event: KeyboardEvent) {
-    // console.log('keydown2 event ', event);
-    event.preventDefault();
-  }
+
+  // @HostListener('keydown', ['$event'])
+  // onKeyDown(event: KeyboardEvent) {
+  //   // console.log('keydown event ', event);
+  //   if (event.ctrlKey && (event.code === 'NumpadAdd' || event.code === 'NumpadSubtract')) {
+
+  //     event.preventDefault();
+  //   }
+  // }
+
+
+  // @HostListener('keydown.ctrl.+', ['$event'])
+  // @HostListener('keydown.ctrl.-', ['$event'])
+  // onKeyDown2(event: KeyboardEvent) {
+  //   // console.log('keydown2 event ', event);
+  //   event.preventDefault();
+  // }
 
 
   @HostListener('mousewheel', ['$event'])
