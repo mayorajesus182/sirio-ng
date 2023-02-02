@@ -1,0 +1,62 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['nota.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayoutAlign.gt-sm="start stretch">
+            <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'form.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+
+                <sirio-card-content fxLayout="column">
+                    <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
+                    <div fxLayout="column" *ngIf="loading | async">
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="300px">
+
+                            <div class="margin-bottom-md">
+                                <mat-slide-toggle [color]="'primary'" [(ngModel)]="esEfectivo" (change)="esEfectivoEvent($event)">
+                                    Nota de Credito
+                                </mat-slide-toggle>
+                            </div>
+                            <div class="margin-bottom-md">
+                                <mat-slide-toggle [color]="'primary'" [(ngModel)]="esCheques" (change)="esChequesEvent($event)">
+                                   Nota de Debito
+                                </mat-slide-toggle>
+                            </div>
+                           
+                        </div>
+                        <sirio-deposito-efectivo (result)="depositoEfectivo($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
+                            *ngIf="this.esEfectivo"></sirio-deposito-efectivo>
+                        <sirio-deposito-cheques (result)="depositoCheques($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
+                            *ngIf="this.esCheques"></sirio-deposito-cheques>
+                        <sirio-deposito-mixto (result)="depositoMixto($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion" *ngIf="this.esMixto">
+                        </sirio-deposito-mixto>
+                       <!--  <sirio-voucher-information (result)="voucher($event)" [persona]="persona" *ngIf="this.esEfectivo || this.esCheques || this.esMixto ">
+                        </sirio-voucher-information>-->
+                    </div>
+
+                </sirio-card-content>
+                <mat-toolbar *ngIf="loading | async">
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button
+                            [disabled]="!itemForm || itemForm.invalid  || !voucherForm ||  voucherForm.invalid || (loading$ | async )">
+                            {{'button.send' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
