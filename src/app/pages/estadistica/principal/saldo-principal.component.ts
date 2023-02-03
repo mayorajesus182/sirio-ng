@@ -61,44 +61,43 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
 
   refreshData() {
 
-    this.saldoPrincipalService.datachart().subscribe(result => {
+    this.saldoPrincipalService.datachart().subscribe(res => {
 
-      console.log(result);
+      console.log(res);
+      const response = res;
 
-      this.regionTableData$ = of(result.data.regiones);
+      this.regionTableData$ = of(response.data.regiones);
       let datasets_aument = {};
       let datasets_desmin = {};
       let datasets_final = {};
       let detailCash = {};
       
-      this.monedas = result.data.monedas;
+      this.monedas = response.data.monedas;
       
       this.coinAvailables.next(this.monedas);
       
       this.monedas.forEach(m => {
         
-        datasets_aument[m.id] = result.data["aumento-" + m.id];
+        datasets_aument[m.id] = response.data["aumento-" + m.id];
         
-        datasets_desmin[m.id] = result.data["disminucion-" + m.id];
-        datasets_final[m.id] = result.data["final-" + m.id];
+        datasets_desmin[m.id] = response.data["disminucion-" + m.id];
+        datasets_final[m.id] = response.data["final-" + m.id];
         
-        detailCash[m.id] = result.data["efectivo-" + m.id];
+        detailCash[m.id] = response.data["efectivo-" + m.id];
         this.currentSiglasCoin = this.currentSiglasCoin || m.siglas;
         this.currentCoin = this.currentCoin || m.id;
       });
 
-
-      this.acopioTableData$ = of(result.data['acopios'].filter(s=> s.name= this.currentCoin).map(s=>s.data));
 
       let datasets = { series: [], labels: [] };
       let datasetDetailCash = { data: detailCash, labels: [], color: '#90ed7d', name: 'Disponible' };
       
       this.acum=datasets_final[this.currentCoin][datasets_final[this.currentCoin].length -1];
       console.log(datasets_final[this.currentCoin][datasets_final[this.currentCoin].length -1]);
-      let data = result.data.acopios.filter(ac=>ac.name==this.currentCoin).map(ac=>ac.data).map((d,index)=>d[index]);
-      // console.log('acopio data',data);
+      const acopios = response.data.acopios.filter(ac=>ac.name==this.currentCoin).map(ac=>ac.data).map((d,index)=>d[index]);
+      console.log('acopio data',acopios);
       
-      this.acopioTableData$ = of(data);
+      this.acopioTableData$ = of(acopios);
       
       // this.acopioTableData$.subscribe(d=>console.log(d));
       
@@ -121,7 +120,7 @@ export class SaldoPrincipalComponent extends ChartBaseComponent implements OnIni
         },
       ]
 
-      datasets.labels = result.data.labels;
+      datasets.labels = response.data.labels;
 
 
       this.data$.next(datasets);

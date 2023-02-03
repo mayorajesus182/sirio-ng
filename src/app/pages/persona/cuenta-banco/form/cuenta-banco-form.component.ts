@@ -370,7 +370,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         console.log('send data al banco');
 
-        this.swalService.show('¿Desea realmente desea realizar esta operación?',).then((resp) => {
+        this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
             if (!resp.dismiss) {
                 this.loadingDataForm.next(true);
