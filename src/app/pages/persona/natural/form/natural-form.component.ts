@@ -260,8 +260,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                 if (!this.evaluarEstadoCivil()) {
                     // si esta evaluacion retorna false , es que no es casado, ni union estable
                     this.addOrRemoveFieldValidator('tipoDocumentoConyuge', false)
-                    this.addOrRemoveFieldValidator('identificacionConyuge', false, '')
-                    this.addOrRemoveFieldValidator('nombreConyuge', false, '')
+                    this.addOrRemoveFieldValidator('identificacionConyuge', false)
+                    this.addOrRemoveFieldValidator('nombreConyuge', false)
                     this.addOrRemoveFieldValidator('fuenteIngreso', false)
 
 
