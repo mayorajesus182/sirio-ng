@@ -65,7 +65,7 @@ export class DepositoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_TAQUILLA, prefix: '/deposito' };
+        this.apiConfig = { name: ApiConfConstants.API_TAQUILLA, prefix: '/deposito-new' };
 
     }
 
