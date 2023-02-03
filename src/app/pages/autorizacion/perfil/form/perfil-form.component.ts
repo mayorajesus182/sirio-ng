@@ -420,7 +420,6 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
     public hasCheckedlements() {
 
         let hasChecked= false;
-        // console.log(this.dataSourceList);
         
         this.dataSourceList.forEach(element => {
             if(element.checked){

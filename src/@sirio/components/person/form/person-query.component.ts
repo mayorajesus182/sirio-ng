@@ -42,14 +42,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     tiposDocumentoList: TipoDocumento[] = [];
     persona: Persona = {} as Persona;
-    // private legals:string[] = [];
-    // ['C',
-    //     'G',
-    //     'H',
-    //     'I',
-    //     'J',
-    //     'R',
-    //     'W'];
+   
 
     private loading = new BehaviorSubject<boolean>(false);
     private finding = false;
@@ -85,9 +78,6 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.search.cuenta.disable();
             }
 
-            // console.log('rif change ', val);
-            // console.log('rif errors ', this.search.identificacion.errors);
-            // console.log('rif errors ', this.search.identificacion.errors.length);
 
             if (val && this.search.identificacion.errors) {
                 // this.resetAll();

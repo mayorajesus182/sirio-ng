@@ -34,7 +34,7 @@ export class ReporteAtmFormComponent extends FormBaseComponent implements OnInit
 
 
     generate() {
-        this.atmReportService.reporte().subscribe(data => {
+        this.atmReportService.atmreporte().subscribe(data => {
             this.loadingDataForm.next(false);
             const name = this.getFileName(data);
             let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
