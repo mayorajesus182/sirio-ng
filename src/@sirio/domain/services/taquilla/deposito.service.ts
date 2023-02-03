@@ -6,6 +6,11 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
+export interface ChequeSerial {
+   
+    serial: string;
+    numeroCuenta: string;
+}
 export interface Cheque {
 
     serial: string;
@@ -77,6 +82,10 @@ export class DepositoService {
     save(data: Deposito): Observable<any> {
         return this.apiService.config(this.apiConfig).post(`/${data.operacion}/create`, data)
             .pipe(map(res => data));
+    }
+
+    exists(serial: string, numeroCuenta: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${serial}/${numeroCuenta}/exists`);
     }
 
 }

@@ -54,7 +54,7 @@ export class RetiroService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro'};    
+        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro-new'};    
     }
     
 

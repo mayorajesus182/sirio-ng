@@ -11,8 +11,7 @@ import { MotivoDevolucion, MotivoDevolucionService } from 'src/@sirio/domain/ser
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion, CuentaBancariaService } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
-import { ChequeService } from 'src/@sirio/domain/services/taquilla/cheque.service';
-import { Cheque } from 'src/@sirio/domain/services/taquilla/deposito.service';
+import { Cheque, DepositoService } from 'src/@sirio/domain/services/taquilla/deposito.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -50,7 +49,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         injector: Injector,
         private fb: FormBuilder,
         private cuentaBancariaService: CuentaBancariaService,
-        private chequeService: ChequeService,
+        private depositoService: DepositoService,
         private calendarioService: CalendarioService,
         private sessionService: SessionService,
         private motivoDevolucionService: MotivoDevolucionService,
@@ -337,7 +336,7 @@ export class DepositoChequesFormComponent extends FormBaseComponent implements O
         var validate = this.chequeList.find(c => (c.serial === serial) && (c.numeroCuentaCheque === numeroCuentaCheque)) == undefined;
 
         if (validate) {
-            this.chequeService.exists(serial, numeroCuentaCheque).subscribe(data => {
+            this.depositoService.exists(serial, numeroCuentaCheque).subscribe(data => {
                 if (data.exists) {
                     this.cf.serial.setErrors({
                         existsSerial: true
