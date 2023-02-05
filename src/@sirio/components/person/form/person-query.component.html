@@ -39,10 +39,10 @@
                         [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 ) || disable "
                         formControlName="identificacion">
 
-                    <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
-                    </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
+                    </mat-error>
+                    <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
                     </mat-error>
                     <mat-error *ngIf="search.identificacion.errors?.rif">{{search.identificacion.errors?.rif}}
                     </mat-error>

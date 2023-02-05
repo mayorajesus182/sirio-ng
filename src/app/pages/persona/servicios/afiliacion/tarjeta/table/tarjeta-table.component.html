@@ -1,0 +1,56 @@
+<div fxLayout="row" fxLayout="column">
+    <div fxLayoutAlign="end center" fxFlex="1 1 0%"> </div>
+</div>
+
+<ngx-datatable [scrollbarV]="false" canAutoResize="false" class="material" [columnMode]="ColumnMode.force"
+    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50"
+    [rowHeight]="45" [limit]="5" [rows]="tarjetaList | async">
+
+    <ngx-datatable-column [resizeable]="false" [width]="50" name="#">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <div class="text-center" fxLayoutAlign="center"> {{ rowIndex+1 }}</div>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="250" name="Tipo Tarjeta">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipo }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="250" name="Serial">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.numero | imask:{mask: '0000.0000.0000.0000'} }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="¿Esta Asociada?">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <!-- <span style="white-space: break-spaces;" fxLayoutAlign="center">{{ row?.asociada=== 1 ? 'SI' : 'NO' }} </span> -->
+            <div class="text-center">
+                <mat-chip mat-sm-chip [color]="'accent'" [selected]="row.asociada" style="width: 30px;">{{row.asociada ? 'SI' :'NO'}}</mat-chip>
+            </div>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="Acciones">
+        <ng-template let-row="row; " ngx-datatable-cell-template>
+            <div class="text-center" fxLayoutAlign="center" *ngIf="(row.numero | imask:{mask: '0000.0000.0000.0000'}) as numero">
+                <button mat-icon-button mat-sm-button *ngIf="!row.asociada" color="primary" class="vertical-pos" (click)="afiliar(row, numero)"
+                    matTooltip="{{'Asociar' | translate}}">
+                    <mat-icon>add_task</mat-icon>
+                    <!-- 
+                    <span class="material-symbols-outlined">
+                        
+                        </span> -->
+                </button> &nbsp;
+                <button mat-icon-button mat-sm-button *ngIf="row.asociada" color="warn" class="vertical-pos margin-right-xs" (click)="delete(row,numero)"
+                    matTooltip="Cancelar">
+                    <mat-icon>do_not_disturb_on</mat-icon>
+                </button>
+            </div>
+        </ng-template>
+    </ngx-datatable-column>
+
+</ngx-datatable>
