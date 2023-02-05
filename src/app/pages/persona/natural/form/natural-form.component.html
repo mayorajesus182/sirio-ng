@@ -221,10 +221,10 @@
                                             <mat-label>{{'naturalPerson.familyBurden' | translate: {default:
                                                 'global.familyBurden'} | translate }}
                                             </mat-label>
-                                            <input matInput class="text-center" max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar"
+                                            <input matInput class="text-center" max="30" min="0" type="number" autocomplete="off" name="cargaFamiliar"
                                                 formControlName="cargaFamiliar" required>
                                             <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10
+                                            <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 30
                                             </mat-error>
                                         </mat-form-field>
 

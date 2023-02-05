@@ -199,7 +199,12 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         this.itemForm = this.fb.group({
             tipoDocumento: new FormControl({ value: personaNatural.tipoDocumento, disabled: true }, [Validators.required]),
+            
+            // this.tipoDocumentos.value = 'P'  {
+
             identificacion: new FormControl({ value: personaNatural.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            
+            
             fechaNacimiento: new FormControl(personaNatural.fechaNacimiento ? moment(personaNatural.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
             pais: new FormControl(personaNatural.pais || undefined, [Validators.required]),
             primerNombre: new FormControl(personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),

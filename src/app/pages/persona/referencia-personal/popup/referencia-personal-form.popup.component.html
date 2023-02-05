@@ -22,10 +22,11 @@
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Número  Documento'}}</mat-label>
-        <input autocomplete="off" class="text-center" matInput name="identificacion" maxlength="15" formControlName="identificacion" required>
+        <input autocomplete="off" class="text-center" matInput name="identificacion" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" minlength="1" formControlName="identificacion" required >
         <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+        <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
       </mat-form-field>
 
     </div>

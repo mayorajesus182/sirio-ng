@@ -1,7 +1,7 @@
 <sirio-dialog-header mat-dialog-title>
     <sirio-dialog-header-heading>
         <!-- TODO: PENDIENTE IN18 -->
-        <h1>Accionistas / Junta Directiva.</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+        <h1>Accionistas / Junta Directiva</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
         <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
             <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -22,13 +22,22 @@
                 [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
             </sirio-select-search>
 
-            <mat-form-field fxFlex="20">
+            <!-- <mat-form-field fxFlex="20">
                 <mat-label>{{'Número Documento ' | translate: {default:
                     'Número Documento '} | translate }} </mat-label>
                 <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" uppercase required class="text-center">
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+            </mat-form-field> -->
+            <mat-form-field fxFlex="20">
+                <mat-label>{{'Número Documento ' | translate: {default:
+                    'Número Documento '} | translate }} </mat-label>
+                <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" formControlName="identificacion" uppercase required class="text-center">
+                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
             </mat-form-field>
 
             <mat-form-field fxFlex="50">
