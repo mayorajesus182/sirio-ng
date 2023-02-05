@@ -164,7 +164,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
-        console.log(this.searchForm.value);
+        // console.log(this.searchForm.value);
 
 
         if (tipoDocumento && identificacion) {
@@ -206,7 +206,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.finding = false;
                 this.disableBtn.next(false);
 
-                console.log(this.searchForm.value);
+                // console.log(this.searchForm.value);
                 
                 this.cdref.detectChanges();
             })

@@ -19,9 +19,9 @@ export class DocNumberValidateDirective {
         const numbersAndDash = /^[0-9-]+$/;
         const alphanumeric = /^[a-zA-Z0-9]+$/;
 
-        console.log('tipoDoc ', tipoDocumento);
-        console.log('validar ', value);
-        console.log('length ', value.length);
+        // console.log('tipoDoc ', tipoDocumento);
+        // console.log('validar ', value);
+        // console.log('length ', value.length);
 
 
         /**
@@ -72,7 +72,7 @@ export class DocNumberValidateDirective {
     private validate(value, maxLength: number, regexpress) {
 
 
-        console.log('result regexp ', regexpress, regexpress.test(value));
+        // console.log('result regexp ', regexpress, regexpress.test(value));
 
 
         if (value.length > maxLength) {
