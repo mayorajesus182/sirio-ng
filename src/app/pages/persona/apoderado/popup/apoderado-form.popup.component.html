@@ -25,7 +25,7 @@
             <mat-form-field fxFlex="33">
                 <mat-label>{{'Número de Documento' | translate: {default:
                     'Número de Documento'} | translate }} </mat-label>
-                <input matInput doc-number-validate [tipo_documento]="f.tipoDocumento?.value" maxlength="14" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center" uppercase required>      
+                <input matInput doc-number-validate [tipo_documento]="f.tipoDocumento?.value"  minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center" uppercase required>      
                 <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                 </mat-error>

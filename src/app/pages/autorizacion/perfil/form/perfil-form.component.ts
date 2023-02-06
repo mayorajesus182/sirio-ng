@@ -16,7 +16,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
     selector: 'app-perfil-form',
     templateUrl: './perfil-form.component.html',
     styleUrls: ['./perfil-form.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInRightAnimation, fadeInUpAnimation]
 })
 
@@ -117,6 +117,8 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
                 }
             });
             this.loadwithPreselecteds();
+            this.cdr.detectChanges();
+
         })
     }
 
@@ -143,7 +145,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
                 return;
             }
 
-            console.log(pres);
+            // console.log(pres);
 
 
 
@@ -224,19 +226,6 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
         this.loading$.subscribe(loaded => {
             if (!loaded) {
 
-                // this.f.id.valueChanges.subscribe(value => {
-
-                //     if (!this.f.id.errors) {
-                //         this.codigoExists(value);
-                //     }
-                // });
-
-                // this.f.nombre.valueChanges.subscribe(value => {
-                //     if (!this.f.nombre.errors) {
-                //         this.nameExists(value);
-                //     }
-                // });
-
                 this.eventFromElement(this.codigo, 'keyup')?.subscribe(() => {
                     // this.filterChange.emit(this.filter.nativeElement.value);
                     if (!this.f.id.errors && this.codigo.nativeElement.value.length > 4) {
@@ -263,17 +252,13 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
                 this.buildForm();
                 console.log('perfil ', this.perfil);
-                //         // cargar preseleccionados desde el modo edicion   
+                
                 this.preSelecteds.next(this.perfil.permisos);
-                // this.loadPreselecteds();
-
-                // this.initTree();
+                
 
 
                 console.log('preseleecionados ', this.preSelecteds);
 
-                //         this.cdr.markForCheck();
-                //         this.loadingDataForm.next(false);
 
             }, err => {
                 this.perfil = {} as Perfil
@@ -398,32 +383,32 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
     // Función para obtener los elementos seleccionados
     private getSelectedElements() {
 
-        let elements= [];
+        let elements = [];
 
-        elements = elements.concat(this.dataSourceList.filter(p=> p.checked).map(p=>p.id));
+        elements = elements.concat(this.dataSourceList.filter(p => p.checked).map(p => p.id));
         // elements = elements.concat(this.dataSourceList.map(p=>p.children).filter(p=> p && p.filter(pp=>pp.checked)).map(p1=>p1.map(p2=>p2.id)));
         this.dataSourceList.forEach(element => {
-    
-            if(element.children){
-                elements = elements.concat(element.children.filter(p=>p.checked).map(p=>p.id));
+
+            if (element.children) {
+                elements = elements.concat(element.children.filter(p => p.checked).map(p => p.id));
             }
 
         });
 
-        console.log('selecteds',elements);
-        
+        console.log('selecteds', elements);
+
 
 
         return elements;
     }
-    
+
     public hasCheckedlements() {
 
-        let hasChecked= false;
-        
+        let hasChecked = false;
+
         this.dataSourceList.forEach(element => {
-            if(element.checked){
-                hasChecked=true;
+            if (element.checked) {
+                hasChecked = true;
                 return;
             }
         });
@@ -456,10 +441,13 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
 
     getLabel(item) {
 
+        console.log(item);
+        
+
         let label = `${item.label}`;
 
         try {
-            label = label.indexOf('this.element.activo') >= 0 ? 'Activar/Inactivar' : label;
+            label = label.indexOf('this.element.activo') >= 0 ? 'Activar/Inactivar' : 'action.'+label;
 
         } catch (error) {
             // no doing nothing
@@ -468,7 +456,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
         return label;
     }
 
-  
+
 
 
     private codigoExists(id) {

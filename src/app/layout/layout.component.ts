@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 
 import { filter, map } from 'rxjs/operators';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { User } from 'src/@sirio/domain/services/security/auth.service';
 import { BroadcastService, BROADCAST_SERVICE } from 'src/@sirio/services/broadcast.service';
 import { SessionService } from 'src/@sirio/services/session.service';
 import { SnackbarService } from 'src/@sirio/services/snackbar.service';
@@ -139,7 +140,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     // broadcast.postMessage('FIRST');
 
     let menuItems = [] as SidenavItem[];
-
+    const user = this.sessionService.getUser() as User;
     // cargando el arbol de permisos
     const dashboardItem = {
       label: 'MENÚ',
@@ -148,7 +149,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     } as SidenavItem;
 
     menuItems.push(dashboardItem);
-    this.navService.get().subscribe(data => {
+    this.navService.get(user.username.toLowerCase()).subscribe(data => {
 
       // console.log('loading menu', data);
       let r = data.map(el => { el.type = 'item'; return el; });

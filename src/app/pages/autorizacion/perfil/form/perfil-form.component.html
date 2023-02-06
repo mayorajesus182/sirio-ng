@@ -90,7 +90,7 @@
                                         <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                                             <button mat-icon-button disabled></button>
                                             <mat-checkbox [color]="'primary'" class="checklist-leaf-node" [checked]="node.checked"
-                                                (change)="updateTreeElements(node,$event,i)"><span>{{ 'menu.'+node.label | translate: {default: 'action.'+node.label} | translate}}</span></mat-checkbox>
+                                                (change)="updateTreeElements(node,$event,i)"><span>{{ 'menu.'+node.label | translate: {default: getLabel(node)} | translate}}</span></mat-checkbox>
                                         </mat-tree-node>
 
 
@@ -101,7 +101,7 @@
                                                 </mat-icon>
                                             </button>
                                             <mat-checkbox [color]="'primary'"   [checked]="node.checked" (change)="updateTreeElements(node,$event,i)">
-                                                <span>{{ 'menu.'+node.label | translate: {default: 'action.'+node.label} | translate}}</span></mat-checkbox>
+                                                <span>{{ 'menu.'+node.label | translate: {default: getLabel(node)} | translate}}</span></mat-checkbox>
 
                                         </mat-tree-node>
                                     </mat-tree>

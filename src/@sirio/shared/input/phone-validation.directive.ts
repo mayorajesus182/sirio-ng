@@ -39,7 +39,7 @@ export class TelefonoValidator implements Validator {
 
     private validatePhone(control: FormControl): ValidationErrors | null {
 
-        if (control.value == undefined || control.value == '') {
+        if (control.value == undefined || control.value == '' || !this.codigos) {
             return null;
         }
 
