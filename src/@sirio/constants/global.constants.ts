@@ -40,5 +40,6 @@ export class GlobalConstants {
   public static CHEQUE_GERENCIA_FECHA_MINIMA = '180';
   public static PATH_IMAGE_GCOMERCIAL = 'assets/img/demo/';
   public static DIRECCION_PRINCIPAL = 'PR';
+  public static TELEFONO_CELULAR = 'CL';
   // static CUENTA_BANCO: any;
 };

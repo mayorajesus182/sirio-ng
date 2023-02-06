@@ -43,7 +43,7 @@
       <mat-form-field fxFlex="50">
           <mat-label>{{'Número  Documento: ' | translate: {default:
               'Número  Documento'} | translate }} </mat-label>
-          <input matInput maxlength="200" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion"
+          <input matInput minlength="1" uppercase autocomplete="off" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" name="identificacion" formControlName="identificacion"
                [required]="f.tipoPep.value && f.tipoPep.value!=Pep.CLIENTE">
           <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
           </mat-error>
@@ -51,6 +51,7 @@
               translate}}
           </mat-error>
           <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">

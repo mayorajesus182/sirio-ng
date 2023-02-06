@@ -31,7 +31,7 @@
         <!-- <mat-checkbox class="caption">Remember Me</mat-checkbox>
         <a class="caption" [routerLink]="['/forgot-password']">Forgot Password?</a> -->
       </div>
-      <button type="button" color="primary" mat-raised-button (click)="send()" [disabled]="form.invalid">
+      <button type="button" #btnAuth color="primary" mat-raised-button (click)="send()" [disabled]="form.invalid">
         INGRESAR
       </button>
       <!-- <p class="secondary-text text-center">

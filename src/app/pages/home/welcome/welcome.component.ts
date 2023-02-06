@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
+import { User } from 'src/@sirio/domain/services/security/auth.service';
 import { NavigationService } from 'src/@sirio/services/navigation.service';
+import { SessionService } from 'src/@sirio/services/session.service';
 import { SidenavItem } from 'src/app/layout/sidenav/sidenav-item/sidenav-item.interface';
 
 @Component({
@@ -18,6 +20,7 @@ export class WelcomeComponent implements OnInit {
   items$: Observable<SidenavItem[]> = this.itemDataSubject.asObservable();
 
   constructor(
+    private sessionService: SessionService,
     private navService: NavigationService,
   ) { }
 
@@ -26,8 +29,9 @@ export class WelcomeComponent implements OnInit {
   }
 
   ngOnInit() {
+    const user = this.sessionService.getUser() as User;
 
-    this.navService.get().subscribe(data => {
+    this.navService.get(user.username.toLowerCase()).subscribe(data => {
       this.itemDataSubject.next(data);
     })
 

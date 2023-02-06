@@ -120,7 +120,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.searchForm = this.fb.group({
             tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT),
-            identificacion: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            identificacion: new FormControl('', []),
             nombre: new FormControl({ value: '', disabled: true }),
             cuenta: new FormControl(''),
             tipoPersona: new FormControl('')
@@ -152,6 +152,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     public queryByPerson() {
 
+        // console.log(this.search.identificacion.errors);
+        // console.log('is invalid form ',this.searchForm.invalid);
+        
 
         if (this.search.identificacion.errors || this.finding) {
             return;
@@ -161,7 +164,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         const tipoDocumento = this.search.tipoDocumento.value;
         const identificacion = this.search.identificacion.value;
 
-        console.log(this.searchForm.value);
+        // console.log(this.searchForm.value);
 
 
         if (tipoDocumento && identificacion) {
@@ -203,7 +206,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                 this.finding = false;
                 this.disableBtn.next(false);
 
-                console.log(this.searchForm.value);
+                // console.log(this.searchForm.value);
                 
                 this.cdref.detectChanges();
             })
@@ -298,6 +301,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     editOn() {
 
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
+
+        // console.log(this.persona);
+        
         this.update.emit(this.persona);
 
         this.disable.next(true);

@@ -61,6 +61,7 @@ import { AgeValidatorByDocumentType } from './input/age-validation-bydocumenttyp
 import { StringPadDirective } from './input/string-pad.directive';
 import { MatTreeModule } from '@angular/material/tree';
 import { DisableZoomDirective } from './screen/zoom-disable.directive';
+import { DocNumberValidateDirective } from './input/document-validate.directive';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -131,6 +132,7 @@ export const DATE_FORMATS_CUSTOM = {
 
 const toInclude = [
   DisableZoomDirective,
+  DocNumberValidateDirective,
   AutofocusDirective,
   NumAccountValidator,
   RifValidator,

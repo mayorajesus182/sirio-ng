@@ -106,8 +106,9 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     if (!identificacion) {
       return true;
     }
-    this.cdr.detectChanges();
-    return this.peps.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+    
+    
+    return this.peps.find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
   }
 
   isRdOrNp() {

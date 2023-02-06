@@ -33,8 +33,9 @@ export class NavigationService {
   }
 
 
-  get(): Observable<SidenavItem[]> {
-    return this.apiService.config(this.apiConfig).get('/permissions');
+  get(username:string): Observable<SidenavItem[]> {
+    
+    return this.apiService.config(this.apiConfig).get(`/permissions/${username}`);
   }
   
 

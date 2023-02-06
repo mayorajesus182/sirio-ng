@@ -1,8 +1,9 @@
 import { HttpClient, HttpEvent, HttpParams, HttpRequest, HttpResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, throwError } from "rxjs";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
 import { catchError } from "rxjs/operators";
 import { environment } from "src/environments/environment";
+import { RequestCacheService } from "../request.cache.service";
 
 export interface ApiOption {
   name?: string,
@@ -18,8 +19,15 @@ export class ApiService {
   private apiConfig: ApiOption = { name: 'default', prefix: undefined } as ApiOption;
 
   constructor(
+    private cache: RequestCacheService,
     private http: HttpClient
   ) { }
+
+
+  private getCacheData(url: string): any {
+    const cachedData = this.cache.getByUrl(url);
+    return cachedData ? cachedData.body : undefined;
+  }
 
   private formatErrors(error: any): Observable<any> {
     console.error('An error occurred: ', error);
@@ -50,6 +58,16 @@ export class ApiService {
         params = params.append(key, paramsOpts[key]);
       });
     }
+    // verificar si la peticion ya tiene registros en la cache
+    const url = `${environment.api[this.apiConfig.name]}${this.apiConfig.prefix || ''}${path}`;
+    // console.log(`${environment.api[this.apiConfig.name]}${this.apiConfig.prefix || ''}${path}`);
+    let cacheData = this.getCacheData(url);
+    if(cacheData!=undefined){    
+    
+      return of(cacheData);
+    }
+
+
     return this.http.get(`${environment.api[this.apiConfig.name]}${this.apiConfig.prefix || ''}${path}`, { params })
       .pipe(catchError((e) => this.formatErrors(e)));
   }

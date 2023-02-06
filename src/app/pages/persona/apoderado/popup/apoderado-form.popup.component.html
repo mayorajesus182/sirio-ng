@@ -21,18 +21,32 @@
             <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew" formControlName="tipoDocumento" [required]="true"
                 [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
             </sirio-select-search>
+
             <mat-form-field fxFlex="33">
                 <mat-label>{{'Número de Documento' | translate: {default:
                     'Número de Documento'} | translate }} </mat-label>
-                <input matInput maxlength="33" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center"
-                    uppercase required>
+                <input matInput doc-number-validate [tipo_documento]="f.tipoDocumento?.value"  minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center" uppercase required>      
+                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                 </mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
                     translate}}
                 </mat-error>
-                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+                
+                <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
             </mat-form-field>
+           
+            <!-- <mat-form-field fxFlex="33">
+                <mat-label>{{'Número  Documento'}}</mat-label>
+                <input autocomplete="off" class="text-center" matInput doc-number-validate [tipo_documento]="f.tipoDocumento?.value" name="identificacion" maxlength="15" formControlName="identificacion" required >
+                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
+                <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+               
+                <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
+                
+            </mat-form-field> -->
+
 
             <div fxFlex.gt-sm="20" class="text-right margin-top-md">
                 <mat-slide-toggle [color]="'primary'" formControlName="esApoderado" name="esApoderado">

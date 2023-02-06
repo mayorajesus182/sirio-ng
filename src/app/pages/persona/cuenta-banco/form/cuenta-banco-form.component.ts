@@ -47,8 +47,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
+    
     showIntervinientes = false;
+    showAfiliacionP2p = false;
+    showAsociarTarjeta = false;
+    
     btnCreateDisabled = true;
+
+
     nombreCompletoPersona = 'FULL NAME';
     cuentaBanco: CuentaBanco = {} as CuentaBanco;
     persona: Persona = {} as Persona;
@@ -423,6 +429,22 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         console.log('send data al Interviniente');
 
         this.showIntervinientes = opened;
+        this.cdr.detectChanges();
+    }
+
+    openAfliacionP2p(opened: boolean) {
+
+        console.log('send data afiliaciones');
+
+        this.showAfiliacionP2p = opened;
+        this.cdr.detectChanges();
+    }
+
+    openTarjetas(opened: boolean) {
+
+        console.log('send data tarjetas');
+
+        this.showAsociarTarjeta = opened;
         this.cdr.detectChanges();
     }
 

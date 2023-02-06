@@ -33,11 +33,11 @@ export class AgeValidatorByDocumentType implements Validator {
         }
 
         let birthday = control.value;
-        console.log(moment.duration(moment(this.today).diff(birthday)).asYears());
+        // console.log(moment.duration(moment(this.today).diff(birthday)).asYears());
         
         let ageCalc =Math.round(moment.duration(moment(this.today).diff(birthday)).asYears()) ;
 
-        console.log(ageCalc);
+        // console.log(ageCalc);
         
 
         if (ageCalc > 18 && this.typesMinor.includes(this.document.charAt(0)) ) {

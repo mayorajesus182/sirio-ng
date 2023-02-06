@@ -8,9 +8,11 @@ import { delay, tap } from "rxjs/operators";
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
-    private api_chacheable = [
-        '/api/public/assets',
-        '/api/configuracion'
+    private api_chacheable=[
+        '/api/public/assets/i18n',
+        '/api/configuracion',
+        '/api/session/permissions',
+        '/api/preferencia'
     ]
 
     constructor(private jwtService: JwtService,
@@ -58,9 +60,9 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         // Obtener los datos de la petición
         return next.handle(req).pipe(
             tap(event => {
-                if (event instanceof HttpResponse && this.api_chacheable.find(a => req.urlWithParams.indexOf(a) >= 0) != undefined && req.url.endsWith("actives")) {
+                if (event instanceof HttpResponse && this.api_chacheable.find(a=>req.urlWithParams.indexOf(a)>=0) != undefined && req.method=='GET') {
                     // console.log(' push response al cache ', req.urlWithParams);
-                    // this.cache.put(req, event);
+                    this.cache.put(req, event);
                 }
             })
         );

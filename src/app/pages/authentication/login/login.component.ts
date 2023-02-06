@@ -17,7 +17,7 @@ import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.anim
   animations: [fadeInUpAnimation]
 })
 export class LoginComponent implements OnInit {
-  @ViewChild(MatButton) submitButton: MatButton;
+  @ViewChild('btnAuth') submitButton: MatButton;
   form: FormGroup;
 
   inputType = 'password';
