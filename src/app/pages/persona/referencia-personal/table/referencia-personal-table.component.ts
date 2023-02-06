@@ -40,7 +40,7 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   private loadList() {
     this.referencias = []
     this.referenciaPersonalService.allByPersonaId(this.persona).subscribe((data) => {
-      console.log(data);
+      // console.log(data);
       
       this.referenciaPersonalList.next(data.slice());
       this.referencias = this.referencias.concat(data.map(t => t.identificacion));

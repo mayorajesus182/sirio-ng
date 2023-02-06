@@ -30,7 +30,7 @@ export class UppercaseDirective implements ControlValueAccessor {
   constructor(private el: ElementRef,private _renderer: Renderer2) {}
 
   ngOnInit() {
-    this.subscription = fromEvent(this.el.nativeElement, 'input')
+    this.subscription = fromEvent(this.el.nativeElement, 'keyup')
       .subscribe((event: any) => {
         // const value = event.target.value;
         // this.el.nativeElement.value = value.toUpperCase();
@@ -46,6 +46,7 @@ export class UppercaseDirective implements ControlValueAccessor {
       });
   }
 
+  
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
