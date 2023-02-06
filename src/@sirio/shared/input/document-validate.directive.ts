@@ -1,8 +1,11 @@
 import { Directive, Input, HostListener } from '@angular/core';
-import { NgControl } from '@angular/forms';
+import { NgControl, NG_VALIDATORS } from '@angular/forms';
 
 @Directive({
-    selector: '[docNumberValidate],[doc-number-validate]'
+    selector: '[docNumberValidate],[doc-number-validate]',
+    providers: [
+        { provide: NG_VALIDATORS, useExisting: DocNumberValidateDirective, multi: true }
+    ]
 })
 export class DocNumberValidateDirective {
     @Input('tipo_documento') tipoDocumento: string;
@@ -82,7 +85,7 @@ export class DocNumberValidateDirective {
         } else if (!regexpress.test(value)) {
             this.control.control.setErrors({ pattern: true });
             return false;
-        } 
+        }
         // else {
         //     this.control.control.setErrors(null);
         // }
