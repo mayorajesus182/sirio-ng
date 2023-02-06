@@ -1,3 +1,4 @@
+import { T } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -40,6 +41,7 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
       console.log(data);
       
       this.pepList.next(data.slice());
+      // t.tipoDocumento+'-'+
       this.peps = this.peps.concat(data.map(t => t.tipoDocumento+'-'+t.identificacion));
       this.propagar.emit(data.length);
       this.cdr.detectChanges();

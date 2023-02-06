@@ -73,7 +73,7 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     })
 
-    this.tipoDocumentoService.actives().subscribe(data => {
+    this.tipoDocumentoService.activesJuridicos().subscribe(data => {
       this.tipodocumentoList.next(data);
       this.cdr.detectChanges();
     })
@@ -151,9 +151,12 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       telefono: new FormControl(this.informacionLaboral.telefono || undefined),
       tipoDocumento: new FormControl(this.informacionLaboral.tipoDocumento || undefined, [Validators.required]),
       identificacion: new FormControl(this.informacionLaboral.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-      empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      // empresa: new FormControl(this.informacionLaboral.empresa || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),
+      empresa: new FormControl(this.informacionLaboral.empresa || '', [Validators.required]),
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : '', [Validators.required]),
-      direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
+      // direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
+      direccion: new FormControl(this.informacionLaboral.direccion || '', [Validators.required]),
+      
       profesion: new FormControl(this.informacionLaboral.profesion || undefined),
       remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),
     });
@@ -215,4 +218,5 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       }
     });
   }
+
 }
