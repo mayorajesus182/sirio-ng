@@ -8,7 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from 'src/@sirio/domain/services/security/auth.service';
 import { SessionService } from 'src/@sirio/services/session.service';
-import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 
 @Component({
   selector: 'sirio-login',

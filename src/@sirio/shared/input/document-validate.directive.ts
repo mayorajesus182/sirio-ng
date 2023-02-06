@@ -1,5 +1,5 @@
 import { Directive, Input, HostListener } from '@angular/core';
-import { NgControl, NG_VALIDATORS } from '@angular/forms';
+import { FormControl, NgControl, NG_VALIDATORS, ValidationErrors, Validator } from '@angular/forms';
 
 @Directive({
     selector: '[docNumberValidate],[doc-number-validate]',
@@ -7,14 +7,25 @@ import { NgControl, NG_VALIDATORS } from '@angular/forms';
         { provide: NG_VALIDATORS, useExisting: DocNumberValidateDirective, multi: true }
     ]
 })
-export class DocNumberValidateDirective {
+export class DocNumberValidateDirective implements Validator{
     @Input('tipo_documento') tipoDocumento: string;
 
-    constructor(private control: NgControl) { }
+    constructor() { }
 
-    @HostListener('input', ['$event.target'])
-    onInput(target: HTMLInputElement) {
-        const value = target.value;
+    validate(c: FormControl): ValidationErrors | null {
+        return this.validateIdentificacion(c);
+    }
+
+
+    private validateIdentificacion(control: FormControl): ValidationErrors | null {
+
+        if (control.value === undefined) {
+            return null;
+        }
+        
+
+        const value = control.value;
+        // const value = target.value;
         const tipoDocumento = this.tipoDocumento;
         const maxLength = 9;
         // const specialChars = /[^a-zA-Z0-9 ]/;
@@ -49,30 +60,42 @@ export class DocNumberValidateDirective {
             this.limit = 11
          * 
          */
-
+        let error =  null;
 
         switch (tipoDocumento) {
             case 'V':
             case 'M':
             case 'N':
             case 'E':
-                this.validate(value, 8, onlyNumbers);
+                error = this.validateId(value, 8, onlyNumbers);
                 break;
             case 'J':
             case 'C':
             case 'G':
-                this.validate(value, 9, numbersAndDash);
+                error = this.validateId(value, 9, numbersAndDash);
                 break;
             case 'P':
-                this.validate(value, 11, alphanumeric);
+                error = this.validateId(value, 11, alphanumeric);
                 break;
             default:
                 break;
         }
 
+        return error;
+
     }
 
-    private validate(value, maxLength: number, regexpress) {
+    // @HostListener('input', ['$event.target'])
+    // onInput(target: HTMLInputElement) {
+        
+
+    // }
+
+    // validate(control: AbstractControl): { [key: string]: string } | null {
+    //     return validateAccount()(control);
+    // }
+
+    private validateId(value, maxLength: number, regexpress) {
 
 
         console.log('result length ', length);
@@ -80,15 +103,15 @@ export class DocNumberValidateDirective {
 
 
         if (value.length > maxLength) {
-            this.control.control.setErrors({ maxLength: true, length: maxLength });
-            return false;
+            // control.control.setErrors({ maxLength: true, length: maxLength });
+            return { maxLength: true, length: maxLength };
         } else if (!regexpress.test(value)) {
-            this.control.control.setErrors({ pattern: true });
-            return false;
+            // control.setErrors({ pattern: true });
+            return { pattern: true };
         }
         // else {
         //     this.control.control.setErrors(null);
         // }
-        return true;
+        return null;
     }
 }
