@@ -128,7 +128,7 @@ export class FormBaseComponent {
         this.opts.bdColor = 'rgba(190, 190, 190, 0.10)';
 
         this.loading$.subscribe(status => {
-            console.log('send info ', status);
+            // console.log('send info ', status);
             
             // console.log('loading form-regla-OSCES ',status);
             // bloque todos los botonones mientras estoy enviando info al servidor

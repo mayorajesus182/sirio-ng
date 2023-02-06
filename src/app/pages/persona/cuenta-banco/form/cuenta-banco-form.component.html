@@ -284,11 +284,62 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-                                <div fxLayout="row" fxLayout="column" *ngIf="showIntervinientes">
-                                    <sirio-persona-interviniente-table  [cuenta]="cuentaBanco.id" >
-                                    </sirio-persona-interviniente-table>
-                                </div>
+                                <ng-container *ngIf="showIntervinientes">
+
+                                    <div fxLayout="row" fxLayout="column" >
+                                        <sirio-persona-interviniente-table  [cuenta]="cuentaBanco.id" >
+                                        </sirio-persona-interviniente-table>
+                                    </div>
+
+                                </ng-container>
                             </mat-expansion-panel>
+
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openTarjetas(true)" (closed)="openTarjetas(false)">
+
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <!-- <i class="far fa-users fa-lg"></i> -->
+                                            <i class="far fa-credit-card-front fa-lg"></i>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold ">Asociar Tarjeta de debito
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <ng-container *ngIf="showAsociarTarjeta">
+                                <div fxLayout="row" fxLayout="column" >
+                                    <sirio-tarjeta-table  [cuenta]="cuentaBanco" >
+                                    </sirio-tarjeta-table>
+                                </div>
+                                </ng-container>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel *ngIf="hasBasicData" (opened)="openAfliacionP2p(true)" (closed)="openAfliacionP2p(false)">
+
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <button mat-icon-button type="button" color="primary">
+                                            <!-- <i class="far fa-users fa-lg"></i> -->
+                                            <!-- <i class="fal fa-mobile-retro fa-lg"></i> -->
+                                            <i class="far fa-mobile-signal-out fa-lg"></i>
+                                        </button>
+                                        <span class="margin-top-sm semi-bold">Afiliar Servicio P2P/P2C
+                                        </span>
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+
+                                <ng-container *ngIf="showAfiliacionP2p">
+                                    <div fxLayout="row" fxLayout="column" >
+                                        <sirio-p2p-telefono-table  [cuenta]="cuentaBanco" >
+                                        </sirio-p2p-telefono-table>
+                                    </div>
+                                </ng-container>
+                            </mat-expansion-panel>
+
 
                         </mat-accordion>
                     </ng-container>

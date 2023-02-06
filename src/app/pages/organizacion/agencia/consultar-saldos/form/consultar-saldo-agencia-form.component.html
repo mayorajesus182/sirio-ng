@@ -1,6 +1,6 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="{{'action.checkBalances'}}"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['carrierCompany.form']" current="{{'action.checkBalances'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
@@ -9,7 +9,7 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{('agency.form')|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-heading>{{('carrierCompany.form')|translate}}</sirio-card-header-heading>
                     <sirio-card-header-subheading>{{'action.checkBalances' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
@@ -27,17 +27,17 @@
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <mat-form-field fxFlex="40">
-                                    <mat-label>{{'agency.agency' | translate: {default: 'global.agency'} | translate }}</mat-label>
+                                    <mat-label>{{'carrierCompany.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate }}</mat-label>
                                     <input matInput [value]="agenciaId + ' - ' +agencia" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="30" [label]="'agency.coin' | translate: {default: 'global.coin'} | translate"
+                                <sirio-select-search fxFlex="30" [label]="'carrierCompany.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.moneda?.errors">
                                 </sirio-select-search>
 
                                 <mat-form-field fxFlex="30">
-                                    <mat-label>{{'agency.finalBalance' | translate: {default: 'global.finalBalance'} | translate }}
+                                    <mat-label>{{'carrierCompany.finalBalance' | translate: {default: 'global.finalBalance'} | translate }}
                                     </mat-label>
                                     <input matInput class="text-right" [value]="saldoAnterior | number: '1.2'" readonly>
                                 </mat-form-field>

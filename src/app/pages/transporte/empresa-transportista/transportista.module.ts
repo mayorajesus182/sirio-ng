@@ -19,6 +19,8 @@ import { TransportistaTableComponent } from './table/transportista-table.compone
 import { TerminosTransporteFormComponent } from './terminos/form/terminos-transporte-form.component';
 import { TransportistaRoutingModule } from './transportista-routing.module';
 import { ViajeTransporteTableComponent } from './viajes/table/viaje-transporte-table.component';
+import { ActualizarSaldoTransportistaFormComponent } from './saldos/form/actualizar-saldo-transportista-form.component';
+import { ConsultarSaldoTransportistaFormComponent } from './consultar-saldos/form/consultar-saldo-transportista-form.component';
 
 
 
@@ -49,6 +51,8 @@ import { ViajeTransporteTableComponent } from './viajes/table/viaje-transporte-t
         MaterialTransporteTableComponent,
         ViajeTransporteTableComponent,
         TerminosTransporteFormComponent,
+        ActualizarSaldoTransportistaFormComponent,
+        ConsultarSaldoTransportistaFormComponent,
     ],
     exports: [],
     entryComponents:[EmpleadoTransportePopupComponent]

@@ -47,8 +47,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
+    
     showIntervinientes = false;
+    showAfiliacionP2p = false;
+    showAsociarTarjeta = false;
+    
     btnCreateDisabled = true;
+
+
     nombreCompletoPersona = 'FULL NAME';
     cuentaBanco: CuentaBanco = {} as CuentaBanco;
     persona: Persona = {} as Persona;
@@ -370,7 +376,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         console.log('send data al banco');
 
-        this.swalService.show('¿Desea realmente desea realizar esta operación?',).then((resp) => {
+        this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
             if (!resp.dismiss) {
                 this.loadingDataForm.next(true);
@@ -391,8 +397,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     reportPdf() {
 
-        console.log('imprimir ficha de ', this.cuentaBanco);
-        console.log('imprimir ficha de ', this.persona);
+        // console.log('imprimir ficha de ', this.cuentaBanco);
+        // console.log('imprimir ficha de ', this.persona);
         
         this.loadingDataForm.next(true);
         this.personaReportService.ficha(this.cuentaBanco.persona|| this.persona.id).subscribe(data => {
@@ -423,6 +429,22 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         console.log('send data al Interviniente');
 
         this.showIntervinientes = opened;
+        this.cdr.detectChanges();
+    }
+
+    openAfliacionP2p(opened: boolean) {
+
+        console.log('send data afiliaciones');
+
+        this.showAfiliacionP2p = opened;
+        this.cdr.detectChanges();
+    }
+
+    openTarjetas(opened: boolean) {
+
+        console.log('send data tarjetas');
+
+        this.showAsociarTarjeta = opened;
         this.cdr.detectChanges();
     }
 

@@ -9,15 +9,22 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
     providedIn:'root'
 })
 export class AtmReportService {
+
+
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_REPORT, prefix: '/atm'};
+        this.apiConfig = {name: ApiConfConstants.API_REPORT, prefix: '/atm'};     
     }
     
     reporte(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/generar');
+    }
+
+     
+    atmreporte(): Observable<any> {      
+        return this.apiService.config(this.apiConfig).pullFileByGet('/atmreporte');
     }
 }

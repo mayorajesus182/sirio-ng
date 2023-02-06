@@ -1,6 +1,6 @@
 import { Platform } from '@angular/cdk/platform';
 import { DOCUMENT } from '@angular/common';
-import { AfterViewInit, Component, Inject, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Inject, OnInit, Renderer2 } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -21,6 +21,44 @@ export class AppComponent implements OnInit, AfterViewInit {
   appTitle = 'Sirio By Novumideas';
   pageTitle = '';
   tabCounter = 1;
+  
+  @HostListener('mousewheel', ['$event'])
+  onMousewheel(event: WheelEvent) {
+    if (event.ctrlKey) {
+      // console.log('mousewheel event ',event);
+      event.preventDefault();
+    }
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  disableZoomKeys(event: KeyboardEvent) {
+    // console.log(event);
+    
+    if ((event.ctrlKey || event.metaKey) && (event.key === '+' || event.key === '-')) {
+      event.preventDefault();
+    }
+  }
+
+  // @HostListener('document:wheel', ['$event'])
+  // disableZoomWheel(event: WheelEvent) {
+  //   if (event.ctrlKey || event.metaKey) {
+      
+  //     event.preventDefault();
+  //   }
+  // }
+
+
+  @HostListener('document:gesturestart', ['$event'])
+  disableZoomGestureStart(event: TouchEvent) {
+    event.preventDefault();
+  }
+
+  @HostListener('document:gesturechange', ['$event'])
+  disableZoomGestureChange(event: TouchEvent) {
+    event.preventDefault();
+  }
+
+
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -36,7 +74,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private platform: Platform,
     private splashScreenService: SplashScreenService) {
 
-
+    this.disableZoomKeys = this.disableZoomKeys.bind(this);
 
     // Translator init
     const browserLang: string = translate.getBrowserLang();

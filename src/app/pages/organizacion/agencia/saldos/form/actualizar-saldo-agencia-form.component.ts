@@ -7,7 +7,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
-import { SaldoActualizado, SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
+import { SaldoActualizadoAgencia, SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -21,7 +21,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent implements OnInit {
 
-  saldoActualizado: SaldoActualizado = {} as SaldoActualizado;
+  saldoActualizado: SaldoActualizadoAgencia = {} as SaldoActualizadoAgencia;
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
   public monedas = new BehaviorSubject<Moneda[]>([]);
   public conoSave: ConoMonetario[] = [];

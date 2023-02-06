@@ -15,7 +15,7 @@
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="send()">
-                            <mat-icon>outbox</mat-icon>
+                            <i class="fa-light fa-inbox-out fa-xl"></i>
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
@@ -221,10 +221,10 @@
                                             <mat-label>{{'naturalPerson.familyBurden' | translate: {default:
                                                 'global.familyBurden'} | translate }}
                                             </mat-label>
-                                            <input matInput class="text-center" max="10" min="0" type="number" autocomplete="off" name="cargaFamiliar"
+                                            <input matInput class="text-center" max="30" min="0" type="number" autocomplete="off" name="cargaFamiliar"
                                                 formControlName="cargaFamiliar" required>
                                             <mat-error *ngIf="f.cargaFamiliar.errors?.required">Es requerido</mat-error>
-                                            <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 10
+                                            <mat-error *ngIf="f.cargaFamiliar.errors?.max">No puede superior a 30
                                             </mat-error>
                                         </mat-form-field>
 
@@ -330,9 +330,10 @@
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
                                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
+                                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xs"></i>
                                             <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> -->
-                                            <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> -->
-                                            <i class="fal fa-arrow-turn-down-left fa-lg "></i> &nbsp;
+                                            <!-- <i class="fal fa-arrow-turn-down-left fa-lg "></i>  -->
+                                            &nbsp;
                                             {{'button.save' | translate: {default:
                                             'global.notfound'} | translate }}
                                         </button>
