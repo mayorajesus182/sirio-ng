@@ -1,0 +1,192 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['agency.form']" current="action.view"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'agency.form' | translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'agency.code' | translate: {default: 'global.code'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.id" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="70">
+                                <mat-label>{{'agency.name' | translate: {default: 'global.name'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.nombre" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'Cupo' | translate: {default: 'Cupo'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.cupo | number: '1.2'" readonly class="text-right">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="15">
+                                <mat-label>{{'agency.extendedSchedule' | translate: {default: 'global.extendedSchedule'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.horarioExt === 1 ? 'SI' : 'NO'" readonly class="text-center">
+                            </mat-form-field>
+
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="35">
+                                <mat-label>{{'agency.zone' | translate: {default: 'global.zone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.zona" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="35">
+                                <mat-label>{{'agency.region' | translate: {default: 'global.region'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.region" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.boxOffices' | translate: {default: 'global.boxOffices'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.taquillas" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.operationalBoxOffices' | translate: {default: 'global.operationalBoxOffices'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.operativas" readonly class="text-center">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.state' | translate: {default: 'global.state'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.estado" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.municipality' | translate: {default: 'global.municipality'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.municipio" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.city' | translate: {default: 'global.city'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.ciudad" readonly>
+                            </mat-form-field>
+
+                        </div>
+
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'agency.parish' | translate: {default: 'global.parish'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.parroquia" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="30">
+                                <mat-label>{{'agency.postalZone' | translate: {default: 'global.postalZone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.zonaPostal" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="40">
+                                <mat-label>{{'agency.email' | translate: {default: 'global.email'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.email" readonly>
+                            </mat-form-field>
+
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="70">
+                                <mat-label>{{'agency.direction' | translate: {default: 'global.direction'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.direccion" readonly>
+                            </mat-form-field>
+
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.phone' | translate: {default: 'global.phone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.telefono" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'agency.alternativePhone' | translate: {default: 'global.alternativePhone'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.telefonoAlt" readonly >
+                            </mat-form-field>
+
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'agency.latitude' | translate: {default: 'global.latitude'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.latitud" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="50">
+                                <mat-label>{{'agency.longitude' | translate: {default: 'global.longitude'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.longitud" readonly class="text-center">
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex="100">
+                                <mat-label>{{'agency.ledgerAccount' | translate: {default: 'global.ledgerAccount'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.cuentaContable" readonly>
+                            </mat-form-field>
+
+                        </div>
+
+                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
+                    </div>
+
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
