@@ -106,10 +106,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     if (!identificacion) {
       return true;
     }
-    // this.cdr.detectChanges();
-    console.log(this.peps);
-    console.log(tipoDocumento + '-' + identificacion);
-    console.log(this.peps.find(doc => doc === tipoDocumento + '-' + identificacion) == undefined);
+    
     
     return this.peps.find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
   }
