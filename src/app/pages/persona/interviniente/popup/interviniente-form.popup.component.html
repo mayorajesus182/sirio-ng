@@ -1,7 +1,8 @@
 <sirio-dialog-header mat-dialog-title>
   <sirio-dialog-header-heading>
     <!-- TODO: PENDIENTE IN18 -->
-    <h1>Interviniente</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <h1>Interviniente(s) / Condición de Firma</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <!-- Interviniente -->
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
         <mat-icon class="close-icon" color="accent" >close</mat-icon>
@@ -56,7 +57,8 @@
   
   
             <span class="margin-top-sm margin-bottom-lg semi-bold">
-              Condición de Firmas del(los) Participante(s)
+              Interviniente(s) / Condición de Firma
+              <!-- Condición de Firmas del(los) Participante(s) -->
             </span>
   
             <mat-panel-description>

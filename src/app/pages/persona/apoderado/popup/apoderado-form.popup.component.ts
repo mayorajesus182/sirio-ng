@@ -63,7 +63,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
     });
 
 
-    this.tipoDocumentoService.actives().subscribe(data => {
+    this.tipoDocumentoService.activesNaturales().subscribe(data => {
       this.tiposDocumentos = data;
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
