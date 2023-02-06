@@ -255,7 +255,7 @@ export class PerfilFormComponent extends FormBaseComponent implements OnInit, Af
                 
                 this.preSelecteds.next(this.perfil.permisos);
                 
-
+                this.loadingDataForm.next(false);
 
                 console.log('preseleecionados ', this.preSelecteds);
 

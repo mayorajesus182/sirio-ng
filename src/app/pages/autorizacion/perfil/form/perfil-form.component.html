@@ -112,6 +112,7 @@
 
                         </div>
                     </div>
+                    <!-- {{printErrors()|json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -119,13 +120,14 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || !hasCheckedlements() || (loading$ | async)">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || !hasCheckedlements() || (loading$ | async)">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>
                 </mat-toolbar>
             </sirio-card>
+
         </div>
     </sirio-page-layout-content>
 </sirio-page-layout>
