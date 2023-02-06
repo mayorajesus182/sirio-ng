@@ -52,7 +52,11 @@ export class UppercaseDirective implements ControlValueAccessor {
   }
 
   writeValue(value: string): void {
-    this._renderer.setProperty(this.el.nativeElement, 'value', value.toUpperCase());
+    if(!value){
+      this._renderer.setProperty(this.el.nativeElement, 'value', '');
+    }else{
+      this._renderer.setProperty(this.el.nativeElement, 'value', value.toUpperCase());
+    }
 
   }
 
