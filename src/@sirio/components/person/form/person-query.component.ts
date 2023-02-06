@@ -301,6 +301,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     editOn() {
 
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
+
+        // console.log(this.persona);
+        
         this.update.emit(this.persona);
 
         this.disable.next(true);

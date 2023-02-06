@@ -77,10 +77,14 @@ export class DocNumberValidateDirective {
 
         if (value.length > maxLength) {
             this.control.control.setErrors({ maxLength: true, length: maxLength });
+            return false;
         } else if (!regexpress.test(value)) {
             this.control.control.setErrors({ pattern: true });
-        } else {
-            this.control.control.setErrors(null);
-        }
+            return false;
+        } 
+        // else {
+        //     this.control.control.setErrors(null);
+        // }
+        return true;
     }
 }

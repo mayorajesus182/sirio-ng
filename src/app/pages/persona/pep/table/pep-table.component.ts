@@ -37,6 +37,8 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   private loadList() {
     this.peps = []
     this.pepService.allByPersonaId(this.persona).subscribe((data) => {
+      console.log(data);
+      
       this.pepList.next(data.slice());
       this.peps = this.peps.concat(data.map(t => t.tipoDocumento+'-'+t.identificacion));
       this.propagar.emit(data.length);

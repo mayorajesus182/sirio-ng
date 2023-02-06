@@ -311,6 +311,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.loadingDataForm.next(true);
         this.personaNaturalService.get(Number.parseInt(event.id)).subscribe(val => {
             this.personaNatural = val;
+
+            console.log(this.personaNatural);
+            
  
             //TODO: OJO REVISAR ESTO LUEGO
             // this.itemForm.reset({});

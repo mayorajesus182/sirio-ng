@@ -27,7 +27,7 @@ export class UppercaseDirective implements ControlValueAccessor {
   onChange: (value: string) => void;
   onTouched: () => void;
 
-  constructor(private el: ElementRef) {}
+  constructor(private el: ElementRef,private _renderer: Renderer2) {}
 
   ngOnInit() {
     this.subscription = fromEvent(this.el.nativeElement, 'input')
@@ -41,6 +41,7 @@ export class UppercaseDirective implements ControlValueAccessor {
         this.el.nativeElement.value = value.toUpperCase();
         this.onChange(value);
         this.el.nativeElement.setSelectionRange(cursorStart, cursorEnd);
+        // this._renderer.setProperty(this._el.nativeElement, 'value', value);
 
       });
   }
@@ -49,7 +50,10 @@ export class UppercaseDirective implements ControlValueAccessor {
     this.subscription.unsubscribe();
   }
 
-  writeValue(value: string): void {}
+  writeValue(value: string): void {
+    this._renderer.setProperty(this.el.nativeElement, 'value', value.toUpperCase());
+
+  }
 
   registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
