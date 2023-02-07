@@ -1,18 +1,16 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
+import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
-import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
+import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
+import { Preferencia } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
-import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
 import { Viaje } from 'src/@sirio/domain/services/transporte/viaje.service';
-import { ViajeTransporteService } from 'src/@sirio/domain/services/transporte/viajes/viaje-transporte.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -51,10 +49,6 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
         private rolService: RolService,
         private solicitudRemesaService: RemesaService,
         private saldoAcopioService: SaldoAcopioService,
-        private viajeTransporteService: ViajeTransporteService,
-        private materialTransporteService: MaterialTransporteService,
-        private preferenciaService: PreferenciaService,
-        private conoMonetarioService: ConoMonetarioService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -74,49 +68,6 @@ export class WFGestionRemesaReceptorFormComponent extends FormBaseComponent impl
                 this.rolService.getByWorkflow(this.workflow).subscribe(data => {
                     this.rol = data;
                 });
-
-                // this.solicitudRemesaService.getByExpediente(exp).subscribe(data => {
-                //     this.solicitudRemesa = data;
-                //     this.buildForm(this.solicitudRemesa);
-                //     this.buildFormMateriales();
-
-                //     this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.solicitudRemesa.moneda).subscribe(data => {
-                //         this.conos.next(data);
-                //     });
-
-                //     this.preferenciaService.get().subscribe(data => {
-                //         this.preferencia = data;
-
-                //         //Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
-                //         if (this.preferencia.monedaConoActual === this.solicitudRemesa.moneda) {
-
-                //             this.viajeTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                //                 this.viajes.next(data);
-                //             });
-
-                //             this.materialTransporteService.allWithCostoByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                //                 this.materiales.next(data);
-                //                 console.log(this.materiales);
-                                
-                //             });
-
-                //         } else {
-
-                //             this.viajeTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                //                 this.viajes.next(data);
-                //             });
-
-                //             this.materialTransporteService.allWithCostoDivisaByTransportista(this.solicitudRemesa.receptor).subscribe(data => {
-                //                 this.materiales.next(data);
-                //             });
-                //         }
-                //     });
-
-                //     this.cdr.markForCheck();
-                //     this.loadingDataForm.next(false);
-                //     this.applyFieldsDirty();
-                //     this.cdr.detectChanges();
-                // });
             }
         });
 
