@@ -76,7 +76,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     this.itemForm = this.fb.group({
       tipoDocumento: new FormControl(this.referencia.tipoDocumento || '', [Validators.required]),
       identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
-      nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),
       telefonoMovil: new FormControl(this.referencia.telefonoMovil || undefined, []),
     });

@@ -36,6 +36,9 @@
         <input autocomplete="off" class="text-left" matInput name="nombre" maxlength="80" uppercase formControlName="nombre" required>
         
         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
+          translate}}
+        </mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
