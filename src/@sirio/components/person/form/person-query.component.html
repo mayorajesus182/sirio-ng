@@ -28,7 +28,7 @@
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput  *ngIf="isNaturalPerson()" doc-number-validate [tipo_documento]="search.tipoDocumento?.value" minlength="1" autocomplete="off"
                         (blur)="queryByPerson()" class="text-center" name="identificacion" 
-                        (keyup.enter)="queryByPerson()" (change)="onChangeFilter($event)"
+                        (keyup.enter)="queryByPerson()" (change)="onChangeFilter($event)" uppercase
                         [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 ) || disable "
                         formControlName="identificacion">
 
