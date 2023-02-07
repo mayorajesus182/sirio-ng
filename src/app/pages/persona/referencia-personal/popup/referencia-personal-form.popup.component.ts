@@ -41,7 +41,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
   ngOnInit() {
 
-    this.tipoDocumentoService.actives().subscribe(data => {
+    this.tipoDocumentoService.activesNaturales().subscribe(data => {
       this.tipoDocumentoList.next(data);
     });
 
@@ -102,6 +102,13 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       return true;
     }
     this.cdr.detectChanges();
+
+    console.log(tipoDocumento);
+
+    console.log(identificacion);
+
+    console.log(this.referencias);
+
     return this.referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
 

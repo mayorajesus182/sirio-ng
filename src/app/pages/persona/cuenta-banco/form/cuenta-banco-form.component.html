@@ -136,7 +136,7 @@
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Destino de la Cuenta' | translate: {default: 'Destino de la Cuenta'} | translate"
+                                            [label]="'Destino de los Fondos' | translate: {default: 'Destino de los Fondos'} | translate"
                                             formControlName="destinoCuenta" [required]="true" [elements]="destinos.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.destinoCuenta?.errors">
                                         </sirio-select-search>
@@ -152,24 +152,24 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Transacciones por Créditos' | translate: {default: 'Transacciones por Créditos'} | translate"
+                                            [label]="'Promedio Mens. de Transacciones Créditos' | translate: {default: 'Promedio Mens. de Transacciones Créditos'} | translate"
                                             formControlName="transaccionesCredito" [required]="true" [elements]="promedioTransacciones.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.transaccionesCredito?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Monto por Créditos' | translate: {default: 'Monto por Créditos'} | translate"
+                                            [label]="'Monto Promedio Mens. Créditos' | translate: {default: 'Monto Promedio Mens. Créditos'} | translate"
                                             formControlName="montoCredito" [required]="true" [elements]="promedioMontos.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.montoCredito?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Transacciones por Débitos' | translate: {default: 'Transacciones por Débitos'} | translate"
+                                            [label]="'Promedio Mens. de Transacciones Débitos' | translate: {default: 'Promedio Mens. de Transacciones Débitos'} | translate"
                                             formControlName="transaccionesDebito" [required]="true" [elements]="promedioTransacciones.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.transaccionesDebito?.errors">
                                         </sirio-select-search>
 
-                                        <sirio-select-search fxFlex="auto" [label]="'Monto por Débitos' | translate: {default: 'Monto por Débitos'} | translate"
+                                        <sirio-select-search fxFlex="auto" [label]="'Monto Promedio Mens. Débitos' | translate: {default: 'Monto Promedio Mens. Débitos'} | translate"
                                             formControlName="montoDebito" [required]="true" [elements]="promedioMontos.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.montoDebito?.errors">
                                         </sirio-select-search>
@@ -179,13 +179,13 @@
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Transacciones Electronicas' | translate: {default: 'Transacciones Electronicas'} | translate"
+                                            [label]="'Promedio Mens. de Transacciones Electrónicas' | translate: {default: 'Promedio Mens. de Transacciones Electrónicas'} | translate"
                                             formControlName="transaccionesElectronico" [required]="true" [elements]="promedioTransacciones.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.transaccionesElectronico?.errors">
                                         </sirio-select-search>
 
                                         <sirio-select-search fxFlex="auto"
-                                            [label]="'Monto por Operaciones Electrónicas' | translate: {default: 'Monto por Operaciones Electrónicas'} | translate"
+                                            [label]="'Monto Promedio Mens. Operaciones Electrónicas' | translate: {default: 'Monto Promedio Mens. Operaciones Electrónicas'} | translate"
                                             formControlName="montoElectronico" [required]="true" [elements]="promedioMontos.asObservable()"
                                             [attributeName]="'nombre'" [errors]="f.montoElectronico?.errors">
                                         </sirio-select-search>
@@ -208,7 +208,7 @@
                                         </div>
 
                                         <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
-                                            [label]="'Pais Origen' | translate: {default: 'Pais Origen'} | translate" formControlName="paisOrigen"
+                                            [label]="'País de Origen' | translate: {default: 'País de Origen'} | translate" formControlName="paisOrigen"
                                             [required]="f.fondoExterior.value" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.paisOrigen?.errors">
                                         </sirio-select-search>
@@ -216,7 +216,7 @@
 
 
                                         <sirio-select-search fxFlex="35" *ngIf="f.fondoExterior.value"
-                                            [label]="'Pais Destino' | translate: {default: 'Pais Destino'} | translate" formControlName="paisDestino"
+                                            [label]="'País Destino' | translate: {default: 'País Destino'} | translate" formControlName="paisDestino"
                                             [required]="f.fondoExterior.value" [elements]="paises.asObservable()" [attributeName]="'nombre'"
                                             [errors]="f.paisDestino?.errors">
                                         </sirio-select-search>
@@ -277,8 +277,10 @@
                                         <button mat-icon-button type="button" color="primary">
                                             <i class="far fa-users fa-lg"></i>
                                         </button>
-                                        <span class="margin-top-sm semi-bold">Firmantes
+                                        <span class="margin-top-sm semi-bold">Interviniente(s) / Condición de Firma
                                         </span>
+                                        <!-- Firmantes -->
+
                                     </mat-panel-title>
                                     <mat-panel-description>
                                     </mat-panel-description>
