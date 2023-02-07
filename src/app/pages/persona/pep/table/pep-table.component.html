@@ -7,26 +7,54 @@
     </div>
 </div>
 
-<ngx-datatable   canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.force"
-    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
-    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="pepList | async">
+<ngx-datatable canAutoResize="false" class="material" rowHeight="auto" [columnMode]="ColumnMode.force"
+    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]"
+    [headerHeight]="50" [footerHeight]="50" [limit]="10" [rows]="pepList | async">
 
-    <ngx-datatable-column  [resizeable]="false" [width]="100"  name="#">        
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="#">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
             <div class="text-center" fxLayoutAlign="center"> {{ rowIndex+1 }}</div>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="590" name="Tipo Pep">        
+    <ngx-datatable-column [resizeable]="false" [width]="30" name="Tipo Pep">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoPep }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoPep
+                }}</span>
         </ng-template>
     </ngx-datatable-column>
-    <ngx-datatable-column [resizeable]="false" [width]="200" name="Número Documento">        
+
+    <ngx-datatable-column [resizeable]="false" [width]="250" name="Nombre y Apellido del Relacionado">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ (row?.tipoDocumento == null)? " " :(row?.tipoDocumento+"-"+row?.identificacion)}}</span>
+            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
         </ng-template>
     </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="70" name="Número Documento">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ (row?.tipoDocumento
+                == null)? " " :(row?.tipoDocumento+"-"+row?.identificacion)}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="250" name="Nombre del ente adscripción">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span style="white-space: break-spaces;">{{ row?.ente }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="Cargo que desempeña">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.cargo }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <!-- <ngx-datatable-column [resizeable]="false" [width]="590" name="Nombre y Apellido del Relacionado">        
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.nombre }}</span>
+        </ng-template>
+    </ngx-datatable-column> -->
+
 
     <!-- <ngx-datatable-column [resizeable]="false" [width]="200" name="Número Documento">        
         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -34,24 +62,21 @@
         </ng-template>
     </ngx-datatable-column> -->
 
-    <ngx-datatable-column [resizeable]="false" [width]="590" name="Nombre y Apellido del Relacionado">        
-        <ng-template let-row="row" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.nombre }}</span>
-        </ng-template>
-    </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones" >        
+
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Acciones">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <div class="text-center" fxLayoutAlign="center">
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"  (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
+                    (click)="popup(row,$event)" matTooltip="{{'button.update' | translate}}">
                     <mat-icon>edit</mat-icon>
                 </button> &nbsp;
-                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;"
-                    (click)="delete(row)" matTooltip="Eliminar">
+                <button mat-icon-button mat-sm-button color="primary" style="margin-top: -5px;" (click)="delete(row)"
+                    matTooltip="Eliminar">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
         </ng-template>
     </ngx-datatable-column>
-    
+
 </ngx-datatable>
