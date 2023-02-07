@@ -11,6 +11,7 @@ import { GlobalConstants, RolConstants } from 'src/@sirio/constants';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
+import { SaldoPrincipalService } from 'src/@sirio/domain/services/control-efectivo/saldo-principal.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
@@ -62,6 +63,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
         private rolService: RolService,
         private remesaService: RemesaService,
         private saldoAcopioService: SaldoAcopioService,
+        private saldoPrincipalService: SaldoPrincipalService,
         private viajeTransporteService: ViajeTransporteService,
         private materialTransporteService: MaterialTransporteService,
         private preferenciaService: PreferenciaService,
@@ -95,7 +97,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                 // Si quien va a procesar la solicitud es transportista (Centro de Acopio), se busca el cono correspondiente, los materiales y viajes según la moneda 
                 if (this.esTransportista) {
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(conoData => {
+                    this.saldoAcopioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(conoData => {
 
                         conoData = conoData.map(c => {
                             let val = this.remesa.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
@@ -177,7 +179,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                         }
                     });
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoPrincipalByMoneda(this.remesa.moneda).subscribe(conoData => {
+                    this.saldoPrincipalService.activesWithDisponibleSaldoPrincipalByMoneda(this.remesa.moneda).subscribe(conoData => {
 
                         conoData = conoData.map(c => {
                             let val = this.remesa.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];

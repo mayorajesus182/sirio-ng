@@ -42,6 +42,8 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
     moneda: Moneda = {} as Moneda;
     tipoProductos: TipoProducto = {} as TipoProducto;
     loading = new BehaviorSubject<boolean>(false);
+    saldoCuenta: number = 0;
+    existeDiferenciaSaldo: boolean = false;
 
     constructor(
         injector: Injector,
@@ -81,7 +83,10 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
 
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
-                        this.calculateDifferences();
+                        this. diferenciaSaldo();
+                        if (!this.existeDiferenciaSaldo) {
+                            this.calculateDifferences();
+                        }
                         this.cdr.detectChanges();
                     } else if (val === null || val === '') {
                         this.f.monto.setValue(0.00);
@@ -99,23 +104,38 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                     if (numeroCuenta) {
                         this.cuentaBancariaService.activesByNumeroCuenta(numeroCuenta).subscribe(data => {
                             let cuenta = this.cuentaBancariaOperacion = data;
-                            this.f.moneda.setValue({
-                                id: cuenta.moneda,
-                                nombre: cuenta.monedaNombre,
-                                siglas: cuenta.siglas
+                            this.retiroService.getSaldoByCuenta(cuenta.id).subscribe(data => {
+                                this.saldoCuenta = data;
+                                this.diferenciaSaldo();
+
+
+
+
+
+                                this.f.moneda.setValue({
+                                    id: cuenta.moneda,
+                                    nombre: cuenta.monedaNombre,
+                                    siglas: cuenta.siglas
+                                });
+                                
+                                // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
+                                this.saldoByMoneda(this.f.moneda.value);
+                                this.loading.next(true);
+                                // this.persona.nombre = this.cuentaBancariaOperacion.nombre;
+                                // Guarda la Data cuando es solo Abono en Efectivo
+                                this.persona.identificacion = cuenta.identificacion;
+                                this.persona.nombre = cuenta.nombre;
+                                this.persona.email = cuenta.email;
+                                this.persona.tipoDocumento = cuenta.tipoDocumento;
+                                this.persona.id = cuenta.id;
+                                // this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+
+
+
+
+
                             });
-                            
-                            // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda  
-                            this.saldoByMoneda(this.f.moneda.value);
-                            this.loading.next(true);
-                            // this.persona.nombre = this.cuentaBancariaOperacion.nombre;
-                            // Guarda la Data cuando es solo Abono en Efectivo
-                            this.persona.identificacion = cuenta.identificacion;
-                            this.persona.nombre = cuenta.nombre;
-                            this.persona.email = cuenta.email;
-                            this.persona.tipoDocumento = cuenta.tipoDocumento;
-                            this.persona.id = cuenta.id;
-                            // this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+
                         }, err => {
                             this.f.numeroCuenta.setErrors({ notexists: true });
                             this.limpiar();
@@ -162,6 +182,21 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
             conoActual: new FormControl([]),
             conoAnterior: new FormControl([]),
         });
+    }
+
+    diferenciaSaldo() {
+        if (this.f.monto && this.saldoCuenta < this.f.monto.value) {
+            this.f.monto.setErrors({
+                saldo: true
+            });
+            this.f.montoCheque.setValue(0.00);
+            this.existeDiferenciaSaldo = true;
+            this.f.monto.markAsDirty();
+        } else {
+            this.f.monto.setErrors(undefined);
+            this.existeDiferenciaSaldo = false;
+        }
+        this.cdr.detectChanges();
     }
 
     voucher(voucherForm: FormGroup) {

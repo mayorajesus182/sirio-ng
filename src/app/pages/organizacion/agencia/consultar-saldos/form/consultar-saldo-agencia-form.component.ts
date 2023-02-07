@@ -36,7 +36,6 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
     dialog: MatDialog,
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private conoMonetarioService: ConoMonetarioService,
     private preferenciaService: PreferenciaService,
     private monedaService: MonedaService,
     private saldoAgenciaService: SaldoAgenciaService,
@@ -68,7 +67,7 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
         this.monedas.next(data);
       });
 
-      this.conoMonetarioService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.saldoAgenciaService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
@@ -86,7 +85,7 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
     });
 
     this.f.moneda.valueChanges.subscribe(val => {
-      this.conoMonetarioService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, val).subscribe(data => {
+      this.saldoAgenciaService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, val).subscribe(data => {
         this.conos.next(data);
         this.cdr.detectChanges();
       });

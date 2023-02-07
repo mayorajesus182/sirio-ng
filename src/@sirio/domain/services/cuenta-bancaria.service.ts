@@ -4,7 +4,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 export interface CuentaBancariaOperacion extends CuentaBancaria{    
-    
+    id: number; 
     identificacion: string;  
     nombre: string;
     persona: number;
@@ -45,8 +45,6 @@ export class CuentaBancariaService {
     activesByPersona(persona: number): Observable<CuentaBancaria[]> {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/all`);
     }
-
-   
 
     activesByNumeroCuenta(numeroCuenta: string): Observable<CuentaBancariaOperacion> {
         return this.apiService.config(this.apiConfig).get(`/${numeroCuenta}/get`);

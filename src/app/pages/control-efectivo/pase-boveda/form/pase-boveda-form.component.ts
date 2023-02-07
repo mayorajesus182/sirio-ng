@@ -76,7 +76,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
                 this.buildForm(this.cajaTaquilla);
                 this.loadingDataForm.next(false);
 
-                this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(this.preferencia.monedaConoActual).subscribe(data => {
+                this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(this.preferencia.monedaConoActual).subscribe(data => {
                     this.obtenerSaldo();
                     this.conos.next(data);
                     this.cdr.detectChanges();
@@ -110,7 +110,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
 
         this.f.moneda.valueChanges.subscribe(val => {
             this.obtenerSaldo();
-            this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(val).subscribe(data => {
+            this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(val).subscribe(data => {
                 this.conos.next(data);
                 this.cdr.detectChanges();
             });

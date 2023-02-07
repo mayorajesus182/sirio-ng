@@ -3,24 +3,19 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
-export interface ChequeSerial {
-   
-    serial: string;
-    numeroCuenta: string;
-}
+
 
 
 @Injectable({
     providedIn:'root'
 })
-export class ChequeService {
+export class ChequeServicessssssssssss {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/deposito'};
-    
+        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/deposito-new'};
     }
 
     exists(serial: string, numeroCuenta: string): Observable<any> {

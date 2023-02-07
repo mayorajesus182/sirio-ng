@@ -54,11 +54,11 @@
 
                                         <mat-form-field fxFlex.gt-sm="20">
                                             <mat-label>{{'withdrawal.checkNumber' | translate: {default:'global.checkNumber'} | translate }} </mat-label>
-                                            <input matInput maxlength="8" minlength="8" name="serialCheque" autocomplete="off" formControlName="serialCheque"
-                                            numCeros="8" string-pad [control]="f.serialCheque" required>
+                                            <input matInput maxlength="8"  name="serialCheque" autocomplete="off" formControlName="serialCheque"
+                                            numCeros="8" string-pad [control]="f.serialCheque" required class="text-center">
                                             <mat-error *ngIf="f.serialCheque.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                             <mat-error *ngIf="f.serialCheque.errors?.required">{{'error.required' | translate}}</mat-error>
-                                            <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener 8 digitos</mat-error>
+                                            <!-- <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener 8 digitos</mat-error> -->
                                         </mat-form-field>
 
                                         <mat-form-field fxFlex.gt-xs="auto">
@@ -67,11 +67,12 @@
                                                 min="0.01" currencyMask [options]="{precision:2}" required>
                                             <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.difference">Debe Descriminar el efectivo</mat-error>
+                                            <mat-error *ngIf="f.monto.errors?.saldo">Saldo Insuficiente</mat-error>
+                                            <mat-error *ngIf="!f.monto.errors?.saldo&&f.monto.errors?.difference">Debe Descriminar el Efectivo</mat-error>
                                         </mat-form-field>
 
                                         <sirio-cash-button operation="retiro" [moneda]="f.moneda.value" [total]="f.monto.value" class="margin-top-sm"
-                                            [disabled]="f.monto.value == 0.00 " (update)="updateCashDetail($event)" [cono_actual]="conoActual"
+                                            [disabled]="f.monto.value == 0.00  || existeDiferenciaSaldo" (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                             [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 
