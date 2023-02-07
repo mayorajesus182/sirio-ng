@@ -119,7 +119,7 @@ export class PopupBaseComponent {
         this.buttons.forEach(element => {
             element.disabled = false;
         });
-
+        this.loadingDataForm.next(false);
         // this.snack.show({
         //     message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
         //     verticalPosition: 'bottom',
@@ -209,6 +209,7 @@ export class PopupBaseComponent {
             this.dialogRef.close(true);
         }
 
+    this.loadingDataForm.next(false);
         // this.snack.show({
         //     message: `${entityName} fue ${event} satisfactoriamente!`,
         //     verticalPosition: 'bottom'
@@ -288,7 +289,7 @@ export class PopupBaseComponent {
             element.disabled = true;
         });
 
-
+this.loadingDataForm.next(true);
         if (this.isNew) {
             service.save(formData)
                 .subscribe(data => this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o')), error => this.errorResponse(true));

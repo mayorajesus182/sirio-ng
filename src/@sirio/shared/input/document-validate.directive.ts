@@ -19,7 +19,7 @@ export class DocNumberValidateDirective implements Validator{
 
     private validateIdentificacion(control: FormControl): ValidationErrors | null {
 
-        if (control.value === undefined) {
+        if (!control.value) {
             return null;
         }
         
@@ -33,9 +33,9 @@ export class DocNumberValidateDirective implements Validator{
         const numbersAndDash = /^[0-9-]+$/;
         const alphanumeric = /^[a-zA-Z0-9]+$/;
 
-        console.log('tipoDoc ', tipoDocumento);
-        console.log('validar ', value);
-        console.log('length ', value.length);
+        // console.log('tipoDoc ', tipoDocumento);
+        // console.log('validar ', control.value);
+        // console.log('length ', value.length);
 
 
         /**
