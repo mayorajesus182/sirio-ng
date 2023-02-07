@@ -9,8 +9,13 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
+import { NotaDetailComponent } from './detail/nota-detail.component';
 import { NotaFormComponent } from './form/nota-form.component';
+
+
+
 import { NotaRoutingModule } from './nota-routing.module';
+import { NotaTableComponent } from './table/nota-table.component';
 
 
 
@@ -33,7 +38,10 @@ import { NotaRoutingModule } from './nota-routing.module';
     ],
     declarations: [
         NotaFormComponent,
-       // NotaCreditoFormComponent, // componente de credito
+        NotaTableComponent,
+       //NotaCreditorFormComponent // componente de credito
+       // NotaCreditoFormComponent, 
+       NotaDetailComponent,
           
     ],
     exports: [],

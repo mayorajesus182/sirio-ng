@@ -38,7 +38,7 @@ export interface Nota {
     email:string;
     comprador: string;
     // beneficiario: string;
-    detalles:ConoMonetario[];
+   // detalles:ConoMonetario[];
    // operacion?:'efectivo' | 'cheque' | 'cheque-gerencia' ;
     //conAbonoCta?: Boolean;
     //estatusOperacion: string;
