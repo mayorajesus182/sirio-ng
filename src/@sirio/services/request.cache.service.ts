@@ -7,6 +7,13 @@ import { Injectable } from "@angular/core";
   providedIn: 'root'
 })
 export class RequestCacheService {
+
+  api_chacheable=[
+    '/api/public/assets/i18n',
+    '/api/configuracion',
+    '/api/session/permissions',
+    '/api/preferencia'
+]
   
   constructor() { }
 
@@ -25,5 +32,16 @@ export class RequestCacheService {
   public getByUrl(url:string): HttpResponse<any> | undefined {
     const res = sessionStorage.getItem(url);
     return res ? JSON.parse(res) : undefined;
+  }
+  // Método para recuperar los datos de la petición
+  resetAll():void {
+    for (let i = 0; i < sessionStorage.length; i++) {
+      let key = sessionStorage.key(i);
+      if(this.api_chacheable[1].indexOf(key)>=0){
+
+        sessionStorage.removeItem(key);
+      }
+      // console.log(key, value);
+    }
   }
 }
