@@ -45,8 +45,9 @@ export class CuentaBancoService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
-    exists(id: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
+
+    existsByPersonaAndMonedaPrincipal(persona: string): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/moneda-principal/cuenta/exists`);
     }
 
     get(id: number): Observable<CuentaBanco> {

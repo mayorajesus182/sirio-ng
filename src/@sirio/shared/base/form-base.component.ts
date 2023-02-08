@@ -239,7 +239,7 @@ export class FormBaseComponent {
 
 
     protected errorResponse(errors, isNew: boolean = false) {
-        this.loadingDataForm.next(errors);
+        this.loadingDataForm.next(false);
         this.snack.show({
             // message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
             message: `¡Operación rechazada!`,

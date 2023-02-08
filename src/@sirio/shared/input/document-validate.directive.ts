@@ -98,8 +98,8 @@ export class DocNumberValidateDirective implements Validator{
     private validateId(value, maxLength: number, regexpress) {
 
 
-        console.log('result length ', length);
-        console.log('result regexp ', regexpress, regexpress.test(value));
+        // console.log('result length ', length);
+        // console.log('result regexp ', regexpress, regexpress.test(value));
 
 
         if (value.length > maxLength) {
