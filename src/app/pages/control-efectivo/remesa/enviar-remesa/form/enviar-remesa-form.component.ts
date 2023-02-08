@@ -13,6 +13,7 @@ import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
+import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { EmpleadoTransporte, EmpleadoTransporteService } from 'src/@sirio/domain/services/transporte/empleados/empleado-transporte.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
@@ -65,6 +66,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         private rolService: RolService,
         private remesaService: RemesaService,
         private saldoAcopioService: SaldoAcopioService,
+        private saldoAgenciaService: SaldoAgenciaService,
         private viajeTransporteService: ViajeTransporteService,
         private materialTransporteService: MaterialTransporteService,
         private empleadoTransporteService: EmpleadoTransporteService,
@@ -113,7 +115,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                                 this.transportistas.next(trans);
                             });
 
-                            this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(this.remesa.moneda).subscribe(conoData => {
+                            this.saldoAgenciaService.activesWithDisponibleSaldoAgenciaByMoneda(this.remesa.moneda).subscribe(conoData => {
 
                                 conoData = conoData.map(c => {
                                     let val = rem.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
@@ -135,7 +137,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
                         } else {
 
-                            this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(conoData => {
+                            this.saldoAcopioService.activesWithDisponibleSaldoAcopioByMoneda(this.remesa.moneda).subscribe(conoData => {
 
                                 conoData = conoData.map(c => {
                                     let val = rem.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];
@@ -251,7 +253,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     whenChangeMoneda(moneda) {
         if (this.esTransportista) {
 
-            this.conoMonetarioService.activesWithDisponibleSaldoAcopioByMoneda(moneda).subscribe(cono => {
+            this.saldoAcopioService.activesWithDisponibleSaldoAcopioByMoneda(moneda).subscribe(cono => {
                 this.conos.next(cono);
             });
 
@@ -286,7 +288,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
                 this.transportistas.next(trans);
             });
 
-            this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(moneda).subscribe(cono => {
+            this.saldoAgenciaService.activesWithDisponibleSaldoAgenciaByMoneda(moneda).subscribe(cono => {
                 this.conos.next(cono);
             });
         }

@@ -10,6 +10,7 @@ import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { CajaTaquilla, CajaTaquillaService } from 'src/@sirio/domain/services/control-efectivo/caja-taquilla.service';
 import { MovimientoEfectivo, MovimientoEfectivoService } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
+import { SaldoTaquillaService } from 'src/@sirio/domain/services/control-efectivo/saldo-taquilla.service';
 import { Taquilla, TaquillaService } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
@@ -44,11 +45,8 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private cajaTaquillaService: CajaTaquillaService,
-        private movimientoEfectivoService: MovimientoEfectivoService,
-        private monedaService: MonedaService,
-        private taquillaService: TaquillaService,
+        private saldoTaquillaService: SaldoTaquillaService,
         private workflowService: WorkflowService,
-        private conoMonetarioService: ConoMonetarioService,
         private rolService: RolService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
@@ -75,7 +73,7 @@ export class WFPaseABovedaFormComponent extends FormBaseComponent implements OnI
                     this.cajaTaquilla = data;
                     this.buildForm(this.cajaTaquilla);
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoTaquillaByMoneda(data.moneda).subscribe(conoData => {
+                    this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(data.moneda).subscribe(conoData => {
 
                         conoData = conoData.map(c => {
                             let val = data.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];

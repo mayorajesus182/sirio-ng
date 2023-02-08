@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface SaldoActualizadoAgencia {
     agencia: string;
@@ -88,6 +89,22 @@ export class SaldoAgenciaService {
     update(data: SaldoActualizadoAgencia): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/update`, data)
             .pipe(map(res => data));
+    }
+
+    activesWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/actives`);
+    }
+
+    activesWithDisponibleSaldoAgenciaByAgenciaAndMoneda(agencia: string, moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${agencia}/agencia/${moneda}/moneda/saldoagencia/actives`);
+    }
+
+    activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(agencia: string, moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${agencia}/agencia/${moneda}/moneda/last/saldoagencia/actives`);
+    }
+
+    activesWorkflowWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/workflow/actives`);
     }
 
 }

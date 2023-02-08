@@ -9,6 +9,7 @@ import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { MovimientoEfectivo } from 'src/@sirio/domain/services/control-efectivo/movimiento-efectivo.service';
+import { SaldoAgenciaService } from 'src/@sirio/domain/services/control-efectivo/saldo-agencia.service';
 import { Taquilla } from 'src/@sirio/domain/services/organizacion/taquilla.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
@@ -43,7 +44,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
         private bovedaAgenciaService: BovedaAgenciaService,
         private workflowService: WorkflowService,
         private rolService: RolService,
-        private conoMonetarioService: ConoMonetarioService,
+        private saldoAgenciaService: SaldoAgenciaService,
         private cdr: ChangeDetectorRef) {
         super(undefined, injector);
     }
@@ -68,7 +69,7 @@ export class WFPaseEfectivoFormComponent extends FormBaseComponent implements On
                     this.bovedaAgencia = data;
                     this.buildForm(this.bovedaAgencia);
 
-                    this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
+                    this.saldoAgenciaService.activesWithDisponibleSaldoAgenciaByMoneda(data.moneda).subscribe(conoData => {
 
                         conoData = conoData.map(c => {
                             let val = data.detalleEfectivo.filter(c1 => c1.id.cono == c.id)[0];

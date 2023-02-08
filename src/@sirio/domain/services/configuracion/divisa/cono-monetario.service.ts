@@ -31,45 +31,12 @@ export class ConoMonetarioService {
         this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/divisa/cono-monetario' };
     }
 
-
     actives(): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
     activesByMoneda(moneda: string): Observable<ConoMonetario[]> {
         return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/actives`);
-    }
-
-    activesWithDisponibleSaldoPrincipalByMoneda(moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoprincipal/actives`);
-    }
-
-    activesWithDisponibleSaldoAcopioByMoneda(moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoacopio/actives`);
-    }
-
-    activesWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/actives`);
-    }
-
-    activesWithDisponibleSaldoAgenciaByAgenciaAndMoneda(agencia: string, moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${agencia}/agencia/${moneda}/moneda/saldoagencia/actives`);
-    }
-
-    activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(agencia: string, moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${agencia}/agencia/${moneda}/moneda/last/saldoagencia/actives`);
-    }
-
-    activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(transportista: string, moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${transportista}/acopio/${moneda}/moneda/last/saldoacopio/actives`);
-    }
-
-    activesWorkflowWithDisponibleSaldoAgenciaByMoneda(moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoagencia/workflow/actives`);
-    }
-
-    activesWithDisponibleSaldoTaquillaByMoneda(moneda: string): Observable<ConoMonetario[]> {
-        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldotaquilla/actives`);
     }
 
     activesBilletesByMoneda(moneda: string): Observable<ConoMonetario[]> {
