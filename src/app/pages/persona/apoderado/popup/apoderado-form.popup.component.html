@@ -70,7 +70,7 @@
                 formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
             </sirio-select-search>
 
-            <mat-form-field fxFlex="33">
+            <!-- <mat-form-field fxFlex="33">
                 <mat-label>{{'Teléfono' | translate }} </mat-label>
                 <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate name="telefono" [imask]="{mask: '(0000) 000.00.00'}"
                     [unmask]="true" class="text-center" formControlName="telefono" required>
@@ -81,6 +81,16 @@
                 </mat-error>
                 <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}}
                 </mat-error>
+            </mat-form-field> -->
+
+            <!-- [required]="isRdOrNp()" -->
+
+            <mat-form-field fxFlex="33">
+                <mat-label>{{'Teléfono' | translate }} </mat-label>
+                <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="telefono"
+                  [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true"  class="text-center" formControlName="telefono">
+                <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
+                <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}} </mat-error>
             </mat-form-field>
 
         </div>
@@ -174,7 +184,7 @@
 
         </div>
     </form>
-    {{printErrors()|json}}
+    <!-- {{printErrors()|json}} -->
 
 </mat-dialog-content>
 

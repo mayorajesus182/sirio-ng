@@ -81,11 +81,9 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
       tipoDocumento: new FormControl(this.pep.tipoDocumento || undefined),
       identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-      nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      // ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      
-      ente: new FormControl(this.pep.ente || '', [Validators.required]),
-      cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),  
+      cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
 

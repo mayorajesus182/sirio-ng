@@ -155,7 +155,11 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       empresa: new FormControl(this.informacionLaboral.empresa || '', [Validators.required]),
       fecha: new FormControl(this.informacionLaboral.fecha ? moment(this.informacionLaboral.fecha, 'DD/MM/YYYY') : '', [Validators.required]),
       // direccion: new FormControl(this.informacionLaboral.direccion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_SPACE)]),
-      direccion: new FormControl(this.informacionLaboral.direccion || '', [Validators.required]),
+      // direccion: new FormControl(this.informacionLaboral.direccion || '', [Validators.required]),
+
+      direccion: new FormControl(this.informacionLaboral.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      
+
       
       profesion: new FormControl(this.informacionLaboral.profesion || undefined),
       remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),

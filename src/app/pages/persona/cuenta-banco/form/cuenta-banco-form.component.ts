@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
+import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
@@ -213,12 +213,13 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             paisDestino: new FormControl(this.cuentaBanco.paisDestino || undefined),
 
             monedaVirtual: new FormControl(this.cuentaBanco.monedaVirtual || undefined),
-            
-
             moneda: new FormControl(this.cuentaBanco.moneda || undefined, [Validators.required]),
             tipoParticipacion: new FormControl(this.cuentaBanco.tipoParticipacion || undefined, [Validators.required]),
             tipoFirma: new FormControl(this.cuentaBanco.tipoFirma || undefined, [Validators.required]),
             tipoFirmante: new FormControl(this.cuentaBanco.tipoFirmante || undefined, [Validators.required]),
+            observacion: new FormControl(this.cuentaBanco.observacion || undefined,[Validators.required] ),
+           // observacion: new FormControl(this.cuentaBanco.observacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+  
         });
 
         this.f.tipoProducto.valueChanges.subscribe(value => {
@@ -340,9 +341,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         if (this.itemForm.invalid)
             return;
 
+        
+
         this.updateData(this.cuentaBanco);
 
-        console.log(this.cuentaBanco);
+        console.log(" Observacion",this.cuentaBanco);
 
         // this.cuentaBanco.paisDestino='VES';
         // this.cuentaBanco.paisOrigen='VES';

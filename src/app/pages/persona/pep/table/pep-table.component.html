@@ -17,7 +17,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="30" name="Tipo Pep">
+    <ngx-datatable-column [resizeable]="false" [width]="110" name="Tipo Pep">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoPep
                 }}</span>
@@ -26,11 +26,11 @@
 
     <ngx-datatable-column [resizeable]="false" [width]="250" name="Nombre y Apellido del Relacionado">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.nombre }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.nombre }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="70" name="Número Documento">
+    <ngx-datatable-column [resizeable]="false" [width]="90" name="Número Documento">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ (row?.tipoDocumento
                 == null)? " " :(row?.tipoDocumento+"-"+row?.identificacion)}}</span>
@@ -39,7 +39,7 @@
 
     <ngx-datatable-column [resizeable]="false" [width]="250" name="Nombre del ente adscripción">
         <ng-template let-row="row" ngx-datatable-cell-template>
-            <span style="white-space: break-spaces;">{{ row?.ente }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.ente }}</span>
         </ng-template>
     </ngx-datatable-column>
 
