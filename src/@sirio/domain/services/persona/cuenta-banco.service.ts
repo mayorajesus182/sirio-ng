@@ -27,6 +27,7 @@ export interface CuentaBanco {
     tipoParticipacion: string;
     tipoFirma: string    
     tipoFirmante: string
+    observacion: string    
 }
 
 @Injectable({

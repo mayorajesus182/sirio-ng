@@ -17,7 +17,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="30" name="Tipo Pep">
+    <ngx-datatable-column [resizeable]="false" [width]="110" name="Tipo Pep">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoPep
                 }}</span>
@@ -30,7 +30,7 @@
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="50" name="Número Documento">
+    <ngx-datatable-column [resizeable]="false" [width]="90" name="Número Documento">
         <ng-template let-row="row" ngx-datatable-cell-template>
             <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ (row?.tipoDocumento
                 == null)? " " :(row?.tipoDocumento+"-"+row?.identificacion)}}</span>
