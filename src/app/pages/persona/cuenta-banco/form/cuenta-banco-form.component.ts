@@ -218,8 +218,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             tipoFirma: new FormControl(this.cuentaBanco.tipoFirma || undefined, [Validators.required]),
             tipoFirmante: new FormControl(this.cuentaBanco.tipoFirmante || undefined, [Validators.required]),
             observacion: new FormControl(this.cuentaBanco.observacion || undefined,[Validators.required] ),
-           // observacion: new FormControl(this.cuentaBanco.observacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-  
+            montoPromedio: new FormControl(this.cuentaBanco.montoPromedio || undefined, [Validators.required]),
         });
 
         this.f.tipoProducto.valueChanges.subscribe(value => {
