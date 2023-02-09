@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
+import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { EmpresaRelacionada, EmpresaRelacionadaService } from 'src/@sirio/domain/services/persona/empresa-relacionada/empresa-relacionada.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
@@ -19,11 +20,15 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   empresaRelacionada: EmpresaRelacionada = {} as EmpresaRelacionada;
 
   public tipoRelacionList = new BehaviorSubject<TipoRelacion[]>([]);
+
+  public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
+  
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<EmpresaRelacionadaFormPopupComponent>,
 
-    private empresaRelacionadaService: EmpresaRelacionadaService,        
+    private empresaRelacionadaService: EmpresaRelacionadaService,    
+    private tipoDocumentoService: TipoDocumentoService,    
     private tipoRelacionService: TipoRelacionService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder) {
@@ -50,7 +55,11 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
       })        
     }
 
-   
+    this.tipoDocumentoService.actives().subscribe(data => {
+      this.tipodocumentoList.next(data);
+      this.cdr.detectChanges();
+    })
+
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.empresaRelacionadaService.get(this.defaults.payload.id).subscribe(data => {
@@ -69,11 +78,12 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   
   buildForm() {
 //validar carcteres especiales
-    this.itemForm = this.fb.group({
-      
+    this.itemForm = this.fb.group({      
       relacionEmpresa: new FormControl(this.empresaRelacionada.relacionEmpresa || undefined, [Validators.required]),
       empresa: new FormControl(this.empresaRelacionada.empresa || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-      direccion: new FormControl(this.empresaRelacionada.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
+      direccion: new FormControl(this.empresaRelacionada.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      tipoDocumento: new FormControl(this.empresaRelacionada.tipoDocumento || undefined, [Validators.required]),
+      identificacion: new FormControl(this.empresaRelacionada.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)])
     });
 
 

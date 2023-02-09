@@ -24,6 +24,8 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   informacionLaboralList:ReplaySubject<InformacionLaboral[]> = new ReplaySubject<InformacionLaboral[]>();
 
+  informacionLaborales: any[] = [];
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -35,9 +37,18 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
   }
   
   private loadList(){
+
+    this.informacionLaborales = []
+
+
     this.informacionLaboralService.allByPersonaId(this.persona).subscribe((data) => {
+      console.log(data);
+      
       this.informacionLaboralList.next(data.slice());
-      this.propagar.emit(data.length);
+      // this.propagar.emit(data.length);
+
+      this.informacionLaborales = data.map(t => {return {identificacion:t.tipoDocumento+'-'+t.identificacion,tipo:t.tipoIngreso}});
+      
       this.cdr.detectChanges();
     });
   }
@@ -75,7 +86,10 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
+    // this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
+
+        this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona, informacionLaborales: this.informacionLaborales } : { ...data, ...{ informacionLaborales: this.informacionLaborales } }, '50%').afterClosed().subscribe(event => {
+   
         if(event){
             this.onRefresh.next(true);
         }

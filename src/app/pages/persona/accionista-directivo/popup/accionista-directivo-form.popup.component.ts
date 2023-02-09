@@ -21,6 +21,8 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
+  esPep: boolean=false;
+
   pep: Pep = {} as Pep;
 
   accionistaDirectivo: AccionistaDirectivo = {} as AccionistaDirectivo;
@@ -197,7 +199,14 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
           this.cf.tipoDocumento.setValue(undefined)
           this.cf.identificacion.setErrors(undefined)
           this.cf.tipoDocumento.setErrors(undefined)
-        } 
+          
+          this.cf.nombre.setValue(this.f.nombre.value)
+
+          this.esPep = true
+        }  else {
+          this.cf.nombre.setValue('')
+          this.esPep = false
+        }
         this.cdr.detectChanges();
       }
     });
