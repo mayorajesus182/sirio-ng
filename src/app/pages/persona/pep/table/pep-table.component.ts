@@ -23,7 +23,7 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   @Input() persona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   pepList: ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
-  peps: string[] = [];
+  peps: any[] = [];
 
   constructor(
     injector: Injector,
@@ -42,8 +42,8 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
       
       this.pepList.next(data.slice());
       // t.tipoDocumento+'-'+
-      this.peps = this.peps.concat(data.map(t => t.tipoDocumento+'-'+t.identificacion));
-      this.propagar.emit(data.length);
+      this.peps = data.map(t => {return {identificacion:t.tipoDocumento+'-'+t.identificacion,tipo:t.tipoPep}});
+      
       this.cdr.detectChanges();
     });
   }

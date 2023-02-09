@@ -178,6 +178,18 @@
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
+                                        <mat-form-field fxFlex="auto">
+                                            <mat-label>{{'Monto Promedio Mensual' | translate: {default:
+                                              'Monto Promedio Mensual'} | translate }} </mat-label>
+                                            <input maxlength="20" matInput autocomplete="off" name="montoPromedio" currencyMask [options]="{precision:2}" formControlName="montoPromedio"
+                                              [required]="!esGobierno">
+                                            <mat-error *ngIf="f.montoPromedio.errors?.required">{{'error.required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="f.montoPromedio.errors?.pattern">{{'error.invalidCharacter' |
+                                              translate}}
+                                            </mat-error>
+                                          </mat-form-field>
+
                                         <sirio-select-search fxFlex="auto"
                                             [label]="'Promedio Mens. de Transacciones Electrónicas' | translate: {default: 'Promedio Mens. de Transacciones Electrónicas'} | translate"
                                             formControlName="transaccionesElectronico" [required]="true" [elements]="promedioTransacciones.asObservable()"

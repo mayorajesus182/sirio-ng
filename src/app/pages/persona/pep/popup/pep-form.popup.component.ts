@@ -44,8 +44,11 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
     this.peps = this.defaults.payload.peps;
 
+
+    console.log(this.peps);
+    
     this.tipoPepService.activesForNatural().subscribe(data => {
-      this.tipoPepList.next(data);
+      this.tipoPepList.next(data.filter(d=>!this.peps.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.peps.length ==0 ));
       this.cdr.detectChanges();
     })
 
@@ -109,7 +112,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     
     this.cdr.detectChanges();
 
-    return this.peps.find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
+    return this.peps.map(p=>p.identificacion).find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
   }
 
   isRdOrNp() {
