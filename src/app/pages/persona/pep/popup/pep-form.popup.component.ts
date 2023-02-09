@@ -48,7 +48,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     console.log(this.peps);
     
     this.tipoPepService.activesForNatural().subscribe(data => {
-      this.tipoPepList.next(data.filter(d=>!this.peps.map(p=>p.tipo).includes(d.nombre) || this.peps.length ==0 ));
+      this.tipoPepList.next(data.filter(d=>!this.peps.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.peps.length ==0 ));
       this.cdr.detectChanges();
     })
 
