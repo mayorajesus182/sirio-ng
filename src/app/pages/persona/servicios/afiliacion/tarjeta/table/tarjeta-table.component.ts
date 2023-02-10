@@ -104,7 +104,7 @@ export class TarjetaTableComponent extends TableBaseComponent implements OnInit,
     // data.persona=this.persona;
     // } 
 
-    this.swalService.show('¿Desea Asociar la Tarjeta?', undefined,
+    this.swalService.show('¿Desea Asignar la Tarjeta de Débito?', undefined,
       { 'html': ' <strong>' + numero + '</strong>' }).then((resp) => {
         if (!resp.dismiss) {
 

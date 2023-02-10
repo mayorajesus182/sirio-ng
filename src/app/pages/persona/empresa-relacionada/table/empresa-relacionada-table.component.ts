@@ -21,6 +21,9 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
+
+  referencias: string[] = [];
+
   empresaRelacionadaList:ReplaySubject<EmpresaRelacionada[]> = new ReplaySubject<EmpresaRelacionada[]>();
 
   constructor(
@@ -35,9 +38,13 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
   
 
   private loadList(){
+
+    this.referencias = []
+
     this.empresaRelacionadaService.allByPersonaId(this.persona).subscribe((data) => {
             
       this.empresaRelacionadaList.next(data.slice());
+      this.referencias = this.referencias.concat(data.map(t => t.identificacion));
       this.cdr.detectChanges();
     });
   }
@@ -80,8 +87,8 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
-
+    //this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
+    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : { ...data, ...{ referencias: this.referencias } }, '40%').afterClosed().subscribe(event => {
         if(event){
             this.onRefresh.next(true);
         }

@@ -22,6 +22,8 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   public tipoRelacionList = new BehaviorSubject<TipoRelacion[]>([]);
 
   public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
+
+  referencias = [];
   
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -41,6 +43,8 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   }
 
   ngOnInit() {
+
+    this.referencias = this.defaults.payload.referencias;
 
     if (GlobalConstants.TIPO_PERSONA == 'J') {
       this.tipoRelacionService.actives().subscribe(data => {
@@ -88,7 +92,34 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
 
 
     this.cdr.detectChanges();
+
+    this.f.identificacion.valueChanges.subscribe(val => {
+      if (val) {
+        if (!this.validateReferencias(this.f.tipoDocumento ? this.f.tipoDocumento.value : undefined, this.f.identificacion ? this.f.identificacion.value : undefined)) {
+          this.f.identificacion.setErrors({ exists: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+        }
+      }
+    });
+
   }
+
+  validateReferencias(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    this.cdr.detectChanges();
+
+    // console.log(tipoDocumento);
+
+    // console.log(identificacion);
+
+    // console.log(this.empresaRelacionada);
+
+    return this. referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+  }
+
 
   save() {
     
