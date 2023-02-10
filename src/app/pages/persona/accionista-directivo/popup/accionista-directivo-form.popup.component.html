@@ -103,9 +103,9 @@
             </sirio-select-search>
 
             <mat-form-field fxFlex="auto">
-                <mat-label>{{'Nombre y Apellido del Relacionado' }} </mat-label>
+                <mat-label>{{'Nombre y Apellido' }} </mat-label>
                 <input matInput autocomplete="off" maxlength="80" minlength="1" id="nombre" name="nombre" formControlName="nombre" class="text-center" uppercase
-                    required>
+                    required [readonly]="esPep" >
                 <mat-error *ngIf="cf.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                 <mat-error *ngIf="cf.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field>

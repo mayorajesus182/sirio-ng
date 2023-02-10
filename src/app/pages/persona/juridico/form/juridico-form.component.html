@@ -130,7 +130,10 @@
                                                 email-validate>
                                             <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
-                                            <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                            <!-- <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                             -->
+                                             <mat-error *ngIf="f.email.errors?.email">{{'error.required' | translate}}
+                                            </mat-error>
                                         </mat-form-field>
 
                                         <mat-form-field fxFlex="50">
@@ -197,7 +200,9 @@
                                             </mat-label>
                                             <input matInput class="text-center" max="1000" min="0" type="number" autocomplete="off" name="oficinas"
                                                 formControlName="oficinas" required>
-                                            <mat-error *ngIf="f.oficinas.errors?.required">Es requerido</mat-error>
+                                            <!-- <mat-error *ngIf="f.oficinas.errors?.required">Es requerido</mat-error> -->
+                                            <mat-error *ngIf="f.oficinas.errors?.required">{{'error.required' | translate}}</mat-error>
+
                                             <mat-error *ngIf="f.oficinas.errors?.max">No puede superior a 1000</mat-error>
                                         </mat-form-field>
 
@@ -212,7 +217,8 @@
                                             </mat-label>
                                             <input matInput class="text-center" max="10000" min="0" type="number" autocomplete="off" name="empleados"
                                                 formControlName="empleados" required>
-                                            <mat-error *ngIf="f.empleados.errors?.required">Es requerido</mat-error>
+                                            <!-- <mat-error *ngIf="f.empleados.errors?.required">Es requerido</mat-error> -->
+                                            <mat-error *ngIf="f.empleados.errors?.required">{{'error.required' | translate}}</mat-error>
                                             <mat-error *ngIf="f.empleados.errors?.max">No puede superior a 10000</mat-error>
                                         </mat-form-field>
 
@@ -287,7 +293,8 @@
 
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.max">Debe ser menor o igual a {{todayValue.year()}}</mat-error>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.min">Debe ser mayor o igual a {{todayValue.year()-3}}</mat-error>
-                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Es requerido</mat-error>
+                                            <!-- <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Es requerido</mat-error> -->
+                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.required">{{'error.required' | translate}}</mat-error>
 
                                             <!-- {{f.anhoDeclaracion.errors | json}} -->
 

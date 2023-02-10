@@ -273,10 +273,10 @@
                                             <mat-label>{{'Condiciones de Firma '}}</mat-label>
                                             <input autocomplete="off" class="text-left" matInput name="observacion" maxlength="80" uppercase formControlName="observacion">
                                             
-                                            <mat-error *ngIf="f.observacion.errors?.required">{{'error.required' | translate}}!</mat-error>
-                                            <!-- <mat-error *ngIf="f.observacion.errors?.pattern">{{'error.invalidCharacter' |
+                                            <!-- <mat-error *ngIf="f.observacion.errors?.required">{{'error.required' | translate}}!</mat-error> -->
+                                            <mat-error *ngIf="f.observacion.errors?.pattern">{{'error.invalidCharacter' |
                                               translate}}
-                                            </mat-error> -->
+                                            </mat-error>
                                         </mat-form-field>
 
                                     </div>
