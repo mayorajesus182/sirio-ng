@@ -11,6 +11,8 @@ export interface Persona{
     tipoPersona?: string;
     tipoDocumento: string;
     identificacion?: string;
+    direcciones?: number;
+    telefonos?: number;
     email?: string;
 }
 
