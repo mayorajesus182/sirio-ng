@@ -21,6 +21,7 @@ import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/servi
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
+import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import { PersonaReportService } from 'src/@sirio/domain/services/persona/persona-report.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -47,11 +48,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     searchForm: FormGroup;
     hasBasicData = false;
     showAddress = false;
-    
+
     showIntervinientes = false;
     showAfiliacionP2p = false;
     showAsociarTarjeta = false;
-    
+
     btnCreateDisabled = true;
 
 
@@ -87,9 +88,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private tipoFirmaService: TipoFirmaService,
 
         private tipoFirmanteService: TipoFirmanteService,
-        
+
         private monedaService: MonedaService,
-        
+
 
         private origenFondoService: OrigenFondoService,
         private destinoCuentaService: DestinoCuentaService,
@@ -99,7 +100,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private paisService: PaisService,
         private tipoSubproductoService: TipoSubproductoService,
         private tipoProductoService: TipoProductoService,
-
+        private mandatoyDataService: PersonaDataMandatoryService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -110,7 +111,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     ngOnInit() {
 
-       this.monedaService. virtualActives().subscribe(data => {
+
+
+        this.monedaService.virtualActives().subscribe(data => {
             this.monedaVirtuales.next(data);
         });
 
@@ -153,7 +156,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             // this.cdr.detectChanges();
         });
 
-        
+
         this.tipoFirmanteService.actives().subscribe(data => {
             this.tipoFirmantes.next(data);
             // this.cdr.detectChanges();
@@ -166,7 +169,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
-            
+
 
             if (!loading) {
                 this.hasBasicData = this.cuentaBanco.id != undefined || this.cuentaBanco.numeroCuenta != undefined;
@@ -175,10 +178,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 // console.log(.value);
 
                 if (this.itemForm && this.f.tipoProducto.value) {
-                    
+
 
                     this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                        
+
                         this.tipoSubproductos.next(data);
                         this.loadMoneda(this.f.tipoSubproducto.value);
 
@@ -217,7 +220,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             tipoParticipacion: new FormControl(this.cuentaBanco.tipoParticipacion || undefined, [Validators.required]),
             tipoFirma: new FormControl(this.cuentaBanco.tipoFirma || undefined, [Validators.required]),
             tipoFirmante: new FormControl(this.cuentaBanco.tipoFirmante || undefined, [Validators.required]),
-            observacion: new FormControl(this.cuentaBanco.observacion || undefined ),
+            observacion: new FormControl(this.cuentaBanco.observacion || undefined),
             montoPromedio: new FormControl(this.cuentaBanco.montoPromedio || undefined, [Validators.required]),
         });
 
@@ -288,15 +291,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         //this.resetAll();  
     }
 
-    loadResult(event:any) {
+    loadResult(event: any) {
 
-        //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
         this.isNew = true;
         this.loaded$.next(false);
-
+        
         console.log('event person ', event);
         
-
+        
         if (!event.id && !event.numper) {
             this.isNew = true;
             this.persona = {} as Persona;
@@ -304,9 +306,18 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridica' : 'natural';
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
+            //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
+            
             this.persona = event;
+            if(!this.mandatoyDataService.validate(this.persona)){
+                // si aun no tiene los datos minimos se redirecciona al componente mantenimiento de personas
+                return ;
+            }
+
+            
             this.loadingDataForm.next(true);
-            // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
+            // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y 
+            // DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
             // DEBO REDIRECCIONAR AL USUARIO AL 
             this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
                 // terminar proceso de apertura de cuenta
@@ -340,11 +351,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         if (this.itemForm.invalid)
             return;
 
-        
+
 
         this.updateData(this.cuentaBanco);
 
-        console.log(" Observacion",this.cuentaBanco);
+        console.log(" Observacion", this.cuentaBanco);
 
         // this.cuentaBanco.paisDestino='VES';
         // this.cuentaBanco.paisOrigen='VES';
@@ -387,7 +398,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     this.successResponse('Operacion', 'aplicada', true);
                     this.loadingDataForm.next(false);
                 });
-                
+
             }
 
         });
@@ -401,9 +412,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         // console.log('imprimir ficha de ', this.cuentaBanco);
         // console.log('imprimir ficha de ', this.persona);
-        
+
         this.loadingDataForm.next(true);
-        this.personaReportService.ficha(this.cuentaBanco.persona|| this.persona.id).subscribe(data => {
+        this.personaReportService.ficha(this.cuentaBanco.persona || this.persona.id).subscribe(data => {
             this.loadingDataForm.next(false);
             // console.log('response:', data);
             const name = this.getFileName(data);
@@ -450,6 +461,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.cdr.detectChanges();
     }
 
-   
+
 
 }
