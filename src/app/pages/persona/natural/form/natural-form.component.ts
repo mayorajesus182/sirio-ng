@@ -37,6 +37,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     todayValue: moment.Moment=moment();
     totalAddress: number;
 
+
     totalRegistroMercantil : number;
 
     totalInfoLab: number;
@@ -48,6 +49,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     totalPersonalReference: number;
     totalContact: number;
     searchForm: FormGroup;
+    hasOwnBusiness=false;
     hasBasicData = false;
     showAddress = false;
 
@@ -393,8 +395,8 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.totalAddress = event;
     }
 
-    updateWorkingInfo(event) {
-        this.totalInfoLab = event;
+    setHasBusiness(event) {
+        this.hasOwnBusiness = event;
     }
 
     updatePep(event) {

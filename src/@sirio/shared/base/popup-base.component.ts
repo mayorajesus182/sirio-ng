@@ -8,7 +8,7 @@ import { MatButton } from '@angular/material/button';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import {MatTabGroup} from '@angular/material/tabs'
+import { MatTabGroup } from '@angular/material/tabs'
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { ColumnMode } from '@swimlane/ngx-datatable';
@@ -19,7 +19,7 @@ import { ColumnMode } from '@swimlane/ngx-datatable';
             provide: "snack", useClass: SnackbarService
         },
         {
-            provide:"swalService", useClass:SweetAlertService
+            provide: "swalService", useClass: SweetAlertService
         },
         {
             provide: "spinner", useClass: NgxSpinnerService
@@ -49,37 +49,37 @@ export class PopupBaseComponent {
     protected spinner: NgxSpinnerService;
     protected router: Router;
 
-    public phoneMask = {mask:['(', /[0]/,/[2]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],guide:false};
-    public mobilePhoneMask= {mask:['(',/[0]/,/[4]/, /[1-2]/, /[2,4,6]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],guide:false}
+    public phoneMask = { mask: ['(', /[0]/, /[2]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/], guide: false };
+    public mobilePhoneMask = { mask: ['(', /[0]/, /[4]/, /[1-2]/, /[2,4,6]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/], guide: false }
 
-    colors={
-        REG:'bg-success',
-        VER:'accent',
-        VAL:'accent',
-        BLQ:'bg-red',
-        ANU:'bg-red',
-        APR:'primary',
-        ACT:'primary'
+    colors = {
+        REG: 'bg-success',
+        VER: 'accent',
+        VAL: 'accent',
+        BLQ: 'bg-red',
+        ANU: 'bg-red',
+        APR: 'primary',
+        ACT: 'primary'
     }
 
     constructor(
         public dialogRef: MatDialogRef<any>,
         protected injector: Injector,
         protected dialog?: MatDialog
-    
-        ) {
-        
-            this.spinner = injector.get(NgxSpinnerService);
-            this.snack = injector.get(SnackbarService);
-            this.swalService = injector.get(SweetAlertService);
-            this.router = injector.get(Router);
+
+    ) {
+
+        this.spinner = injector.get(NgxSpinnerService);
+        this.snack = injector.get(SnackbarService);
+        this.swalService = injector.get(SweetAlertService);
+        this.router = injector.get(Router);
         // this.phoneMask = ['(', /[0]/, /[1-2]/, /[1-9]/, /[1-9]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
         // this.mobilePhoneMask = ['(', /[0]/, /[4]/, /[1-2]/, /[1-6]/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 
     }
 
-    get isNew():boolean{
-        return this.mode === 'global.add'?true:false;
+    get isNew(): boolean {
+        return this.mode === 'global.add' ? true : false;
     }
 
     protected download(fileName, blob) {
@@ -98,7 +98,7 @@ export class PopupBaseComponent {
         Object.assign(current, this.itemForm.value);
     }
 
-    protected updateDataItemForm(current = {},itemForm:FormGroup) {
+    protected updateDataItemForm(current = {}, itemForm: FormGroup) {
         Object.assign(current, itemForm.value);
     }
 
@@ -111,7 +111,7 @@ export class PopupBaseComponent {
     }
 
     protected errorResponse(isNew: boolean = false) {
-        if(this.progressBar){
+        if (this.progressBar) {
 
             this.progressBar.mode = 'determinate';
         }
@@ -134,7 +134,7 @@ export class PopupBaseComponent {
         });
     }
 
-    protected errorResponseCustomMessage(isNew: boolean = false,text:string) {
+    protected errorResponseCustomMessage(isNew: boolean = false, text: string) {
         this.progressBar.mode = 'determinate';
 
         this.buttons.forEach(element => {
@@ -169,7 +169,7 @@ export class PopupBaseComponent {
     }
 
     protected filterObjectList(keyword: any, fromList: any[], toList: ReplaySubject<any[]>) {
-        
+
 
 
         if (!fromList || fromList.length == 0) {
@@ -191,7 +191,7 @@ export class PopupBaseComponent {
     }
 
     protected successResponse(entityName: string, event: string, noClose?: boolean) {
-        if(this.progressBar){
+        if (this.progressBar) {
             this.progressBar.mode = 'determinate';
         }
 
@@ -209,7 +209,7 @@ export class PopupBaseComponent {
             this.dialogRef.close(true);
         }
 
-    this.loadingDataForm.next(false);
+        this.loadingDataForm.next(false);
         // this.snack.show({
         //     message: `${entityName} fue ${event} satisfactoriamente!`,
         //     verticalPosition: 'bottom'
@@ -254,8 +254,8 @@ export class PopupBaseComponent {
     }
 
 
-    public printErrors():any[] {
-        if(!this.itemForm || !this.itemForm.controls){
+    public printErrors(): any[] {
+        if (!this.itemForm || !this.itemForm.controls) {
             return null;
         }
         const result = [];
@@ -280,7 +280,7 @@ export class PopupBaseComponent {
     protected saveOrUpdate(service, formData = {}, entityName, isNew?) {
 
 
-        if(this.progressBar){
+        if (this.progressBar) {
             this.progressBar.mode = 'indeterminate';
         }
 
@@ -289,7 +289,7 @@ export class PopupBaseComponent {
             element.disabled = true;
         });
 
-this.loadingDataForm.next(true);
+        this.loadingDataForm.next(true);
         if (this.isNew) {
             service.save(formData)
                 .subscribe(data => this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o')), error => this.errorResponse(true));
@@ -301,25 +301,25 @@ this.loadingDataForm.next(true);
     }
 
 
-    protected saveOrUpdateWithoutClosed(service, childComponent, formData = {}, entityName) {
+    protected saveOrUpdateWithoutClosed(service, childComponent, formData = {}) {
 
         this.progressBar.mode = 'indeterminate';
 
         this.buttons.forEach(element => {
             element.disabled = true;
         });
-        var isNew = childComponent['isNew'];
-        if (isNew) {
+        // var isNew = childComponent['isNew'];
+        if (this.isNew) {
             service.save(formData).subscribe(data => {
-                this.successResponse(entityName, isNew ? 'creada' : 'actualizada', true);
+                this.successResponse(undefined, this.isNew ? 'creada' : 'actualizada', true);
                 childComponent['initForm']();
-                
+
             }, error => this.errorResponse(true));
         } else {
             service.update(formData).subscribe(data => {
-                this.successResponse(entityName, isNew ? 'creada' : 'actualizada', true);
+                this.successResponse(undefined, this.isNew ? 'creada' : 'actualizada', true);
                 childComponent['initForm']();
-                
+
             }, error => this.errorResponse(false));
         }
 
@@ -354,13 +354,13 @@ this.loadingDataForm.next(true);
     }
 
 
-    public validateCharacter(event){
-        
+    public validateCharacter(event) {
+
         // console.log(event);
         console.log('reg expresion result');
         console.log(new RegExp(/[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E]$/).test(event.key));
         return new RegExp(/[a-zA-Z0-9\u00C0-\u017F\u0022-\u0023\u0026-\u0029\u002C-\u002E]$/).test(event.key);
-        
+
     }
 
     protected toFormData(formValues: any): FormData {
@@ -375,16 +375,16 @@ this.loadingDataForm.next(true);
         return formData;
     }
 
-    protected addOrRemoveFieldValidator(fieldName:string,isAdd:boolean,value?:any,moreValidator?:any[]){
+    protected addOrRemoveFieldValidator(fieldName: string, isAdd: boolean, value?: any, moreValidator?: any[]) {
         let validators = [Validators.required];
-        if(moreValidator){
-            validators =  validators.concat(moreValidator)
+        if (moreValidator) {
+            validators = validators.concat(moreValidator)
         }
-        this.f[fieldName].setValue(value == undefined ? undefined :  value);
-        if(isAdd){
+        this.f[fieldName].setValue(value == undefined ? undefined : value);
+        if (isAdd) {
             this.f[fieldName].setValidators(validators);
             this.f[fieldName].updateValueAndValidity();
-        }else{                        
+        } else {
             // this.f[fieldName].setValue(undefined);
             this.f[fieldName].clearValidators();
             this.f[fieldName].updateValueAndValidity();
