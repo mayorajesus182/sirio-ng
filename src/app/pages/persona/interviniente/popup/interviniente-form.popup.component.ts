@@ -55,6 +55,8 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     super(dialogRef, injector)
   }
 
+
+
   ngAfterViewInit(): void {
 
   }
@@ -185,9 +187,9 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     // console.log('mode ', this.mode);
     this.updateData(this.interviniente);// aca actualizamos la direccion
     this.interviniente.cuenta = this.defaults.payload.cuenta;
-    console.log(this.interviniente);
+    // console.log(this.interviniente);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.intervinienteService, this.interviniente, 'INTERVINIENTE', false);
+    this.saveOrUpdateWithoutClosed(this.intervinienteService,this,this.interviniente);
 
   }
 

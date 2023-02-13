@@ -21,7 +21,7 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
 
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
+  @Output('hasOwnBusiness') negocio: EventEmitter<boolean> = new EventEmitter<boolean>();
   informacionLaboralList:ReplaySubject<InformacionLaboral[]> = new ReplaySubject<InformacionLaboral[]>();
 
   informacionLaborales: any[] = [];
