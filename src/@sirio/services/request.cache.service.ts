@@ -12,7 +12,8 @@ export class RequestCacheService {
     '/api/public/assets/i18n',
     '/api/configuracion',
     '/api/session/permissions',
-    '/api/preferencia'
+    '/api/preferencia/active',
+    '/api/preferencia/idioma',
 ]
   
   constructor() { }

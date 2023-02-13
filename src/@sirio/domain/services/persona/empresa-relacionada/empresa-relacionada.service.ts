@@ -15,6 +15,10 @@ export interface EmpresaRelacionada {
     empresa: string;
     
     direccion: string;
+
+    tipoDocumento?: string;
+    
+    identificacion: string;
 }
 
 

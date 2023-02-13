@@ -12,7 +12,7 @@
         [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}"
         [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"  [footerHeight]="50"  [limit]="10" [rows]="informacionLaboralList | async" [rowHeight]="70">
 
-    <ngx-datatable-column  [resizeable]="false" [width]="50"  name="#">        
+    <ngx-datatable-column  [resizeable]="false" [width]="20"  name="#">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
             <div class="text-center" fxLayoutAlign="center"> {{ rowIndex+1 }}</div>
         </ng-template>
@@ -20,17 +20,17 @@
 
     <ngx-datatable-column [resizeable]="false" [width]="100"  name="Tipo Ingreso">        
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoIngreso }}</span>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.tipoIngresoNombre }}</span>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="500"  name="Descripción">
+    <ngx-datatable-column [resizeable]="false" [width]="700"  name="Descripción">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template >
             <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;" [innerHTML]="row.nombre"> </div>
         </ng-template>
     </ngx-datatable-column>
 
-    <ngx-datatable-column [resizeable]="false" [width]="200"  name="Ingresos/Remuneración">
+    <ngx-datatable-column [resizeable]="false" [width]="50"  name="Ingresos/Remuneración">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
           <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.remuneracion|number:'1.2'}}</div>  
         </ng-template>

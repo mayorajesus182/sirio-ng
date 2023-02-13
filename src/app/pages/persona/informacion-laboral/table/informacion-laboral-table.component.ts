@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { TipoIngresoConstants } from 'src/@sirio/constants';
 import { InformacionLaboral, InformacionLaboralService } from 'src/@sirio/domain/services/persona/informacion-laboral/informacion-laboral.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
@@ -21,8 +22,10 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
 
   @Input() persona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
-  @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
+  @Output('hasOwnBusiness') negocio: EventEmitter<boolean> = new EventEmitter<boolean>();
   informacionLaboralList:ReplaySubject<InformacionLaboral[]> = new ReplaySubject<InformacionLaboral[]>();
+
+  informacionLaborales: any[] = [];
 
   constructor(
     injector: Injector,
@@ -35,9 +38,22 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
   }
   
   private loadList(){
+
+    this.informacionLaborales = []
+
+
     this.informacionLaboralService.allByPersonaId(this.persona).subscribe((data) => {
+      console.log(data);
+      
       this.informacionLaboralList.next(data.slice());
-      this.propagar.emit(data.length);
+      console.log(data.filter(i=>i.tipoIngreso==TipoIngresoConstants.NEGOCIO_PROPIO).map(i=>i.id!=undefined)[0]);
+      
+      const hasOwnBusiness =data.filter(i=>i.tipoIngreso==TipoIngresoConstants.NEGOCIO_PROPIO).map(i=>i.id!=undefined)[0];
+
+      this.negocio.emit(hasOwnBusiness);
+
+      this.informacionLaborales = data.map(t => {return {identificacion:t.tipoDocumento+'-'+t.identificacion,tipo:t.tipoIngreso}});
+      
       this.cdr.detectChanges();
     });
   }
@@ -75,7 +91,10 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
+    // this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona}:data,'50%').afterClosed().subscribe(event=>{
+
+        this.showFormPopup(InformacionLaboralFormPopupComponent, !data?{persona:this.persona, informacionLaborales: this.informacionLaborales } : { ...data, ...{ informacionLaborales: this.informacionLaborales } }, '50%').afterClosed().subscribe(event => {
+   
         if(event){
             this.onRefresh.next(true);
         }
