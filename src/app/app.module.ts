@@ -17,7 +17,9 @@ import { PendingInterceptorModule } from '../@sirio/shared/loading-indicator/pen
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
-
+import {environment} from "../environments/environment";
+// import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 @NgModule({
   imports: [
     // Angular Core Module // Don't remove!
@@ -44,9 +46,9 @@ import { LayoutModule } from './layout/layout.module';
         useClass: AppTranslateLoader,
         deps: [ApiService],
       }
-    })
-    // Register a Service Worker (optional)
-    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    }),
+    // Register a Service Worker
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: !environment.production })
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
