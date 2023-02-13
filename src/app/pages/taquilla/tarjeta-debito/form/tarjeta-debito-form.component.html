@@ -1,0 +1,42 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['deposit.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayoutAlign.gt-sm="start stretch">
+            <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'deposit.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+
+                <sirio-card-content fxLayout="column">
+                    <sirio-person-query (result)="queryResult($event)" [entity]="'gestioncomercial'"></sirio-person-query>
+                    <div fxLayout="column" *ngIf="loading | async">
+                        <sirio-entrega-form (result)="entrega($event)" [persona]="persona"></sirio-entrega-form>
+                        <!-- <sirio-informacion-tarjeta (result)="entrega($event)" [persona]="persona"></sirio-informacion-tarjeta> -->
+                    </div>
+
+                </sirio-card-content>
+                <mat-toolbar *ngIf="loading | async">
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button
+                            [disabled]="!itemForm || itemForm?.invalid || (loading$ | async )">
+                            {{'button.send' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

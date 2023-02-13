@@ -33,7 +33,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     public monedas = new BehaviorSubject<Moneda[]>([]);
     // public atms = new BehaviorSubject<Atm[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
-    public preferencia: Preferencia = {} as Preferencia;
+    public preferencia: any;
     saldoDisponible: number = 0;
     // movimiento = MovimientoEfectivoConstants;
     atmSeleccionado: Atm = {} as Atm;
@@ -74,9 +74,9 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             });
         } else {
 
-            this.preferenciaService.get().subscribe(data => {
+            this.preferenciaService.parametros().subscribe(data => {
                 this.preferencia = data;
-                this.bovedaAgencia.moneda = this.preferencia.monedaConoActual;
+                this.bovedaAgencia.moneda = this.preferencia.monedaConoActual.value;
 
                 this.saldoAgenciaService.activesWithDisponibleSaldoAgenciaByMoneda(this.bovedaAgencia.moneda).subscribe(data => {
                     this.conos.next(data);
@@ -110,7 +110,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             // movimientoEfectivo: new FormControl(bovedaAgencia.movimientoEfectivo || undefined, Validators.required),
             taquilla: new FormControl(bovedaAgencia.taquilla || undefined, Validators.required),
             // atm: new FormControl(bovedaAgencia.atm || undefined),
-            moneda: new FormControl(bovedaAgencia.moneda || this.preferencia.monedaConoActual, Validators.required),
+            moneda: new FormControl(bovedaAgencia.moneda || this.preferencia.monedaConoActual.value, Validators.required),
             monto: new FormControl({ value: bovedaAgencia.monto || undefined }, Validators.required),
         });
 

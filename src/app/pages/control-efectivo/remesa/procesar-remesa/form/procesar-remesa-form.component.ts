@@ -47,7 +47,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
     public empleados = new BehaviorSubject<EmpleadoTransporte[]>([]);
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
-    preferencia: Preferencia = {} as Preferencia;
+    preferencia: any;
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
@@ -111,11 +111,11 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                         this.cdr.detectChanges();
                     });
 
-                    this.preferenciaService.get().subscribe(pref => {
+                    this.preferenciaService.parametros().subscribe(pref => {
                         this.preferencia = pref;
 
                         // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-                        if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+                        if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
                             this.viajeTransporteService.allWithCostoByTransportista(this.remesa.receptor).subscribe(vjt => {
                                 this.viajes.next(vjt);
@@ -162,10 +162,10 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                     });
 
 
-                    this.preferenciaService.get().subscribe(pref => {
+                    this.preferenciaService.parametros().subscribe(pref => {
                         this.preferencia = pref;
 
-                        if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+                        if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
                             this.viajeTransporteService.allWithCostoByTransportista(this.remesa.transportista).subscribe(vjt => {
                                 this.viajes.next(vjt);
@@ -220,7 +220,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             //     this.preferencia = pref;
 
             // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-            if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+            if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
                 this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
                     this.viajes.next(vjt);
@@ -371,8 +371,8 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             return;
         }
 
-        if (value.length != this.preferencia.digitosPlomo) {
-            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
+        if (value.length != this.preferencia.digitosPlomo.value) {
+            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo.value} dígitos` });
             this.cdr.detectChanges();
             return;
         }

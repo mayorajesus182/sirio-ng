@@ -25,7 +25,7 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
   public monedas = new BehaviorSubject<Moneda[]>([]);
   public conoSave: ConoMonetario[] = [];
-  preferencia: Preferencia = {} as Preferencia;
+  preferencia: any;
   agenciaId: string;
   agencia: string;
   saldoAnterior: number;
@@ -58,7 +58,7 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
 
 
     // Se pregunta por la preferencia para setear la moneda del cono actual
-    this.preferenciaService.get().subscribe(data => {
+    this.preferenciaService.parametros().subscribe(data => {
       this.preferencia = data;
 
       this.buildForm();
@@ -67,11 +67,11 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
         this.monedas.next(data);
       });
 
-      this.saldoAgenciaService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.saldoAgenciaService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual.value).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
-      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(saldo => {
+      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual.value).subscribe(saldo => {
         this.saldoAnterior = saldo;
       });
 
@@ -81,7 +81,7 @@ export class ConsultarSaldoAgenciaFormComponent extends FormBaseComponent implem
 
   buildForm() {
     this.itemForm = this.fb.group({
-      moneda: new FormControl(this.preferencia.monedaConoActual, Validators.required),
+      moneda: new FormControl(this.preferencia.monedaConoActual.value, Validators.required),
     });
 
     this.f.moneda.valueChanges.subscribe(val => {

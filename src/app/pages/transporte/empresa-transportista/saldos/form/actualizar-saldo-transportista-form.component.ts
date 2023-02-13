@@ -25,7 +25,7 @@ export class ActualizarSaldoTransportistaFormComponent extends FormBaseComponent
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
   public monedas = new BehaviorSubject<Moneda[]>([]);
   public conoSave: ConoMonetario[] = [];
-  preferencia: Preferencia = {} as Preferencia;
+  preferencia: any;
   transportistaId: string;
   transportista: string;
   saldoAnterior: number;
@@ -59,7 +59,7 @@ export class ActualizarSaldoTransportistaFormComponent extends FormBaseComponent
 
 
     // Se pregunta por la preferencia para setear la moneda del cono actual
-    this.preferenciaService.get().subscribe(data => {
+    this.preferenciaService.parametros().subscribe(data => {
       this.preferencia = data;
 
       this.buildForm();
@@ -68,11 +68,11 @@ export class ActualizarSaldoTransportistaFormComponent extends FormBaseComponent
         this.monedas.next(data);
       });
 
-      this.saldoAcopioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.saldoAcopioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual.value).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
-      this.saldoAcopioService.getLastSaldoByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual).subscribe(saldo => {
+      this.saldoAcopioService.getLastSaldoByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual.value).subscribe(saldo => {
         this.saldoAnterior = saldo;
       });
 
@@ -83,7 +83,7 @@ export class ActualizarSaldoTransportistaFormComponent extends FormBaseComponent
   buildForm() {
     this.itemForm = this.fb.group({
       transportista: new FormControl(this.transportistaId),
-      moneda: new FormControl(this.preferencia.monedaConoActual, Validators.required),
+      moneda: new FormControl(this.preferencia.monedaConoActual.value, Validators.required),
       monto: new FormControl(undefined, Validators.required),
     });
 

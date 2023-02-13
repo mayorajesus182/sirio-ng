@@ -24,7 +24,7 @@ import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/pref
 
 export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implements OnInit {
     esOperadorTaquilla: Boolean = false;
-    preferencia: Preferencia = {} as Preferencia;
+    preferencia: any;
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
@@ -44,7 +44,7 @@ export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implem
 
     ngOnInit() {
 
-        this.preferenciaService.get().subscribe(data => {
+        this.preferenciaService.parametros().subscribe(data => {
             this.preferencia = data;
             this.buildForm();
             const user = this.sessionService.getUser() as User;
@@ -63,7 +63,7 @@ export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implem
 
     buildForm() {
         this.itemForm = this.fb.group({
-            moneda: new FormControl(this.preferencia.monedaConoActual),
+            moneda: new FormControl(this.preferencia.monedaConoActual.value),
             taquilla: new FormControl(undefined),
         });
     }

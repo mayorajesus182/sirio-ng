@@ -27,7 +27,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class SolicitarRemesaFormComponent extends FormBaseComponent implements OnInit {
 
-    preferencia: Preferencia = {} as Preferencia;
+    preferencia: any;
     remesa: Remesa = {} as Remesa;
     public detalles = new BehaviorSubject<CupoAgencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
@@ -66,7 +66,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
             this.esTransportista = (rol.id === RolConstants.TRANSPORTISTA);
             
             // Se pregunta por la preferencia para setear la moneda del cono actual
-            this.preferenciaService.get().subscribe(data => {
+            this.preferenciaService.parametros().subscribe(data => {
                 this.preferencia = data;
 
                 // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
@@ -87,7 +87,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
                         this.transportistas.next(data);
                     });
 
-                    this.cupoAgenciaService.getCupoByMoneda(this.preferencia.monedaConoActual).subscribe(data => {
+                    this.cupoAgenciaService.getCupoByMoneda(this.preferencia.monedaConoActual.value).subscribe(data => {
                         this.cupo = data;               
                         this.cdr.detectChanges();
                     });
@@ -109,7 +109,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     buildForm(remesa: Remesa) {
         this.itemForm = this.fb.group({
             receptor: new FormControl(remesa.receptor || undefined),
-            moneda: new FormControl(remesa.moneda || this.preferencia.monedaConoActual, [Validators.required]),
+            moneda: new FormControl(remesa.moneda || this.preferencia.monedaConoActual.value, [Validators.required]),
             viaje: new FormControl(remesa.moneda || undefined),
             montoSolicitado: new FormControl(remesa.montoSolicitado || undefined, [Validators.required]),
         });
@@ -117,7 +117,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
 
         this.f.receptor.valueChanges.subscribe(value => {
             this.monedaService.forSolicitudRemesasAll().subscribe(data => {
-                let monedaLocal = data.filter(e => e.id == this.preferencia.monedaConoActual)[0];
+                let monedaLocal = data.filter(e => e.id == this.preferencia.monedaConoActual.value)[0];
                 this.f.moneda.setValue(monedaLocal?.id);
                 this.monedas.next(data);
                 this.cdr.detectChanges(); 
@@ -132,7 +132,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
 
             this.f.viaje.setValue(undefined);
 
-            if (this.preferencia.monedaConoActual === this.f.moneda.value) {
+            if (this.preferencia.monedaConoActual.value === this.f.moneda.value) {
 
                 this.viajeTransporteService.allWithCostoByTransportista(this.f.receptor.value).subscribe(data => {
                     this.viajes.next(data);

@@ -36,7 +36,7 @@ export class DespacharRemesaEnvioFormComponent extends FormBaseComponent impleme
     public transportistas = new BehaviorSubject<Transportista[]>([]);
     public empleados = new BehaviorSubject<EmpleadoTransporte[]>([]);
     rol: Rol = {} as Rol;
-    preferencia: Preferencia = {} as Preferencia;
+    preferencia: any;
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
@@ -76,11 +76,11 @@ export class DespacharRemesaEnvioFormComponent extends FormBaseComponent impleme
                 // Si quien va a procesar la solicitud es transportista (Centro de Acopio), se buscan los viajes según la moneda 
                 if (this.esTransportista) {
 
-                    this.preferenciaService.get().subscribe(pref => {
+                    this.preferenciaService.parametros().subscribe(pref => {
                         this.preferencia = pref;
 
                         // Si es moneda local se bucan los viajes bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
-                        if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+                        if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
 
                             this.viajeTransporteService.allWithCostoByTransportista(this.remesa.emisor).subscribe(vjt => {
@@ -110,10 +110,10 @@ console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
                         this.transportistas.next(trans);
                     });
 
-                    this.preferenciaService.get().subscribe(pref => {
+                    this.preferenciaService.parametros().subscribe(pref => {
                         this.preferencia = pref;
 
-                        if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+                        if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
                             this.viajeTransporteService.allWithCostoByTransportista(this.remesa.transportista).subscribe(vjt => {
                                 this.viajes.next(vjt);
@@ -153,7 +153,7 @@ console.log('aquiiiiiiiiiiiiiiiiiiiiiiiiiiiii');
             //     this.preferencia = pref;
 
                 // Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
-                if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+                if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
                     this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
                         this.viajes.next(vjt);
