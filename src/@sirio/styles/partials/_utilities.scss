@@ -306,6 +306,14 @@ blockquote {
   border-color: darken($theme-color-warn, 0.02);
   color: $theme-color-warn;
 }
+
+.swal2-container {
+
+  .swal2-title {
+    font-size: 1.35em !important;
+  }
+}
+
 // dialog
 .dialog-frame {
   top: 8%;

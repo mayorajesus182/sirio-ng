@@ -36,6 +36,10 @@ export class PreferenciaService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    active(): Observable<Preferencia> {
+        return this.apiService.config(this.apiConfig).get('/active');
+    }
+
     get(): Observable<Preferencia> {
         return this.apiService.config(this.apiConfig).get(`/get`);
     }

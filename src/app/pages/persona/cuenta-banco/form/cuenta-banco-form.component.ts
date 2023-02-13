@@ -24,6 +24,7 @@ import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccio
 import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import { PersonaReportService } from 'src/@sirio/domain/services/persona/persona-report.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -75,8 +76,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     // monedas = new BehaviorSubject<Moneda[]>([]);
     monedaSubproducto: string = '';
 
+
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-    // private legals: string[] = [];
+    private preferencia: Preferencia;
 
     constructor(
         injector: Injector,
@@ -86,12 +88,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private personaReportService: PersonaReportService,
         private tipoParticipacionService: TipoParticipacionService,
         private tipoFirmaService: TipoFirmaService,
-
         private tipoFirmanteService: TipoFirmanteService,
-
         private monedaService: MonedaService,
-
-
         private origenFondoService: OrigenFondoService,
         private destinoCuentaService: DestinoCuentaService,
         private motivoSolicitudService: MotivoSolicitudService,
@@ -101,6 +99,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         private tipoSubproductoService: TipoSubproductoService,
         private tipoProductoService: TipoProductoService,
         private mandatoyDataService: PersonaDataMandatoryService,
+        private preferenciaService: PreferenciaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -112,6 +111,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     ngOnInit() {
 
 
+        this.preferenciaService.active().subscribe(data => {
+            this.preferencia = data;
+        });
 
         this.monedaService.virtualActives().subscribe(data => {
             this.monedaVirtuales.next(data);
@@ -245,7 +247,26 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.f.tipoSubproducto.valueChanges.subscribe(value => {
 
             if (value && value != '') {
+
+                /**
+                 * debo verificar si ya tengo una cuenta en la moneda principal
+                 */
+
                 this.loadMoneda(value);
+
+
+                if (!this.persona.cuentaMonedaPrincipal && this.f.moneda.value != this.preferencia.monedaConoActual) {
+                    // identificar con una alerta que no puede realizar esta apertura por no tener 
+
+                    this.swalService.show(`Para aperturar una cuenta en la moneda <strong>${this.monedaSubproducto}</strong> debe primero: `,
+                             undefined,
+                              { html: "Realizar una apertura en moneda nacional.", showCancelButton: false }).then((resp) => {
+                        this.f.tipoSubproducto.setValue(undefined);
+                        this.f.moneda.setValue('');
+                        this.monedaSubproducto = '';
+                    });
+
+                }
             }
         });
 
@@ -295,10 +316,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         this.isNew = true;
         this.loaded$.next(false);
-        
+
         console.log('event person ', event);
-        
-        
+
+
         if (!event.id && !event.numper) {
             this.isNew = true;
             this.persona = {} as Persona;
@@ -307,15 +328,15 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
             //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
-            
+
             this.persona = event;
-            if(!this.mandatoyDataService.validate(this.persona)){
+            this.loadingDataForm.next(true);
+            if (!this.mandatoyDataService.validate(this.persona)) {
                 // si aun no tiene los datos minimos se redirecciona al componente mantenimiento de personas
-                return ;
+                return;
             }
 
-            
-            this.loadingDataForm.next(true);
+
             // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y 
             // DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
             // DEBO REDIRECCIONAR AL USUARIO AL 
