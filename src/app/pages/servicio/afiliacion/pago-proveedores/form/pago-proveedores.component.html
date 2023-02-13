@@ -1,0 +1,39 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['deposit.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayoutAlign.gt-sm="start stretch">
+            <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
+
+                <sirio-card-content fxLayout="column">
+                    <sirio-person-query (result)="queryResult($event)" [tipo_persona]="'J'" [entity]="'gestion-comercial'"></sirio-person-query>
+                    <div fxLayout="column" *ngIf="loading | async">
+                        
+                        <sirio-cuenta-proveedor (result)="depositoEfectivo($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
+                            ></sirio-cuenta-proveedor>
+                       
+                            <mat-form-field fxFlex="50">
+                                <mat-label>{{'Correo Electrónico' | translate: {default: 'Correo Electrónico'} | translate }} </mat-label>
+                                <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
+                                    email-validate>
+                            </mat-form-field>
+                    </div>
+
+                </sirio-card-content>
+                <mat-toolbar *ngIf="loading | async">
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button>
+                            {{'button.send' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
