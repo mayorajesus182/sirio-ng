@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpXsrfTokenExtractor, HttpHandler, HttpRequest, HttpEvent, HttpResponse } from "@angular/common/http";
 import { JwtService } from "../services/jwt.service";
 import { from, Observable, of } from "rxjs";
-import { RequestCacheService } from "../services/request.cache.service";
+
 import { delay, tap } from "rxjs/operators";
+import { RequestCacheService } from "src/@sirio/services/request.cache.service";
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {

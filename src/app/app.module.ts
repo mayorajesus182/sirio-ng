@@ -13,12 +13,11 @@ import { HttpErrorInterceptor } from 'src/@sirio/interceptors/http.error.interce
 import { HttpRequestInterceptor } from 'src/@sirio/interceptors/http.request.interceptor';
 import { HttpTokenInterceptor } from 'src/@sirio/interceptors/http.token.interceptor';
 import { ApiService } from 'src/@sirio/services/api';
-import { PendingInterceptorModule } from '../@sirio/shared/loading-indicator/pending-interceptor.module';
+import { PendingInterceptorModule } from 'src/@sirio/shared/loading-indicator/pending-interceptor.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import {environment} from "../environments/environment";
-// import { ServiceWorkerModule } from '@angular/service-worker';
 import { ServiceWorkerModule } from '@angular/service-worker';
 @NgModule({
   imports: [
@@ -48,7 +47,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       }
     }),
     // Register a Service Worker
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: !environment.production })
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:20000'
+    })
   ],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
