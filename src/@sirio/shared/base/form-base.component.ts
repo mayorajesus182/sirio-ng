@@ -326,7 +326,7 @@ export class FormBaseComponent {
         if (this.isNew) {
             const saveRequest = service.save(formData);
             return saveRequest.subscribe(data => {
-                this.itemForm.reset({});
+               //this.itemForm.reset({});
                 // this.resetForm()
                 this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'), !back);
 

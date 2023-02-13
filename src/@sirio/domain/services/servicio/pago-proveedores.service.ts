@@ -21,19 +21,22 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 
 export interface pago_proveedores {
    // id: number;
-    persona: number;
-    numper: string;
+   id_cliente : number;
+    //persona: number;
+    afl_identificacion : string;
+   // numper: string;
    // cuentaBancaria: number;
-    tipoDocumento: string;
-    identificacion: string;
-    nombre: string;
+    //tipoDocumento: string;
+    afl_tipoDocumento: string;
+    afl_nombre: string;
+   // identificacion: string;
+  //  nombre: string;
+    afl_numper: string;
     //numeroCuenta: string;
     //moneda: any;
     //email: string;
    // detalles: ConoMonetario[];
 
-
-  
 
 }
 @Injectable({
@@ -48,8 +51,7 @@ export class pago_proveedoresService {
         this.apiConfig = { name: ApiConfConstants.API_SERVICIO, prefix: '/pago_proveedores' };
        console.log(this.apiConfig)
     }
-    /// http://localhost:4200/api/servicio/pago_proveedores/create
-   // http://localhost:4200/undefined/pago_proveedores/create
+
     save(data: pago_proveedores): Observable<any> {
         return this.apiService.config(this.apiConfig).post(`/create`, data)
             .pipe(map(res => data));

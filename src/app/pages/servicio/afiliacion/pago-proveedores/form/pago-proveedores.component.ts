@@ -117,11 +117,11 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     save() {
      
-        this.pago_proveedores.identificacion = this.persona.identificacion;
-        this.pago_proveedores.tipoDocumento = this.persona.tipoDocumento;
-        this.pago_proveedores.persona = this.persona.id;
-        this.pago_proveedores.nombre = this.persona.nombre;
-        this.pago_proveedores.numper = this.persona.numper;
+        this.pago_proveedores.afl_identificacion = this.persona.identificacion;
+        this.pago_proveedores.afl_tipoDocumento = this.persona.tipoDocumento;
+        this.pago_proveedores.id_cliente = this.persona.id;
+        this.pago_proveedores.afl_nombre = this.persona.nombre;
+        this.pago_proveedores.afl_numper = this.persona.numper;
 
         //         this.updateDataFromValues(this.deposito, this.cuentaOperacion);
         //         this.updateDataFromValues(this.deposito, this.voucherForm.value);
