@@ -17,23 +17,28 @@
     <form [formGroup]="itemForm" *ngIf="itemForm">
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-            <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew" formControlName="tipoDocumento" [required]="true"
+            <!-- [readonly]="!isNew" -->
+            <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
                 [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
             </sirio-select-search>
+
             <mat-form-field fxFlex="33">
                 <mat-label>{{'Número de Documento' | translate: {default:
                     'Número de Documento'} | translate }} </mat-label>
-                <input matInput maxlength="33" minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center"
-                    uppercase required>
+                <input matInput doc-number-validate [tipo_documento]="f.tipoDocumento?.value"  minlength="1" autocomplete="off" name="identificacion" formControlName="identificacion" class="text-center" uppercase required>      
+                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}
                 </mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' |
                     translate}}
                 </mat-error>
-                <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+                
+                <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
             </mat-form-field>
 
+            <!-- {{f.identificacion.errors | json }} -->
+           
+    
             <div fxFlex.gt-sm="20" class="text-right margin-top-md">
                 <mat-slide-toggle [color]="'primary'" formControlName="esApoderado" name="esApoderado">
                     {{'¿Es Apoderado?' }}
@@ -65,7 +70,7 @@
                 formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'" [errors]="f.pais?.errors">
             </sirio-select-search>
 
-            <mat-form-field fxFlex="33">
+            <!-- <mat-form-field fxFlex="33">
                 <mat-label>{{'Teléfono' | translate }} </mat-label>
                 <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate name="telefono" [imask]="{mask: '(0000) 000.00.00'}"
                     [unmask]="true" class="text-center" formControlName="telefono" required>
@@ -76,6 +81,16 @@
                 </mat-error>
                 <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}}
                 </mat-error>
+            </mat-form-field> -->
+
+            <!-- [required]="isRdOrNp()" -->
+
+            <mat-form-field fxFlex="33">
+                <mat-label>{{'Teléfono' | translate }} </mat-label>
+                <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="telefono"
+                  [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true"  class="text-center" formControlName="telefono">
+                <mat-error *ngIf="f.telefono.errors?.required">{{'error.required' | translate}} </mat-error>
+                <mat-error *ngIf="f.telefono.errors?.phone">{{f.telefono.errors?.phone}} </mat-error>
             </mat-form-field>
 
         </div>
@@ -169,10 +184,11 @@
 
         </div>
     </form>
+    <!-- {{printErrors()|json}} -->
 
 </mat-dialog-content>
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
     <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
+    <button mat-raised-button color="primary" (click)="save()" [disabled]="!itemForm || itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

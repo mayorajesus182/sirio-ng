@@ -1,3 +1,4 @@
+import { T } from '@angular/cdk/keycodes';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Injector, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -22,7 +23,7 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   @Input() persona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   pepList: ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
-  peps: string[] = [];
+  peps: any[] = [];
 
   constructor(
     injector: Injector,
@@ -37,9 +38,12 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
   private loadList() {
     this.peps = []
     this.pepService.allByPersonaId(this.persona).subscribe((data) => {
+      console.log('buscando data cliente',data);
+      
       this.pepList.next(data.slice());
-      this.peps = this.peps.concat(data.map(t => t.tipoDocumento+'-'+t.identificacion));
-      this.propagar.emit(data.length);
+      // t.tipoDocumento+'-'+
+      this.peps = data.map(t => {return {identificacion:t.tipoDocumento+'-'+t.identificacion,tipo:t.tipoPep}});
+      
       this.cdr.detectChanges();
     });
   }
@@ -77,7 +81,12 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
     if (data) {
       data.persona = this.persona;
     }
-    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona, peps: this.peps } : { ...data, ...{ peps: this.peps } }, '60%').afterClosed().subscribe(event => {
+
+    console.log('buscando data peps',this.peps);
+
+    console.log('buscando data persona',this.persona);
+
+    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona , peps: this.peps } : { ...data, ...{ peps: this.peps } }, '60%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

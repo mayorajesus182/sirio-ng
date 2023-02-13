@@ -144,10 +144,10 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
       via: new FormControl(this.direccion.via || '', [Validators.required]),
       nucleo: new FormControl(this.direccion.nucleo || '', [Validators.required]),
       construccion: new FormControl(this.direccion.construccion || '', [Validators.required]),
-      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-      nombreVia: new FormControl(this.direccion.nombreVia || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-      nombreNucleo: new FormControl(this.direccion.nombreNucleo || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-      nombreConstruccion: new FormControl(this.direccion.nombreConstruccion || '', [Validators.required, Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
+      referencia: new FormControl(this.direccion.referencia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      nombreVia: new FormControl(this.direccion.nombreVia || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      nombreNucleo: new FormControl(this.direccion.nombreNucleo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      nombreConstruccion: new FormControl(this.direccion.nombreConstruccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)])
     });
 
 

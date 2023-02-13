@@ -3,6 +3,10 @@
 html, body {
   min-height: 100%;
   height: 100%;
+  // zoom: 1;
+  // transform: scale(1);
+  // transform-origin: 0 0;
+
   font: var(--font-body-1);
 
   -webkit-tap-highlight-color: transparent;

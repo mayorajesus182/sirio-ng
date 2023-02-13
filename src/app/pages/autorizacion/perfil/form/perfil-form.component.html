@@ -90,7 +90,7 @@
                                         <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                                             <button mat-icon-button disabled></button>
                                             <mat-checkbox [color]="'primary'" class="checklist-leaf-node" [checked]="node.checked"
-                                                (change)="updateTreeElements(node,$event,i)"><span>{{ 'menu.'+node.label | translate: {default: 'action.'+node.label} | translate}}</span></mat-checkbox>
+                                                (change)="updateTreeElements(node,$event,i)"><span>{{ 'menu.'+node.label | translate: {default: getLabel(node)} | translate}}</span></mat-checkbox>
                                         </mat-tree-node>
 
 
@@ -101,7 +101,7 @@
                                                 </mat-icon>
                                             </button>
                                             <mat-checkbox [color]="'primary'"   [checked]="node.checked" (change)="updateTreeElements(node,$event,i)">
-                                                <span>{{ 'menu.'+node.label | translate: {default: 'action.'+node.label} | translate}}</span></mat-checkbox>
+                                                <span>{{ 'menu.'+node.label | translate: {default: getLabel(node)} | translate}}</span></mat-checkbox>
 
                                         </mat-tree-node>
                                     </mat-tree>
@@ -112,6 +112,7 @@
 
                         </div>
                     </div>
+                    <!-- {{printErrors()|json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -119,13 +120,14 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || !hasCheckedlements() || (loading$ | async)">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || !hasCheckedlements() || (loading$ | async)">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>
                     </div>
                 </mat-toolbar>
             </sirio-card>
+
         </div>
     </sirio-page-layout-content>
 </sirio-page-layout>

@@ -66,11 +66,12 @@
                                                 min="0.01" currencyMask [options]="{precision:2}" required>
                                             <mat-error *ngIf="f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
                                             <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                            <mat-error *ngIf="f.monto.errors?.difference">Debe Descriminar el efectivo</mat-error>
+                                            <mat-error *ngIf="f.monto.errors?.saldo">Saldo Insuficiente</mat-error>
+                                            <mat-error *ngIf="!f.monto.errors?.saldo&&f.monto.errors?.difference">Debe Descriminar el Efectivo</mat-error>
                                         </mat-form-field>
 
                                         <sirio-cash-button operation="retiro" [moneda]="f.moneda.value" [total]="f.monto.value" class="margin-top-sm"
-                                            [disabled]="f.monto.value == 0.00 " (update)="updateCashDetail($event)" [cono_actual]="conoActual"
+                                            [disabled]="f.monto.value == 0.00 || existeDiferenciaSaldo" (update)="updateCashDetail($event)" [cono_actual]="conoActual"
                                             [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 

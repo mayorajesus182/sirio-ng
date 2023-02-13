@@ -44,12 +44,15 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
     this.peps = this.defaults.payload.peps;
 
+
+    // console.log(this.peps);
+    
     this.tipoPepService.activesForNatural().subscribe(data => {
-      this.tipoPepList.next(data);
+      this.tipoPepList.next(data.filter(d=>!this.peps.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.peps.length ==0 ));
       this.cdr.detectChanges();
     })
 
-    this.tipoDocumentoService.actives().subscribe(data => {      
+    this.tipoDocumentoService.activesNaturales().subscribe(data => {      
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
@@ -81,9 +84,9 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
       tipoDocumento: new FormControl(this.pep.tipoDocumento || undefined),
       identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-      nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
+      ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),  
+      cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
 
@@ -106,8 +109,10 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     if (!identificacion) {
       return true;
     }
+    
     this.cdr.detectChanges();
-    return this.peps.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+
+    return this.peps.map(p=>p.identificacion).find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
   }
 
   isRdOrNp() {

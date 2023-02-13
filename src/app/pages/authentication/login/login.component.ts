@@ -8,7 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AuthService } from 'src/@sirio/domain/services/security/auth.service';
 import { SessionService } from 'src/@sirio/services/session.service';
-import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.animation';
+import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { RequestCacheService } from 'src/@sirio/services/request.cache.service';
 
 @Component({
   selector: 'sirio-login',
@@ -17,7 +18,7 @@ import { fadeInUpAnimation } from '../../../../@sirio/animations/fade-in-up.anim
   animations: [fadeInUpAnimation]
 })
 export class LoginComponent implements OnInit {
-  @ViewChild(MatButton) submitButton: MatButton;
+  @ViewChild('btnAuth') submitButton: MatButton;
   form: FormGroup;
 
   inputType = 'password';
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private snackbar: MatSnackBar,
+    private cache: RequestCacheService,
     private translate: TranslateService,
     private authService: AuthService,
 
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
 
     this.userIdle.stop();
+    this.cache.resetAll();
 
     this.success = this.translate.instant('message.successfulLogin');
 

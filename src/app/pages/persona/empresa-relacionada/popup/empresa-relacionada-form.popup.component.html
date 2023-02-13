@@ -26,8 +26,25 @@
         [attributeName]="'nombre'" [errors]="f.relacionEmpresa?.errors">
       </sirio-select-search>
 
+      <sirio-select-search fxFlex.gt-xs="30" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
+        [elements]="tipodocumentoList.asObservable()" [attributeName]="'nombre'">
+      </sirio-select-search>  
+      
+      <mat-form-field fxFlex="auto">
+        <mat-label>{{'Número de Documento'}}</mat-label>
+        <input autocomplete="off" class="text-center" matInput valid-rif-number doc-number-validate [tipo_documento]="f.tipoDocumento?.value" [imask]="{mask: '00000000-0'}"  [unmask]="true" name="identificacion" maxlength="15" formControlName="identificacion">
+          <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.rif">{{f.identificacion.errors?.rif}}</mat-error>
+          <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
+      </mat-form-field>
+      
+    </div>
 
-      <mat-form-field fxFlex="70">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+      <mat-form-field fxFlex="100">
         <mat-label>{{'Nombre Empresa' | translate: {default:
             'Nombre Empresa'} | translate }} </mat-label>
         <input matInput maxlength="80" minlength="1" autocomplete="off" name="empresa" formControlName="empresa"

@@ -68,7 +68,7 @@ export class ConsultarSaldoTransportistaFormComponent extends FormBaseComponent 
         this.monedas.next(data);
       });
 
-      this.conoMonetarioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.saldoAcopioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, this.preferencia.monedaConoActual).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
@@ -86,7 +86,7 @@ export class ConsultarSaldoTransportistaFormComponent extends FormBaseComponent 
     });
 
     this.f.moneda.valueChanges.subscribe(val => {
-      this.conoMonetarioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, val).subscribe(data => {
+      this.saldoAcopioService.activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(this.transportistaId, val).subscribe(data => {
         this.conos.next(data);
         this.cdr.detectChanges();
       });

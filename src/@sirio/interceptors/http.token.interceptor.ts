@@ -2,16 +2,14 @@ import { Injectable } from "@angular/core";
 import { HttpInterceptor, HttpXsrfTokenExtractor, HttpHandler, HttpRequest, HttpEvent, HttpResponse } from "@angular/common/http";
 import { JwtService } from "../services/jwt.service";
 import { from, Observable, of } from "rxjs";
-import { RequestCacheService } from "../services/request.cache.service";
+
 import { delay, tap } from "rxjs/operators";
+import { RequestCacheService } from "src/@sirio/services/request.cache.service";
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 
-    private api_chacheable = [
-        '/api/public/assets',
-        '/api/configuracion'
-    ]
+   
 
     constructor(private jwtService: JwtService,
         private cache: RequestCacheService,
@@ -58,9 +56,9 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         // Obtener los datos de la petición
         return next.handle(req).pipe(
             tap(event => {
-                if (event instanceof HttpResponse && this.api_chacheable.find(a => req.urlWithParams.indexOf(a) >= 0) != undefined && req.url.endsWith("actives")) {
+                if (event instanceof HttpResponse && this.cache.api_chacheable.find(a=>req.urlWithParams.indexOf(a)>=0) != undefined && req.method=='GET' && !req.url.endsWith('/page')) {
                     // console.log(' push response al cache ', req.urlWithParams);
-                    // this.cache.put(req, event);
+                    this.cache.put(req, event);
                 }
             })
         );

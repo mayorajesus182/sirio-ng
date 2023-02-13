@@ -41,7 +41,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
   ngOnInit() {
 
-    this.tipoDocumentoService.actives().subscribe(data => {
+    this.tipoDocumentoService.activesNaturales().subscribe(data => {
       this.tipoDocumentoList.next(data);
     });
 
@@ -76,7 +76,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     this.itemForm = this.fb.group({
       tipoDocumento: new FormControl(this.referencia.tipoDocumento || '', [Validators.required]),
       identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
-      nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+      nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),
       telefonoMovil: new FormControl(this.referencia.telefonoMovil || undefined, []),
     });
@@ -102,6 +102,13 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       return true;
     }
     this.cdr.detectChanges();
+
+    console.log(tipoDocumento);
+
+    console.log(identificacion);
+
+    console.log(this.referencias);
+
     return this.referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
 

@@ -22,19 +22,23 @@
 
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Número  Documento'}}</mat-label>
-        <input autocomplete="off" class="text-center" matInput name="identificacion" maxlength="15" formControlName="identificacion" required>
+        <input autocomplete="off" class="text-center" uppercase matInput name="identificacion" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" minlength="1" formControlName="identificacion" required >
         <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
+        <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
       </mat-form-field>
 
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <mat-form-field fxFlex="auto">
         <mat-label>{{'Nombre y Apellido '}}</mat-label>
-        <input autocomplete="off" class="text-left" matInput name="nombre" maxlength="24" uppercase formControlName="nombre" required>
+        <input autocomplete="off" class="text-left" matInput name="nombre" maxlength="80" uppercase formControlName="nombre" required>
         
         <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' |
+          translate}}
+        </mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">

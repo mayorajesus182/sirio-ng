@@ -35,6 +35,8 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     moneda: Moneda = {} as Moneda;
     cuentaOperacion: CuentaBancariaOperacion = {} as CuentaBancariaOperacion;
     isNew: boolean = false;
+    saldoCuenta: number = 0;
+    existeDiferenciaSaldo: boolean = false;
     loading = new BehaviorSubject<boolean>(false);
 
     constructor(
@@ -62,7 +64,10 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                 this.loadingDataForm.next(false);
                 this.f.monto.valueChanges.subscribe(val => {
                     if (val) {
-                        this.calculateDifferences();
+                        this. diferenciaSaldo();
+                        if (!this.existeDiferenciaSaldo) {
+                            this.calculateDifferences();
+                        }
                         this.cdr.detectChanges();
                     } else if (val === null || val === '') {
                         this.f.monto.setValue(0.00);
@@ -78,14 +83,14 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
     buildForm() {
 
         this.itemForm = this.fb.group({
-            tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            tipoDocumento: new FormControl('', [Validators.required]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            monto: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            numper: new FormControl(undefined),
+            monto: new FormControl('', [Validators.required]),
             numeroCuenta: new FormControl(undefined),
             moneda: new FormControl(undefined),
-            tipoProducto: new FormControl('', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            totalRetiro: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            tipoProducto: new FormControl(''),
+            totalRetiro: new FormControl('', [Validators.required]),
             email: new FormControl(undefined, [Validators.required]),
             cuentaBancaria: new FormControl(undefined),
             conoActual: new FormControl([]),
@@ -100,12 +105,34 @@ export class RetiroEfectivoFormComponent extends FormBaseComponent implements On
                     nombre: cuenta.monedaNombre,
                     siglas: cuenta.siglas
                 });
+
+                this.retiroService.getSaldoByCuenta(val).subscribe(data => {
+                    this.saldoCuenta = data;
+                    this.diferenciaSaldo();
+                });
+
                 // Se llama a la funcion para verificar si hay saldo en taquilla para la moneda 
                 this.saldoByMoneda(this.f.moneda.value);
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
             }
         });
+    }
+
+
+    diferenciaSaldo() {
+        if (this.f.monto && this.saldoCuenta < this.f.monto.value) {
+            this.f.monto.setErrors({
+                saldo: true
+            });
+            this.f.totalRetiro.setValue(0.00);
+            this.existeDiferenciaSaldo = true;
+            this.f.monto.markAsDirty();
+        } else {
+            this.f.monto.setErrors(undefined);
+            this.existeDiferenciaSaldo = false;
+        }
+        this.cdr.detectChanges();
     }
 
     queryResult(data: any) {

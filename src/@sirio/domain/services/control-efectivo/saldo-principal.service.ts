@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface SaldoPrincipal {
     id: number;
@@ -35,6 +36,11 @@ export class SaldoPrincipalService {
 
     getSaldoSinDetalle(): Observable<SaldoPrincipal[]> {
         return this.apiService.config(this.apiConfig).get('/sin/detalle/list');
+    }
+
+
+    activesWithDisponibleSaldoPrincipalByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoprincipal/actives`);
     }
 
 }

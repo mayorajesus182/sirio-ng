@@ -128,7 +128,7 @@ export class FormBaseComponent {
         this.opts.bdColor = 'rgba(190, 190, 190, 0.10)';
 
         this.loading$.subscribe(status => {
-            console.log('send info ', status);
+            // console.log('send info ', status);
             
             // console.log('loading form-regla-OSCES ',status);
             // bloque todos los botonones mientras estoy enviando info al servidor
@@ -239,7 +239,7 @@ export class FormBaseComponent {
 
 
     protected errorResponse(errors, isNew: boolean = false) {
-        this.loadingDataForm.next(errors);
+        this.loadingDataForm.next(false);
         this.snack.show({
             // message: 'No se pudo ' + (isNew ? ' crear ' : 'actualizar') + ' el elemento',
             message: `¡Operación rechazada!`,

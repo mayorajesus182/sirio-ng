@@ -52,6 +52,7 @@
         <mat-label>{{'Descripción de '}}{{nombreVia() | titlecase}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombreVia" maxlength="50" uppercase formControlName="nombreVia" required>
         <mat-error *ngIf="f.nombreVia.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.nombreVia.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
       </mat-form-field>
     </div>
 
@@ -64,6 +65,7 @@
         <mat-label>{{'Descripción de '}}{{nombreNucleo() | titlecase}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombreNucleo" maxlength="50" uppercase formControlName="nombreNucleo" required>
         <mat-error *ngIf="f.nombreNucleo.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.nombreNucleo.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
       </mat-form-field>
     </div>
 
@@ -77,6 +79,7 @@
         <mat-label>{{'Descripción de '}}{{nombreContruccion() | titlecase}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombreConstruccion" maxlength="50" uppercase formControlName="nombreConstruccion" required>
         <mat-error *ngIf="f.nombreConstruccion.errors?.required">{{'error.required' | translate}}!</mat-error>
+        <mat-error *ngIf="f.nombreConstruccion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
       </mat-form-field>
 
     </div>
@@ -86,7 +89,7 @@
         <mat-label>{{'personAddress.reference' | translate: {default: 'Punto de Referencia'} | translate }} </mat-label>
         <input matInput maxlength="50" autocomplete="off" name="referencia" formControlName="referencia" uppercase required>
         <mat-error *ngIf="f.referencia.errors?.required">{{'error.required' | translate}}</mat-error>
-        <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharater' | translate}}</mat-error>
+        <mat-error *ngIf="f.referencia.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
         <mat-error *ngIf="f.referencia.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
         <mat-error *ngIf="f.referencia.errors?.minlength">Debe tener 4 caracteres</mat-error>
       </mat-form-field>

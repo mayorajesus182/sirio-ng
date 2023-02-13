@@ -169,12 +169,12 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
                 this.saldos.value.forEach(saldo => {
                     taquilla = saldo.taquilla;
 
-                    console.log('saldo.diferencia  ', saldo.diferencia);
-                    console.log('saldo.ajuste  ', saldo);
-                    console.log('(saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0)  ', (saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0));
-                    console.log('(saldo.confirmado == 0)  ', (saldo.confirmado == 0));
-                    console.log('fin  ', ((saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0) && (saldo.confirmado == 0)));
-                    console.log('saldo.ajuste  ', saldo);
+                    // console.log('saldo.diferencia  ', saldo.diferencia);
+                    // console.log('saldo.ajuste  ', saldo);
+                    // console.log('(saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0)  ', (saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0));
+                    // console.log('(saldo.confirmado == 0)  ', (saldo.confirmado == 0));
+                    // console.log('fin  ', ((saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0) && (saldo.confirmado == 0)));
+                    // console.log('saldo.ajuste  ', saldo);
 
                     // Si la declaración del saldo no esta confirmada y existe algun saldo, ajuste o diferencia, no se puede cerrar
                     if ((saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0) && (saldo.confirmado == 0)) {

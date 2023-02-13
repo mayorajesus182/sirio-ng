@@ -5,6 +5,7 @@ import {
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { ConoMonetario, ConoMonetarioService } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
 import { Moneda } from "src/@sirio/domain/services/configuracion/divisa/moneda.service";
+import { SaldoTaquillaService } from "src/@sirio/domain/services/control-efectivo/saldo-taquilla.service";
 import { Preferencia, PreferenciaService } from "src/@sirio/domain/services/preferencias/preferencia.service";
 import { SweetAlertService } from "src/@sirio/services/swal.service";
 
@@ -46,6 +47,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
     constructor(private host: ElementRef<HTMLInputElement>,
         private preferenciaService: PreferenciaService,
+        private saldoTaquillaService: SaldoTaquillaService,
         private conoService: ConoMonetarioService,
         private swalService: SweetAlertService,
         private cdref: ChangeDetectorRef) {
@@ -110,7 +112,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
                 } else {
                     // esto para el caso que la operacion es de retiro
-                    this.conoService.activesWithDisponibleSaldoTaquillaByMoneda(monedaId).subscribe(data => {
+                    this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(monedaId).subscribe(data => {
 
                         // if (this.cono_actual) {
                         //     data.map(c => {
@@ -128,7 +130,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                     });
                     if (this.moneda.id == data.monedaConoActual) {
 
-                        this.conoService.activesWithDisponibleSaldoTaquillaByMoneda(data.monedaConoAnterior).subscribe(data => {
+                        this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(data.monedaConoAnterior).subscribe(data => {
 
                             // if (this.cono_anterior) {
                             //     data.map(c => {

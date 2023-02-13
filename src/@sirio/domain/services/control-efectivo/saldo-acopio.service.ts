@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ConoMonetario } from '../configuracion/divisa/cono-monetario.service';
 
 export interface SaldoActualizadoAcopio {
     transportista: string;
@@ -75,5 +76,14 @@ export class SaldoAcopioService {
         return this.apiService.config(this.apiConfig).put(`/update`, data)
             .pipe(map(res => data));
     }
+
+    activesLastDisponibleSaldoAcopioByTransportistaAndMoneda(transportista: string, moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${transportista}/acopio/${moneda}/moneda/last/saldoacopio/actives`);
+    }
+
+    activesWithDisponibleSaldoAcopioByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldoacopio/actives`);
+    }
+
 
 }

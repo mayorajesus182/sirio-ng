@@ -54,9 +54,12 @@ export class RetiroService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro'};    
+        this.apiConfig = {name: ApiConfConstants.API_TAQUILLA, prefix: '/retiro-new'};    
     }
     
+    getSaldoByCuenta(cuenta: number): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${cuenta}/saldo/cuenta/get`);
+    }
 
     save(data: Retiro): Observable<any> {       
         return this.apiService.config(this.apiConfig).post(`/${data.operacion}/create`, data)

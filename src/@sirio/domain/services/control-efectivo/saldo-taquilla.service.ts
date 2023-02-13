@@ -85,4 +85,8 @@ export class SaldoTaquillaService {
             .pipe(map(res => data));
     }
 
+    activesWithDisponibleSaldoTaquillaByMoneda(moneda: string): Observable<ConoMonetario[]> {
+        return this.apiService.config(this.apiConfig).get(`/${moneda}/bymoneda/saldotaquilla/actives`);
+    }
+
 }

@@ -46,12 +46,9 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private bovedaAgenciaService: BovedaAgenciaService,
-        private movimientoEfectivoService: MovimientoEfectivoService,
-        private saldoTaquillaService: SaldoTaquillaService,
         private saldoAgenciaService: SaldoAgenciaService,
         private monedaService: MonedaService,
         private taquillaService: TaquillaService,
-        private atmService: AtmService,
         private conoMonetarioService: ConoMonetarioService,
         private preferenciaService: PreferenciaService,
         private cdr: ChangeDetectorRef) {
@@ -81,7 +78,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
                 this.preferencia = data;
                 this.bovedaAgencia.moneda = this.preferencia.monedaConoActual;
 
-                this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(this.bovedaAgencia.moneda).subscribe(data => {
+                this.saldoAgenciaService.activesWithDisponibleSaldoAgenciaByMoneda(this.bovedaAgencia.moneda).subscribe(data => {
                     this.conos.next(data);
                     this.cdr.detectChanges();
                 });
@@ -147,7 +144,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
         this.f.moneda.valueChanges.subscribe(val => {
             if (val) {
                 this.obtenerSaldo();
-                this.conoMonetarioService.activesWithDisponibleSaldoAgenciaByMoneda(val).subscribe(data => {
+                this.saldoAgenciaService.activesWithDisponibleSaldoAgenciaByMoneda(val).subscribe(data => {
                     this.conos.next(data);
                     this.cdr.detectChanges();
                 });
