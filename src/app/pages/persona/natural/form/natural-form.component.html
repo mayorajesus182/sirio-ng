@@ -47,7 +47,7 @@
 
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
-                                <div fxLayout="column" [formGroup]="itemForm">
+                                <div fxLayout="column" [formGroup]="itemForm" #dataForm="ngForm"   (keydown.Tab)="moveFocusToNextField(dataForm)">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                         <mat-form-field fxFlex="auto">
