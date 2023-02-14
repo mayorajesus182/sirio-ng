@@ -16,7 +16,7 @@ import { take, takeUntil } from "rxjs/operators";
         }
     ]
 })
-export class SelectSimpleComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, Validator{
+export class SelectSimpleComponent implements ControlValueAccessor, OnInit, AfterViewInit, OnDestroy, Validator {
 
     @Input() errors: any[];
     @Input() label: string;
@@ -33,7 +33,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     public selectControl: FormControl;
 
 
-    @ViewChild('singleSelect') singleSelect: MatSelect;
+    @ViewChild(MatSelect, { static: false }) singleSelect: MatSelect;
 
     private _onDestroy = new Subject<void>();
     /** list of elements filtered by search keyword */
@@ -41,7 +41,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
 
     @HostListener('change', ['$event'])
     changeSelect(event: any) {
-        console.log('on change select', event);
+        // console.log('on change select', event);
 
         // const file = event && event.item(0);
         // this.onChange(file);
@@ -61,22 +61,22 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
             .subscribe(() => {
 
                 // this.singleSelect.compareWith = (a: any, b: any) => { return a && b && a.id === b.id };
-                if(this.singleSelect){
+                if (this.singleSelect) {
 
                     this.singleSelect.compareWith = (a: any, b: any) => {
-    
+
                         if (!a || !b) {
                             return false;
                         }
-    
+
                         // if (Object.keys(a.id).length > 0 && Object.keys(b.id).length > 0) {
                         //     // console.log('A keys ',Object.keys(a.id));
                         //     // console.log('B keys',Object.keys(b.id));
-    
-    
+
+
                         //     const key1 = Object.keys(a.id)[0];
                         //     const key2 = Object.keys(a.id)[1];
-    
+
                         //     // asumo que la clave compuesta es de 2 campos
                         //     return Object.keys(a.id)[0] == Object.keys(b.id)[0] && a.id[key1] == b.id[key1] && Object.keys(a.id)[1] == Object.keys(b.id)[1] && b.id[key2] == a.id[key2];
                         // }
@@ -87,10 +87,10 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
 
             });
 
-            if(this.singleSelect && this.autofocus){
+        if (this.singleSelect && this.autofocus) {
 
-                this.singleSelect.focus();
-            } 
+            this.singleSelect.focus();
+        }
 
 
 
@@ -135,7 +135,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
             }
         });
 
-      
+
 
 
     }
@@ -147,8 +147,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
 
 
 
-    onChange: any = () => { };
-    onTouched: any = () => { };
+
 
     /**
      * Function registered to propagate a change to the parent
@@ -163,16 +162,8 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
        * ControlValueAccessor Interface Methods to be implemented
        */
     writeValue(value: any): void {
-        if (value) {
-            this.selectControl.setValue(value);
-        }
 
-        if (value === null || value == undefined) {
-            // this.selectControl.reset();
-            this.selectControl.setValue(value);
-
-        }
-        
+        this.selectControl.setValue(value);
     }
 
 
@@ -195,7 +186,7 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
     //     return this.selectControl.valid ? null : { profile: { valid: false } };
     // }
 
-    validate(control: AbstractControl): ValidationErrors | null {       
+    validate(control: AbstractControl): ValidationErrors | null {
         if (!this.selectControl.value || this.selectControl.value?.trim().length == 0) {
             this.selectControl.setErrors({ invalid: true });
             return {
@@ -208,13 +199,13 @@ export class SelectSimpleComponent implements ControlValueAccessor, OnInit, Afte
         return null;
     }
 
-    showName(valSelected:any){
+    showName(valSelected: any) {
         let name = '';
-        if(valSelected){
-            
-            this.items.subscribe(data=>{
+        if (valSelected) {
+
+            this.items.subscribe(data => {
                 // console.log(data);
-                name =data.filter(d=>d.id===valSelected).map(d=>d[this.attributeName])[0];
+                name = data.filter(d => d.id === valSelected).map(d => d[this.attributeName])[0];
             });
         }
         return name;
