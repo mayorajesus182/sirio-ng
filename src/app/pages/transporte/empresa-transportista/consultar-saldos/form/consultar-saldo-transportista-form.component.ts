@@ -25,7 +25,7 @@ export class ConsultarSaldoTransportistaFormComponent extends FormBaseComponent 
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
   public monedas = new BehaviorSubject<Moneda[]>([]);
   public conoSave: ConoMonetario[] = [];
-  preferencia: any;
+  preferencia: Preferencia;
   transportistaId: string;
   transportista: string;
   saldoAnterior: number;
@@ -59,7 +59,7 @@ export class ConsultarSaldoTransportistaFormComponent extends FormBaseComponent 
 
 
     // Se pregunta por la preferencia para setear la moneda del cono actual
-    this.preferenciaService.parametros().subscribe(data => {
+    this.preferenciaService.active().subscribe(data => {
       this.preferencia = data;
 
       this.buildForm();

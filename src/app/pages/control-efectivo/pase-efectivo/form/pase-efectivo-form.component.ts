@@ -33,7 +33,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
     public monedas = new BehaviorSubject<Moneda[]>([]);
     // public atms = new BehaviorSubject<Atm[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
-    public preferencia: any;
+    public preferencia: Preferencia;
     saldoDisponible: number = 0;
     // movimiento = MovimientoEfectivoConstants;
     atmSeleccionado: Atm = {} as Atm;
@@ -74,7 +74,7 @@ export class PaseEfectivoFormComponent extends FormBaseComponent implements OnIn
             });
         } else {
 
-            this.preferenciaService.parametros().subscribe(data => {
+            this.preferenciaService.active().subscribe(data => {
                 this.preferencia = data;
                 this.bovedaAgencia.moneda = this.preferencia.monedaConoActual.value;
 

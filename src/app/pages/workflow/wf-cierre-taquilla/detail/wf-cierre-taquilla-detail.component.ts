@@ -23,7 +23,7 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 export class WFCierreTaquillaDetailComponent extends FormBaseComponent implements OnInit {
 
     saldos = new BehaviorSubject<CajaTaquilla[]>([]);
-    preferencias: any;
+    preferencias: Preferencia;
     rol: Rol = {} as Rol;
     diferencia: number = 0
     workflow: string = undefined;
@@ -57,7 +57,7 @@ export class WFCierreTaquillaDetailComponent extends FormBaseComponent implement
                     this.rol = data;                    
                 });
 
-                this.preferenciaService.parametros().subscribe(data => {
+                this.preferenciaService.active().subscribe(data => {
                     this.preferencias = data;
                 });
 

@@ -24,7 +24,7 @@ import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/pref
 
 export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implements OnInit {
     esOperadorTaquilla: Boolean = false;
-    preferencia: any;
+    preferencia: Preferencia;
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
@@ -44,7 +44,7 @@ export class ReporteCierreTaquillaFormComponent extends FormBaseComponent implem
 
     ngOnInit() {
 
-        this.preferenciaService.parametros().subscribe(data => {
+        this.preferenciaService.active().subscribe(data => {
             this.preferencia = data;
             this.buildForm();
             const user = this.sessionService.getUser() as User;

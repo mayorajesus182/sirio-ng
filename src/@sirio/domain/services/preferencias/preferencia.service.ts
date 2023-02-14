@@ -19,18 +19,20 @@ export interface Parametro {
 
 export interface Preferencia {
 
-    monedaConoActual: string;
-    monedaSiglasConoActual: string;
+    monedaConoActual: Parametro;
+    monedaSiglasConoActual: Parametro;
 
-    monedaConoAnterior: string;
-    monedaSiglasConoAnterior: string;
-    digitosPlomo: number;
+    monedaConoAnterior: Parametro;
+    monedaSiglasConoAnterior: Parametro;
+    digitosPlomo: Parametro;
 
-    divisorConoAnterior: number;
-    restriccionEquipo: number;
-    cajetinesATM: number;
-    movimientosImprimir: number;
-    ajusteTaquilla: number;
+    divisorConoAnterior: Parametro;
+    restriccionEquipo: Parametro;
+    cajetinesATM: Parametro;
+    movimientosImprimir: Parametro;
+    // ajusteTaquilla: Parametro;
+    ajusteFaltante: Parametro;
+    ajusteSobrante: Parametro;
 }
 
 @Injectable({
@@ -65,9 +67,9 @@ export class PreferenciaService {
         return this.apiService.config(this.apiConfig).get(`/get`);
     }
 
-    parametros(): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(``);
-    }
+    // parametros(): Observable<any> {
+    //     return this.apiService.config(this.apiConfig).get('');
+    // }
 
     update(data: any): Observable<any> {
         return this.apiService.config(this.apiConfig).put('/update', data);

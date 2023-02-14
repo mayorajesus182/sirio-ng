@@ -49,7 +49,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     materialUtilizadoList: ReplaySubject<MaterialRemesa[]> = new ReplaySubject<MaterialRemesa[]>();
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
-    preferencia: any;
+    preferencia: Preferencia;
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
@@ -85,7 +85,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.loadingDataForm.next(true);
 
         // Se pregunta por la moneda actual para colocarla cuando sea nuevo
-        this.preferenciaService.parametros().subscribe(data => {
+        this.preferenciaService.active().subscribe(data => {
             this.preferencia = data;
 
             this.rolService.getByUsuario().subscribe(rol => {
@@ -457,7 +457,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             return;
         }
 
-        if (value.length != this.preferencia.digitosPlomo.value) {
+        if (value.length != Number.parseInt(this.preferencia.digitosPlomo.value) ) {
             this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo.value} dígitos` });
             return;
         }

@@ -6,7 +6,7 @@ import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { ConoMonetario, ConoMonetarioService } from "src/@sirio/domain/services/configuracion/divisa/cono-monetario.service";
 import { Moneda } from "src/@sirio/domain/services/configuracion/divisa/moneda.service";
 import { SaldoTaquillaService } from "src/@sirio/domain/services/control-efectivo/saldo-taquilla.service";
-import { Preferencia, PreferenciaService } from "src/@sirio/domain/services/preferencias/preferencia.service";
+import { Preferencia } from "src/@sirio/domain/services/preferencias/preferencia.service";
 import { SweetAlertService } from "src/@sirio/services/swal.service";
 
 
@@ -46,7 +46,7 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
     private _onDestroy = new Subject<void>();
 
     constructor(private host: ElementRef<HTMLInputElement>,
-        private preferenciaService: PreferenciaService,
+        
         private saldoTaquillaService: SaldoTaquillaService,
         private conoService: ConoMonetarioService,
         private swalService: SweetAlertService,
@@ -70,9 +70,9 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             // console.log('PREFERENCIA: ', data);
 
             if (data.monedaConoActual) {
-                this.label_cono_actual = this.moneda.id == data.monedaConoActual ? data.monedaSiglasConoActual : this.moneda.siglas;
-                let monedaId = this.moneda.id == data.monedaConoActual ? data.monedaConoActual : this.moneda.id;
-                this.label_cono_anterior = data.monedaSiglasConoAnterior || '';
+                this.label_cono_actual = this.moneda.id == data.monedaConoActual.value ? data.monedaSiglasConoActual.value : this.moneda.siglas;
+                let monedaId = this.moneda.id == data.monedaConoActual.value ? data.monedaConoActual.value : this.moneda.id;
+                this.label_cono_anterior = data.monedaSiglasConoAnterior.value || '';
 
                 if (this.operation == 'deposito') {
                     // en el caso que sea una operacion de deposito
@@ -90,9 +90,9 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
                         }
                         this.listConoActual.next(data);
                     });
-                    if (this.moneda.id == data.monedaConoActual) {
+                    if (this.moneda.id == data.monedaConoActual.value) {
 
-                        this.conoService.activesByMoneda(data.monedaConoAnterior).subscribe(data => {
+                        this.conoService.activesByMoneda(data.monedaConoAnterior.value).subscribe(data => {
 
 
                             if (this.cono_anterior) {
@@ -128,9 +128,9 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
 
                         this.listConoActual.next(data);
                     });
-                    if (this.moneda.id == data.monedaConoActual) {
+                    if (this.moneda.id == data.monedaConoActual.value) {
 
-                        this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(data.monedaConoAnterior).subscribe(data => {
+                        this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(data.monedaConoAnterior.value).subscribe(data => {
 
                             // if (this.cono_anterior) {
                             //     data.map(c => {

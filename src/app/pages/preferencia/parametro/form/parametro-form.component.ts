@@ -3,7 +3,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
+import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -16,7 +16,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ParametroFormComponent extends FormBaseComponent implements OnInit {
 
-    preferencia: any;
+    preferencia: Preferencia;
     groups = undefined;
     constructor(
         injector: Injector,

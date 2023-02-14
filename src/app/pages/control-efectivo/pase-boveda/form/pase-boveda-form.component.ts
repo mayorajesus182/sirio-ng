@@ -32,7 +32,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
-    public preferencia: any;
+    public preferencia: Preferencia;
     public conoSave: ConoMonetario[] = [];
     saldoDisponible: number = 0;
 
@@ -71,7 +71,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
             });
         } else {
 
-            this.preferenciaService.parametros().subscribe(data => {
+            this.preferenciaService.active().subscribe(data => {
                 this.preferencia = data;
                 this.buildForm(this.cajaTaquilla);
                 this.loadingDataForm.next(false);

@@ -47,7 +47,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
     public empleados = new BehaviorSubject<EmpleadoTransporte[]>([]);
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
-    preferencia: any;
+    preferencia: Preferencia;
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
@@ -111,7 +111,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                         this.cdr.detectChanges();
                     });
 
-                    this.preferenciaService.parametros().subscribe(pref => {
+                    this.preferenciaService.active().subscribe(pref => {
                         this.preferencia = pref;
 
                         // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
@@ -162,7 +162,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                     });
 
 
-                    this.preferenciaService.parametros().subscribe(pref => {
+                    this.preferenciaService.active().subscribe(pref => {
                         this.preferencia = pref;
 
                         if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
@@ -371,7 +371,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             return;
         }
 
-        if (value.length != this.preferencia.digitosPlomo.value) {
+        if (value.length != Number.parseInt(this.preferencia.digitosPlomo.value) ) {
             this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo.value} dígitos` });
             this.cdr.detectChanges();
             return;

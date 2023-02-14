@@ -78,7 +78,7 @@
                                         <input matInput class="text-center" [value]="item.retiro  | number: '1.2'" readonly>
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="10" *ngIf="item.moneda === this.preferencias.monedaConoActual">
+                                    <mat-form-field fxFlex="10" *ngIf="item.moneda === preferencias.monedaConoActual.value">
                                         <mat-label>{{'Ajuste' | translate: {default: 'Ajuste'} |
                                             translate }}</mat-label>
                                         <input matInput class="text-center" [value]="item.ajuste  | number: '1.2'" readonly>

@@ -27,7 +27,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class SolicitarRemesaFormComponent extends FormBaseComponent implements OnInit {
 
-    preferencia: any;
+    preferencia: Preferencia;
     remesa: Remesa = {} as Remesa;
     public detalles = new BehaviorSubject<CupoAgencia[]>([]);
     public transportistas = new BehaviorSubject<Transportista[]>([]);
@@ -66,7 +66,7 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
             this.esTransportista = (rol.id === RolConstants.TRANSPORTISTA);
             
             // Se pregunta por la preferencia para setear la moneda del cono actual
-            this.preferenciaService.parametros().subscribe(data => {
+            this.preferenciaService.active().subscribe(data => {
                 this.preferencia = data;
 
                 // Si quien solicita es de rol transportista, siempre irá contra la boveda principal
