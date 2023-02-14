@@ -262,7 +262,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     queryResult(event) {
-
+console.log(event)
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
             this.personaJuridica = {} as PersonaJuridica;

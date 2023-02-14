@@ -7,8 +7,11 @@
             <sirio-card [fxFlex.gt-sm]="100" fxLayout="column" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
 
                 <sirio-card-content fxLayout="column">
-                    <sirio-person-query (result)="queryResult($event)" [tipo_persona]="'J'" [entity]="'gestion-comercial'"></sirio-person-query>
+                     <sirio-person-query (result)="queryResult($event)" [tipo_persona]="'J'" [entity]="'gestion-comercial'"></sirio-person-query> 
+                    <!-- <sirio-person-query *ngIf="!fromOtherComponent" [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)"
+                    (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query> -->
                     <div fxLayout="column" *ngIf="loading | async">
+                    
                         
                         <sirio-cuenta-proveedor (result)="depositoEfectivo($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
                             ></sirio-cuenta-proveedor>

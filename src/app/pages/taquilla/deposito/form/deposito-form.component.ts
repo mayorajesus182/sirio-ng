@@ -76,9 +76,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     queryResult(data: any) {
         this.resetBusqueda();
         this.resetVoucher();
-        
+        console.log("data2",data)
         if (data) {
             if (!data.id && !data.numper) {
+                console.log("data3",data)
                 this.loaded$.next(false);
                 this.persona = {} as Persona;
                 this.cuentaOperacion = undefined;
@@ -86,6 +87,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                 this.cdr.detectChanges();
             } else {
                 if (data.moneda) {
+                    console.log("data2",data)
                     this.cuentaOperacion = data;
                     this.persona.nombre = this.cuentaOperacion.nombre;
                     this.persona.numper = this.cuentaOperacion.numper;

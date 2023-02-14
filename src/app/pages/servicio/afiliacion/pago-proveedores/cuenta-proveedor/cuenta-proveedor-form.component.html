@@ -21,14 +21,18 @@
                         name="numeroCuenta">
                     <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                 </mat-form-field>
+
+
                 <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
                     [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate" formControlName="cuentaBancaria"
-                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'"
+                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'id'"
                     [errors]="f.numeroCuenta?.errors">
                 </sirio-select-search>
                 
+
+
                 <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
-                [label]="'deposit.countNumber' | translate: {default: 'Tipo Operacion'} | translate" formControlName="cuentaBancaria" [attributeName]="'descripcion'" >
+                [label]="'deposit.countNumber' | translate: {default: 'Tipo Operacion'} | translate" formControlName="TipoOperacion" [attributeName]="'TipoOperacion'" >
                 </sirio-select-search>
                 
 

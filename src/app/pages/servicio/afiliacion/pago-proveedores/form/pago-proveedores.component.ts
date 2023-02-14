@@ -11,6 +11,7 @@ import { CuentaBancaria, CuentaBancariaOperacion } from 'src/@sirio/domain/servi
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import { pago_proveedores, pago_proveedoresService } from 'src/@sirio/domain/services/servicio/pago-proveedores.service';
+import { PersonaJuridica } from 'src/@sirio/domain/services/persona/persona-juridica.service';
 
 @Component({
     selector: 'app-pago-proveedores-form',
@@ -35,6 +36,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     moneda: Moneda = {} as Moneda;
     loading = new BehaviorSubject<boolean>(false);
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    personaJuridica: PersonaJuridica;
     constructor(
         injector: Injector,
         private fb: FormBuilder,
@@ -73,21 +75,37 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
         this.voucherForm = voucherForm;
     }
 
-    queryResult(data: any) {
-        console.log("data",data)
+
+    // queryResult(event) {
+
+    //     if (!event.id && !event.numper) {
+    //         this.loaded$.next(false);
+    //         this.personaJuridica = {} as PersonaJuridica;
+    //         this.isNew = true;
+    //         this.cdr.detectChanges();
+    //     }
+    // }
+
+
+
+    queryResult(event) {
+        console.log("data",event)
         this.resetBusqueda();
         this.resetVoucher();
-        if (data) {
-            if (!data.id && !data.numper) {
+        if (event) {
+            if (!event.id && !event.numper) {
+                console.log("data2",event)
                 this.loaded$.next(false);
-                this.persona = {} as Persona;
+               // this.persona = {} as Persona;
+               this.personaJuridica = {} as PersonaJuridica;
                 this.cuentaOperacion = undefined;
                 this.loading.next(false);
                 this.cdr.detectChanges();
                 
             } else {
-                if (data.moneda) {
-                    this.cuentaOperacion = data;
+                if (event.moneda) {
+                    console.log("data3",event)
+                    this.cuentaOperacion = event;
                     this.persona.nombre = this.cuentaOperacion.nombre;
                     this.persona.numper = this.cuentaOperacion.numper;
                     this.persona.identificacion = this.cuentaOperacion.identificacion;
@@ -96,8 +114,22 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.persona.email = this.cuentaOperacion.email;
                     this.loading.next(true);
                 } else {
-                    this.persona = data;
-                    this.loading.next(true);
+                    console.log("data4",event)
+                   // this.loaded$.next(false);
+                    this.personaJuridica = {} as PersonaJuridica;
+                    this.isNew = true;
+                  //  this.cdr.detectChanges();
+                   this.personaJuridica = event;
+                   //this.cuentaOperacion = undefined;
+                   this.cuentaOperacion = event;
+                   this.persona.nombre = this.cuentaOperacion.nombre;
+                    this.persona.numper = this.cuentaOperacion.numper;
+                    this.persona.identificacion = this.cuentaOperacion.identificacion;
+                    this.persona.tipoDocumento = this.cuentaOperacion.tipoDocumento;
+                    this.persona.email = this.cuentaOperacion.email;
+                    this.cuentaOperacion = undefined;
+                   this.loading.next(true);
+                   this.cdr.detectChanges();
                 }
             }
         }

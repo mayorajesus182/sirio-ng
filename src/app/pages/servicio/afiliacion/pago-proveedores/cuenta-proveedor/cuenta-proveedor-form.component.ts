@@ -16,7 +16,7 @@ import { Interviniente, IntervinienteService } from 'src/@sirio/domain/services/
 import { GlobalConstants } from 'src/@sirio/constants';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import * as moment from 'moment';
-
+import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 
 
 
@@ -43,8 +43,8 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     telefonoService : TelefonoService;
     @Input() persona=undefined;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
-    public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
-    
+    public cuentasBancarias = new BehaviorSubject<CuentaBanco[]>([]);
+    cuentaBanco: CuentaBanco = {} as CuentaBanco;
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
     intervinientes: string[] = [];
@@ -56,9 +56,10 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         injector: Injector,
         protected router: Router,
         protected dialog: MatDialog,
+        private cuentaBancoService: CuentaBancoService,
         private fb: FormBuilder,
         //public TipoOperacion : string,
-        private cuentaBancariaService: CuentaBancariaService,
+       // private cuentaBancariaService: CuentaBancariaService,
         protected intervinienteService: IntervinienteService,
        // private calendarioService: CalendarioService,
        // private sessionService: SessionService,
@@ -110,8 +111,6 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
 
 
 
-        
-
         this.f.efectivo.valueChanges.subscribe(val => {
             if (val) {
                 this.calculateDifferences();
@@ -131,17 +130,30 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);
                 this.f.moneda.setValue({
                     id: cuenta.moneda,
-                    nombre: cuenta.monedaNombre,
-                    siglas: cuenta.siglas
+                    nombre: cuenta.moneda,
+                   // siglas: cuenta.siglas
                 });
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
                
             
+
+                // this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
+                //     this.isNew = false;
+                //     this.cuentaBanco = cuenta;
+
+                // }, err => {
+                //     this.isNew = true;
+                //     this.loadingDataForm.next(false);
+                // });
+
+
+
+
                
                 if (cuenta.id) {
                     console.log('buscando interviniente en el servidor dado el id persona',cuenta.id);
                     
-                    this.intervinienteService.allByCuentaId(1).subscribe((data) => {
+                    this.intervinienteService.allByCuentaId(cuenta.id).subscribe((data) => {
                         console.log(data);
                         this.intervinientes = data.map(i => i.identificacion);// esto es para validar que no incluyan el mismo interviniente
                         this.multipleFirmantes = data.filter(f => f.tipoFirma != GlobalConstants.TIPO_FIRMA_UNICA).length > 0;// verificar si la firma es conjunta o separada
@@ -156,7 +168,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                     this.onRefresh.subscribe(val => {
                       if (val) {
 
-                        this.intervinienteService.allByCuentaId(2).subscribe((data) => {
+                        this.intervinienteService.allByCuentaId(cuenta.id).subscribe((data) => {
                             console.log(data);
                             this.intervinientes = data.map(i => i.identificacion);// esto es para validar que no incluyan el mismo interviniente
                             this.multipleFirmantes = data.filter(f => f.tipoFirma != GlobalConstants.TIPO_FIRMA_UNICA).length > 0;// verificar si la firma es conjunta o separada
@@ -220,6 +232,9 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     }
 
     cargaDatos() {
+
+        console.log("persona",this.persona);
+        console.log("cuentaOperacion",this.cuentaOperacion);
         if (this.persona) {
             if (!this.persona.id && !this.persona.numper) {
                 this.loaded$.next(false);
@@ -238,14 +253,21 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                     this.f.identificacion.setValue(this.cuentaOperacion.identificacion);
                     this.f.cuentaBancaria.setValue(this.cuentaOperacion.id);
                 } else {
-                    this.cuentaOperacion = undefined;
+                    //this.cuentaOperacion = undefined;
                     this.f.identificacion.setValue(this.persona.identificacion);
                     this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
-                    this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
+                    //  public availableLangs = [] as Idioma[];
+                    //this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
+                    // console.log("this.persona",this.persona)
+                    this.cuentaBancoService.listByPersona(this.cuentaOperacion.id).subscribe(data => {
+                        console.log("nueva cuenta",data)
                         this.cuentasBancarias.next(data);
-                        if (data.length === 1) {
+                        //if (data.length === 1) {
                             this.f.cuentaBancaria.setValue(data[0].id);
-                        }
+                            this.f.numeroCuenta.setValue(data[0].numeroCuenta);
+                            this.f.moneda.setValue(data[0].moneda);
+                            
+                        //}
                     });
                 }
             }
