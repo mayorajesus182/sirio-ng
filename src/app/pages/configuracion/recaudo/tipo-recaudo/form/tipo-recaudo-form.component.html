@@ -75,9 +75,8 @@
                             <mat-form-field fxFlex="20">
                                 <mat-label>{{'typeReception.quantity' | translate: {default: 'global.quantity'} | translate }}
                                 </mat-label>
-                                <input matInput class="text-center" max="9" min="1" type="number" autocomplete="off" name="cantidad" formControlName="cantidad">
+                                <input matInput class="text-center" max="9" type="number" autocomplete="off" name="cantidad" formControlName="cantidad">
                                 <mat-error *ngIf="f.cantidad.errors?.max">Debe ser menor a 10</mat-error>
-                                <mat-error *ngIf="f.cantidad.errors?.min">Debe ser mayor a 1</mat-error>
                             </mat-form-field>
 
                             <div fxFlex="100" fxFlex.gt-xs="20" class="text-center margin-top-md">
