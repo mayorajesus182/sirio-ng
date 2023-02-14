@@ -60,7 +60,7 @@ export class ViaFormComponent extends FormBaseComponent implements OnInit {
     buildForm(via: Via) {
         this.itemForm = this.fb.group({
             id: new FormControl({ value: via.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(via.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(via.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(via.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }

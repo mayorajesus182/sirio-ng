@@ -60,7 +60,7 @@ export class NucleoFormComponent extends FormBaseComponent implements OnInit {
     buildForm(nucleo: Nucleo) {
         this.itemForm = this.fb.group({
             id: new FormControl({ value: nucleo.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(nucleo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(nucleo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(nucleo.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }

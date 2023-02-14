@@ -63,7 +63,7 @@ export class CargoFormComponent extends FormBaseComponent implements OnInit {
     buildForm(cargo: Cargo) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: cargo.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(cargo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(cargo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(cargo.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

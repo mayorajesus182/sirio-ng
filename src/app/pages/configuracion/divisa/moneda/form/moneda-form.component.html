@@ -84,14 +84,12 @@
                                     <mat-slide-toggle [color]="'primary'" formControlName="usoAtm" name="usoAtm">
                                         {{'coin.useAtm' | translate: {default: 'global.useAtm'} | translate }}
                                     </mat-slide-toggle>
-                                    <mat-error *ngIf="f.usoAtm.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </div>
 
                                 <div fxFlex="100" fxFlex.gt-xs="20" class="text-right margin-top-md">
                                     <mat-slide-toggle [color]="'primary'" formControlName="esVirtual" name="esVirtual">
                                         {{'coin.isVirtual' | translate: {default: 'global.isVirtual'} | translate }}
                                     </mat-slide-toggle>
-                                    <mat-error *ngIf="f.esVirtual.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </div>
 
                             </div>

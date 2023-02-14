@@ -1,33 +1,31 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { RegularExpConstants } from 'src/@sirio/constants';
-import { Tenencia, TenenciaService } from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
+import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
+import { NivelPersona, NivelPersonaService } from 'src/@sirio/domain/services/configuracion/recaudo/nivel-persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-    selector: 'app-tenencia-form',
-    templateUrl: './tenencia-form.component.html',
-    styleUrls: ['./tenencia-form.component.scss'],
+    selector: 'app-nivel-persona-form',
+    templateUrl: './nivel-persona-form.component.html',
+    styleUrls: ['./nivel-persona-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
+export class NivelPersonaFormComponent extends FormBaseComponent implements OnInit {
 
-    tenencia: Tenencia = {} as Tenencia;
+    nivelPersona: NivelPersona = {} as NivelPersona;
 
     constructor(
         injector: Injector,
-        dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
-        private tenenciaService: TenenciaService,
+        private nivelPersonaService: NivelPersonaService,
         private cdr: ChangeDetectorRef) {
-            super(undefined,  injector);
+        super(undefined, injector);
     }
 
     ngOnInit() {
@@ -37,20 +35,20 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
         this.loadingDataForm.next(true);
 
         if (id) {
-            this.tenenciaService.get(id).subscribe((agn: Tenencia) => {
-                this.tenencia = agn;
-                this.buildForm(this.tenencia);
+            this.nivelPersonaService.get(id).subscribe((elem: NivelPersona) => {
+                this.nivelPersona = elem;
+                this.buildForm(this.nivelPersona);
                 this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
                 this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
-            this.buildForm(this.tenencia);
+            this.buildForm(this.nivelPersona);
             this.loadingDataForm.next(false);
         }
 
-        if(!id){
+        if (!id) {
             this.f.id.valueChanges.subscribe(value => {
                 if (!this.f.id.errors && this.f.id.value.length > 0) {
                     this.codigoExists(value);
@@ -59,11 +57,11 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
         }
     }
 
-    buildForm(tenencia: Tenencia) {
+    buildForm(nivelPersona: NivelPersona) {
         this.itemForm = this.fb.group({
-            id: new FormControl({value: tenencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(tenencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            codigoLocal: new FormControl(tenencia.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: nivelPersona.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombre: new FormControl(nivelPersona.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
+            codigoLocal: new FormControl(nivelPersona.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }
 
@@ -71,12 +69,12 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
         if (this.itemForm.invalid)
             return;
 
-        this.updateData(this.tenencia);
-        this.saveOrUpdate(this.tenenciaService, this.tenencia, 'El Registro de Tenencia', this.isNew);
+        this.updateData(this.nivelPersona);
+        this.saveOrUpdate(this.nivelPersonaService, this.nivelPersona, 'El Nivel', this.isNew);
     }
 
     private codigoExists(id) {
-        this.tenenciaService.exists(id).subscribe(data => {
+        this.nivelPersonaService.exists(id).subscribe(data => {
             if (data.exists) {
                 this.itemForm.controls['id'].setErrors({
                     exists: true
@@ -87,8 +85,8 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
     }
 
     activateOrInactivate() {
-        if (this.tenencia.id) {
-            this.applyChangeStatus(this.tenenciaService, this.tenencia, this.tenencia.nombre, this.cdr);
+        if (this.nivelPersona.id) {
+            this.applyChangeStatus(this.nivelPersonaService, this.nivelPersona, this.nivelPersona.nombre, this.cdr);
         }
     }
 

@@ -63,7 +63,7 @@ export class NivelEstudioFormComponent extends FormBaseComponent implements OnIn
     buildForm(nivelEstudio: NivelEstudio) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: nivelEstudio.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(nivelEstudio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(nivelEstudio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(nivelEstudio.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }
