@@ -17,8 +17,8 @@
     <form [formGroup]="itemForm" *ngIf="itemForm">
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-            <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" [readonly]="!isNew" formControlName="tipoDocumento" [required]="true"
+            <!-- [readonly]="!isNew" -->
+            <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
                 [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoDocumento?.errors">
             </sirio-select-search>
 

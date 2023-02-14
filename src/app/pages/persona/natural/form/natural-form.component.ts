@@ -19,6 +19,7 @@ import { Profesion, ProfesionService } from 'src/@sirio/domain/services/configur
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaNatural, PersonaNaturalService } from 'src/@sirio/domain/services/persona/persona-natural.service';
+import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 
@@ -88,6 +89,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private personaService: PersonaService,
         private personaNaturalService: PersonaNaturalService,
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
@@ -176,16 +178,27 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
         this.route.paramMap.subscribe(data => {
-            
-            if(data.get('doc') && data.get('tdoc')){
+            if(data.get('doc') && data.get('tdoc') ){
                 this.fromOtherComponent=true
-                this.isNew=true;
-                this.personaNatural.identificacion=data.get('doc');
-                this.personaNatural.tipoDocumento=data.get('tdoc');
-
-                this.buildForm(this.personaNatural);
-
-                this.loaded$.next(true);
+                
+                if( this.router.url.endsWith("/add")){
+                    this.isNew=true;
+                    this.personaNatural.identificacion=data.get('doc');
+                    this.personaNatural.tipoDocumento=data.get('tdoc');
+                    
+                    this.buildForm();
+                    
+                    this.loaded$.next(true);
+                }else if(this.router.url.endsWith("/edit")){
+                    this.isNew=false;
+                    this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'),data.get('doc')).subscribe(p=>{
+    
+                        this.updatePerson(p);
+    
+                    })
+                    
+                    
+                }
             }
         });
 
@@ -194,38 +207,38 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     }
 
-    buildForm(personaNatural: PersonaNatural) {
+    buildForm() {
         // 
 
         this.itemForm = this.fb.group({
-            tipoDocumento: new FormControl({ value: personaNatural.tipoDocumento, disabled: true }, [Validators.required]),
+            tipoDocumento: new FormControl({ value: this.personaNatural.tipoDocumento, disabled: true }, [Validators.required]),
             
             // this.tipoDocumentos.value = 'P'  {
 
-            identificacion: new FormControl({ value: personaNatural.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            identificacion: new FormControl({ value: this.personaNatural.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             
             
-            fechaNacimiento: new FormControl(personaNatural.fechaNacimiento ? moment(personaNatural.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
-            pais: new FormControl(personaNatural.pais || undefined, [Validators.required]),
-            primerNombre: new FormControl(personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            segundoNombre: new FormControl(personaNatural.segundoNombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            primerApellido: new FormControl(personaNatural.primerApellido || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            segundoApellido: new FormControl(personaNatural.segundoApellido || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            nacionalidad: new FormControl(personaNatural.nacionalidad || undefined, [Validators.required]),
-            otraNacionalidad: new FormControl(personaNatural.otraNacionalidad || undefined),
-            profesion: new FormControl(personaNatural.profesion || undefined, [Validators.required]),
-            genero: new FormControl(personaNatural.genero || undefined, [Validators.required]),
-            tenencia: new FormControl(personaNatural.tenencia || undefined, [Validators.required]),
-            cargaFamiliar: new FormControl(personaNatural.cargaFamiliar != undefined ? personaNatural.cargaFamiliar : '', [Validators.required]),
-            estadoCivil: new FormControl(personaNatural.estadoCivil || undefined, [Validators.required]),
-            actividadEconomica: new FormControl(personaNatural.actividadEconomica || undefined, [Validators.required]),
-            actividadEspecifica: new FormControl(personaNatural.actividadEspecifica || undefined, [Validators.required]),
-            categoriaEspecial: new FormControl(personaNatural.categoriaEspecial || undefined, [Validators.required]),
-            tipoDocumentoConyuge: new FormControl(personaNatural.tipoDocumentoConyuge || undefined),
-            identificacionConyuge: new FormControl(personaNatural.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombreConyuge: new FormControl(personaNatural.nombreConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            fuenteIngreso: new FormControl(personaNatural.fuenteIngreso || undefined),
-            email: new FormControl(personaNatural.email || '', [Validators.required]),
+            fechaNacimiento: new FormControl(this.personaNatural.fechaNacimiento ? moment(this.personaNatural.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
+            pais: new FormControl(this.personaNatural.pais || undefined, [Validators.required]),
+            primerNombre: new FormControl(this.personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            segundoNombre: new FormControl(this.personaNatural.segundoNombre || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            primerApellido: new FormControl(this.personaNatural.primerApellido || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            segundoApellido: new FormControl(this.personaNatural.segundoApellido || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nacionalidad: new FormControl(this.personaNatural.nacionalidad || undefined, [Validators.required]),
+            otraNacionalidad: new FormControl(this.personaNatural.otraNacionalidad || undefined),
+            profesion: new FormControl(this.personaNatural.profesion || undefined, [Validators.required]),
+            genero: new FormControl(this.personaNatural.genero || undefined, [Validators.required]),
+            tenencia: new FormControl(this.personaNatural.tenencia || undefined, [Validators.required]),
+            cargaFamiliar: new FormControl(this.personaNatural.cargaFamiliar != undefined ? this.personaNatural.cargaFamiliar : '', [Validators.required]),
+            estadoCivil: new FormControl(this.personaNatural.estadoCivil || undefined, [Validators.required]),
+            actividadEconomica: new FormControl(this.personaNatural.actividadEconomica || undefined, [Validators.required]),
+            actividadEspecifica: new FormControl(this.personaNatural.actividadEspecifica || undefined, [Validators.required]),
+            categoriaEspecial: new FormControl(this.personaNatural.categoriaEspecial || undefined, [Validators.required]),
+            tipoDocumentoConyuge: new FormControl(this.personaNatural.tipoDocumentoConyuge || undefined),
+            identificacionConyuge: new FormControl(this.personaNatural.identificacionConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            nombreConyuge: new FormControl(this.personaNatural.nombreConyuge || '', [Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            fuenteIngreso: new FormControl(this.personaNatural.fuenteIngreso || undefined),
+            email: new FormControl(this.personaNatural.email || '', [Validators.required]),
         });
 
         // verifico si tengo datos basicos cargados
@@ -293,7 +306,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     addPerson(event) {
         this.isNew = true;
         this.updateDataFromValues(this.personaNatural, event);
-        this.buildForm(this.personaNatural);
+        this.buildForm();
         this.loaded$.next(true);
 
     }
@@ -317,7 +330,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
  
             //TODO: OJO REVISAR ESTO LUEGO
             // this.itemForm.reset({});
-            this.buildForm(this.personaNatural);
+            this.buildForm();
             this.loadingDataForm.next(false);
             this.loaded$.next(true);
             this.applyFieldsDirty();

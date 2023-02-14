@@ -15,6 +15,11 @@ const naturalRoutes: Routes = [
         data: { title: 'Persona Natural' }
     },
     {
+        path: ':tdoc/:doc/edit',
+        component: NaturalFormComponent,
+        data: { title: 'Persona Natural' }
+    },
+    {
         path: ':id/edit',
         component: NaturalFormComponent,
         data: { title: 'Persona Natural' }

@@ -151,6 +151,17 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             this.categoriasEspeciales.next(data);
         });
 
+        this.f.montoDeclarado.valueChanges.subscribe(val => {
+            if (val === null || val == undefined) {
+                this.f.montoDeclarado.setValue(0.00);
+                this.cdr.detectChanges();
+            }
+        });
+
+            // if(this.f.montoDeclarado.value == null){
+        //     descripcion.append("<b>Ramo: </b>").append(ramoGetService.getById(i.getRamo()).get().getNombre()).append(" ");
+        // }
+
 
 
         this.route.paramMap.subscribe(data => {
@@ -265,8 +276,6 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             return;
 
         this.updateData(this.personaJuridica);
-
-
 
         if (this.isNew) {
 

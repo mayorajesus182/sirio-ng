@@ -16,7 +16,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ParametroFormComponent extends FormBaseComponent implements OnInit {
 
-    preferencia: any[];
+    preferencia: any;
     groups = undefined;
     constructor(
         injector: Injector,
@@ -29,49 +29,35 @@ export class ParametroFormComponent extends FormBaseComponent implements OnInit 
 
     ngOnInit() {
 
-        let id = this.route.snapshot.params['id'];
-        this.isNew = id == undefined;
+        this.isNew == undefined;
         this.loadingDataForm.next(true);
 
         this.preferenciaService.get().subscribe(val => {
             if (val) {
                 this.preferencia = val;
+                this.itemForm = this.fb.group({});
+                this.groups = Object.keys(this.preferencia)
+                for (const key of this.groups) {
+                    for (const item of this.preferencia[key]) {
+                        const field = Object.keys(item)[0];
+                        this.itemForm.addControl(field, this.fb.control(item[field].value));
+                    }
+                }
+                this.cdr.detectChanges();
             }
         })
 
-        this.itemForm = this.fb.group({});
-        this.groups = Object.keys(this.preferencia)
-        for (const key of this.groups) {
-            for (const item of this.preferencia[key]) {
-                const field = Object.keys(item)[0];
-                this.itemForm.addControl(field, this.fb.control(item[field].value, [Validators.required]));
-            }
-
-        }
 
     }
 
     getField(item: any) {
         return Object.keys(item)[0];
     }
-    // buildForm() {
-
-    //     this.itemForm = this.fb.group({
-    //         // id: [{value: preferencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]],
-    //         // nombre: [preferencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
-    //         // icono: [preferencia.icono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
-    //     });
-
-    //     this.printErrors()
-    // }
 
     save() {
         if (this.itemForm.invalid)
             return;
-
-        // this.updateData(this.preferencia);
-        // this.saveOrUpdate(this.preferenciaService, this.preferencia, 'ElPreferencia', this.isNew);
+        console.log("itemForm", this.itemForm.value);
+        this.saveOrUpdate(this.preferenciaService, this.itemForm.value, 'La Preferencia', false);
     }
-
-
 }
