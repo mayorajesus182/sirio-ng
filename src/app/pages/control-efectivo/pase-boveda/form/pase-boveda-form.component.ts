@@ -32,7 +32,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
     public taquillas = new BehaviorSubject<Taquilla[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public conos = new BehaviorSubject<ConoMonetario[]>([]);
-    public preferencia: Preferencia = {} as Preferencia;
+    public preferencia: Preferencia;
     public conoSave: ConoMonetario[] = [];
     saldoDisponible: number = 0;
 
@@ -71,12 +71,12 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
             });
         } else {
 
-            this.preferenciaService.get().subscribe(data => {
+            this.preferenciaService.active().subscribe(data => {
                 this.preferencia = data;
                 this.buildForm(this.cajaTaquilla);
                 this.loadingDataForm.next(false);
 
-                this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(this.preferencia.monedaConoActual).subscribe(data => {
+                this.saldoTaquillaService.activesWithDisponibleSaldoTaquillaByMoneda(this.preferencia.monedaConoActual.value).subscribe(data => {
                     this.obtenerSaldo();
                     this.conos.next(data);
                     this.cdr.detectChanges();
@@ -104,7 +104,7 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         this.itemForm = this.fb.group({
             taquilla: new FormControl(''),
             movimientoEfectivo: new FormControl(''),
-            moneda: new FormControl(cajaTaquilla.moneda || this.preferencia.monedaConoActual, Validators.required),
+            moneda: new FormControl(cajaTaquilla.moneda || this.preferencia.monedaConoActual.value, Validators.required),
             monto: new FormControl(cajaTaquilla.monto || undefined, Validators.required),
         });
 

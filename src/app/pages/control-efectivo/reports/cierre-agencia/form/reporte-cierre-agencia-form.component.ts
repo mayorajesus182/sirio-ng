@@ -25,7 +25,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class ReporteCierreAgenciaFormComponent extends FormBaseComponent implements OnInit {
     esOperadorAgencia: Boolean = false;
-    preferencia: Preferencia = {} as Preferencia;
+    preferencia: Preferencia;
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public agencias = new BehaviorSubject<Agencia[]>([]);
     gestionEfectivoReports: GestionEfectivoReports = {} as GestionEfectivoReports;
@@ -44,7 +44,7 @@ export class ReporteCierreAgenciaFormComponent extends FormBaseComponent impleme
     }
 
     ngOnInit() {
-        this.preferenciaService.get().subscribe(data => {
+        this.preferenciaService.active().subscribe(data => {
             this.preferencia = data;
             this.buildForm();
             const user = this.sessionService.getUser() as User;
@@ -63,7 +63,7 @@ export class ReporteCierreAgenciaFormComponent extends FormBaseComponent impleme
 
     buildForm() {
         this.itemForm = this.fb.group({
-            moneda: new FormControl(this.preferencia.monedaConoActual),
+            moneda: new FormControl(this.preferencia.monedaConoActual.value),
             agencia: new FormControl(undefined),
         });
     }

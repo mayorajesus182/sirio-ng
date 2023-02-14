@@ -77,7 +77,7 @@
                                         <input matInput [value]="item.monto | number: '1.2'" readonly class="text-center">
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="20" *ngIf="item.moneda === this.preferencias.monedaConoActual">
+                                    <mat-form-field fxFlex="20" *ngIf="item.moneda == preferencias.monedaConoActual.value">
                                         <mat-label>{{'Ajuste en Taquilla' | translate: {default: 'Ajuste en Taquilla'} |
                                             translate }}</mat-label>
                                         <input matInput class="text-center" [value]="item.ajuste  | number: '1.2'" readonly>

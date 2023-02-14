@@ -49,7 +49,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     materialUtilizadoList: ReplaySubject<MaterialRemesa[]> = new ReplaySubject<MaterialRemesa[]>();
     rol: Rol = {} as Rol;
     public conoSave: ConoMonetario[] = [];
-    preferencia: Preferencia = {} as Preferencia;
+    preferencia: Preferencia;
     workflow: string = undefined;
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
@@ -85,13 +85,13 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.loadingDataForm.next(true);
 
         // Se pregunta por la moneda actual para colocarla cuando sea nuevo
-        this.preferenciaService.get().subscribe(data => {
+        this.preferenciaService.active().subscribe(data => {
             this.preferencia = data;
 
             this.rolService.getByUsuario().subscribe(rol => {
                 this.esTransportista = (rol.id === RolConstants.TRANSPORTISTA);
 
-                this.whenChangeMoneda(this.preferencia.monedaConoActual);
+                this.whenChangeMoneda(this.preferencia.monedaConoActual.value);
 
                 if (this.esTransportista) {
                     this.empleadoTransporteService.allEmpleados().subscribe(emp => {
@@ -202,7 +202,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             cajasBolsas: new FormControl(this.remesa.cajasBolsas || undefined),
             transportista: new FormControl(this.remesa.transportista || undefined),
             receptor: new FormControl(this.remesa.receptor || undefined),
-            moneda: new FormControl(this.remesa.moneda || (this.esTransportista ? this.preferencia.monedaConoActual : undefined), [Validators.required]),
+            moneda: new FormControl(this.remesa.moneda || (this.esTransportista ? this.preferencia.monedaConoActual.value : undefined), [Validators.required]),
             viaje: new FormControl(this.remesa.viaje || undefined, [Validators.required]),
             montoEnviado: new FormControl(this.remesa.montoEnviado || undefined, [Validators.required]),
             responsables: new FormControl(this.remesa.responsables || undefined, [Validators.required]),
@@ -213,7 +213,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         });
 
         this.f.receptor.valueChanges.subscribe(value => {
-            let monedaLocal = this.monedas.value.filter(e => e.id == this.preferencia.monedaConoActual)[0];
+            let monedaLocal = this.monedas.value.filter(e => e.id == this.preferencia.monedaConoActual.value)[0];
             this.f.moneda.setValue(monedaLocal?.id);
         });
 
@@ -258,7 +258,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             });
 
             // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-            if (this.preferencia.monedaConoActual === moneda) {
+            if (this.preferencia.monedaConoActual.value === moneda) {
 
                 this.viajeTransporteService.allWithCosto().subscribe(vjt => {
                     this.viajes.next(vjt);
@@ -312,7 +312,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     loadCostosViajeTransportista(moneda, transportista) {
 
         // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-        if (this.preferencia.monedaConoActual === moneda) {
+        if (this.preferencia.monedaConoActual.value === moneda) {
 
             this.viajeTransporteService.allWithCostoByTransportista(transportista).subscribe(vjt => {
                 this.viajes.next(vjt);
@@ -328,7 +328,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     loadCostosMaterialTransportista(moneda, transportista) {
 
         // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-        if (this.preferencia.monedaConoActual === moneda) {
+        if (this.preferencia.monedaConoActual.value === moneda) {
 
             this.materialTransporteService.allWithCostoByTransportista(transportista).subscribe(mat => {
                 this.materialList = mat;
@@ -457,8 +457,8 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
             return;
         }
 
-        if (value.length != this.preferencia.digitosPlomo) {
-            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo} dígitos` });
+        if (value.length != Number.parseInt(this.preferencia.digitosPlomo.value) ) {
+            this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo.value} dígitos` });
             return;
         }
 

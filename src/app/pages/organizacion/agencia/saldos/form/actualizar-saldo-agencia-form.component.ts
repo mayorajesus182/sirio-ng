@@ -25,7 +25,7 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
   public conos = new BehaviorSubject<ConoMonetario[]>([]);
   public monedas = new BehaviorSubject<Moneda[]>([]);
   public conoSave: ConoMonetario[] = [];
-  preferencia: Preferencia = {} as Preferencia;
+  preferencia: Preferencia;
   agenciaId: string;
   agencia: string;
   saldoAnterior: number;
@@ -58,7 +58,7 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
 
 
     // Se pregunta por la preferencia para setear la moneda del cono actual
-    this.preferenciaService.get().subscribe(data => {
+    this.preferenciaService.active().subscribe(data => {
       this.preferencia = data;
 
       this.buildForm();
@@ -67,11 +67,11 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
         this.monedas.next(data);
       });
 
-      this.saldoAgenciaService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(conoData => {
+      this.saldoAgenciaService.activesLastDisponibleSaldoAgenciaByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual.value).subscribe(conoData => {
         this.conos.next(conoData);
       });
 
-      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual).subscribe(saldo => {
+      this.saldoAgenciaService.getLastSaldoByAgenciaAndMoneda(this.agenciaId, this.preferencia.monedaConoActual.value).subscribe(saldo => {
         this.saldoAnterior = saldo;
       });
 
@@ -82,7 +82,7 @@ export class ActualizarSaldoAgenciaFormComponent extends FormBaseComponent imple
   buildForm() {
     this.itemForm = this.fb.group({
       agencia: new FormControl(this.agenciaId),
-      moneda: new FormControl(this.preferencia.monedaConoActual, Validators.required),
+      moneda: new FormControl(this.preferencia.monedaConoActual.value, Validators.required),
       monto: new FormControl(undefined, Validators.required),
     });
 

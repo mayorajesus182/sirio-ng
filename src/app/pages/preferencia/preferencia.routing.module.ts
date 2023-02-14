@@ -14,6 +14,11 @@ const preferenciaModuleRoutes: Routes = [
     //     data: {title: 'Internacionalización'},
     //     loadChildren: () => import('./internacionalizacion/internacionalizacion.module').then(m => m.InternacionalizacionModule),
     // },
+    {
+        path: 'parametros',
+        data: { title: 'Parametro' },
+        loadChildren: () => import('./parametro/parametro.module').then(m => m.ParametroModule),
+    },
     
 
 ];

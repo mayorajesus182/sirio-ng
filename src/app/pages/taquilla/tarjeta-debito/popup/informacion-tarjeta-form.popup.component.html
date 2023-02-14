@@ -1,0 +1,172 @@
+<sirio-dialog-header mat-dialog-title>
+  <sirio-dialog-header-heading>
+    <!-- TODO: PENDIENTE IN18 -->
+    <!-- <h1>Información de la Tarjeta de Débito</h1> -->
+    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
+      <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="accent">close</mat-icon>
+      </button>
+    </div>
+  </sirio-dialog-header-heading>
+
+</sirio-dialog-header>
+
+<mat-dialog-content>
+  <form [formGroup]="itemForm" *ngIf="itemForm">
+    <div>
+      <h1>Información de la Tarjeta de Débito</h1>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="5px">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
+        <mat-label>Tipo de Tarjeta</mat-label>
+        <input matInput autocomplete="off" name="tipoTarjeta" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
+        <mat-label>Nombre de Estampación</mat-label>
+        <input matInput autocomplete="off" name="nombreEstampacionD" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
+        <mat-label>Nro. Contrato TDD</mat-label>
+        <input matInput autocomplete="off" name="numeroContrato" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
+        <mat-label>Cuenta Principal Asociada</mat-label>
+        <input matInput autocomplete="off" name="cuentaPrincipal" disabled="true">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
+        <mat-label>Estado de la Tarjeta</mat-label>
+        <input matInput autocomplete="off" name="estadoTarjeta" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
+        <mat-label>Condición de la Tarjeta</mat-label>
+        <input matInput autocomplete="off" name="CondicionTarjeta" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
+        <mat-label>Fecha de Solicitud</mat-label>
+        <input matInput autocomplete="off" name="fechaSolicitud" disabled="true">
+      </mat-form-field>
+    </div>
+
+    <div>
+      <h2>Información Bloqueo/ Cancelación</h2>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
+        <mat-label>Fecha</mat-label>
+        <input matInput autocomplete="off" name="fecha" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
+        <mat-label>Motivo</mat-label>
+        <input matInput autocomplete="off" name="motivoDisabled" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
+        <mat-label>Observacion</mat-label>
+        <input matInput autocomplete="off" name="observacionDisabled" disabled="true">
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+      <mat-form-field fxFlex="30">
+        <mat-label>Nro. Intentos PIN</mat-label>
+        <input matInput autocomplete="off" name="numeroIntentos" disabled="true">
+      </mat-form-field>
+      <mat-form-field fxFlex="20">
+        <mat-label>Fecha último uso</mat-label>
+        <input matInput autocomplete="off" name="fechaUltimo" disabled="true">
+      </mat-form-field>
+    </div>
+    <!---------------------------------- Reposición de Tarjeta de Débito---------------------------------------->
+    <div>
+      <h2 *ngIf="option === constante.REPOSICION">Reposición de TDD</h2>
+      <h2 *ngIf="option === constante.ASOC_DES">Asociación/Desasociación de Cuenta</h2>
+      <h2 *ngIf="option === constante.BLOQUEO">Bloqueo/ Cancelación de Tarjeta de Débito</h2>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="option === constante.REPOSICION">
+
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="30" [label]="'Tipo de Tarjeta'" formControlName="tipoTarjeta" required="true">
+      </sirio-select-search>
+
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="40" [label]="'Número de Tarjeta'" formControlName="numeroTarjeta" required="true">
+      </sirio-select-search>
+
+      <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="40" [label]="'Número de Cuenta'" name="numeroCuenta" formControlName="numeroCuenta" required="true">
+      </sirio-select-search> -->
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="40" [label]="'Número de Cuenta'"
+        formControlName="numeroCuenta" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'" required="true">
+      </sirio-select-search>
+
+
+    </div>
+    <div *ngIf="option === constante.ASOC_DES">
+      <h3>Cuentas del Cliente</h3>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" *ngIf="option === constante.ASOC_DES">
+      <ngx-datatable class="material" rowHeight="auto" [columnMode]="'standar'"
+        [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Cantidad de Cuentas'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50"
+        [footerHeight]="50" [limit]="10" [rows]="pepAccionistas | async">
+
+        <ngx-datatable-column [resizeable]="false" [width]="300" name="Tipo de Cuenta">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div style="white-space: break-spaces;" class="text-center"> {{ row?.tipoPep}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false" [width]="500" name="Número de Cuenta">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div style="white-space: break-spaces;"> {{ row?.nombreoo}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false" [width]="200" name="Asociar">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div style="white-space: break-spaces;" class="text-center"> {{ row?.tipoDocumento}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column [resizeable]="false" [width]="200" name="Desasociar">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div style="white-space: break-spaces;" class="text-center"> {{ row?.ente}}</div>
+          </ng-template>
+        </ngx-datatable-column>
+      </ngx-datatable>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap="10px" *ngIf="option === constante.BLOQUEO" class="margin-bottom-xs">
+      <mat-radio-group [(ngModel)]="selectedStatus" [ngModelOptions]="{standalone: true}" (change)="changeStatus($event)" fxLayoutGap.gt-sm="10px">
+        <mat-radio-button [color]="'primary'" [value]="'bloqueo'" > Bloquear </mat-radio-button>
+        <mat-radio-button [color]="'primary'" [value]="'cancelacion'"> Cancelación </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap="10px" *ngIf="option === constante.BLOQUEO">
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Motivo'" formControlName="motivo" name="motivo" required="true">
+      </sirio-select-search>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
+        <mat-label>Observación</mat-label>
+        <input matInput autocomplete="off" name="observacion" formControlName="observacion" required>
+        <mat-error *ngIf="f.observacion.errors?.required">{{'error.required' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div fxLayout="column" fxLayout="row" fxLayoutGap="10px" class="margin-bottom-xs">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
+        <mat-label>Nombre de Estampación</mat-label>
+        <input matInput autocomplete="off" name="nombreEstampacion" formControlName="nombreEstampacion" required>
+        <mat-error *ngIf="f.nombreEstampacion.errors?.required">{{'error.required' | translate}}</mat-error>
+      </mat-form-field>
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
+        <mat-label>{{'Correo Eletrónico' | translate: {default: 'global.email'} | translate }}
+        </mat-label>
+        <input matInput email-validate name="email" formControlName="email" [(ngModel)]="persona.email" [ngModelOptions]="{standalone: true}" required
+          uppercase>
+        <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]=" (loading$ | async)">{{'button.save'|translate}}</button>
+</mat-dialog-actions>
