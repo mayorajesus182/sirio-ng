@@ -7,10 +7,11 @@ import { Injectable } from "@angular/core";
   providedIn: 'root'
 })
 export class RequestCacheService {
-
+// \/api\/path\/v1\
+  api_config_regex= /^\/api\/configuracion\/.*\/actives$/;
   api_chacheable=[
     '/api/public/assets/i18n',
-    '/api/configuracion',
+    // '/api/configuracion',
     '/api/session/permissions',
     '/api/preferencia/active',
     '/api/preferencia/idioma',
@@ -19,6 +20,9 @@ export class RequestCacheService {
   constructor() { }
 
   
+// const regex = /^https:\/\/.*\/parameter$/;
+
+// const match = url.match(regex);
   // Método para almacenar los datos de la petición
   public put(req: HttpRequest<any>, response: HttpResponse<any>): void {
     sessionStorage.setItem(req.urlWithParams, JSON.stringify(response));
