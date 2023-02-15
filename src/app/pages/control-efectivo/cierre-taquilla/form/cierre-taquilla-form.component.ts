@@ -23,7 +23,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class CierreTaquillaFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
     saldos = new BehaviorSubject<SaldoTaquilla[]>([]);
-    preferencias: Preferencia = {} as Preferencia;
+    preferencias: Preferencia;
     diferencia: number = 0
     isOpen: boolean = false;
 
@@ -62,7 +62,7 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
             this.isNew = false;
             this.isOpen = isOpen;
 
-            this.preferenciaService.get().subscribe(data => {
+            this.preferenciaService.active().subscribe(data => {
                 this.preferencias = data;
             });
 
@@ -82,11 +82,11 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
 
         let mensaje = '';
 
-        if (saldoTaquilla.moneda === this.preferencias.monedaConoActual) {
+        if (saldoTaquilla.moneda === this.preferencias.monedaConoActual.value) {
 
-            if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > this.preferencias.ajusteTaquilla) {
+            if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > Number.parseFloat(this.preferencias.ajusteSobrante.value)) {
 
-                let ajuste = saldoTaquilla.declarado > saldoTaquilla.saldo ? (this.preferencias.ajusteTaquilla * -1) : this.preferencias.ajusteTaquilla;
+                let ajuste = saldoTaquilla.declarado > saldoTaquilla.saldo ? (Number.parseFloat(this.preferencias.ajusteSobrante.value) * -1) : Number.parseFloat(this.preferencias.ajusteSobrante.value);
                 // let ajusteTaquillaFormat = formatNumber(ajuste, 'es', '1.2');
                 // let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste, 'es', '1.2');
                 let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
@@ -97,7 +97,7 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
                 saldoTaquilla.ajuste = 0;
                 saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado;
 
-            } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > 0 && Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= this.preferencias.ajusteTaquilla) {
+            } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > 0 && Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= Number.parseFloat(this.preferencias.ajusteSobrante.value)) {
 
                 let ajusteGeneradoFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
                 mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteGeneradoFormat);

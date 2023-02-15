@@ -26,7 +26,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   public totalActual = 0;
   public totalAnterior = 0;
   public total = 0;
-  private divisor = 1;
+  private divisor:number = 1.0;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -56,9 +56,9 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
     this.operation = this.defaults.payload.operation;
 
-    this.preferenciaService.detail().subscribe(data => {
+    this.preferenciaService.active().subscribe(data => {
       this.preferencia.next(data);
-      this.divisor = data.divisorConoAnterior;
+      this.divisor = Number.parseFloat(data.divisorConoAnterior.value);
     });
 
     if (this.defaults.id) {

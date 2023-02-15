@@ -1,0 +1,47 @@
+@import "var";
+#itemForm {
+
+  form {
+    min-height: 500px;
+  }
+
+  .mat-toolbar {
+    background: inherit;
+    color: inherit;
+
+  }
+
+
+}
+
+.btn-tdd {
+  height: 50px;
+  width: 100%;
+  top: 4px;
+  text-transform: uppercase;
+  .fa-lg {
+    font-size: 1.35em !important;
+  }
+}
+
+
+div.input-content{
+    display: flex !important;
+    align-items: center !important;
+    height: 35px;
+    color: #5e5e5e;
+    mat-icon{
+        height: 25px;
+        width: auto;
+        font-size: 20px;
+        color: #bbb;
+    }
+}
+
+input.mat-input{
+    border: 1px solid;
+    border-color: #cfcdcd;
+    height: 30px;
+    border-radius: 4px;
+    color: #6a6a6a;
+}
