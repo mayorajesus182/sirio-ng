@@ -73,6 +73,8 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                     nombre: cuenta.monedaNombre,
                     siglas: cuenta.siglas
                 });
+                console.log(this.f.moneda.value);
+                
                 this.f.tipoProducto.setValue(cuenta.tipoProducto);
             }
         });
@@ -110,6 +112,8 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                     this.f.identificacion.setValue(this.persona.identificacion);
                     this.f.tipoDocumento.setValue(this.persona.tipoDocumento);
                     this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
+                        console.log('cuentas bancarias',data);
+                        
                         this.cuentasBancarias.next(data);
                         if (data.length === 1) {
                             this.f.cuentaBancaria.setValue(data[0].id);

@@ -6,6 +6,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { Pep, PepService } from 'src/@sirio/domain/services/persona/pep/pep.service';
+import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { PepFormPopupComponent } from '../popup/pep-form.popup.component';
 
@@ -20,7 +21,7 @@ import { PepFormPopupComponent } from '../popup/pep-form.popup.component';
 export class PepTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
-  @Input() persona = undefined;
+  @Input() persona:Persona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   pepList: ReplaySubject<Pep[]> = new ReplaySubject<Pep[]>();
   peps: any[] = [];
@@ -37,8 +38,8 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   private loadList() {
     this.peps = []
-    this.pepService.allByPersonaId(this.persona).subscribe((data) => {
-      console.log('buscando data cliente',data);
+    this.pepService.allByPersonaId(this.persona.id).subscribe((data) => {
+      // console.log('buscando data cliente',data);
       
       this.pepList.next(data.slice());
       // t.tipoDocumento+'-'+
@@ -79,12 +80,12 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
 
   popup(data?: Pep) {
     if (data) {
-      data.persona = this.persona;
+      data.persona = this.persona.id;
     }
 
-    console.log('buscando data peps',this.peps);
+    // console.log('buscando data peps',this.peps);
 
-    console.log('buscando data persona',this.persona);
+    // console.log('buscando data persona',this.persona);
 
     this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona , peps: this.peps } : { ...data, ...{ peps: this.peps } }, '60%').afterClosed().subscribe(event => {
       if (event) {
