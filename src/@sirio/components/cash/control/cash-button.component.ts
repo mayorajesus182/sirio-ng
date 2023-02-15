@@ -49,12 +49,10 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-
-        console.log('operartion ',this.operation);
         
-
+        
     }
-
+    
     open() {
 
         this.showPopup(CashFormPopupComponent, {
@@ -64,7 +62,7 @@ export class CashButtonComponent implements OnInit, AfterViewInit {
             total:this.total,
             operation: this.operation
         }, '40%').afterClosed().subscribe(e => {
-            console.log('close dialog ', e);
+            // console.log('close dialog ', e);
             if(e){
                 this.update.emit(e);
             }

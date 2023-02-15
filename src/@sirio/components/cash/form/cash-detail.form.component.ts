@@ -67,12 +67,14 @@ export class CashDetailComponent implements OnInit, AfterViewInit {
             if (!data) {
                 return;
             }
-            // console.log('PREFERENCIA: ', data);
+            
 
-            if (data.monedaConoActual) {
-                this.label_cono_actual = this.moneda.id == data.monedaConoActual.value ? data.monedaSiglasConoActual.value : this.moneda.siglas;
-                let monedaId = this.moneda.id == data.monedaConoActual.value ? data.monedaConoActual.value : this.moneda.id;
-                this.label_cono_anterior = data.monedaSiglasConoAnterior.value || '';
+            if (data.monedaConoActual.value) {
+
+
+                this.label_cono_actual =  this.moneda.siglas;
+                let monedaId =  this.moneda.id;
+                this.label_cono_anterior = '';//data.monedaSiglasConoAnterior.value || //TODO: REVISAR LUEGO
 
                 if (this.operation == 'deposito') {
                     // en el caso que sea una operacion de deposito

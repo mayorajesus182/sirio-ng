@@ -189,7 +189,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     this.interviniente.cuenta = this.defaults.payload.cuenta;
     // console.log(this.interviniente);
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdateWithoutClosed(this.intervinienteService,this,this.interviniente);
+    this.saveOrUpdate(this.intervinienteService,this,this.interviniente);
 
   }
 

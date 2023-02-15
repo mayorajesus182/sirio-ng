@@ -2,11 +2,12 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit }
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
-import { PepConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PepConstants, RegularExpConstants, TipoPepConstants } from 'src/@sirio/constants';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { TipoPep, TipoPepService } from 'src/@sirio/domain/services/configuracion/persona-natural/tipo-pep.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Pep, PepService } from 'src/@sirio/domain/services/persona/pep/pep.service';
+import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
 
 @Component({
@@ -23,6 +24,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   public Pep = PepConstants;
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   peps = [];
+  persona: Persona = undefined;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -37,31 +39,32 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   }
 
   ngAfterViewInit(): void {
-   
+
   }
 
   ngOnInit() {
 
     this.peps = this.defaults.payload.peps;
+    this.persona = (typeof this.defaults.payload.persona == "number") ? { id: this.defaults.payload.persona } : this.defaults.payload.persona;
 
 
     // console.log(this.peps);
-    
+
     this.tipoPepService.activesForNatural().subscribe(data => {
-      this.tipoPepList.next(data.filter(d=>!this.peps.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.peps.length ==0 ));
+      this.tipoPepList.next(data.filter(d => !this.peps.map(p => p.tipo).includes(d.nombre) || this.defaults.payload.id != undefined || this.peps.length == 0));
       this.cdr.detectChanges();
     })
 
-    this.tipoDocumentoService.activesNaturales().subscribe(data => {      
+    this.tipoDocumentoService.activesNaturales().subscribe(data => {
       this.tipoDocumentoList.next(data);
       this.cdr.detectChanges();
     })
-   
-    this.paisService.actives().subscribe(data => {      
+
+    this.paisService.actives().subscribe(data => {
       this.paisList.next(data);
       this.cdr.detectChanges();
     })
-    
+
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.pepService.get(this.defaults.payload.id).subscribe(data => {
@@ -69,7 +72,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
         this.pep = data;
         this.buildForm();
         this.loadingDataForm.next(false);
-       
+
       })
     } else {
       this.pep = {} as Pep;
@@ -83,12 +86,13 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     this.itemForm = this.fb.group({
       tipoPep: new FormControl(this.pep.tipoPep || undefined, [Validators.required]),
       tipoDocumento: new FormControl(this.pep.tipoDocumento || undefined),
-      identificacion: new FormControl(this.pep.identificacion || '', [ Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+      identificacion: new FormControl(this.pep.identificacion || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
       nombre: new FormControl(this.pep.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-      ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),  
+      ente: new FormControl(this.pep.ente || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       cargo: new FormControl(this.pep.cargo || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
+    this.cdr.detectChanges();
 
     this.f.identificacion.valueChanges.subscribe(val => {
 
@@ -101,7 +105,12 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       }
     });
 
-    this.cdr.detectChanges();
+    this.f.tipoPep.valueChanges.subscribe(val => {
+      if (val && val === TipoPepConstants.CLIENTE_ES_PEP) {
+        this.f.identificacion.setValue(this.persona.identificacion)
+      }
+    })
+
   }
 
 
@@ -109,10 +118,10 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     if (!identificacion) {
       return true;
     }
-    
+
     this.cdr.detectChanges();
 
-    return this.peps.map(p=>p.identificacion).find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
+    return this.peps.map(p => p.identificacion).find(doc => doc === tipoDocumento + '-' + identificacion) == undefined;
   }
 
   isRdOrNp() {
@@ -132,9 +141,9 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
   save() {
     this.updateData(this.pep);// aca actualizamos la direccion
-    this.pep.persona=this.defaults.payload.persona;
+    this.pep.persona = this.defaults.payload.persona.id;
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
-    this.saveOrUpdate(this.pepService,this.pep,'PEP',this.pep.id==undefined);
+    this.saveOrUpdate(this.pepService, this.pep, 'PEP', this.pep.id == undefined);
   }
 
   // private removeValidator(ignoreKeys: string[]) {
