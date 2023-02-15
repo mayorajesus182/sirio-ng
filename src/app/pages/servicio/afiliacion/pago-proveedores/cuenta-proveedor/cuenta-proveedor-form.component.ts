@@ -17,6 +17,8 @@ import { GlobalConstants } from 'src/@sirio/constants';
 import { ColumnMode } from '@swimlane/ngx-datatable';
 import * as moment from 'moment';
 import { CuentaBanco, CuentaBancoService } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
+import { pago_proveedoresService, Tipo_Servicio } from 'src/@sirio/domain/services/servicio/pago-proveedores.service';
+import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
 
 
 
@@ -39,11 +41,14 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     private principal: boolean = false;
     telefonos:string[]=[];
     public chequeForm: FormGroup;
+    personaJuridica: PersonaJuridica = {} as PersonaJuridica;
     cantidadTelefonos: number = 0;
     telefonoService : TelefonoService;
     @Input() persona=undefined;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     public cuentasBancarias = new BehaviorSubject<CuentaBanco[]>([]);
+    //public personaJuridica = new BehaviorSubject<PersonaJuridica>(1);
+    public TipoOperacion = new BehaviorSubject<String[]>([]);
     cuentaBanco: CuentaBanco = {} as CuentaBanco;
     public conoActual: ConoMonetario[] = [];
     public conoAnterior: ConoMonetario[] = [];
@@ -52,12 +57,15 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     multipleFirmantes: boolean = false;
     todayValue: moment.Moment;
     valueMin: moment.Moment;
+    tipo_servicios = new BehaviorSubject<Tipo_Servicio[]>([]);
     constructor(
         injector: Injector,
         protected router: Router,
+        private personaJuridicaService: PersonaJuridicaService,
         protected dialog: MatDialog,
         private cuentaBancoService: CuentaBancoService,
         private fb: FormBuilder,
+        private Pago_proveedoresService: pago_proveedoresService,
         //public TipoOperacion : string,
        // private cuentaBancariaService: CuentaBancariaService,
         protected intervinienteService: IntervinienteService,
@@ -86,9 +94,12 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
     ngOnInit() {
 
      
-        
-       
-        
+        this.Pago_proveedoresService.get().subscribe(data => {
+            console.log("tipo_servicios",data)
+            this.tipo_servicios.next(data);
+        });
+
+      
        
 
         this.itemForm = this.fb.group({
@@ -104,7 +115,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
             conoActual: new FormControl([]),
             conoAnterior: new FormControl([]),
             operacion: new FormControl(''),
-
+            email: new FormControl(this.personaJuridica.email || '', [Validators.required]),
         });
 
         this.cargaDatos();
@@ -259,14 +270,25 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
                     //  public availableLangs = [] as Idioma[];
                     //this.cuentaBancariaService.activesByNumper(this.persona.numper).subscribe(data => {
                     // console.log("this.persona",this.persona)
-                    this.cuentaBancoService.listByPersona(this.cuentaOperacion.id).subscribe(data => {
+
+                    this.personaJuridicaService.get(this.persona.id).subscribe(val => {
+                       // this.personaJuridica(val);
+                       this.personaJuridica = val;
+                       this.f.email.setValue(this.personaJuridica.email);
+                        console.log("this.personaJuridica",val);
+                        this.cdr.detectChanges();
+                    });
+
+
+                    this.cuentaBancoService.listByPersona(this.persona.id).subscribe(data => {
                         console.log("nueva cuenta",data)
                         this.cuentasBancarias.next(data);
+                        //this.TipoOperacion.next();
                         //if (data.length === 1) {
                             this.f.cuentaBancaria.setValue(data[0].id);
                             this.f.numeroCuenta.setValue(data[0].numeroCuenta);
                             this.f.moneda.setValue(data[0].moneda);
-                            
+                        
                         //}
                     });
                 }

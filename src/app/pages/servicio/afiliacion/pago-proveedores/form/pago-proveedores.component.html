@@ -16,11 +16,7 @@
                         <sirio-cuenta-proveedor (result)="depositoEfectivo($event)" [persona]="persona" [cuentaOperacion]="cuentaOperacion"
                             ></sirio-cuenta-proveedor>
                        
-                            <mat-form-field fxFlex="50">
-                                <mat-label>{{'Correo Electrónico' | translate: {default: 'Correo Electrónico'} | translate }} </mat-label>
-                                <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
-                                    email-validate>
-                            </mat-form-field>
+                          
                     </div>
 
                 </sirio-card-content>

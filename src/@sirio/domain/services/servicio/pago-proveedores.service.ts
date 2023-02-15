@@ -6,18 +6,18 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 import { ApiConfConstants } from 'src/@sirio/constants';
 
 
-// export interface Cheque {
+export interface Tipo_Servicio {
 
-//     serial: string;
-//     numeroCuentaCheque: string;
-//     tipoDocumentoCheque: string;
+    ID: string;
+    nombre: string;
+    descripcion: string;
 //     codigoSeguridad: string;
 //     fechaEmision: any;
 //     montoCheque: number;
 //     // devolver: number;
 //     motivoDevolucion: string;
 //     // operacion?:'efectivo' | 'cheques' | 'mixto';
-// }
+ }
 
 export interface pago_proveedores {
    // id: number;
@@ -58,6 +58,13 @@ export class pago_proveedoresService {
     }
 
 
+    get(): Observable<Tipo_Servicio[]> {
+        return this.apiService.config(this.apiConfig).get(`/get`);
+    }
+
+    // get(id: string): Observable<Moneda> {
+    //     return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    // }
     
 
 }

@@ -25,14 +25,14 @@
 
                 <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
                     [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate" formControlName="cuentaBancaria"
-                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'id'"
+                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'numeroCuenta'"
                     [errors]="f.numeroCuenta?.errors">
                 </sirio-select-search>
                 
 
 
                 <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
-                [label]="'deposit.countNumber' | translate: {default: 'Tipo Operacion'} | translate" formControlName="TipoOperacion" [attributeName]="'TipoOperacion'" >
+                [label]="'deposit.countNumber' | translate: {default: 'Tipo Operacion'} | translate" formControlName="TipoOperacion" [elements]="tipo_servicios.asObservable()" [attributeName]="'nombre'" >
                 </sirio-select-search>
                 
 
@@ -41,6 +41,15 @@
                     <mat-label>CODIGO DE AUTORIZACION </mat-label>
                     <input matInput max="9999999999999.99" maxlength="20" min="0" autocomplete="off" name="efectivo" formControlName="efectivo">
                 </mat-form-field>
+
+                <mat-form-field fxFlex="50">
+                    <mat-label>{{'Correo Electrónico' | translate: {default: 'Correo Electrónico'} | translate }} </mat-label>
+                    <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
+                        email-validate [disabled]=disabled >
+                </mat-form-field>
+
+
+
             </div>
         </div>
 

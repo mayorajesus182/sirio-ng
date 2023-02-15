@@ -10,7 +10,7 @@ import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/
 import { CuentaBancaria, CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
-import { pago_proveedores, pago_proveedoresService } from 'src/@sirio/domain/services/servicio/pago-proveedores.service';
+import { pago_proveedores, pago_proveedoresService ,Tipo_Servicio} from 'src/@sirio/domain/services/servicio/pago-proveedores.service';
 import { PersonaJuridica } from 'src/@sirio/domain/services/persona/persona-juridica.service';
 
 @Component({
@@ -36,6 +36,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     moneda: Moneda = {} as Moneda;
     loading = new BehaviorSubject<boolean>(false);
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
+    tipo_servicios = new BehaviorSubject<Tipo_Servicio[]>([]);
     personaJuridica: PersonaJuridica;
     constructor(
         injector: Injector,
@@ -50,7 +51,10 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
     ngOnInit() {
         GlobalConstants.TIPO_PERSONA = 'J'; 
 
-  
+      
+
+       
+
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_JURIDICA).subscribe(data => {
             this.tipoDocumentos.next(data);
         });
@@ -127,6 +131,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
                     this.persona.identificacion = this.cuentaOperacion.identificacion;
                     this.persona.tipoDocumento = this.cuentaOperacion.tipoDocumento;
                     this.persona.email = this.cuentaOperacion.email;
+                    this.persona.id =this.cuentaOperacion.id;
                     this.cuentaOperacion = undefined;
                    this.loading.next(true);
                    this.cdr.detectChanges();

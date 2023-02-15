@@ -33,8 +33,8 @@
       <mat-form-field fxFlex="auto">
         <mat-label>Terminos y Condiciones</mat-label>
 
-        <input matInput maxlength="500" minlength="1" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="numero"
-         class="text-center" formControlName="numero" required placeholder="">
+        <!-- <input matInput maxlength="500" minlength="1" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="numero"
+         class="text-center" formControlName="numero" required placeholder=""> -->
 
          <p>Este formulario constituye comprobante de las remesas de efectivo y/o valores recibidas y despachadas por nuestras dependencias, por intermedio de- Sus ejemplares se distribuiran de la forma siguiente:
           El Original (1) firmado donde corresponde por una Firma Autorizada de la Oficina Remitente, y conformado en el recuadro “Identificación de los Envases”por el empleado de que recibe la remesa, queda en poder de la oficina remitente
@@ -70,7 +70,7 @@
 
 
 
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
   <button mat-raised-button color="primary" (click)="dialogRef.close()">{{'button.save'|translate}}</button>
 </mat-dialog-actions>
