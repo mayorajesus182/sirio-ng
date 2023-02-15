@@ -259,7 +259,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.loadMoneda(value);
 
 
-                if (!this.persona.cuentaMonedaPrincipal && this.f.moneda.value != this.preferencia.monedaConoActual) {
+                if (!this.persona.cuentaMonedaPrincipal && this.f.moneda.value != this.preferencia.monedaConoActual.value) {
                     // identificar con una alerta que no puede realizar esta apertura por no tener 
 
                     this.swalService.show(`Para aperturar una cuenta en la moneda <strong>${this.monedaSubproducto}</strong> debe primero: `,

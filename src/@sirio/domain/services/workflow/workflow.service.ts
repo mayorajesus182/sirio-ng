@@ -55,8 +55,8 @@ export class WorkflowService {
         return this.apiService.config(this.apiConfig).get('/pending/quantity');
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Workflow[]> {
-        return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    pageByUsuarioRols(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Workflow[]> {
+        return this.apiService.config(this.apiConfig).page('/by-usuario-rols/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
     get(id: string): Observable<Workflow> {
