@@ -56,10 +56,16 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         // Obtener los datos de la petición
         return next.handle(req).pipe(
             tap(event => {
-                if (event instanceof HttpResponse && this.cache.api_chacheable.find(a=>req.urlWithParams.indexOf(a)>=0) != undefined && req.method=='GET' && !req.url.endsWith('/page')) {
-                    // console.log(' push response al cache ', req.urlWithParams);
-                    this.cache.put(req, event);
+                if(event instanceof HttpResponse){
+                    if ( this.cache.api_chacheable.find(a=>req.urlWithParams.indexOf(a)>=0) != undefined && req.method=='GET' || (req.method=='GET' && req.url.match(this.cache.api_config_regex))) {
+                        // console.log(' push response al cache ', req.urlWithParams);
+                        this.cache.put(req, event);
+                    }
                 }
+                // if (event instanceof HttpResponse && (this.cache.api_chacheable.find(a=>req.urlWithParams.indexOf(a)>=0) != undefined && req.method=='GET') || (req.method=='GET' && req.url.match(this.cache.api_config_regex))) {
+                //     // console.log(' push response al cache ', req.urlWithParams);
+                //     this.cache.put(req, event);
+                // }
             })
         );
     }

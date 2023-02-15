@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { TipoIngresoConstants } from 'src/@sirio/constants';
 import { InformacionLaboral, InformacionLaboralService } from 'src/@sirio/domain/services/persona/informacion-laboral/informacion-laboral.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 
@@ -45,7 +46,11 @@ export class InformacionLaboralTableComponent extends TableBaseComponent impleme
       console.log(data);
       
       this.informacionLaboralList.next(data.slice());
-      // this.propagar.emit(data.length);
+      console.log(data.filter(i=>i.tipoIngreso==TipoIngresoConstants.NEGOCIO_PROPIO).map(i=>i.id!=undefined)[0]);
+      
+      const hasOwnBusiness =data.filter(i=>i.tipoIngreso==TipoIngresoConstants.NEGOCIO_PROPIO).map(i=>i.id!=undefined)[0];
+
+      this.negocio.emit(hasOwnBusiness);
 
       this.informacionLaborales = data.map(t => {return {identificacion:t.tipoDocumento+'-'+t.identificacion,tipo:t.tipoIngreso}});
       

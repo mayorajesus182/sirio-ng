@@ -3,7 +3,7 @@ import { Location } from "@angular/common";
 import { HttpResponse } from "@angular/common/http";
 
 import { ChangeDetectorRef, Component, ElementRef, Injector, QueryList, ViewChildren } from "@angular/core";
-import { FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { MatButton } from "@angular/material/button";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 
@@ -64,6 +64,8 @@ export class FormBaseComponent {
 
     public loading$ = this.loadingDataForm.asObservable();
 
+    disabled$ = new BehaviorSubject<boolean>(undefined);
+
 
     protected snack: SnackbarService;
     protected navService: NavigationService;
@@ -78,7 +80,7 @@ export class FormBaseComponent {
     protected dialogRef: MatDialogRef<any>;
     public actions: SidenavItem[] = [];
     public buttons: SidenavItem[] = [];
-    @ViewChildren(MatButton) buttonList: QueryList<MatButton>
+    @ViewChildren(MatButton) buttonList: QueryList<ElementRef>
 
     public opts = {
         type: 'line-scale-pulse-out',
@@ -128,14 +130,16 @@ export class FormBaseComponent {
         this.opts.bdColor = 'rgba(190, 190, 190, 0.10)';
 
         this.loading$.subscribe(status => {
-            // console.log('send info ', status);
-            
-            // console.log('loading form-regla-OSCES ',status);
+            console.log('send info ', status);
+
             // bloque todos los botonones mientras estoy enviando info al servidor
-            if(this.buttonList){
-                
-                this.buttonList.forEach(element => {
-                    element.disabled = status;
+            if (this.buttonList) {
+
+                this.buttonList.forEach(btn  => {
+                    // console.log(btn);
+                    if(btn.nativeElement && (!btn.nativeElement.hasAttribute('not-disabled') || status)){
+                        btn.nativeElement.disabled = status;
+                    }
                 });
 
             }
@@ -179,7 +183,27 @@ export class FormBaseComponent {
     }
 
 
+    moveFocusToNextField(form: NgForm) {
+        console.log(form.form.controls);
+        // const fields = form.controls.filter(c => c instanceof HTMLElement) as any[];
+        // const fields = Array.from(form.nativeElement.querySelectorAll('input, select,radio,checkboc, textarea, button')) as any[];
+        console.log("**** fields *****");
+        // console.log(fields);
+        
+        // const currentIndex = fields.indexOf(document.activeElement);
+        // if (currentIndex > -1 && currentIndex < fields.length - 1) {
+        //     fields[currentIndex + 1].focus();
+        // }
 
+
+        // const element = form. as HTMLInputElement;
+        // const tabIndex = +element.getAttribute('tabindex');
+        // const nextElement = form.form.nativeElement.querySelector(`[tabindex="${tabIndex + 1}"]`) as HTMLInputElement;
+        // if (nextElement) {
+        //   nextElement.focus();
+        // }
+
+    }
 
     protected updateData(current = {}) {
         Object.assign(current, this.itemForm.value);

@@ -62,6 +62,7 @@ import { StringPadDirective } from './input/string-pad.directive';
 import { MatTreeModule } from '@angular/material/tree';
 import { DisableZoomDirective } from './screen/zoom-disable.directive';
 import { DocNumberValidateDirective } from './input/document-validate.directive';
+import { TabNavigationDirective } from './form/tab-navigation.directive';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -142,6 +143,7 @@ const toInclude = [
   TelefonoValidator,
   StringPadDirective,
   UppercaseDirective,
+  TabNavigationDirective,
   RelativeTimePipe,
   ShortNumberPipe,
   ShortSizePipe,
