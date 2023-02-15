@@ -1,0 +1,59 @@
+<div>
+    <h4>Información de la Tarjeta de Débito</h4>
+</div>
+
+<!-- <div fxLayout="row" fxLayout="column"> -->
+<!-- <div fxLayoutAlign="end center" fxFlex="1 1 0%"> -->
+<!-- <button color="default" (click)="popup(constante.REPOSICION)" mat-button class="margin-v-sm">Reposición </button> -->
+
+<!-- <button color="default" (click)="popup(constante.ASOC_DES)" mat-button class="margin-v-sm">Asoc./Desas. Cta.</button> -->
+
+<!-- <button color="default" (click)="popup(constante.BLOQUEO)" mat-button class="margin-v-sm">Bloquear</button> -->
+<!-- </div> -->
+<!-- </div> -->
+
+<ngx-datatable [scrollbarV]="false" canAutoResize="false" class="material" [columnMode]="ColumnMode.force"
+    [messages]="{emptyMessage: 'No hay registros...',totalMessage: 'Total'}" [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50"
+    [rowHeight]="70" [limit]="10" [rows]="cuentasBancarias | async">
+
+    <ngx-datatable-column [resizeable]="false" [width]="100" name="Tipo de Tarjeta">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <div class="text-center" fxLayoutAlign="center"> {{ rowIndex+1 }}</div>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Nro TDD">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.identificacion }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Condición">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <span class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{ row?.clase }}</span>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="200" name="Estado">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="text-center" fxLayoutAlign="center" style="white-space: break-spaces;">{{row.numero | imask:{mask: '(0000) 000.00.00'} }}</div>
+        </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column [resizeable]="false" [width]="500" name="Acciones">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="text-center" fxLayoutAlign="center" fxLayoutGap="10px">
+                <button color="primary" class="margin-v-sm" mat-raised-button (click)="popup(row, constante.REPOSICION)">
+                    <i class="fa-light fa-retweet"></i> Reposición
+                </button>
+                <button color="primary" class="margin-v-sm" mat-raised-button (click)="popup(row, constante.ASOC_DES)">
+                    <i class="fa-light fa-link-slash"></i> Asoc./ Desas.
+                </button>
+                <button color="primary" class="margin-v-sm" mat-raised-button (click)="popup(row, constante.BLOQUEO)">
+                    <i class="fa-light fa-lock-keyhole"></i> Bloqueo/Cancelación
+                </button>
+            </div>
+        </ng-template>
+    </ngx-datatable-column>
+
+</ngx-datatable>
