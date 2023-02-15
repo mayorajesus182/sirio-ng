@@ -149,24 +149,21 @@ export class DespacharRemesaEnvioFormComponent extends FormBaseComponent impleme
                 this.empleados.next(emp);
             });
 
-            // this.preferenciaService.get().subscribe(pref => {
-            //     this.preferencia = pref;
 
-                // Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
-                if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
+            // Si es moneda local se bucan los viajes con bolivares mayores a cero, de otro modo se buscan viajes con divisas meyores a cero
+            if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
-                    this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
-                        this.viajes.next(vjt);
-                    });
+                this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
+                    this.viajes.next(vjt);
+                });
 
-                } else {
+            } else {
 
-                    this.viajeTransporteService.allWithCostoDivisaByTransportista(value).subscribe(vjt => {
-                        this.viajes.next(vjt);
-                    });
-                }
-            });
-        // });
+                this.viajeTransporteService.allWithCostoDivisaByTransportista(value).subscribe(vjt => {
+                    this.viajes.next(vjt);
+                });
+            }
+        });
 
         this.cdr.detectChanges();
     }
@@ -177,10 +174,6 @@ export class DespacharRemesaEnvioFormComponent extends FormBaseComponent impleme
 
         this.updateData(this.remesa);
         this.remesa.detalleEfectivo = [];
-
-        // console.log(this.remesa);
-
-
 
         this.swalService.show('¿Desea Despachar la Solicitud?', this.remesa.id).then((resp) => {
             if (!resp.dismiss) {
