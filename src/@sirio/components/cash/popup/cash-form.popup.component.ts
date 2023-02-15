@@ -1,4 +1,5 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
+
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
@@ -11,13 +12,14 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 @Component({
   selector: 'sirio-cash-form.popup',
   templateUrl: './cash-form.popup.component.html',
-  styleUrls: ['./cash-form.popup.component.scss']
+  styleUrls: ['./cash-form.popup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CashFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
 
   public valuesCono1: ConoMonetario[] = [];
   public valuesCono2: ConoMonetario[] = [];
-  public moneda: Moneda = {} as Moneda;
+  public moneda: Moneda = undefined;
   public operation: string;
   public preferencia = new BehaviorSubject<Preferencia>(undefined);
   // private divisor:number=1;
@@ -26,7 +28,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
   public totalActual = 0;
   public totalAnterior = 0;
   public total = 0;
-  private divisor:number = 1.0;
+  private divisor: number = 1.0;
 
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -41,15 +43,16 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
 
   ngAfterViewInit(): void {
 
-    this.cdref.markForCheck();
+    this.cdref.detectChanges();
 
   }
 
   ngOnInit() {
 
 
+
     this.updateConoActual([]);
-    this.updateConoAnterior([]);    
+    this.updateConoAnterior([]);
     this.total = this.defaults.payload.total;
 
     this.moneda = this.defaults.payload.moneda;
@@ -67,7 +70,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.defaults = {} as any;
     }
 
-    this.cdref.markForCheck();
+    this.cdref.detectChanges();
 
 
   }
@@ -81,9 +84,9 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       });
 
   }
-  compareValues(totalValue, totalActualValue, totalAnteriorValue){
+  compareValues(totalValue, totalActualValue, totalAnteriorValue) {
 
-  return Math.abs(totalValue - (totalActualValue+(totalAnteriorValue?totalAnteriorValue:0)))>=1;
+    return Math.abs(totalValue - (totalActualValue + (totalAnteriorValue ? totalAnteriorValue : 0))) >= 1;
 
   }
 
@@ -108,7 +111,7 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
     } else {
-      
+
       // esta vacio
       this.valuesCono1 = this.valuesCono1.map(e => {
         if (e.cantidad > 0) {
@@ -116,8 +119,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
         }
         return e;
       });
-      this.totalActual =0;
-      this.montoTotal=0;
+      this.totalActual = 0;
+      this.montoTotal = 0;
       this.cdref.detectChanges();
     }
 
@@ -131,17 +134,17 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
       this.totalAnterior = list.map(e => e.cantidad * (e.denominacion / this.divisor)).reduce((a, b) => a + b);
       this.montoTotal = this.totalActual + this.totalAnterior;
       this.cdref.detectChanges();
-    }else {
-      
-   
+    } else {
+
+
       this.valuesCono2 = this.valuesCono2.map(e => {
         if (e.cantidad > 0) {
           e.cantidad = 0;
         }
         return e;
       });
-      this.totalAnterior-0
-      this.montoTotal=0;
+      this.totalAnterior - 0
+      this.montoTotal = 0;
       this.cdref.detectChanges();
     }
 
@@ -153,8 +156,8 @@ export class CashFormPopupComponent extends PopupBaseComponent implements OnInit
     this.cdref.detectChanges();
   }
 
-  notValidate(){
-    return this.valuesCono1.map(c=>c.errors).filter(e=>e!=null || e != undefined).length > 0 || this.valuesCono2.map(c=>c.errors).filter(e=>e!=null).length > 0;
+  notValidate() {
+    return this.valuesCono1.map(c => c.errors).filter(e => e != null || e != undefined).length > 0 || this.valuesCono2.map(c => c.errors).filter(e => e != null).length > 0;
   }
 
 }

@@ -8,21 +8,21 @@ import { ApiOption, ApiService } from 'src/@sirio/services/api';
 export interface Pep {
     id: string;
    
-    persona: String;
+    persona: number;
 
-    tipoPep: String;   
+    tipoPep: string;   
     
     tipoDocumento: string;
 
     identificacion?: string;
 
-    nombre: String;
+    nombre: string;
     
-    ente: String;
+    ente: string;
 
-    cargo: String;
+    cargo: string;
 
-    pais?: String;
+    pais?: string;
 }
 
 
