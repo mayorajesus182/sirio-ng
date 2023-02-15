@@ -49,10 +49,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
             console.log(data);
 
         });
-
-        // this.saldoTaquillaService.allWithMovements().subscribe(data => {
-        //     this.saldos.next(data);
-        // });
     }
 
     ngOnInit() {
@@ -76,48 +72,52 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
         saldo.declarado = saldo.detalleEfectivo.filter(c => c.declarado != undefined && c.declarado > 0).map(c1 => c1.declarado * c1.denominacion).reduce((a, b) => a + b);
     }
 
-    // TODO: FALTAN  ETIQUETAS
-
     calculateDifferences(saldoTaquilla: SaldoTaquilla) {
 
         let mensaje = '';
 
+        //Para la moneda local se deben ir contra los ajustes faltantes o sabrantes
         if (saldoTaquilla.moneda === this.preferencias.monedaConoActual.value) {
 
-            if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > Number.parseFloat(this.preferencias.ajusteSobrante.value)) {
+            // Caso en el que hay diferencia declarado-saldo y hay diferencias sobrante o faltante
+            if ((Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > Number.parseFloat(this.preferencias.ajusteFaltante.value) && (saldoTaquilla.declarado - saldoTaquilla.saldo) < 0) ||
+                (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > Number.parseFloat(this.preferencias.ajusteSobrante.value) && (saldoTaquilla.declarado - saldoTaquilla.saldo) > 0)) {
 
-                let ajuste = saldoTaquilla.declarado > saldoTaquilla.saldo ? (Number.parseFloat(this.preferencias.ajusteSobrante.value) * -1) : Number.parseFloat(this.preferencias.ajusteSobrante.value);
-                // let ajusteTaquillaFormat = formatNumber(ajuste, 'es', '1.2');
-                // let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste, 'es', '1.2');
                 let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
-                // mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteTaquillaFormat).concat(' <br/> ');
                 mensaje = mensaje + (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Y Una Diferencia Sobrante De: ' : 'Y Una Diferencia Faltante De: ').concat(diferenciaGeneradaFormat);
-                // saldoTaquilla.ajuste = ajuste;
-                // saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado - ajuste;
                 saldoTaquilla.ajuste = 0;
                 saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado;
 
-            } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > 0 && Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= Number.parseFloat(this.preferencias.ajusteSobrante.value)) {
+                // Caso en el que hay diferencia declarado-saldo y hay ajustes sobrante o faltante
+            } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) > 0 &&
+                ((Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= Number.parseFloat(this.preferencias.ajusteFaltante.value) && (saldoTaquilla.declarado - saldoTaquilla.saldo) < 0) ||
+                    (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) <= Number.parseFloat(this.preferencias.ajusteSobrante.value) && (saldoTaquilla.declarado - saldoTaquilla.saldo) > 0))) {
 
                 let ajusteGeneradoFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
                 mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Se Generará Un Ajuste Sobrante De: ' : 'Se Generará Un Ajuste Faltante De: ').concat(ajusteGeneradoFormat);
                 saldoTaquilla.ajuste = saldoTaquilla.saldo - saldoTaquilla.declarado;
                 saldoTaquilla.diferencia = 0;
 
+                //Caso en el que no hay diferencia
             } else if (Math.abs(saldoTaquilla.declarado - saldoTaquilla.saldo) == 0) {
+
                 mensaje = 'No Existen Diferencias Ni Ajustes'
                 saldoTaquilla.ajuste = 0;
                 saldoTaquilla.diferencia = 0;
             }
 
+            //Para la moneda extranjera solo aplixa diferencias
         } else {
 
             if (saldoTaquilla.saldo != saldoTaquilla.declarado) {
+
                 let diferenciaGeneradaFormat = formatNumber(saldoTaquilla.saldo - saldoTaquilla.declarado, 'es', '1.2');
                 mensaje = (saldoTaquilla.declarado > saldoTaquilla.saldo ? 'Y Una Diferencia Sobrante De: ' : 'Y Una Diferencia Faltante De: ').concat(diferenciaGeneradaFormat);
                 saldoTaquilla.diferencia = saldoTaquilla.saldo - saldoTaquilla.declarado;
                 saldoTaquilla.ajuste = 0;
+
             } else {
+
                 mensaje = 'No Existen Diferencias'
                 saldoTaquilla.ajuste = 0;
                 saldoTaquilla.diferencia = 0;
@@ -140,7 +140,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
                     return data;
                 }, error => this.errorResponse(true));
 
-                // this.saveOrUpdate(this.saldoTaquillaService, saldoSave, 'La declaración de cierre', this.isNew);
             } else {
                 this.loadSaldos();
             }
@@ -168,13 +167,6 @@ export class CierreTaquillaFormComponent extends FormBaseComponent implements On
 
                 this.saldos.value.forEach(saldo => {
                     taquilla = saldo.taquilla;
-
-                    // console.log('saldo.diferencia  ', saldo.diferencia);
-                    // console.log('saldo.ajuste  ', saldo);
-                    // console.log('(saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0)  ', (saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0));
-                    // console.log('(saldo.confirmado == 0)  ', (saldo.confirmado == 0));
-                    // console.log('fin  ', ((saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0) && (saldo.confirmado == 0)));
-                    // console.log('saldo.ajuste  ', saldo);
 
                     // Si la declaración del saldo no esta confirmada y existe algun saldo, ajuste o diferencia, no se puede cerrar
                     if ((saldo.saldo > 0 || saldo.ajuste != 0 || saldo.diferencia != 0) && (saldo.confirmado == 0)) {
