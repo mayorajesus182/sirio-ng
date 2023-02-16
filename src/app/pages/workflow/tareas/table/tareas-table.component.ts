@@ -9,6 +9,7 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
+import { Workflow } from 'src/@sirio/domain/services/workflow/workflow.service';
 
 @Component({
   selector: 'app-tareas-table',
@@ -20,56 +21,47 @@ import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.se
 
 export class TareasTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['expediente_id', 'actions'];
+  displayedColumns = ['expediente_id', 'rol_id', 'descripcion', 'publicacion', 'acciones'];
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
-    protected agenciaService: WorkflowService,
+    protected workflowService: WorkflowService,
     private cdr: ChangeDetectorRef,
   ) {
-    super(undefined,  injector);
+    super(undefined, injector);
   }
 
+
   ngOnInit() {
-    this.init(this.agenciaService, 'expediente_id', 'pageByUsuarioRols');
+    this.init(this.workflowService, 'expediente_id', 'pageByUsuarioRols');
   }
 
   ngAfterViewInit() {
     this.afterInit();
   }
 
-  add(path:string) {
-    this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
+  takeTask(task: Workflow) {
+    let mensaje = task.expediente.concat(' - ').concat(task.rolNombre);
+    this.swalService.show('¿Desea Tomar la Tarea?', mensaje).then((resp) => {
+      if (!resp.dismiss) {
+        this.workflowService.take(task.id).subscribe(data => {
+          this.snack.show({ message: 'Tarea Asignada Satisfactoriamente!', verticalPosition: 'bottom' });
+        });
+      }
+    });
   }
 
-  edit(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
+  solveTask(tarea: Workflow) {
+    let mensaje = tarea.expediente.concat(' - ').concat(tarea.rolNombre);
+    this.swalService.show('¿Desea Resolver la Tarea?', mensaje).then((resp) => {
+      if (!resp.dismiss) {
+        console.log('allaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      }
+    });
   }
 
-  view(data:any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
-  }
-
-  assign(data:any) {
-    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/assign`;
-    this.router.navigateByUrl(url, { state: {data: data.element}  });
-  }
-
-  balance(data:any) {
-    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/balance`;
-    this.router.navigateByUrl(url, { state: {data: data.element}  });
-  }
-
-  checkbalance(data:any) {
-    const url = `${this.buildPrefixPath(data.path)}${data.element.id}/check`;
-    this.router.navigateByUrl(url, { state: {data: data.element}  });
-  }
-
-  activateOrInactivate(data:any) {
-    this.applyChangeStatus(this.agenciaService, data.element, data.element.nombre, this.cdr);
-  }
 
 }
 
