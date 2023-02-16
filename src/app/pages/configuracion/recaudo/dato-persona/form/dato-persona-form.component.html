@@ -1,0 +1,72 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['personData.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'personData.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)" (click)="save()">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
+                            <mat-icon>backspace</mat-icon>
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <form [formGroup]="itemForm" *ngIf="itemForm">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <sirio-select-search fxFlex="25"
+                                [label]="'personData.personType' | translate: {default: 'global.personType'} | translate"
+                                formControlName="tipoPersona" [required]="true" [elements]="tipoPersonas.asObservable()"
+                                [attributeName]="'nombre'">
+                            </sirio-select-search>
+
+                            <sirio-select-search fxFlex="55"
+                                [label]="'personData.section' | translate: {default: 'global.section'} | translate"
+                                formControlName="seccion" [required]="true" [elements]="secciones.asObservable()"
+                                [attributeName]="'nombre'">
+                            </sirio-select-search>
+
+                            <mat-form-field fxFlex="20">
+                                <mat-label>{{'personData.quantity' | translate: {default: 'global.quantity'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" max="9" type="number" autocomplete="off" name="cantidad" formControlName="cantidad">
+                                <mat-error *ngIf="f.cantidad.errors?.max">Debe ser menor a 10</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </form>
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async ) ">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

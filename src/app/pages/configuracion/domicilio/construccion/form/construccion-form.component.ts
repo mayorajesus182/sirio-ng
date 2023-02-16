@@ -63,7 +63,7 @@ export class ConstruccionFormComponent extends FormBaseComponent implements OnIn
     buildForm(construccion: Construccion) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: construccion.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(construccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(construccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(construccion.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

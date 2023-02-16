@@ -216,8 +216,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                 this.empleados.next(emp);
             });
 
-            // this.preferenciaService.get().subscribe(pref => {
-            //     this.preferencia = pref;
 
             // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
             if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
@@ -233,7 +231,6 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
                 });
             }
         });
-        // });
 
         this.f.cajasBolsas.valueChanges.subscribe(value => {
             this.comparePlomos();
@@ -371,7 +368,7 @@ export class ProcesarRemesaFormComponent extends FormBaseComponent implements On
             return;
         }
 
-        if (value.length != Number.parseInt(this.preferencia.digitosPlomo.value) ) {
+        if (value.length != Number.parseInt(this.preferencia.digitosPlomo.value)) {
             this.plomoCtrl.setErrors({ length: `El plomo debe tener ${this.preferencia.digitosPlomo.value} dígitos` });
             this.cdr.detectChanges();
             return;

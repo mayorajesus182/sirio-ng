@@ -63,7 +63,7 @@ export class TipoTelefonoFormComponent extends FormBaseComponent implements OnIn
     buildForm(tipoTelefono: TipoTelefono) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: tipoTelefono.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(tipoTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(tipoTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(tipoTelefono.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

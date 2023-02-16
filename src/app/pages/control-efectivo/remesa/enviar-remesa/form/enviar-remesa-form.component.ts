@@ -101,8 +101,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
 
                 this.buildFormMateriales();
                 this.loadingDataForm.next(false);
-                // this.applyFieldsDirty();
-                // this.cdr.markForCheck();
 
                 if (id) {
                     this.remesaService.get(id).subscribe((rem: Remesa) => {
@@ -244,9 +242,6 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         this.plomoList = this.remesa.plomos ? this.remesa.plomos.split(',') : [];
 
         this.onLoadMaterialesUtilizados();
-
-        // this.materiales.subscribe(()=>this.onLoadMaterialesUtilizados());
-
         this.cdr.detectChanges();
     }
 
@@ -447,10 +442,8 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
         if (value === '') {
             return;
         }
-        // console.log(event);
 
         if (!value.match(/^[0-9]*$/)) {
-            // console.log('match reg ex ', value);
             this.plomoCtrl.setErrors({ pattern: true });
             // this.plomoCtrl.markAsDirty();
             // this.cdr.detectChanges();

@@ -65,8 +65,13 @@ const configuracionRoutes: Routes = [
     },
     {
         path: 'gestion-efectivo',
-        data: { title: 'Producto' },
+        data: { title: 'Gestion de Efectivo' },
         loadChildren: () => import('./gestion-efectivo/gestion-efectivo.module').then(m => m.GestionEfectivoModule),
+    },
+    {
+        path: 'recaudo',
+        data: { title: 'Recaudo' },
+        loadChildren: () => import('./recaudo/recaudo.module').then(m => m.RecaudoModule),
     },
    
 ];
