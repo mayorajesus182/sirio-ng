@@ -40,9 +40,7 @@ export class NivelEstudioFormComponent extends FormBaseComponent implements OnIn
             this.nivelEstudioService.get(id).subscribe((agn: NivelEstudio) => {
                 this.nivelEstudio = agn;
                 this.buildForm(this.nivelEstudio);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

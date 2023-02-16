@@ -13,7 +13,7 @@
 
 <img [src]="path" alt="" style="height: auto; width: 100%;">
 
-<form [formGroup]="itemForm" *ngIf="itemForm">
+<form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
   <mat-dialog-content>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -28,13 +28,13 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="24">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="75">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="75">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
@@ -54,25 +54,25 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="25">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }}
         </mat-label>
         <input matInput class="text-right" [value]="'100.000,00'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="15">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
         <mat-label>{{'Tasa' | translate: {default: 'Tasa'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'5,00 %'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="30">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
         <mat-label>{{'Cuenta a Debitar' | translate: {default: 'Cuenta a Debitar'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'0138 0101 9010 2030 4011'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="30">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
         <mat-label>{{'Cuenta a Abonar Interés' | translate: {default: 'Cuenta a Abonar Interés'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'0138 0101 9020 3044 5600'" readonly>
@@ -80,25 +80,25 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="25">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>{{'Capital + Interés' | translate: {default: 'Capital + Interés'} | translate }}
         </mat-label>
         <input matInput class="text-right" [value]="'105.000,00'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="25">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>{{'Estatus' | translate: {default: 'Estatus'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'ACTIVO'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="25">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>{{'Fecha Inicial' | translate: {default: 'Fecha Inicial'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'20/01/2023'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="25">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>{{'Fecha Final' | translate: {default: 'Fecha Final'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'20/04/2023'" readonly>

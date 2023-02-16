@@ -38,9 +38,7 @@ export class FormaJuridicaFormComponent extends FormBaseComponent implements OnI
             this.formaJuridicaService.get(id).subscribe((agn: FormaJuridica) => {
                 this.formaJuridica = agn;
                 this.buildForm(this.formaJuridica);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

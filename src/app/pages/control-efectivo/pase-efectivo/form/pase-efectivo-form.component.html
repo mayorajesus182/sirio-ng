@@ -32,36 +32,34 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <!-- <sirio-select-search fxFlex="auto"
+                                <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto"
                                     [label]="'passToBoxOffice.movementType' | translate: {default: 'global.movementType'} | translate"
                                     formControlName="movimientoEfectivo" [required]="true" [elements]="movimientos.asObservable()" [attributeName]="'nombre'"
                                     [errors]="f.movimientoEfectivo?.errors">
                                 </sirio-select-search> -->
 
-                                <sirio-select-search fxFlex="auto" [label]="'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
-                                    formControlName="taquilla" [elements]="taquillas.asObservable()" [attributeName]="'nombre'" [errors]="f.taquilla?.errors"
-                                    [required]="true">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
+                                    formControlName="taquilla" [elements]="taquillas.asObservable()" [attributeName]="'nombre'" [required]="true">
                                 </sirio-select-search>
 
-                                <!-- <sirio-select-search fxFlex="25" [label]="'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
+                                <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
                                     formControlName="taquilla" [elements]="taquillas.asObservable()" [attributeName]="'nombre'" [errors]="f.taquilla?.errors"
                                     *ngIf="f.movimientoEfectivo.value === movimiento.TAQUILLA_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_TAQUILLA"
                                     [required]="f.movimientoEfectivo.value === movimiento.TAQUILLA_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_TAQUILLA">
                                 </sirio-select-search> -->
 
-                                <!-- <sirio-select-search fxFlex="25" [label]="'passToBoxOffice.atm' | translate: {default: 'global.atm'} | translate" formControlName="atm"
+                                <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'passToBoxOffice.atm' | translate: {default: 'global.atm'} | translate" formControlName="atm"
                                     [elements]="atms.asObservable()" [attributeName]="'nombre'" [errors]="f.atm?.errors"
                                     *ngIf="f.movimientoEfectivo.value === movimiento.ATM_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_ATM"
                                     [required]="f.movimientoEfectivo.value === movimiento.ATM_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_ATM">
                                 </sirio-select-search> -->
 
-                                <sirio-select-search fxFlex="auto" [label]="'passToBoxOffice.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.moneda?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'passToBoxOffice.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
                                 <!-- <mat-form-field fxFlex.gt-xs="25" >
@@ -70,7 +68,7 @@
                                     <input matInput [value]="monedaAtm.nombre" readonly>
                                 </mat-form-field> -->
 
-                                <mat-form-field fxFlex="25" appearance="standart">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="25" appearance="standart">
                                     <mat-label>{{'passToBoxOffice.amount' | translate: {default: 'global.amount'} | translate }}
                                         {{'('+('global.availableBalance' | translate) }} {{(saldoDisponible | number: '1.2')+')' }}</mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
@@ -91,7 +89,7 @@
                                 <div fxLayout="column" fxFlex="10">
                                     <h3>{{'Desglose de Efectivo' | translate: {default: 'Desglose de Efectivo'} | translate }}</h3>
                                 </div>
-                                <div fxLayout="column" fxFlex="auto">
+                                <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="auto">
                                     <div fxLayout="row wrap" fxLayoutGap.gt-sm="6px">
                                         <mat-form-field fxLayout="column" *ngFor="let item of conos | async;let i = index" fxFlex="32">
 
@@ -112,7 +110,6 @@
                         </div>
 
                     </div>
-                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

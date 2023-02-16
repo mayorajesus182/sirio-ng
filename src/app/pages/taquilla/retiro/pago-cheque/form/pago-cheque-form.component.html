@@ -24,7 +24,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
+                    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
                         <div fxLayout="column">
                             <sirio-card [fxFlex.gt-sm]="100" fxLayout="column"
                                 class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
@@ -41,7 +41,7 @@
 
                                 <sirio-card-content fxLayout="column">
                                     <div fxLayoutGap.gt-sm="10px">
-                                        <mat-form-field fxFlex.gt-sm="25">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
                                             <mat-label>{{'checkPayments.accountNumber' | translate: {default: 'global.accountNumber'} | translate }} </mat-label>
                                             <input matInput name="numeroCuenta" autocomplete="off" num-account-validate formControlName="numeroCuenta"
                                                 mask="0000 0000 00 00 00000000" required>
@@ -52,7 +52,7 @@
                                             <mat-error *ngIf="f.numeroCuenta.errors?.validacion">{{'Debe indicar el numero de cuenta'}}</mat-error>
                                         </mat-form-field>
 
-                                        <mat-form-field fxFlex.gt-sm="20">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                             <mat-label>{{'withdrawal.checkNumber' | translate: {default:'global.checkNumber'} | translate }} </mat-label>
                                             <input matInput maxlength="8"  name="serialCheque" autocomplete="off" formControlName="serialCheque"
                                             numCeros="8" string-pad [control]="f.serialCheque" required class="text-center">
@@ -61,7 +61,7 @@
                                             <!-- <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener 8 digitos</mat-error> -->
                                         </mat-form-field>
 
-                                        <mat-form-field fxFlex.gt-xs="auto">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                             <mat-label>{{'withdrawal.checkAmount' | translate: {default: 'global.checkAmount'} | translate }} </mat-label>
                                             <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="monto" formControlName="monto"
                                                 min="0.01" currencyMask [options]="{precision:2}" required>
@@ -76,7 +76,7 @@
                                             [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 
-                                        <mat-form-field fxFlex.gt-xs="auto">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                             <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                             <input matInput max="9999999999999.99" maxlength="20" readonly min="0.01" autocomplete="off" name="montoCheque"
                                                 formControlName="montoCheque" currencyMask [options]="{precision:2}" required>
@@ -90,14 +90,13 @@
                             <sirio-voucher-information *ngIf="(loading | async) && f.numeroCuenta.value >= 24" (result)="voucher($event)" [persona]="persona"></sirio-voucher-information>
                         </div>
                     </form>
-                     <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar  *ngIf="loading | async">
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
                             {{'button.cancel' | translate: {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || !voucherForm || voucherForm.invalid || (loading$ | async )">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || voucherForm?.invalid || (loading$ | async )">
                             {{'button.send' | translate: {default:  'global.notfound'} | translate }}
                         </button>
                     </div>

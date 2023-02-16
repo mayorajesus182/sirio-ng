@@ -17,7 +17,7 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
 
-                <sirio-card-content fxLayout="column">
+                <sirio-card-content fxLayout="column" tabNavigation>
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
                     <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
                         <div fxLayout="column" fxLayoutGap.gt-sm="10px" *ngIf="(loaded$ | async)">
@@ -37,7 +37,7 @@
 
                                 <sirio-card-content fxLayout="column">
                                     <div fxLayoutGap.gt-sm="10px">
-                                        <mat-form-field fxFlex.gt-sm="35" *ngIf="cuentaOperacion">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="35" *ngIf="cuentaOperacion">
                                             <mat-label>{{'withdrawal.accountNumber' | translate: {default:
                                                 'global.accountNumber'} |
                                                 translate }}
@@ -47,20 +47,20 @@
                                             <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                                         </mat-form-field>
 
-                                        <mat-form-field fxFlex.gt-xs="20" *ngIf="cuentaOperacion">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20"*ngIf="cuentaOperacion">
                                             <mat-label>{{'withdrawal.coin' | translate: {default: 'global.coin'} | translate }}
                                             </mat-label>
                                             <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.siglas" [required]="cuentaOperacion"
                                                 [ngModelOptions]="{standalone: true}" readonly name="moneda" class="text-center">
                                         </mat-form-field>
 
-                                        <sirio-select-simple *ngIf="!cuentaOperacion" fxFlex="45"
+                                        <sirio-select-simple *ngIf="!cuentaOperacion" fxFlex="100" fxFlex.gt-xs="45"
                                             [label]="'withdrawal.accountNumber' | translate: {default: 'global.accountNumber'} | translate"
                                             formControlName="cuentaBancaria" [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()"
-                                            [attributeName]="'descripcion'" [errors]="f.numeroCuenta?.errors">
+                                            [attributeName]="'descripcion'">
                                         </sirio-select-simple>
 
-                                        <mat-form-field fxFlex.gt-xs="auto">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                             <mat-label>{{'withdrawal.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
                                             <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="monto" formControlName="monto"
                                                 min="0.01" currencyMask [options]="{precision:2}" required>
@@ -75,7 +75,7 @@
                                             [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 
-                                        <mat-form-field fxFlex.gt-xs="auto">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                             <mat-label>{{'withdrawal.totalWithdrawal' | translate: {default: 'global.totalWithdrawal'} | translate }}
                                             </mat-label>
                                             <input matInput max="9999999999999.99" maxlength="20" readonly min="0.01" autocomplete="off" name="totalRetiro"
@@ -121,7 +121,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || (loading$ | async ) ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async ) ">
                             {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

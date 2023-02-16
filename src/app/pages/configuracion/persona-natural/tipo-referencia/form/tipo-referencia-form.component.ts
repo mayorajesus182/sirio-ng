@@ -40,9 +40,7 @@ export class TipoReferenciaFormComponent extends FormBaseComponent implements On
             this.tipoReferenciaService.get(id).subscribe((agn: TipoReferencia) => {
                 this.tipoReferencia = agn;
                 this.buildForm(this.tipoReferencia);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

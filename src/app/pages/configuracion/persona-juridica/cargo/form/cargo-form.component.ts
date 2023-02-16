@@ -40,9 +40,7 @@ export class CargoFormComponent extends FormBaseComponent implements OnInit {
             this.cargoService.get(id).subscribe((agn: Cargo) => {
                 this.cargo = agn;
                 this.buildForm(this.cargo);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

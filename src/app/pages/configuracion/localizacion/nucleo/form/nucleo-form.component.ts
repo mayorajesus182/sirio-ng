@@ -38,9 +38,7 @@ export class NucleoFormComponent extends FormBaseComponent implements OnInit {
             this.nucleoService.get(id).subscribe((agn: Nucleo) => {
                 this.nucleo = agn;
                 this.buildForm(this.nucleo);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

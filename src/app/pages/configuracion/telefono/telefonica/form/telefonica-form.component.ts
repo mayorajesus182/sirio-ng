@@ -43,9 +43,7 @@ export class TelefonicaFormComponent extends FormBaseComponent implements OnInit
             this.telefonicaService.get(id).subscribe((agn: Telefonica) => {
                 this.telefonica = agn;
                 this.buildForm(this.telefonica);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

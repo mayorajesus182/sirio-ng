@@ -42,9 +42,7 @@ export class SectorFormComponent extends FormBaseComponent implements OnInit {
             this.sectorService.get(id).subscribe((agn: Sector) => {
                 this.sector = agn;
                 this.buildForm(this.sector);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

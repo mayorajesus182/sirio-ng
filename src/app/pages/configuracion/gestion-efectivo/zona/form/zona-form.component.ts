@@ -41,9 +41,7 @@ export class ZonaFormComponent extends FormBaseComponent implements OnInit {
             this.zonaService.get(id).subscribe((agn: Zona) => {
                 this.zona = agn;
                 this.buildForm(this.zona);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

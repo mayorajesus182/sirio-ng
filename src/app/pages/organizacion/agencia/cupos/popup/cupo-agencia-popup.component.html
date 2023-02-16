@@ -12,7 +12,7 @@
 </sirio-dialog-header>
 
 
-<form [formGroup]="itemForm" *ngIf="itemForm" (ngSubmit)="save()">
+<form [formGroup]="itemForm" *ngIf="itemForm" (ngSubmit)="save()" tabNavigation>
     <mat-dialog-content>
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -29,7 +29,7 @@
         </div>
 
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-            <mat-form-field fxFlex="auto">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                 <mat-label>{{'agencyQuota.maximum' | translate: {default: 'global.maximum'} | translate }}</mat-label>
                 <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="maximo" formControlName="maximo"
                     [options]="{precision:2}" required>
@@ -38,7 +38,7 @@
                 <mat-error *ngIf=" f.maximo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="auto">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                 <mat-label>{{'agencyQuota.minimum' | translate: {default: 'global.minimum'} | translate }}</mat-label>
                 <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="minimo" formControlName="minimo"
                     [options]="{precision:2}" required>
@@ -47,7 +47,7 @@
                 <mat-error *ngIf=" f.minimo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="auto">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                 <mat-label>{{'agencyQuota.excess' | translate: {default: 'global.excess'} | translate }}</mat-label>
                 <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="excedente" formControlName="excedente"
                     [options]="{precision:2}" required>

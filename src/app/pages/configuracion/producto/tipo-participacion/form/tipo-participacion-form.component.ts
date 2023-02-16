@@ -39,9 +39,7 @@ export class TipoParticipacionFormComponent extends FormBaseComponent implements
             this.tipoParticipacionService.get(id).subscribe((agn: TipoParticipacion) => {
                 this.tipoParticipacion = agn;
                 this.buildForm(this.tipoParticipacion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

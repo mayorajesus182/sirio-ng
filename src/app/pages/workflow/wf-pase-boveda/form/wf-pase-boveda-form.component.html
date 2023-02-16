@@ -3,7 +3,7 @@
         <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
-    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column"  tabNavigation>
 
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
@@ -37,29 +37,29 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="30">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                                     <mat-label>{{'passToVault.movementType' | translate: {default: 'global.movementType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="cajaTaquilla.movimientoEfectivoNombre" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="25">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
                                     <mat-label>{{'passToVault.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="cajaTaquilla.taquillaNombre" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="25">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
                                     <mat-label>{{'passToVault.coin' | translate: {default: 'global.coin'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="cajaTaquilla.monedaNombre" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required readonly>

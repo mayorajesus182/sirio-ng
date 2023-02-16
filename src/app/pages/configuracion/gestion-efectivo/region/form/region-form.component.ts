@@ -46,9 +46,7 @@ export class RegionFormComponent extends FormBaseComponent implements OnInit {
             this.regionService.get(id).subscribe((agn: Region) => {
                 this.region = agn;
                 this.buildForm(this.region);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

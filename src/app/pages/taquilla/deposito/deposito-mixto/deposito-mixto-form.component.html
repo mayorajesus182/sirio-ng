@@ -11,21 +11,20 @@
     </sirio-card-header>
 
     <sirio-card-content fxLayout="column">
-        <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
+        <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                <mat-form-field fxFlex.gt-sm="30" *ngIf="cuentaOperacion">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="30" *ngIf="cuentaOperacion">
                     <mat-label>{{'deposit.productType' | translate: {default: 'global.productType'} | translate }} </mat-label>
                     <input matInput autocomplete="off" [(ngModel)]="cuentaOperacion.tipoProductoNombre" [ngModelOptions]="{standalone: true}" readonly
                         name="numeroCuenta">
                     <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                 </mat-form-field>
-                <sirio-select-search fxFlex="30" *ngIf="!cuentaOperacion"
+                <sirio-select-search fxFlex="100" fxFlex.gt-xs="30" *ngIf="!cuentaOperacion"
                     [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate" formControlName="cuentaBancaria"
-                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'"
-                    [errors]="f.numeroCuenta?.errors">
+                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'">
                 </sirio-select-search>
 
-                <mat-form-field fxFlex.gt-xs="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
                     <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask
                         [options]="{precision:2}" >
@@ -36,7 +35,7 @@
                 <sirio-cash-button class="text-center" [total]="f.efectivo.value" [disabled]="f.efectivo.value  == 0.00" [moneda]="f.moneda.value"
                     (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior" ></sirio-cash-button>
 
-                <mat-form-field fxFlex.gt-xs="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.ownChecks' | translate: {default: 'global.ownChecks'} | translate }}</mat-label>
                     <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequePropio" formControlName="chequePropio" currencyMask
                         [options]="{precision:2}" >
@@ -45,7 +44,7 @@
                     <mat-error *ngIf="f.chequePropio.errors?.chequePropioRequired ">Debe registrar el (los) Cheque(s)</mat-error>
                 </mat-form-field>
 
-                <mat-form-field fxFlex.gt-xs="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.checksOtherBanks' | translate: {default: 'global.checksOtherBanks'} | translate }} </mat-label>
                     <input matInput max="9999999999999.99" maxlength="20" autocomplete="off" name="chequeOtros" formControlName="chequeOtros" currencyMask
                         [options]="{precision:2}" >
@@ -54,7 +53,7 @@
                     <mat-error *ngIf="f.chequeOtros.errors?.chequeOtrosRequired">Debe registrar el (los) Cheque(s)</mat-error>
                 </mat-form-field>
 
-                <mat-form-field fxFlex.gt-xs="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
                     <input matInput max="9999999999999.99" maxlength="20"  autocomplete="off" name="monto" formControlName="monto" currencyMask [options]="{precision:2}" required>
                     <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
@@ -65,7 +64,7 @@
         </div>
 
         <div fxLayout="row wrap" fxLayoutGap.gt-sm="10px" [formGroup]="chequeForm" *ngIf="chequeForm" style="margin-top: 20px;">
-            <mat-form-field fxFlex.gt-xs="15" floatLabel="always">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="15" floatLabel="always">
                 <mat-label>{{'deposit.serial' | translate: {default: 'global.serial'} | translate }} </mat-label>
                 <input matInput autocomplete="off" maxlength="8" id="serial" name="serial" formControlName="serial" class="text-center" required numCeros="8" string-pad [control]="cf.serial">
                 <mat-error *ngIf="cf.serial.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
@@ -73,13 +72,13 @@
                 <mat-error *ngIf="cf.serial.errors?.existsSerial">Cheque Pagado</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-sm="20" floatLabel="always">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="20" floatLabel="always">
                 <mat-label >Número de Cuenta </mat-label>
                 <input matInput name="numeroCuentaCheque" autocomplete="off" formControlName="numeroCuentaCheque" mask="0000 0000 00 00 00000000" num-account-validate class="text-center" maxLength="24" required >
                 <mat-error *ngIf="cf.numeroCuentaCheque.errors?.account">El núm. de cuenta es inválido</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-xs="10" floatLabel="always">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="10" floatLabel="always">
                 <mat-label>{{'deposit.docType' | translate: {default: 'global.docType'} | translate }} </mat-label>
                 <input matInput autocomplete="off" maxlength="2" id="tipoDocumentoCheque" name="tipoDocumentoCheque" formControlName="tipoDocumentoCheque"
                     uppercase class="text-center" required>
@@ -87,14 +86,14 @@
                 <mat-error *ngIf="cf.tipoDocumentoCheque.errors?.tipoDocumentoCheque">Tiene que ser 90 o 96</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-xs="auto" floatLabel="always">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="100" fxFlex.gt-xs="auto" floatLabel="always">
                 <mat-label>{{'deposit.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                 <input matInput max="9999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="montoCheque" formControlName="montoCheque"
                     currencyMask [options]="{precision:2}" required>
                 <mat-error *ngIf="cf.montoCheque.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="15" floatLabel="always">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="15" floatLabel="always">
                 <mat-label>{{'deposit.issueDate' | translate: {default: 'global.issueDate'} | translate }}</mat-label>
                 <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaEmision" formControlName="fechaEmision"
                     [matDatepicker]="fechaEmisionPicker" [max]="todayValue" [min]="valueMin">

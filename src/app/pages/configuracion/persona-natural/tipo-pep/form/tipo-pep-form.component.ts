@@ -40,9 +40,7 @@ export class TipoPepFormComponent extends FormBaseComponent implements OnInit {
             this.tipoPepService.get(id).subscribe((agn: TipoPep) => {
                 this.tipoPep = agn;
                 this.buildForm(this.tipoPep);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

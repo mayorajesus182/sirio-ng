@@ -31,36 +31,36 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div fxLayout="column">
+                    <div fxLayout="column" tabNavigation>
                         <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="40" *ngIf="remesa.tipoRemesa === constants.SOLICITUD_REMESA">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="40" *ngIf="remesa.tipoRemesa === constants.SOLICITUD_REMESA">
                                     <mat-label>{{'receiveRemittances.receivingUnit' | translate: {default: 'global.receivingUnit'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.receptor + ' - ' + remesa.nombreReceptor" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="40" *ngIf="remesa.tipoRemesa === constants.ENVIO_REMESA">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="40" *ngIf="remesa.tipoRemesa === constants.ENVIO_REMESA">
                                     <mat-label>{{'receiveRemittances.sendingUnit' | translate: {default: 'global.sendingUnit'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.emisor + ' - ' + remesa.nombreEmisor" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="20" *ngIf="remesa.tipoRemesa === constants.SOLICITUD_REMESA">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="remesa.tipoRemesa === constants.SOLICITUD_REMESA">
                                     <mat-label>{{'receiveRemittances.requestDate' | translate: {default: 'global.requestDate'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="auto">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>{{'receiveRemittances.coin' | translate: {default: 'global.coin'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.nombreMoneda" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="15" *ngIf="remesa.tipoRemesa === constants.SOLICITUD_REMESA">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15" *ngIf="remesa.tipoRemesa === constants.SOLICITUD_REMESA">
                                     <mat-label>{{'receiveRemittances.requestedAmount' | translate: {default: 'global.requestedAmount'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">
@@ -69,35 +69,36 @@
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                     <mat-label>{{'receiveRemittances.tripType' | translate: {default: 'global.tripType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.nombreViaje" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="35">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="35">
                                     <mat-label>{{'receiveRemittances.leads' | translate: {default: 'global.leads'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.plomos" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="15">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                     <mat-label>{{'receiveRemittances.sentAmount' | translate: {default: 'global.sentAmount'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.montoEnviado" currencyMask [options]="{precision:2}" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="15"  appearance="standart" >
+                                <mat-form-field fxFlex="15" appearance="standart">
                                     <mat-label>{{'receiveRemittances.receivedAmount' | translate: {default: 'global.receivedAmount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoRecibido" formControlName="montoRecibido"
                                         [options]="{precision:2}" required readonly>
                                     <mat-error *ngIf="f.montoRecibido.errors?.max">Debe ser menor que 9.999.999.999.999,99</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="15" appearance="standart">
-                                    <mat-label>{{'receiveRemittances.difference' | translate: {default: 'global.difference'} | translate }} {{diferencia > 0 ? ('global.missing' | translate) : (diferencia < 0 ? ('global.spare' | translate) : '')}}
-                                    </mat-label>
-                                    <input matInput [value]="diferencia | number: '1.2'" readonly class="text-right" style="font-weight: bold; color: rgb(199, 4, 4);">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15" appearance="standart">
+                                    <mat-label>{{'receiveRemittances.difference' | translate: {default: 'global.difference'} | translate }} {{diferencia > 0 ?
+                                        ('global.missing' | translate) : (diferencia < 0 ? ('global.spare' | translate) : '' )}} </mat-label>
+                                            <input matInput [value]="diferencia | number: '1.2'" readonly class="text-right"
+                                                style="font-weight: bold; color: rgb(199, 4, 4);">
                                 </mat-form-field>
                             </div>
                         </form>
@@ -129,7 +130,6 @@
                         </div>
                     </div>
 
-                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -137,7 +137,8 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  || f.montoRecibido?.value <= 0 || (loading$ | async)">
+                        <button color="primary" (click)="save()" mat-raised-button
+                            [disabled]="itemForm?.invalid  || f.montoRecibido?.value <= 0 || (loading$ | async)">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

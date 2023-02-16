@@ -13,7 +13,7 @@
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)" (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -32,21 +32,23 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="15">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                     <mat-label>{{'coin.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="4" name="id" formControlName="id" uppercase required
+                                    <input matInput autocomplete="off" minlength="3" maxlength="3" name="id" formControlName="id" uppercase required
                                         class="text-center">
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.minlength">Debe de ser 3 Caracteres</mat-error>
+
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="15">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                     <mat-label>{{'coin.acronym' | translate: {default: 'global.acronym'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" maxlength="4" name="siglas" formControlName="siglas" uppercase required
@@ -55,18 +57,18 @@
                                     <mat-error *ngIf="f.siglas.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="55">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="55">
                                     <mat-label>{{'coin.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="30" name="nombre" formControlName="nombre" uppercase required>
+                                    <input matInput autocomplete="off"  maxlength="30" name="nombre" formControlName="nombre" uppercase required>
                                     <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="15">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                     <mat-label>{{'coin.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="5" name="codigoLocal" formControlName="codigoLocal" uppercase
+                                    <input matInput autocomplete="off" maxlength="5" name="codigoLocal" formControlName="codigoLocal" uppercase
                                         class="text-center">
                                     <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
@@ -101,11 +103,10 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

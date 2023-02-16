@@ -28,19 +28,18 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search *ngIf="!esOperadorAgencia" fxFlex.gt-xs="auto"
+                                <sirio-select-search *ngIf="!esOperadorAgencia"fxFlex="100" fxFlex.gt-xs="auto"
                                     [label]="'agencyClosingsRep.agency' | translate: {default: 'global.agency'} | translate" formControlName="agencia"
-                                    [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'" [errors]="f.agencia?.errors"
+                                    [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
                                     [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex.gt-xs="auto" [label]="'agencyClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="false" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.moneda?.errors" [labelDef]="'TODOS'">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'agencyClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="false" [elements]="monedas.asObservable()" [attributeName]="'nombre'" [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
                             </div>
@@ -54,7 +53,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

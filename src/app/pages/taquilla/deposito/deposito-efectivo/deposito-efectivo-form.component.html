@@ -11,9 +11,9 @@
     </sirio-card-header>
 
     <sirio-card-content fxLayout="column">
-        <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm">
+        <div fxLayout="column" [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                <mat-form-field fxFlex.gt-sm="30" *ngIf="cuentaOperacion">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="30" *ngIf="cuentaOperacion">
                     <mat-label>{{'deposit.productType' | translate: {default: 'global.productType'} |
                         translate }}
                     </mat-label>
@@ -21,13 +21,12 @@
                         name="numeroCuenta">
                     <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}</mat-error>
                 </mat-form-field>
-                <sirio-select-search fxFlex="40" *ngIf="!cuentaOperacion"
+                <sirio-select-search fxFlex="100" fxFlex.gt-xs="40"*ngIf="!cuentaOperacion"
                     [label]="'deposit.countNumber' | translate: {default: 'global.accountNumber'} | translate" formControlName="cuentaBancaria"
-                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'"
-                    [errors]="f.numeroCuenta?.errors">
+                    [required]="!cuentaOperacion" [elements]="cuentasBancarias.asObservable()" [attributeName]="'descripcion'">
                 </sirio-select-search>
 
-                <mat-form-field fxFlex.gt-xs="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.totalCash' | translate: {default: 'global.totalCash'} | translate }} </mat-label>
                     <input matInput max="9999999999999.99" maxlength="20" min="0.01" autocomplete="off" name="efectivo" formControlName="efectivo" currencyMask
                         [options]="{precision:2}">
@@ -39,7 +38,7 @@
                 <sirio-cash-button class="text-center" [total]="f.efectivo.value" [disabled]="f.efectivo.value  == 0.00 " [moneda]="f.moneda.value"
                     (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior"></sirio-cash-button>
 
-                <mat-form-field fxFlex.gt-xs="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'deposit.totalDeposit' | translate: {default: 'global.totalDeposit'} | translate }} </mat-label>
                     <input matInput max="9999999999999.99" maxlength="20" readonly min="0.01" autocomplete="off" name="monto" formControlName="monto"
                         currencyMask [options]="{precision:2}">

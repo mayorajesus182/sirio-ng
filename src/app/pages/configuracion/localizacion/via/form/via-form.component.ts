@@ -38,9 +38,7 @@ export class ViaFormComponent extends FormBaseComponent implements OnInit {
             this.viaService.get(id).subscribe((agn: Via) => {
                 this.via = agn;
                 this.buildForm(this.via);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

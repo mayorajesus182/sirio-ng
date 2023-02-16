@@ -16,13 +16,13 @@
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
 
-      <mat-form-field fxFlex="auto">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label> Monto
         </mat-label>
         <input matInput class="text-right" [value]="total | number:'1.2-2'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="auto">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <!-- TODO: KEY INTERNACIONALIZACION -->
         <mat-label>Monto Total Desglose
         </mat-label>
@@ -31,7 +31,7 @@
       </mat-form-field>
 
 <!-- 
-      <mat-form-field fxFlex="auto">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>Total Cono Anterior
         </mat-label>
         <input matInput class="text-right" [value]="totalAnterior | number:'1.2-2'" readonly currencyMask [options]="{precision:2}">
