@@ -13,7 +13,7 @@
                     <sirio-card-header-subheading>{{('action.add') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)" (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -29,25 +29,25 @@
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
-                <sirio-card-content fxLayout="column">
+                <sirio-card-content fxLayout="column" tabNavigation>
 
-                    <div fxLayout="column">
+                    <div fxLayout="column" tabNavigation>
                         <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="40">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
                                     <mat-label>{{'enterPurchaseBcv.incomeType' | translate: {default: 'global.incomeType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="'INGRESO A BOVEDA POR COMPRA AL BANCO CENTRAL DE VENEZUELA'" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="30" [label]="'enterPurchaseBcv.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.moneda?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="30"
+                                    [label]="'enterPurchaseBcv.coin' | translate: {default: 'global.coin'} | translate" formControlName="moneda"
+                                    [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="30">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                                     <mat-label>{{'enterPurchaseBcv.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                         [options]="{precision:2}" required readonly>
@@ -59,7 +59,7 @@
                             </div>
                         </form>
 
-                        <mat-divider class="margin-bottom-md"></mat-divider> 
+                        <mat-divider class="margin-bottom-md"></mat-divider>
 
                         <div fxLayout="column" *ngIf="f.moneda.value">
                             <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
@@ -73,7 +73,8 @@
                                                 'global.coin') | translate }} ({{'global.quantityAvailable' | translate }} {{item.disponible}})
                                             </mat-label>
                                             <input matInput class="text-right" #cantidad="ngModel" [(ngModel)]="item.cantidad" min="0" [max]="item.disponible"
-                                                autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)" [disabled]="item.disponible==0"/>
+                                                autocomplete="off" matInput type="number" (ngModelChange)="updateValuesErrors(item)"
+                                                [disabled]="item.disponible==0" />
                                             <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
                                         </mat-form-field>
                                     </div>
@@ -90,7 +91,6 @@
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || f.monto.value <= 0 || (loading$ | async)">
-                            <!-- <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>  -->
                             {{'button.process' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

@@ -42,9 +42,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
             this.estadoService.get(id).subscribe((agn: Estado) => {
                 this.estado = agn;
                 this.buildForm(this.estado);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -70,7 +68,7 @@ export class EstadoFormComponent extends FormBaseComponent implements OnInit {
         this.itemForm = this.fb.group({
             id: new FormControl({ value: estado.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
             nombre: new FormControl(estado.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-            pais: new FormControl(estado.pais || undefined, [Validators.required]),
+            pais: new FormControl(estado.pais || '', [Validators.required]),
             codigoLocal: new FormControl(estado.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

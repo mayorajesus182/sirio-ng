@@ -30,7 +30,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div fxLayout="row wrap" fxLayoutGap="10px">
+                    <div fxLayout="row wrap" fxLayoutGap="10px" tabNavigation>
 
                         <div fxLayout="row" fxFlex.gt-sm="54%">
 
@@ -57,9 +57,8 @@
                                         <mat-error *ngIf="f.identificacion.errors?.exists">{{'error.identificationExists' | translate}}</mat-error>
                                     </mat-form-field>
 
-                                    <sirio-select-search fxFlex="auto" [label]="'atm.coin' | translate: {default: 'global.coin'} | translate"
-                                        formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.moneda?.errors">
+                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'atm.coin' | translate: {default: 'global.coin'} | translate"
+                                        formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'">
                                     </sirio-select-search>
 
                                 </div>
@@ -67,21 +66,19 @@
                                 <div fxLayout.gt-sm="row wrap" fxLayoutGap="5px">
 
 
-                                    <sirio-select-search fxFlex="auto" [label]="'atm.atmType' | translate: {default: 'global.atmType'} | translate"
-                                        formControlName="tipoAtm" [required]="true" [elements]="tipoAtms.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.tipoAtm?.errors">
+                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'atm.atmType' | translate: {default: 'global.atmType'} | translate"
+                                        formControlName="tipoAtm" [required]="true" [elements]="tipoAtms.asObservable()" [attributeName]="'nombre'">
                                     </sirio-select-search>
 
-                                    <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === remoto"
+                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="40"*ngIf="f.tipoAtm.value === remoto"
                                         [label]="'atm.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
                                         formControlName="transportista" [required]="f.tipoAtm.value === remoto" [elements]="transportistas.asObservable()"
-                                        [attributeName]="'nombre'" [errors]="f.transportista?.errors">
+                                        [attributeName]="'nombre'">
                                     </sirio-select-search>
 
-                                    <sirio-select-search fxFlex="40" *ngIf="f.tipoAtm.value === oficina"
+                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="40"*ngIf="f.tipoAtm.value === oficina"
                                         [label]="'atm.agency' | translate: {default: 'global.agency'} | translate" formControlName="agencia"
-                                        [required]="f.tipoAtm.value === oficina" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
-                                        [errors]="f.agencia?.errors">
+                                        [required]="f.tipoAtm.value === oficina" [elements]="agencias.asObservable()" [attributeName]="'nombre'">
                                     </sirio-select-search>
 
                                 </div>

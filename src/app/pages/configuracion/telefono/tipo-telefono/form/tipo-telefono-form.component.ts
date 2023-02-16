@@ -41,9 +41,7 @@ export class TipoTelefonoFormComponent extends FormBaseComponent implements OnIn
             this.TipoTelefonoService.get(id).subscribe((agn: TipoTelefono) => {
                 this.tipoTelefono = agn;
                 this.buildForm(this.tipoTelefono);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

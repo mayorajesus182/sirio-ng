@@ -39,9 +39,7 @@ export class OrigenFondoFormComponent extends FormBaseComponent implements OnIni
             this.origenFondoService.get(id).subscribe((agn: OrigenFondo) => {
                 this.origenFondo = agn;
                 this.buildForm(this.origenFondo);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

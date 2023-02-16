@@ -44,9 +44,7 @@ export class EstatusPersonaFormComponent extends FormBaseComponent implements On
             this.estatusPersonaService.get(id).subscribe((agn: EstatusPersona) => {
                 this.estatusPersona = agn;
                 this.buildForm(this.estatusPersona);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

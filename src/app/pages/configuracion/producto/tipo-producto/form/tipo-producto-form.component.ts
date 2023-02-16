@@ -39,9 +39,7 @@ export class TipoProductoFormComponent extends FormBaseComponent implements OnIn
             this.tipoProductoService.get(id).subscribe((agn: TipoProducto) => {
                 this.tipoProducto = agn;
                 this.buildForm(this.tipoProducto);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -77,11 +75,11 @@ export class TipoProductoFormComponent extends FormBaseComponent implements OnIn
     private codigoExists(id) {
         this.tipoProductoService.exists(id).subscribe(data => {
             if (data.exists) {
-                this.itemForm.controls['id'].setErrors({
+                this.f.id.setErrors({
                     exists: true
                 });
-                this.cdr.detectChanges();
             }
+            this.cdr.detectChanges();
         });
     }
 

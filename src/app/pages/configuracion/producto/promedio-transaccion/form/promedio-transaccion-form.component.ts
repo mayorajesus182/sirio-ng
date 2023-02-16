@@ -39,9 +39,7 @@ export class PromedioTransaccionFormComponent extends FormBaseComponent implemen
             this.promedioTransaccionService.get(id).subscribe((agn: PromedioTransaccion) => {
                 this.promedioTransaccion = agn;
                 this.buildForm(this.promedioTransaccion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

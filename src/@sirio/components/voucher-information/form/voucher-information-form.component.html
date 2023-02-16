@@ -10,7 +10,7 @@
         </sirio-card-header-actions>
     </sirio-card-header>
 
-    <sirio-card-content fxLayout="column" [formGroup]="voucherForm">
+    <sirio-card-content fxLayout="column" [formGroup]="voucherForm" *ngIf="voucherForm" tabNavigation>
         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
             <sirio-select-search fxFlex.gt-xs="22"
@@ -19,7 +19,7 @@
                 [attributeName]="'nombre'" [errors]="voucher.tipoDocumentoBeneficiario?.errors" required>
             </sirio-select-search>
 
-            <mat-form-field fxFlex.gt-xs="15">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                 <mat-label>Nro. Documento </mat-label>
                 <input matInput autocomplete="off" maxlength="8" id="identificacionBeneficiario" name="identificacionBeneficiario"
                     formControlName="identificacionBeneficiario" uppercase class="text-center" required>
@@ -27,7 +27,7 @@
                 <mat-error *ngIf="voucher.identificacionBeneficiario.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-xs="30">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                 <mat-label>Nombres y Apellidos/Razón Social</mat-label>
                 <input matInput autocomplete="off" maxlength="200" id="nombreBeneficiario" name="nombreBeneficiario"
                     formControlName="nombreBeneficiario" uppercase class="text-center" required>
@@ -35,7 +35,7 @@
                 <mat-error *ngIf="voucher.nombreBeneficiario.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex.gt-sm="auto">
+            <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                 <mat-label> Email </mat-label>
                 <input matInput name="email" autocomplete="off" email-validate name="email" formControlName="email" placeholder=""
                     [required]="!voucher.telefono.value" uppercase>

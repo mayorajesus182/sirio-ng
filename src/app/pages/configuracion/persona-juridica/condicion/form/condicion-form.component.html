@@ -32,24 +32,26 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="15">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                     <mat-label>{{'condition.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="2" name="id" formControlName="id" uppercase required
+                                    <input matInput autocomplete="off" minlength="2" maxlength="2" name="id" formControlName="id" uppercase required
                                         class="text-center">
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.minlength">Debe de ser 2 Caracteres</mat-error>
+
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="85">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>{{'condition.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="50" name="nombre" formControlName="nombre" uppercase required>
+                                    <input matInput autocomplete="off"  maxlength="50" name="nombre" formControlName="nombre" uppercase required>
                                     <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>

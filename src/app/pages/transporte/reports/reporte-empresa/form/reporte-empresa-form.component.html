@@ -20,7 +20,7 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <mat-toolbar>
-                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="center" fxLayoutGap="24px">
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="center" fxLayoutGap="24px" tabNavigation>
                         <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i>
                             {{'button.generate' | translate: {default:

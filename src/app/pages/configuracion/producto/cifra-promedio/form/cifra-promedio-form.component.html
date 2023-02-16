@@ -19,7 +19,7 @@
                             <mat-icon>save</mat-icon>
 
                         </button>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
 
@@ -33,21 +33,23 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                    <mat-form-field fxFlex.gt-sm="10">
+                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                         <mat-label>{{'averageFigure.code' | translate: {default: 'global.code'} | translate }}
                                         </mat-label>
-                                        <input matInput maxlength="2" autocomplete="off" name="id" formControlName="id" uppercase required
+                                        <input matInput minlength="2" maxlength="2" autocomplete="off" name="id" formControlName="id" uppercase required
                                             class="text-center">
-                                        <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.pattern">Caracter inválido</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                         <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                        <mat-error *ngIf="f.id.errors?.minlength">Debe ser de 2 Caracteres</mat-error>
+
                                     </mat-form-field>
 
-                                    <mat-form-field fxFlex="auto">
+                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                         <mat-label>{{'averageFigure.name' | translate: {default: 'global.name'} | translate }}
                                         </mat-label>
                                         <input matInput maxlength="20" autocomplete="off" name="nombre" formControlName="nombre" uppercase
@@ -56,7 +58,7 @@
                                             <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     </mat-form-field>
                                 
-                                    <mat-form-field fxFlex.gt-sm="10">
+                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="10">
                                         <mat-label>{{'averageFigure.localCode' | translate: {default: 'global.localCode'} |
                                             translate }}</mat-label>
                                         <input matInput maxlength="2" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"

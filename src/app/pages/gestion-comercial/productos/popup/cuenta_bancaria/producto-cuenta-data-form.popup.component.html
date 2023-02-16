@@ -14,7 +14,7 @@
 <img [src]="path" alt="" style="height: auto; width: 100%;">
 
 <mat-dialog-content>
-  <form [formGroup]="itemForm" *ngIf="itemForm">
+  <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <mat-panel-title>
@@ -28,13 +28,13 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="24">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="24">
         <mat-label>{{'commercialService.identification' | translate: {default: 'global.identification'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataProducto.persona.tipoDocumento+' - '+dataProducto.persona.identificacion" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="75">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="75">
         <mat-label>{{'commercialService.name' | translate: {default: 'global.name'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="dataProducto.persona.nombre" readonly>
@@ -55,19 +55,19 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <mat-form-field fxFlex="40">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
         <mat-label>{{'Número de Cuenta' | translate: {default: 'Número de Cuenta'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'0138 0101 8601 0125 6098'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="30">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
         <mat-label>{{'Saldo Diferido' | translate: {default: 'Saldo Diferido'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'0,00'" readonly>
       </mat-form-field>
 
-      <mat-form-field fxFlex="30">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
         <mat-label>{{'Saldo Real' | translate: {default: 'Saldo Real'} | translate }}
         </mat-label>
         <input matInput class="text-center" [value]="'30.000,00'" readonly>

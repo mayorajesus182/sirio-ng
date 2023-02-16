@@ -38,9 +38,7 @@ export class RamoFormComponent extends FormBaseComponent implements OnInit {
             this.ramoService.get(id).subscribe((agn: Ramo) => {
                 this.ramo = agn;
                 this.buildForm(this.ramo);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

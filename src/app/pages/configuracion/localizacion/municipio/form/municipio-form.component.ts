@@ -46,9 +46,7 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
             this.municipioService.get(id).subscribe((agn: Municipio) => {
                 this.municipio = agn;
                 this.buildForm(this.municipio);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -97,26 +95,30 @@ export class MunicipioFormComponent extends FormBaseComponent implements OnInit 
             id: new FormControl({ value: municipio.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(municipio.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             ciudad: new FormControl(municipio.ciudad || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
-            estado: new FormControl(municipio.estado || undefined, [Validators.required]),
-            pais: new FormControl(municipio.pais || undefined, [Validators.required]),
+            estado: new FormControl(municipio.estado || '', [Validators.required]),
+            pais: new FormControl(municipio.pais || '', [Validators.required]),
             codigoLocal: new FormControl(municipio.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
 
         this.f.pais.valueChanges.subscribe(value => {
-            this.f.estado.setValue(undefined);
-            this.estados.next([]);
-            this.estadoService.activesByPais(value).subscribe(data => {
-                this.estados.next(data);
-                this.cdr.detectChanges();
-            });
+            if(value){
+                this.f.estado.setValue(undefined);
+                this.estados.next([]);
+                this.estadoService.activesByPais(value).subscribe(data => {
+                    this.estados.next(data);
+                    this.cdr.detectChanges();
+                });
+            }
         });
 
 
         this.f.estado.valueChanges.subscribe(value => {
-            this.municipioService.activesByEstado(value).subscribe(data => {
-                this.municipios.next(data);
-                this.cdr.detectChanges();
-            });
+            if(value){
+                this.municipioService.activesByEstado(value).subscribe(data => {
+                    this.municipios.next(data);
+                    this.cdr.detectChanges();
+                });
+            }
         });
 
         this.cdr.detectChanges();

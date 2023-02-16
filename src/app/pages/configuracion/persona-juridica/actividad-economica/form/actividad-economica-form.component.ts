@@ -38,9 +38,7 @@ export class ActividadEconomicaFormComponent extends FormBaseComponent implement
             this.actividadEconomicaService.get(id).subscribe((agn: ActividadEconomica) => {
                 this.actividadEconomica = agn;
                 this.buildForm(this.actividadEconomica);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

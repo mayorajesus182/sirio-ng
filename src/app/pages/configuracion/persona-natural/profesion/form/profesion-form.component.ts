@@ -40,9 +40,7 @@ export class ProfesionFormComponent extends FormBaseComponent implements OnInit 
             this.profesionService.get(id).subscribe((agn: Profesion) => {
                 this.profesion = agn;
                 this.buildForm(this.profesion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

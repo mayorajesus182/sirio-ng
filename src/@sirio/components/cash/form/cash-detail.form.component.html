@@ -4,7 +4,7 @@
             <!-- TODO: SE DEBE HACER LA INTERNACIONALIZACION -->
             <h3>Cono ({{label_cono_actual}}) </h3>
             <div fxLayout="row wrap">
-                <mat-form-field *ngFor="let item of listConoActual | async; let i = index; let c = count" fxFlex="100">
+                <mat-form-field *ngFor="let item of listConoActual | async; let i = index; let c = count" fxFlex="100" fxFlex.gt-xs="100">
                     <mat-label>{{item.denominacion | number:'1.2-2'}}  {{ (item.esBillete?'global.bill': 'global.coin') | translate }} {{item.disponible==0?'Cantidad Insuficiente':(item.disponible? 'Cant. Max.'+(item.disponible | number:'1.0') :'') }}
                     </mat-label>
                     <input matInput id="input_{{i}}" maxlength="10"   currencyMask [options]="{precision:0}" class="text-right" [disabled]="item.disponible==0" [max]="operation=='deposito'?99999999:item.disponible" [(ngModel)]="item.cantidad" min="0" autocomplete="off" #cantidad="ngModel" matInput type="text" (keyup.enter)="onChangeConoActual(item,cantidad,c,$event)" (blur)="onChangeConoActual(item,cantidad)" />
@@ -18,7 +18,7 @@
             <h3>Cono Anterior ({{label_cono_anterior}}) </h3>
             <div fxLayout="row wrap">
 
-                <mat-form-field *ngFor="let item of listConoAnterior | async" fxFlex="100">
+                <mat-form-field *ngFor="let item of listConoAnterior | async" fxFlex="100" fxFlex.gt-xs="100">
                     <mat-label>{{item.denominacion | number:'1.2-2'}} {{label ||labelPrefix || ''}} {{ (item.esBillete?'global.bill': 'global.coin') | translate }}
                     </mat-label>
                     <input matInput (blur)="onChangeConoAnterior(item)" class="text-right" [(ngModel)]="item.cantidad" min="0" autocomplete="off" matInput type="number"  />

@@ -23,7 +23,7 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
+                    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                         <div fxLayout="column">
                             <sirio-card [fxFlex.gt-sm]="100" fxLayout="column"
@@ -41,7 +41,7 @@
                                 </sirio-card-header>
                                 <sirio-card-content fxLayout="column">
                                     <div fxLayout="row" fxLayout.xs="column" fxLayoutGap.gt-sm="10px">
-                                        <mat-form-field fxFlex="100" fxFlex.gt-sm="30">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                                             <mat-label>{{'withdrawal.accountNumber' | translate: {default: 'global.accountNumber'} | translate }}
                                             </mat-label>
                                             <input matInput name="numeroCuenta" autocomplete="off" num-account-validate formControlName="numeroCuenta"
@@ -50,7 +50,7 @@
                                             <mat-error *ngIf="!f.numeroCuenta.errors?.account && f.numeroCuenta.errors?.notexists">{{'No Existe el Número de Cuenta'}}
                                             </mat-error>
                                         </mat-form-field>
-                                        <mat-form-field fxFlex="100" fxFlex.gt-sm="20">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                             <mat-label>{{ 'withdrawal.serial' | translate: {default: 'global.serial'} | translate }}  </mat-label>
                                             <input matInput maxlength="8"  name="serialCheque" autocomplete="off" formControlName="serialCheque"
                                                 required numCeros="8" string-pad [control]="f.serialCheque" class="text-center">
@@ -60,7 +60,7 @@
                                             <!-- <mat-error *ngIf="f.serialCheque.errors?.minlength">Debe tener 8 digitos</mat-error> -->
                                         </mat-form-field>
 
-                                        <mat-form-field fxFlex="100" fxFlex.gt-sm="20">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                             <mat-label>{{'withdrawal.checkAmount' | translate: {default: 'global.checkAmount'} | translate }} </mat-label>
                                             <input matInput max="99999999999999999.99" min="0.01" maxlength="20" autocomplete="off" name="montoCheque"
                                                 formControlName="montoCheque" currencyMask [options]="{precision:2}" required>
@@ -75,7 +75,7 @@
                                             (update)="updateCashDetail($event)" [cono_actual]="conoActual" [cono_anterior]="conoAnterior">
                                         </sirio-cash-button>
 
-                                        <mat-form-field fxFlex="100" fxFlex.gt-sm="20" *ngIf="!f.conAbonoCta.value">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="!f.conAbonoCta.value">
                                             <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} | translate }} </mat-label>
                                             <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20" name="monto"
                                                 formControlName="monto" readonly currencyMask [options]="{precision:2}" required>
@@ -113,7 +113,7 @@
                                         [required]="!cuentaBancariaOperacion" [elements]="cuentasBancarias.asObservable()"
                                         [attributeName]="'descripcion'">
                                     </sirio-select-simple>
-                                    <mat-form-field fxFlex="100" fxFlex.gt-sm="20">
+                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                         <mat-label>{{'withdrawal.amount' | translate: {default: 'global.amount'} | translate }}   </mat-label>
                                         <input matInput max="999999999999999.99" min="0.01" autocomplete="off" maxlength="20" name="monto"
                                             formControlName="monto" currencyMask [options]="{precision:2}"
@@ -134,7 +134,7 @@
                         <button type="button" mat-button (click)="back()">
                             {{'button.cancel' | translate: {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || !voucherForm || voucherForm.invalid || (loading$ | async )">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || voucherForm?.invalid || (loading$ | async )">
                             {{'button.send' | translate: {default:'global.notfound'} | translate }}
                         </button>
                     </div>

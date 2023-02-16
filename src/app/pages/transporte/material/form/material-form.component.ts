@@ -41,9 +41,7 @@ export class MaterialFormComponent extends FormBaseComponent implements OnInit {
             this.materialService.get(id).subscribe((agn: Material) => {
                 this.material = agn;
                 this.buildForm(this.material);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

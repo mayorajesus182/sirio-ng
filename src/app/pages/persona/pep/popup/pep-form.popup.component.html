@@ -12,7 +12,7 @@
 
 <mat-dialog-content>
     
-    <form [formGroup]="itemForm" *ngIf="itemForm">
+    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
@@ -21,7 +21,7 @@
       </sirio-select-search>
  
       <!-- TODO: PENDIENTE IN18 -->
-      <mat-form-field fxFlex="auto">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
           <mat-label>{{'Nombre y Apellido del Relacionado: ' | translate: {default:
               'Nombre y Apellido del Relacionado'} | translate }} </mat-label>
           <input matInput maxlength="80" minlength="1" autocomplete="off" name="nombre" formControlName="nombre"
