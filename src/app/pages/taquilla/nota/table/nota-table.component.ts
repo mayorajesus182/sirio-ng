@@ -48,11 +48,11 @@ export class NotaTableComponent extends TableBaseComponent implements OnInit, Af
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(data:any) {   
+  edit(data:any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
-  boxes(data:any) { 
+  boxes(data:any) {
     const url = `${this.buildPrefixPath(data.path)}${data.element.id}/boxes`;
     this.router.navigateByUrl(url, { state: {data: data.element}  });
   }
@@ -82,14 +82,15 @@ export class NotaTableComponent extends TableBaseComponent implements OnInit, Af
 
 
   print(event) {
+
     if(event){
-          
-       this.atmReportService.atmreporte().subscribe(event => {        
+
+       this.atmReportService.atmReporte().subscribe(event => {
            //this.loadingDataForm.next(false);
             const name = this.getFileName(event);
             let blob: any = new Blob([event.body], { type: 'application/octet-stream' });
             this.download(name, blob);
-        });        
+        });
        
     }
    

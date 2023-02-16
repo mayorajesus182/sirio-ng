@@ -2,8 +2,9 @@ import { AfterViewChecked, ChangeDetectorRef, Component, HostBinding, HostListen
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CantidadRemesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
+import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { SessionService } from 'src/@sirio/services/session.service';
-import { ThemeService } from '../../../@sirio/services/theme.service';
+
 import { SidenavItem } from './sidenav-item/sidenav-item.interface';
 import { SidenavService } from './sidenav.service';
 
@@ -31,17 +32,17 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
   unityName: string;
   logonedAt: any;
 
-  badge:CantidadRemesa=undefined;
+  badge: CantidadRemesa = undefined;
 
   constructor(private router: Router,
     private sessionService: SessionService,
     private sidenavService: SidenavService,
     private remesaService: RemesaService,
-    private themeService: ThemeService,
-    private cdref : ChangeDetectorRef) {
+    private taskService: WorkflowService,
+    private cdref: ChangeDetectorRef) {
   }
   ngAfterViewChecked(): void {
-    
+
     // this.sidenavUserVisible$.next(!this.collapsed);
     this.cdref.detectChanges();
   }
@@ -59,11 +60,20 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.logonedAt = data.prevLogin;
       this.unityName = data.unity || '';
 
-      this.remesaService.cantidad().subscribe(data=>{
+      this.taskService.notify.subscribe(val => {
+        if(val){
+          this.remesaService.cantidad().subscribe(data => {
+            // console.log(data);
+            this.badge = data;
+            this.cdref.detectChanges();
+          });
+        }
+      });
+
+      this.remesaService.cantidad().subscribe(data => {
         // console.log(data);
-         this.badge=data;        
-        
-      })
+        this.badge = data;
+      });
 
     }
 
@@ -72,26 +82,26 @@ export class SidenavComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     //   console.log('show ',status);
     // })
-    
+
     // this.sidenavService.expanded$.subscribe(expanded=>{
     //   // console.log('expanded',expanded);
     //   if(!this.collapsed){
     //     this.sidenavUserVisible$.next(expanded);
     //   }
-      
+
     // });
 
     // this.sidenavService.collapsed$.subscribe(collapsed=>{
     //     if(!this.expanded){
     //       this.sidenavUserVisible$.next(collapsed);
     //     }
-      
+
     // });
     // this.cdref.markForCheck();
   }
 
   toggleCollapsed() {
-    this.sidenavService.toggleCollapsed();    
+    this.sidenavService.toggleCollapsed();
   }
 
   @HostListener('mouseenter')

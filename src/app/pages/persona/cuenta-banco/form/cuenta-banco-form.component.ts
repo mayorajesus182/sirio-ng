@@ -262,7 +262,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 if (!this.persona.cuentaMonedaPrincipal && this.f.moneda.value != this.preferencia.monedaConoActual.value) {
                     // identificar con una alerta que no puede realizar esta apertura por no tener 
 
-                    this.swalService.show(`Para aperturar una cuenta en la moneda <strong>${this.monedaSubproducto}</strong> debe primero: `,
+                    this.swalService.show(`Para aperturar una cuenta en la moneda <strong>${this.monedaSubproducto}</strong> debe: `,
                         undefined,
                         { html: "Realizar una apertura en moneda nacional.", showCancelButton: false }).then((resp) => {
                             this.f.tipoSubproducto.setValue(undefined);
@@ -431,7 +431,13 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     this.successResponse('Operacion', 'aplicada', true);
                     this.cuentaActiva = true;
                     this.loadingDataForm.next(false);
-                    this.router.navigate([`/sirio/welcome`]);
+                    // obteniendo el certificado de la cuenta
+                    const name = this.getFileName(data);
+                    let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+                    this.download(name, blob);
+                    setTimeout(() => {
+                        this.router.navigate([`/sirio/welcome`]);                        
+                    }, 2000);
                 }, err => {
                     this.cuentaActiva = false;
                     this.loadingDataForm.next(false);
@@ -448,7 +454,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
 
     reportPdf() {
-
+        /// generar ficha
         // console.log('imprimir ficha de ', this.cuentaBanco);
         // console.log('imprimir ficha de ', this.persona);
 

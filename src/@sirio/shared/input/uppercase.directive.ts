@@ -34,9 +34,7 @@ export class UppercaseDirective implements ControlValueAccessor {
       .subscribe((event: any) => {
         // console.log(event);
         
-        // const value = event.target.value;
-        // this.el.nativeElement.value = value.toUpperCase();
-        // this.onChange(value);
+      
         const value = event.target.value;
         const cursorStart = this.el.nativeElement.selectionStart;
         const cursorEnd = this.el.nativeElement.selectionEnd;
