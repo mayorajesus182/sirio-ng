@@ -4,41 +4,61 @@
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'agency.table' | translate: {default: 'global.notfound'}" placeholder="agency.search"
-            (filterChange)="onFilterChange($event)">
-            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="expediente_id" matSortDirection="asc">
+        <sirio-list [name]="'agency.table' | translate: {default: 'global.notfound'}" placeholder="agency.search" (filterChange)="onFilterChange($event)">
+            <mat-table #table id="tableContainer" [dataSource]="dataSource" matSort matSortActive="expediente_id" matSortDirection="asc">
 
                 <ng-container matColumnDef="expediente_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'agency.code' | translate:
-                        {default: 'global.code'} | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-15'">{{'Expediente' | translate:
+                        {default: 'Expediente'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p >{{element.expediente}}</p>
+                        <p>{{element.expediente}}</p>
                     </mat-cell>
                 </ng-container>
 
-                
+                <ng-container matColumnDef="rol_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-25'">{{'Nombre de la Tarea' | translate:
+                        {default: 'Nombre de la Tarea'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-25'">
+                        <p>{{element.rolNombre}}</p>
+                    </mat-cell>
+                </ng-container>
 
-                <!-- Buttons Column -->
-                <ng-container matColumnDef="actions">
-                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'"></mat-header-cell>
-                    <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
-                        <div fxFlex="row" fxLayoutAlign="end center">
-                            <sirio-actions-nav [element]="element" [items]="actions.asObservable()" 
-                            [method]="actionAPI()"></sirio-actions-nav>
-                        </div>
+                <ng-container matColumnDef="descripcion">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-30'">{{'Observación' | translate:
+                        {default: 'Observación'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-35'">
+                        <p>{{element.descripcion}}</p>
+                    </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="publicacion">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'Publicación' | translate:
+                        {default: 'Publicación'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
+                        <span class="relative-time"><i class="fa-light fa-timer"></i>&nbsp; {{ element.fecha | relativeTime}}  </span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                    <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'">{{'Acciones' | translate:
+                        {default: 'Acciones'} | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let element" [ngClass]="'tw-15'">
+                        <button mat-icon-button mat-sm-button color="primary" (click)="takeTask(element)" matTooltip="Tomar Tarea">
+                            <i class="fal fa-hand fa-xl"></i>
+                        </button> &nbsp;&nbsp;
+                        <button mat-icon-button mat-sm-button color="primary" (click)="solveTask(element)" matTooltip="Resolver Tarea">
+                            <i class="fal fa-thumbs-up fa-xl"></i>
+                        </button>
                     </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element"
-                    >
+                <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
-            <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
-                showFirstLastButtons></mat-paginator>
+            <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
 
         </sirio-list>
-        <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>
     </sirio-page-layout-content>
 </sirio-page-layout>

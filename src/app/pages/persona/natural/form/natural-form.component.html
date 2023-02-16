@@ -430,13 +430,10 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
 
-
                                 <div fxLayout="row" fxLayout="column">
                                     <sirio-persona-referencia-personal-table [persona]="personaNatural.id">
                                     </sirio-persona-referencia-personal-table>
                                 </div>
-
-
                             </mat-expansion-panel>
 
                             <mat-expansion-panel *ngIf="hasBasicData">
@@ -458,8 +455,6 @@
                                     <sirio-persona-referencia-bancaria-table [persona]="personaNatural.id">
                                     </sirio-persona-referencia-bancaria-table>
                                 </div>
-
-
                             </mat-expansion-panel>
 
 
@@ -480,12 +475,7 @@
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showPep">
-
-
-
                                     <sirio-persona-pep-table [persona]="personaNatural" (propagar)="updatePep($event)"></sirio-persona-pep-table>
-
-
                                 </div>
 
                             </mat-expansion-panel>

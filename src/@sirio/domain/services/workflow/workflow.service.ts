@@ -20,6 +20,7 @@ export interface Workflow {
     initialFlow?: boolean;
     finalFlow?: boolean;
     observacion: string;
+    rolNombre?: string;
 }
 
 @Injectable({
@@ -81,6 +82,10 @@ export class WorkflowService {
 
     checkView(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/check/view`);
+    }
+
+    take(id: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/take`);
     }
 
 }
