@@ -47,13 +47,11 @@ export class IntervinienteService {
 
 
     save(data: Interviniente): Observable<any> {
-        return this.apiService.config(this.apiConfig).post('/create', data)
-            .pipe(map(res => data));
+        return this.apiService.config(this.apiConfig).post('/create', data);
     }
 
     update(data: Interviniente): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.cuenta}/${data.persona}/update`, data)
-            .pipe(map(res => data));
+        return this.apiService.config(this.apiConfig).put(`/${data.cuenta}/${data.persona}/update`, data);
     }
 
     delete(cuenta: number,persona:number): Observable<Interviniente> {
