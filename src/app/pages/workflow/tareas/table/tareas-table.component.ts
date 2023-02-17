@@ -10,6 +10,8 @@ import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component'
 import { AgenciaService } from 'src/@sirio/domain/services/organizacion/agencia.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { Workflow } from 'src/@sirio/domain/services/workflow/workflow.service';
+import { GlobalConstants } from 'src/@sirio/constants';
+import { TaskConstants } from 'src/@sirio/constants/task.constants';
 
 @Component({
   selector: 'app-tareas-table',
@@ -53,15 +55,22 @@ export class TareasTableComponent extends TableBaseComponent implements OnInit, 
     });
   }
 
-  solveTask(tarea: Workflow) {
-    let mensaje = tarea.expediente.concat(' - ').concat(tarea.rolNombre);
+  solveTask(task: Workflow) {
+    let mensaje = task.expediente.concat(' - ').concat(task.rolNombre);
     this.swalService.show('¿Desea Resolver la Tarea?', mensaje).then((resp) => {
       if (!resp.dismiss) {
-        console.log('allaaaaaaaaaaaaaaaaaaaaaaaaaa');
+        this.workflowService.solve(task.id).subscribe(data => {
+
+          if (TaskConstants.CONF_PASE_TAQUILLA_BOVEDA) {
+            this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/view']);
+          } else if (TaskConstants.CIERRE_TAQUILLA) {
+            this.router.navigate(['/sirio/workflow/cierre-taquilla/' + task.id + '/' + task.expediente + '/view']);
+          }
+
+        });
       }
     });
   }
-
 
 }
 
