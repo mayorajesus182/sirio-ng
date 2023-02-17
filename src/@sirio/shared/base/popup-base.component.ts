@@ -277,7 +277,7 @@ export class PopupBaseComponent {
 
     }
 
-    protected saveOrUpdate(service, formData = {}, entityName, isNew?) {
+    protected saveOrUpdate(service, formData = {}, entityName='', isNew?) {
 
 
         if (this.progressBar) {
