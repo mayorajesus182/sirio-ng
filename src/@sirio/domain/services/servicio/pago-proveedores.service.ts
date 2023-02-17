@@ -11,31 +11,20 @@ export interface Tipo_Servicio {
     ID: string;
     nombre: string;
     descripcion: string;
-//     codigoSeguridad: string;
-//     fechaEmision: any;
-//     montoCheque: number;
-//     // devolver: number;
-//     motivoDevolucion: string;
-//     // operacion?:'efectivo' | 'cheques' | 'mixto';
+
  }
 
 export interface pago_proveedores {
-   // id: number;
-   id_cliente : number;
-    //persona: number;
+  
+    id_cliente : number;
     afl_identificacion : string;
-   // numper: string;
-   // cuentaBancaria: number;
-    //tipoDocumento: string;
     afl_tipoDocumento: string;
     afl_nombre: string;
-   // identificacion: string;
-  //  nombre: string;
+    afl_correo: string;
+    afl_tipo_servicio: string;
     afl_numper: string;
-    //numeroCuenta: string;
-    //moneda: any;
-    //email: string;
-   // detalles: ConoMonetario[];
+    afl_cuenta : string;
+  
 
 
 }

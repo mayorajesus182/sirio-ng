@@ -16,25 +16,9 @@
 <mat-dialog-content>
   <form [formGroup]="itemForm" *ngIf="itemForm">
 
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'" formControlName="tipoTelefono" [required]="true"
-        [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'">
-      </sirio-select-search>
-
-
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Clase Teléfono'" formControlName="claseTelefono" [required]="true"
-        [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'">
-      </sirio-select-search>
-    </div> -->
-
-    <!-- <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" > -->
-
-      <mat-form-field fxFlex="auto">
+      <!-- <mat-form-field fxFlex="auto"> -->
         <mat-label>Terminos y Condiciones</mat-label>
-
-        <!-- <input matInput maxlength="500" minlength="1" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="numero"
-         class="text-center" formControlName="numero" required placeholder=""> -->
 
          <p>Este formulario constituye comprobante de las remesas de efectivo y/o valores recibidas y despachadas por nuestras dependencias, por intermedio de- Sus ejemplares se distribuiran de la forma siguiente:
           El Original (1) firmado donde corresponde por una Firma Autorizada de la Oficina Remitente, y conformado en el recuadro “Identificación de los Envases”por el empleado de que recibe la remesa, queda en poder de la oficina remitente
@@ -48,26 +32,14 @@
           Se pueden recibir los envases sellados de, sin necesidad de comprobar en el momento de la entrega, el importe del contenido de dichos envases
           La comprobación del contenido de los envases debe hacerse lo antes posible, a partir del recibo de los mismos, por dos empleados del Banco, uno de los cuales deberá ser el Funcionario
           Las diferencias que eventualmente puedan presentarse serán notificadas a la Oficinaremitente en forma inmediata por la vía más rápida y confirmadas por escrito, procediendose a efectuar los ajustes necesarios y enviando copia de la notificación y de los asientos respectivos a la división de Tesoreria de la Dirección General');</p>
-        <!-- <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}} </mat-error>
-        <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' | translate}} </mat-error>
-        <mat-error *ngIf="f.numero.errors?.exists">Número Existe</mat-error>
-        <mat-error *ngIf="f.numero.errors?.phone">{{f.numero.errors?.phone}} </mat-error> -->
-        <!-- {{f.numero.errors | json}} -->
+    
 
-      </mat-form-field>
+      <!-- </mat-form-field> -->
 
-      <!-- <div fxFlex.gt-sm="10" class="text-right margin-top-md" *ngIf="mostrarToggle">
-        <mat-slide-toggle [color]="'primary'" formControlName="principal" name="principal">
-          {{'¿Es Principal?'}}
-        </mat-slide-toggle>
-      </div> -->
-    <!-- </div> -->
+  
 
   </form>
 </mat-dialog-content>
-
-
-
 
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">

@@ -48,77 +48,32 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
 
   ngOnInit() {
 
-    this.esPrincipal = this.defaults.payload.principal;
-    this.primerRegistro = this.defaults.payload.primero;
 
-    this.tipoTelefonoService.actives().subscribe(data => {
-      this.tipoTelefonoList.next(data);
-      this.cdr.detectChanges();
-    })
-
-    this.claseTelefonoService.actives().subscribe(data => {
-
-      this.claseTelefonoList.next(data);
-      this.cdr.detectChanges();
-    })
-
-    this.nroTelefonos = this.defaults.payload.telefonos;
-    this.cdr.detectChanges();
-
-    this.loadingDataForm.next(true);
-    if (this.defaults.payload.data) {
-      this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
-        this.mode = 'global.edit';
-        this.telefono = data;
-        this.mostrarToggle = this.telefono.principal !== 1;
+    // this.loadingDataForm.next(true);
+    // if (this.defaults.payload.data) {
+    //   this.telefonoService.get(this.defaults.payload.data.id).subscribe(data => {
+    //     this.mode = 'global.edit';
+    //     this.telefono = data;
+    //     this.mostrarToggle = this.telefono.principal !== 1;
         this.buildForm();
-        this.loadingDataForm.next(false);
-      })
-    } else {
-      this.mostrarToggle = !this.primerRegistro;
-      this.telefono = {} as Telefono;
-      this.buildForm();
-      this.loadingDataForm.next(false);
-    }
+    //     this.loadingDataForm.next(false);
+    //   })
+    // } else {
+    //   this.mostrarToggle = !this.primerRegistro;
+    //   this.telefono = {} as Telefono;
+    //   this.buildForm();
+    //   this.loadingDataForm.next(false);
+    // }
   }
 
   buildForm() {
     this.itemForm = this.fb.group({
-      tipoTelefono: new FormControl(this.telefono.tipoTelefono || undefined, [Validators.required]),
-      claseTelefono: new FormControl(this.telefono.claseTelefono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
-      numero: new FormControl(this.telefono.numero || '', [Validators.required]),
-      principal: new FormControl(this.telefono.principal == 1 ? true : this.primerRegistro)
+ 
     });
 
-    this.f.claseTelefono.valueChanges.subscribe(val => {
-      if (val) {
-        this.f.numero.setValue('');
-        this.telefonicaService.activesByClaseTelefono(val).subscribe(data => {
-          this.telefonicaList.next(data);
-        })
-      }
-    })
-
-    this.f.numero.valueChanges.subscribe(val => {
-      if (val) {
-        if (!this.validateNumeroTelefono(this.f.numero ? this.f.numero.value : undefined)) {
-          this.f.numero.setErrors({ exists: true });
-          this.f.numero.markAsTouched();
-          this.cdr.detectChanges();
-        }
-      }
-    });
-
-    this.cdr.detectChanges();
+  
   }
 
-  validateNumeroTelefono(numero: string) {
-    if (!numero) {
-      return true;
-    }
-    this.cdr.detectChanges();
-    return this.nroTelefonos.find(num => num === numero) == undefined;
-  }
 
   save() {
     // this.updateData(this.telefono);// aca actualizamos la direccion
@@ -132,10 +87,4 @@ export class TelefonoFormPopupComponent extends PopupBaseComponent implements On
     close()
   }
 
-  evaluarEsPrincipal(): boolean {
-    if (this.esPrincipal && (this.isNew || this.f.principal.value)) {
-      return false;
-    }
-    return true;
-  }
 }
