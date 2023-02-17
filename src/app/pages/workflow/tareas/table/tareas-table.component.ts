@@ -12,6 +12,7 @@ import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.se
 import { Workflow } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { TaskConstants } from 'src/@sirio/constants/task.constants';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 
 @Component({
   selector: 'app-tareas-table',
@@ -24,12 +25,14 @@ import { TaskConstants } from 'src/@sirio/constants/task.constants';
 export class TareasTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   displayedColumns = ['expediente_id', 'rol_id', 'descripcion', 'publicacion', 'acciones'];
+  persona: Persona = {} as Persona;
 
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
     protected router: Router,
     protected workflowService: WorkflowService,
+    protected personaService: PersonaService,
     private cdr: ChangeDetectorRef,
   ) {
     super(undefined, injector);
@@ -61,10 +64,19 @@ export class TareasTableComponent extends TableBaseComponent implements OnInit, 
       if (!resp.dismiss) {
         this.workflowService.solve(task.id).subscribe(data => {
 
-          if (TaskConstants.CONF_PASE_TAQUILLA_BOVEDA) {
+          if (task.rol == TaskConstants.CONF_PASE_TAQUILLA_BOVEDA) {
             this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/view']);
-          } else if (TaskConstants.CIERRE_TAQUILLA) {
+          } else if (task.rol == TaskConstants.CIERRE_TAQUILLA) {
             this.router.navigate(['/sirio/workflow/cierre-taquilla/' + task.id + '/' + task.expediente + '/view']);
+          } else if (task.rol == TaskConstants.CHEQUEAR_CLIENTE) {
+
+
+            this.personaService.getByExpediente(task.expediente).subscribe(data => {
+              this.persona = data;
+              const personType = data.tipoPersona == GlobalConstants.PERSONA_NATURAL ? 'natural' : 'juridico';
+              this.router.navigate(['/sirio/workflow/' + personType + '/' + task.expediente + '/check']);
+            });
+
           }
 
         });

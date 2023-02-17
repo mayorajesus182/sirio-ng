@@ -262,9 +262,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 if (!this.persona.cuentaMonedaPrincipal && this.f.moneda.value != this.preferencia.monedaConoActual.value) {
                     // identificar con una alerta que no puede realizar esta apertura por no tener 
 
-                    this.swalService.show(`Para aperturar una cuenta en la moneda <strong>${this.monedaSubproducto}</strong> debe: `,
+                    this.swalService.show(`Antes de Abrir una Cuenta en <strong>Divisas</strong> Usted Debe: `,
                         undefined,
-                        { html: "Realizar una apertura en moneda nacional.", showCancelButton: false }).then((resp) => {
+                        { html: "Realizar una Apertura de Cuenta en Moneda Nacional.", showCancelButton: false }).then((resp) => {
                             this.f.tipoSubproducto.setValue(undefined);
                             this.f.moneda.setValue('');
                             this.monedaSubproducto = '';
