@@ -82,36 +82,28 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
             this.loadingDataForm.next(false);
         }
 
-        // TODO: EL PAIS DEBE PROCEDER DE LA INSTITUCION
-
         this.estadoService.activesByPais(GlobalConstants.PAIS_LOCAL).subscribe(data => {
             this.estados.next(data);
-            this.cdr.detectChanges();
         });
 
         this.zonaService.actives().subscribe(data => {
             this.zonas.next(data);
-            this.cdr.detectChanges();
         });
 
         this.cuentaContableService.actives().subscribe(data => {
             this.cuentasContables.next(data);
-            this.cdr.detectChanges();
         });
 
         this.usuarioService.actives().subscribe(data => {
             this.usuarios.next(data);
-            this.cdr.detectChanges();
         });
 
         this.tipoDocumentoService.activesJuridicos().subscribe(data => {
             this.tiposDocumentos.next(data);
-            this.cdr.detectChanges();
         });
 
         this.telefonicaService.actives().subscribe(data => {
             this.telefonicas.next(data);
-            this.cdr.detectChanges();
         });
 
         if (!id) {
@@ -121,6 +113,8 @@ export class TransportistaFormComponent extends FormBaseComponent implements OnI
                 }
             });
         }
+
+        this.cdr.detectChanges();
 
     }
 

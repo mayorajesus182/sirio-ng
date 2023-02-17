@@ -39,9 +39,6 @@ export class PaisFormComponent extends FormBaseComponent implements OnInit {
                 this.pais = agn;
                 this.buildForm(this.pais);
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
-                this.cdr.markForCheck();
-
             });
         } else {
             this.buildForm(this.pais);

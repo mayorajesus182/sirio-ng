@@ -20,6 +20,7 @@ export interface Workflow {
     initialFlow?: boolean;
     finalFlow?: boolean;
     observacion: string;
+    rolNombre?: string;
 }
 
 @Injectable({
@@ -55,8 +56,8 @@ export class WorkflowService {
         return this.apiService.config(this.apiConfig).get('/pending/quantity');
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Workflow[]> {
-        return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    pageByUsuarioRols(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Workflow[]> {
+        return this.apiService.config(this.apiConfig).page('/by-usuario-rols/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
     get(id: string): Observable<Workflow> {
@@ -81,6 +82,10 @@ export class WorkflowService {
 
     checkView(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/check/view`);
+    }
+
+    take(id: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/take`);
     }
 
 }

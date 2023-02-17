@@ -72,7 +72,7 @@ export class CuentaBancoService {
         return this.apiService.config(this.apiConfig).post('/create', data);
     }
     send(id:number): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/send`);
+        return this.apiService.config(this.apiConfig).pullFileByGet(`/${id}/send`);
     }
 
     update(data: CuentaBanco): Observable<any> {

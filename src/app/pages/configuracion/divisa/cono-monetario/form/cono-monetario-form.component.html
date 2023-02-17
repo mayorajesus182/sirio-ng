@@ -34,15 +34,15 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                     <sirio-select-search
-                                    fxFlex="50"
+                                    fxFlex="100" fxFlex.gt-xs="50"
                                         [label]="'monetaryCone.coin' | translate: {default: 'global.coin'} | translate"
                                         formControlName="moneda" [required]="true" [elements]="monedas.asObservable()"
                                         [attributeName]="'nombre'" [errors]="f.moneda?.errors">
                                     </sirio-select-search>
-                                <mat-form-field fxFlex.gt-xs="40">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
                                     <mat-label>{{'monetaryCone.denomination' | translate: {default:'global.denomination'} | translate }}  </mat-label>
                                     <input matInput autocomplete="off" max="99999999.99" min="0.05" name="denominacion" formControlName="denominacion" currencyMask [options]="{precision:2}">
                                     <mat-error *ngIf="f.denominacion.errors?.required && !f.denominacion.errors?.min">{{'error.required' | translate}}</mat-error>
@@ -70,7 +70,6 @@
                         </button>
                     </div>
                 </mat-toolbar>
-                <!-- {{printErrors()|json}} -->
             </sirio-card>
         </div>
     </sirio-page-layout-content>

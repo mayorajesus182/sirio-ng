@@ -41,9 +41,7 @@ export class CuentaContableFormComponent extends FormBaseComponent implements On
             this.cuentaContableService.get(id).subscribe((agn: CuentaContable) => {
                 this.cuentaContable = agn;
                 this.buildForm(this.cuentaContable);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

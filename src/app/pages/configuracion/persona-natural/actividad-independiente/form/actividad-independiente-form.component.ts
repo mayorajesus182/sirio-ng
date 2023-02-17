@@ -40,9 +40,7 @@ export class ActividadIndependienteFormComponent extends FormBaseComponent imple
             this.actividadIndependienteService.get(id).subscribe((agn: ActividadIndependiente) => {
                 this.actividadIndependiente = agn;
                 this.buildForm(this.actividadIndependiente);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

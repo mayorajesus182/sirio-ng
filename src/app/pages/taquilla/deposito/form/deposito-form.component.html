@@ -15,7 +15,7 @@
                     </sirio-card-header-actions>
                 </sirio-card-header>
 
-                <sirio-card-content fxLayout="column">
+                <sirio-card-content fxLayout="column" tabNavigation>
                     <sirio-person-query (result)="queryResult($event)" [taquilla]="true"></sirio-person-query>
                     <div fxLayout="column" *ngIf="loading | async">
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="center" fxLayoutGap.gt-sm="300px">
@@ -54,7 +54,7 @@
                             {default: 'global.notfound'} | translate }}
                         </button>
                         <button color="primary" (click)="save()" mat-raised-button
-                            [disabled]="!itemForm || itemForm.invalid  || !voucherForm ||  voucherForm.invalid || (loading$ | async )">
+                            [disabled]="itemForm?.invalid  ||  voucherForm?.invalid || (loading$ | async )">
                             {{'button.send' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

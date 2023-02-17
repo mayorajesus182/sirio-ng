@@ -22,9 +22,8 @@ export class AtmReportService {
     reporte(): Observable<any> {
         return this.apiService.config(this.apiConfig).pullFileByGet('/generar');
     }
-
      
-    atmreporte(): Observable<any> {      
-        return this.apiService.config(this.apiConfig).pullFileByGet('/atmreporte');
+    atmReporte(): Observable<any> {
+        return this.apiService.config(this.apiConfig).pullFileByGet('/atm-reporte');
     }
 }

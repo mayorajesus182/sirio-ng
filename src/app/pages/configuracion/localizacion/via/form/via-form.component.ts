@@ -38,9 +38,7 @@ export class ViaFormComponent extends FormBaseComponent implements OnInit {
             this.viaService.get(id).subscribe((agn: Via) => {
                 this.via = agn;
                 this.buildForm(this.via);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -60,7 +58,7 @@ export class ViaFormComponent extends FormBaseComponent implements OnInit {
     buildForm(via: Via) {
         this.itemForm = this.fb.group({
             id: new FormControl({ value: via.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
-            nombre: new FormControl(via.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(via.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(via.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)])
         });
     }

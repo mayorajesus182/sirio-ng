@@ -20,11 +20,12 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
+
                     <div class="result" fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="row wrap" fxLayoutAlign="center" fxLayoutGap="10px">
-                                <div fxLayout="column" fxFlex="30" fxLayoutGap="8px" *ngFor="let key of groups ;let i = index;">
+                                <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="32" fxLayoutGap="8px" *ngFor="let key of groups ;let i = index;">
                                     <sirio-card class="margin-bottom-sm" fxFlex="100">
                                         <sirio-card-header class="margin-bottom-sm" fxLayout="column"
                                             style="background-color: #5b5f6d ; padding: 15px 15px 15px 24px;">
@@ -36,15 +37,15 @@
                                         </sirio-card-header>
                                         <sirio-card-content>
                                             <div class="section">
-                                                <div fxLayout="column" fxFlex="100%">
-                                                    <mat-form-field appearance="outline" *ngFor="let item of preferencia[key] ;let i = index;">
+                                                <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="100">
+                                                    <mat-form-field appearance="outline" *ngFor="let item of preferencia[key] ;let i = index;" fxFlex="100" fxFlex.gt-xs="100">
                                                         <mat-label>{{item[getField(item)].label}}</mat-label>
                                                         <input matInput type="{{item[getField(item)].type}}" [formControlName]="getField(item)"
                                                             class="text-center" currencyMask [options]="{precision:2}"
                                                             *ngIf="item[getField(item)].function === 'currency' && !item[getField(item)].selectSimple"
                                                             [required]="item[getField(item)].required">
                                                         <input matInput type="{{item[getField(item)].type}}" [formControlName]="getField(item)"
-                                                            class="text-center"
+                                                            class="text-center" 
                                                             *ngIf="item[getField(item)].function != 'currency' && !item[getField(item)].selectSimple"
                                                             [required]="item[getField(item)].required">
                                                         <mat-select placeholder="Seleccione un Valor" *ngIf="item[getField(item)].selectSimple"
@@ -53,14 +54,14 @@
                                                                 {{ option.nombre }}
                                                             </mat-option>
                                                         </mat-select>
-                                                        <mat-error *ngIf="item[getField(item)].required">Requerido</mat-error>
+                                                        <mat-error *ngIf="item[getField(item)].required">{{'error.required' | translate}}</mat-error>
                                                     </mat-form-field>
                                                 </div>
                                             </div>
                                         </sirio-card-content>
                                     </sirio-card>
                                 </div>
-                                <div class="margin-bottom-sm" fxFlex="30" *ngIf="(groups.length%3) !== 0"></div>
+                                <div class="margin-bottom-sm" fxFlex="100" fxFlex.gt-xs="30" *ngIf="(groups.length%2) === 0"></div>
                             </div>
                         </form>
                     </div>

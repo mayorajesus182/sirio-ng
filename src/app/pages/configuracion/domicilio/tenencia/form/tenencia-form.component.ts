@@ -40,9 +40,7 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
             this.tenenciaService.get(id).subscribe((agn: Tenencia) => {
                 this.tenencia = agn;
                 this.buildForm(this.tenencia);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -62,7 +60,7 @@ export class TenenciaFormComponent extends FormBaseComponent implements OnInit {
     buildForm(tenencia: Tenencia) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: tenencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(tenencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(tenencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(tenencia.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

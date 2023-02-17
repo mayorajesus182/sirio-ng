@@ -52,8 +52,6 @@ export class PaseABovedaFormComponent extends FormBaseComponent implements OnIni
         super(undefined, injector);
     }
 
-    // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML (desglose de efectivo)
-
     ngOnInit() {
 
         let id = this.route.snapshot.params['id'];

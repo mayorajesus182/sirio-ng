@@ -41,9 +41,7 @@ export class ConstruccionFormComponent extends FormBaseComponent implements OnIn
             this.construccionService.get(id).subscribe((agn: Construccion) => {
                 this.construccion = agn;
                 this.buildForm(this.construccion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -63,7 +61,7 @@ export class ConstruccionFormComponent extends FormBaseComponent implements OnIn
     buildForm(construccion: Construccion) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: construccion.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(construccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(construccion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(construccion.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

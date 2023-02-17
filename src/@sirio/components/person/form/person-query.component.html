@@ -15,16 +15,16 @@
     <sirio-card-content fxLayout="column">
         <div *ngIf="searchForm" fxLayout="column" [formGroup]="searchForm">
             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                <sirio-select-search autofocus="true" fxFlex="20" [label]="'global.documentType' | translate"
+                <sirio-select-search autofocus="true" fxFlex="100" fxFlex.gt-xs="20" [label]="'global.documentType' | translate"
                     formControlName="tipoDocumento" [elements]="tiposDocumentos.asObservable()"
-                    [attributeName]="'nombre'" [errors]="search.tipoDocumento?.errors" [required]="true"
+                    [attributeName]="'nombre'" [required]="true"
                     [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)"
                     [readonly]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)">
                 </sirio-select-search>
 
                 <!-- [attr.disabled]="search.cuenta.value && search.cuenta.value.length > 0" -->
 
-                <mat-form-field fxFlex="20">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                     <mat-label>{{'global.identification' | translate }} </mat-label>
                     <input matInput  *ngIf="isNaturalPerson()" doc-number-validate [tipo_documento]="search.tipoDocumento?.value" minlength="1" autocomplete="off"
                         (blur)="queryByPerson()" class="text-center" name="identificacion" 
@@ -51,7 +51,7 @@
 
                 <!-- [attr.disabled]="search.identificacion.value && search.identificacion.value.length > 0" -->
 
-                <mat-form-field fxFlex="20" *ngIf="taquilla && entity!='gestioncomercial'">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="taquilla && entity!='gestioncomercial'">
                     <mat-label>{{'global.accountNumber' | translate }} </mat-label>
                     <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" 
                         num-account-validate [disabled]="disable | async" formControlName="cuenta"
@@ -62,7 +62,7 @@
                     </mat-error>
                 </mat-form-field>
 
-                <mat-form-field fxFlex="auto">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                     <mat-label>{{'global.fullName' | translate }} </mat-label>
                     <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="false"
                         formControlName="nombre">
@@ -90,8 +90,6 @@
                 
             </div>
         </div>
-        <!-- {{persona| json}} -->
     </sirio-card-content>
 </sirio-card>
 
-<!-- <mat-divider class="margin-bottom-md"></mat-divider> -->

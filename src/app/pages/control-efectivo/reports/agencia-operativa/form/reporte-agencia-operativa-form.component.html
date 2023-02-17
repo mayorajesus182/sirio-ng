@@ -28,11 +28,11 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex.gt-xs="100" *ngIf="!esGerente"
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="100" *ngIf="!esGerente"
                                     [label]="'operationalAgenciesRep.region' | translate: {default: 'global.region'} | translate" formControlName="region"
-                                    [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors" [labelDef]="'TODOS'">
+                                    [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                             </div>
                         </form>
@@ -45,7 +45,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

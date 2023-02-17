@@ -110,7 +110,7 @@ export class DespacharRemesaFormComponent extends FormBaseComponent implements O
         this.preferenciaService.get().subscribe(pref => {
             this.preferencia = pref;
             // Si es moneda local se bucan los viajes y materiales con bolivares mayores a cero, de otro modo se buscan viajes y materiales con divisas meyores a cero
-            if (this.preferencia.monedaConoActual === this.remesa.moneda) {
+            if (this.preferencia.monedaConoActual.value === this.remesa.moneda) {
 
                 this.viajeTransporteService.allWithCostoByTransportista(value).subscribe(vjt => {
                     this.viajes.next(vjt);

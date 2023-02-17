@@ -41,9 +41,7 @@ export class TipoTelefonoFormComponent extends FormBaseComponent implements OnIn
             this.TipoTelefonoService.get(id).subscribe((agn: TipoTelefono) => {
                 this.tipoTelefono = agn;
                 this.buildForm(this.tipoTelefono);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -63,7 +61,7 @@ export class TipoTelefonoFormComponent extends FormBaseComponent implements OnIn
     buildForm(tipoTelefono: TipoTelefono) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: tipoTelefono.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(tipoTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(tipoTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(tipoTelefono.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

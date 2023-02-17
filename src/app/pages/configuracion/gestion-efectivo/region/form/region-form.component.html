@@ -17,7 +17,7 @@
                             <mat-icon>save</mat-icon>
 
                         </button>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
 
@@ -31,42 +31,42 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <form [formGroup]="itemForm" *ngIf="itemForm">
+                    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex.gt-sm="30">
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                                 <mat-label>{{'region.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput minlength="1" maxlength="10" autocomplete="off" name="id" formControlName="id" uppercase required
+                                <input matInput minlength="4" maxlength="4" autocomplete="off" name="id" formControlName="id" uppercase required
                                     class="text-center">
                                 <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                <mat-error *ngIf="f.id.errors?.minlength">Debe de ser 4 Caracteres</mat-error>
+
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="70">
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="70">
                                 <mat-label>{{'region.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
-                                <input matInput minlength="1" maxlength="60" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
+                                <input matInput maxlength="60" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
                                 <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                             </mat-form-field>
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                            <sirio-select-search fxFlex="50" [label]="'region.zone' | translate: {default: 'global.zone'} | translate" formControlName="zona"
-                                [required]="true" [elements]="zonas.asObservable()" [attributeName]="'nombre'" [errors]="f.zona?.errors">
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'region.zone' | translate: {default: 'global.zone'} | translate"
+                                formControlName="zona" [required]="true" [elements]="zonas.asObservable()" [attributeName]="'nombre'">
                             </sirio-select-search>
 
-                            <sirio-select-search fxFlex="50" [label]="'region.regionalManager' | translate: {default: 'global.regionalManager'} | translate"
-                                formControlName="gerente" [required]="true" [elements]="usuarios.asObservable()" [attributeName]="'nombre'" [errors]="f.gerente?.errors">
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="50"
+                                [label]="'region.regionalManager' | translate: {default: 'global.regionalManager'} | translate" formControlName="gerente"
+                                [required]="true" [elements]="usuarios.asObservable()" [attributeName]="'nombre'">
                             </sirio-select-search>
                         </div>
-
-
                     </form>
-
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

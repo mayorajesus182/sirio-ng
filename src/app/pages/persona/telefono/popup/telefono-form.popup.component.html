@@ -14,23 +14,23 @@
 
 
 <mat-dialog-content>
-  <form [formGroup]="itemForm" *ngIf="itemForm">
+  <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'" formControlName="tipoTelefono" [required]="true"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Tipo Teléfono'" formControlName="tipoTelefono" [required]="true"
         [elements]="tipoTelefonoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
 
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Clase Teléfono'" formControlName="claseTelefono" [required]="true"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Clase Teléfono'" formControlName="claseTelefono" [required]="true"
         [elements]="claseTelefonoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-      <mat-form-field fxFlex="auto">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{'Número' | translate }} </mat-label>
 
         <input matInput maxlength="20" minlength="11" autocomplete="off" phoneValidate [telefonicas]="telefonicaList.asObservable()" name="numero"
@@ -55,5 +55,5 @@
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

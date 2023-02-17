@@ -1,3 +1,4 @@
+import { unsupported } from '@angular/compiler/src/render3/view/util';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -22,6 +23,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 export class ParroquiaFormComponent extends FormBaseComponent implements OnInit {
 
     public municipios = new BehaviorSubject<Municipio[]>([]);
+    // public parroquias = new BehaviorSubject<Parroquia[]>([]);
     public paises = new BehaviorSubject<Pais[]>([]);
     public estados = new BehaviorSubject<Estado[]>([]);
     parroquia: Parroquia = {} as Parroquia;
@@ -48,9 +50,7 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
             this.parroquiaService.get(id).subscribe((agn: Parroquia) => {
                 this.parroquia = agn;
                 this.buildForm(this.parroquia);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -103,7 +103,6 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
             pais: new FormControl(parroquia.pais || undefined, [Validators.required]),
             codigoLocal: new FormControl(parroquia.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
-
         this.f.pais.valueChanges.subscribe(value => {
             this.f.estado.setValue(undefined);
             this.estados.next([]);
@@ -112,7 +111,6 @@ export class ParroquiaFormComponent extends FormBaseComponent implements OnInit 
                 this.cdr.detectChanges();
             });
         });
-
 
         this.f.estado.valueChanges.subscribe(value => {
             this.f.municipio.setValue(undefined);

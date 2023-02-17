@@ -71,7 +71,7 @@ export class ClaseTelefonoFormComponent extends FormBaseComponent implements OnI
     buildForm(claseTelefono: ClaseTelefono) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: claseTelefono.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(claseTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(claseTelefono.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             tipoTelefonica: new FormControl(claseTelefono.tipoTelefonica || undefined, [Validators.required]),
             codigoLocal: new FormControl(claseTelefono.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });

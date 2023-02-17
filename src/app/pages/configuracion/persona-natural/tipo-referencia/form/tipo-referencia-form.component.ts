@@ -40,9 +40,7 @@ export class TipoReferenciaFormComponent extends FormBaseComponent implements On
             this.tipoReferenciaService.get(id).subscribe((agn: TipoReferencia) => {
                 this.tipoReferencia = agn;
                 this.buildForm(this.tipoReferencia);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -63,7 +61,7 @@ export class TipoReferenciaFormComponent extends FormBaseComponent implements On
     buildForm(tipoReferencia: TipoReferencia) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: tipoReferencia.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(tipoReferencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(tipoReferencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(tipoReferencia.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

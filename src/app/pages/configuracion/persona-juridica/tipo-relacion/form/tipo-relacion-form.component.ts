@@ -39,9 +39,7 @@ export class TipoRelacionFormComponent extends FormBaseComponent implements OnIn
             this.tipoRelacionService.get(id).subscribe((agn: TipoRelacion) => {
                 this.tipoRelacion = agn;
                 this.buildForm(this.tipoRelacion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

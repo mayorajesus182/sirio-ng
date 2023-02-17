@@ -16,7 +16,7 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div fxLayout="column">
+                    <div fxLayout="column" tabNavigation>
                         <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
@@ -27,19 +27,19 @@
                                     <input matInput [value]="remesa.emisor + ' - ' + remesa.nombreEmisor" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                     <mat-label>{{'remittancesRequested.requestDate' | translate: {default: 'global.requestDate'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.fechaSolicitud | date: 'dd/MM/yyyy'" readonly class="text-center">
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                     <mat-label>{{'remittancesRequested.coin' | translate: {default: 'global.coin'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.nombreMoneda" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="20">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                     <mat-label>{{'remittancesRequested.requestedAmount' | translate: {default: 'global.requestedAmount'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="remesa.montoSolicitado | number: '1.2'" readonly class="text-right">
@@ -48,45 +48,44 @@
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esTransportista">
-                                <mat-form-field fxFlex.gt-xs="30">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                                     <mat-label>{{'remittancesRequested.boxesOrBagsUsed' | translate: {default: 'global.boxesOrBagsUsed'} |
                                         translate }}
                                     </mat-label>
-                                    <input matInput type="number" autocomplete="off" minlength="1" maxlength="200" name="cajasBolsas"
+                                    <input matInput type="number" autocomplete="off"  maxlength="200" name="cajasBolsas"
                                         formControlName="cajasBolsas" [required]="!esTransportista" class="text-right">
                                     <mat-error *ngIf="f.cajasBolsas.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="70" [label]="'remittancesRequested.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="70" [label]="'remittancesRequested.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
                                     formControlName="transportista" [required]="!esTransportista" [elements]="transportistas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.transportista?.errors">
+                                    [attributeName]="'nombre'">
                                 </sirio-select-search>
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex="100"
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="100"
                                     [label]="'remittancesRequested.transportReponsibles' | translate: {default: 'global.transportReponsibles'} | translate"
                                     formControlName="responsables" [required]="true" [elements]="empleados.asObservable()" [attributeName]="'nombre'"
-                                    [multiple]="true" [errors]="f.responsables?.errors">
+                                    [multiple]="true">
                                 </sirio-select-search>
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex="25" [label]="'remittancesRequested.tripType' | translate: {default: 'global.tripType'} | translate"
-                                    formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.viaje?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'remittancesRequested.tripType' | translate: {default: 'global.tripType'} | translate"
+                                    formControlName="viaje" [required]="true" [elements]="viajes.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
                                 <!-- <mat-form-field fxFlex.gt-xs="50">
                                     <mat-label>{{'Plomos Utilizados' | translate: {default: 'Plomos Utilizados'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="200" name="plomos" formControlName="plomos" uppercase required>
+                                    <input matInput autocomplete="off"  maxlength="200" name="plomos" formControlName="plomos" uppercase required>
                                     <mat-error *ngIf="f.plomos.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.plomos.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field> -->
 
 
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label># {{'remittancesRequested.leads' | translate: {default: 'global.leads'} | translate }}</mat-label>
                                     <mat-chip-list #chipList aria-label="Plomos Utilizados" [formControl]="plomoCtrl">
                                         <mat-chip *ngFor="let plo of plomoList" (removed)="removePlomo(plo)">
@@ -105,7 +104,7 @@
                                     <mat-error *ngIf="plomoCtrl.errors?.length">{{plomoCtrl.errors?.length}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="20" appearance="standart">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="20" appearance="standart">
                                     <mat-label>{{'remittancesRequested.amountToSend' | translate: {default: 'global.amountToSend'} | translate }} </mat-label>
                                     <input matInput max="9999999999999.99" autocomplete="off" currencyMask name="montoEnviado" formControlName="montoEnviado"
                                         [options]="{precision:2}" required readonly>
@@ -118,19 +117,19 @@
 
                         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" fxFlex="100">
 
-                            <div fxLayout="column" fxFlex="40" *ngIf="esTransportista">
+                            <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="40"*ngIf="esTransportista">
                                 <form [formGroup]="materialForm" *ngIf="materialForm">
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                         <h3>{{'remittancesRequested.usedMaterials' | translate: {default: 'global.usedMaterials'} | translate }}</h3>
                                     </div>
 
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                        <sirio-select-search fxFlex="70" [label]="'remittancesRequested.material' | translate: {default: 'global.material'} | translate"
+                                        <sirio-select-search fxFlex="100" fxFlex.gt-xs="70" [label]="'remittancesRequested.material' | translate: {default: 'global.material'} | translate"
                                             formControlName="material" [required]="true" [elements]="materiales.asObservable()" [attributeName]="'nombre'"
                                             [errors]="mf.material?.errors">
                                         </sirio-select-search>
 
-                                        <mat-form-field fxFlex="20">
+                                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
                                             <mat-label>{{'remittancesRequested.quantity' | translate: {default: 'global.quantity'} | translate }}
                                             </mat-label>
                                             <input matInput class="text-center" max="99" min="0" type="number" autocomplete="off" name="cantidad"
@@ -192,7 +191,7 @@
 
                             <mat-divider [vertical]="true" class="margin-bottom-md"></mat-divider>
 
-                            <div fxLayout="column" fxFlex="auto"  fxLayoutAlign="start stretch">
+                            <div fxLayout="column" fxFlex="100" fxFlex.gt-xs="auto"  fxLayoutAlign="start stretch">
 
                                 <!-- <div fxLayout="column" fxFlex="100"> -->
                                 <h3>{{'global.cashBreakdown' | translate }}</h3>
@@ -215,7 +214,6 @@
                         </div>
                     </div>
 
-                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

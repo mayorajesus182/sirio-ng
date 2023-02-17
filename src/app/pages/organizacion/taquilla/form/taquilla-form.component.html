@@ -32,11 +32,11 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="50">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
                                     <mat-label>{{'boxOffice.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="1" maxlength="50" name="nombre" formControlName="nombre" uppercase required>
@@ -44,9 +44,8 @@
                                     <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="50" [label]="'boxOffice.boxOfficeOperator' | translate: {default: 'global.boxOfficeOperator'} | translate"
-                                    formControlName="usuario" [required]="false" [elements]="usuarios.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.usuario?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'boxOffice.boxOfficeOperator' | translate: {default: 'global.boxOfficeOperator'} | translate"
+                                    formControlName="usuario" [required]="false" [elements]="usuarios.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
                             </div>
                         </form>

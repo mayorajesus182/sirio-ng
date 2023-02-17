@@ -84,7 +84,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   print(event) {
     if(event){
           
-       this.atmReportService.atmreporte().subscribe(event => {        
+       this.atmReportService.atmReporte().subscribe(event => {        
            //this.loadingDataForm.next(false);
             const name = this.getFileName(event);
             let blob: any = new Blob([event.body], { type: 'application/octet-stream' });

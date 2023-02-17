@@ -12,19 +12,19 @@
 
 
 <mat-dialog-content>
-    <form [formGroup]="itemForm" *ngIf="itemForm">
+    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Tipo Producto'"  formControlName="tipoProducto" [required]="true"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Tipo Producto'"  formControlName="tipoProducto" [required]="true"
         [elements]="tipoProductoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
 
-      <sirio-select-search fxFlex.gt-xs="auto" [label]="'Entidad Financiera'"  formControlName="entidadFinanciera" 
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Entidad Financiera'"  formControlName="entidadFinanciera" 
       [required]="true"  [elements]="entidadFinancieraList.asObservable()" [attributeName]="'nombre'">        
       </sirio-select-search>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="50">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
         <mat-label>{{'Número de Cuenta'}}</mat-label>
         <input autocomplete="off" class="text-center" mask="0000 0000 00 00 00000000" matInput name="numeroCuenta" num-account-validate maxlength="24"
           formControlName="numeroCuenta"  required>
@@ -34,12 +34,10 @@
         <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required'| translate}}</mat-error>
       </mat-form-field>
 
-      <sirio-select-simple fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" [required]="true"
+      <sirio-select-simple fxFlex="100" fxFlex.gt-xs="auto" [label]="'Cifra Promedio'"  formControlName="cifraPromedio" [required]="true"
         [elements]="cifrasPromedioList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-simple>
     </div>
-
-
 
   </form>
 

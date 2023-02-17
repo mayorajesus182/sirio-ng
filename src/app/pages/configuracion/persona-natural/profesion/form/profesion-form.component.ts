@@ -40,9 +40,7 @@ export class ProfesionFormComponent extends FormBaseComponent implements OnInit 
             this.profesionService.get(id).subscribe((agn: Profesion) => {
                 this.profesion = agn;
                 this.buildForm(this.profesion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -63,7 +61,7 @@ export class ProfesionFormComponent extends FormBaseComponent implements OnInit 
     buildForm(profesion: Profesion) {
         this.itemForm = this.fb.group({
             id: new FormControl({value: profesion.id || '', disabled: !this.isNew}, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)]),
-            nombre: new FormControl(profesion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
+            nombre: new FormControl(profesion.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             codigoLocal: new FormControl(profesion.codigoLocal || '', [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
         });
     }

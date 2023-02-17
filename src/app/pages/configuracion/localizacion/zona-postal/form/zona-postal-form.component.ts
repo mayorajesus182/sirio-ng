@@ -51,9 +51,7 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
             this.zonaPostalService.get(id).subscribe((agn: ZonaPostal) => {
                 this.zonaPostal = agn;
                 this.buildForm(this.zonaPostal);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -103,7 +101,7 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
     buildForm(zonaPostal: ZonaPostal) {
 
         this.itemForm = this.fb.group({
-            id: new FormControl({ value: zonaPostal.id || '', disabled: !this.isNew }, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
+            id: new FormControl({ value: zonaPostal.id || '', disabled: !this.isNew }, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC)]),
             nombre: new FormControl(zonaPostal.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             municipio: new FormControl(zonaPostal.municipio || undefined, [Validators.required]),
             estado: new FormControl(zonaPostal.estado || undefined, [Validators.required]),
@@ -140,11 +138,11 @@ export class ZonaPostalFormComponent extends FormBaseComponent implements OnInit
             });
         });
 
-        this.f.id.valueChanges.subscribe(value => {
-            if (!this.f.id.errors && this.f.id.value.length > 0) {
-                this.codigoExists(value);
-            }
-        });
+        // this.f.id.valueChanges.subscribe(value => {
+        //     if (!this.f.id.errors && this.f.id.value.length > 0) {
+        //         this.codigoExists(value);
+        //     }
+        // });
 
         this.cdr.detectChanges();
     }

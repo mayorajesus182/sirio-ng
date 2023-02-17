@@ -40,9 +40,7 @@ export class TipoIngresoFormComponent extends FormBaseComponent implements OnIni
             this.tipoIngresoService.get(id).subscribe((agn: TipoIngreso) => {
                 this.tipoIngreso = agn;
                 this.buildForm(this.tipoIngreso);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

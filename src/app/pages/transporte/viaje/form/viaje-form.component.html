@@ -5,8 +5,7 @@
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -14,51 +13,43 @@
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid "
-                            (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)" (click)="save()">
                             <mat-icon>save</mat-icon>
-
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
-
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
-
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
-
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>{{'trip.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="2" name="id" formControlName="id" uppercase required
-                                        class="text-center">
-                                        <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    <input matInput autocomplete="off" minlength="2" maxlength="2" name="id" formControlName="id" uppercase required class="text-center">
+                                    <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.minlength">Debe ser de 2 Caracteres</mat-error>
+
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="80">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="80">
                                     <mat-label>{{'trip.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" maxlength="50" name="nombre" formControlName="nombre" uppercase
-                                        required>
-                                        <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
+                                    <input matInput autocomplete="off" maxlength="50" name="nombre" formControlName="nombre" uppercase required>
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
-
                             </div>
-
                         </form>
                     </div>
                 </sirio-card-content>
@@ -73,9 +64,7 @@
                             'global.notfound'} | translate }}
                         </button>
                     </div>
-
                 </mat-toolbar>
-
             </sirio-card>
         </div>
     </sirio-page-layout-content>
