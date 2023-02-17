@@ -13,11 +13,11 @@
 </sirio-dialog-header>
 
 
-<mat-dialog-content>
+<mat-dialog-content tabNavigation>
   <div fxLayout="column" class="margin-bottom-sm">
 
     <div fxLayout="row">
-      <div fxFlex="100">
+      <div fxFlex="100" fxFlex.gt-xs="100">
         <sirio-person-query [entity]="'interviniente'" title="Consultar Persona" (push)="pullPerson($event)" ></sirio-person-query>
       </div>
 
@@ -30,17 +30,17 @@
 
       <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
   
-        <mat-form-field fxFlex="15">
+        <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
           <mat-label>{{'global.documentType' | translate }} </mat-label>
           <input matInput autocomplete="off" name="tipoDocumento" [(ngModel)]="persona.tipoDocumento" disabled="true" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
   
-        <mat-form-field fxFlex="30">
+        <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
           <mat-label>{{'global.identification' | translate }} </mat-label>
           <input matInput autocomplete="off" class="text-center" name="identificacion" disabled="true"  [(ngModel)]="persona.identificacion"  [ngModelOptions]="{standalone: true}"> 
         </mat-form-field>
   
-        <mat-form-field fxFlex="auto">
+        <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
           <mat-label>{{'global.fullName' | translate }} </mat-label>
           <input matInput autocomplete="off" class="text-left" name="nombre" disabled="true" [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}">
         </mat-form-field>
@@ -71,17 +71,17 @@
   
         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
   
-          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Participación'"   [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="33" [label]="'Tipo Participación'"   [formControl]="itemForm.controls['tipoParticipacion']" [required]="true"
             [elements]="tipoParticipaciones.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
   
-          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firma'"   [formControl]="itemForm.controls['tipoFirma']" [required]="true"
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="33" [label]="'Tipo Firma'"   [formControl]="itemForm.controls['tipoFirma']" [required]="true"
             [elements]="tipoFirmas.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
   
-          <sirio-select-search fxFlex.gt-xs="33" [label]="'Tipo Firmante'" 
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="33" [label]="'Tipo Firmante'" 
            [formControl]="itemForm.controls['tipoFirmante']" [required]="true"
-            [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'" [errors]="f.tipoFirmante?.errors">
+            [elements]="tipoFirmantes.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
   
         </div>
@@ -89,19 +89,17 @@
         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
           <!-- condicion -->
 
-          <sirio-select-search fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['condicion']" 
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['condicion']" 
             [elements]="condiciones.asObservable()" [attributeName]="'nombre'">
           </sirio-select-search>
   
           <!-- cargo -->
-          <sirio-select-search fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['cargo']" 
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['cargo']" 
             [elements]="cargos.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
         </div>
       
-  
-      <!-- {{printErrors() | json}}  -->
-  
+    
     </div>
 
   </ng-container>
@@ -110,5 +108,5 @@
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="!itemForm || itemForm.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

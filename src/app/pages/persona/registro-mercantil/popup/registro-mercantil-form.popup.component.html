@@ -17,11 +17,11 @@
 
 <mat-dialog-content>
 
-  <form [formGroup]="itemForm" *ngIf="itemForm">
+  <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esGobierno">
 
-      <mat-form-field fxFlex="100">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="100">
         <mat-label>{{'Nombre del Registro' | translate: {default:
           'Nombre del Registro'} | translate }} </mat-label>
         <input matInput maxlength="150" autocomplete="off" name="nombre" formControlName="nombre" uppercase [required]="!esGobierno">
@@ -35,7 +35,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="!esGobierno">
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'global.date' | translate: {default: 'global.date'} |
           translate }}</mat-label>
         <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
@@ -49,10 +49,10 @@
       </mat-form-field>
       <mat-datepicker #fechaPicker></mat-datepicker>
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'Número' | translate: {default:
           'Número'} | translate }} </mat-label>
-        <input matInput maxlength="10" minlength="1" autocomplete="off" name="numero" formControlName="numero" uppercase [required]="!esGobierno" class="text-center">
+        <input matInput maxlength="10" autocomplete="off" name="numero" formControlName="numero" uppercase [required]="!esGobierno" class="text-center">
         <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.numero.errors?.pattern">{{'error.invalidCharacter' |
@@ -60,10 +60,10 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'Tomo' | translate: {default:
           'Tomo'} | translate }} </mat-label>
-        <input matInput maxlength="10" minlength="1" autocomplete="off" name="tomo" formControlName="tomo" uppercase [required]="!esGobierno" class="text-center">
+        <input matInput maxlength="10" autocomplete="off" name="tomo" formControlName="tomo" uppercase [required]="!esGobierno" class="text-center">
         <mat-error *ngIf="f.tomo.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.tomo.errors?.pattern">{{'error.invalidCharacter' |
@@ -71,10 +71,10 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'Folio' | translate: {default:
           'Folio'} | translate }} </mat-label>
-        <input matInput maxlength="10" minlength="1" autocomplete="off" name="folio" formControlName="folio" uppercase [required]="!esGobierno"  class="text-center">
+        <input matInput maxlength="10" autocomplete="off" name="folio" formControlName="folio" uppercase [required]="!esGobierno"  class="text-center">
         <mat-error *ngIf="f.folio.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.folio.errors?.pattern">{{'error.invalidCharacter' |
@@ -82,7 +82,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'Capital Social' | translate: {default:
           'Capital Social'} | translate }} </mat-label>
         <input maxlength="20" matInput autocomplete="off" name="capitalSocial" currencyMask [options]="{precision:2}" formControlName="capitalSocial"
@@ -97,7 +97,7 @@
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esGobierno">
 
-      <mat-form-field fxFlex="100">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="100">
         <mat-label>{{'Autoridad / Ente de Adscripción' | translate: {default:  'Autoridad / Ente de Adscripción'} | translate }} </mat-label>
         <input matInput maxlength="150"  autocomplete="off" name="ente" formControlName="ente" uppercase [required]="esGobierno">
         <mat-error *ngIf="f.ente.errors?.required">{{'error.required' | translate}}
@@ -110,10 +110,10 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="esGobierno">
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'Número Gaceta Oficial' | translate: {default:
           'Número Gaceta Oficial'} | translate }} </mat-label>
-        <input matInput maxlength="10" minlength="1" autocomplete="off" name="gaceta" formControlName="gaceta" uppercase [required]="esGobierno"  class="text-center">
+        <input matInput maxlength="10" autocomplete="off" name="gaceta" formControlName="gaceta" uppercase [required]="esGobierno"  class="text-center">
         <mat-error *ngIf="f.gaceta.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.gaceta.errors?.pattern">{{'error.invalidCharacter' |
@@ -121,10 +121,10 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'Decreto' | translate: {default:
           'Decreto'} | translate }} </mat-label>
-        <input matInput maxlength="10" minlength="1" autocomplete="off" name="decreto" formControlName="decreto" uppercase [required]="esGobierno"  class="text-center">
+        <input matInput maxlength="10" autocomplete="off" name="decreto" formControlName="decreto" uppercase [required]="esGobierno"  class="text-center">
         <mat-error *ngIf="f.decreto.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.decreto.errors?.pattern">{{'error.invalidCharacter' |
@@ -132,7 +132,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex="20">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
           translate }}</mat-label>
         <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
@@ -147,10 +147,10 @@
       <mat-datepicker #fechaPicker></mat-datepicker>
 
 
-      <mat-form-field fxFlex="40">
+      <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
         <mat-label>{{'Código ONT' | translate: {default:
           'Código ONT'} | translate }} </mat-label>
-        <input matInput maxlength="30" minlength="1" autocomplete="off" name="codigoOnt" formControlName="codigoOnt" uppercase [required]="esGobierno"  class="text-center">
+        <input matInput maxlength="30" autocomplete="off" name="codigoOnt" formControlName="codigoOnt" uppercase [required]="esGobierno"  class="text-center">
         <mat-error *ngIf="f.codigoOnt.errors?.required">{{'error.required' | translate}}
         </mat-error>
         <mat-error *ngIf="f.codigoOnt.errors?.pattern">{{'error.invalidCharacter' |
@@ -167,5 +167,5 @@
 
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
   <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
 </mat-dialog-actions>

@@ -40,9 +40,7 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
             this.entidadFinancieraService.get(id).subscribe((agn: EntidadFinanciera) => {
                 this.entidadFinanciera = agn;
                 this.buildForm(this.entidadFinanciera);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {
@@ -71,7 +69,7 @@ export class EntidadFinancieraFormComponent extends FormBaseComponent implements
         if (this.itemForm.invalid)
             return;
         this.updateData(this.entidadFinanciera);
-        this.saveOrUpdate(this.entidadFinancieraService, this.entidadFinanciera, 'El Estatus de Persona', this.isNew);
+        this.saveOrUpdate(this.entidadFinancieraService, this.entidadFinanciera, 'La Entidad Financiera', this.isNew);
     }
 
     private codigoExists(id) {

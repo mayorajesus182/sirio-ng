@@ -13,11 +13,11 @@
                     <sirio-card-header-subheading>{{'action.add' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async) " (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
+                        <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
                             <mat-icon>backspace</mat-icon>
                         </button>
@@ -30,14 +30,14 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="row" fxFlex="100%">
-                        <div [formGroup]="itemForm" *ngIf="itemForm" fxLayout="column" fxFlex class="padding-h-2xl">
+                        <div [formGroup]="itemForm" *ngIf="itemForm" fxLayout="column" fxFlex class="padding-h-2xl" tabNavigation>
 
                             <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px">
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
                                     <mat-label>Usuario</mat-label>
                                     <input matInput name="id" #username minlength="4" class="text-center" formControlName="id" autocomplete="off" required>
-                                    <mat-error *ngIf="f.id.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.id.errors?.pattern">Sólo caracteres alfanuméricos</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.minlength">Debe tener al menos 4 caracteres</mat-error>
                                     <mat-error *ngIf="f.id.hasError('usuarioExists')">
                                         {{f.id.errors?.usuarioExists}}
@@ -48,14 +48,14 @@
                                     <mat-label>C.I.</mat-label>
                                     <input matInput class="text-center" maxlength="15" name="identificacion" autocomplete="off" formControlName="identificacion"
                                         required>
-                                    <mat-error *ngIf="f.identificacion.errors?.required">Requerido</mat-error>
-                                    <mat-error *ngIf="f.identificacion.errors?.pattern">Sólo caracteres alfanuméricos</mat-error>
+                                    <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>Nombre y Apellido</mat-label>
                                     <input matInput name="nombre" formControlName="nombre" uppercase autocomplete="off" required>
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                 </mat-form-field>
 
 
@@ -67,7 +67,7 @@
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>Email</mat-label>
                                     <input matInput name="email" #email formControlName="email" uppercase email-validate autocomplete="off" required>
-                                    <mat-error *ngIf="f.email.errors?.required">Requerido</mat-error>
+                                    <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.email.errors?.email && !f.email.errors?.required">Email inválido</mat-error>
                                     <mat-error *ngIf="f.email.hasError('emailExists')">
                                         {{f.email.errors?.emailExists}}
@@ -79,8 +79,7 @@
                                     <input matInput name="telefonoMovil" formControlName="telefonoMovil" phoneValidate
                                         [telefonicas]="telefonicaMovilList.asObservable()" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true"
                                         autocomplete="off">
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.telefonoMovil.errors?.phone">{{f.telefonoMovil.errors?.phone}} </mat-error>
                                 </mat-form-field>
 
@@ -89,8 +88,7 @@
                                     <input matInput name="telefonoLocal" formControlName="telefonoLocal" phoneValidate
                                         [telefonicas]="telefonicaFijaList.asObservable()" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true"
                                         autocomplete="off">
-                                    <mat-error *ngIf="f.nombre.errors?.required">Requerido</mat-error>
-
+                                    <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.telefonoLocal.errors?.phone">{{f.telefonoLocal.errors?.phone}} </mat-error>
                                 </mat-form-field>
 
@@ -99,38 +97,34 @@
 
                             <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px">
 
-
                                 <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Perfil'" [formControl]="itemForm.controls['perfil']"
-                                    [required]="true" [elements]="perfiles.asObservable()" [attributeName]="'nombre'" [errors]="f.perfil?.errors">
+                                    [required]="true" [elements]="perfiles.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
-
 
                                 <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Rol'" formControlName="rol" [required]="false"
-                                    [elements]="roles.asObservable()" [attributeName]="'nombre'" [errors]="f.rol?.errors">
+                                    [elements]="roles.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
-
-
 
                             </div>
 
                             <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap.gt-xs="10px">
 
-                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" *ngIf="agenciaMandatory.includes(f.rol.value) || !f.rol.value" [label]="'Agencia'"
-                                    formControlName="agencia" [required]="f.rol.value && agenciaMandatory.includes(f.rol.value)" [elements]="agencias.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.agencia?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" *ngIf="agenciaMandatory.includes(f.rol.value) || !f.rol.value"
+                                    [label]="'Agencia'" formControlName="agencia" [required]="f.rol.value && agenciaMandatory.includes(f.rol.value)"
+                                    [elements]="agencias.asObservable()" [attributeName]="'nombre'" [errors]="f.agencia?.errors">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex="100" *ngIf="rolConstant.GERENTE_REGIONAL==f.rol.value" fxFlex.gt-xs="auto" [label]="'Región'"
-                                    formControlName="region" [required]="rolConstant.GERENTE_REGIONAL==f.rol.value" [elements]="regiones.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="100" *ngIf="rolConstant.GERENTE_REGIONAL==f.rol.value" fxFlex.gt-xs="auto"
+                                    [label]="'Región'" formControlName="region" [required]="rolConstant.GERENTE_REGIONAL==f.rol.value"
+                                    [elements]="regiones.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex="100" *ngIf="rolConstant.TRANSPORTISTA==f.rol.value" fxFlex.gt-xs="auto" [label]="'Transportista'"
-                                    formControlName="transportista" [required]="rolConstant.TRANSPORTISTA==f.rol.value"
-                                    [elements]="transportistas.asObservable()" [attributeName]="'nombre'" [errors]="f.region?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="100" *ngIf="rolConstant.TRANSPORTISTA==f.rol.value" fxFlex.gt-xs="auto"
+                                    [label]="'Transportista'" formControlName="transportista" [required]="rolConstant.TRANSPORTISTA==f.rol.value"
+                                    [elements]="transportistas.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                            </div>`
+                            </div>
 
 
                             <div fxLayout="row wrap" fxLayoutAlign="left left">
@@ -145,7 +139,6 @@
                         </div>
                     </div>
 
-                    <!-- {{printErrors() | json}}  -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
@@ -153,7 +146,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

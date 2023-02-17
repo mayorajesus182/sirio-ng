@@ -34,39 +34,41 @@
                 <sirio-card-content fxLayout="column">
 
                     <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation  >
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="10">
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                 <mat-label>{{'phoneCompany.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput autocomplete="off" minlength="1" maxlength="6" name="id" formControlName="id" uppercase required
+                                <input matInput autocomplete="off" minlength="4" maxlength="4" name="id" formControlName="id" uppercase required
                                     class="text-center">
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.minlength">Debe de ser 4 Caracteres</mat-error>
+
                             </mat-form-field>
 
-                            <sirio-select-search fxFlex="30"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="30"
                                 [label]="'phoneCompany.phoneCompanyType' | translate: {default: 'global.phoneCompanyType'} | translate"
                                 formControlName="tipoTelefonica" [required]="true" [elements]="tipos.asObservable()"
                                 [attributeName]="'nombre'" [errors]="f.tipoTelefonica?.errors">
                             </sirio-select-search>
 
-                            <mat-form-field fxFlex.gt-xs="50">
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
                                 <mat-label>{{'phoneCompany.name' | translate: {default: 'global.name'} | translate }}
                                 </mat-label>
-                                <input matInput autocomplete="off" minlength="1" maxlength="60" name="nombre" formControlName="nombre" uppercase
+                                <input matInput autocomplete="off"  maxlength="60" name="nombre" formControlName="nombre" uppercase
                                     required>
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-sm="10">
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="10">
                                 <mat-label>{{'phoneClass.localCode' | translate: {default: 'global.localCode'} |
                                     translate }}</mat-label>
-                                <input matInput minlength="1" maxlength="6" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
+                                <input matInput  maxlength="6" autocomplete="off" name="codigoLocal" formControlName="codigoLocal"
                                     uppercase class="text-center">
                                     <mat-error *ngIf="f.codigoLocal.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>

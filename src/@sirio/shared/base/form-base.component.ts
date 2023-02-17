@@ -130,7 +130,7 @@ export class FormBaseComponent {
         this.opts.bdColor = 'rgba(190, 190, 190, 0.10)';
 
         this.loading$.subscribe(status => {
-            console.log('send info ', status);
+            // console.log('send info ', status);
 
             // bloque todos los botonones mientras estoy enviando info al servidor
             if (this.buttonList) {
@@ -395,7 +395,7 @@ export class FormBaseComponent {
             //post send data to backend
             for (var name in this.itemForm.controls) {
                 this.itemForm.get(name).setValue('');
-                this.itemForm.get(name).clearValidators();
+                // this.itemForm.get(name).clearValidators();
                 // this.itemForm.get(name).updateValueAndValidity();
 
                 this.itemForm.controls[name].setErrors(null);
@@ -410,7 +410,7 @@ export class FormBaseComponent {
             //post send data to backend
             for (var name in formData.controls) {
                 this.itemForm.get(name).setValue('');
-                this.itemForm.get(name).clearValidators();
+                // this.itemForm.get(name).clearValidators();
                 // this.itemForm.get(name).updateValueAndValidity();
 
                 this.itemForm.controls[name].setErrors(null);

@@ -40,8 +40,7 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
                 this.idioma = agn;
                 this.buildForm(this.idioma);
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
-                this.cdr.markForCheck();
+                this.cdr.detectChanges();
             });
         } else {
             this.buildForm(this.idioma);
@@ -65,8 +64,6 @@ export class IdiomaFormComponent extends FormBaseComponent implements OnInit {
             nombre: [idioma.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
             icono: [idioma.icono || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_CHARACTERS_SPACE)]],
         });
-
-        this.printErrors()
     }
 
     save() {

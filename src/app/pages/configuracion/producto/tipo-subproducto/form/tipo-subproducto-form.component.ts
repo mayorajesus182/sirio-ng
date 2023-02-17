@@ -50,9 +50,7 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
             this.tipoSubproductoService.get(id).subscribe((agn: TipoSubproducto) => {
                 this.tipoSubproducto = agn;
                 this.buildForm(this.tipoSubproducto);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

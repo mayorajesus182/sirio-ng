@@ -5,8 +5,7 @@
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -14,8 +13,7 @@
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)"
-                            (click)="save()">
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)" (click)="save()">
                             <mat-icon>save</mat-icon>
 
                         </button>
@@ -33,12 +31,12 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <div  fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm"  >
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm">
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="auto">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                     <mat-label>{{'personStatus.code' | translate: {default: 'global.code'} | translate }}
                                     </mat-label>
                                     <input matInput autocomplete="off" minlength="3" maxlength="3" name="id" formControlName="id" uppercase required
@@ -46,13 +44,13 @@
                                     <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                     <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
+                                    <mat-error *ngIf="f.id.errors?.minlength">Debe ser de 3 Caracteres</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="70">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="70">
                                     <mat-label>{{'personStatus.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
-                                    <input matInput autocomplete="off" minlength="1" maxlength="20" name="nombre" formControlName="nombre" uppercase
-                                        required>
+                                    <input matInput autocomplete="off" maxlength="20" name="nombre" formControlName="nombre" uppercase required>
                                     <mat-error *ngIf="f.nombre.errors?.required">{{'error.required' | translate}}</mat-error>
                                     <mat-error *ngIf="f.nombre.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
@@ -63,7 +61,6 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>

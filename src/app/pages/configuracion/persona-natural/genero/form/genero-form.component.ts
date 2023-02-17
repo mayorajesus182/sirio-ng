@@ -40,9 +40,7 @@ export class GeneroFormComponent extends FormBaseComponent implements OnInit {
             this.generoService.get(id).subscribe((agn: Genero) => {
                 this.genero = agn;
                 this.buildForm(this.genero);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

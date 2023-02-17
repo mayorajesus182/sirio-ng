@@ -41,9 +41,7 @@ export class CondicionFormComponent extends FormBaseComponent implements OnInit 
             this.condicionService.get(id).subscribe((agn: Condicion) => {
                 this.condicion = agn;
                 this.buildForm(this.condicion);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

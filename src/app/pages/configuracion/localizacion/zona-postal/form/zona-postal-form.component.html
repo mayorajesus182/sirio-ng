@@ -32,38 +32,35 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.country' | translate: {default: 'global.country'} | translate"
-                                    formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.pais?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'postalZone.country' | translate: {default: 'global.country'} | translate"
+                                    formControlName="pais" [required]="true" [elements]="paises.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.state' | translate: {default: 'global.state'} | translate"
-                                    formControlName="estado" [required]="true" [elements]="estados.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.estado?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'postalZone.state' | translate: {default: 'global.state'} | translate"
+                                    formControlName="estado" [required]="true" [elements]="estados.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search fxFlex.gt-xs="50"
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="50"
                                     [label]="'postalZone.municipality' | translate: {default: 'global.municipality'} | translate" formControlName="municipio"
-                                    [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'" [errors]="f.municipio?.errors">
+                                    [required]="true" [elements]="municipios.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                                <sirio-select-search fxFlex.gt-xs="50" [label]="'postalZone.parish' | translate: {default: 'global.parish'} | translate"
-                                    formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.parroquia?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'postalZone.parish' | translate: {default: 'global.parish'} | translate"
+                                    formControlName="parroquia" [required]="true" [elements]="parroquias.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
                             </div>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="80">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="80">
                                     <mat-label>{{'postalZone.name' | translate: {default: 'global.name'} | translate }}
                                     </mat-label>
                                     <input matInput maxlength="60" autocomplete="off" name="nombre" formControlName="nombre" uppercase required>
@@ -71,7 +68,7 @@
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="10">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="10">
                                     <mat-label>{{'postalZone.postalCode' | translate: {default: 'global.postalCode'} | translate }}
                                     </mat-label>
                                     <input matInput maxlength="60" autocomplete="off" name="codigoPostal" formControlName="codigoPostal" uppercase required>
@@ -79,7 +76,7 @@
                                     <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex="10">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="10">
                                     <mat-label>{{'postalZone.localCode' | translate: {default: 'global.localCode'} |
                                         translate }}</mat-label>
                                     <input matInput maxlength="6" autocomplete="off" name="codigoLocal" formControlName="codigoLocal" uppercase

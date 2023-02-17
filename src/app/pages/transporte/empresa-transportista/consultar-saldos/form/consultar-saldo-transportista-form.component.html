@@ -22,21 +22,20 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex="40">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
                                     <mat-label>{{'agency.agency' | translate: {default: 'global.agency'} | translate }}</mat-label>
                                     <input matInput [value]="transportistaId + ' - ' +transportista" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="30" [label]="'agency.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.moneda?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="30" [label]="'agency.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="30">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="30">
                                     <mat-label>{{'agency.finalBalance' | translate: {default: 'global.finalBalance'} | translate }}
                                     </mat-label>
                                     <input matInput class="text-right" [value]="saldoAnterior | number: '1.2'" readonly>

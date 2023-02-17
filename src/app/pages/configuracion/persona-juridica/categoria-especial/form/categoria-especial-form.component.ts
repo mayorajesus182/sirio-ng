@@ -38,9 +38,7 @@ export class CategoriaEspecialFormComponent extends FormBaseComponent implements
             this.categoriaEspecialService.get(id).subscribe((agn: CategoriaEspecial) => {
                 this.categoriaEspecial = agn;
                 this.buildForm(this.categoriaEspecial);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

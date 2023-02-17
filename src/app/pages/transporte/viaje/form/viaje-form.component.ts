@@ -41,9 +41,7 @@ export class ViajeFormComponent extends FormBaseComponent implements OnInit {
             this.viajeService.get(id).subscribe((agn: Viaje) => {
                 this.viaje = agn;
                 this.buildForm(this.viaje);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

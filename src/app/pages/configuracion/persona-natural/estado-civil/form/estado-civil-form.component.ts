@@ -40,9 +40,7 @@ export class EstadoCivilFormComponent extends FormBaseComponent implements OnIni
             this.estadoCivilService.get(id).subscribe((agn: EstadoCivil) => {
                 this.estadoCivil = agn;
                 this.buildForm(this.estadoCivil);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

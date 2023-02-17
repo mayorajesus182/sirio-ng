@@ -3,7 +3,7 @@
         <sirio-breadcrumbs [@fadeInRight] [crumbs]="['passToVault.form']" current="{{isNew?'action.add':'action.edit'}}"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
-    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column" tabNavigation>
 
         <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
@@ -32,28 +32,27 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <mat-form-field fxFlex.gt-xs="25">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
                                     <mat-label>{{'passToVault.movementType' | translate: {default: 'global.movementType'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="movimientoEfectivo.nombre" readonly>
                                 </mat-form-field>
 
-                                <mat-form-field fxFlex.gt-xs="25">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
                                     <mat-label>{{'passToVault.boxOffice' | translate: {default: 'global.boxOffice'} | translate }}
                                     </mat-label>
                                     <input matInput [value]="taquilla.nombre" readonly>
                                 </mat-form-field>
 
-                                <sirio-select-search fxFlex="25" [label]="'passToVault.coin' | translate: {default: 'global.coin'} | translate"
-                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.moneda?.errors">
+                                <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'passToVault.coin' | translate: {default: 'global.coin'} | translate"
+                                    formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
 
-                                <mat-form-field fxFlex="25"  appearance="standart"  >
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="25"  appearance="standart"  >
                                     <mat-label>{{'passToVault.amount' | translate: {default: 'global.amount'} | translate }} ({{'global.availableBalance' |
                                         translate }} {{saldoDisponible | number: '1.2'}}) </mat-label>
                                     <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"

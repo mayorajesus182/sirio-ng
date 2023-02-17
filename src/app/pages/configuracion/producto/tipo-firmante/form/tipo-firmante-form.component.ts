@@ -39,9 +39,7 @@ export class TipoFirmanteFormComponent extends FormBaseComponent implements OnIn
             this.tipoFirmanteService.get(id).subscribe((agn: TipoFirmante) => {
                 this.tipoFirmante = agn;
                 this.buildForm(this.tipoFirmante);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

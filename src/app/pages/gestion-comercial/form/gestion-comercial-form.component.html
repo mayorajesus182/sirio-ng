@@ -23,7 +23,7 @@
 
                     <sirio-person-query (result)="queryResult($event)" [entity]="'gestioncomercial'"></sirio-person-query>
 
-                    <ng-container *ngIf="loaded$ | async">
+                    <ng-container *ngIf="loaded$ | async" tabNavigation>
 
                         <mat-accordion class="expansion-headers-align">
 

@@ -39,9 +39,7 @@ export class PromedioMontoFormComponent extends FormBaseComponent implements OnI
             this.promedioMontoService.get(id).subscribe((agn: PromedioMonto) => {
                 this.promedioMonto = agn;
                 this.buildForm(this.promedioMonto);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

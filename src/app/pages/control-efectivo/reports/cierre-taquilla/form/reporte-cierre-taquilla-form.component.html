@@ -28,23 +28,23 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                 <sirio-select-search
                                     *ngIf="!esOperadorTaquilla"
-                                    fxFlex.gt-xs="auto"
+                                    fxFlex="100" fxFlex.gt-xs="auto"
                                     [label]="'boxOfficeClosingsRep.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
                                     formControlName="taquilla" [required]="false" [elements]="taquillas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.taquilla?.errors" [labelDef]="'TODOS'"> 
+                                    [attributeName]="'nombre'" [labelDef]="'TODOS'"> 
                                 </sirio-select-search>
 
                                 <sirio-select-search
-                                    fxFlex.gt-xs="auto"
+                                    fxFlex="100" fxFlex.gt-xs="auto"
                                     [label]="'boxOfficeClosingsRep.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="false" [elements]="monedas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.moneda?.errors" [labelDef]="'TODOS'">
+                                    [attributeName]="'nombre'" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                                 
                             </div>
@@ -55,11 +55,10 @@
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
                         <button type="button" mat-button (click)="back()">
-                            <!-- <mat-icon class="margin-bottom-xxs">close</mat-icon>  -->
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

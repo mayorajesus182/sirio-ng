@@ -28,18 +28,16 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <sirio-select-search *ngIf="!esGteRegional" fxFlex.gt-xs="auto" [label]="'agencyQuotasRep.region' | translate: {default: 'global.region'} | translate"
-                                    formControlName="region" [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.region?.errors" [labelDef]="'TODOS'">
+                                <sirio-select-search *ngIf="!esGteRegional" fxFlex="100" fxFlex.gt-xs="auto" [label]="'agencyQuotasRep.region' | translate: {default: 'global.region'} | translate"
+                                    formControlName="region" [required]="false" [elements]="regiones.asObservable()" [attributeName]="'nombre'" [labelDef]="'TODOS'">
                                 </sirio-select-search>
                                 <!-- *ngIf="!esOperadorAgencia" -->
-                                <sirio-select-search *ngIf="!esOperadorAgencia" fxFlex.gt-xs="auto" [label]="'agencyQuotasRep.agency' | translate: {default: 'global.agency'} | translate"
-                                    formControlName="agencia" [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.agencia?.errors" [labelDef]="'TODOS'">
+                                <sirio-select-search *ngIf="!esOperadorAgencia" fxFlex="100" fxFlex.gt-xs="auto" [label]="'agencyQuotasRep.agency' | translate: {default: 'global.agency'} | translate"
+                                    formControlName="agencia" [required]="false" [elements]="agencias.asObservable()" [attributeName]="'nombre'" [labelDef]="'TODOS'">
                                 </sirio-select-search>
 
                             </div>
@@ -53,7 +51,7 @@
                             {{'button.cancel' | translate:
                             {default: 'global.notfound'} | translate }}
                         </button>
-                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid  ">
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
                             <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
                             'global.notfound'} | translate }}
                         </button>

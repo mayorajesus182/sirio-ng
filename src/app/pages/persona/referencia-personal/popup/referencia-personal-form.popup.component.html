@@ -13,16 +13,16 @@
 
 
 <mat-dialog-content>
-    <form [formGroup]="itemForm" *ngIf="itemForm">
+    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <sirio-select-search fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
+      <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Tipo Documento'" formControlName="tipoDocumento" [required]="true"
         [elements]="tipoDocumentoList.asObservable()" [attributeName]="'nombre'">
       </sirio-select-search>
 
-      <mat-form-field fxFlex="auto">
+      <mat-form-field ffxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{'Número  Documento'}}</mat-label>
-        <input autocomplete="off" class="text-center" uppercase matInput name="identificacion" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" minlength="1" formControlName="identificacion" required >
+        <input autocomplete="off" class="text-center" uppercase matInput name="identificacion" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" formControlName="identificacion" required >
         <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
@@ -31,7 +31,7 @@
 
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="auto">
+      <mat-form-field ffxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{'Nombre y Apellido '}}</mat-label>
         <input autocomplete="off" class="text-left" matInput name="nombre" maxlength="80" uppercase formControlName="nombre" required>
         
@@ -42,7 +42,7 @@
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-      <mat-form-field fxFlex="auto">
+      <mat-form-field ffxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{'Teléfono Fijo' | translate }} </mat-label>
           <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaFijaList.asObservable()"  name="telefonoFijo" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefonoFijo" required>
           <mat-error *ngIf="f.telefonoFijo.errors?.required">{{'error.required' | translate}}
@@ -53,7 +53,7 @@
           <mat-error *ngIf="f.telefonoFijo.errors?.phone">{{f.telefonoFijo.errors?.phone}}  </mat-error>
         </mat-form-field>
       
-        <mat-form-field fxFlex="auto">
+        <mat-form-field ffxFlex="100" fxFlex.gt-xs="auto">
           <mat-label>{{'Teléfono Móvil' | translate }} </mat-label>
           <input matInput maxlength="200" minlength="11" autocomplete="off" phoneValidate  [telefonicas]="telefonicaMovilList.asObservable()" name="telefonoMovil" [imask]="{mask: '(0000) 000.00.00'}" [unmask]="true" class="text-center" formControlName="telefonoMovil" required>
           <mat-error *ngIf="f.telefonoMovil.errors?.required">{{'error.required' | translate}}

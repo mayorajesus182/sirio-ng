@@ -50,9 +50,7 @@ export class MonedaFormComponent extends FormBaseComponent implements OnInit {
             this.monedaService.get(id).subscribe((agn: Moneda) => {
                 this.moneda = agn;
                 this.buildForm(this.moneda);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

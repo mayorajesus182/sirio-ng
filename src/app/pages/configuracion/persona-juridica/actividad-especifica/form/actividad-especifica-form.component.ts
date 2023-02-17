@@ -42,9 +42,7 @@ export class ActividadEspecificaFormComponent extends FormBaseComponent implemen
             this.actividadEspecificaService.get(id).subscribe((agn: ActividadEspecifica) => {
                 this.actividadEspecifica = agn;
                 this.buildForm(this.actividadEspecifica);
-                this.cdr.markForCheck();
                 this.loadingDataForm.next(false);
-                this.applyFieldsDirty();
                 this.cdr.detectChanges();
             });
         } else {

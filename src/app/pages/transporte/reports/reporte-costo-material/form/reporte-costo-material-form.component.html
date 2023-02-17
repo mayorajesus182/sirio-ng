@@ -27,13 +27,13 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
                     <div fxLayout="column">
-                        <form [formGroup]="itemForm" *ngIf="itemForm">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
                                 <sirio-select-search
-                                    fxFlex.gt-xs="100"
+                                fxFlex="100" fxFlex.gt-xs="100"
                                     [label]="'materialCostsRep.carrierCompany' | translate: {default: 'global.carrierCompany'} | translate"
                                     formControlName="transportista" [required]="true" [elements]="transportistas.asObservable()"
-                                    [attributeName]="'nombre'" [errors]="f.transportista?.errors">
+                                    [attributeName]="'nombre'">
                                 </sirio-select-search> 
                             </div>
                         </form>
