@@ -196,7 +196,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
                 this.cdr.detectChanges();
             }
+
         });
+
+        this.afterInit();
     }
 
 
@@ -422,11 +425,12 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         console.log('send data al banco');
 
+        this.disabled$.next(true);
         this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
-
+            
             if (!resp.dismiss) {
                 this.loadingDataForm.next(true);
-
+                
                 this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
                     this.successResponse('Operacion', 'aplicada', true);
                     this.cuentaActiva = true;
@@ -435,15 +439,19 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     const name = this.getFileName(data);
                     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
                     this.download(name, blob);
+                    this.disabled$.next(false);
                     setTimeout(() => {
                         this.router.navigate([`/sirio/welcome`]);                        
                     }, 2000);
                 }, err => {
                     this.cuentaActiva = false;
                     this.loadingDataForm.next(false);
-
+                    this.disabled$.next(false);
+                    
                 });
-
+                
+            }else{
+                this.disabled$.next(false);
             }
 
         });
