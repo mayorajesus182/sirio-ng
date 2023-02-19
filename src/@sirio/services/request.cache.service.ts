@@ -40,12 +40,13 @@ export class RequestCacheService {
   }
   // Método para recuperar los datos de la petición
   resetAll():void {
-    for (let i = 0; i < sessionStorage.length; i++) {
-      let key = sessionStorage.key(i);
-      if(key.indexOf(this.api_chacheable[1])>=0){
-        sessionStorage.removeItem(key);
-      }
-      // console.log(key, value);
-    }
+    // for (let i = 0; i < sessionStorage.length; i++) {
+    //   let key = sessionStorage.key(i);
+    //   if(key.indexOf(this.api_chacheable[1])>=0){
+    //     sessionStorage.removeItem(key);
+    //   }
+    //   // console.log(key, value);
+    // }
+    sessionStorage.clear();
   }
 }
