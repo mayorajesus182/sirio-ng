@@ -38,9 +38,6 @@ export class ParametroFormComponent extends FormBaseComponent implements OnInit 
                 this.itemForm = this.fb.group({});
                 this.groups = Object.keys(this.preferencia)
                 for (const key of this.groups) {
-
-                    // console.log(label);
-                    // console.log(icono);
                     for (const item of this.preferencia[key]) {
                         const field = Object.keys(item)[0];
                         this.itemForm.addControl(field, this.fb.control(item[field].value));

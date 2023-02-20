@@ -19,6 +19,16 @@ const personaRoutes: Routes = [
         data: { title: 'Apertura de Cuenta' },
         loadChildren: () => import('./cuenta-banco/cuenta-banco.module').then(m => m.CuentaBancoModule),
     },
+    {
+        path: 'reporte-ficha-cliente',
+        data: { title: 'Reporte Ficha Cliene' },
+        loadChildren: () => import('./reports/ficha-cliente/reporte-ficha-cliente.module').then(m => m.ReporteFichaClienteModule),
+    },
+    {
+        path: 'reporte-certificado-cuenta',
+        data: { title: 'Reporte Certificado Cuenta' },
+        loadChildren: () => import('./reports/certificado-cuenta/reporte-certificado-cuenta.module').then(m => m.ReporteCertificadoCuentaModule),
+    },
 
 ];
 
