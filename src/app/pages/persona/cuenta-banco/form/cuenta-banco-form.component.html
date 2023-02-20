@@ -277,7 +277,7 @@
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || (loading$ | async) || (disabled$ | async) ">
+                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || (loading$ | async)  ">
                                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
                                             &nbsp;
                                             {{'button.save' | translate: {default:

@@ -124,7 +124,7 @@ export class FormBaseComponent {
         this.router = injector.get(Router);
 
        
-
+        this.afterInit();
 
 
         // const injector = Injector.create({ providers: [

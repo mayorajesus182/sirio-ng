@@ -285,6 +285,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             }
         });
 
+
         this.cdr.detectChanges();
     }
 
@@ -309,15 +310,13 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.buildForm();
         this.loaded$.next(true);
         this.isNew = true;
-        this.disabled$.next(true);
     }
 
     cleanForm() {
         this.isNew = true;
         this.loaded$.next(false);
         // this.persona = {} as Persona;
-        this.cuentaBanco = {} as CuentaBanco;
-        this.disabled$.next(true);
+        this.cuentaBanco = {} as CuentaBanco;        
         //this.resetAll();  
     }
 
