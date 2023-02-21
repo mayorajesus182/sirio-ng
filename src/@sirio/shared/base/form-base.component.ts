@@ -2,7 +2,7 @@
 import { Location } from "@angular/common";
 import { HttpResponse } from "@angular/common/http";
 
-import { ChangeDetectorRef, Component, ElementRef, Injector, QueryList, ViewChildren } from "@angular/core";
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, Injector, QueryList, ViewChildren } from "@angular/core";
 import { FormGroup, NgForm, ValidationErrors, Validators } from '@angular/forms';
 import { MatButton } from "@angular/material/button";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
@@ -123,6 +123,30 @@ export class FormBaseComponent {
         this.translateService = injector.get(TranslateService);
         this.router = injector.get(Router);
 
+       
+        this.afterInit();
+
+
+        // const injector = Injector.create({ providers: [
+        //     { provide: SweetAlertService },
+        //     { provide: TranslateService }
+        // ] });
+
+        // this.swalService = injector.get(SweetAlertService);
+
+    }
+
+
+
+    get d() {
+        return this.data ? this.data : {};
+    }
+
+    get f() {
+        return this.itemForm ? this.itemForm.controls : {};
+    }
+
+    afterInit(){
         this.opts.type = 'ball-scale-ripple-multiple';
         this.opts.size = 'medium';
         this.opts.fullScreen = false;
@@ -160,26 +184,6 @@ export class FormBaseComponent {
                 this.spinner.hide('componentLoading');
             }
         });
-
-
-
-        // const injector = Injector.create({ providers: [
-        //     { provide: SweetAlertService },
-        //     { provide: TranslateService }
-        // ] });
-
-        // this.swalService = injector.get(SweetAlertService);
-
-    }
-
-
-
-    get d() {
-        return this.data ? this.data : {};
-    }
-
-    get f() {
-        return this.itemForm ? this.itemForm.controls : {};
     }
 
 

@@ -1,0 +1,69 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['accountCertificateRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'accountCertificateRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+                    <div fxLayout="column">
+                        <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
+                            <sirio-person-query (result)="queryResult($event)" [entity]="'gestioncomercial'"></sirio-person-query>
+                            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="loading | async" fxLayoutAlign="center">
+                                <ngx-datatable class="material bg-white margin-top-md" [columnMode]="'standar'"
+                                    [messages]="{emptyMessage: 'No hay registros de Cheques...',totalMessage: 'Cantidad de Cuentas'}"
+                                    [sorts]="[{prop: 'id', dir: 'asc'}]" [headerHeight]="50" [footerHeight]="50" [rowHeight]="70" [limit]="10"
+                                    [rows]="CuentasBancos | async">
+                                    <ngx-datatable-column [resizeable]="false" [width]="50" [flexGrow]="1" name="#" >
+                                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                            <div style="white-space: break-spaces;" class="text-center"> {{ rowIndex +1}}</div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column [resizeable]="false" [width]="700" [flexGrow]="1" name="Número de Cuenta">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div style="white-space: break-spaces;" class="text-center"> {{ row?.numeroCuenta | mask:"0000 0000 00 00 00000000"}}</div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column [resizeable]="false" [width]="700" [flexGrow]="1" name="Tipo de SubProducto">
+                                        <ng-template let-row="row" ngx-datatable-cell-template>
+                                            <div style="white-space: break-spaces;" class="text-center"> {{ row?.tipoSubproducto}}</div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                    <ngx-datatable-column [resizeable]="false" [width]="100" [flexGrow]="0.5">
+                                        <ng-template ngx-datatable-header-template>
+                                            <div class="text-center">Acciones</div>
+                                        </ng-template>
+                                        <ng-template let-row="row" ngx-datatable-cell-template let-rowIndex="rowIndex">
+                                            <div fxLayoutAlign="center">
+                                                <button mat-icon-button mat-sm-button color="primary" class="margin-bottom-xs" style="margin-top: -5px;" [disabled]=""
+                                                    (click)="generate(row)" matTooltip="Imprimir">
+                                                    <mat-icon>picture_as_pdf</mat-icon>
+                                                    <!-- <i class="fa-light fa-file-pdf"></i> -->
+                                                </button>
+                                                <button  mat-icon-button type="button" color="primary" style="margin-top: -5px;" [disabled]=""
+                                                (click)="send(row)" matTooltip="Enviar">
+                                                    <mat-icon>email</mat-icon>
+                                                    <!-- <i class="fa-light fa-envelope"></i> -->
+                                                </button>
+                                            </div>
+                                        </ng-template>
+                                    </ngx-datatable-column>
+                                </ngx-datatable>
+                            </div>
+                        </form>
+                    </div>
+                </sirio-card-content>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

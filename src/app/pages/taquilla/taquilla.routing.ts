@@ -13,11 +13,11 @@ const taquillaRoutes: Routes = [
         data: { title: 'Depósito' },
         loadChildren: () => import('./deposito/deposito.module').then(m => m.DepositoModule),
     },
-    {
-        path: 'nota',
-        data: { title: 'Nota de Debito / Credito' },
-        loadChildren: () => import('./nota/nota.module').then(m => m.NotaModule),
-    },
+    // {
+    //     path: 'nota',
+    //     data: { title: 'Nota de Debito / Credito' },
+    //     loadChildren: () => import('./nota/nota.module').then(m => m.NotaModule),
+    // },
     {
         path: 'tarjeta-debito',
         data: { title: 'Tarjeta de Débito' },
