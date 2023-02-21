@@ -51,7 +51,7 @@
 
                 <!-- [attr.disabled]="search.identificacion.value && search.identificacion.value.length > 0" -->
 
-                <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="taquilla && entity!='gestioncomercial'">
+                <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="taquilla && purpose!='gestion-comercial'">
                     <mat-label>{{'global.accountNumber' | translate }} </mat-label>
                     <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" 
                         num-account-validate [disabled]="disable | async" formControlName="cuenta"
@@ -68,18 +68,18 @@
                         formControlName="nombre">
                 </mat-form-field>
 
-                <div fxFlex="15" *ngIf="!taquilla && entity!='gestioncomercial'">
-                    <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && entity=='persona'"  mat-raised-button
+                <div fxFlex="15" *ngIf="!taquilla && purpose!='gestion-comercial'">
+                    <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && purpose=='persona'"  mat-raised-button
                         [disabled]="!isElemNew || (disableBtn | async)">
                         <i class="fa-light fa-user-plus fa-lg"></i>
                         {{'button.add' | translate: {default:'global.notfound'} | translate }}
                     </button>
-                    <button color="accent" class="btn-create" (click)="editOn()" *ngIf="(persona.id || persona.numper) && entity=='persona'"
+                    <button color="accent" class="btn-create" (click)="editOn()" *ngIf="(persona.id || persona.numper) && purpose=='persona'"
                         mat-raised-button [disabled]="!persona.id && !persona.numper || (disableBtn | async)">
                         <i class="fa-light fa-user-pen fa-lg"></i>
                         {{'button.update' | translate: {default:'global.notfound'} | translate }}
                     </button>
-                    <button color="accent" class="btn-create" (click)="pushOn()" [matTooltip]="persona.id || persona.numper? 'CARGAR' : 'CREAR'" *ngIf="entity=='interviniente' || entity=='cuenta'"
+                    <button color="accent" class="btn-create" (click)="pushOn()" [matTooltip]="persona.id || persona.numper? 'CARGAR' : 'CREAR'" *ngIf="purpose=='interviniente' || purpose=='cuenta'"
                         mat-raised-button [disabled]="disableBtn | async">                      
                         <i class="fal fa-user-plus fa-lg" *ngIf="!persona.id && !persona.numper"></i>
                         <!-- <i class="fal fa-user fa-lg" ></i> -->

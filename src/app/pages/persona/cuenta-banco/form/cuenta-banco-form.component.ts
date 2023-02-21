@@ -361,11 +361,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.loadingDataForm.next(false);
                 this.loaded$.next(true);
                 this.disabled$.next(false);
-                // this.cdr.detectChanges();
-                // this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                //     this.tipoSubproductos.next(data);
                 this.cdr.detectChanges();
-                // });
+            
 
             }, err => {
                 this.isNew = true;
@@ -380,17 +377,15 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     save() {
-        if (this.itemForm.invalid)
+        if (this.itemForm.invalid){
+
             return;
+        }
 
 
 
         this.updateData(this.cuentaBanco);
 
-        console.log(" Observacion", this.cuentaBanco);
-
-        // this.cuentaBanco.paisDestino='VES';
-        // this.cuentaBanco.paisOrigen='VES';
 
         this.cuentaBanco.fondoExterior = this.f.fondoExterior.value == true ? 1 : 0;
         // this.cuentaBanco.persona = this.persona.id;
@@ -439,6 +434,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
                     this.download(name, blob);
                     this.disabled$.next(false);
+                    sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
                     setTimeout(() => {
                         this.router.navigate([`/sirio/welcome`]);                        
                     }, 2000);
