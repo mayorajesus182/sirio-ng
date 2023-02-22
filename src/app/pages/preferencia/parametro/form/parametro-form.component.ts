@@ -50,6 +50,16 @@ export class ParametroFormComponent extends FormBaseComponent implements OnInit 
 
     }
 
+    getLabel(key) {
+        const label = key.split(':')[0];
+        return label;
+    }
+
+    getIcono(key) {
+        const icono = key.split(':')[1];
+        return icono;
+    }
+
     getField(item: any) {
         return Object.keys(item)[0];
     }

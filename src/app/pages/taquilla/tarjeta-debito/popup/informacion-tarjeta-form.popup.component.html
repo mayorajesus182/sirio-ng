@@ -13,10 +13,10 @@
 
 <mat-dialog-content>
   <form [formGroup]="itemForm" *ngIf="itemForm">
-    <div>
+    <div *ngIf="option === constante.BLOQUEO">
       <h1>Información de la Tarjeta de Débito</h1>
     </div>
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="5px">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="5px" *ngIf="option === constante.BLOQUEO">
       <mat-form-field fxFlex="100" fxFlex.gt-xs="25">
         <mat-label>Tipo de Tarjeta</mat-label>
         <input matInput autocomplete="off" name="tipoTarjeta" disabled="true">
@@ -35,7 +35,7 @@
       </mat-form-field>
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="option === constante.BLOQUEO">
       <mat-form-field fxFlex="100" fxFlex.gt-xs="40">
         <mat-label>Estado de la Tarjeta</mat-label>
         <input matInput autocomplete="off" name="estadoTarjeta" disabled="true">
@@ -50,11 +50,11 @@
       </mat-form-field>
     </div>
 
-    <div>
+    <div *ngIf="option === constante.BLOQUEO">
       <h2>Información Bloqueo/ Cancelación</h2>
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="option === constante.BLOQUEO">
       <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>Fecha</mat-label>
         <input matInput autocomplete="off" name="fecha" disabled="true">
@@ -69,7 +69,7 @@
       </mat-form-field>
     </div>
 
-    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="option === constante.BLOQUEO">
       <mat-form-field fxFlex="30">
         <mat-label>Nro. Intentos PIN</mat-label>
         <input matInput autocomplete="off" name="numeroIntentos" disabled="true">

@@ -9,8 +9,8 @@
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{'parameters.form'|translate}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{'parameters.form' | translate}}</sirio-card-header-heading>
+                    <!-- <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit') | translate}}</sirio-card-header-subheading> -->
                     <sirio-card-header-actions>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
@@ -30,9 +30,9 @@
                                         <sirio-card-header class="margin-bottom-sm" fxLayout="column"
                                             style="background-color: #5b5f6d ; padding: 15px 15px 15px 24px;">
                                             <sirio-card-header-heading style="color: white;">
-                                                {{ key | translate }}
-                                                <i class="fa-light fa-square-sliders-vertical fa-xl mat-icon-primary"
-                                                    style="color:#ffffff; position: absolute; right: 5px;"></i>
+                                                {{  getLabel(key) | translate }}
+                                                <i class="fa-light fa-{{getIcono(key)}} fa-xl mat-icon-primary"
+                                                    style="color:#ffffff; position: absolute; right: 10px;"></i>
                                             </sirio-card-header-heading>
                                         </sirio-card-header>
                                         <sirio-card-content>

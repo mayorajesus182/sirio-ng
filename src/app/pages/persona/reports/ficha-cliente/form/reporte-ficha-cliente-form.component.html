@@ -1,0 +1,42 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['customerFileRep.form']" current="{{isNew?'action.add':'action.report'}}"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'customerFileRep.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{(isNew?'action.add':'action.report') | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+                    <div fxLayout="column">
+                        <div tabNavigation>
+                            <sirio-person-query (result)="queryResult($event)" [purpose]="'gestion-comercial'"></sirio-person-query>
+                        </div>
+                    </div>
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px" *ngIf="loading | async">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate: {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="generate()" mat-raised-button [disabled]="(loading$ | async) ">
+                            <i class="fal fa-file-pdf fa-lg margin-bottom-xxs"></i> {{'button.generate' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

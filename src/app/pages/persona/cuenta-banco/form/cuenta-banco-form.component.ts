@@ -196,7 +196,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
                 this.cdr.detectChanges();
             }
+
         });
+
+        this.afterInit();
     }
 
 
@@ -282,6 +285,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             }
         });
 
+
         this.cdr.detectChanges();
     }
 
@@ -306,15 +310,13 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.buildForm();
         this.loaded$.next(true);
         this.isNew = true;
-        this.disabled$.next(true);
     }
 
     cleanForm() {
         this.isNew = true;
         this.loaded$.next(false);
         // this.persona = {} as Persona;
-        this.cuentaBanco = {} as CuentaBanco;
-        this.disabled$.next(true);
+        this.cuentaBanco = {} as CuentaBanco;        
         //this.resetAll();  
     }
 
@@ -359,11 +361,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 this.loadingDataForm.next(false);
                 this.loaded$.next(true);
                 this.disabled$.next(false);
-                // this.cdr.detectChanges();
-                // this.tipoSubproductoService.activesByTipoProductoAndTipoPersona(this.f.tipoProducto.value, this.persona.tipoPersona).subscribe(data => {
-                //     this.tipoSubproductos.next(data);
                 this.cdr.detectChanges();
-                // });
+            
 
             }, err => {
                 this.isNew = true;
@@ -378,17 +377,15 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     save() {
-        if (this.itemForm.invalid)
+        if (this.itemForm.invalid){
+
             return;
+        }
 
 
 
         this.updateData(this.cuentaBanco);
 
-        console.log(" Observacion", this.cuentaBanco);
-
-        // this.cuentaBanco.paisDestino='VES';
-        // this.cuentaBanco.paisOrigen='VES';
 
         this.cuentaBanco.fondoExterior = this.f.fondoExterior.value == true ? 1 : 0;
         // this.cuentaBanco.persona = this.persona.id;
@@ -422,11 +419,12 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         console.log('send data al banco');
 
+        this.disabled$.next(true);
         this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
-
+            
             if (!resp.dismiss) {
                 this.loadingDataForm.next(true);
-
+                
                 this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
                     this.successResponse('Operacion', 'aplicada', true);
                     this.cuentaActiva = true;
@@ -435,15 +433,20 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     const name = this.getFileName(data);
                     let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
                     this.download(name, blob);
+                    this.disabled$.next(false);
+                    sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
                     setTimeout(() => {
                         this.router.navigate([`/sirio/welcome`]);                        
                     }, 2000);
                 }, err => {
                     this.cuentaActiva = false;
                     this.loadingDataForm.next(false);
-
+                    this.disabled$.next(false);
+                    
                 });
-
+                
+            }else{
+                this.disabled$.next(false);
             }
 
         });

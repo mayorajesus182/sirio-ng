@@ -31,7 +31,7 @@
                 <sirio-card-content fxLayout="column">
 
 
-                    <sirio-person-query [entity]="'cuenta'" title="Consultar Persona" (push)="loadResult($event)" (result)="cleanForm()">
+                    <sirio-person-query [purpose]="'cuenta'" title="Consultar Persona" (push)="loadResult($event)" (result)="cleanForm()">
                     </sirio-person-query>
 
                     <ng-container *ngIf="loaded$ | async">
@@ -277,7 +277,7 @@
 
                                 <div fxLayout="row" fxLayout="column">
                                     <div fxLayoutAlign="end center" fxFlex="1 1 0%">
-                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async) ">
+                                        <button color="primary" (click)="save()" mat-raised-button [disabled]="!itemForm || itemForm.invalid || (loading$ | async)  ">
                                             <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i>
                                             &nbsp;
                                             {{'button.save' | translate: {default:

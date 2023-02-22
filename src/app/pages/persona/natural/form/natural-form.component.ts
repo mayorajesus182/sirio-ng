@@ -33,12 +33,12 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class NaturalFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
-    fromOtherComponent: boolean=false;
-    todayValue: moment.Moment=moment();
+    fromOtherComponent: boolean = false;
+    todayValue: moment.Moment = moment();
     totalAddress: number;
 
 
-    totalRegistroMercantil : number;
+    totalRegistroMercantil: number;
 
     totalInfoLab: number;
     totalPep: number;
@@ -49,7 +49,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     totalPersonalReference: number;
     totalContact: number;
     searchForm: FormGroup;
-    hasOwnBusiness=false;
+    hasOwnBusiness = false;
     hasBasicData = false;
     showAddress = false;
 
@@ -69,7 +69,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     constants = GlobalConstants;
     estado_civil: string;
 
-  
+
 
     tipo_DocumentoMenor: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
@@ -85,7 +85,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-   
+
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -133,7 +133,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     ngOnInit() {
-        GlobalConstants.TIPO_PERSONA = 'N'; 
+        GlobalConstants.TIPO_PERSONA = 'N';
 
         this.loadingDataForm.next(false);
 
@@ -180,27 +180,30 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
         this.route.paramMap.subscribe(data => {
-            if(data.get('doc') && data.get('tdoc') ){
-                this.fromOtherComponent=true
-                
-                if( this.router.url.endsWith("/add")){
-                    this.isNew=true;
-                    this.personaNatural.identificacion=data.get('doc');
-                    this.personaNatural.tipoDocumento=data.get('tdoc');
-                    
-                    this.buildForm();
-                    
-                    this.loaded$.next(true);
-                }else if(this.router.url.endsWith("/edit")){
-                    this.isNew=false;
-                    this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'),data.get('doc')).subscribe(p=>{
-    
-                        this.updatePerson(p);
-    
-                    })
-                    
-                    
-                }
+            if (data.get('doc') && data.get('tdoc')) {
+                this.fromOtherComponent = true
+
+                this.personaNatural.identificacion = data.get('doc');
+                this.personaNatural.tipoDocumento = data.get('tdoc');
+
+                this.isNew = this.router.url.endsWith("/add") || this.router.url.endsWith("/edit");
+                // if(){
+                //     this.buildForm();
+                // }
+                this.buildForm();
+                this.loaded$.next(true);
+                // if( this.router.url.endsWith("/add")){
+                // }else if(){
+                //     this.isNew=false;
+                // }
+                this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
+
+                    this.updatePerson(p);
+
+                }, error => {
+                    this.isNew = true;
+                    // this.buildForm();
+                });
             }
         });
 
@@ -214,12 +217,12 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
         this.itemForm = this.fb.group({
             tipoDocumento: new FormControl({ value: this.personaNatural.tipoDocumento, disabled: true }, [Validators.required]),
-            
+
             // this.tipoDocumentos.value = 'P'  {
 
             identificacion: new FormControl({ value: this.personaNatural.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-            
-            
+
+
             fechaNacimiento: new FormControl(this.personaNatural.fechaNacimiento ? moment(this.personaNatural.fechaNacimiento, 'DD/MM/YYYY') : '', [Validators.required]),
             pais: new FormControl(this.personaNatural.pais || undefined, [Validators.required]),
             primerNombre: new FormControl(this.personaNatural.primerNombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
@@ -249,7 +252,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
             this.tipoDocumentos.next(data);
             const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
-            this.f.tipoDocumento.setValue( tipo.nombre);
+            this.f.tipoDocumento.setValue(tipo.nombre);
         });
 
 
@@ -297,7 +300,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             if (val) {
 
                 this.tipo_DocumentoMenor = val;
-                
+
             }
 
         })
@@ -326,7 +329,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.loadingDataForm.next(true);
         this.personaNaturalService.get(Number.parseInt(event.id)).subscribe(val => {
             this.personaNatural = val;
-            console.log(this.personaNatural);             
+            // console.log(this.personaNatural);             
             //TODO: OJO REVISAR ESTO LUEGO
             // this.itemForm.reset({});
             this.buildForm();
@@ -358,9 +361,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         if (this.isNew) {
 
             this.personaNaturalService.save(this.personaNatural).subscribe(data => {
-                this.isNew= data.id==undefined;
+                this.isNew = data.id == undefined;
                 this.personaNatural = data;
-                this.successResponse('La persona', 'creada',true);
+                this.successResponse('La persona', 'creada', true);
                 this.hasBasicData = this.personaNatural.id != undefined || this.personaNatural.numper != undefined;
 
 
@@ -369,13 +372,45 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         } else {
             this.personaNaturalService.update(this.personaNatural).subscribe(data => {
 
-                this.successResponse('La persona', 'actualizada',true);
+                this.successResponse('La persona', 'actualizada', true);
             }, error => this.errorResponse(false));
         }
 
     }
 
     send() {
+        this.disabled$.next(true);
+        this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
+
+            if (!resp.dismiss) {
+                this.loadingDataForm.next(true);
+
+                // this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
+                    // this.cuentaActiva = true;
+                    // this.loadingDataForm.next(false);
+                // // obteniendo el certificado de la cuenta
+                // const name = this.getFileName(data);
+                // let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+                // this.download(name, blob);
+                // this.disabled$.next(false);
+                // En este m
+                setTimeout(() => {
+                    // simular que fui al servidor para luego enviar a la persona al modulo de apertura
+                    this.successResponse('Operacion', 'aplicada', true);
+                    this.loadingDataForm.next(false);
+                    this.disabled$.next(false);
+                    this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);                        
+                }, 3000);
+                // }, err => {
+                //     this.cuentaActiva = false;
+
+                // });
+
+            } else {
+                this.disabled$.next(false);
+            }
+
+        });
     }
 
 
@@ -394,9 +429,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     setHasBusiness(event) {
         this.hasOwnBusiness = event;
-        console.log('has businnes ',event);
+        console.log('has businnes ', event);
         this.cdr.detectChanges();
-        
+
     }
 
     updatePep(event) {
