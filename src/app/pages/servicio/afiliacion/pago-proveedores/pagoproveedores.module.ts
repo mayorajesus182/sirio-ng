@@ -8,8 +8,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { pagoproveedoresRoutingModule } from '../pago-proveedores/pagoproveedores.routing';
-import { DepositoFormComponent } from './form/pago-proveedores.component';
-import { DepositoEfectivoFormComponent } from './cuenta-proveedor/cuenta-proveedor-form.component';
+import { ProveedoresFormComponent } from './form/pago-proveedores.component';
+import { CuentaFormComponent } from './cuenta-proveedor/cuenta-proveedor-form.component';
 import { TelefonoFormPopupComponent } from './popup/telefono-form.popup.component';
 import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
@@ -31,8 +31,8 @@ import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
  
   ],
   declarations: [
-    DepositoFormComponent,
-    DepositoEfectivoFormComponent,
+    ProveedoresFormComponent,
+    CuentaFormComponent,
     TelefonoFormPopupComponent,
   
   ],

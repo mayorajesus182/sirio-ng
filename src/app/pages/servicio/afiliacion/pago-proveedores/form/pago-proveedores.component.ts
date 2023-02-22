@@ -22,7 +22,7 @@ import { PersonaJuridica } from 'src/@sirio/domain/services/persona/persona-juri
 
 })
 
-export class DepositoFormComponent extends FormBaseComponent implements OnInit {
+export class ProveedoresFormComponent extends FormBaseComponent implements OnInit {
 
     fromOtherComponent: boolean = false;
     constants = GlobalConstants;

@@ -32,7 +32,7 @@ import { PersonaService} from 'src/@sirio/domain/services/persona/persona.servic
 
 
 
-export class DepositoEfectivoFormComponent extends FormBaseComponent implements OnInit {
+export class CuentaFormComponent extends FormBaseComponent implements OnInit {
     public ColumnMode = ColumnMode;
     intervinienteList: ReplaySubject<Interviniente[]> = new ReplaySubject<Interviniente[]>();
     @Input() cuenta = undefined;
@@ -88,14 +88,14 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
         this.itemForm = this.fb.group({
             numper: new FormControl(undefined, [Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             cuentaBancaria: new FormControl(undefined),
-            numeroCuenta: new FormControl(undefined),
-            TipoOperacion: new FormControl(undefined),
+            numeroCuenta: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+            TipoOperacion: new FormControl('', [Validators.required]),
             codigo: new FormControl(undefined),
             moneda: new FormControl(undefined),
             tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
 
-            email: new FormControl(this.personaJuridica.email || '', [Validators.required]),
+            email: new FormControl(this.personaJuridica.email || '', [Validators.required ],),
         });
 
         this.cargaDatos();

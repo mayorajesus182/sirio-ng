@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DepositoFormComponent } from './form/pago-proveedores.component';
+import { ProveedoresFormComponent } from './form/pago-proveedores.component';
 const pagoproveedoresRoutes: Routes = [
 
  
 
     {
         path: '',
-        component: DepositoFormComponent,
+        component: ProveedoresFormComponent,
         data: { title: 'pago proveedores' }
     }, 
 
