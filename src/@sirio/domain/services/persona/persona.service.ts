@@ -33,8 +33,16 @@ export class PersonaService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    send(id: number): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/send`);
+    }
+
     getByTipoDocAndIdentificacion(tipoDocumento: string, identificacion: string): Observable<Persona> {
         return this.apiService.config(this.apiConfig).get(`/${tipoDocumento}/${identificacion}/get`);
+    }
+
+    getActivaByTipoDocAndIdentificacion(tipoDocumento: string, identificacion: string): Observable<Persona> {
+        return this.apiService.config(this.apiConfig).get(`/${tipoDocumento}/${identificacion}/activa`);
     }
 
 

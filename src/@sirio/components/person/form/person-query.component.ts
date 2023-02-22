@@ -132,14 +132,17 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         this.buildForm();
 
-        const current =JSON.parse(sessionStorage.getItem(GlobalConstants.CURRENT_PERSON));
-        if(current){
-            this.persona=current;
-            if(this.tipo_persona && this.tipo_persona === this.persona.tipoPersona){
+        const current = JSON.parse(sessionStorage.getItem(GlobalConstants.CURRENT_PERSON));
+        console.log("current person ", current);
+
+        if (current) {
+            this.persona = current;
+            if ((this.tipo_persona && this.tipo_persona === this.persona.tipoPersona) || !this.tipo_persona) {
                 this.searchForm.controls['tipoDocumento'].setValue(this.persona.tipoDocumento);
                 this.searchForm.controls['identificacion'].setValue(this.persona.identificacion);
+                
                 this.queryByPerson();
-            }else{
+            } else {
                 this.persona = {} as Persona;
             }
         }
@@ -167,10 +170,50 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         return this.isNew;
     }
 
+    private refreshPerson(status: boolean, data: Persona) {
+
+        if (status) {
+            console.log(data);
+            this.persona = data;
+            this.search.nombre.setValue(data.nombre);
+            this.loading.next(false);
+            this.isNew = false;
+            if (this.result) {
+                // this.persona.identificacion = identificacion;
+                this.result.emit(this.persona);
+            }
+            this.search.identificacion.setErrors(null);
+            this.search.cuenta.setValue('');
+            // this.searchForm.controls['identificacion'].disable();
+            // this.searchForm.controls['cuenta'].disable();
+            // this.searchForm.controls['tipoDocumento'].disable();
+            this.disable.next(true);
+            this.disableBtn.next(false);
+            this.finding = false;
+        } else {
+            this.persona = {} as Persona;
+            this.isNew = true;
+            this.loading.next(false);
+            if (this.result) {
+                this.result.emit(this.persona);
+            }
+            this.disableBtn.next(false);
+            this.search.identificacion.setErrors({ notexists: true });
+            this.search.nombre.setValue(' ');
+            this.search.cuenta.setValue('');
+            this.finding = false;
+            this.disableBtn.next(false);
+        }
+
+
+        this.cdref.detectChanges();
+
+    }
+
 
     public queryByPerson() {
 
-        // console.log(this.search.identificacion.errors);
+        // console.log(this.searchForm.value);
         // console.log('is invalid form ',this.searchForm.invalid);
 
 
@@ -188,46 +231,28 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         if (tipoDocumento && identificacion) {
             this.loading.next(true);
 
-            this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                this.persona = data;
-                this.search.nombre.setValue(data.nombre);
-                this.loading.next(false);
-                this.isNew = false;
-                if (this.result) {
-                    this.persona.identificacion = identificacion;
-                    this.result.emit(this.persona);
-                }
+            // console.log('proposito', this.purpose);
 
 
-                this.search.identificacion.setErrors(null);
-                this.search.cuenta.setValue('');
-                // this.searchForm.controls['identificacion'].disable();
-                // this.searchForm.controls['cuenta'].disable();
-                // this.searchForm.controls['tipoDocumento'].disable();
-                this.disable.next(true);
-                this.disableBtn.next(false);
-                this.finding = false;
-                this.cdref.detectChanges();
+            if (['persona'].includes(this.purpose)) {
 
-            }, err => {
+                this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
 
-                this.persona = {} as Persona;
-                this.isNew = true;
-                this.loading.next(false);
-                if (this.result) {
-                    this.result.emit(this.persona);
-                }
-                this.disableBtn.next(false);
-                this.search.identificacion.setErrors({ notexists: true });
-                this.search.nombre.setValue(' ');
-                this.search.cuenta.setValue('');
-                this.finding = false;
-                this.disableBtn.next(false);
+                    this.refreshPerson(true, data);
+                }, err => {
 
-                // console.log(this.searchForm.value);
+                    this.refreshPerson(false, undefined);
+                })
+            } else if (['gestion-comercial', 'interviniente', 'cuenta'].includes(this.purpose)) {
+                console.log("se exige cargar la persona activa");
 
-                this.cdref.detectChanges();
-            })
+                this.personaService.getActivaByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                    this.refreshPerson(true, data);
+                }, err => {
+                    this.refreshPerson(false, undefined);
+                });
+
+            }
         } else if (!tipoDocumento) {
 
             // this.search.tipoDocumento.setErrors({required:true});
