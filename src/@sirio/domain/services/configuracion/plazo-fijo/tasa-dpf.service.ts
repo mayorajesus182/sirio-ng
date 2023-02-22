@@ -1,37 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ApiConfConstants } from 'src/@sirio/constants';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
+import { ApiConfConstants } from 'src/@sirio/constants';
 
 
-export interface TipoSubproducto {
+export interface TasaDPF {
     id: string;
+    tipoTasa: string;
+    porcentaje: number;
     tipoProducto: string;
-    nombre: string;
-    tipoPersona: string;
-    moneda: string;
-    monedaNombre?: string;
+    tipoSubproducto: string;
+    minimo: number;
+    maximo: number;
     codigoLocal: string;
-    conChequera: number;
-    conLibreta: number;
     fechaCreacion?: any;
     activo?: number;
 }
 
 @Injectable({
-    providedIn: 'root'
+    providedIn:'root'
 })
-export class TipoSubproductoService {
-
+export class TasaDPFService {
+    searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/producto/tipo-subproducto' };
+        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/plazo-fijo/tasa'};
     }
 
-    actives(): Observable<TipoSubproducto[]> {
+    actives(): Observable<TasaDPF[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
@@ -39,39 +38,31 @@ export class TipoSubproductoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<TipoSubproducto> {
+    get(id: string): Observable<TasaDPF> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<TipoSubproducto> {
+    detail(id: string): Observable<TasaDPF> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoSubproducto[]> {
+    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TasaDPF[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
-    save(data: TipoSubproducto): Observable<any> {
-
+    save(data: TasaDPF): Observable<any> {
+        
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: TipoSubproducto): Observable<any> {
+    update(data: TasaDPF): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
 
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
-    }
-
-    activesByTipoProductoAndTipoPersona(tipoProducto: string, tipoPersona: string): Observable<TipoSubproducto[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/${tipoPersona}/tipo-persona/actives`);
-    }
-
-    activesByTipoProducto(tipoProducto: string): Observable<TipoSubproducto[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/actives`);
     }
 
 }

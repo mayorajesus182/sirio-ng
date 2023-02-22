@@ -5,16 +5,10 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 import { ApiOption, ApiService } from 'src/@sirio/services/api';
 
 
-export interface TipoSubproducto {
+export interface OrigenFondo {
     id: string;
-    tipoProducto: string;
     nombre: string;
-    tipoPersona: string;
-    moneda: string;
-    monedaNombre?: string;
     codigoLocal: string;
-    conChequera: number;
-    conLibreta: number;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -22,16 +16,16 @@ export interface TipoSubproducto {
 @Injectable({
     providedIn: 'root'
 })
-export class TipoSubproductoService {
+export class OrigenFondoService {
 
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/producto/tipo-subproducto' };
+        this.apiConfig = { name: ApiConfConstants.API_CONFIGURACION, prefix: '/cuenta-bancaria/origen-fondo' };
     }
 
-    actives(): Observable<TipoSubproducto[]> {
+    actives(): Observable<OrigenFondo[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
@@ -39,39 +33,31 @@ export class TipoSubproductoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }
 
-    get(id: string): Observable<TipoSubproducto> {
+    get(id: string): Observable<OrigenFondo> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
-    detail(id: string): Observable<TipoSubproducto> {
+    detail(id: string): Observable<OrigenFondo> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
 
-    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<TipoSubproducto[]> {
+    page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<OrigenFondo[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
-    save(data: TipoSubproducto): Observable<any> {
+    save(data: OrigenFondo): Observable<any> {
 
         return this.apiService.config(this.apiConfig).post('/create', data)
             .pipe(map(res => data));
     }
 
-    update(data: TipoSubproducto): Observable<any> {
+    update(data: OrigenFondo): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
             .pipe(map(res => data));
     }
 
     changeStatus(id: any): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/status/update`);
-    }
-
-    activesByTipoProductoAndTipoPersona(tipoProducto: string, tipoPersona: string): Observable<TipoSubproducto[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/${tipoPersona}/tipo-persona/actives`);
-    }
-
-    activesByTipoProducto(tipoProducto: string): Observable<TipoSubproducto[]> {
-        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/actives`);
     }
 
 }
