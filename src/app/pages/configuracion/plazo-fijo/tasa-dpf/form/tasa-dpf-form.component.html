@@ -35,7 +35,7 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="10">
                                 <mat-label>{{'rate.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
                                 <input matInput maxlength="3" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
@@ -44,16 +44,16 @@
                                 <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
                             </mat-form-field>
 
-                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="30" [label]="'rate.rateType' | translate: {default: 'global.rateType'} | translate"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="20" [label]="'rate.rateType' | translate: {default: 'global.rateType'} | translate"
                                 formControlName="tipoTasa" [required]="true" [elements]="tipos.asObservable()" [attributeName]="'nombre'">
                             </sirio-select-search>
 
-                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="50"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="35"
                                 [label]="'rate.productType' | translate: {default: 'global.productType'} | translate" formControlName="tipoProducto"
                                 [required]="true" [elements]="productos.asObservable()" [attributeName]="'nombre'">
                             </sirio-select-search>
 
-                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="50"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="35"
                                 [label]="'rate.byproductType' | translate: {default: 'global.byproductType'} | translate" formControlName="tipoSubproducto"
                                 [required]="true" [elements]="subproductos.asObservable()" [attributeName]="'nombre'">
                             </sirio-select-search>
@@ -96,7 +96,7 @@
                             </mat-form-field>
                         </div>
                     </form>
-                    {{printErrors() | json}}
+                    <!-- {{printErrors() | json}} -->
                 </sirio-card-content>
                 <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">

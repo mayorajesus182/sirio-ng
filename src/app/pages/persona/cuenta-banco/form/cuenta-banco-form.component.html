@@ -31,7 +31,7 @@
                 <sirio-card-content fxLayout="column">
 
 
-                    <sirio-person-query [entity]="'cuenta'" title="Consultar Persona" (push)="loadResult($event)" (result)="cleanForm()">
+                    <sirio-person-query [purpose]="'cuenta'" title="Consultar Persona" (push)="loadResult($event)" (result)="cleanForm()">
                     </sirio-person-query>
 
                     <ng-container *ngIf="loaded$ | async">

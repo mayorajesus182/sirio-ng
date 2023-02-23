@@ -5,8 +5,7 @@
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
-            fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
@@ -23,28 +22,54 @@
                 <sirio-card-content fxLayout="column">
 
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                        <mat-form-field fxFlex.gt-xs="10">
+                            <mat-label>{{'rate.code' | translate: {default: 'global.code'} | translate }}
+                            </mat-label>
+                            <input matInput class="text-center" [value]="d.id" readonly class="text-center">
+                        </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="10" >
-                                <mat-label>{{'rate.code' | translate: {default: 'global.code'} | translate }}
-                                </mat-label>
-                                <input matInput class="text-center" [value]="d.id" readonly class="text-center">
-                            </mat-form-field>
+                        <mat-form-field fxFlex="20">
+                            <mat-label>{{'rate.rateType' | translate: {default: 'global.rateType'} | translate }}
+                            </mat-label>
+                            <input matInput class="text-center" [value]="d.tipoTasa" readonly>
+                        </mat-form-field>
 
-                            <mat-form-field fxFlex="auto" >
-                                <mat-label>{{'rate.name' | translate: {default: 'global.name'} | translate }}
-                                </mat-label>
-                                <input matInput [value]="d.nombre" readonly>
-                            </mat-form-field>
-                            
-                            <mat-form-field fxFlex.gt-xs="10" >
-                                <mat-label>{{'rate.localCode' | translate: {default: 'global.localCode'} | translate
-                                }}</mat-label>
-                                <input matInput class="text-center" [value]="d.codigoLocal" readonly>
-                            </mat-form-field>
-                            
-                        </div>
+                        <mat-form-field fxFlex.gt-xs="35">
+                            <mat-label>{{'rate.productType' | translate: {default: 'global.productType'} | translate}}</mat-label>
+                            <input matInput class="text-center" [value]="d.tipoProducto" readonly>
+                        </mat-form-field>
 
-                        <sirio-audit-bar [element]="d"></sirio-audit-bar>
+                        <mat-form-field fxFlex.gt-xs="35">
+                            <mat-label>{{'rate.byproductType' | translate: {default: 'global.byproductType'} | translate}}</mat-label>
+                            <input matInput class="text-center" [value]="d.tipoSubproducto" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'rate.percentage' | translate: {default: 'global.percentage'} | translate }}
+                            </mat-label>
+                            <input matInput class="text-center" [value]="d.porcentaje | number: '1.2'" readonly class="text-center">
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="30">
+                            <mat-label>{{'rate.minimum' | translate: {default: 'global.minimum'} | translate }}
+                            </mat-label>
+                            <input matInput class="text-right" [value]="d.minimo | number: '1.2'" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex.gt-xs="30">
+                            <mat-label>{{'rate.maximum' | translate: {default: 'global.maximum'} | translate}}</mat-label>
+                            <input matInput class="text-right" [value]="d.maximo | number: '1.2'" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex.gt-xs="20">
+                            <mat-label>{{'rate.localCode' | translate: {default: 'global.localCode'} | translate}}</mat-label>
+                            <input matInput class="text-center" [value]="d.codigoLocal" readonly>
+                        </mat-form-field>
+                    </div>
+
+                    <sirio-audit-bar [element]="d"></sirio-audit-bar>
 
                 </sirio-card-content>
                 <mat-toolbar>

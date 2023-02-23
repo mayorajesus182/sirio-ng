@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
+import { GlobalConstants } from "src/@sirio/constants";
 import { SweetAlertService } from "src/@sirio/services/swal.service";
 import { Persona } from "./persona.service";
 
@@ -34,6 +35,7 @@ export class PersonaDataMandatoryService {
 
             this.swalService.show('Antes de realizar una apertura de cuenta usted debe:', undefined, { html: message, showCancelButton: false }).then((resp) => {
                 // this.router.navigate(['/sirio/persona/' + type + '/edit']);
+                sessionStorage.setItem(GlobalConstants.PREV_PAGE, this.router.url);
                 this.router.navigate([`/sirio/persona/${type}/${persona.tipoDocumento}/${persona.identificacion}/edit`]);
                 
             });

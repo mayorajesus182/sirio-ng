@@ -41,7 +41,7 @@
                                     <mat-label>{{'deficitAgenciesRep.fromDate' | translate: {default: 'global.fromDate'} | translate }}</mat-label>
                                     <input class="text-center" [required]="true" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechainicio" formControlName="fechainicio"
                                         [matDatepicker]="fechaInicioPicker" [max]="todayValue" [min]="valueMin">
-                                    <mat-datepicker-toggle matSuffix [for]="fechaInicioPicker"> 
+                                    <mat-datepicker-toggle matSuffix [for]="fechaInicioPicker" tabindex="-1"> 
                                     </mat-datepicker-toggle>                                  
                                 </mat-form-field>
                     

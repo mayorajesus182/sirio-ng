@@ -34,6 +34,10 @@ export class TasaDPFService {
         return this.apiService.config(this.apiConfig).get('/actives');
     }
 
+    activesByTipoSubproducto(subproducto: string): Observable<TasaDPF[]> {
+        return this.apiService.config(this.apiConfig).get(`/${subproducto}/tipo-subproducto/actives`);
+    }
+
     exists(id: string): Observable<any> {
         return this.apiService.config(this.apiConfig).get(`/${id}/exists`);
     }

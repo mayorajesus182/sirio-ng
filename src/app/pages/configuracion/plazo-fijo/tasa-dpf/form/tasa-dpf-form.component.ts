@@ -118,12 +118,8 @@ export class TasaDPFFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     private codigoExists(id) {
-        console.log('treeeeeeeeeeeee');
-        
         this.tasaDPFService.exists(id).subscribe(data => {
             if (data.exists) {
-
-                console.log('traaaaaaaaaaaaaaaaaaaa ', data);
                 this.itemForm.controls['id'].setErrors({
                     exists: true
                 });

@@ -12,7 +12,7 @@
                         &nbsp;&nbsp;<b>{{personaNatural.nombre | uppercase}}</b>
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        <button class="icon" mat-icon-button matTooltip="{{'button.send' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || !hasBasicData " (click)="send()">
                             <i class="fa-light fa-inbox-out fa-xl"></i>
                         </button>
@@ -94,7 +94,7 @@
                                             <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaNacimiento"
                                                 age-document-type document="{{f.tipoDocumento.value}}" today="{{todayValue}}" formControlName="fechaNacimiento"
                                                 [matDatepicker]="fechaNacimientoPicker" [max]="todayValue" required>
-                                            <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
+                                            <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker" tabindex="-1">
                                             </mat-datepicker-toggle>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
                                                 Fecha Invalida

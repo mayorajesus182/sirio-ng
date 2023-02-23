@@ -32,7 +32,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     @Input() tipo_persona: string;
     @Input() title: string = 'Información del Cliente';
     @Input() taquilla: boolean = false;
-    @Input() entity: 'interviniente' | 'persona' | 'gestioncomercial' | 'cuenta' = 'persona';
+    @Input() purpose: 'interviniente' | 'persona' | 'gestion-comercial' | 'cuenta' = 'persona';
     @Input() disabled: boolean = false;
     @Output('result') result: EventEmitter<any> = new EventEmitter<any>();
     @Output('update') update: EventEmitter<any> = new EventEmitter<any>();
@@ -42,7 +42,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     tiposDocumentoList: TipoDocumento[] = [];
     persona: Persona = {} as Persona;
-   
+
 
     private loading = new BehaviorSubject<boolean>(false);
     private finding = false;
@@ -97,27 +97,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
-    ngOnInit(): void {
-
-        if (!this.tipo_persona) {
-            this.tipoDocumentoService.actives().subscribe(data => {
-                
-                this.tiposDocumentoList = data;
-                this.tiposDocumentos.next(data);
-            });
-        } else {
-            this.tipoDocumentoService.activesByTipoPersona(this.tipo_persona).subscribe(data => {
-                // console.log(data);
-                
-                this.tiposDocumentoList = data;
-
-                this.tiposDocumentos.next(data);
-            });
-
-        }
-
-        // this.tipoDocumentoService.activesJuridicos().subscribe(data=>this.legals=data.map(t=>t.id));
-
+    private buildForm() {
         this.searchForm = this.fb.group({
             tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT),
             identificacion: new FormControl('', []),
@@ -125,6 +105,47 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             cuenta: new FormControl(''),
             tipoPersona: new FormControl('')
         });
+    }
+
+    ngOnInit(): void {
+
+        if (!this.tipo_persona) {
+            this.tipoDocumentoService.actives().subscribe(data => {
+
+                this.tiposDocumentoList = data;
+                this.tiposDocumentos.next(data);
+            });
+        } else {
+            this.tipoDocumentoService.activesByTipoPersona(this.tipo_persona).subscribe(data => {
+                // console.log(data);
+
+                this.tiposDocumentoList = data;
+
+                this.tiposDocumentos.next(data);
+            });
+
+        }
+
+        sessionStorage.removeItem(GlobalConstants.PREV_PAGE);// removiendo la pagina como ultimo sitio, dado que lo acabo de visitar
+
+        // this.tipoDocumentoService.activesJuridicos().subscribe(data=>this.legals=data.map(t=>t.id));
+
+        this.buildForm();
+
+        const current = JSON.parse(sessionStorage.getItem(GlobalConstants.CURRENT_PERSON));
+        console.log("current person ", current);
+
+        if (current) {
+            this.persona = current;
+            if ((this.tipo_persona && this.tipo_persona === this.persona.tipoPersona) || !this.tipo_persona) {
+                this.searchForm.controls['tipoDocumento'].setValue(this.persona.tipoDocumento);
+                this.searchForm.controls['identificacion'].setValue(this.persona.identificacion);
+                
+                this.queryByPerson();
+            } else {
+                this.persona = {} as Persona;
+            }
+        }
 
         // this.searchForm.markAllAsTouched();
 
@@ -149,12 +170,52 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         return this.isNew;
     }
 
+    private refreshPerson(status: boolean, data: Persona) {
+
+        if (status) {
+            console.log(data);
+            this.persona = data;
+            this.search.nombre.setValue(data.nombre);
+            this.loading.next(false);
+            this.isNew = false;
+            if (this.result) {
+                // this.persona.identificacion = identificacion;
+                this.result.emit(this.persona);
+            }
+            this.search.identificacion.setErrors(null);
+            this.search.cuenta.setValue('');
+            // this.searchForm.controls['identificacion'].disable();
+            // this.searchForm.controls['cuenta'].disable();
+            // this.searchForm.controls['tipoDocumento'].disable();
+            this.disable.next(true);
+            this.disableBtn.next(false);
+            this.finding = false;
+        } else {
+            this.persona = {} as Persona;
+            this.isNew = true;
+            this.loading.next(false);
+            if (this.result) {
+                this.result.emit(this.persona);
+            }
+            this.disableBtn.next(false);
+            this.search.identificacion.setErrors({ notexists: true });
+            this.search.nombre.setValue(' ');
+            this.search.cuenta.setValue('');
+            this.finding = false;
+            this.disableBtn.next(false);
+        }
+
+
+        this.cdref.detectChanges();
+
+    }
+
 
     public queryByPerson() {
 
-        // console.log(this.search.identificacion.errors);
+        // console.log(this.searchForm.value);
         // console.log('is invalid form ',this.searchForm.invalid);
-        
+
 
         if (this.search.identificacion.errors || this.finding) {
             return;
@@ -170,46 +231,28 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         if (tipoDocumento && identificacion) {
             this.loading.next(true);
 
-            this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-                this.persona = data;
-                this.search.nombre.setValue(data.nombre);
-                this.loading.next(false);
-                this.isNew = false;
-                if (this.result) {
-                    this.persona.identificacion = identificacion;
-                    this.result.emit(this.persona);
-                }
+            // console.log('proposito', this.purpose);
 
 
-                this.search.identificacion.setErrors(null);
-                this.search.cuenta.setValue('');
-                // this.searchForm.controls['identificacion'].disable();
-                // this.searchForm.controls['cuenta'].disable();
-                // this.searchForm.controls['tipoDocumento'].disable();
-                this.disable.next(true);
-                this.disableBtn.next(false);
-                this.finding = false;
-                this.cdref.detectChanges();
+            if (['persona'].includes(this.purpose)) {
 
-            }, err => {
+                this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
 
-                this.persona = {} as Persona;
-                this.isNew = true;
-                this.loading.next(false);
-                if (this.result) {
-                    this.result.emit(this.persona);
-                }
-                this.disableBtn.next(false);
-                this.search.identificacion.setErrors({ notexists: true });
-                this.search.nombre.setValue(' ');
-                this.search.cuenta.setValue('');
-                this.finding = false;
-                this.disableBtn.next(false);
+                    this.refreshPerson(true, data);
+                }, err => {
 
-                // console.log(this.searchForm.value);
-                
-                this.cdref.detectChanges();
-            })
+                    this.refreshPerson(false, undefined);
+                })
+            } else if (['gestion-comercial', 'interviniente', 'cuenta'].includes(this.purpose)) {
+                console.log("se exige cargar la persona activa");
+
+                this.personaService.getActivaByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
+                    this.refreshPerson(true, data);
+                }, err => {
+                    this.refreshPerson(false, undefined);
+                });
+
+            }
         } else if (!tipoDocumento) {
 
             // this.search.tipoDocumento.setErrors({required:true});
@@ -275,24 +318,24 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     createOn() {
         // console.log(this.searchForm.value);
         this.search.tipoPersona.setValue(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce(a => a) || '');
+        console.log('create from ', this.searchForm.value);
+
         this.create.emit(this.searchForm.value);
         this.disable.next(true);
     }
 
     pushOn() {
         // this.disable.next(true);
-        if (!this.persona.id && !this.persona.numper) {
-            this.persona = this.searchForm.value;
-        }
-
-        // console.log(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value));
-        // console.log(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona));
-        // console.log(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce(a=>a));
-
-
         this.persona.tipoPersona = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce(a => a) || '';
 
-        // console.log(this.persona);
+        if (!this.persona.id && !this.persona.numper) {
+            // si ingresa por aca es que no existe
+            this.persona = { ...this.searchForm.value, ...this.persona };
+            // creando datos en session storage para poder regresar luego a la pagina donde me llamaron
+            sessionStorage.setItem(GlobalConstants.CURRENT_PERSON, JSON.stringify(this.persona));
+            sessionStorage.setItem(GlobalConstants.PREV_PAGE, this.router.url);
+        }
+
         this.push.emit(this.persona);
         this.resetAll();
     }
@@ -303,7 +346,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         //TODO: DEBEMOS VERIFICAR SI EL CLIENTE TRAE LA FECHA DE ACTUALIZACION, EL TIEMPO SIN ACTUALIZAR QUE TIENE
 
         // console.log(this.persona);
-        
+
         this.update.emit(this.persona);
 
         this.disable.next(true);
@@ -311,13 +354,17 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     resetAll() {
-        this.searchForm.reset({});
+        // this.searchForm.reset({cuenta:'', identificacion:'',tipoDocumento:''});
         this.persona = {} as Persona;
         this.isNew = false;
+        this.buildForm();
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
+        this.searchForm.controls['tipoDocumento'].enable();
+        this.searchForm.controls['tipoDocumento'].setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
+        // console.log('reset all ', this.searchForm.value);
+
         this.disableBtn.next(true);
-        this.search.tipoDocumento.setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
         this.cdref.detectChanges();
         this.finding = false;
         this.result.emit({});
@@ -353,12 +400,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     }
 
     isLegalPerson() {
-        // if(!this.search.tipoDocumento.value){
-        //    return; 
-        // }
-        // console.log('tipo doc ', this.tiposDocumentoList);
-        // console.log('tipo persona ', this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value));
-        // const= this.tiposDocumentos.
+
         let isLegal = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
         // console.log('tipo doc selected', this.search.tipoDocumento.value, isLegal);
 
