@@ -43,7 +43,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     this.init(this.atmService, 'fcreacion');
 
     this.agenciaService.actives().subscribe(data => {
-      console.log('agencias ', data);
+      // console.log('agencias ', data);
       
       this.agencias.next(data);
     });
@@ -105,6 +105,12 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
 
   toogleOpenFilter(event: any) {
     this.isOpen = event;
+  }
+
+  filterBy(ag){
+    console.log('agencia selected ',ag);
+    this.isOpen = false;
+    
   }
 
 }

@@ -4,8 +4,8 @@
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'atm.table' | translate: {default: 'global.notfound'}" placeholder="atm.search" (filterChange)="onFilterChange($event)"
-            (bottonClick)="print($event)" (btnOpenFilter)="toogleOpenFilter($event)" showBottonHelper="true">
+        <sirio-list [name]="'atm.table' | translate: {default: 'global.notfound'}" placeholder="atm.search" filterEnabled="true"
+            (filterChange)="onFilterChange($event)" (bottonClick)="print($event)" (btnOpenFilter)="toogleOpenFilter($event)" showBottonHelper="true">
 
             <mat-table #table id="tableContainer" [dataSource]="dataSource" matSort matSortActive="fcreacion" matSortDirection="desc">
 
@@ -74,31 +74,13 @@
                 </mat-row>
             </mat-table>
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
-
-
-            <div class="dropdown" [class.open]="isOpen">
-                <!-- <div > -->
-                <!-- <div class="list">
-                        <div class="list-item" >                          
-                        </div>                        
-                      </div> -->
-                <sirio-scrollbar class="overflow-container">
-                    <mat-nav-list class="content">
-
-                        <a href="javascript:" *ngFor="let ag of agencias | async" mat-list-item (click)="filterBy(ag)">
-                            <h3 matLine> {{ag.nombre}}</h3>
-                        </a>
-                        <!-- <a mat-list-item *ngIf="(tasks | async)?.length==0">
-                            <p matLine>
-                                <span class="m-0 mr-1 text-md">Sin tareas para mostrar</span>
-                                <span fxFlex></span>
-                            </p>
-                        </a> -->
-                    </mat-nav-list>
-                </sirio-scrollbar>
-
-                <!-- </div> -->
-            </div>
+            <sirio-scrollbar class="dropdown" [class.open]="isOpen">
+                <div class="list" *ngIf="isOpen">
+                    <div class="list-item" *ngFor="let ag of agencias | async" (click)="filterBy(ag)">
+                        <span> {{ag.nombre}}</span>
+                    </div>
+                </div>
+            </sirio-scrollbar>
 
         </sirio-list>
         <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>

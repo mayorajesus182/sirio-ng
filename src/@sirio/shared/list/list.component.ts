@@ -17,6 +17,7 @@ export class ListComponent implements AfterViewInit {
   @Input() tooltipStats: string = undefined;
   @Input() icon_btn: string = 'file-pdf';
   @Input() showBottonHelper: boolean = false;
+  @Input() filterEnabled: boolean = false;
   // @Input() columns: ListColumn[];
 
   @ViewChild('filter') filter: ElementRef;

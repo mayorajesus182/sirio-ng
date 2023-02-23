@@ -1,10 +1,89 @@
 @use '@angular/material' as mat;
+@use 'sass:math';
 
 sirio-list {
   @include mat.elevation($elevation);
   border-radius: $border-radius;
   overflow: auto;
   display: flex;
+
+
+  .overflow-container {
+    height: 100%;
+    overflow-x: hidden;
+    position: absolute;
+    width: 100%;
+  }
+
+  .dropdown{
+    max-height: 300px;
+    background: $theme-card;
+    @include mat.elevation($toolbar-user-dropdown-elevation);
+
+    padding: 6px;
+    margin-right: 1.55%;
+
+    .list {
+      .list-item {
+        &:hover {
+          background: $theme-background-hover;
+        }
+      }
+    }
+
+    .list-item-icon {
+      color: $theme-icon;
+    }
+
+  }
+
+  .dropdown {
+    position: absolute;
+    // top: $toolbar-height;
+    right: 0;
+    // top: 10;
+    // width: 100%;
+    min-width: 300px;
+    z-index: 1000;
+    transform: translateY(-0.5%);
+    visibility: hidden;
+    transition: transform .4s cubic-bezier(.25, .8, .25, 1), visibility .4s cubic-bezier(.25, .8, .25, 1);
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+
+    .list {
+      padding-top: math.div($spacing, 3);
+      max-height: 300px;
+      width: 300px;
+
+      .list-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        align-content: center;
+        height: 25px;
+        padding: 0 math.div($spacing, 1.5);
+        position: relative;
+        cursor: pointer;
+        outline: none;
+        font-size: 11px;
+        .list-item-icon {
+          padding-right: math.div($spacing, 1.5);
+        }
+      }
+    }
+
+    &.open {
+      transform: translateY(21%);
+      visibility: visible;
+    }
+
+
+    
+
+
+  }
 
   .sirio-list-table {
     flex: 1 1 auto;
@@ -23,12 +102,14 @@ sirio-list {
       }
     }
 
-    .sirio-filter-input-icon, .sirio-column-filter {
+    .sirio-filter-input-icon,
+    .sirio-column-filter {
       // color: $theme-icon;
-        color: rgb(53, 53, 53);
-        .fa-lg{
-          font-size: 1.4em;
-        }
+      color: rgb(53, 53, 53);
+
+      .fa-lg {
+        font-size: 1.4em;
+      }
     }
 
     .sirio-list-name {
@@ -36,7 +117,8 @@ sirio-list {
     }
   }
 
-  .mat-header-row, .paginator {
+  .mat-header-row,
+  .paginator {
     background: $theme-app-bar;
   }
 
@@ -44,13 +126,15 @@ sirio-list {
     background: $theme-background-hover;
   }
 
-  .mat-cell.actions-cell, .mat-header-cell.actions-cell {
+  .mat-cell.actions-cell,
+  .mat-header-cell.actions-cell {
     button {
       color: $theme-icon;
     }
   }
 
-  .mat-cell.image-cell, .mat-header-cell.image-cell {
+  .mat-cell.image-cell,
+  .mat-header-cell.image-cell {
     img {
       background: $theme-app-bar;
     }

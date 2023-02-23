@@ -11,17 +11,18 @@
       <mat-icon class="sirio-filter-input-icon">search</mat-icon>
       <input fxFlex class="sirio-filter-input" #filter placeholder="{{placeholder | translate: {default: 'global.search'} | translate }}">
     </div>
-    
-    <!-- <button class="sirio-column-filter" type="button" mat-icon-button >
-      <mat-icon>filter_list</mat-icon>
-    </button> -->
+
     <button class="icon" class="sirio-column-filter" *ngIf="tooltipStats" mat-icon-button [tooltip]="tooltipStats" type="button" >
       <mat-icon>query_stats</mat-icon>
     </button>
-
+    
     <button class="icon" class="sirio-column-filter" *ngIf="showBottonHelper" matTooltip="Generar" mat-icon-button (click)="bottonClick.emit(true)" type="button" >      
       <i class="fal fa-{{icon_btn}} fa-lg"></i>
     </button>
+    
+    <button class="sirio-column-filter" type="button" mat-icon-button *ngIf="filterEnabled" (click)="toggleDropdown()">
+      <mat-icon>filter_list</mat-icon>
+    </button>    
 
     <button class="sirio-column-filter" type="button" mat-icon-button matTooltip="{{'button.cancel' | translate:
     {default: 'global.notfound'} | translate }}" type="button" (click)="backHome()">
