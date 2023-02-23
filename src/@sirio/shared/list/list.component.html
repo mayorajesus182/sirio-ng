@@ -11,12 +11,10 @@
       <mat-icon class="sirio-filter-input-icon">search</mat-icon>
       <input fxFlex class="sirio-filter-input" #filter placeholder="{{placeholder | translate: {default: 'global.search'} | translate }}">
     </div>
-
+    
     <!-- <button class="sirio-column-filter" type="button" mat-icon-button >
       <mat-icon>filter_list</mat-icon>
     </button> -->
-
-
     <button class="icon" class="sirio-column-filter" *ngIf="tooltipStats" mat-icon-button [tooltip]="tooltipStats" type="button" >
       <mat-icon>query_stats</mat-icon>
     </button>

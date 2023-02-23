@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { SessionService } from 'src/@sirio/services/session.service';
 
 @Component({

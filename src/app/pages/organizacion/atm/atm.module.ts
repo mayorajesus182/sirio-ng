@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
 import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
+import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
 import { AtmRoutingModule } from './atm-routing.module';
@@ -13,8 +14,6 @@ import { CajetinTableComponent } from './cajetin/table/cajetin-table.component';
 import { AtmDetailComponent } from './detail/atm-detail.component';
 import { AtmFormComponent } from './form/atm-form.component';
 import { AtmTableComponent } from './table/atm-table.component';
-import { ArqueoAtmConsultaTableComponent } from '../../control-efectivo/arqueo-atm/consulta/table/arqueo-atm-consulta-table.component';
-import { ArqueoAtmFormComponent } from '../../control-efectivo/arqueo-atm/form/arqueo-atm-form.component';
 
 
 @NgModule({
@@ -31,6 +30,8 @@ import { ArqueoAtmFormComponent } from '../../control-efectivo/arqueo-atm/form/a
                
         HighlightModule,
         SirioCardModule,
+        ScrollbarModule,
+
         AtmRoutingModule,
     ],
     declarations: [

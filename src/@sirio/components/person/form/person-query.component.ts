@@ -337,7 +337,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         }
 
         this.push.emit(this.persona);
-        this.resetAll();
+        
     }
 
 
