@@ -134,8 +134,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         const current = JSON.parse(sessionStorage.getItem(GlobalConstants.CURRENT_PERSON));
         console.log("current person ", current);
-
-        if (current) {
+        // Esto solo paso para mejorar la experiencia del usuario al registrar la info
+        if (current && ['persona','cuenta'].includes(this.purpose)) {
             this.persona = current;
             if ((this.tipo_persona && this.tipo_persona === this.persona.tipoPersona) || !this.tipo_persona) {
                 this.searchForm.controls['tipoDocumento'].setValue(this.persona.tipoDocumento);
@@ -334,10 +334,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // creando datos en session storage para poder regresar luego a la pagina donde me llamaron
             sessionStorage.setItem(GlobalConstants.CURRENT_PERSON, JSON.stringify(this.persona));
             sessionStorage.setItem(GlobalConstants.PREV_PAGE, this.router.url);
+            this.push.emit(this.persona);
+        }else{
+            this.push.emit(this.persona);
+            this.resetAll();
         }
 
-        this.push.emit(this.persona);
-        this.resetAll();
+        
     }
 
 
@@ -367,6 +370,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.disableBtn.next(true);
         this.cdref.detectChanges();
         this.finding = false;
+        sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
         this.result.emit({});
     }
 

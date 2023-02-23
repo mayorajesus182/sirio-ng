@@ -4,11 +4,10 @@
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <sirio-list [name]="'atm.table' | translate: {default: 'global.notfound'}" placeholder="atm.search"
-            (filterChange)="onFilterChange($event)" (bottonClick)="print($event)" showBottonHelper="true">
+        <sirio-list [name]="'atm.table' | translate: {default: 'global.notfound'}" placeholder="atm.search" filterEnabled="true"
+            (filterChange)="onFilterChange($event)" (bottonClick)="print($event)" (btnOpenFilter)="toogleOpenFilter($event)" showBottonHelper="true">
 
-            <mat-table #table id="tableContainer" [dataSource]="dataSource"  matSort
-                matSortActive="fcreacion" matSortDirection="desc">
+            <mat-table #table id="tableContainer" [dataSource]="dataSource" matSort matSortActive="fcreacion" matSortDirection="desc">
 
                 <ng-container matColumnDef="atm_id">
                     <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-10'">{{'atm.code' | translate:
@@ -65,8 +64,7 @@
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'"></mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'tw-5'">
                         <div fxFlex="row" fxLayoutAlign="end center">
-                            <sirio-actions-nav [element]="element" [items]="actions.asObservable()" 
-                            [method]="actionAPI()"></sirio-actions-nav>
+                            <sirio-actions-nav [element]="element" [items]="actions.asObservable()" [method]="actionAPI()"></sirio-actions-nav>
                         </div>
                     </mat-cell>
                 </ng-container>
@@ -75,8 +73,14 @@
                 <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                 </mat-row>
             </mat-table>
-            <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]"
-                showFirstLastButtons></mat-paginator>
+            <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
+            <sirio-scrollbar class="dropdown" [class.open]="isOpen">
+                <div class="list" *ngIf="isOpen">
+                    <div class="list-item" *ngFor="let ag of agencias | async" (click)="filterBy(ag)">
+                        <span> {{ag.nombre}}</span>
+                    </div>
+                </div>
+            </sirio-scrollbar>
 
         </sirio-list>
         <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>

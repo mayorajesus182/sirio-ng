@@ -102,7 +102,7 @@
                                             <mat-label>{{'Número de Cuenta' | translate }} </mat-label>
                                             <input matInput disabled="true" style="font-size: 1.45em;" ngx-mask mask="0000 0000 00 00 00000000"
                                                 [(ngModel)]="f.numeroCuenta.value" [ngModelOptions]="{standalone: true}" autocomplete="off" name="numeroCuenta"
-                                                class="text-center" [value]="'00000000000000000000'">
+                                                class="text-center"  placeholder="0000 0000 00 00 00000000">
                                             <mat-error *ngIf="f.numeroCuenta.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.numeroCuenta.errors?.pattern">{{'error.invalidCharacter' | translate}}

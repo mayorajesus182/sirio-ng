@@ -5,7 +5,7 @@ import * as moment from 'moment';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { GlobalConstants } from 'src/@sirio/constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/destino-cuenta.service';
@@ -326,6 +326,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.loaded$.next(false);
 
         this.loadingDataForm.next(true);
+        console.log(event);
+        
+        
 
         if (!event.id && !event.numper) {
             this.isNew = true;
@@ -377,12 +380,11 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
     save() {
+
         if (this.itemForm.invalid){
 
             return;
         }
-
-
 
         this.updateData(this.cuentaBanco);
 
@@ -454,8 +456,6 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
     }
 
 
-
-
     reportPdf() {
         /// generar ficha
         // console.log('imprimir ficha de ', this.cuentaBanco);
@@ -470,20 +470,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.download(name, blob);
         });
     }
-
-    // searchMoneda(){
-
-    //     if(!this.f.moneda.value || this.f.moneda.value.length==0 || !this.moneda.value){
-    //       return '';
-    //     }
-    //     return this.moneda.value.filter(m=>m.id===this.f.moneda.value)[0]?.moneda || '';
-    // }
-
-    // creaCuenta(){
-
-    //     this.cuentaBanco.numeroCuenta = this.constants.BANCO + this.constants.AGENCIA + '84'+this.cuentaBanco.tipoProducto ;
-    // }
-
+   
 
     openInterviniente(opened: boolean) {
 

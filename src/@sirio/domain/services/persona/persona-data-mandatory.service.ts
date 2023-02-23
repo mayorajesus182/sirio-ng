@@ -22,7 +22,7 @@ export class PersonaDataMandatoryService {
         // tal vez en el futuro se requiera satisfacer 
         // otros aspectos en otros casos de usos o lugares dentro de la application
 
-        console.log('validate persona ', persona);
+        // console.log('validate persona ', persona);
 
         const type = persona.tipoPersona === 'PERJUR' ? 'juridica' : 'natural';
         if (persona.direcciones === 0 || persona.telefonos === 0) {
