@@ -252,7 +252,12 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
             this.tipoDocumentos.next(data);
             const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
-            this.f.tipoDocumento.setValue(tipo.nombre);
+            if(tipo){
+                this.f.tipoDocumento.setValue(tipo.nombre);
+
+            }else{
+                this.f.tipoDocumento.setValue('');
+            }
         });
 
 

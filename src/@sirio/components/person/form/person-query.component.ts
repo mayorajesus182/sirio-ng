@@ -334,11 +334,12 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             // creando datos en session storage para poder regresar luego a la pagina donde me llamaron
             sessionStorage.setItem(GlobalConstants.CURRENT_PERSON, JSON.stringify(this.persona));
             sessionStorage.setItem(GlobalConstants.PREV_PAGE, this.router.url);
+            this.push.emit(this.persona);
         }else{
+            this.push.emit(this.persona);
             this.resetAll();
         }
 
-        this.push.emit(this.persona);
         
     }
 

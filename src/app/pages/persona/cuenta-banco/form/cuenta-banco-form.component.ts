@@ -326,6 +326,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.loaded$.next(false);
 
         this.loadingDataForm.next(true);
+        console.log(event);
+        
+        
 
         if (!event.id && !event.numper) {
             this.isNew = true;
