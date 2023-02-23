@@ -134,8 +134,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
         const current = JSON.parse(sessionStorage.getItem(GlobalConstants.CURRENT_PERSON));
         console.log("current person ", current);
-
-        if (current) {
+        // Esto solo paso para mejorar la experiencia del usuario al registrar la info
+        if (current && ['persona','cuenta'].includes(this.purpose)) {
             this.persona = current;
             if ((this.tipo_persona && this.tipo_persona === this.persona.tipoPersona) || !this.tipo_persona) {
                 this.searchForm.controls['tipoDocumento'].setValue(this.persona.tipoDocumento);
@@ -367,6 +367,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.disableBtn.next(true);
         this.cdref.detectChanges();
         this.finding = false;
+        sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
         this.result.emit({});
     }
 
