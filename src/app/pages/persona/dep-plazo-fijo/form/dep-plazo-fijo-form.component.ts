@@ -7,7 +7,6 @@ import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animat
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
-import { PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { PlazoDPF, PlazoDPFService } from 'src/@sirio/domain/services/configuracion/plazo-fijo/plazo.service';
 import { TasaDPF, TasaDPFService } from 'src/@sirio/domain/services/configuracion/plazo-fijo/tasa-dpf.service';
 import { TipoRenovacion, TipoRenovacionService } from 'src/@sirio/domain/services/configuracion/plazo-fijo/tipo-renovacion.service';
@@ -63,11 +62,14 @@ export class DepPlazoFijoFormComponent extends FormBaseComponent implements OnIn
 
         this.calendarioService.today().subscribe(data => {
             this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+            if (!this.f.fecha.value) {
+                this.f.fecha.setValue(this.todayValue)
+            }
         });
 
         if (id) {
-            this.plazoFijoService.get(id).subscribe((agn: PlazoFijo) => {
-                this.plazoFijo = agn;
+            this.plazoFijoService.get(id).subscribe((plz: PlazoFijo) => {
+                this.plazoFijo = plz;
                 this.buildForm();
                 this.loadingDataForm.next(false);
                 this.cdr.detectChanges();
@@ -91,8 +93,22 @@ export class DepPlazoFijoFormComponent extends FormBaseComponent implements OnIn
 
         this.f.cuentaBancoCargo.valueChanges.subscribe(val => {
             if (val && (val != '')) {
-                let cuenta = this.cuentas.value.filter(e => e.id == val)[0];
-                this.f.moneda.setValue(cuenta.moneda);
+                let cuentaSelected = this.cuentas.value.filter(e => e.id == val)[0];
+                this.f.moneda.setValue(cuentaSelected.moneda);
+            }
+        });
+
+        this.f.plazo.valueChanges.subscribe(val => {
+            if (val && (val != '')) {
+                let plazoSelected = this.plazos.value.filter(e => e.id == val)[0];
+                this.f.fechaVencimiento.setValue(this.f.fecha.value.clone().add(plazoSelected.dias, 'd'))
+            }
+        });
+
+        this.f.tasa.valueChanges.subscribe(val => {
+            if (val && (val != '')) {
+                let tasaSelected = this.tasas.value.filter(e => e.id == val)[0];
+                this.f.porcentaje.setValue(tasaSelected.porcentaje);
             }
         });
     }
@@ -118,14 +134,15 @@ export class DepPlazoFijoFormComponent extends FormBaseComponent implements OnIn
     }
 
     buildForm() {
+
         this.itemForm = this.fb.group({
             cuentaBancoCargo: new FormControl(this.plazoFijo.cuentaBancoCargo || undefined, [Validators.required]),
-            fecha: new FormControl({value: this.plazoFijo.fecha ? moment(this.plazoFijo.fecha, 'DD/MM/YYYY') : this.todayValue , disabled:true}, [Validators.required]),
+            fecha: new FormControl({ value: this.plazoFijo.fecha ? moment(this.plazoFijo.fecha, 'DD/MM/YYYY') : this.todayValue }, [Validators.required]),
             tipoProducto: new FormControl(this.plazoFijo.tipoProducto || undefined, [Validators.required]),
             tipoSubproducto: new FormControl(this.plazoFijo.tipoSubproducto || undefined, [Validators.required]),
             moneda: new FormControl(this.plazoFijo.moneda || undefined, [Validators.required]),
             plazo: new FormControl(this.plazoFijo.plazo || undefined, [Validators.required]),
-            fechaVencimiento: new FormControl({value: this.plazoFijo.fechaVencimiento ? moment(this.plazoFijo.fechaVencimiento, 'DD/MM/YYYY') : '' , disabled:true}, [Validators.required]),
+            fechaVencimiento: new FormControl({ value: this.plazoFijo.fechaVencimiento ? moment(this.plazoFijo.fechaVencimiento, 'DD/MM/YYYY') : '' }, [Validators.required]),
             monto: new FormControl(this.plazoFijo.monto || undefined, [Validators.required]),
             tasa: new FormControl(this.plazoFijo.tasa || undefined, [Validators.required]),
             porcentaje: new FormControl(this.plazoFijo.porcentaje || undefined, [Validators.required]),
@@ -161,7 +178,7 @@ export class DepPlazoFijoFormComponent extends FormBaseComponent implements OnIn
                 this.cuentasCapitalInteres.next(data);
                 this.cdr.detectChanges();
             });
-            
+
         });
     }
 
@@ -186,6 +203,11 @@ export class DepPlazoFijoFormComponent extends FormBaseComponent implements OnIn
             return;
 
         this.updateData(this.plazoFijo);
+        this.plazoFijo.fecha = this.plazoFijo.fecha.format('DD/MM/YYYY');
+        this.plazoFijo.fechaVencimiento = this.plazoFijo.fechaVencimiento.format('DD/MM/YYYY');
+        this.plazoFijo.persona = this.persona.id;
+        this.plazoFijo.renovacion = this.plazoFijo.renovacion ? 1 : 0;
+        
         this.saveOrUpdate(this.plazoFijoService, this.plazoFijo, 'El Plazo Fijo', this.isNew);
     }
 

@@ -60,6 +60,10 @@ export class CuentaBancoService {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/get`);
     }
 
+    getPrincipalByPersona(persona: number): Observable<CuentaBanco> {
+        return this.apiService.config(this.apiConfig).get(`/${persona}/cuenta-principal-by-persona/get`);
+    }
+
     listByPersona(persona: number): Observable<CuentaBanco[]> {
         return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/list`);
     }

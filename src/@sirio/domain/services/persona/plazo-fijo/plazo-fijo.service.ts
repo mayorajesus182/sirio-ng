@@ -37,7 +37,7 @@ export class PlazoFijoService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_CONFIGURACION, prefix: '/plazo-fijo'};
+        this.apiConfig = {name: ApiConfConstants.API_PERSONA, prefix: '/plazo-fijo'};
     }
 
     get(id: string): Observable<PlazoFijo> {
