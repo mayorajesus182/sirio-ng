@@ -26,6 +26,8 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   isOpen: boolean;
   agencias = new BehaviorSubject<Agencia[]>([]);
 
+  agenciaCurr = undefined;
+
   constructor(
     injector: Injector,
     protected dialog: MatDialog,
@@ -44,7 +46,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
 
     this.agenciaService.actives().subscribe(data => {
       // console.log('agencias ', data);
-      
+
       this.agencias.next(data);
     });
 
@@ -107,10 +109,10 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     this.isOpen = event;
   }
 
-  filterBy(ag){
-    console.log('agencia selected ',ag);
+  filterBy(ag: Agencia) {
+    console.log('agencia selected ', ag);
     // this.isOpen = false;
-    
+    this.agenciaCurr = ag;
   }
 
 }
