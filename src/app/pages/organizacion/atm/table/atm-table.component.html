@@ -79,7 +79,8 @@
                     <div class="list-item" *ngFor="let ag of agencias | async" (click)="filterBy(ag)">
                         <span> {{ag.nombre}}</span>
                         <span fxFlex></span>
-                        <button mat-icon-button mat-sm-button *ngIf="ag.id===agenciaCurr?.id" color="warn" style="margin-top: -5px;" (click)="filterBy()" matTooltip="Eliminar">
+                        <button mat-icon-button mat-sm-button *ngIf="ag.id===agenciaCurr?.id" color="warn" style="margin-top: -5px;" (click)="removeFilter()"
+                            matTooltip="Eliminar">
                             <i class="fal fa-trash-can"></i>
                         </button>
 

@@ -114,6 +114,12 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     // this.isOpen = false;
     this.agenciaCurr = ag;
   }
+  
+  removeFilter() {
+    // console.log('agencia selected ', ag);
+    // this.isOpen = false;
+    this.agenciaCurr = undefined;
+  }
 
 }
 
