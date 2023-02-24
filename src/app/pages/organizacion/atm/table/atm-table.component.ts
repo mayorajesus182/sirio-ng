@@ -42,7 +42,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   ngOnInit() {
-    this.init(this.atmService, 'fcreacion');
+    this.init(this.atmService, 'fcreacion','pageByParams');
 
     this.agenciaService.actives().subscribe(data => {
       // console.log('agencias ', data);
@@ -113,12 +113,15 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
     console.log('agencia selected ', ag);
     // this.isOpen = false;
     this.agenciaCurr = ag;
+    this.refreshElementList({agencia:ag.id});
   }
   
   removeFilter() {
-    // console.log('agencia selected ', ag);
+    console.log('agencia unselected ');
     // this.isOpen = false;
     this.agenciaCurr = undefined;
+    this.refreshElementList();
+    this.cdr.detectChanges();
   }
 
 }

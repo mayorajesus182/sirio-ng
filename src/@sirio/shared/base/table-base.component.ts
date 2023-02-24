@@ -272,13 +272,15 @@ export class TableBaseComponent {
 
 
 
-    protected refreshElementList() {
+    protected refreshElementList(paramsOpts?:any) {
         if (!this.dataSource) {
             console.log('no existe datasource');
 
             return;
         }
-        console.log('sort ', this.sort);
+        //
+        this.dataSource.paramsOpts = paramsOpts;
+        // console.log('sort ', this.sort);
         this.dataSource.loadData(
             this.searchTerm ? this.searchTerm : '',
             this.sort.active,

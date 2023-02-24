@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -19,7 +20,7 @@ export interface Atm {
 }
 
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 export class AtmService {
     searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
@@ -27,7 +28,7 @@ export class AtmService {
     constructor(
         private apiService: ApiService
     ) {
-        this.apiConfig = {name: ApiConfConstants.API_ORGANIZACION, prefix: '/atm'};
+        this.apiConfig = { name: ApiConfConstants.API_ORGANIZACION, prefix: '/atm' };
     }
 
     actives(): Observable<Atm[]> {
@@ -68,6 +69,15 @@ export class AtmService {
 
     page(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Atm[]> {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
+    }
+
+    pageByParams(filter = '', sortPropertie = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 15, paramsOpts: any = {}): Observable<Atm[]> {
+        const params = new HttpParams().set('filter', filter)
+            .set('sortby', sortPropertie)
+            .set('direction', sortOrder)
+            .set('page', pageNumber.toString())
+            .set('size', pageSize.toString());
+        return this.apiService.config(this.apiConfig).get('/page', params, paramsOpts);
     }
 
     pageByAgencia(filter = '', sortPropertie = 'codigo', sortOrder = 'asc', pageNumber = 0, pageSize = 15): Observable<Atm[]> {
