@@ -69,7 +69,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
   }
 
   view(data: any) {
-    this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
+    // this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
   recount(data: any) {   // arqueo
@@ -109,7 +109,7 @@ export class AtmTableComponent extends TableBaseComponent implements OnInit, Aft
 
   filterBy(ag){
     console.log('agencia selected ',ag);
-    this.isOpen = false;
+    // this.isOpen = false;
     
   }
 

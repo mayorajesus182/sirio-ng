@@ -11,6 +11,7 @@ import { FormBaseComponent } from './base/form-base.component';
 import { PopupBaseComponent } from './base/popup-base.component';
 import { TableBaseComponent } from './base/table-base.component';
 import { ButtonAddComponent } from './button-add/button-add.component';
+import { ClickOutsideModule } from './click-outside/click-outside.module';
 import { SirioDialogHeader, SirioDialogHeaderSubTitle, SirioDialogHeaderTitle } from './dialog/header-dialog.componts';
 import { IdleWarningComponent } from './idle-snack/idle-warning.component';
 import { ListSimpleComponent } from './list/list-simple.component ';
@@ -49,6 +50,7 @@ const components = [
     FlexLayoutModule,
     MaterialModule,
     TooltipModule,
+    ClickOutsideModule,
     NgxMatSelectSearchModule
   ],
   
