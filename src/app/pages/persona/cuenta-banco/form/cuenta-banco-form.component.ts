@@ -8,14 +8,14 @@ import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
-import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/producto/destino-cuenta.service';
-import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/producto/motivo-solicitud.service';
-import { OrigenFondo, OrigenFondoService } from 'src/@sirio/domain/services/configuracion/producto/origen-fondo.service';
-import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/configuracion/producto/promedio-monto.service';
-import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/domain/services/configuracion/producto/promedio-transaccion.service';
-import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firma.service';
-import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/producto/tipo-firmante.service';
-import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/producto/tipo-participacion.service';
+import { DestinoCuenta, DestinoCuentaService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/destino-cuenta.service';
+import { MotivoSolicitud, MotivoSolicitudService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/motivo-solicitud.service';
+import { OrigenFondo, OrigenFondoService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/origen-fondo.service';
+import { PromedioMonto, PromedioMontoService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/promedio-monto.service';
+import { PromedioTransaccion, PromedioTransaccionService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/promedio-transaccion.service';
+import { TipoFirma, TipoFirmaService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/tipo-firma.service';
+import { TipoFirmante, TipoFirmanteService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/tipo-firmante.service';
+import { TipoParticipacion, TipoParticipacionService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/tipo-participacion.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
@@ -265,9 +265,9 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 if (!this.persona.cuentaMonedaPrincipal && this.f.moneda.value != this.preferencia.monedaConoActual.value) {
                     // identificar con una alerta que no puede realizar esta apertura por no tener 
 
-                    this.swalService.show(`Para aperturar una cuenta en la moneda <strong>${this.monedaSubproducto}</strong> debe: `,
+                    this.swalService.show(`Antes de Abrir una Cuenta en <strong>Divisas</strong> Usted Debe: `,
                         undefined,
-                        { html: "Realizar una apertura en moneda nacional.", showCancelButton: false }).then((resp) => {
+                        { html: "Realizar una Apertura de Cuenta en Moneda Nacional.", showCancelButton: false }).then((resp) => {
                             this.f.tipoSubproducto.setValue(undefined);
                             this.f.moneda.setValue('');
                             this.monedaSubproducto = '';

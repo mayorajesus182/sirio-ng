@@ -20,6 +20,11 @@ const personaRoutes: Routes = [
         loadChildren: () => import('./cuenta-banco/cuenta-banco.module').then(m => m.CuentaBancoModule),
     },
     {
+        path: 'plazo-fijo',
+        data: { title: 'Certif./Depósito Plazo Fijo' },
+        loadChildren: () => import('./dep-plazo-fijo/dep-plazo-fijo.module').then(m => m.DepPlazoFijoModule),
+    },
+    {
         path: 'reporte-ficha-cliente',
         data: { title: 'Reporte Ficha Cliene' },
         loadChildren: () => import('./reports/ficha-cliente/reporte-ficha-cliente.module').then(m => m.ReporteFichaClienteModule),

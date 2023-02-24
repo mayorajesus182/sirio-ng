@@ -17,6 +17,8 @@ import { WFPaseEfectivoFormComponent } from './wf-pase-efectivo/form/wf-pase-efe
 import { WFGestionRemesaReceptorFormComponent } from './wf-solicitud-remesa/wf-gestion-remesa-receptor/form/wf-gestion-remesa-receptor-form.component';
 import { WorkflowRoutingModule } from './workflow.routing';
 import { TareasTableComponent } from './tareas/table/tareas-table.component';
+import { WFChequearPersonaNaturalFormComponent } from './wf-revision-cliente/wf-chequear-cliente/form/wf-chequear-persona-natural-form.component';
+import { WFChequearPersonaJuridicoFormComponent } from './wf-revision-cliente/wf-chequear-cliente/form/wf-chequear-persona-juridico-form.component';
 
 
 @NgModule({
@@ -42,6 +44,8 @@ import { TareasTableComponent } from './tareas/table/tareas-table.component';
     WFPaseABovedaFormComponent,
     WFCierreTaquillaDetailComponent,
     WFGestionRemesaReceptorFormComponent,
+    WFChequearPersonaNaturalFormComponent,
+    WFChequearPersonaJuridicoFormComponent,
     TareasTableComponent
   ],
   exports: []

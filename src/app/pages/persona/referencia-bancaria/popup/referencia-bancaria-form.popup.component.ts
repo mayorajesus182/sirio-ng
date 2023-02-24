@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { EntidadFinanciera, EntidadFinancieraService } from 'src/@sirio/domain/services/configuracion/entidad-financiera.service';
-import { CifraPromedio, CifraPromedioService } from 'src/@sirio/domain/services/configuracion/producto/cifra-promedio.service';
+import { CifraPromedio, CifraPromedioService } from 'src/@sirio/domain/services/configuracion/cuenta-bancaria/cifra-promedio.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { ReferenciaBancaria, ReferenciaBancariaService } from 'src/@sirio/domain/services/persona/referencia-bancaria/referencia-bancaria.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';

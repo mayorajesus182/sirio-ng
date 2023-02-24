@@ -40,6 +40,10 @@ export class PersonaService {
     getByTipoDocAndIdentificacion(tipoDocumento: string, identificacion: string): Observable<Persona> {
         return this.apiService.config(this.apiConfig).get(`/${tipoDocumento}/${identificacion}/get`);
     }
+    
+    getByExpediente(expediente: string): Observable<Persona> {
+        return this.apiService.config(this.apiConfig).get(`/${expediente}/by-expediente/get`);
+    }
 
     getActivaByTipoDocAndIdentificacion(tipoDocumento: string, identificacion: string): Observable<Persona> {
         return this.apiService.config(this.apiConfig).get(`/${tipoDocumento}/${identificacion}/activa`);

@@ -6,6 +6,8 @@ export class TaskConstants {
   public static CONF_PASE_TAQUILLA_BOVEDA = 'CONF-PA-TB';
   public static MOD_ANUL_PASE_TAQUILLA_BOVEDA = 'MOAN-PA-TB';
   public static DESPACHO_REMESA_SOLICITADA = 'DES-RM-SOL'; 
+  public static CIERRE_TAQUILLA = 'CIERRE-TAQ'; 
+  public static CHEQUEAR_CLIENTE = 'CHECK-CLNT'; 
 };
 
 

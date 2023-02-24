@@ -88,4 +88,8 @@ export class WorkflowService {
         return this.apiService.config(this.apiConfig).get(`/${id}/take`);
     }
 
+    solve(id: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/solve`);
+    }
+
 }

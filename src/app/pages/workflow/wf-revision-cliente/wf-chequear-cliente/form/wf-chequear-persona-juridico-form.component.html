@@ -1,0 +1,62 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['cashPass.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'Chequear Cliente'}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <mat-card-title class="mat-bg-grey">
+                            <div class="card-title-text">
+                                <!-- <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+                                    <mat-icon class="">more_vert</mat-icon>
+                                </button> -->
+
+                                <!-- <mat-menu #userMenu="matMenu">
+                                    <button mat-menu-item class="mr-1" (click)="resendTask()">
+                                        <mat-icon color="primary">check_circle</mat-icon>
+                                        {{'action.resend' | translate }}
+                                    </button>
+                                    <button mat-menu-item class="mr-1" (click)="overrideTask()">
+                                        <mat-icon color="accent">cancel</mat-icon>
+                                        {{'action.override' | translate }}
+                                    </button>
+                                </mat-menu> -->
+
+                            </div>
+                        </mat-card-title>
+
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div fxLayout="column">
+                        
+                    </div>
+
+                    <!-- {{printErrors() | json}} -->
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
+                        </button>
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid  || f.monto?.value <= 0 || (loading$ | async)">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+
+                </mat-toolbar>
+
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>
