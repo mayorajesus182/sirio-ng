@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
         data => {
           this.submitButton.disabled = false;
           this.router.navigateByUrl('/sirio/welcome');
-          this.snackbar.open(this.success, 'Close', {
+          this.snackbar.open(this.success, 'X', {
             duration: 8000,
             horizontalPosition: 'center',
             panelClass: 'success-snackbar'
@@ -88,7 +88,7 @@ export class LoginComponent implements OnInit {
         },
         err => {
 
-          this.snackbar.open(this.error, 'Close', {
+          this.snackbar.open(this.error, 'X', {
             duration: 8000,
             horizontalPosition: 'center',
             panelClass: 'danger-snackbar'

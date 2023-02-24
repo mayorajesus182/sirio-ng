@@ -70,4 +70,8 @@ export class TipoSubproductoService {
         return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/${tipoPersona}/tipo-persona/actives`);
     }
 
+    activesByTipoProducto(tipoProducto: string): Observable<TipoSubproducto[]> {
+        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/actives`);
+    }
+
 }

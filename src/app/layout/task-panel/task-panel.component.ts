@@ -6,8 +6,10 @@ import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { GlobalConstants } from 'src/@sirio/constants';
 import { TaskConstants } from 'src/@sirio/constants/task.constants';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { ExpedienteService } from 'src/@sirio/domain/services/workflow/expediente.service';
 import { Workflow, WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { SessionService } from 'src/@sirio/services/session.service';
@@ -28,6 +30,7 @@ export class QuickpanelComponent implements OnInit {
   @Input() taskPanel: any;
   public tasks = new BehaviorSubject<Workflow[]>([]);
   bovedaAgencia: BovedaAgencia = {} as BovedaAgencia;
+  persona: Persona = {} as Persona;
 
   constructor(
     injector: Injector,
@@ -38,6 +41,7 @@ export class QuickpanelComponent implements OnInit {
     protected workflowService: WorkflowService,
     protected expedienteService: ExpedienteService,
     protected bovedaAgenciaService: BovedaAgenciaService,
+    protected personaService: PersonaService,
     private cdr: ChangeDetectorRef,
     //  socktask: SocketTask,
   ) {
@@ -77,8 +81,8 @@ export class QuickpanelComponent implements OnInit {
     });
 
 
-    this.workflowService.notify.subscribe(loaded=>{
-      if(loaded){
+    this.workflowService.notify.subscribe(loaded => {
+      if (loaded) {
         this.refreshTaskList();
       }
     });
@@ -133,8 +137,8 @@ export class QuickpanelComponent implements OnInit {
   private wfSolicitudRemesa(task: Workflow) {
     if (task.rol === TaskConstants.DESPACHO_REMESA_SOLICITADA) {
       this.router.navigate(['/sirio/workflow/solicitud-remesa/' + task.id + '/' + task.expediente + '/send']);
-    } 
-    
+    }
+
     // else if (task.rol === TaskConstants.MOD_ANUL_PASE_TAQUILLA_BOVEDA) {
     //   this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/edit']);
     // }
@@ -142,6 +146,18 @@ export class QuickpanelComponent implements OnInit {
 
   private wfCierreTaquilla(task: Workflow) {
     this.router.navigate(['/sirio/workflow/cierre-taquilla/' + task.id + '/' + task.expediente + '/view']);
+  }
+
+
+  private wfRevisionCliente(task: Workflow) {
+
+    if (task.rol == TaskConstants.CHEQUEAR_CLIENTE) {
+      this.personaService.getByExpediente(task.expediente).subscribe(data => {
+        this.persona = data;
+        const personType = data.tipoPersona == GlobalConstants.PERSONA_NATURAL ? 'natural' : 'juridico';
+        this.router.navigate(['/sirio/workflow/' + personType + '/' + task.expediente + '/check']);
+      });
+    } 
   }
 
 

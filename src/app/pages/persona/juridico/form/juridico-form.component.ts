@@ -15,6 +15,7 @@ import { CategoriaEspecial, CategoriaEspecialService } from 'src/@sirio/domain/s
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
+import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -27,8 +28,8 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class JuridicoFormComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
-    fromOtherComponent: boolean=false;
-    todayValue: moment.Moment=moment();
+    fromOtherComponent: boolean = false;
+    todayValue: moment.Moment = moment();
 
     totalAddress: number;
     totalInfoLab: number;
@@ -53,19 +54,19 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     showAccionistaDirectivo = false;
 
     showRegistroMercantil = false;
-    
+
     showEmpresaRelacionada = false;
 
     showInformacionLaboral = false;
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
-    
+
     personaJuridica: PersonaJuridica = {} as PersonaJuridica;
     constants = GlobalConstants;
     estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
- 
+
     paises = new BehaviorSubject<Pais[]>([]);
     nacionadades = new BehaviorSubject<Pais[]>([]);
 
@@ -74,7 +75,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     categoriasEspeciales = new BehaviorSubject<CategoriaEspecial[]>([]);
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
-    
+
 
     constructor(
         injector: Injector,
@@ -86,11 +87,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
         private calendarioService: CalendarioService,
-    
         private actividadEconomicaService: ActividadEconomicaService,
         private actividadEspecificaService: ActividadEspecificaService,
         private categoriaEspecialService: CategoriaEspecialService,
-        
+        private personaService: PersonaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -109,7 +109,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
                         // this.cdr.detectChanges();
                     });
                 }
-                
+
                 this.hasBasicData = this.personaJuridica.id != undefined || this.personaJuridica.numper != undefined;
 
             }
@@ -118,8 +118,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     ngOnInit() {
-        GlobalConstants.TIPO_PERSONA = 'J'; 
-       
+        GlobalConstants.TIPO_PERSONA = 'J';
+
         this.loadingDataForm.next(false);
 
         this.calendarioService.today().subscribe(data => {
@@ -158,7 +158,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             }
         });
 
-            // if(this.f.montoDeclarado.value == null){
+        // if(this.f.montoDeclarado.value == null){
         //     descripcion.append("<b>Ramo: </b>").append(ramoGetService.getById(i.getRamo()).get().getNombre()).append(" ");
         // }
 
@@ -166,11 +166,11 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
         this.route.paramMap.subscribe(data => {
 
-            if(data.get('doc') && data.get('tdoc')){
-                this.fromOtherComponent=true
-                this.isNew=true;
-                this.personaJuridica.identificacion=data.get('doc');
-                this.personaJuridica.tipoDocumento=data.get('tdoc');
+            if (data.get('doc') && data.get('tdoc')) {
+                this.fromOtherComponent = true
+                this.isNew = true;
+                this.personaJuridica.identificacion = data.get('doc');
+                this.personaJuridica.tipoDocumento = data.get('tdoc');
 
                 this.buildForm();
 
@@ -185,7 +185,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         // personaJuridica
 
         this.itemForm = this.fb.group({
-            
+
             tipoDocumento: new FormControl({ value: this.personaJuridica.tipoDocumento, disabled: true }, [Validators.required]),
             identificacion: new FormControl({ value: this.personaJuridica.identificacion, disabled: true } || '', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             pais: new FormControl(this.personaJuridica.pais || undefined, [Validators.required]),
@@ -214,7 +214,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_JURIDICA).subscribe(data => {
             this.tipoDocumentos.next(data);
             const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
-            this.f.tipoDocumento.setValue( tipo.nombre);
+            this.f.tipoDocumento.setValue(tipo.nombre);
         });
 
         this.f.actividadEconomica.valueChanges.subscribe(value => {
@@ -240,7 +240,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     updatePerson(event) {
 
-        if(!event.id){
+        if (!event.id) {
             return;
         }
         this.loaded$.next(false);
@@ -282,10 +282,10 @@ console.log(event)
         if (this.isNew) {
 
             this.personaJuridicaService.save(this.personaJuridica).subscribe(data => {
-     
-                this.isNew= data.id==undefined;
+
+                this.isNew = data.id == undefined;
                 this.personaJuridica = data;
-                this.successResponse('La persona', 'creada',true);
+                this.successResponse('La persona', 'creada', true);
                 this.hasBasicData = this.personaJuridica.id != undefined || this.personaJuridica.numper != undefined;
 
 
@@ -294,13 +294,39 @@ console.log(event)
         } else {
             this.personaJuridicaService.update(this.personaJuridica).subscribe(data => {
 
-                this.successResponse('La persona', 'actualizada',true);
+                this.successResponse('La persona', 'actualizada', true);
             }, error => this.errorResponse(false));
         }
 
     }
 
+
     send() {
+        this.disabled$.next(true);
+        this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
+
+            if (!resp.dismiss) {
+
+                this.loadingDataForm.next(true);
+
+                this.personaService.send(this.personaJuridica.id).subscribe(() => {
+
+                    // simular que fui al servidor para luego enviar a la persona al modulo de apertura
+                    this.successResponse('Operacion', 'aplicada', true);
+                    this.loadingDataForm.next(false);
+                    this.disabled$.next(false);
+                    this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
+
+
+                }, err => {
+                    this.errorResponse(err)
+                });
+
+            } else {
+                this.disabled$.next(false);
+            }
+
+        });
     }
 
 
@@ -313,78 +339,78 @@ console.log(event)
     // updateAddress(event){
     //     this.totalAddress= event;
     // }
-    
-    updateWorkingInfo(event){
-        this.totalInfoLab= event;
-    }
-    
-    updatePep(event){
-        this.totalPep= event;
+
+    updateWorkingInfo(event) {
+        this.totalInfoLab = event;
     }
 
-    updateApoderado(event){
-        this.totalApoderado= event;
+    updatePep(event) {
+        this.totalPep = event;
     }
 
-    updateEmpresaRelacionada(event){
-        this.totalPep= event;
+    updateApoderado(event) {
+        this.totalApoderado = event;
+    }
+
+    updateEmpresaRelacionada(event) {
+        this.totalPep = event;
     }
 
     //openAddress() {
-    openInformacionLaboral(opened:boolean) {
-       
+    openInformacionLaboral(opened: boolean) {
+
         this.showInformacionLaboral = opened;
         this.cdr.detectChanges();
     }
 
-    openPep(opened:boolean) {
-       
+    openPep(opened: boolean) {
+
         this.showPep = opened;
         this.cdr.detectChanges();
     }
-    
-    openApoderado(opened:boolean) {
-       
+
+    openApoderado(opened: boolean) {
+
         this.showApoderado = opened;
         this.cdr.detectChanges();
     }
-    
-    openPhones(opened:boolean) {
-       
+
+    openPhones(opened: boolean) {
+
         this.showPhone = opened;
         this.cdr.detectChanges();
     }
 
-    openAddress(opened:boolean) {
+    openAddress(opened: boolean) {
         this.showAddress = opened;
         this.cdr.detectChanges();
     }
 
-    openAccionistaDirectivo(opened:boolean) {
+    openAccionistaDirectivo(opened: boolean) {
         this.showAccionistaDirectivo = opened;
         this.cdr.detectChanges();
     }
 
-    openBankReference(opened:boolean) {
+    openBankReference(opened: boolean) {
         this.showBankReference = opened;
         this.cdr.detectChanges();
     }
 
-    openPersonalReference(opened:boolean) {
+    openPersonalReference(opened: boolean) {
         this.showPersonalReference = opened;
         this.cdr.detectChanges();
     }
 
-     
-    openRegistroMercantil(opened:boolean) {
+
+    openRegistroMercantil(opened: boolean) {
         this.showRegistroMercantil = opened;
         this.cdr.detectChanges();
-        
+
     }
 
-    openEmpresaRelacionada(opened:boolean) {
-        
-        this.showEmpresaRelacionada=opened; 
+    openEmpresaRelacionada(opened: boolean) {
+
+        this.showEmpresaRelacionada = opened;
         this.cdr.detectChanges();
     }
 }

@@ -252,7 +252,12 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_NATURAL).subscribe(data => {
             this.tipoDocumentos.next(data);
             const tipo = data.filter(t => t.id == this.f.tipoDocumento.value)[0];
-            this.f.tipoDocumento.setValue(tipo.nombre);
+            if(tipo){
+                this.f.tipoDocumento.setValue(tipo.nombre);
+
+            }else{
+                this.f.tipoDocumento.setValue('');
+            }
         });
 
 
@@ -385,26 +390,18 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             if (!resp.dismiss) {
                 this.loadingDataForm.next(true);
 
-                // this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
-                    // this.cuentaActiva = true;
-                    // this.loadingDataForm.next(false);
-                // // obteniendo el certificado de la cuenta
-                // const name = this.getFileName(data);
-                // let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-                // this.download(name, blob);
-                // this.disabled$.next(false);
-                // En este m
-                setTimeout(() => {
-                    // simular que fui al servidor para luego enviar a la persona al modulo de apertura
-                    this.successResponse('Operacion', 'aplicada', true);
-                    this.loadingDataForm.next(false);
-                    this.disabled$.next(false);
-                    this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);                        
-                }, 3000);
-                // }, err => {
-                //     this.cuentaActiva = false;
+                this.personaService.send(this.personaNatural.id).subscribe(() => {
+                    // setTimeout(() => {
+                        // simular que fui al servidor para luego enviar a la persona al modulo de apertura
+                        this.successResponse('Operacion', 'aplicada', true);
+                        this.loadingDataForm.next(false);
+                        this.disabled$.next(false);
+                        this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
+                    // }, 1000);
 
-                // });
+                }, err => {
+                    this.errorResponse(err)
+                });
 
             } else {
                 this.disabled$.next(false);

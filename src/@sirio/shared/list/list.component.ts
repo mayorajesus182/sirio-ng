@@ -11,22 +11,26 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None
 })
 export class ListComponent implements AfterViewInit {
-
+  private isOpen: boolean;
   @Input() name: string;
   @Input() placeholder: string;
-  @Input() tooltipStats: string=undefined;
-  @Input() icon_btn: string='file-pdf';
-  @Input() showBottonHelper: boolean=false;
+  @Input() tooltipStats: string = undefined;
+  @Input() icon_btn: string = 'file-pdf';
+  @Input() showBottonHelper: boolean = false;
+  @Input() filterEnabled: boolean = false;
   // @Input() columns: ListColumn[];
 
   @ViewChild('filter') filter: ElementRef;
+
   @Output() filterChange = new EventEmitter<string>();
 
   @Output() bottonClick = new EventEmitter<boolean>();
 
+  @Output() btnOpenFilter = new EventEmitter<boolean>();
+
   @Input() hideHeader: boolean;
 
-  constructor(private location: Location, private router:Router) {
+  constructor(private location: Location, private router: Router) {
   }
 
   ngAfterViewInit() {
@@ -52,5 +56,20 @@ export class ListComponent implements AfterViewInit {
 
   public backHome() {
     this.router.navigate(['/sirio/welcome']);
-}
+  }
+
+
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+    this.btnOpenFilter.emit(this.isOpen);
+    
+  }
+  
+  onClickOutside() {
+    console.log("outside");
+    
+    this.isOpen=false;
+    this.btnOpenFilter.emit(this.isOpen);
+  }
 }

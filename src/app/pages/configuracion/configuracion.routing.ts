@@ -73,7 +73,16 @@ const configuracionRoutes: Routes = [
         data: { title: 'Recaudo' },
         loadChildren: () => import('./recaudo/recaudo.module').then(m => m.RecaudoModule),
     },
-   
+    {
+        path: 'cuenta-bancaria',
+        data: { title: 'Cuenta Bancaria' },
+        loadChildren: () => import('./cuenta-bancaria/cuenta-bancaria.module').then(m => m.CuentaBancariaModule),
+    },
+    {
+        path: 'plazo-fijo',
+        data: { title: 'Plazo Fijo' },
+        loadChildren: () => import('./plazo-fijo/plazo-fijo.module').then(m => m.PlazoFijoModule),
+    },
 ];
 
 
