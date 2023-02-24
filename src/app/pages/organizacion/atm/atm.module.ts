@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SirioCardModule } from 'src/@sirio/shared/card/card.module';
+import { ClickOutsideModule } from 'src/@sirio/shared/click-outside/click-outside.module';
 import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module';
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { ScrollbarModule } from 'src/@sirio/shared/scrollbar/scrollbar.module';
@@ -31,7 +32,7 @@ import { AtmTableComponent } from './table/atm-table.component';
         HighlightModule,
         SirioCardModule,
         ScrollbarModule,
-
+        ClickOutsideModule,
         AtmRoutingModule,
     ],
     declarations: [

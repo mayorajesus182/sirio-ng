@@ -67,6 +67,9 @@ export class ListComponent implements AfterViewInit {
   }
   
   onClickOutside() {
-    this.btnOpenFilter.emit(false);
+    console.log("outside");
+    
+    this.isOpen=false;
+    this.btnOpenFilter.emit(this.isOpen);
   }
 }
