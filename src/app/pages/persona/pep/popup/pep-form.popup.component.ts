@@ -24,8 +24,10 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   public Pep = PepConstants;
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   peps = [];
+  pepsProp = undefined;
+  pepsTi = undefined;
   persona: Persona = undefined;
-
+  esPep: boolean = false;
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<PepFormPopupComponent>,
@@ -45,10 +47,11 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   ngOnInit() {
 
     this.peps = this.defaults.payload.peps;
+    this.pepsTi  = this.defaults.payload.nombre;
+
     this.persona = (typeof this.defaults.payload.persona == "number") ? { id: this.defaults.payload.persona } : this.defaults.payload.persona;
-
-
-    // console.log(this.peps);
+    this.pepsProp = (typeof this.defaults.payload.persona.tipoDocumento) ? { id: this.defaults.payload.persona.tipoDocumento } : this.defaults.payload.persona.tipoDocumento;
+    // console.log(this.peps)
 
     this.tipoPepService.activesForNatural().subscribe(data => {
       this.tipoPepList.next(data.filter(d => !this.peps.map(p => p.tipo).includes(d.nombre) || this.defaults.payload.id != undefined || this.peps.length == 0));
@@ -107,7 +110,16 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
     this.f.tipoPep.valueChanges.subscribe(val => {
       if (val && val === TipoPepConstants.CLIENTE_ES_PEP) {
-        this.f.identificacion.setValue(this.persona.identificacion)
+        this.f.identificacion.setValue(this.persona.identificacion);
+        this.f.nombre.setValue(this.pepsTi);
+        // this.esPep = true;
+        this.f.nombre.disable();
+      }else {
+
+        this.f.identificacion.setValue('');
+        this.f.nombre.setValue('');
+        this.f.nombre.enable();
+
       }
     })
 
@@ -141,7 +153,13 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
   save() {
     this.updateData(this.pep);// aca actualizamos la direccion
+
+    if(this.pep.persona == null ) {
     this.pep.persona = this.defaults.payload.persona.id;
+    }
+    if(this.pep.tipoPep == "C" ) {
+      this.pep.tipoDocumento = this.pepsProp.id;
+    }
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.pepService, this.pep, 'PEP', this.pep.id == undefined);
   }

@@ -9,7 +9,9 @@
 
                 <sirio-card-content fxLayout="column">
                     <sirio-person-query (result)="queryResult($event)" [tipo_persona]="'J'"
-                        [entity]="'gestioncomercial'"></sirio-person-query>
+                        [purpose]="'gestion-comercial'"></sirio-person-query>
+
+                
 
                     <div fxLayout="column" *ngIf="loading | async">
 

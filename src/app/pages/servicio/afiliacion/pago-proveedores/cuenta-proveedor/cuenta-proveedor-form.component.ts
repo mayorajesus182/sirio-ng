@@ -94,7 +94,7 @@ export class CuentaFormComponent extends FormBaseComponent implements OnInit {
             moneda: new FormControl(undefined),
             tipoDocumento: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_SPACE)]),
             identificacion: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
-
+            Terminos : new FormControl(''),
             email: new FormControl(this.personaJuridica.email || '', [Validators.required ],),
         });
 
@@ -246,6 +246,7 @@ export class CuentaFormComponent extends FormBaseComponent implements OnInit {
         console.log("por aqui", data)
         this.showFormPopup(TelefonoFormPopupComponent, { data, telefonos: this.telefonos, principal: this.principal, primero: false }, true, '70%').afterClosed().subscribe(event => {
             if (event) {
+                //this.f.Terminos.setValue("1");
                 this.onRefresh.next(true);
             }
         });

@@ -21,6 +21,7 @@ import { ReferenciaPersonalFormPopupComponent } from '../popup/referencia-person
 export class ReferenciaPersonalTableComponent extends TableBaseComponent implements OnInit, AfterViewInit {
 
   @Input() persona = undefined;
+  @Input() personaDoc = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
 
@@ -39,8 +40,9 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
 
   private loadList() {
     this.referencias = []
+    console.log("referenciaPersonalService",this.personaDoc);
     this.referenciaPersonalService.allByPersonaId(this.persona).subscribe((data) => {
-      // console.log(data);
+       console.log("referenciaPersonalService",data);
       
       this.referenciaPersonalList.next(data.slice());
       this.referencias = this.referencias.concat(data.map(t => t.identificacion));
@@ -78,10 +80,12 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
   }
 
   popup(data?: ReferenciaPersonal) {
-    if (data) {
-      data.persona = this.persona;
-    }
-    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : { ...data, ...{ referencias: this.referencias } }, '40%').afterClosed().subscribe(event => {
+    console.log("por aqui",data)
+    // if (data) {
+    //   data.persona = this.persona;
+    //
+    // }
+    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias , personaDoc: this.personaDoc } : { ...data, ...{ referencias: this.referencias } }, '40%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

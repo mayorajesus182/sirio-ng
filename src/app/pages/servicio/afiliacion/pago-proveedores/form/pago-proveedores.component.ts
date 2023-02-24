@@ -106,17 +106,7 @@ export class ProveedoresFormComponent extends FormBaseComponent implements OnIni
                 this.cdr.detectChanges();
 
             } else {
-                if (event.moneda) {
-                    console.log("data3", event)
-                    this.cuentaOperacion = event;
-                    this.persona.nombre = this.cuentaOperacion.nombre;
-                    this.persona.numper = this.cuentaOperacion.numper;
-                    this.persona.identificacion = this.cuentaOperacion.identificacion;
-                    this.persona.tipoDocumento = this.cuentaOperacion.tipoDocumento;
-                    console.log(this.persona.email)
-                    this.persona.email = this.cuentaOperacion.email;
-                    this.loading.next(true);
-                } else {
+
                     console.log("data4", event)
                     this.personaJuridica = {} as PersonaJuridica;
                     this.isNew = true;
@@ -131,7 +121,7 @@ export class ProveedoresFormComponent extends FormBaseComponent implements OnIni
                     this.cuentaOperacion = undefined;
                     this.loading.next(true);
                     this.cdr.detectChanges();
-                }
+
             }
         }
 
