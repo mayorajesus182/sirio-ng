@@ -76,7 +76,10 @@
             <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
             <sirio-scrollbar class="dropdown" [class.open]="isOpen">
                 <div class="list" *ngIf="isOpen">
-                    <div class="list-item" *ngFor="let ag of agencias | async" (click)="filterBy(ag)">
+                    <div class="list-item margin-b-sm">
+                        <input type="text" matInput  autocomplete="off" fxFlex placeholder="Buscar" (click)="$event.stopPropagation()" [(ngModel)]="keywords">
+                    </div>
+                    <div class="list-item" *ngFor="let ag of (agencias | async) | listFilter:keywords:'nombre'" (click)="filterBy(ag)">
                         <span> {{ag.nombre}}</span>
                         <span fxFlex></span>
                         <button mat-icon-button mat-sm-button *ngIf="ag.id===agenciaCurr?.id" color="warn" style="margin-top: -5px;" (click)="$event.stopPropagation();removeFilter()" 

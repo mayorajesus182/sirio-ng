@@ -63,6 +63,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { DisableZoomDirective } from './screen/zoom-disable.directive';
 import { DocNumberValidateDirective } from './input/document-validate.directive';
 import { TabNavigationDirective } from './form/tab-navigation.directive';
+import { ListFilterPipe } from './pipes/list-filter.pipe';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -147,7 +148,8 @@ const toInclude = [
   RelativeTimePipe,
   ShortNumberPipe,
   ShortSizePipe,
-  ExcerptPipe
+  ExcerptPipe,
+  ListFilterPipe,
 ]
 
 @NgModule({

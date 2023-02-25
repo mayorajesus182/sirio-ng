@@ -140,7 +140,7 @@ export class TableBaseComponent {
         this.filter.subscribe(text => {
 
             if (text != undefined && this.sort) {
-                console.log('search by filter **' + text + '**');
+                // console.log('search by filter **' + text + '**');
                 this.searchTerm = text;
                 this.refreshElementList();
             }

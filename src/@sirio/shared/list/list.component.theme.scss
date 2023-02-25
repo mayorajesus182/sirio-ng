@@ -43,7 +43,7 @@ sirio-list {
     right: 0;
     // top: 10;
     // width: 100%;
-    min-width: 300px;
+    min-width: 330px;
     z-index: 1000;
     transform: translateY(-0.5%);
     visibility: hidden;
@@ -54,7 +54,11 @@ sirio-list {
     .list {
       padding-top: math.div($spacing, 3);
       max-height: 300px;
-      width: 300px;
+      min-width: 100%;
+
+      input[type='text']{
+        font-size: 1.2em;
+      }
 
       .list-item {
         display: flex;
