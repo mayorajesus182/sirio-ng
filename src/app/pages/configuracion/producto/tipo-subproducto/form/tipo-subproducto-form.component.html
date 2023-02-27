@@ -38,7 +38,7 @@
                             <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                 <mat-label>{{'byproductType.code' | translate: {default: 'global.code'} | translate }}
                                 </mat-label>
-                                <input matInput minlength="2" maxlength="2" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
+                                <input matInput maxlength="6" autocomplete="off" name="id" formControlName="id" uppercase required class="text-center">
                                 <mat-error *ngIf="f.id.errors?.required">{{'error.required' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                 <mat-error *ngIf="f.id.errors?.exists">{{'error.codeExists' | translate}}</mat-error>
@@ -64,17 +64,17 @@
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'byproductType.productType' | translate: {default: 'global.productType'} | translate"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="20" [label]="'byproductType.productType' | translate: {default: 'global.productType'} | translate"
                                 formControlName="tipoProducto" [required]="true" [elements]="tipoProductos.asObservable()" [attributeName]="'nombre'"
                                 [errors]="f.tipoProducto?.errors">
                             </sirio-select-search>
 
-                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'byproductType.personType' | translate: {default: 'global.personType'} | translate"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'byproductType.personType' | translate: {default: 'global.personType'} | translate"
                                 formControlName="tipoPersona" [required]="true" [elements]="tipoPersonas.asObservable()" [attributeName]="'nombre'"
                                 [errors]="f.tipoPersona?.errors">
                             </sirio-select-search>
 
-                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="30" [label]="'byproductType.coin' | translate: {default: 'global.coin'} | translate"
+                            <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'byproductType.coin' | translate: {default: 'global.coin'} | translate"
                                 formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'"
                                 [errors]="f.moneda?.errors">
                             </sirio-select-search>
@@ -90,6 +90,33 @@
                                     {{'byproductType.notebookCanBeRequested' | translate: {default: 'global.notebookCanBeRequested'} | translate }}
                                 </mat-slide-toggle>
                             </div>
+
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="10" *ngIf="f.tipoProducto.value === constants.PLAZO_FIJO">
+                                <mat-label>{{'byproductType.rate' | translate: {default: 'global.rate'} | translate }} </mat-label>
+                                <input matInput max="100" min="0,01" autocomplete="off" currencyMask name="tasa" formControlName="tasa"
+                                    [options]="{precision:2}" [required]="f.tipoProducto.value === constants.PLAZO_FIJO">
+                                <mat-error *ngIf="f.tasa.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf=" f.tasa.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                <mat-error *ngIf="f.tasa.errors?.max">{{'error.beLessThan' | translate}} 100</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="15" *ngIf="f.tipoProducto.value === constants.PLAZO_FIJO">
+                                <mat-label>{{'byproductType.minimum' | translate: {default: 'global.minimum'} | translate }} </mat-label>
+                                <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="minimo" formControlName="minimo"
+                                    [options]="{precision:2}" [required]="f.tipoProducto.value === constants.PLAZO_FIJO">
+                                <mat-error *ngIf="f.minimo.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf=" f.minimo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                <mat-error *ngIf="f.minimo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" fxFlex.gt-xs="15" *ngIf="f.tipoProducto.value === constants.PLAZO_FIJO">
+                                <mat-label>{{'byproductType.maximum' | translate: {default: 'global.maximum'} | translate }} </mat-label>
+                                <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="maximo" formControlName="maximo"
+                                    [options]="{precision:2}" [required]="f.tipoProducto.value === constants.PLAZO_FIJO">
+                                <mat-error *ngIf="f.maximo.errors?.required">{{'error.required' | translate}}</mat-error>
+                                <mat-error *ngIf=" f.maximo.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                <mat-error *ngIf="f.maximo.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
+                            </mat-form-field>
 
                         </div>
                     </form>

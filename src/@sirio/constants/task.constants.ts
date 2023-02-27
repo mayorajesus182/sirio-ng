@@ -7,6 +7,7 @@ export class TaskConstants {
   public static MOD_ANUL_PASE_TAQUILLA_BOVEDA = 'MOAN-PA-TB';
   public static DESPACHO_REMESA_SOLICITADA = 'DES-RM-SOL'; 
   public static CIERRE_TAQUILLA = 'CIERRE-TAQ'; 
+  public static APROBAR_RECHAZAR_RPLAZO_FIJO = 'APR-RCH-PF'; 
   public static CHEQUEAR_CLIENTE = 'CHECK-CLNT'; 
 };
 

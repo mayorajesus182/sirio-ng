@@ -44,19 +44,19 @@
 
                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                        <mat-form-field fxFlex.gt-xs="25">
+                        <mat-form-field fxFlex.gt-xs="20">
                             <mat-label>{{'byproductType.productType' | translate: {default: 'global.productType'} | translate }}
                             </mat-label>
                             <input matInput class="text-center" [value]="d.tipoProducto" readonly>
                         </mat-form-field>
 
-                        <mat-form-field fxFlex="25">
+                        <mat-form-field fxFlex="auto">
                             <mat-label>{{'byproductType.personType' | translate: {default: 'global.personType'} | translate }}
                             </mat-label>
                             <input matInput class="text-center" [value]="d.tipoPersona" readonly>
                         </mat-form-field>
 
-                        <mat-form-field fxFlex.gt-xs="30">
+                        <mat-form-field fxFlex.gt-xs="auto">
                             <mat-label>{{'byproductType.coin' | translate: {default: 'global.coin'} | translate
                                 }}</mat-label>
                             <input matInput class="text-center" [value]="d.moneda" readonly>
@@ -72,6 +72,24 @@
                             <mat-label>{{'byproductType.checkbookCanBeRequested' | translate: {default: 'global.notebookCanBeRequested'} | translate
                                 }}</mat-label>
                             <input matInput class="text-center" [value]="d.conLibreta ? 'SI' : 'NO'" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex.gt-xs="10">
+                            <mat-label>{{'byproductType.rate' | translate: {default: 'global.rate'} | translate
+                                }}</mat-label>
+                            <input matInput class="text-center" [value]="d.tasa | number: '1.2'" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex.gt-xs="15">
+                            <mat-label>{{'byproductType.minimum' | translate: {default: 'global.minimum'} | translate
+                                }}</mat-label>
+                            <input matInput class="text-center" [value]="d.minimo | number: '1.2'" readonly>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex.gt-xs="15">
+                            <mat-label>{{'byproductType.maximum' | translate: {default: 'global.maximum'} | translate
+                                }}</mat-label>
+                            <input matInput class="text-center" [value]="d.maximo | number: '1.2'" readonly>
                         </mat-form-field>
                     </div>
 

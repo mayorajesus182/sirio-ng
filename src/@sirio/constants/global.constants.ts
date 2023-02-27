@@ -26,8 +26,6 @@ export class GlobalConstants {
   public static CHEQUE_GERENCIA = '96';
   public static BOVEDA_PRINCIPAL = 'BOVPRINCIPAL';
   public static BOVEDA_PRINCIPAL_NAME = 'BÓVEDA PRINCIPAL';
-  public static CUENTA_AHORRO = '01';
-  public static CUENTA_CORRIENTE = '02';
   public static CUENTA_BANCO = 'J';
   public static TELEFONO_FIJO = 'F';
   public static TELEFONO_MOVIL = 'M';

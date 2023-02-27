@@ -45,7 +45,7 @@
                     <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'state.name' | translate:
                         {default: 'global.name'} | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let element" (click)="view(element)" [ngClass]="'tw-15'">
-                        <p class="text-truncate font-weight-600">{{element.estatusPlazoFijo}}</p>
+                        <p class="text-truncate font-weight-600">{{element.estatus}}</p>
                     </mat-cell>
                 </ng-container>
 

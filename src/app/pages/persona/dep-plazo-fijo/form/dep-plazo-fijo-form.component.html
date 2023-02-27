@@ -37,57 +37,51 @@
                                         formControlName="cuentaBancoCargo" [required]="true" [elements]="cuentas.asObservable()" [attributeName]="'descripcion'">
                                     </sirio-select-search>
 
-                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="20"
-                                        [label]="'Tipo de Producto' | translate: {default: 'Tipo de Producto'} | translate" formControlName="tipoProducto"
-                                        [required]="true" [elements]="productos.asObservable()" [attributeName]="'nombre'">
-                                    </sirio-select-search>
-
-                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="30"
+                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="40"
                                         [label]="'Tipo de Subproducto' | translate: {default: 'Tipo de Subproducto'} | translate"
                                         formControlName="tipoSubproducto" [required]="true" [elements]="subproductos.asObservable()" [attributeName]="'nombre'">
                                     </sirio-select-search>
 
-                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
-                                        <mat-label>{{'Certificado' | translate: {default: 'Certificado'} |
-                                            translate }}</mat-label>
-                                        <input matInput maxlength="6" autocomplete="off" name="certificado" formControlName="certificado" uppercase
-                                            class="text-center">
+                                    <mat-form-field fxFlex.gt-xs="90">
+                                        <mat-label>{{'Email' | translate: {default: 'Email'} | translate }}
+                                        </mat-label>
+                                        <input matInput class="text-center" [value]="persona.email" readonly>
                                     </mat-form-field>
                                 </div>
 
                                 <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                                     <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
-                                        <mat-label>{{'Fecha de Apertura' | translate: {default: 'Fecha de Apertura'} | translate }}</mat-label>
+                                        <mat-label>{{'Fecha de Emisión' | translate: {default: 'Fecha de Emisión'} | translate }}</mat-label>
                                         <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha"
-                                            [matDatepicker]="fechaPicker" [min]="todayValue" required>
+                                            [matDatepicker]="fechaPicker" required readonly>
                                         <mat-datepicker-toggle matSuffix [for]="fechaPicker" tabindex="-1">
                                         </mat-datepicker-toggle>
                                         <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
-                                            Fecha Invalida
+                                            Fecha Inválida
                                         </mat-error>
                                         <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}} </mat-error>
                                     </mat-form-field>
                                     <mat-datepicker #fechaPicker></mat-datepicker>
 
-                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="20" [label]="'Plazo' | translate: {default: 'Plazo'} | translate"
+                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="15" [label]="'Plazo' | translate: {default: 'Plazo'} | translate"
                                         formControlName="plazo" [required]="true" [elements]="plazos.asObservable()" [attributeName]="'nombre'">
                                     </sirio-select-search>
 
                                     <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                         <mat-label>{{'Fecha de Vencimiento' | translate: {default: 'Fecha de Vencimiento'} | translate }}</mat-label>
                                         <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fechaVencimiento" formControlName="fechaVencimiento"
-                                            [matDatepicker]="fechaVencimientoPicker" required>
+                                            [matDatepicker]="fechaVencimientoPicker" required readonly>
                                         <mat-datepicker-toggle matSuffix [for]="fechaVencimientoPicker" tabindex="-1">
                                         </mat-datepicker-toggle>
                                         <mat-error *ngIf="f.fechaVencimiento.errors?.matDatepickerParse">
-                                            Fecha Invalida
+                                            Fecha Inválida
                                         </mat-error>
                                         <mat-error *ngIf="f.fechaVencimiento.errors?.required">{{'error.required' | translate}} </mat-error>
                                     </mat-form-field>
                                     <mat-datepicker #fechaVencimientoPicker></mat-datepicker>
 
-                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
+                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
                                         <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }} </mat-label>
                                         <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
                                             [options]="{precision:2}" required>
@@ -96,17 +90,22 @@
                                         <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
                                     </mat-form-field>
 
-                                    <sirio-select-search fxFlex="100" fxFlex.gt-xs="20" [label]="'Tasa' | translate: {default: 'Tasa'} | translate"
-                                        formControlName="tasa" [required]="true" [elements]="tasas.asObservable()" [attributeName]="'nombre'">
-                                    </sirio-select-search>
-
                                     <mat-form-field fxFlex="100" fxFlex.gt-xs="10">
-                                        <mat-label>{{'Porcentaje' | translate: {default: 'Porcentaje'} | translate }} </mat-label>
-                                        <input matInput max="100" min="0,01" autocomplete="off" currencyMask name="porcentaje" formControlName="porcentaje"
-                                            [options]="{precision:2}" required>
-                                        <mat-error *ngIf="f.porcentaje.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf=" f.porcentaje.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                        <mat-error *ngIf="f.porcentaje.errors?.max">{{'error.beLessThan' | translate}} 100</mat-error>
+                                        <mat-label>{{'Tasa' | translate: {default: 'Tasa'} | translate }} </mat-label>
+                                        <input matInput autocomplete="off" currencyMask name="tasa" formControlName="tasa"
+                                            [options]="{precision:2}" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="15">
+                                        <mat-label>{{'Interés' | translate: {default: 'Interés'} | translate }} </mat-label>
+                                        <input matInput autocomplete="off" currencyMask name="interes" formControlName="interes"
+                                            [options]="{precision:2}" readonly>
+                                    </mat-form-field>
+
+                                    <mat-form-field fxFlex.gt-xs="15">
+                                        <mat-label>{{'Monto+Interés' | translate: {default: 'Monto+Interés'} | translate }}
+                                        </mat-label>
+                                        <input matInput class="text-center" [value]="(f.interes.value+f.monto.value) | number: '1.2'" readonly>
                                     </mat-form-field>
                                 </div>
 
@@ -135,7 +134,7 @@
 
                             </form>
 
-                                     {{printErrors() | json}}
+                                     <!-- {{printErrors() | json}} -->
                         </div>
                     </ng-container>
 

@@ -8,6 +8,7 @@ import { WFPaseEfectivoDetailComponent } from './wf-pase-efectivo/detail/wf-pase
 import { WFPaseEfectivoFormComponent } from './wf-pase-efectivo/form/wf-pase-efectivo-form.component';
 import { WFChequearPersonaJuridicoFormComponent } from './wf-revision-cliente/wf-chequear-cliente/form/wf-chequear-persona-juridico-form.component';
 import { WFChequearPersonaNaturalFormComponent } from './wf-revision-cliente/wf-chequear-cliente/form/wf-chequear-persona-natural-form.component';
+import { WFAprobarRechazarPlazoFijoFormComponent } from './wf-plazo-fijo/wf-aprobar-rechazar-plazo-fijo/wf-aprobar-rechazar-plazo-fijo-form.component';
 
 
 const workflowRoutes: Routes = [
@@ -50,6 +51,11 @@ const workflowRoutes: Routes = [
         path: 'tareas',
         component: TareasTableComponent,
         data: { title: 'Tareas Globales' }
+    },
+    {
+        path: 'plazo-fijo/:wf/:exp/approve',
+        component: WFAprobarRechazarPlazoFijoFormComponent,
+        data: { title: 'Workflow Aprobar Rechazar Plazo Fijo' }
     },
     // {
     //     path: 'solicitud-remesa/:wf/:exp/send',

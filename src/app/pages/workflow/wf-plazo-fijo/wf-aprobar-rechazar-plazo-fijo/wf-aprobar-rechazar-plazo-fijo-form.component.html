@@ -1,0 +1,153 @@
+<sirio-page-layout mode="card">
+    <sirio-page-layout-header>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['task.form']"></sirio-breadcrumbs>
+    </sirio-page-layout-header>
+
+    <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
+
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+
+            <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
+                <sirio-card-header>
+                    <sirio-card-header-heading>{{'Plazo Fijo'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{rol.nombre}}</sirio-card-header-subheading>
+                    <sirio-card-header-actions>
+                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || (loading$ | async)" (click)="save()">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+
+                        </button> -->
+                    </sirio-card-header-actions>
+                </sirio-card-header>
+                <sirio-card-content fxLayout="column">
+
+                    <div class="result" fxLayout="column" *ngIf="d.id">
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex.gt-xs="70">
+                                <mat-label>{{'Cliente' | translate: {default: 'Cliente'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.persona" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'Certificado' | translate: {default: 'Certificado'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.id" readonly>
+                            </mat-form-field>
+          
+                            <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation fxFlex.gt-xs="15">
+                                <mat-form-field fxFlex="100" fxFlex.gt-xs="100">
+                                    <mat-label>{{'Porcentaje' | translate: {default: 'Porcentaje'} | translate }} </mat-label>
+                                    <input matInput max="100" min="0,01" autocomplete="off" currencyMask name="porcentaje" formControlName="porcentaje"
+                                        [options]="{precision:2}" required>
+                                    <mat-error *ngIf="f.porcentaje.errors?.required">{{'error.required' | translate}}</mat-error>
+                                    <mat-error *ngIf=" f.porcentaje.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
+                                    <mat-error *ngIf="f.porcentaje.errors?.max">{{'error.beLessThan' | translate}} 100</mat-error>
+                                </mat-form-field>
+                            </form>
+
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'Nro. de Cuenta Cargo' | translate: {default: 'Nro. de Cuenta Cargo'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.cuentaBancoCargo" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="30">
+                                <mat-label>{{'Tipo de Producto' | translate: {default: 'Tipo de Producto'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.tipoProducto" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="40">
+                                <mat-label>{{'Tipo de Subproducto' | translate: {default: 'Tipo de Subproducto'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.tipoSubproducto" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'Fecha de Emisión' | translate: {default: 'Fecha de Emisión'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="25">
+                                <mat-label>{{'Plazo' | translate: {default: 'Plazo'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.plazo" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'Fecha de Vencimiento' | translate: {default: 'Fecha de Vencimiento'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.fechaVencimiento | date: 'dd/MM/yyyy'" readonly class="text-center">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.monto | number: '1.2'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="25">
+                                <mat-label>{{'Tasa' | translate: {default: 'Tasa'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.tasa" readonly>
+                            </mat-form-field>
+                        </div>
+
+                        <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+
+                            <mat-form-field fxFlex.gt-xs="auto">
+                                <mat-label>{{'Abonar Capital En' | translate: {default: 'Abonar Capital En'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.cuentaBancoCapital" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="auto">
+                                <mat-label>{{'Abonar Interés En' | translate: {default: 'Abonar Interés En'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.cuentaBancoInteres" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'Renovación Automática' | translate: {default: 'Renovación Automática'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.renovacion ? 'SI' : 'NO'" readonly>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="25" *ngIf="d.renovacion">
+                                <mat-label>{{'Tipo de Renovación' | translate: {default: 'Tipo de Renovación'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-center" [value]="d.tipoRenovacion" readonly>
+                            </mat-form-field>
+
+                        </div>
+
+                    </div>
+
+
+                </sirio-card-content>
+                <mat-toolbar>
+                    <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
+                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async ) ">
+                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
+                            'global.notfound'} | translate }}
+                        </button>
+                    </div>
+                </mat-toolbar>
+            </sirio-card>
+        </div>
+    </sirio-page-layout-content>
+</sirio-page-layout>

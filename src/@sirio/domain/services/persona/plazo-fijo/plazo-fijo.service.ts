@@ -11,19 +11,18 @@ export interface PlazoFijo {
     persona: number;
     cuentaBancoCargo: number;
     fecha: any;
-    tipoProducto: string;
     tipoSubproducto: string;
     moneda: string;
     plazo: string;
     fechaVencimiento: any;
     monto: number;
-    tasa: string;
-    porcentaje:number;
+    interes: number;    
+    tasa: number;
     cuentaBancoCapital: number;
     cuentaBancoInteres: number;
     renovacion: number;
     tipoRenovacion: string;
-    estatusPlazoFijo: string;
+    estatus: string;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -44,6 +43,14 @@ export class PlazoFijoService {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
+    getByExpediente(expediente: string): Observable<PlazoFijo> {
+        return this.apiService.config(this.apiConfig).get(`/${expediente}/by-expediente/get`);
+    }
+
+    detailByExpediente(expediente: string): Observable<PlazoFijo> {
+        return this.apiService.config(this.apiConfig).get(`/${expediente}/by-expediente/detail`);
+    }
+
     detail(id: string): Observable<PlazoFijo> {
         return this.apiService.config(this.apiConfig).get(`/${id}/detail`);
     }
@@ -60,6 +67,11 @@ export class PlazoFijoService {
 
     update(data: PlazoFijo): Observable<any> {
         return this.apiService.config(this.apiConfig).put(`/${data.id}/update`, data)
+            .pipe(map(res => data));
+    }
+
+    updatePorcentajeTasa(data: PlazoFijo): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/porcentaje-tasa/update`, data.tasa)
             .pipe(map(res => data));
     }
 

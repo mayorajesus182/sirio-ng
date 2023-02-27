@@ -77,6 +77,8 @@ export class TareasTableComponent extends TableBaseComponent implements OnInit, 
               this.router.navigate(['/sirio/workflow/' + personType + '/' + task.expediente + '/check']);
             });
 
+          } else if (task.rol == TaskConstants.APROBAR_RECHAZAR_RPLAZO_FIJO) {
+            this.router.navigate(['/sirio/workflow/plazo-fijo/' + task.id + '/' + task.expediente + '/approve']);
           }
 
         });

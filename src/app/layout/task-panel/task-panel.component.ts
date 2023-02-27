@@ -161,6 +161,13 @@ export class QuickpanelComponent implements OnInit {
   }
 
 
+  private wfCreacionPlazoFijo(task: Workflow) {
+    if (task.rol == TaskConstants.APROBAR_RECHAZAR_RPLAZO_FIJO) {
+        this.router.navigate(['/sirio/workflow/plazo-fijo/' + task.id + '/' + task.expediente + '/approve']);
+    } 
+  }
+
+
   // private wfDesincorporacion(id: string) {
   //   this.router.navigate([`workflow/${id}/desincorporacion`]);
   // }
