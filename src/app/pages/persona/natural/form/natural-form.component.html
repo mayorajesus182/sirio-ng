@@ -265,7 +265,7 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div fxLayout="row" fxLayout="column">
-                                    <sirio-persona-referencia-personal-table [persona]="personaNatural.id"></sirio-persona-referencia-personal-table>
+                                    <sirio-persona-referencia-personal-table [persona]="personaNatural.id "   [personaDoc]="personaNatural.identificacion"  ></sirio-persona-referencia-personal-table>
                                 </div>
                             </mat-expansion-panel>
                             <mat-expansion-panel *ngIf="hasBasicData">

@@ -64,6 +64,7 @@ export class DepositoEfectivoFormComponent extends FormBaseComponent implements 
 
         //Me trae la data de la cuenta que se selecciono
         this.f.cuentaBancaria.valueChanges.subscribe(val => {
+            console.log("hola")
             if (val && (val != '')) {
                 let cuenta = this.cuentasBancarias.value.filter(e => e.id == val)[0];
                 this.f.numeroCuenta.setValue(cuenta.numeroCuenta);

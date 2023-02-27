@@ -83,11 +83,11 @@ export class PepTableComponent extends TableBaseComponent implements OnInit, Aft
       data.persona = this.persona.id;
     }
 
-    // console.log('buscando data peps',this.peps);
+    console.log('buscando data peps',this.peps);
 
-    // console.log('buscando data persona',this.persona);
+    console.log('buscando data persona',this.persona);
 
-    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona , peps: this.peps } : { ...data, ...{ peps: this.peps } }, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(PepFormPopupComponent, !data ? { persona: this.persona , peps: this.peps , nombre: this.persona.nombre } : { ...data, ...{ peps: this.peps } }, '60%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

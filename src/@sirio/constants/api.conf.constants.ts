@@ -20,7 +20,7 @@ export class ApiConfConstants {
   public static API_PASIVO= 'pasivo';
   public static API_WORKFLOW= 'workflow';
   public static API_DEFAULT = 'default';
-
+  public static API_SERVICIO = 'servicio';
   public static APP_NAME = '/sirio/';
 
 };

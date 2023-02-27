@@ -99,6 +99,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/gestion-comercial/gestion-comercial.module').then(m => m.GestionEfectivoModule),
         data:{title:'menu.cashControl'}
       },
+
+      {
+        path: 'servicio',
+        loadChildren: () => import('./pages/servicio/servicio.module').then(m => m.servicioModule),
+        data:{title:'menu.cashControl'}
+      },
+
+
     ]
   },
   {

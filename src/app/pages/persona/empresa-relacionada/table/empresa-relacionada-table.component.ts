@@ -88,7 +88,7 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
       data.persona=this.persona;
     }    
     //this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
-    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : { ...data, ...{ referencias: this.referencias } }, '40%').afterClosed().subscribe(event => {
+    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : { ...data, ...{ referencias: this.referencias } }, '60%').afterClosed().subscribe(event => {
         if(event){
             this.onRefresh.next(true);
         }

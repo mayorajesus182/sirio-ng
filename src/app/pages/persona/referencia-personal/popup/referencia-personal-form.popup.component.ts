@@ -1,5 +1,5 @@
 
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Injector, Input, OnInit} from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
@@ -17,7 +17,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 })
 
 export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
-
+  @Input() personaDoc = undefined;
   referencia: ReferenciaPersonal = {} as ReferenciaPersonal;
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public telefonicaMovilList = new BehaviorSubject<Telefonica[]>([]);
@@ -54,9 +54,12 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     })
 
     this.referencias = this.defaults.payload.referencias;
+
+    this.personaDoc =this.defaults.payload.personaDoc
     this.cdr.detectChanges();
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
+
       this.referenciaPersonalService.get(this.defaults.payload.id).subscribe(data => {
         this.mode = 'global.edit';
         this.referencia = data;
@@ -93,7 +96,22 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
           this.f.identificacion.markAsDirty();
           this.cdr.detectChanges();
         }
+
+          if (!this.validatetitular(this.f.identificacion ? this.f.identificacion.value : undefined)) {
+            this.f.identificacion.setErrors({ exists2: true });
+            this.f.identificacion.markAsDirty();
+            this.cdr.detectChanges();
+          }
+
+
       }
+
+      // if (val) {
+
+      // }
+
+
+
     });
   }
 
@@ -110,6 +128,24 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
     console.log(this.referencias);
 
     return this.referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+  }
+
+
+
+
+  validatetitular(identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    this.cdr.detectChanges();
+
+    console.log(identificacion);
+
+    console.log(this.referencias);
+    if (this.personaDoc === identificacion){
+      return false
+    }
+    return true
   }
 
 

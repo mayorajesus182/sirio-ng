@@ -282,12 +282,12 @@
                                             </mat-label>
 
                                             <input matInput autocomplete="off" type="number" name="anhoDeclaracion" [max]="todayValue.year()"
-                                                [min]="todayValue.year()-3" class="text-center" formControlName="anhoDeclaracion" required>
-
+                                                [min]="todayValue.year()-3" class="text-center" formControlName="anhoDeclaracion">
+                                            <!-- ///cambios jesus -->
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.max">Debe ser menor o igual a {{todayValue.year()}}</mat-error>
                                             <mat-error *ngIf="f.anhoDeclaracion.errors?.min">Debe ser mayor o igual a {{todayValue.year()-3}}</mat-error>
-                                            <!-- <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Es requerido</mat-error> -->
-                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.required">{{'error.required' | translate}}</mat-error>
+                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.pattern">Debe ingresar Numero </mat-error>
+                                            <mat-error *ngIf="f.anhoDeclaracion.errors?.required">Debe ingresar Último año de Declaración </mat-error>
 
                                             <!-- {{f.anhoDeclaracion.errors | json}} -->
 
