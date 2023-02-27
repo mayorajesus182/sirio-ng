@@ -102,6 +102,12 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     });
     this.cdr.detectChanges();
 
+    if (this.pep.tipoPep = 'C') {
+      this.f.nombre.disable();
+    }
+
+
+
     this.f.identificacion.valueChanges.subscribe(val => {
 
       if (val) {

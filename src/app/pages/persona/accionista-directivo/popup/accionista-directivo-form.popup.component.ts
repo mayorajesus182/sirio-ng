@@ -222,16 +222,17 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     if (this.pepAccionistaForm.value.tipoPep == "C"){
 
       if(this.pepAccionistaForm.value.tipoDocumento == undefined ){
-         this.pepAccionistaForm.value.tipoDocumento =this.defaults.payload.tipoDocumento
 
+        this.pepAccionistaForm.value.tipoDocumento = this.f.tipoDocumento.value
        }
       if(this.pepAccionistaForm.value.identificacion == "" ){
-        this.pepAccionistaForm.value.identificacion = this.defaults.payload.identificacion
+
+        this.pepAccionistaForm.value.identificacion = this.f.identificacion.value
       }
     }
 
     this.updateDataItemForm(pep, this.pepAccionistaForm);
-    this.pepList.push(pep);
+    this.pepList.push(pep);`DX`
     this.pepAccionistas.next(this.pepList.slice());
     this.pepAccionistaForm.reset({});
     this.cdr.detectChanges();
