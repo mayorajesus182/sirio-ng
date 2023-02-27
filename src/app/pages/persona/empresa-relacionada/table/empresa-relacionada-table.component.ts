@@ -20,6 +20,7 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
+  @Input() Tipopersona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
 
   referencias: string[] = [];
@@ -51,6 +52,8 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
 
   
   ngOnInit() {
+    console.log(this.persona)
+    console.log("Tipopersona",this.Tipopersona)
     if(this.persona){
       this.loadList();
 
@@ -85,10 +88,11 @@ export class EmpresaRelacionadaTableComponent extends TableBaseComponent impleme
 
   popup(data?:EmpresaRelacionada) {
     if(data){
+      console.log(this.persona)
       data.persona=this.persona;
     }    
     //this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data?{persona:this.persona}:data,'60%').afterClosed().subscribe(event=>{
-    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias } : { ...data, ...{ referencias: this.referencias } }, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(EmpresaRelacionadaFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias , Tipopersona:this.Tipopersona} : { ...data, ...{ referencias: this.referencias } }, '60%').afterClosed().subscribe(event => {
         if(event){
             this.onRefresh.next(true);
         }

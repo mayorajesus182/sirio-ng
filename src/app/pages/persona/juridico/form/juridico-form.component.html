@@ -138,7 +138,7 @@
 
                                         <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
                                             <mat-label>{{'Sitio Web' | translate: {default: 'Sitio Web'} | translate }} </mat-label>
-                                            <input matInput maxlength="25" autocomplete="off" name="web" formControlName="web" uppercase>
+                                            <input matInput maxlength="67" autocomplete="off" name="web" formControlName="web" uppercase>
                                             <mat-error *ngIf="f.web.errors?.required">{{'error.required' | translate}}
                                             </mat-error>
                                             <mat-error *ngIf="f.web.errors?.pattern">{{'error.invalidCharacter' |
@@ -501,7 +501,7 @@
                                 </mat-expansion-panel-header>
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showEmpresaRelacionada">
-                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id"></sirio-persona-empresa-relacionada-table>
+                                    <sirio-persona-empresa-relacionada-table [persona]="personaJuridica.id"  [Tipopersona]="personaJuridica"></sirio-persona-empresa-relacionada-table>
                                 </div>
 
                             </mat-expansion-panel>
