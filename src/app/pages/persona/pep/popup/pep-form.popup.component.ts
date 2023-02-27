@@ -152,6 +152,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
 
   save() {
+    this.f.nombre.enable();
     this.updateData(this.pep);// aca actualizamos la direccion
 
     if(this.pep.persona == null ) {
