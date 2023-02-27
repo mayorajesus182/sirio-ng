@@ -68,7 +68,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
   }
 
   ngOnInit() {
-
+    console.log(this.defaults)
     this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
     this.accionistas = this.defaults.payload.accionistas;
 
@@ -218,6 +218,18 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   add() {
     let pep = {} as PepAccionista;
+
+    if (this.pepAccionistaForm.value.tipoPep == "C"){
+
+      if(this.pepAccionistaForm.value.tipoDocumento == undefined ){
+         this.pepAccionistaForm.value.tipoDocumento =this.defaults.payload.tipoDocumento
+
+       }
+      if(this.pepAccionistaForm.value.identificacion == "" ){
+        this.pepAccionistaForm.value.identificacion = this.defaults.payload.identificacion
+      }
+    }
+
     this.updateDataItemForm(pep, this.pepAccionistaForm);
     this.pepList.push(pep);
     this.pepAccionistas.next(this.pepList.slice());
@@ -274,7 +286,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     if(this.itemForm.invalid){
       return;
     }
-
+    console.log(this.accionistaDirectivo)
     this.updateData(this.accionistaDirectivo);
     this.accionistaDirectivo.persona = this.defaults.payload.persona;
 

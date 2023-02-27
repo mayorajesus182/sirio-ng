@@ -135,51 +135,17 @@ export class TableBaseComponent {
 
         this.dataSource = new DatasourceService(service, method);
         this.dataSource.paramsOpts = paramsOpts;
-        this.nameColumnSortDef= nameColumnSort;
+        this.nameColumnSortDef = nameColumnSort;
 
         this.filter.subscribe(text => {
-            
+
             if (text != undefined && this.sort) {
-                console.log('search by filter **'+text+'**');
+                // console.log('search by filter **' + text + '**');
                 this.searchTerm = text;
                 this.refreshElementList();
             }
 
         });
-
-        if (service.searchTerm) {
-            // this.filter = service.searchTerm;
-
-            // service.searchTerm.asObservable().pipe(
-            //     debounceTime(150)).subscribe(term => {
-
-            //         this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
-            //         this.paginators.first.pageIndex = 0;
-
-
-            //         this.searchTerm = term;
-            // this.refreshElementList();
-            // })
-
-        } else {
-
-
-            // service.onSearch().pipe(
-            //     debounceTime(150),
-            //     distinctUntilChanged(),
-            //     tap(term => {
-            //         this.paginators.first._intl.itemsPerPageLabel = 'Items por Pag.';
-            //         this.paginators.first.pageIndex = 0;
-            //         // console.log('term ' + term);
-            //         console.log('TERM 2', term);
-            // this.searchTerm = term;
-            // this.refreshElementList();
-            //     })
-            // ).subscribe();
-        }
-
-
-
 
     }
 
@@ -306,13 +272,15 @@ export class TableBaseComponent {
 
 
 
-    protected refreshElementList() {
+    protected refreshElementList(paramsOpts?:any) {
         if (!this.dataSource) {
             console.log('no existe datasource');
-            
+
             return;
         }
-        console.log('sort ', this.sort);
+        //
+        this.dataSource.paramsOpts = paramsOpts;
+        // console.log('sort ', this.sort);
         this.dataSource.loadData(
             this.searchTerm ? this.searchTerm : '',
             this.sort.active,

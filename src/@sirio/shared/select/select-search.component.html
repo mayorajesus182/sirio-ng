@@ -1,7 +1,7 @@
 <mat-form-field fxFlex="auto" >
     <mat-label>{{label}}</mat-label>
 
-    <mat-select [formControl]="selectSearchControl" #searchSelect [multiple]="multiple" *ngIf="!readonly"  [autofocus]="autofocus"
+    <mat-select [formControl]="selectSearchControl" #searchSelect [multiple]="multiple" *ngIf="!readonly && !disabled"  [autofocus]="autofocus"
         (change)="propagateChange($event.target.value)" (blur)="propagateTouched($event)" [required]="required">
    
         <mat-option>
@@ -20,6 +20,6 @@
     </mat-select>
     <mat-error *ngIf="selectSearchControl.errors?.required">Requerido</mat-error>
     <!-- {{errors|json}} -->
-    <input matInput [value]="showName(selectSearchControl.value)" readonly *ngIf="readonly" [disabled]="disabled">
+    <input matInput [value]="showName(selectSearchControl.value)" readonly *ngIf="readonly || disabled" [disabled]="disabled">
 
 </mat-form-field>

@@ -188,24 +188,7 @@ export class FormBaseComponent {
 
 
     moveFocusToNextField(form: NgForm) {
-        console.log(form.form.controls);
-        // const fields = form.controls.filter(c => c instanceof HTMLElement) as any[];
-        // const fields = Array.from(form.nativeElement.querySelectorAll('input, select,radio,checkboc, textarea, button')) as any[];
-        console.log("**** fields *****");
-        // console.log(fields);
         
-        // const currentIndex = fields.indexOf(document.activeElement);
-        // if (currentIndex > -1 && currentIndex < fields.length - 1) {
-        //     fields[currentIndex + 1].focus();
-        // }
-
-
-        // const element = form. as HTMLInputElement;
-        // const tabIndex = +element.getAttribute('tabindex');
-        // const nextElement = form.form.nativeElement.querySelector(`[tabindex="${tabIndex + 1}"]`) as HTMLInputElement;
-        // if (nextElement) {
-        //   nextElement.focus();
-        // }
 
     }
 
@@ -354,7 +337,7 @@ export class FormBaseComponent {
         if (this.isNew) {
             const saveRequest = service.save(formData);
             return saveRequest.subscribe(data => {
-                this.itemForm.reset({});
+               //this.itemForm.reset({});
                 // this.resetForm()
                 this.successResponse(entityName, 'cread' + (entityName.indexOf('La') == 0 ? 'a' : 'o'), !back);
 

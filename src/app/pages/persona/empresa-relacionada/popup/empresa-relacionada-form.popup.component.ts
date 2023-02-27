@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { BehaviorSubject } from 'rxjs';
+import {BehaviorSubject, concat} from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
@@ -24,7 +24,7 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   public tipodocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
 
   referencias = [];
-  
+  tipoDocumento = undefined;
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
     dialogRef: MatDialogRef<EmpresaRelacionadaFormPopupComponent>,
@@ -45,7 +45,8 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
   ngOnInit() {
 
     this.referencias = this.defaults.payload.referencias;
-
+    this.tipoDocumento =this.defaults.payload.Tipopersona.tipoDocumento+this.defaults.payload.Tipopersona.identificacion ;
+    console.log(this.tipoDocumento)
     if (GlobalConstants.TIPO_PERSONA == 'J') {
       this.tipoRelacionService.actives().subscribe(data => {
         this.tipoRelacionList.next(data);
@@ -100,7 +101,14 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
           this.f.identificacion.markAsDirty();
           this.cdr.detectChanges();
         }
+
+        if (!this.validateTitular(this.tipoDocumento ? this.f.tipoDocumento.value : undefined, this.f.identificacion ? this.f.identificacion.value : undefined)) {
+          this.f.identificacion.setErrors({ exists2: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+        }
       }
+
     });
 
   }
@@ -111,14 +119,29 @@ export class EmpresaRelacionadaFormPopupComponent extends PopupBaseComponent imp
     }
     this.cdr.detectChanges();
 
-    // console.log(tipoDocumento);
+    console.log(tipoDocumento);
 
-    // console.log(identificacion);
+    console.log(identificacion);
 
-    // console.log(this.empresaRelacionada);
+    console.log(this.referencias);
 
-    return this. referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
+    return this.referencias.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
+
+
+
+  validateTitular(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    console.log(identificacion);
+    this.cdr.detectChanges();
+    if( this.tipoDocumento === tipoDocumento + identificacion){
+      return false
+    }
+    return true
+  }
+
 
 
   save() {

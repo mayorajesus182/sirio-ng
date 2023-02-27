@@ -204,6 +204,8 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             montoDeclarado: new FormControl(this.personaJuridica.montoDeclarado || undefined ? this.personaJuridica.montoDeclarado : '', [Validators.required]),
             email: new FormControl(this.personaJuridica.email || '', [Validators.required]),
             web: new FormControl(this.personaJuridica.web || '')
+
+            //[Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
         });
 
         // verifico si tengo datos basicos cargados
@@ -262,7 +264,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     }
 
     queryResult(event) {
-
+console.log(event)
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
             this.personaJuridica = {} as PersonaJuridica;
