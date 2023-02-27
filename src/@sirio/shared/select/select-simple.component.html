@@ -1,7 +1,7 @@
 <mat-form-field appearance="outline" fxFlex="auto">
     <mat-label>{{label}}</mat-label>
 
-    <mat-select  *ngIf="!readonly" [formControl]="selectControl" #singleSelect
+    <mat-select  *ngIf="!readonly && !disabled" [formControl]="selectControl" #singleSelect
         (change)="propagateChange($event.target.value)" (blur)="propagateTouched($event)" [required]="required">
         <mat-option *ngIf="!required" ><small>NINGUNO</small></mat-option>
         <mat-option *ngFor="let elem of filteredElements | async" [value]="elem.id">
@@ -12,5 +12,5 @@
     <mat-error *ngIf="selectControl.errors?.required ">Requerido</mat-error>
 
     <!-- {{selectControl?.value | json}}  -->
-    <input matInput [value]="showName(selectControl.value)" readonly *ngIf="readonly">
+    <input matInput [value]="showName(selectControl.value)" readonly *ngIf="readonly || disabled" [disabled]="disabled">
 </mat-form-field>
