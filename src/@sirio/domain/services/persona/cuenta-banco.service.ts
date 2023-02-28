@@ -35,7 +35,7 @@ export interface CuentaBanco {
     providedIn:'root'
 })
 export class CuentaBancoService {
-    searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService

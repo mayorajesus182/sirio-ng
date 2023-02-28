@@ -13,7 +13,7 @@
 
 
 <mat-dialog-content>
-    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
+    <form [formGroup]="itemForm" *ngIf="itemForm && (loaded | async)" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Tipo Ingreso'" [readonly]="!isNew" formControlName="tipoIngreso" [required]="true"
@@ -176,6 +176,8 @@
       </mat-form-field>
     </div>
   </form>
+
+  <sirio-loading-overlay [isLoading]="!(loaded | async)"></sirio-loading-overlay>
 
   </mat-dialog-content>
   <!-- {{printErrors() | json}} -->
