@@ -8,6 +8,11 @@
   flex-direction: column;
   position: relative;
   max-width: 100%;
+
+  *::before,
+  *::after {
+    box-sizing: border-box !important;
+  }
 }
 
 .sirio-card>.mat-tab-group {

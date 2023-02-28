@@ -1,20 +1,21 @@
 @import "var";
 
-.taskPanel{
+.taskPanel {
   width: 30%;
 }
 
-.container {
+.sirio-container {
   height: 100%;
   position: relative;
+
 }
 
 .content-container {
   overflow: hidden;
 }
 
-.text-menu{
-  color:#586289;
+.text-menu {
+  color: #586289;
 }
 
 .content {
@@ -29,6 +30,16 @@
     }
   }
 }
+
+
+@media (min-width: 1400px) {
+  .sirio-container {
+    max-width: 100%;
+  }
+}
+
+
+
 // .notifier__notification{
 //   top: 20px !important;
 // }

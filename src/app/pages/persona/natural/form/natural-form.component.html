@@ -29,6 +29,13 @@
                     </sirio-person-query>
 
                     <ng-container *ngIf="loaded$ | async">
+                        
+                        <ng-container *ngIf="errors.length>0">
+                            <ngb-alert [dismissible]="true" >
+                                <strong>¡Información Importante!</strong> El cliente tiene pendiente la carga de la siguiente información: <br>
+
+                            </ngb-alert>                        
+                        </ng-container>
                         <mat-accordion class="expansion-headers-align">
                             <mat-expansion-panel expanded="true">
                                 <mat-expansion-panel-header class="odd margin-bottom-xs">

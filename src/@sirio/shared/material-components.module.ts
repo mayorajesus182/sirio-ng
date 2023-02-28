@@ -64,6 +64,7 @@ import { DisableZoomDirective } from './screen/zoom-disable.directive';
 import { DocNumberValidateDirective } from './input/document-validate.directive';
 import { TabNavigationDirective } from './form/tab-navigation.directive';
 import { ListFilterPipe } from './pipes/list-filter.pipe';
+import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -213,6 +214,7 @@ const toInclude = [
     IMaskModule,
     SweetAlert2Module,
     NotifierModule,
+    NgbAlertModule,
     toInclude
   ],
   

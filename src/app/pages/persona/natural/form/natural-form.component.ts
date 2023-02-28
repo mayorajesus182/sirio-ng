@@ -36,6 +36,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     fromOtherComponent: boolean = false;
     todayValue: moment.Moment = moment();
     totalAddress: number;
+    errors=[];
 
 
     totalRegistroMercantil: number;
@@ -292,8 +293,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                     this.addOrRemoveFieldValidator('nombreConyuge', false)
                     this.addOrRemoveFieldValidator('fuenteIngreso', false)
 
-
-
                     this.cdr.detectChanges();
 
                 }
@@ -385,6 +384,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     send() {
         this.disabled$.next(true);
+
         this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
             if (!resp.dismiss) {
