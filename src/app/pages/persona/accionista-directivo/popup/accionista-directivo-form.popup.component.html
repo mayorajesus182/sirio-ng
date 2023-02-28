@@ -35,7 +35,7 @@
                     'Número Documento '} | translate }} </mat-label>
                 <input matInput maxlength="200"  autocomplete="off" name="identificacion" doc-number-validate [tipo_documento]="f.tipoDocumento?.value" formControlName="identificacion" uppercase required class="text-center">
                 <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}</mat-error>
-                <!-- <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error> -->
+                 <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.exists">Número Existe</mat-error>
                 <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error>
             </mat-form-field>

@@ -127,7 +127,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.itemForm = this.fb.group({
 
       tipoDocumento: new FormControl(this.accionistaDirectivo.tipoDocumento || undefined, [Validators.required]),
-      identificacion: new FormControl(this.accionistaDirectivo.identificacion || undefined, [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
+      identificacion: new FormControl(this.accionistaDirectivo.identificacion || undefined, [Validators.required]),
       nombre: new FormControl(this.accionistaDirectivo.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
       cargo: new FormControl(this.accionistaDirectivo.cargo || undefined, [Validators.required]),
       porcentaje: new FormControl(this.accionistaDirectivo.porcentaje || 0, [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)]),

@@ -71,7 +71,7 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
       tomo: new FormControl(this.registroMercantil.tomo || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
       capitalSocial: new FormControl(this.registroMercantil.capitalSocial || undefined),
       ente: new FormControl(this.registroMercantil.ente || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_ACCENTS_CHARACTERS_SPACE)),
-      gaceta: new FormControl(this.registroMercantil.gaceta || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
+      gaceta: new FormControl(this.registroMercantil.gaceta || undefined, Validators.pattern(RegularExpConstants.NUMERIC_POINT)),
       decreto: new FormControl(this.registroMercantil.decreto || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
       codigoOnt: new FormControl(this.registroMercantil.codigoOnt || undefined, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS)),
     });
