@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, Inject, Injector, OnInit }
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, forkJoin } from 'rxjs';
 import { GlobalConstants, TipoIngresoConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
@@ -69,68 +69,95 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     console.log("informacionLaborales",this.informacionLaborales);
 
-    this.calendarioService.today().subscribe(data => {
-      this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-    });
+    // this.calendarioService.today().subscribe(data => {
+    //   this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
+    // });
+
 
     // this.tipoIngresoService.actives().subscribe(data => {
-    //   this.tipoingresoList.next(data);
+    //   // this.tipoingresoList.next(data.filter(d=>!this.informacionLaborales.map(p=>p.tipo).includes(d.nombre) || this.informacionLaborales.length ==0 ));
+    //   this.tipoingresoList.next(data.filter(d=>!this.informacionLaborales.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.informacionLaborales.length ==0 ));
+
+    //   this.cdr.detectChanges();
+    // })
+
+
+    // this.tipoDocumentoService.activesJuridicos().subscribe(data => {
+    //   this.tipodocumentoList.next(data);
+    //   this.cdr.detectChanges();
+    // })
+
+    // this.telefonicaService.actives().subscribe(data => {
+    //   this.telefonicaList.next(data);
+    //   this.cdr.detectChanges();
+    // })
+
+    // this.ramoService.actives().subscribe(data => {
+    //   this.ramoList.next(data);
 
     // })
 
-    this.tipoIngresoService.actives().subscribe(data => {
-      // this.tipoingresoList.next(data.filter(d=>!this.informacionLaborales.map(p=>p.tipo).includes(d.nombre) || this.informacionLaborales.length ==0 ));
-      this.tipoingresoList.next(data.filter(d=>!this.informacionLaborales.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.informacionLaborales.length ==0 ));
-     
-      this.cdr.detectChanges();
-    })
+    // this.actividadIndependienteService.actives().subscribe(data => {
+    //   this.actinDependienteList.next(data);
+
+    // })
+
+    // this.paisService.actives().subscribe(data => {
+    //   this.paisList.next(data);
+
+    // })
+
+    // this.profesionService.actives().subscribe(data => {
+    //   this.profesionList.next(data);
+
+    // });
 
 
-    this.tipoDocumentoService.activesJuridicos().subscribe(data => {
-      this.tipodocumentoList.next(data);
-      this.cdr.detectChanges();
-    })
+    this.loaded.next(false);
+    forkJoin([
+      this.tipoIngresoService.actives(),
+      this.calendarioService.today(),
+      this.tipoDocumentoService.activesJuridicos(),
+      this.telefonicaService.actives(),
+      this.ramoService.actives(),
+      this.actividadIndependienteService.actives(),
+      this.paisService.actives(),
+      this.profesionService.actives()
+    ]).subscribe(
+      (data: any) => {
+        // aquí se tiene toda la info de todas las peticiones
+        
 
-    this.telefonicaService.actives().subscribe(data => {
-      this.telefonicaList.next(data);
-      this.cdr.detectChanges();
-    })
+        // this.tipoingresoList.next(data[0]);
+        this.tipoingresoList.next(data[0].filter((d: any )=>!this.informacionLaborales.map(p=>p.tipo).includes(d.id) || this.defaults.payload.id!=undefined || this.informacionLaborales.length ==0 ));
+        this.todayValue = moment(data[1], GlobalConstants.DATE_SHORT);
+        this.tipodocumentoList.next(data[2]);
+        this.telefonicaList.next(data[3]);
+        this.ramoList.next(data[4]);
+        this.actinDependienteList.next(data[5]);
+        this.profesionList.next(data[6]);
 
-    this.ramoService.actives().subscribe(data => {
-      this.ramoList.next(data);
+        this.loaded.next(true);
 
-    })
+        this.loadingDataForm.next(true);
+        if (this.defaults.payload.id) {
+          this.informacionLaboralService.get(this.defaults.payload.id).subscribe(data => {
+            this.mode = 'global.edit';
+            this.informacionLaboral = data;
+            this.buildForm();
+            this.loadingDataForm.next(false);
+            this.cdr.detectChanges();
 
-    this.actividadIndependienteService.actives().subscribe(data => {
-      this.actinDependienteList.next(data);
+          })
+        } else {
+          this.informacionLaboral = {} as InformacionLaboral;
+          this.buildForm();
+          this.loadingDataForm.next(false);
+        }
+        // this.loadingDataForm.next(false);
+      });
 
-    })
 
-    this.paisService.actives().subscribe(data => {
-      this.paisList.next(data);
-
-    })
-
-    this.profesionService.actives().subscribe(data => {
-      this.profesionList.next(data);
-
-    })
-
-    this.loadingDataForm.next(true);
-    if (this.defaults.payload.id) {
-      this.informacionLaboralService.get(this.defaults.payload.id).subscribe(data => {
-        this.mode = 'global.edit';
-        this.informacionLaboral = data;
-        this.buildForm();
-        this.loadingDataForm.next(false);
-        this.cdr.detectChanges();
-
-      })
-    } else {
-      this.informacionLaboral = {} as InformacionLaboral;
-      this.buildForm();
-      this.loadingDataForm.next(false);
-    }
   }
 
   refreshValidators(val: string) {
@@ -141,8 +168,8 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
     if (val === TipoIngresoConstants.OTROS_INGRESOS) {
       this.removeValidator(['tipoIngreso', 'remuneracion', 'actividadIndependiente']);
     }
-    if(val === TipoIngresoConstants.NEGOCIO_PROPIO){
-      this.removeValidator(['tipoIngreso','remuneracion','ramo','direccion', 'telefono', 'registro', 'numero', 'tomo', 'folio', 'fecha','empresa', 'identificacion' ]);
+    if (val === TipoIngresoConstants.NEGOCIO_PROPIO) {
+      this.removeValidator(['tipoIngreso', 'remuneracion', 'ramo', 'direccion', 'telefono', 'registro', 'numero', 'tomo', 'folio', 'fecha', 'empresa', 'identificacion']);
     }
 
     if (val === TipoIngresoConstants.RELACION_DEPENDENCIA) {
@@ -171,9 +198,9 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       // direccion: new FormControl(this.informacionLaboral.direccion || '', [Validators.required]),
 
       direccion: new FormControl(this.informacionLaboral.direccion || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
-      
 
-      
+
+
       profesion: new FormControl(this.informacionLaboral.profesion || undefined),
       remuneracion: new FormControl(this.informacionLaboral.remuneracion || undefined, [Validators.required]),
     });
@@ -216,10 +243,10 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
   save() {
 
-    console.log("pruebas log informacionLaboral", this.informacionLaboral)
+    // console.log("pruebas log informacionLaboral", this.informacionLaboral)
 
     this.updateData(this.informacionLaboral);// aca actualizamos Informacion Laboral
-   this.informacionLaboral.profesion = this.informacionLaboral.profesion;
+    this.informacionLaboral.profesion = this.informacionLaboral.profesion;
 
     this.informacionLaboral.persona = this.defaults.payload.persona;
     this.informacionLaboral.fecha = this.informacionLaboral.fecha ? this.informacionLaboral.fecha.format('DD/MM/YYYY') : '';
