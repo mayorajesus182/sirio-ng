@@ -13,6 +13,7 @@ import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-doc
 import { Interviniente, IntervinienteService } from 'src/@sirio/domain/services/persona/interviniente/interviniente.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 
 @Component({
   selector: 'sirio-interviniente-form.popup',
@@ -142,7 +143,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     this.itemForm = undefined;
     if (!event.id && !event.numper) {
       this.interviniente = {} as Interviniente;
-      const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
+      const tpersona = event.tipoPersona == PersonaConstants.PERSONA_JURIDICA ? 'juridico' : 'natural';
       this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
       this.dialogRef.close();
     } else {

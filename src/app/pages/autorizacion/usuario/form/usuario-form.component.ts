@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants, RolConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { Perfil, PerfilService } from 'src/@sirio/domain/services/autorizacion/perfil.service';
 import { Usuario, UsuarioService } from 'src/@sirio/domain/services/autorizacion/usuario.service';
 import { Region, RegionService } from 'src/@sirio/domain/services/configuracion/gestion-efectivo/region.service';
@@ -134,11 +135,11 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
 
 
-                this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_FIJO).subscribe(data => {
+                this.telefonicaService.activesByTipoTelefonica(PersonaConstants.TELEFONO_FIJO).subscribe(data => {
                     this.telefonicaFijaList.next(data);
                 })
 
-                this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_MOVIL).subscribe(data => {
+                this.telefonicaService.activesByTipoTelefonica(PersonaConstants.TELEFONO_MOVIL).subscribe(data => {
                     this.telefonicaMovilList.next(data);
                 })
             }

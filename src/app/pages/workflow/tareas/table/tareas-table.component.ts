@@ -13,6 +13,7 @@ import { Workflow } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { GlobalConstants } from 'src/@sirio/constants';
 import { TaskConstants } from 'src/@sirio/constants/task.constants';
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 
 @Component({
   selector: 'app-tareas-table',
@@ -71,7 +72,7 @@ export class TareasTableComponent extends TableBaseComponent implements OnInit, 
           } else if (task.rol == TaskConstants.CHEQUEAR_CLIENTE) {
             this.personaService.getByExpediente(task.expediente).subscribe(data => {
               this.persona = data;
-              const personType = data.tipoPersona == GlobalConstants.PERSONA_NATURAL ? 'natural' : 'juridico';
+              const personType = data.tipoPersona == PersonaConstants.PERSONA_NATURAL ? 'natural' : 'juridico';
               this.router.navigate(['/sirio/workflow/' + personType + '/' + task.expediente + '/check']);
             })
           } else if (task.rol == TaskConstants.APROBAR_RECHAZAR_PLAZO_FIJO) {

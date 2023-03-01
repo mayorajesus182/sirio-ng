@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoProducto } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
@@ -70,7 +71,7 @@ export class PagoChequeGerenciaFormComponent extends FormBaseComponent implement
                 this.loadingDataForm.next(false);
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
                     if (val) {
-                        this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+                        this.tipoDocumentoService.activesByTipoPersona(PersonaConstants.PERSONA_NATURAL).subscribe(data => {
                             this.tipoDocumentos.next(data);
                         });
                     }

@@ -7,6 +7,7 @@ import {BehaviorSubject, ReplaySubject} from 'rxjs';
 import {fadeInRightAnimation} from 'src/@sirio/animations/fade-in-right.animation';
 import {fadeInUpAnimation} from 'src/@sirio/animations/fade-in-up.animation';
 import {GlobalConstants, RegularExpConstants} from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import {CalendarioService} from 'src/@sirio/domain/services/calendario/calendar.service';
 import {Tenencia, TenenciaService} from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
 import {Pais, PaisService} from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
@@ -76,7 +77,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     btnCreateDisabled = true;
     nombreCompletoPersona = 'FULL NAME';
     personaNatural: PersonaNatural = {} as PersonaNatural;
-    constants = GlobalConstants;
+    constants = PersonaConstants;
     estado_civil: string;
 
     tipoDocumento = undefined ;
@@ -465,7 +466,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     evaluarTipoDocumentoMenor(): boolean {
-        return this.tipo_DocumentoMenor == this.constants.PN_TIPO_DOC_MENOR;
+        return this.tipo_DocumentoMenor == this.constants.TIPDOC_MENOR;
     }
 
     updateAddress(event) {

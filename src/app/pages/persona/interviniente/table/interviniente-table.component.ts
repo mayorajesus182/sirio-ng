@@ -10,6 +10,7 @@ import { CalendarioService } from 'src/@sirio/domain/services/calendario/calenda
 import { Interviniente, IntervinienteService } from 'src/@sirio/domain/services/persona/interviniente/interviniente.service';
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { IntervinienteFormPopupComponent } from '../popup/interviniente-form.popup.component';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 
 @Component({
   selector: 'sirio-persona-interviniente-table',
@@ -47,7 +48,7 @@ export class IntervinienteTableComponent extends TableBaseComponent implements O
     this.intervinienteService.allByCuentaId(this.cuenta).subscribe((data) => {
       console.log(data);
       this.intervinientes = data.map(i => i.identificacion);// esto es para validar que no incluyan el mismo interviniente
-      this.multipleFirmantes = data.filter(f => f.tipoFirma != GlobalConstants.TIPO_FIRMA_UNICA).length > 0;// verificar si la firma es conjunta o separada
+      this.multipleFirmantes = data.filter(f => f.tipoFirma != PersonaConstants.TIPO_FIRMA_UNICA).length > 0;// verificar si la firma es conjunta o separada
 
       this.intervinienteList.next(data.slice());
       // this.propagar.emit(data.length);

@@ -10,6 +10,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
 import { fadeInUpAnimation } from "src/@sirio/animations/fade-in-up.animation";
 import { GlobalConstants } from "src/@sirio/constants";
+import { PersonaConstants } from "src/@sirio/constants/persona.constants";
 import { TipoDocumento, TipoDocumentoService } from "src/@sirio/domain/services/configuracion/tipo-documento.service";
 import { CuentaBancariaService } from "src/@sirio/domain/services/cuenta-bancaria.service";
 import { PersonaDataMandatoryService } from "src/@sirio/domain/services/persona/persona-data-mandatory.service";
@@ -129,7 +130,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     private buildForm() {
         this.searchForm = this.fb.group({
-            tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT),
+            tipoDocumento: new FormControl(this.tipo_persona ? (this.tipo_persona == PersonaConstants.PERSONA_JURIDICA ? PersonaConstants.PJ_TIPO_DOC_DEFAULT : PersonaConstants.PN_TIPO_DOC_DEFAULT) : PersonaConstants.PN_TIPO_DOC_DEFAULT),
             identificacion: new FormControl('', []),
             nombre: new FormControl({ value: '', disabled: true }),
             cuenta: new FormControl(''),
@@ -417,7 +418,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.searchForm.controls['cuenta'].enable();
         this.searchForm.controls['identificacion'].enable();
         this.searchForm.controls['tipoDocumento'].enable();
-        this.searchForm.controls['tipoDocumento'].setValue(this.tipo_persona ? (this.tipo_persona == GlobalConstants.PERSONA_JURIDICA ? GlobalConstants.PJ_TIPO_DOC_DEFAULT : GlobalConstants.PN_TIPO_DOC_DEFAULT) : GlobalConstants.PN_TIPO_DOC_DEFAULT)
+        this.searchForm.controls['tipoDocumento'].setValue(this.tipo_persona ? (this.tipo_persona == PersonaConstants.PERSONA_JURIDICA ? PersonaConstants.PJ_TIPO_DOC_DEFAULT : PersonaConstants.PN_TIPO_DOC_DEFAULT) : PersonaConstants.PN_TIPO_DOC_DEFAULT)
         // console.log('reset all ', this.searchForm.value);
 
         this.disableBtn.next(true);
@@ -450,7 +451,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             return true;
         } else if (this.tipo_persona) {
 
-            return this.tipo_persona == GlobalConstants.PERSONA_NATURAL;
+            return this.tipo_persona == PersonaConstants.PERSONA_NATURAL;
         }
 
         return false;
@@ -458,7 +459,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     isLegalPerson() {
 
-        let isLegal = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
+        let isLegal = this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).includes(PersonaConstants.PERSONA_JURIDICA);
         // console.log('tipo doc selected', this.search.tipoDocumento.value, isLegal);
 
 
@@ -467,7 +468,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             return true;
         } else if (this.tipo_persona) {
 
-            return this.tipo_persona == GlobalConstants.PERSONA_JURIDICA;
+            return this.tipo_persona == PersonaConstants.PERSONA_JURIDICA;
         }
 
         return false;
