@@ -14,6 +14,7 @@ import { ActividadEspecifica, ActividadEspecificaService } from 'src/@sirio/doma
 import { CategoriaEspecial, CategoriaEspecialService } from 'src/@sirio/domain/services/configuracion/persona-juridica/categoria-especial.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
+import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
 import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
@@ -30,7 +31,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     fromOtherComponent: boolean = false;
     todayValue: moment.Moment = moment();
-    errors=[];
+    errors = [];
     totalAddress: number;
     totalInfoLab: number;
     totalPep: number;
@@ -83,7 +84,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private personaJuridicaService: PersonaJuridicaService,
-
+        private mandatoyDataService: PersonaDataMandatoryService,
         private tipoDocumentoService: TipoDocumentoService,
         private paisService: PaisService,
         private calendarioService: CalendarioService,
@@ -250,24 +251,30 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
         this.loaded$.next(false);
         this.loadingDataForm.next(true);
+        
         this.personaJuridicaService.get(Number.parseInt(event.id)).subscribe(val => {
             this.personaJuridica = val;
-            //TODO: OJO REVISAR ESTO LUEGO
-            // this.itemForm.reset({});
+            //TODO: OJO REVISAR ESTO LUEGO            
             this.buildForm();
             this.loadingDataForm.next(false);
             this.loaded$.next(true);
             this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
-        
-        
-        
+
+        // realizo verificación de la info minima para el cliente
+        this.mandatoyDataService.validate(Number.parseInt(event.id)).subscribe(data => {
+            console.log('errors', data);
+            this.errors = data;
+        });
+
+
+
 
     }
 
     queryResult(event) {
-console.log(event)
+        console.log(event)
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
             this.personaJuridica = {} as PersonaJuridica;
@@ -306,30 +313,42 @@ console.log(event)
 
     send() {
         this.disabled$.next(true);
-        this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
-            if (!resp.dismiss) {
+        this.mandatoyDataService.validate(this.personaJuridica.id).subscribe(data => {
+            console.log('errors', data);
+            this.loadingDataForm.next(true);
 
-                this.loadingDataForm.next(true);
+            if (data.length == 0) {
 
-                this.personaService.send(this.personaJuridica.id).subscribe(() => {
+                this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
-                    // simular que fui al servidor para luego enviar a la persona al modulo de apertura
-                    this.successResponse('Operacion', 'aplicada', true);
-                    this.loadingDataForm.next(false);
-                    this.disabled$.next(false);
-                    this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
+                    if (!resp.dismiss) {
+
+                        this.loadingDataForm.next(true);
+
+                        this.personaService.send(this.personaJuridica.id).subscribe(() => {
+
+                            // simular que fui al servidor para luego enviar a la persona al modulo de apertura
+                            this.successResponse('Operacion', 'aplicada', true);
+                            this.loadingDataForm.next(false);
+                            this.disabled$.next(false);
+                            this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
 
 
-                }, err => {
-                    this.errorResponse(err)
+                        }, err => {
+                            this.errorResponse(err)
+                        });
+
+                    } else {
+                        this.disabled$.next(false);
+                    }
+
                 });
-
-            } else {
-                this.disabled$.next(false);
             }
 
+
         });
+
     }
 
 
