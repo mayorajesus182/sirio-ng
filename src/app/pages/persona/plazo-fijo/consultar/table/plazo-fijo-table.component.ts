@@ -31,44 +31,56 @@ export class PlazoFijoTableComponent extends TableBaseComponent implements OnIni
     protected plazoFijoService: PlazoFijoService,
     private cdr: ChangeDetectorRef,
   ) {
-    super(undefined,  injector);
+    super(undefined, injector);
   }
 
   ngOnInit() {
-    this.init(this.plazoFijoService, 'plazofijo_id','pageByParams');
+    this.loaded$.next(false);
+    
+    this.init(this.plazoFijoService, 'plazofijo_id', 'pageByParams',{ persona: 0 });
   }
 
   ngAfterViewInit() {
     this.afterInit();
+    // this.loaded$.subscribe(v=>{
+    //   setTimeout(() => {
+    //     this.refreshElementList({ persona: this.persona.id });        
+    //   }, 2000);
+    // });
   }
 
 
-  add(path:string) {    
+  add(path: string) {
     this.router.navigate([`${this.buildPrefixPath(path)}/add`]);
   }
 
-  edit(data:any) {    
+  edit(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/edit`]);
   }
 
-  view(data:any) {
+  view(data: any) {
     this.router.navigate([`${this.buildPrefixPath(data.path)}${data.element.id}/view`]);
   }
 
-  activateOrInactivate(data:any) {
+  activateOrInactivate(data: any) {
     this.applyChangeStatus(this.plazoFijoService, data.element, data.element.fecha, this.cdr);
   }
 
   queryResult(event) {
     //**  */
     if (!event.id && !event.numper) {
-        this.persona = {} as Persona;
-        this.cdr.detectChanges();
+      this.loaded$.next(false);
+      this.persona = {} as Persona;
+      this.cdr.detectChanges();
     } else {
-        this.persona = event;
-        this.refreshElementList({persona:this.persona.id});
+      this.persona = event;
+      console.log(this.persona);
+      
+      this.refreshElementList({ persona: this.persona.id });
+
+      this.loaded$.next(true);
     }
-}
+  }
 
 }
 

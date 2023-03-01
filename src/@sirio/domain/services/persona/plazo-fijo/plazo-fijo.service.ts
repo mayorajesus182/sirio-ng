@@ -65,6 +65,8 @@ export class PlazoFijoService {
             .set('direction', sortOrder)
             .set('page', pageNumber.toString())
             .set('size', pageSize.toString());
+            console.log(paramsOpts);
+            
         return this.apiService.config(this.apiConfig).get('/page', params, paramsOpts);
     }
 
