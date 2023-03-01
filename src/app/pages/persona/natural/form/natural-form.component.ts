@@ -27,8 +27,9 @@ import {Genero, GeneroService} from 'src/@sirio/domain/services/configuracion/pe
 import {Profesion, ProfesionService} from 'src/@sirio/domain/services/configuracion/persona-natural/profesion.service';
 import {TipoDocumento, TipoDocumentoService} from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import {Direccion} from 'src/@sirio/domain/services/persona/direccion/direccion.service';
+import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import {PersonaNatural, PersonaNaturalService} from 'src/@sirio/domain/services/persona/persona-natural.service';
-import {PersonaService} from 'src/@sirio/domain/services/persona/persona.service';
+import {Persona, PersonaService} from 'src/@sirio/domain/services/persona/persona.service';
 import {FormBaseComponent} from 'src/@sirio/shared/base/form-base.component';
 
 
@@ -101,6 +102,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         dialog: MatDialog,
         private fb: FormBuilder,
         private route: ActivatedRoute,
+        private mandatoyDataService: PersonaDataMandatoryService,
         private personaService: PersonaService,
         private personaNaturalService: PersonaNaturalService,
         private tipoDocumentoService: TipoDocumentoService,
@@ -119,6 +121,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     get search() {
         return this.searchForm ? this.searchForm.controls : {};
+    }
+
+    get warnings(){
+        return this.mandatoyDataService.errorsToHtml(this.errors);
     }
 
 
@@ -196,22 +202,17 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                 this.personaNatural.tipoDocumento = data.get('tdoc');
 
                 this.isNew = this.router.url.endsWith('/add') || this.router.url.endsWith('/edit');
-                // if(){
-                //     this.buildForm();
-                // }
+                
                 this.buildForm();
                 this.loaded$.next(true);
-                // if( this.router.url.endsWith("/add")){
-                // }else if(){
-                //     this.isNew=false;
-                // }
+                
                 this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
 
                     this.updatePerson(p);
 
                 }, error => {
                     this.isNew = true;
-                    // this.buildForm();
+                    
                 });
             }
         });
@@ -377,14 +378,23 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.personaNatural = val;
             // console.log(this.personaNatural);             
             //TODO: OJO REVISAR ESTO LUEGO
-            // this.itemForm.reset({});
+            
             this.buildForm();
             this.loadingDataForm.next(false);
             this.loaded$.next(true);
             this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
-        // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
+
+        // realizo verificación de la info minima para el cliente
+        this.mandatoyDataService.validate(Number.parseInt(event.id)).subscribe(data => {
+            console.log('errors',data);
+
+            this.errors=data;
+
+
+        });
+
     }
 
     queryResult(event) {
@@ -428,27 +438,42 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     send() {
         this.disabled$.next(true);
 
-        this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
-            if (!resp.dismiss) {
-                this.loadingDataForm.next(true);
+        this.mandatoyDataService.validate(this.personaNatural.id).subscribe(data => {
+            console.log('errors',data);
+            this.loadingDataForm.next(true);
 
-                this.personaService.send(this.personaNatural.id).subscribe(() => {
-                    // setTimeout(() => {
-                    // simular que fui al servidor para luego enviar a la persona al modulo de apertura
-                    this.successResponse('Operacion', 'aplicada', true);
-                    this.loadingDataForm.next(false);
-                    this.disabled$.next(false);
-                    this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
-                    // }, 1000);
-
-                }, err => {
-                    this.errorResponse(err);
+            if(data.length == 0){
+                // si no tengo errores pido confirmación de lo contrario muestro los errores
+                this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
+                    
+                    if (!resp.dismiss) {
+                        
+                        this.personaService.send(this.personaNatural.id).subscribe(() => {
+                            
+                            this.successResponse('Operacion', 'aplicada', true);
+                            this.loadingDataForm.next(false);
+                            this.disabled$.next(false);
+                            this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
+                            
+                        }, err => {
+                            this.errorResponse(err);
+                        });
+                        
+                    } else {
+                        this.disabled$.next(false);
+                    }
+                    
                 });
-
-            } else {
+                
+            }else{
+                this.loadingDataForm.next(false);
                 this.disabled$.next(false);
+                this.mandatoyDataService.showErrorsAndRedirect(data,this.personaNatural as Persona);
+                // this.errors=data;
+                // this.cdr.detectChanges();
             }
+
 
         });
     }

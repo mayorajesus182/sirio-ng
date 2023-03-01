@@ -31,9 +31,9 @@
                     <ng-container *ngIf="loaded$ | async">
                         
                         <ng-container *ngIf="errors.length>0">
-                            <ngb-alert [dismissible]="true" >
-                                <strong>¡Información Importante!</strong> El cliente tiene pendiente la carga de la siguiente información: <br>
-
+                            <ngb-alert [dismissible]="true"  (closed)="errors=[]">
+                                <i class="fa-regular fa-lightbulb-exclamation-on fa-lg"></i> &nbsp; <strong>¡Información Importante!</strong> El cliente tiene pendiente la carga de la siguiente información: <br>
+                                <div [innerHTML]="warnings" class="margin-top-sm"></div>
                             </ngb-alert>                        
                         </ng-container>
                         <mat-accordion class="expansion-headers-align">

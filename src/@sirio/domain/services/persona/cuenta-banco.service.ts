@@ -57,7 +57,7 @@ export class CuentaBancoService {
     }
 
     getByPersona(persona: number): Observable<CuentaBanco> {
-        return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/get`);
+        return this.apiService.config(this.apiConfig).get(`/persona/${persona}/proceso/get`);
     }
 
     listByPersona(persona: number): Observable<CuentaBanco[]> {

@@ -32,13 +32,11 @@ export class PersonaDataMandatoryService {
         if (errors.length > 0) {
             const type = persona.tipoPersona === 'PERJUR' ? 'juridica' : 'natural';
 
-            let message = "<ul style='text-align: left'>";
-            message+= errors.map(e => `<li>${e}</li>`).reduce((a, b) => a.concat(b)).concat("</ul>");
             //   message = message.concat(persona.direcciones > 0 ? '<li>Registrar sus Datos Básicos</li>'.concat('') : '');
             // message = message.concat(persona.direcciones == 0 ? '<li>Registrar al menos una Dirección</li>'.concat('') : '');
             // message = message.concat(persona.telefonos == 0 ? '<li>Registrar al menos un Número de Teléfono</li>' : '');
 
-            this.swalService.show('Para continuar usted debe:', undefined, { html: message, showCancelButton: false }).then((resp) => {
+            this.swalService.show('Para continuar usted debe:', undefined, { html: this.errorsToHtml(errors), showCancelButton: false }).then((resp) => {
                 // this.router.navigate(['/sirio/persona/' + type + '/edit']);
                 if(!this.router.url.includes('/sirio/persona/natural') && !this.router.url.includes('/sirio/persona/juridica')){
                     sessionStorage.setItem(GlobalConstants.PREV_PAGE, this.router.url);
@@ -49,6 +47,12 @@ export class PersonaDataMandatoryService {
             });
         }
 
+    }
+
+    errorsToHtml(errors:string[]){
+        let message = "<ul style='text-align: left'>";
+        message+= errors.map(e => `<li>${e}</li>`).reduce((a, b) => a.concat(b)).concat("</ul>");
+        return message;
     }
 
 }
