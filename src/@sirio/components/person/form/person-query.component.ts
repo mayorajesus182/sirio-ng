@@ -6,7 +6,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup } from "@angular/f
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
 import { fadeInUpAnimation } from "src/@sirio/animations/fade-in-up.animation";
 import { GlobalConstants } from "src/@sirio/constants";
