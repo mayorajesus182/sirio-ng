@@ -118,6 +118,7 @@ export class QuickpanelComponent implements OnInit {
     }
   }
 
+
   private wfSolicitudPaseTaquillaBoveda(task: Workflow) {
     if (task.rol === TaskConstants.CONF_SOLICITUD_PASE_TAQUILLA_BOVEDA) {
       this.router.navigate(['/sirio/workflow/pase-efectivo/' + task.id + '/' + task.expediente + '/view']);
@@ -125,6 +126,7 @@ export class QuickpanelComponent implements OnInit {
       this.router.navigate(['/sirio/workflow/pase-efectivo/' + task.id + '/' + task.expediente + '/edit']);
     }
   }
+
 
   private wfPaseTaquillaBoveda(task: Workflow) {
     if (task.rol === TaskConstants.CONF_PASE_TAQUILLA_BOVEDA) {
@@ -134,15 +136,13 @@ export class QuickpanelComponent implements OnInit {
     }
   }
 
-  private wfSolicitudRemesa(task: Workflow) {
-    if (task.rol === TaskConstants.DESPACHO_REMESA_SOLICITADA) {
-      this.router.navigate(['/sirio/workflow/solicitud-remesa/' + task.id + '/' + task.expediente + '/send']);
-    }
 
-    // else if (task.rol === TaskConstants.MOD_ANUL_PASE_TAQUILLA_BOVEDA) {
-    //   this.router.navigate(['/sirio/workflow/pase-boveda/' + task.id + '/' + task.expediente + '/edit']);
-    // }
-  }
+  // private wfSolicitudRemesa(task: Workflow) {
+    //  if (task.rol === TaskConstants.DESPACHO_REMESA_SOLICITADA) {
+  //     this.router.navigate(['/sirio/workflow/solicitud-remesa/' + task.id + '/' + task.expediente + '/send']);
+  //   }
+  // }
+
 
   private wfCierreTaquilla(task: Workflow) {
     this.router.navigate(['/sirio/workflow/cierre-taquilla/' + task.id + '/' + task.expediente + '/view']);
@@ -162,19 +162,14 @@ export class QuickpanelComponent implements OnInit {
 
 
   private wfCreacionPlazoFijo(task: Workflow) {
-    if (task.rol == TaskConstants.APROBAR_RECHAZAR_RPLAZO_FIJO) {
+    if (task.rol == TaskConstants.APROBAR_RECHAZAR_PLAZO_FIJO) {
         this.router.navigate(['/sirio/workflow/plazo-fijo/' + task.id + '/' + task.expediente + '/approve']);
-    } 
+    } else if (task.rol == TaskConstants.ACTIVAR_ANULAR_PLAZO_FIJO) { 
+      this.router.navigate(['/sirio/workflow/plazo-fijo/' + task.id + '/' + task.expediente + '/activate']);
+    }
   }
 
 
-  // private wfDesincorporacion(id: string) {
-  //   this.router.navigate([`workflow/${id}/desincorporacion`]);
-  // }
-
-  // private wfMantenimiento(id: string) {
-  //   this.router.navigate([`workflow/${id}/mantenimiento`]);
-  // }
 
 }
 
@@ -184,50 +179,3 @@ export class QuickpanelComponent implements OnInit {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import { Component, OnInit } from '@angular/core';
-// import * as moment from 'moment';
-
-// @Component({
-//   selector: 'sirio-quickpanel',
-//   templateUrl: './quickpanel.component.html',
-//   styleUrls: ['./quickpanel.component.scss']
-// })
-// export class QuickpanelComponent implements OnInit {
-
-//   todayDay: string;
-//   todayDate: string;
-//   todayDateSuffix: string;
-//   todayMonth: string;
-
-//   constructor() { }
-
-//   ngOnInit() {
-//     this.todayDay = moment().format('dddd');
-//     this.todayDate = moment().format('Do');
-//     this.todayDate = this.todayDate.replace(/\D/g, '');
-//     this.todayDateSuffix = moment().format('Do');
-//     this.todayDateSuffix = this.todayDateSuffix.replace(/[0-9]/g, '');
-//     this.todayMonth = moment().format('MMMM');
-//   }
-
-// }

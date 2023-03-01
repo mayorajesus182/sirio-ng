@@ -1,37 +1,22 @@
 <sirio-page-layout mode="card">
     <sirio-page-layout-header>
-        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['task.form']"></sirio-breadcrumbs>
+        <sirio-breadcrumbs [@fadeInRight] [crumbs]="['state.form']" current="action.view"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
     <sirio-page-layout-content [fxLayoutGap]="gap" fxLayout="column">
 
-        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign.gt-sm="start stretch">
+        <div [fxLayoutGap]="gap" fxFlex="noshrink" fxLayout="column" fxLayout.gt-sm="row"
+            fxLayoutAlign.gt-sm="start stretch">
 
             <sirio-card [fxFlex.gt-sm]="col2" class="basic-forms route-animations-elements" [@fadeInUp] fxFlex="grow">
                 <sirio-card-header>
-                    <sirio-card-header-heading>{{this.rol.nombre}}</sirio-card-header-heading>
-                    <sirio-card-header-subheading>{{'action.edit' | translate}}</sirio-card-header-subheading>
+                    <sirio-card-header-heading>{{'state.form'|translate}}</sirio-card-header-heading>
+                    <sirio-card-header-subheading>{{'action.view' | translate}}</sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <mat-card-title class="mat-bg-grey">
-                            <div class="card-title-text">
-                                <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
-                                    <mat-icon class="">more_vert</mat-icon>
-                                </button>
-
-                                <mat-menu #userMenu="matMenu">
-                                    <button mat-menu-item class="mr-1" (click)="approvePlazo()">
-                                        <mat-icon color="primary">check_circle</mat-icon>
-                                        {{'action.approve' | translate }}
-                                    </button>
-                                    <button mat-menu-item class="mr-1" (click)="rejectPlazo()">
-                                        <mat-icon color="accent">cancel</mat-icon>
-                                        {{'action.reject' | translate }}
-                                    </button>
-                                </mat-menu>
-
-                            </div>
-                        </mat-card-title>
-
+                        <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                            <mat-icon>close</mat-icon>
+                        </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
@@ -39,45 +24,41 @@
                     <div class="result" fxLayout="column" *ngIf="d.id">
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                            <mat-form-field fxFlex.gt-xs="15">
+                            <mat-form-field fxFlex.gt-xs="20">
                                 <mat-label>{{'Certificado' | translate: {default: 'Certificado'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-center" [value]="d.id" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="45">
+                            <mat-form-field fxFlex.gt-xs="50">
                                 <mat-label>{{'Cliente' | translate: {default: 'Cliente'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.persona" readonly>
                             </mat-form-field>
 
-                            <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation fxFlex.gt-xs="40">
-                                <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
-                                        <mat-label>{{'Tasa' | translate: {default: 'Tasa'} | translate }} </mat-label>
-                                        <input matInput max="100" min="0,01" autocomplete="off" currencyMask name="tasa" formControlName="tasa"
-                                            [options]="{precision:2}" required>
-                                        <mat-error *ngIf="f.tasa.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf=" f.tasa.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                        <mat-error *ngIf="f.tasa.errors?.max">{{'error.beLessThan' | translate}} 100</mat-error>
-                                    </mat-form-field>
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'Tasa' | translate: {default: 'Tasa'} | translate }}
+                                </mat-label>
+                                <input matInput class="text-right" [value]="d.tasa | number: '1.2'" readonly>
+                            </mat-form-field>
 
-                                    <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
-                                        <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }} </mat-label>
-                                        <input matInput max="9999999999999.99" min="0,01" autocomplete="off" currencyMask name="monto" formControlName="monto"
-                                            [options]="{precision:2}" required>
-                                        <mat-error *ngIf="f.monto.errors?.required">{{'error.required' | translate}}</mat-error>
-                                        <mat-error *ngIf=" f.monto.errors?.min">{{'error.beGreaterThan' | translate}} 0,01</mat-error>
-                                        <mat-error *ngIf="f.monto.errors?.max">{{'error.beLessThan' | translate}} 9.999.999.999.999,99</mat-error>
-                                    </mat-form-field>
-                                </div>
-                            </form>
+                            <mat-form-field fxFlex.gt-xs="15">
+                                <mat-label>{{'Monto' | translate: {default: 'Monto'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.monto | number: '1.2'" readonly>
+                            </mat-form-field>
 
                         </div>
 
                         <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
                             <mat-form-field fxFlex.gt-xs="20">
+                                <mat-label>{{'Estatus' | translate: {default: 'Estatus'} | translate }}
+                                </mat-label>
+                                <input matInput [value]="d.estatusNombre" readonly class="text-center" style="font-weight: bold;">
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex.gt-xs="15">
                                 <mat-label>{{'Fecha de Emisión' | translate: {default: 'Fecha de Emisión'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.fecha | date: 'dd/MM/yyyy'" readonly class="text-center">
@@ -89,22 +70,22 @@
                                 <input matInput class="text-center" [value]="d.plazo" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="20">
+                            <mat-form-field fxFlex.gt-xs="15">
                                 <mat-label>{{'Fecha de Vencimiento' | translate: {default: 'Fecha de Vencimiento'} | translate }}
                                 </mat-label>
                                 <input matInput [value]="d.fechaVencimiento | date: 'dd/MM/yyyy'" readonly class="text-center">
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="20">
+                            <mat-form-field fxFlex.gt-xs="15">
                                 <mat-label>{{'Interés' | translate: {default: 'Interés'} | translate }}
                                 </mat-label>
                                 <input matInput class="text-right" [value]="d.interes | number: '1.2'" readonly>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex.gt-xs="20">
+                            <mat-form-field fxFlex.gt-xs="15">
                                 <mat-label>{{'Monto+Interés' | translate: {default: 'Monto+Interés'} | translate }}
                                 </mat-label>
-                                <input matInput class="text-center" [value]="total | number: '1.2'" readonly>
+                                <input matInput class="text-right" [value]="total | number: '1.2'" readonly>
                             </mat-form-field>
                         </div>
 
@@ -153,16 +134,15 @@
 
                     </div>
 
-
                 </sirio-card-content>
-                <!-- <mat-toolbar>
+                <mat-toolbar>
                     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center" fxLayoutGap="24px">
-                        <button color="primary" (click)="save()" mat-raised-button [disabled]="itemForm?.invalid || (loading$ | async ) ">
-                            <i class="fa-light fa-floppy-disk fa-lg margin-bottom-xxs"></i> {{'button.save' | translate: {default:
-                            'global.notfound'} | translate }}
+                        <button type="button" mat-button (click)="back()">
+                            {{'button.cancel' | translate:
+                            {default: 'global.notfound'} | translate }}
                         </button>
                     </div>
-                </mat-toolbar> -->
+                </mat-toolbar>
             </sirio-card>
         </div>
     </sirio-page-layout-content>

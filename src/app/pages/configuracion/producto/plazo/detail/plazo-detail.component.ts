@@ -3,26 +3,23 @@ import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GestionEfectivoConstants } from 'src/@sirio/constants/gestion-efectivo.constants';
-import { AtmService } from 'src/@sirio/domain/services/organizacion/atm.service';
+import { PlazoService } from 'src/@sirio/domain/services/configuracion/producto/plazo.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-atm-detail',
-  templateUrl: './atm-detail.component.html',
-  styleUrls: ['./atm-detail.component.scss'],
+  selector: 'app-plazo-detail',
+  templateUrl: './plazo-detail.component.html',
+  styleUrls: ['./plazo-detail.component.scss'],
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class AtmDetailComponent extends FormBaseComponent implements OnInit {
-
-  remoto = GestionEfectivoConstants.REMOTO;
+export class PlazoDetailComponent extends FormBaseComponent implements OnInit {
 
   constructor(
     spinner: NgxSpinnerService,
     injector: Injector,
     private route: ActivatedRoute,
-    private atmService: AtmService) {
+    private plazoService: PlazoService) {
     super(undefined, injector);
   }
 
@@ -31,9 +28,8 @@ export class AtmDetailComponent extends FormBaseComponent implements OnInit {
 
     this.loadingDataForm.next(true);
 
-    this.atmService.detail(id).subscribe(data => {
+    this.plazoService.detail(id).subscribe(data => {
       this.data = data;
-      console.log(data)
       this.loadingDataForm.next(false);
     });
 

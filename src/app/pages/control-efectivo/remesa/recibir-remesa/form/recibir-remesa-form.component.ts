@@ -1,13 +1,15 @@
+import { formatNumber } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
+import { GestionEfectivoConstants } from 'src/@sirio/constants/gestion-efectivo.constants';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
-import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
+import { SaldoAcopioService } from 'src/@sirio/domain/services/control-efectivo/saldo-acopio.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { Material } from 'src/@sirio/domain/services/transporte/material.service';
 import { MaterialTransporteService } from 'src/@sirio/domain/services/transporte/materiales/material-transporte.service';
@@ -17,8 +19,6 @@ import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import swal, { SweetAlertOptions } from 'sweetalert2';
-import { formatNumber } from '@angular/common';
-import { GlobalConstants } from 'src/@sirio/constants';
 
 @Component({
     selector: 'app-recibir-remesa-form',
@@ -44,7 +44,7 @@ export class RecibirRemesaFormComponent extends FormBaseComponent implements OnI
     saldoDisponible: number = 0;
     materialRemesaList: MaterialRemesa[] = [];
     diferencia = 0.0;
-    constants = GlobalConstants;
+    constants = GestionEfectivoConstants;
 
     constructor(
         injector: Injector,

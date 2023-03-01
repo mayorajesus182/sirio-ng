@@ -70,8 +70,8 @@ export class PlazoFijoService {
             .pipe(map(res => data));
     }
 
-    updatePorcentajeTasa(data: PlazoFijo): Observable<any> {
-        return this.apiService.config(this.apiConfig).put(`/${data.id}/porcentaje-tasa/update`, data.tasa)
+    updateTasaMontoStatus(data: any): Observable<any> {
+        return this.apiService.config(this.apiConfig).put(`/${data.id}/tasa-monto-status/update`, data)
             .pipe(map(res => data));
     }
 

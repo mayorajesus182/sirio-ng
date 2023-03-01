@@ -5,24 +5,26 @@ import { ActivatedRoute } from '@angular/router';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { GestionEfectivoConstants } from 'src/@sirio/constants/gestion-efectivo.constants';
 import { PlazoFijoService } from 'src/@sirio/domain/services/persona/plazo-fijo/plazo-fijo.service';
 import { Rol, RolService } from 'src/@sirio/domain/services/workflow/rol.service';
 import { WorkflowService } from 'src/@sirio/domain/services/workflow/workflow.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
-  selector: 'app-wf-aprobar-rechazar-plazo-fijo-form',
-  templateUrl: './wf-aprobar-rechazar-plazo-fijo-form.component.html',
-  styleUrls: ['./wf-aprobar-rechazar-plazo-fijo-form.component.scss'],
+  selector: 'app-wf-activar-anular-plazo-fijo-form',
+  templateUrl: './wf-activar-anular-plazo-fijo-form.component.html',
+  styleUrls: ['./wf-activar-anular-plazo-fijo-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInUpAnimation, fadeInRightAnimation]
 })
 
-export class WFAprobarRechazarPlazoFijoFormComponent extends FormBaseComponent implements OnInit {
+export class WFActivarAnularPlazoFijoFormComponent extends FormBaseComponent implements OnInit {
 
   workflow: string = undefined;
   rol: Rol = {} as Rol;
   total: number = 0;
+  constants = GlobalConstants;
 
   constructor(
     injector: Injector,
@@ -41,7 +43,6 @@ export class WFAprobarRechazarPlazoFijoFormComponent extends FormBaseComponent i
 
       this.workflow = params.get('wf');
       let exp = params.get('exp');
-      this.loadingDataForm.next(true);
 
       if (exp) {
 
@@ -53,8 +54,6 @@ export class WFAprobarRechazarPlazoFijoFormComponent extends FormBaseComponent i
           this.data = data;
           this.total = this.data.monto + this.data.interes;
           this.cdr.detectChanges();
-          this.buildForm();
-          this.loadingDataForm.next(false);
         });
       }
     });
@@ -63,44 +62,21 @@ export class WFAprobarRechazarPlazoFijoFormComponent extends FormBaseComponent i
 
   }
 
-  buildForm() {
 
-    this.itemForm = this.fb.group({
-      tasa: new FormControl(this.data.tasa || undefined, [Validators.required]),
-      monto: new FormControl(this.data.monto || undefined, [Validators.required]),
-    });
-
-    this.f.monto.valueChanges.subscribe(val => {
-      if (val && (val != '')) {
-        this.data.interes = val * this.f.tasa.value / 100.0;
-        this.total = val + this.data.interes;
-      }
-    });
-
-    this.f.tasa.valueChanges.subscribe(val => {
-      if (val && (val != '')) {
-        this.data.interes = val * this.f.monto.value / 100.0;
-        this.total = this.f.monto.value + this.data.interes;
-      }
-    });
-  }
-
-  approvePlazo() {
+  activatePlazo() {
 
     let mensaje = 'Por un Monto de: <b>' + formatNumber(this.data.monto, 'es', '1.2') + ' ' + this.data.moneda + '</b> <br> ';
     mensaje += 'A una Tasa de: <b>' + formatNumber(this.data.tasa, 'es', '1.2') + ' %</b> <br> ';
     mensaje += 'Por un Plazo de: <b>' + this.data.plazo + '</b> <br> ';
 
-    this.swalService.show('¿Desea Aprobar el Plazo Fijo?', undefined, { html: mensaje }).then((resp) => {
+    this.swalService.show('¿Desea Activar el Plazo Fijo?', undefined, { html: mensaje }).then((resp) => {
       if (!resp.dismiss) {
-
-        let plazo = { id: this.data.id, monto: this.f.monto.value, tasa: this.f.tasa.value, interes: this.data.interes, estatus: GlobalConstants.APROBADO }
+        let plazo = { id: this.data.id, monto: this.data.monto, tasa: this.data.tasa, interes: this.data.interes, estatus: GlobalConstants.ACTIVADO }
         this.plazoFijoService.updateTasaMontoStatus(plazo).subscribe(result => {
 
-          let data = { id: this.workflow, observacion: 'Aprobada' };
+          let data = { id: this.workflow, observacion: 'Activada' };
           this.workflowService.approved(data).subscribe(resp => {
             this.workflowService.notify.next(true);
-
             this.router.navigate(['/sirio/welcome']).then(data => {
               this.successResponse('La Tarea', 'Aprobada', true);
             });
@@ -108,16 +84,17 @@ export class WFAprobarRechazarPlazoFijoFormComponent extends FormBaseComponent i
         }, error => this.errorResponse(true));
       }
     });
+
   }
 
-  rejectPlazo() {
+  annularPlazo() {
 
-    this.swalService.show('¿Desea Rechazar el Plazo Fijo?', '').then((resp) => {
+    this.swalService.show('¿Desea Anular el Plazo Fijo?', '').then((resp) => {
       if (!resp.dismiss) {
-        let plazo = { id: this.data.id, monto: this.data.monto, tasa: this.data.tasa, interes: this.data.interes, estatus: GlobalConstants.RECHAZADO }
+        let plazo = { id: this.data.id, monto: this.data.monto, tasa: this.data.tasa, interes: this.data.interes, estatus: GlobalConstants.ANULADO }
         this.plazoFijoService.updateTasaMontoStatus(plazo).subscribe(result => {
 
-          let data = { id: this.workflow, observacion: 'Rechazada' };
+          let data = { id: this.workflow, observacion: 'Anulada' };
           this.workflowService.approved(data).subscribe(resp => {
             this.workflowService.notify.next(true);
             this.router.navigate(['/sirio/welcome']).then(data => {
@@ -126,6 +103,16 @@ export class WFAprobarRechazarPlazoFijoFormComponent extends FormBaseComponent i
           });
         }, error => this.errorResponse(true));
       }
+    });
+  }
+
+  finishPlazo() {
+    let data = { id: this.workflow, observacion: 'Finalizada' };
+    this.workflowService.approved(data).subscribe(resp => {
+      this.workflowService.notify.next(true);
+      this.router.navigate(['/sirio/welcome']).then(data => {
+        this.successResponse('La Tarea', 'Finalizada', true);
+      });
     });
   }
 

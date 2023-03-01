@@ -20,6 +20,7 @@ import { TareasTableComponent } from './tareas/table/tareas-table.component';
 import { WFChequearPersonaNaturalFormComponent } from './wf-revision-cliente/wf-chequear-cliente/form/wf-chequear-persona-natural-form.component';
 import { WFChequearPersonaJuridicoFormComponent } from './wf-revision-cliente/wf-chequear-cliente/form/wf-chequear-persona-juridico-form.component';
 import { WFAprobarRechazarPlazoFijoFormComponent } from './wf-plazo-fijo/wf-aprobar-rechazar-plazo-fijo/wf-aprobar-rechazar-plazo-fijo-form.component';
+import { WFActivarAnularPlazoFijoFormComponent } from './wf-plazo-fijo/wf-activar-anular-plazo-fijo/wf-activar-anular-plazo-fijo-form.component';
 
 
 @NgModule({
@@ -48,6 +49,7 @@ import { WFAprobarRechazarPlazoFijoFormComponent } from './wf-plazo-fijo/wf-apro
     WFChequearPersonaNaturalFormComponent,
     WFChequearPersonaJuridicoFormComponent,
     WFAprobarRechazarPlazoFijoFormComponent,
+    WFActivarAnularPlazoFijoFormComponent,
     TareasTableComponent
   ],
   exports: []

@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { RegularExpConstants } from 'src/@sirio/constants';
+import { GestionEfectivoConstants } from 'src/@sirio/constants/gestion-efectivo.constants';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoAtm, TipoAtmService } from 'src/@sirio/domain/services/configuracion/tipo-atm.service';
@@ -31,8 +32,8 @@ export class AtmFormComponent extends FormBaseComponent implements OnInit {
     public monedas = new BehaviorSubject<Moneda[]>([]);
     public cajetines = new BehaviorSubject<Cajetin[]>([]);
     public conos: ConoMonetario[] = [];
-    remoto = GlobalConstants.REMOTO;
-    oficina = GlobalConstants.OFICINA;
+    remoto = GestionEfectivoConstants.REMOTO;
+    oficina = GestionEfectivoConstants.OFICINA;
 
     constructor(
         injector: Injector,

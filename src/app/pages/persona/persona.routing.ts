@@ -21,8 +21,8 @@ const personaRoutes: Routes = [
     },
     {
         path: 'plazo-fijo',
-        data: { title: 'Certif./Depósito Plazo Fijo' },
-        loadChildren: () => import('./dep-plazo-fijo/dep-plazo-fijo.module').then(m => m.DepPlazoFijoModule),
+        data: { title: 'Plazo Fijo' },
+        loadChildren: () => import('./plazo-fijo/plazo-fijo.module').then(m => m.PlazoFijoModule),
     },
     {
         path: 'reporte-ficha-cliente',
