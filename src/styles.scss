@@ -6,3 +6,8 @@
 *, ::after, ::before {
     box-sizing: content-box;
   }
+
+
+.card {
+  --bs-card-border-width: 0px;
+}

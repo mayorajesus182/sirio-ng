@@ -35,7 +35,7 @@ export class PlazoFijoTableComponent extends TableBaseComponent implements OnIni
   }
 
   ngOnInit() {
-    this.init(this.plazoFijoService, 'plazofijo_id');
+    this.init(this.plazoFijoService, 'plazofijo_id','pageByParams');
   }
 
   ngAfterViewInit() {
@@ -60,11 +60,13 @@ export class PlazoFijoTableComponent extends TableBaseComponent implements OnIni
   }
 
   queryResult(event) {
+    //**  */
     if (!event.id && !event.numper) {
         this.persona = {} as Persona;
         this.cdr.detectChanges();
     } else {
         this.persona = event;
+        this.refreshElementList({persona:this.persona.id});
     }
 }
 

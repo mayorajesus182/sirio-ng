@@ -59,6 +59,15 @@ export class PlazoFijoService {
         return this.apiService.config(this.apiConfig).page('/page', filter, pageNumber, pageSize, sortPropertie, sortOrder);
     }
 
+    pageByParams(filter = '', sortPropertie = 'id', sortOrder = 'asc', pageNumber = 0, pageSize = 15, paramsOpts: any = {}): Observable<PlazoFijo[]> {
+        const params = new HttpParams().set('filter', filter)
+            .set('sortby', sortPropertie)
+            .set('direction', sortOrder)
+            .set('page', pageNumber.toString())
+            .set('size', pageSize.toString());
+        return this.apiService.config(this.apiConfig).get('/page', params, paramsOpts);
+    }
+
     save(data: PlazoFijo): Observable<any> {
         
         return this.apiService.config(this.apiConfig).post('/create', data)

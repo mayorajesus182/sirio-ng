@@ -19,15 +19,14 @@
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
                         {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
                             <mat-icon>close</mat-icon>
-
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column">
 
-                    <sirio-person-query (result)="queryResult($event)" [purpose]="'gestion-comercial'"></sirio-person-query>
+                    <sirio-person-query  (result)="loadResult($event)"  [purpose]="'gestion-comercial'"></sirio-person-query>
 
-                    <ng-container *ngIf="loaded$ | async" tabNavigation>
+                    <ng-container *ngIf="loaded$ | async" >
                         <div fxLayout="column">
                             <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
 

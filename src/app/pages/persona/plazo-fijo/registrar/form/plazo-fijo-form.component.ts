@@ -152,6 +152,8 @@ export class PlazoFijoFormComponent extends FormBaseComponent implements OnInit 
 
 
     cleanForm() {
+        this.loaded$.next(false);
+        this.persona = {} as Persona;
         this.f.cuentaBancoCargo.setValue(undefined);
         this.f.tipoSubproducto.setValue(undefined);
         this.f.fechaVencimiento.setValue('');
@@ -166,29 +168,29 @@ export class PlazoFijoFormComponent extends FormBaseComponent implements OnInit 
         this.f.tipoRenovacion.setValue(undefined);
     }
 
-    queryResult(event) {
+    loadResult(event) {
+
         if (!event.id && !event.numper) {
             this.cleanForm();
             this.loaded$.next(false);
             this.persona = {} as Persona;
             this.cdr.detectChanges();
-
+            
         } else {
             this.persona = event;
             this.loaded$.next(true);
             this.cuentaBancoService.allByPersona(this.persona.id).subscribe(data => {
                 this.cuentas.next(data);
             });
+            this.cdr.detectChanges();
         }
-
-
     }
 
     save() {
         if (this.itemForm.invalid)
             return;
 
-        console.log('this.itemForm      ', this.itemForm.value);
+        // console.log('this.itemForm      ', this.itemForm.value);
 
         this.updateData(this.plazoFijo);
         this.plazoFijo.fecha = this.plazoFijo.fecha.format('DD/MM/YYYY');
