@@ -286,11 +286,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         });
 
 
-
-
-
-
-
         this.f.actividadEconomica.valueChanges.subscribe(value => {
             if (value) {
                 this.f.actividadEspecifica.setValue(undefined);
@@ -341,9 +336,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
 
-
-
-
     validateTitular (tipoDocumento: string, identificacion: string) {
         if (!identificacion) {
             return true;
@@ -382,7 +374,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.buildForm();
             this.loadingDataForm.next(false);
             this.loaded$.next(true);
-            this.applyFieldsDirty();
+            // this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
 

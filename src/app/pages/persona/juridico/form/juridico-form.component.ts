@@ -30,7 +30,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     fromOtherComponent: boolean = false;
     todayValue: moment.Moment = moment();
-
+    errors=[];
     totalAddress: number;
     totalInfoLab: number;
     totalPep: number;
@@ -260,7 +260,10 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             this.applyFieldsDirty();
             this.cdr.detectChanges();
         });
-        // this.router.navigate([`/sirio/persona/natural/${event.id}/edit`]);
+        
+        
+        
+
     }
 
     queryResult(event) {
