@@ -244,7 +244,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                     this.refreshPerson(false, undefined);
                 })
             } else if (['gestion-comercial', 'interviniente', 'cuenta'].includes(this.purpose)) {
-                console.log("se exige cargar la persona activa");
+                // console.log("se exige cargar la persona activa");
 
                 this.personaService.getActivaByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
                     this.refreshPerson(true, data);
@@ -318,7 +318,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     createOn() {
         // console.log(this.searchForm.value);
         this.search.tipoPersona.setValue(this.tiposDocumentoList.filter(t => t.id == this.search.tipoDocumento.value).map(t => t.tipoPersona).reduce(a => a) || '');
-        console.log('create from ', this.searchForm.value);
+        // console.log('create from ', this.searchForm.value);
 
         this.create.emit(this.searchForm.value);
         this.disable.next(true);

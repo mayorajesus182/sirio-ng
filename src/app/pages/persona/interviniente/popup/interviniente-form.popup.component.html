@@ -89,12 +89,12 @@
         <div fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
           <!-- condicion -->
 
-          <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['condicion']" 
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['condicion']"
             [elements]="condiciones.asObservable()" [attributeName]="'nombre'">
           </sirio-select-search>
   
           <!-- cargo -->
-          <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Condición'"   [formControl]="itemForm.controls['cargo']" 
+          <sirio-select-search fxFlex="100" fxFlex.gt-xs="50" [label]="'Cargo'"   [formControl]="itemForm.controls['cargo']"
             [elements]="cargos.asObservable()" [attributeName]="'nombre'" >
           </sirio-select-search>
         </div>

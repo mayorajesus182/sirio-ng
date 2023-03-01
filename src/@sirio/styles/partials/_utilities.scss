@@ -275,6 +275,12 @@ blockquote {
   text-align: right;
 }
 
+// alert bootstrap
+.alert-warning {
+  --bs-alert-color: #5a4403;
+  --bs-alert-bg: #fff3cd;
+  --bs-alert-border-color: #fee392;
+}
 
 /**
   dialog popup
@@ -310,7 +316,7 @@ blockquote {
 .swal2-container {
 
   .swal2-title {
-    font-size: 1.35em !important;
+    font-size: 1.5em !important;
   }
 }
 

@@ -27,6 +27,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
   tipoDocumento = undefined;
   pepsTi = undefined;
   persona: Persona = undefined;
+  tipDoc = undefined;
   esPep: boolean = false;
   constructor(@Inject(MAT_DIALOG_DATA) public defaults: any,
     protected injector: Injector,
@@ -48,7 +49,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
 
     this.peps = this.defaults.payload.peps;
     this.pepsTi  = this.defaults.payload.nombre;
-
+    this.tipDoc  = this.defaults.payload.tipoDocumento
     this.persona = (typeof this.defaults.payload.persona == "number") ? { id: this.defaults.payload.persona } : this.defaults.payload.persona;
 
     console.log('Payload ',this.defaults.payload);
@@ -101,6 +102,12 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
       pais: new FormControl(this.pep.pais || undefined, [Validators.required])
     });
     this.cdr.detectChanges();
+
+    if (this.pep.tipoPep = 'C') {
+      this.f.nombre.disable();
+    }
+
+
 
     this.f.identificacion.valueChanges.subscribe(val => {
 
@@ -164,7 +171,7 @@ export class PepFormPopupComponent extends PopupBaseComponent implements OnInit,
     this.pep.persona = this.defaults.payload.persona.id;
     }
     if(this.pep.tipoPep == "C" ) {
-      this.pep.tipoDocumento = this.tipoDocumento;
+      this.pep.tipoDocumento = this.tipDoc;
     }
     // TODO: REVISAR EL NOMBRE DE LA ENTIDAD
     this.saveOrUpdate(this.pepService, this.pep, 'PEP', this.pep.id == undefined);

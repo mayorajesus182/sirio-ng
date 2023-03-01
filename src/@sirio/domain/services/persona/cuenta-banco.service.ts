@@ -35,7 +35,7 @@ export interface CuentaBanco {
     providedIn:'root'
 })
 export class CuentaBancoService {
-    searchTerm: BehaviorSubject<string> = new BehaviorSubject<string>('');
+    
     private apiConfig: ApiOption;
     constructor(
         private apiService: ApiService
@@ -57,7 +57,7 @@ export class CuentaBancoService {
     }
 
     getByPersona(persona: number): Observable<CuentaBanco> {
-        return this.apiService.config(this.apiConfig).get(`/${persona}/bypersona/get`);
+        return this.apiService.config(this.apiConfig).get(`/persona/${persona}/proceso/get`);
     }
 
     getPrincipalByPersona(persona: number): Observable<CuentaBanco> {

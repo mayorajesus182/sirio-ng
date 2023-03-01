@@ -40,6 +40,7 @@ export class PopupBaseComponent {
     public itemForm: FormGroup;
 
     protected loadingDataForm = new BehaviorSubject<boolean>(false);
+    public loaded = new BehaviorSubject<boolean>(false);
 
     public loading$ = this.loadingDataForm.asObservable();
 

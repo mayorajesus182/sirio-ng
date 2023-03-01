@@ -316,7 +316,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         this.isNew = true;
         this.loaded$.next(false);
         // this.persona = {} as Persona;
-        this.cuentaBanco = {} as CuentaBanco;        
+        this.cuentaBanco = {} as CuentaBanco;
         //this.resetAll();  
     }
 
@@ -327,8 +327,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         this.loadingDataForm.next(true);
         console.log(event);
-        
-        
+
+
 
         if (!event.id && !event.numper) {
             this.isNew = true;
@@ -342,46 +342,54 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
 
             this.persona = event;
-            if (!this.mandatoyDataService.validate(this.persona)) {
-                this.loadingDataForm.next(false);
-                this.disabled$.next(true);
-                // si aun no tiene los datos minimos se redirecciona al componente mantenimiento de personas
-                return;
-            }
-
             this.isNew = true;
-            // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y 
-            // DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
-            // DEBO REDIRECCIONAR AL USUARIO AL 
-            this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
-                // terminar proceso de apertura de cuenta
-                // console.log(cuenta);
+            this.mandatoyDataService.validate(this.persona.id).subscribe(errors => {
+                console.log('errors',errors);
+                
 
-                this.isNew = false;
-                this.cuentaBanco = cuenta;
-                this.buildForm();
-                // this.loadMoneda(this.f.tipoSubproducto.value);
-                this.loadingDataForm.next(false);
-                this.loaded$.next(true);
-                this.disabled$.next(false);
-                this.cdr.detectChanges();
-            
+                if (errors.length == 0) {
+                    // no tengo errores
+                    // TODO: POR ACA TAMBIEN EVALUAR SI EL CLIENTE REQUIERE DE ACTUALIZACIÓN Y 
+                    // DEBO INFORMAR AL USUARIO QUE DEBE ACTUALIZAR LA INFO Y SI EL LO ACEPTA 
+                    // DEBO REDIRECCIONAR AL USUARIO AL 
+                    this.cuentaBancoService.getByPersona(this.persona.id).subscribe(cuenta => {
+                        // terminar proceso de apertura de cuenta
+                        // console.log(cuenta);
 
-            }, err => {
-                this.isNew = true;
-                this.cuentaBanco = {} as CuentaBanco;
-                this.loadingDataForm.next(false);
-                this.disabled$.next(true);
-                this.resetAll();
-                this.cdr.detectChanges();
+                        this.isNew = false;
+                        this.cuentaBanco = cuenta;
+                        this.buildForm();
+                        // this.loadMoneda(this.f.tipoSubproducto.value);
+                        this.loadingDataForm.next(false);
+                        this.loaded$.next(true);
+                        this.disabled$.next(false);
+                        this.cdr.detectChanges();
+
+
+                    }, err => {
+                        this.isNew = true;
+                        this.cuentaBanco = {} as CuentaBanco;
+                        this.loadingDataForm.next(false);
+                        this.disabled$.next(true);
+                        this.resetAll();
+                        this.cdr.detectChanges();
+                    });
+                } else {
+                    this.loadingDataForm.next(false);
+                    this.disabled$.next(true);
+                    this.mandatoyDataService.showErrorsAndRedirect(errors,this.persona);
+                }
+
             });
+
+
 
         }
     }
 
     save() {
 
-        if (this.itemForm.invalid){
+        if (this.itemForm.invalid) {
 
             return;
         }
@@ -423,10 +431,10 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
 
         this.disabled$.next(true);
         this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
-            
+
             if (!resp.dismiss) {
                 this.loadingDataForm.next(true);
-                
+
                 this.cuentaBancoService.send(this.cuentaBanco.id).subscribe(data => {
                     this.successResponse('Operacion', 'aplicada', true);
                     this.cuentaActiva = true;
@@ -438,16 +446,16 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     this.disabled$.next(false);
                     sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
                     setTimeout(() => {
-                        this.router.navigate([`/sirio/welcome`]);                        
+                        this.router.navigate([`/sirio/welcome`]);
                     }, 2000);
                 }, err => {
                     this.cuentaActiva = false;
                     this.loadingDataForm.next(false);
                     this.disabled$.next(false);
-                    
+
                 });
-                
-            }else{
+
+            } else {
                 this.disabled$.next(false);
             }
 
@@ -470,7 +478,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.download(name, blob);
         });
     }
-   
+
 
     openInterviniente(opened: boolean) {
 

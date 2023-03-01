@@ -13,7 +13,7 @@
 
 
 <mat-dialog-content>
-    <form [formGroup]="itemForm" *ngIf="itemForm" tabNavigation>
+    <form [formGroup]="itemForm" *ngIf="itemForm && (loaded | async)" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Tipo Ingreso'" [readonly]="!isNew" formControlName="tipoIngreso" [required]="true"
@@ -90,7 +90,7 @@
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="50">
         <mat-label>{{ 'Registro' }} </mat-label>
-        <input matInput maxlength="100" autocomplete="off" name="registro" formControlName="registro"
+        <input matInput maxlength="100" autocomplete="off" name="registro" uppercase formControlName="registro"
           [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.registro.errors?.required">{{'error.required' | translate}}
         </mat-error>
@@ -98,21 +98,21 @@
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{ 'Número' }} </mat-label>
-        <input matInput maxlength="10" autocomplete="off" name="numero" formControlName="numero"
+        <input matInput maxlength="10" autocomplete="off" name="numero"  uppercase formControlName="numero"
           [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}} </mat-error>
       </mat-form-field>
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{ 'Tomo' }} </mat-label>
-        <input matInput maxlength="10" autocomplete="off" name="tomo" formControlName="tomo"
+        <input matInput maxlength="10" autocomplete="off" name="tomo" uppercase formControlName="tomo"
           [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.tomo.errors?.required">{{'error.required' | translate}} </mat-error>
       </mat-form-field>
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{ 'Folio' }} </mat-label>
-        <input matInput maxlength="10" autocomplete="off" name="folio" formControlName="folio"
+        <input matInput maxlength="10" autocomplete="off" name="folio" uppercase formControlName="folio"
           [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.folio.errors?.required">{{'error.required' | translate}} </mat-error>
       </mat-form-field>
@@ -176,6 +176,8 @@
       </mat-form-field>
     </div>
   </form>
+
+  <sirio-loading-overlay [isLoading]="!(loaded | async)"></sirio-loading-overlay>
 
   </mat-dialog-content>
   <!-- {{printErrors() | json}} -->
