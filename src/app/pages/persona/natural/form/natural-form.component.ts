@@ -46,7 +46,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     fromOtherComponent: boolean = false;
     todayValue: moment.Moment = moment();
     totalAddress: number;
-    errors=[];
 
 
     totalRegistroMercantil: number;
@@ -123,10 +122,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         return this.searchForm ? this.searchForm.controls : {};
     }
 
-    get warnings(){
-        return this.mandatoyDataService.errorsToHtml(this.errors);
-    }
-
+   
 
     ngAfterViewInit(): void {
         this.loading$.subscribe(loading => {
@@ -378,14 +374,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.cdr.detectChanges();
         });
 
-        // realizo verificación de la info minima para el cliente
-        this.mandatoyDataService.validate(Number.parseInt(event.id)).subscribe(data => {
-            console.log('errors',data);
-
-            this.errors=data;
-
-
-        });
+    
 
     }
 

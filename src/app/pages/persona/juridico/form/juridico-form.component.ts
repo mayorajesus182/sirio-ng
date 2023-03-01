@@ -31,7 +31,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     fromOtherComponent: boolean = false;
     todayValue: moment.Moment = moment();
-    errors = [];
+    
     totalAddress: number;
     totalInfoLab: number;
     totalPep: number;
@@ -152,12 +152,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             this.categoriasEspeciales.next(data);
         });
 
-        this.f.montoDeclarado.valueChanges.subscribe(val => {
-            if (val === null || val == undefined) {
-                this.f.montoDeclarado.setValue(0.00);
-                this.cdr.detectChanges();
-            }
-        });
+      
 
         // if(this.f.montoDeclarado.value == null){
         //     descripcion.append("<b>Ramo: </b>").append(ramoGetService.getById(i.getRamo()).get().getNombre()).append(" ");
@@ -229,6 +224,13 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             }
         });
 
+        this.f.montoDeclarado.valueChanges.subscribe(val => {
+            if (val === null || val == undefined) {
+                this.f.montoDeclarado.setValue(0.00);
+                this.cdr.detectChanges();
+            }
+        });
+
     }
 
 
@@ -262,11 +264,11 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             this.cdr.detectChanges();
         });
 
-        // realizo verificación de la info minima para el cliente
-        this.mandatoyDataService.validate(Number.parseInt(event.id)).subscribe(data => {
-            console.log('errors', data);
-            this.errors = data;
-        });
+        // // realizo verificación de la info minima para el cliente
+        // this.mandatoyDataService.validate(Number.parseInt(event.id)).subscribe(data => {
+        //     console.log('errors', data);
+        //     this.errors = data;
+        // });
 
 
 

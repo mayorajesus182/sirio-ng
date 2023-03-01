@@ -2,15 +2,17 @@ import {
     AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation
 } from "@angular/core";
-import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { Router } from "@angular/router";
-import { BehaviorSubject, Subject } from 'rxjs';
+
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { fadeInRightAnimation } from "src/@sirio/animations/fade-in-right.animation";
 import { fadeInUpAnimation } from "src/@sirio/animations/fade-in-up.animation";
-import { GlobalConstants, RegularExpConstants } from "src/@sirio/constants";
+import { GlobalConstants } from "src/@sirio/constants";
 import { TipoDocumento, TipoDocumentoService } from "src/@sirio/domain/services/configuracion/tipo-documento.service";
 import { CuentaBancariaService } from "src/@sirio/domain/services/cuenta-bancaria.service";
+import { PersonaDataMandatoryService } from "src/@sirio/domain/services/persona/persona-data-mandatory.service";
 import { Persona, PersonaService } from "src/@sirio/domain/services/persona/persona.service";
 
 
@@ -48,12 +50,16 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
     private finding = false;
     disable: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     disableBtn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    errors = [];
+
+    warnings$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
 
 
     private _onDestroy = new Subject<void>();
 
     constructor(private dialog: MatDialog,
         private fb: FormBuilder,
+        private mandatoyDataService: PersonaDataMandatoryService,
         private tipoDocumentoService: TipoDocumentoService,
         private cuentaBancariaService: CuentaBancariaService,
         private personaService: PersonaService,
@@ -62,6 +68,22 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
 
     }
 
+
+    get search(): AbstractControl | any {
+        return this.searchForm ? this.searchForm.controls : {};
+    }
+
+    get isElemNew() {
+        return this.isNew;
+    }
+
+    // get warnings() {
+    //     return this.mandatoyDataService.errorsToHtml(this.errors);
+    // }
+
+    alertClosed() {
+        this.warnings$.next(undefined); // Cambia la propiedad alertMessage$ a null
+    }
 
     ngAfterViewInit(): void {
 
@@ -91,6 +113,14 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.search.cuenta.valueChanges.subscribe(val => {
             if (val && !this.search.identificacion.disabled) {
                 this.search.identificacion.disable();
+            }
+        })
+
+        this.warnings$.subscribe(w=>{
+            // console.log('warnings ',w);
+            
+            if(w){
+                this.cdref.detectChanges();
             }
         })
 
@@ -135,12 +165,12 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         const current = JSON.parse(sessionStorage.getItem(GlobalConstants.CURRENT_PERSON));
         console.log("current person ", current);
         // Esto solo paso para mejorar la experiencia del usuario al registrar la info
-        if (current && ['persona','cuenta'].includes(this.purpose)) {
+        if (current && ['persona', 'cuenta'].includes(this.purpose)) {
             this.persona = current;
             if ((this.tipo_persona && this.tipo_persona === this.persona.tipoPersona) || !this.tipo_persona) {
                 this.searchForm.controls['tipoDocumento'].setValue(this.persona.tipoDocumento);
                 this.searchForm.controls['identificacion'].setValue(this.persona.identificacion);
-                
+
                 this.queryByPerson();
             } else {
                 this.persona = {} as Persona;
@@ -159,16 +189,9 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         })
 
 
-
     }
 
-    get search(): AbstractControl | any {
-        return this.searchForm ? this.searchForm.controls : {};
-    }
 
-    get isElemNew() {
-        return this.isNew;
-    }
 
     private refreshPerson(status: boolean, data: Persona) {
 
@@ -180,7 +203,32 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             this.isNew = false;
             if (this.result) {
                 // this.persona.identificacion = identificacion;
+                // console.log('result purpose ', this.purpose);
+
+                // realizo verificación de la info minima para el cliente
+                if (['persona', 'gestion-comercial', 'interviniente'].includes(this.purpose)) {
+
+                    this.mandatoyDataService.validate(this.persona.id).subscribe(data => {
+                        // console.log('warnings', data);
+                        this.errors = data;
+                        // this.cdref.detectChanges();
+                        this.warnings$.next(this.mandatoyDataService.errorsToHtml(this.errors));
+
+                        // if (this.purpose === 'gestion-comercial') {
+
+                        //     setTimeout(() => {
+                        //         // tiempo para mostrar las alertas de cliente
+                        //     }, 2000);
+                        // }
+
+                    });
+                }
+
+
+
                 this.result.emit(this.persona);
+                // }
+
             }
             this.search.identificacion.setErrors(null);
             this.search.cuenta.setValue('');
@@ -237,12 +285,13 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             if (['persona'].includes(this.purpose)) {
 
                 this.personaService.getByTipoDocAndIdentificacion(tipoDocumento, identificacion).subscribe(data => {
-
                     this.refreshPerson(true, data);
                 }, err => {
-
                     this.refreshPerson(false, undefined);
-                })
+                });
+
+
+
             } else if (['gestion-comercial', 'interviniente', 'cuenta'].includes(this.purpose)) {
                 // console.log("se exige cargar la persona activa");
 
@@ -335,12 +384,14 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
             sessionStorage.setItem(GlobalConstants.CURRENT_PERSON, JSON.stringify(this.persona));
             sessionStorage.setItem(GlobalConstants.PREV_PAGE, this.router.url);
             this.push.emit(this.persona);
-        }else{
+        } else {
             this.push.emit(this.persona);
             this.resetAll();
         }
 
-        
+        this.cdref.detectChanges();
+
+
     }
 
 
@@ -353,6 +404,8 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.update.emit(this.persona);
 
         this.disable.next(true);
+
+        this.cdref.detectChanges();
 
     }
 

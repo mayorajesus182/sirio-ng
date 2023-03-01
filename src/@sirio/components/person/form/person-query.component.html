@@ -1,95 +1,105 @@
-<sirio-card [fxFlex.gt-sm]="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp fxFlex="grow">
-    <sirio-card-header class="header-bg">
-        <sirio-card-header-heading>
-            <!-- <mat-icon color="primary">search</mat-icon>  -->
-            <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;{{title|translate}}
-        </sirio-card-header-heading>
-        <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
-        <sirio-card-header-actions>
-            <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
+<div fxLayout.gt-xs="column">
+    <div [fxFlex.gt-xs]="100" fxFlex="100" fxLayout="column" fxLayout.gt-sm="row">
+
+        <sirio-card [fxFlex.gt-xs]="100" fxFlex="100" class="basic-forms route-animations-elements margin-bottom-md" @fadeInUp>
+            <sirio-card-header class="header-bg">
+                <sirio-card-header-heading>
+                    <!-- <mat-icon color="primary">search</mat-icon>  -->
+                    <i class="fa-light fa-magnifying-glass fa-lg mat-icon mat-primary margin-top-md"></i> &nbsp;{{title|translate}}
+                </sirio-card-header-heading>
+                <!-- <sirio-card-header-subheading>Datos de Persona</sirio-card-header-subheading> -->
+                <sirio-card-header-actions>
+                    <button class="icon" mat-icon-button matTooltip="{{'button.clean' | translate:
             {default: 'global.notfound'} | translate }}" type="button" (click)="resetAll()">
-                <mat-icon>backspace</mat-icon>
-            </button>
-        </sirio-card-header-actions>
-    </sirio-card-header>
-    <sirio-card-content fxLayout="column">
-        <div *ngIf="searchForm" fxLayout="column" [formGroup]="searchForm">
-            <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
-                <sirio-select-search autofocus="true" fxFlex="100" fxFlex.gt-xs="20" [label]="'global.documentType' | translate"
-                    formControlName="tipoDocumento" [elements]="tiposDocumentos.asObservable()"
-                    [attributeName]="'nombre'" [required]="true"
-                    [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)"
-                    [readonly]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)">
-                </sirio-select-search>
-
-                <!-- [attr.disabled]="search.cuenta.value && search.cuenta.value.length > 0" -->
-
-                <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
-                    <mat-label>{{'global.identification' | translate }} </mat-label>
-                    <input matInput  *ngIf="isNaturalPerson()" doc-number-validate [tipo_documento]="search.tipoDocumento?.value" minlength="1" autocomplete="off"
-                        (blur)="queryByPerson()" class="text-center" name="identificacion" 
-                        (keyup.enter)="queryByPerson()" (change)="onChangeFilter($event)" uppercase
-                        [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 ) || disable "
-                        formControlName="identificacion">
-
-                    <input matInput *ngIf="isLegalPerson()" valid-rif-number doc-number-validate
-                        [tipo_documento]="search.tipoDocumento?.value" [imask]="{mask: '00000000-0'}"  [unmask]="true"
-                         minlength="1" autocomplete="off" (blur)="queryByPerson()" class="text-center"
-                        name="identificacion" (keyup.enter)="queryByPerson()"  (change)="onChangeFilter($event)"
-                        [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 ) || disable "
-                        formControlName="identificacion">
-
-                    <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
-                    </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
-                    </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.rif">{{search.identificacion.errors?.rif}}
-                    </mat-error>
-                    <mat-error *ngIf="search.identificacion.errors?.maxLength">Supera el máximo de {{search.identificacion.errors?.length}} dígitos </mat-error>
-                </mat-form-field>
-
-                <!-- [attr.disabled]="search.identificacion.value && search.identificacion.value.length > 0" -->
-
-                <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="taquilla && purpose!='gestion-comercial'">
-                    <mat-label>{{'global.accountNumber' | translate }} </mat-label>
-                    <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" 
-                        num-account-validate [disabled]="disable | async" formControlName="cuenta"
-                        (keyup.enter)="queryByAccount()" (blur)="queryByAccount()"  (change)="onChangeFilter($event)" mask="0000 0000 00 00 00000000">
-                    <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe
-                    </mat-error>
-                    <mat-error *ngIf="search.cuenta.errors?.account">Debe indicar una cuenta válida
-                    </mat-error>
-                </mat-form-field>
-
-                <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
-                    <mat-label>{{'global.fullName' | translate }} </mat-label>
-                    <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="false"
-                        formControlName="nombre">
-                </mat-form-field>
-
-                <div fxFlex="15" *ngIf="!taquilla && purpose!='gestion-comercial'">
-                    <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && purpose=='persona'"  mat-raised-button
-                        [disabled]="!isElemNew || (disableBtn | async)">
-                        <i class="fa-light fa-user-plus fa-lg"></i>
-                        {{'button.add' | translate: {default:'global.notfound'} | translate }}
+                        <mat-icon>backspace</mat-icon>
                     </button>
-                    <button color="accent" class="btn-create" (click)="editOn()" *ngIf="(persona.id || persona.numper) && purpose=='persona'"
-                        mat-raised-button [disabled]="!persona.id && !persona.numper || (disableBtn | async)">
-                        <i class="fa-light fa-user-pen fa-lg"></i>
-                        {{'button.update' | translate: {default:'global.notfound'} | translate }}
-                    </button>
-                    <button color="accent" class="btn-create" (click)="pushOn()" [matTooltip]="persona.id || persona.numper? 'CARGAR' : 'CREAR'" *ngIf="purpose=='interviniente' || purpose=='cuenta'"
-                        mat-raised-button [disabled]="disableBtn | async">                      
-                        <i class="fal fa-user-plus fa-lg" *ngIf="!persona.id && !persona.numper"></i>
-                        <!-- <i class="fal fa-user fa-lg" ></i> -->
-                        <i class="fal fa-user-check fa-lg" *ngIf="persona.id || persona.numper"></i>
-                        {{(persona.id || persona.numper? 'CARGAR' : 'button.add') | translate }}
-                    </button>
+                </sirio-card-header-actions>
+            </sirio-card-header>
+            <sirio-card-content fxLayout="column">
+                <div *ngIf="searchForm" fxLayout="column" [formGroup]="searchForm">
+                    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
+                        <sirio-select-search autofocus="true" fxFlex="100" fxFlex.gt-xs="20" [label]="'global.documentType' | translate"
+                            formControlName="tipoDocumento" [elements]="tiposDocumentos.asObservable()" [attributeName]="'nombre'" [required]="true"
+                            [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)"
+                            [readonly]="(search.cuenta.value && search.cuenta.value.length > 0 )|| (search.identificacion.value && search.identificacion.value.length > 0)">
+                        </sirio-select-search>
+
+                        <!-- [attr.disabled]="search.cuenta.value && search.cuenta.value.length > 0" -->
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
+                            <mat-label>{{'global.identification' | translate }} </mat-label>
+                            <input matInput *ngIf="isNaturalPerson()" doc-number-validate [tipo_documento]="search.tipoDocumento?.value" minlength="1"
+                                autocomplete="off" (blur)="queryByPerson()" class="text-center" name="identificacion" (keyup.enter)="queryByPerson()"
+                                (change)="onChangeFilter($event)" uppercase [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 ) || disable "
+                                formControlName="identificacion">
+
+                            <input matInput *ngIf="isLegalPerson()" valid-rif-number doc-number-validate [tipo_documento]="search.tipoDocumento?.value"
+                                [imask]="{mask: '00000000-0'}" [unmask]="true" minlength="1" autocomplete="off" (blur)="queryByPerson()" class="text-center"
+                                name="identificacion" (keyup.enter)="queryByPerson()" (change)="onChangeFilter($event)"
+                                [disabled]="(search.cuenta.value && search.cuenta.value.length > 0 ) || disable " formControlName="identificacion">
+
+                            <mat-error *ngIf="search.identificacion.errors?.notexists">Cliente no Existe </mat-error>
+                            <mat-error *ngIf="search.identificacion.errors?.requiredTipoDoc">El tipo de documento es requerido
+                            </mat-error>
+                            <mat-error *ngIf="search.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="search.identificacion.errors?.rif">{{search.identificacion.errors?.rif}}
+                            </mat-error>
+                            <mat-error *ngIf="search.identificacion.errors?.maxLength">Supera el máximo de {{search.identificacion.errors?.length}} dígitos
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!-- [attr.disabled]="search.identificacion.value && search.identificacion.value.length > 0" -->
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-xs="20" *ngIf="taquilla && purpose!='gestion-comercial'">
+                            <mat-label>{{'global.accountNumber' | translate }} </mat-label>
+                            <input matInput autocomplete="off" [maxLength]="24" class="text-center" name="cuenta" num-account-validate
+                                [disabled]="disable | async" formControlName="cuenta" (keyup.enter)="queryByAccount()" (blur)="queryByAccount()"
+                                (change)="onChangeFilter($event)" mask="0000 0000 00 00 00000000">
+                            <mat-error *ngIf="search.cuenta.errors?.notexists">El numero de cuenta no existe
+                            </mat-error>
+                            <mat-error *ngIf="search.cuenta.errors?.account">Debe indicar una cuenta válida
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
+                            <mat-label>{{'global.fullName' | translate }} </mat-label>
+                            <input matInput autocomplete="off" class="text-center" name="nombre" [disabled]="false" formControlName="nombre">
+                        </mat-form-field>
+
+                        <div fxFlex="15" *ngIf="!taquilla && purpose!='gestion-comercial'">
+                            <button color="accent" class="btn-create" (click)="createOn()" *ngIf="!persona.id && purpose=='persona'" mat-raised-button
+                                [disabled]="!isElemNew || (disableBtn | async)">
+                                <i class="fa-light fa-user-plus fa-lg"></i>
+                                {{'button.add' | translate: {default:'global.notfound'} | translate }}
+                            </button>
+                            <button color="accent" class="btn-create" (click)="editOn()" *ngIf="(persona.id || persona.numper) && purpose=='persona'"
+                                mat-raised-button [disabled]="!persona.id && !persona.numper || (disableBtn | async)">
+                                <i class="fa-light fa-user-pen fa-lg"></i>
+                                {{'button.update' | translate: {default:'global.notfound'} | translate }}
+                            </button>
+                            <button color="accent" class="btn-create" (click)="pushOn()" [matTooltip]="persona.id || persona.numper? 'CARGAR' : 'CREAR'"
+                                *ngIf="purpose=='interviniente' || purpose=='cuenta'" mat-raised-button [disabled]="disableBtn | async">
+                                <i class="fal fa-user-plus fa-lg" *ngIf="!persona.id && !persona.numper"></i>
+                                <!-- <i class="fal fa-user fa-lg" ></i> -->
+                                <i class="fal fa-user-check fa-lg" *ngIf="persona.id || persona.numper"></i>
+                                {{(persona.id || persona.numper? 'CARGAR' : 'button.add') | translate }}
+                            </button>
+                        </div>
+
+                    </div>
                 </div>
-                
-            </div>
-        </div>
-    </sirio-card-content>
-</sirio-card>
+            </sirio-card-content>
+        </sirio-card>
+    </div>
+    <!-- visualización de warnings sobre la info del cliente -->
 
+    <ng-container *ngIf="warnings$ | async" [fxFlex.gt-xs]="100" fxLayout="column" fxLayout.gt-sm="row">
+        <!-- {{(warnings$ | async) | json}} -->
+        <ngb-alert [dismissible]="true" (closed)="alertClosed()" >
+            <i class="fa-regular fa-lightbulb-exclamation-on fa-lg"></i> &nbsp; <strong>¡Información Importante!</strong> El cliente tiene pendiente la carga de
+            la siguiente información: <br>
+            <div [innerHTML]="(warnings$.asObservable() | async)" class="margin-top-sm"></div>
+        </ngb-alert>
+    </ng-container>
+</div>
