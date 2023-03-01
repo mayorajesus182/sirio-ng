@@ -52,7 +52,6 @@ export class WFPaseEfectivoDetailComponent extends FormBaseComponent implements 
 
         this.bovedaAgenciaService.detailByExpediente(exp).subscribe(data => {
           this.data = data;
-          console.log('data  ', data);
           // TODO: AGREGAR ETIQUETAS FALTANTES EN EL HTML
           this.conos = data.detalleEfectivo;
           this.cdr.detectChanges();

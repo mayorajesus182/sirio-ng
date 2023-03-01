@@ -8,6 +8,7 @@ import { ApiConfConstants } from 'src/@sirio/constants';
 export interface TipoRenovacion {
     id: string;
     nombre: string;
+    dias: number;
     codigoLocal: string;
     fechaCreacion?: any;
     activo?: number;
@@ -27,10 +28,6 @@ export class TipoRenovacionService {
 
     actives(): Observable<TipoRenovacion[]> {
         return this.apiService.config(this.apiConfig).get('/actives');
-    }
-
-    get(id: string): Observable<TipoRenovacion> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/get`);
     }
 
 }

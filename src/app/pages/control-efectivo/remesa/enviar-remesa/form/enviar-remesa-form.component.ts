@@ -9,6 +9,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RolConstants } from 'src/@sirio/constants';
+import { GestionEfectivoConstants } from 'src/@sirio/constants/gestion-efectivo.constants';
 import { ConoMonetario, ConoMonetarioService } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { MaterialRemesa, Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
@@ -55,7 +56,7 @@ export class EnviarRemesaFormComponent extends FormBaseComponent implements OnIn
     materialRemesaList: MaterialRemesa[] = [];
     monedaDeRemesa: Moneda[] = [];
     esTransportista: Boolean = false;
-    public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
+    public nombreReceptor = GestionEfectivoConstants.BOVEDA_PRINCIPAL_NAME;
     readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
     constructor(

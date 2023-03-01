@@ -104,7 +104,7 @@
                                             <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker" tabindex="-1">
                                             </mat-datepicker-toggle>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
-                                                Fecha Invalida
+                                                Fecha Inválida
                                             </mat-error>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.age">{{f.fechaNacimiento.errors?.age}} </mat-error>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.required">{{'error.required' | translate}} </mat-error>

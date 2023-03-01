@@ -4,8 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
+import { TipoProductoConstants } from 'src/@sirio/constants/tipo-producto.constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoProducto, TipoProductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
 import { TipoSubproducto, TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
@@ -25,7 +25,7 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
     public tipoProductos = new BehaviorSubject<TipoProducto[]>([]);
     public tipoPersonas = new BehaviorSubject<TipoPersona[]>([]);
     public monedas = new BehaviorSubject<Moneda[]>([]);
-    constants = GlobalConstants;
+    constants = TipoProductoConstants;
     tipoSubproducto: TipoSubproducto = {} as TipoSubproducto;
 
     constructor(
@@ -89,6 +89,9 @@ export class TipoSubproductoFormComponent extends FormBaseComponent implements O
             tipoPersona: new FormControl(tipoSubproducto.tipoPersona || undefined, [Validators.required]),
             tipoProducto: new FormControl(tipoSubproducto.tipoProducto || undefined, [Validators.required]),
             moneda: new FormControl(tipoSubproducto.moneda || undefined, [Validators.required]),
+            tasa: new FormControl(tipoSubproducto.tasa || undefined),
+            minimo: new FormControl(tipoSubproducto.minimo || undefined),
+            maximo: new FormControl(tipoSubproducto.maximo || undefined),
             conChequera: new FormControl(tipoSubproducto.conChequera || false),
             conLibreta: new FormControl(tipoSubproducto.conLibreta || false),
         });

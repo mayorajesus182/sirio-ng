@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RolConstants } from 'src/@sirio/constants';
+import { GestionEfectivoConstants } from 'src/@sirio/constants/gestion-efectivo.constants';
 import { Moneda, MonedaService } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { Remesa, RemesaService } from 'src/@sirio/domain/services/control-efectivo/remesa.service';
 import { CupoAgencia, CupoAgenciaService } from 'src/@sirio/domain/services/organizacion/cupo-agencia.service';
@@ -36,8 +37,8 @@ export class SolicitarRemesaFormComponent extends FormBaseComponent implements O
     cupo: CupoAgencia = {} as CupoAgencia;
     todayValue: moment.Moment;
     esTransportista: Boolean = false;
-    public bovedaPrincipal = GlobalConstants.BOVEDA_PRINCIPAL;
-    public nombreReceptor = GlobalConstants.BOVEDA_PRINCIPAL_NAME;
+    public bovedaPrincipal = GestionEfectivoConstants.BOVEDA_PRINCIPAL;
+    public nombreReceptor = GestionEfectivoConstants.BOVEDA_PRINCIPAL_NAME;
 
     constructor(
         injector: Injector,

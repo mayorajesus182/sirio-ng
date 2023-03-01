@@ -36,37 +36,13 @@
 
                             <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
 
-                                <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto"
-                                    [label]="'passToBoxOffice.movementType' | translate: {default: 'global.movementType'} | translate"
-                                    formControlName="movimientoEfectivo" [required]="true" [elements]="movimientos.asObservable()" [attributeName]="'nombre'"
-                                    [errors]="f.movimientoEfectivo?.errors">
-                                </sirio-select-search> -->
-
                                 <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
                                     formControlName="taquilla" [elements]="taquillas.asObservable()" [attributeName]="'nombre'" [required]="true">
                                 </sirio-select-search>
 
-                                <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'passToBoxOffice.boxOffice' | translate: {default: 'global.boxOffice'} | translate"
-                                    formControlName="taquilla" [elements]="taquillas.asObservable()" [attributeName]="'nombre'" [errors]="f.taquilla?.errors"
-                                    *ngIf="f.movimientoEfectivo.value === movimiento.TAQUILLA_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_TAQUILLA"
-                                    [required]="f.movimientoEfectivo.value === movimiento.TAQUILLA_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_TAQUILLA">
-                                </sirio-select-search> -->
-
-                                <!-- <sirio-select-search fxFlex="100" fxFlex.gt-xs="25" [label]="'passToBoxOffice.atm' | translate: {default: 'global.atm'} | translate" formControlName="atm"
-                                    [elements]="atms.asObservable()" [attributeName]="'nombre'" [errors]="f.atm?.errors"
-                                    *ngIf="f.movimientoEfectivo.value === movimiento.ATM_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_ATM"
-                                    [required]="f.movimientoEfectivo.value === movimiento.ATM_BOVEDA || f.movimientoEfectivo.value === movimiento.BOVEDA_ATM">
-                                </sirio-select-search> -->
-
                                 <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'passToBoxOffice.coin' | translate: {default: 'global.coin'} | translate"
                                     formControlName="moneda" [required]="true" [elements]="monedas.asObservable()" [attributeName]="'nombre'">
                                 </sirio-select-search>
-
-                                <!-- <mat-form-field fxFlex.gt-xs="25" >
-                                    <mat-label>{{'passToBoxOffice.coin' | translate: {default: 'global.coin'} | translate }}
-                                    </mat-label>
-                                    <input matInput [value]="monedaAtm.nombre" readonly>
-                                </mat-form-field> -->
 
                                 <mat-form-field fxFlex="100" fxFlex.gt-xs="25" appearance="standart">
                                     <mat-label>{{'passToBoxOffice.amount' | translate: {default: 'global.amount'} | translate }}
@@ -101,7 +77,6 @@
                                                 [disabled]="item.disponible==0" />
 
                                             <mat-error *ngIf="cantidad.invalid">Cantidad Máxima {{item.disponible | number:'1.0'}}</mat-error>
-                                            <!-- <div *ngIf="cantidad.invalid"  class="help-block" style="color: #813838">Máximo {{item.disponible}}</div> -->
 
                                         </mat-form-field>
                                     </div>

@@ -57,7 +57,7 @@
                 <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker">
                 </mat-datepicker-toggle>
                 <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
-                    Fecha Invalida
+                    Fecha Inválida
                 </mat-error>
                 <mat-error *ngIf="f.fechaNacimiento.errors?.required">{{'error.required' | translate}} </mat-error>
                 <mat-error *ngIf="f.fechaNacimiento.errors?.age">
@@ -143,7 +143,7 @@
                 <mat-datepicker-toggle matSuffix [for]="fechaPicker">
                 </mat-datepicker-toggle>
                 <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
-                    Fecha Invalida
+                    Fecha Inválida
                 </mat-error>
                 <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}} </mat-error>
             </mat-form-field>
