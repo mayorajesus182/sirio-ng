@@ -15,9 +15,9 @@ const recaudoRoutes: Routes = [
         loadChildren: () => import('./tipo-recaudo/tipo-recaudo.module').then(m => m.TipoRecaudoModule),
     },
     {
-        path: 'dato-persona',
+        path: 'requisito-persona',
         data: { title: 'Dato de Persona' },
-        loadChildren: () => import('./dato-persona/dato-persona.module').then(m => m.DatoPersonaModule),
+        loadChildren: () => import('./requisito-persona/requisito-persona.module').then(m => m.RequisitoPersonaModule),
     },
 ];
 

@@ -8,10 +8,8 @@ import { HighlightModule } from 'src/@sirio/shared/highlightjs/highlight.module'
 import { MaterialModule } from 'src/@sirio/shared/material-components.module';
 import { SharedComponentModule } from 'src/@sirio/shared/shared-components.module';
 import { SirioSharedModule } from 'src/@sirio/sirio-shared.module';
-import { DatoPersonaRoutingModule } from './dato-persona-routing.module';
-import { DatoPersonaFormComponent } from './form/dato-persona-form.component';
-import { DatoPersonaTableComponent } from './table/dato-persona-table.component';
-import { DatoPersonaDetailComponent } from './detail/dato-persona-detail.component';
+import { RequisitoPersonaFormComponent } from './form/requisito-persona-form.component';
+import { RequisitoPersonaRoutingModule } from './requisito-persona-routing.module';
 
 
 
@@ -29,16 +27,14 @@ import { DatoPersonaDetailComponent } from './detail/dato-persona-detail.compone
                
         HighlightModule,
         SirioCardModule,
-        DatoPersonaRoutingModule
+        RequisitoPersonaRoutingModule
     ],
     declarations: [
-        DatoPersonaFormComponent,
-        DatoPersonaTableComponent,
-        DatoPersonaDetailComponent
+        RequisitoPersonaFormComponent,
     ],
     exports: [],
 })
 
-export class DatoPersonaModule {
+export class RequisitoPersonaModule {
 
 }

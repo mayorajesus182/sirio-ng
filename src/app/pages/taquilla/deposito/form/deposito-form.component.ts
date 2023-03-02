@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants/global.constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoDocumento } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancaria, CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
@@ -112,7 +113,7 @@ export class DepositoFormComponent extends FormBaseComponent implements OnInit {
 
     resetVoucher(){
         this.voucherForm?this.voucherForm.reset({}):'';
-        this.voucherForm? this.voucherForm.controls.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT): '';
+        this.voucherForm? this.voucherForm.controls.tipoDocumentoBeneficiario.setValue(PersonaConstants.PN_TIPO_DOC_DEFAULT): '';
     }
    
     esEfectivoEvent(event) {

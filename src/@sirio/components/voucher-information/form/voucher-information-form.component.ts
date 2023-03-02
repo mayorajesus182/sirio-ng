@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { CuentaBancariaOperacion } from 'src/@sirio/domain/services/cuenta-bancaria.service';
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
@@ -44,7 +45,7 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
         });
 
         this.voucherForm = this.fb.group({
-            tipoDocumentoBeneficiario: new FormControl(GlobalConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
+            tipoDocumentoBeneficiario: new FormControl(PersonaConstants.PN_TIPO_DOC_DEFAULT, Validators.required),
             identificacionBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.NUMERIC)]),
             nombreBeneficiario: new FormControl('', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_ACCENTS_SPACE)]),
             telefono: new FormControl(''),
@@ -102,7 +103,7 @@ export class VoucherInformationFormComponent implements OnInit, AfterViewInit {
         // this.voucher.nombreBeneficiario.setErrors(undefined);
         // this.voucher.email.setErrors(undefined);
         this.voucherForm.reset({});
-        this.voucher.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+        this.voucher.tipoDocumentoBeneficiario.setValue(PersonaConstants.PN_TIPO_DOC_DEFAULT);
     }
 }
 

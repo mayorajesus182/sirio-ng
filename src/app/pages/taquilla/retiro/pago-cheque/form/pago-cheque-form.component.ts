@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { ConoMonetario } from 'src/@sirio/domain/services/configuracion/divisa/cono-monetario.service';
 import { Moneda } from 'src/@sirio/domain/services/configuracion/divisa/moneda.service';
 import { TipoProducto } from 'src/@sirio/domain/services/configuracion/producto/tipo-producto.service';
@@ -73,7 +74,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                 this.loadingDataForm.next(false);
                 this.f.numeroCuenta.valueChanges.subscribe(val => {
                     if (val) {
-                        this.tipoDocumentoService.activesByTipoPersona(GlobalConstants.PERSONA_NATURAL).subscribe(data => {
+                        this.tipoDocumentoService.activesByTipoPersona(PersonaConstants.PERSONA_NATURAL).subscribe(data => {
                             this.tipoDocumentos.next(data);
                         });
                     } else {
@@ -128,7 +129,7 @@ export class PagoChequeFormComponent extends FormBaseComponent implements OnInit
                                 this.persona.email = cuenta.email;
                                 this.persona.tipoDocumento = cuenta.tipoDocumento;
                                 this.persona.id = cuenta.id;
-                                // this.f.tipoDocumentoBeneficiario.setValue(GlobalConstants.PN_TIPO_DOC_DEFAULT);
+                                // this.f.tipoDocumentoBeneficiario.setValue(PersonaConstants.PN_TIPO_DOC_DEFAULT);
 
 
 

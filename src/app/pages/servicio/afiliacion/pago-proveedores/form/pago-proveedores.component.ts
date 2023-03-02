@@ -12,6 +12,7 @@ import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 import { pago_proveedores, pago_proveedoresService, Tipo_Servicio } from 'src/@sirio/domain/services/servicio/pago-proveedores.service';
 import { PersonaJuridica } from 'src/@sirio/domain/services/persona/persona-juridica.service';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 
 @Component({
     selector: 'app-pago-proveedores-form',
@@ -25,7 +26,6 @@ import { PersonaJuridica } from 'src/@sirio/domain/services/persona/persona-juri
 export class ProveedoresFormComponent extends FormBaseComponent implements OnInit {
 
     fromOtherComponent: boolean = false;
-    constants = GlobalConstants;
     public voucherForm: FormGroup;
     public cuentasBancarias = new BehaviorSubject<CuentaBancaria[]>([]);
     public tiposDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
@@ -56,7 +56,7 @@ export class ProveedoresFormComponent extends FormBaseComponent implements OnIni
 
 
 
-        this.tipoDocumentoService.activesByTipoPersona(this.constants.PERSONA_JURIDICA).subscribe(data => {
+        this.tipoDocumentoService.activesByTipoPersona(PersonaConstants.PERSONA_JURIDICA).subscribe(data => {
             this.tipoDocumentos.next(data);
         });
 
@@ -134,7 +134,7 @@ export class ProveedoresFormComponent extends FormBaseComponent implements OnIni
 
     resetVoucher() {
         this.voucherForm ? this.voucherForm.reset({}) : '';
-        this.voucherForm ? this.voucherForm.controls.tipoDocumentoBeneficiario.setValue(GlobalConstants.PJ_TIPO_DOC_DEFAULT) : '';
+        this.voucherForm ? this.voucherForm.controls.tipoDocumentoBeneficiario.setValue(PersonaConstants.PJ_TIPO_DOC_DEFAULT) : '';
     }
 
 

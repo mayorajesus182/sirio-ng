@@ -26,6 +26,7 @@ import { PersonaReportService } from 'src/@sirio/domain/services/persona/persona
 import { Persona } from 'src/@sirio/domain/services/persona/persona.service';
 import { Preferencia, PreferenciaService } from 'src/@sirio/domain/services/preferencias/preferencia.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 
 @Component({
     selector: 'app-cuenta-banco-form',
@@ -336,7 +337,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.resetAll();
             this.loadingDataForm.next(false);
             this.disabled$.next(true);
-            const tpersona = event.tipoPersona == GlobalConstants.PERSONA_JURIDICA ? 'juridica' : 'natural';
+            const tpersona = event.tipoPersona == PersonaConstants.PERSONA_JURIDICA ? 'juridica' : 'natural';
             this.router.navigate([`/sirio/persona/${tpersona}/${event.tipoDocumento}/${event.identificacion}/add`]);
         } else {
             //TODO: ACA DEBO CARGAR LA CUENTA QUE ESTA PROCESO PARA EL CLIENTE
