@@ -69,7 +69,6 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     console.log("informacionLaborales",this.informacionLaborales);
 
-
     this.loaded.next(false);
     forkJoin([
       this.tipoIngresoService.actives(),
