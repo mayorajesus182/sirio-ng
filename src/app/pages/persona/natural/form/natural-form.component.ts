@@ -384,6 +384,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.loaded$.next(false);
             this.personaNatural = {} as PersonaNatural;
             this.isNew = true;
+            this.hasBasicData=false;
             this.cdr.detectChanges();
         }
     }
