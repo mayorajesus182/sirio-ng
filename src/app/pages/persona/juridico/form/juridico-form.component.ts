@@ -164,14 +164,24 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         this.route.paramMap.subscribe(data => {
 
             if (data.get('doc') && data.get('tdoc')) {
-                this.fromOtherComponent = true
-                this.isNew = true;
+                this.fromOtherComponent = true;
+
                 this.personaJuridica.identificacion = data.get('doc');
                 this.personaJuridica.tipoDocumento = data.get('tdoc');
 
+                this.isNew = this.router.url.endsWith('/add') || this.router.url.endsWith('/edit');
+                
                 this.buildForm();
-
                 this.loaded$.next(true);
+                
+                this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
+
+                    this.updatePerson(p);
+
+                }, error => {
+                    this.isNew = true;
+                    
+                });
             }
         });
 
