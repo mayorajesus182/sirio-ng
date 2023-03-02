@@ -47,7 +47,7 @@ import { MethodComponentApi } from "../actions/actions-nav.component";
 export class TableBaseComponent {
     public ColumnMode = ColumnMode;
     public dataSource: DatasourceService;
-
+    public loaded$ = new BehaviorSubject<boolean>(false);
     @ViewChildren(MatPaginator) paginators: QueryList<MatPaginator>
     @ViewChild(MatSort) sort: MatSort;
     filter = new BehaviorSubject<string>('');

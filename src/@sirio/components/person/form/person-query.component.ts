@@ -425,6 +425,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
         this.cdref.detectChanges();
         this.finding = false;
         sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
+        this.alertClosed();
         this.result.emit({});
     }
 
