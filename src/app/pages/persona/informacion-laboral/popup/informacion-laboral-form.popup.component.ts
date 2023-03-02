@@ -69,49 +69,6 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
 
     console.log("informacionLaborales",this.informacionLaborales);
 
-    // this.calendarioService.today().subscribe(data => {
-    //   this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
-    // });
-
-
-    // this.tipoIngresoService.actives().subscribe(data => {
-    //   // this.tipoingresoList.next(data.filter(d=>!this.informacionLaborales.map(p=>p.tipo).includes(d.nombre) || this.informacionLaborales.length ==0 ));
-    //   this.tipoingresoList.next(data.filter(d=>!this.informacionLaborales.map(p=>p.tipo).includes(d.nombre) || this.defaults.payload.id!=undefined || this.informacionLaborales.length ==0 ));
-
-    //   this.cdr.detectChanges();
-    // })
-
-
-    // this.tipoDocumentoService.activesJuridicos().subscribe(data => {
-    //   this.tipodocumentoList.next(data);
-    //   this.cdr.detectChanges();
-    // })
-
-    // this.telefonicaService.actives().subscribe(data => {
-    //   this.telefonicaList.next(data);
-    //   this.cdr.detectChanges();
-    // })
-
-    // this.ramoService.actives().subscribe(data => {
-    //   this.ramoList.next(data);
-
-    // })
-
-    // this.actividadIndependienteService.actives().subscribe(data => {
-    //   this.actinDependienteList.next(data);
-
-    // })
-
-    // this.paisService.actives().subscribe(data => {
-    //   this.paisList.next(data);
-
-    // })
-
-    // this.profesionService.actives().subscribe(data => {
-    //   this.profesionList.next(data);
-
-    // });
-
 
     this.loaded.next(false);
     forkJoin([
@@ -127,7 +84,6 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
       (data: any) => {
         // aquí se tiene toda la info de todas las peticiones
         
-
         // this.tipoingresoList.next(data[0]);
         this.tipoingresoList.next(data[0].filter((d: any )=>!this.informacionLaborales.map(p=>p.tipo).includes(d.id) || this.defaults.payload.id!=undefined || this.informacionLaborales.length ==0 ));
         this.todayValue = moment(data[1], GlobalConstants.DATE_SHORT);
@@ -135,7 +91,8 @@ export class InformacionLaboralFormPopupComponent extends PopupBaseComponent imp
         this.telefonicaList.next(data[3]);
         this.ramoList.next(data[4]);
         this.actinDependienteList.next(data[5]);
-        this.profesionList.next(data[6]);
+        this.paisList.next(data[6]);
+        this.profesionList.next(data[7]);
 
         this.loaded.next(true);
 
