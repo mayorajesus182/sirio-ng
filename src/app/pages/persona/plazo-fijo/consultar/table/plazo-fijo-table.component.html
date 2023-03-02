@@ -3,16 +3,17 @@
         <sirio-breadcrumbs [@fadeInRight] [crumbs]="['state.table']" current="global.list"></sirio-breadcrumbs>
     </sirio-page-layout-header>
 
-    <sirio-person-query (result)="queryResult($event)" [purpose]="'gestion-comercial'"></sirio-person-query>
 
     <sirio-page-layout-content [@fadeInUp]>
-        <!-- <sirio-list [name]="'state.table' | translate: {default: 'global.notfound'}" placeholder="state.search"
-            (filterChange)="onFilterChange($event)"> -->
-        <!-- </sirio-list> *ngIf="(loaded$ | async)" --> 
-            <ng-container >
 
-                <mat-table #table id="tableContainer"  [dataSource]="dataSource" matSort matSortActive="plazofijo_id" matSortDirection="desc">
-    
+        <sirio-person-query (result)="queryResult($event)" [purpose]="'gestion-comercial'"></sirio-person-query>
+        
+        <sirio-list [name]="'state.table' | translate: {default: 'global.notfound'}" placeholder="state.search" (filterChange)="onFilterChange($event)">
+            
+            <ng-container>
+
+                <mat-table #table id="tableContainer" [dataSource]="dataSource" matSort matSortActive="plazofijo_id" matSortDirection="desc">
+
                     <ng-container matColumnDef="plazofijo_id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tw-30'">{{'state.code' | translate:
                             {default: 'global.code'} | translate }}</mat-header-cell>
@@ -20,7 +21,7 @@
                             <p class="font-weight-600">{{element.id}}</p>
                         </mat-cell>
                     </ng-container>
-    
+
                     <ng-container matColumnDef="fecha">
                         <mat-header-cell *matHeaderCellDef [ngClass]="'tw-10'" mat-sort-header>{{'state.name' | translate:
                             {default: 'global.name'} | translate }}</mat-header-cell>
@@ -28,7 +29,7 @@
                             <p class="text-truncate font-weight-600">{{element.fecha}}</p>
                         </mat-cell>
                     </ng-container>
-    
+
                     <ng-container matColumnDef="monto">
                         <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'state.name' | translate:
                             {default: 'global.name'} | translate }}</mat-header-cell>
@@ -36,7 +37,7 @@
                             <p class="text-truncate font-weight-600">{{element.monto}}</p>
                         </mat-cell>
                     </ng-container>
-    
+
                     <ng-container matColumnDef="tipsubproducto_id">
                         <mat-header-cell *matHeaderCellDef [ngClass]="'tw-20'" mat-sort-header>{{'state.name' | translate:
                             {default: 'global.name'} | translate }}</mat-header-cell>
@@ -44,7 +45,7 @@
                             <p class="text-truncate font-weight-600">{{element.tipoSubproducto}}</p>
                         </mat-cell>
                     </ng-container>
-    
+
                     <ng-container matColumnDef="estplazofijo_id">
                         <mat-header-cell *matHeaderCellDef [ngClass]="'tw-15'" mat-sort-header>{{'state.name' | translate:
                             {default: 'global.name'} | translate }}</mat-header-cell>
@@ -52,7 +53,7 @@
                             <p class="text-truncate font-weight-600">{{element.estatus}}</p>
                         </mat-cell>
                     </ng-container>
-    
+
                     <!-- Buttons Column -->
                     <ng-container matColumnDef="actions">
                         <mat-header-cell *matHeaderCellDef [ngClass]="'tw-5'"></mat-header-cell>
@@ -62,7 +63,7 @@
                             </div>
                         </mat-cell>
                     </ng-container>
-    
+
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let element; columns: displayedColumns;" class="element">
                     </mat-row>
@@ -70,7 +71,7 @@
                 <mat-paginator [length]="dataSource?.totalElements" [pageSize]="15" [pageSizeOptions]="[15, 30, 50]" showFirstLastButtons></mat-paginator>
             </ng-container>
 
-        <!-- </sirio-list> -->
+        </sirio-list>
         <sirio-button-add tooltips="action.add" (eventClicked)="add($event)"></sirio-button-add>
     </sirio-page-layout-content>
 </sirio-page-layout>
