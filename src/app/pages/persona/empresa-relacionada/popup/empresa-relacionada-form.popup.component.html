@@ -2,7 +2,7 @@
   <sirio-dialog-header-heading>
      <!-- TODO: PENDIENTE IN18 -->
      
-    <h1>Clientes y Proveedores</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
+    <h1>Clientes / Proveedores / Empresas Relacionadas</h1> <span>{{(isNew?'action.add':'action.edit') | translate}}</span>
     <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
       <button mat-icon-button class="close-button" [mat-dialog-close]="true">
@@ -21,7 +21,7 @@
 
       <sirio-select-search
       fxFlex="100" fxFlex.gt-xs="30"
-        [label]="'Relación Empresa'"
+        [label]="'Tipo de Relación'"
         formControlName="relacionEmpresa" [required]="true" [elements]="tipoRelacionList.asObservable()"
         [attributeName]="'nombre'">
       </sirio-select-search>
