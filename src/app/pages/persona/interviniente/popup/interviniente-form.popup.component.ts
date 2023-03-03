@@ -76,7 +76,7 @@ export class IntervinienteFormPopupComponent extends PopupBaseComponent implemen
     // }
 
     this.tipoParticipacionService.actives().subscribe(data => {
-
+      console.log("data",data)
       this.tipoParticipaciones.next(data);
       this.cdr.detectChanges();
     })

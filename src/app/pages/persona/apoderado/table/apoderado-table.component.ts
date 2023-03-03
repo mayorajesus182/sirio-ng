@@ -23,6 +23,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona=undefined;
+  @Input() Tipopersona=undefined;
   @Input() onRefresh:BehaviorSubject<boolean>=new BehaviorSubject<boolean>(false);
   apoderadoList:ReplaySubject<Apoderado[]> = new ReplaySubject<Apoderado[]>();
   apoderados: string[] = [];
@@ -49,7 +50,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
   }
 
   ngOnInit() {
-    
+
     if(this.persona){
       this.loadList();
 
@@ -93,7 +94,7 @@ export class ApoderadoTableComponent extends TableBaseComponent implements OnIni
     if(data){
       data.persona=this.persona;
     }    
-    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona, apoderados: this.apoderados}:{ ...data, ...{ apoderados: this.apoderados } },'80%').afterClosed().subscribe(event=>{
+    this.showFormPopup(ApoderadoFormPopupComponent, !data?{persona:this.persona, apoderados: this.apoderados ,Tipopersona:this.Tipopersona}:{ ...data, ...{ apoderados: this.apoderados } },'80%').afterClosed().subscribe(event=>{
       
         if(event){
             this.onRefresh.next(true);

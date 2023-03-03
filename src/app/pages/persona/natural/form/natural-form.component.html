@@ -307,7 +307,7 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div fxLayout="row" fxLayout="column" *ngIf="showApoderado">
-                                    <sirio-persona-apoderado-table [persona]="personaNatural.id" (propagar)="updateApoderado($event)">
+                                    <sirio-persona-apoderado-table [persona]="personaNatural.id" [Tipopersona]="tipoPersona" (propagar)="updateApoderado($event)">
                                     </sirio-persona-apoderado-table>
                                 </div>
                             </mat-expansion-panel>

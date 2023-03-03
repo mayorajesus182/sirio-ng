@@ -79,6 +79,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     estado_civil: string;
 
     tipoDocumento = undefined ;
+    tipoPersona = "F";
     identificacion= undefined;
     tipo_DocumentoMenor: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);

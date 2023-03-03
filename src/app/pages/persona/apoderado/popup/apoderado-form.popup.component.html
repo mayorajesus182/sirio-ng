@@ -1,8 +1,17 @@
 <sirio-dialog-header mat-dialog-title>
     <sirio-dialog-header-heading>
         <!-- TODO: PENDIENTE IN18 -->
+
+        <div *ngIf="!HideTitulo">
         <h1>Representante(s) Legal(es) de la Empresa Autorizados a movilizar la cuenta / Apoderado</h1> <span>{{(isNew?'action.add':'action.edit') |
             translate}}</span>
+        </div>
+
+        <div *ngIf="HideTitulo">
+            <h1> Representante Legal, Apoderado y/o Autorizado</h1> <span>{{(isNew?'action.add':'action.edit') |
+            translate}}</span>
+        </div>
+
         <div fxLayout="row" fxFlex="1 1 0%" fxLayoutAlign="end center">
 
             <button mat-icon-button class="close-button" [mat-dialog-close]="true">
