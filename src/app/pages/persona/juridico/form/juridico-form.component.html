@@ -16,24 +16,17 @@
                     <sirio-card-header-subheading>{{(isNew?'action.add':'action.edit')| translate}} &nbsp;&nbsp;<b>{{personaJuridica.nombre | uppercase}}</b>
                     </sirio-card-header-subheading>
                     <sirio-card-header-actions>
-                        <button class="icon" mat-icon-button matTooltip="{{'button.save' | translate:
-                        
-                        {default: 'Persona Juridica'} | translate }}" type="button" [disabled]="itemForm?.invalid " (click)="send()">
-                            <mat-icon>outbox</mat-icon>
-
+                        <button class="icon" mat-icon-button matTooltip="{{'button.send' | translate:
+                        {default: 'global.notfound'} | translate }}" type="button" [disabled]="itemForm?.invalid || !hasBasicData " (click)="send()">
+                            <i class="fa-light fa-inbox-out fa-xl"></i>
                         </button>
-                        <!-- <button class="icon" mat-icon-button matTooltip="{{'button.clear' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" (click)="itemForm.reset({})">
-                            <mat-icon>backspace</mat-icon>
-                        </button> -->
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
-                        {default: 'Persona Juridica'} | translate }}" type="button" (click)="back() ">
-
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="backHome()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </sirio-card-header-actions>
                 </sirio-card-header>
-                <sirio-card-content fxLayout="column">
+                <sirio-card-content fxLayout="column" >
 
                     <!-- <input [focused]="attr.focus"> -->
 
@@ -41,11 +34,12 @@
                         (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
 
 
-                    <ng-container *ngIf="loaded$ | async" tabNavigation>
+                    <ng-container *ngIf="loaded$ | async" >
+
 
                         <!-- Put the component which needs to be destroyed + rerendered inside -->
 
-                        <mat-accordion class="expansion-headers-align">
+                        <mat-accordion class="expansion-headers-align" tabNavigation>
 
                             <mat-expansion-panel expanded="true">
                                 <mat-expansion-panel-header class="odd margin-bottom-xs">

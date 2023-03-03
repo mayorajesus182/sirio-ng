@@ -1,9 +1,9 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
-import { GlobalConstants } from 'src/@sirio/constants';
+import { TipoProductoConstants } from 'src/@sirio/constants/tipo-producto.constants';
 import { TipoSubproductoService } from 'src/@sirio/domain/services/configuracion/producto/tipo-subproducto.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
@@ -16,7 +16,7 @@ import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 export class TipoSubproductoDetailComponent extends FormBaseComponent implements OnInit {
 
-  constants = GlobalConstants;
+  constants = TipoProductoConstants;
 
   constructor(
     spinner: NgxSpinnerService,

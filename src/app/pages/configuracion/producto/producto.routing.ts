@@ -19,6 +19,11 @@ const productoRoutes: Routes = [
         data: { title: 'Origen de Fondo' },
         loadChildren: () => import('./tipo-subproducto/tipo-subproducto.module').then(m => m.TipoSubproductoModule),
     },
+    {
+        path: 'plazo',
+        data: { title: 'Plazos' },
+        loadChildren: () => import('./plazo/plazo.module').then(m => m.PlazoModule),
+    },
 ];
 
 

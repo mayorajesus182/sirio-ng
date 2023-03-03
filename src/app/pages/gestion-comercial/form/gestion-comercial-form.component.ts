@@ -52,17 +52,21 @@ export class GestionComercialFormComponent extends FormBaseComponent implements 
         this.cdr.detectChanges();
     }
 
+    cleanForm() {
+        this.loaded$.next(false);
+        this.persona = {} as Persona;
+    }
 
-    queryResult(event) {
+    loadResult(event) {
 
         if (!event.id && !event.numper) {
             this.loaded$.next(false);
             this.persona = {} as Persona;
-            this.cdr.detectChanges();
         } else {
             this.persona = event;
             this.loaded$.next(true);
         }
+        this.cdr.detectChanges();
     }
 
 }

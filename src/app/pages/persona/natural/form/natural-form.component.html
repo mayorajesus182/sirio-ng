@@ -17,7 +17,7 @@
                             <i class="fa-light fa-inbox-out fa-xl"></i>
                         </button>
                         <button class="icon" mat-icon-button matTooltip="{{'button.cancel' | translate:
-                        {default: 'global.notfound'} | translate }}" type="button" (click)="back()">
+                        {default: 'global.notfound'} | translate }}" type="button" (click)="backHome()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </sirio-card-header-actions>
@@ -29,6 +29,7 @@
                     </sirio-person-query>
 
                     <ng-container *ngIf="loaded$ | async">
+                     
                         <mat-accordion class="expansion-headers-align">
                             <mat-expansion-panel expanded="true">
                                 <mat-expansion-panel-header class="odd margin-bottom-xs">
@@ -97,7 +98,7 @@
                                             <mat-datepicker-toggle matSuffix [for]="fechaNacimientoPicker" tabindex="-1">
                                             </mat-datepicker-toggle>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.matDatepickerParse || f.fechaNacimiento.errors?.matDatepickerMax">
-                                                Fecha Invalida
+                                                Fecha Inválida
                                             </mat-error>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.age">{{f.fechaNacimiento.errors?.age}} </mat-error>
                                             <mat-error *ngIf="f.fechaNacimiento.errors?.required">{{'error.required' | translate}} </mat-error>

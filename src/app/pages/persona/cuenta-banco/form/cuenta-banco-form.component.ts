@@ -344,6 +344,8 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
             this.persona = event;
             this.isNew = true;
             this.mandatoyDataService.validate(this.persona.id).subscribe(errors => {
+                console.log('errors',errors);
+                
 
                 if (errors.length == 0) {
                     // no tengo errores
@@ -375,7 +377,7 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                 } else {
                     this.loadingDataForm.next(false);
                     this.disabled$.next(true);
-                    this.mandatoyDataService.showErrorsAndRedirect(errors);
+                    this.mandatoyDataService.showErrorsAndRedirect(errors,this.persona);
                 }
 
             });

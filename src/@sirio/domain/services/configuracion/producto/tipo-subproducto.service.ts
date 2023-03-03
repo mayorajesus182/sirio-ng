@@ -15,6 +15,9 @@ export interface TipoSubproducto {
     codigoLocal: string;
     conChequera: number;
     conLibreta: number;
+    tasa: number;
+    minimo: number;
+    maximo: number;
     fechaCreacion?: any;
     activo?: number;
 }
@@ -68,6 +71,10 @@ export class TipoSubproductoService {
 
     activesByTipoProductoAndTipoPersona(tipoProducto: string, tipoPersona: string): Observable<TipoSubproducto[]> {
         return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/tipo-producto/${tipoPersona}/tipo-persona/actives`);
+    }
+
+    activesByTipoProductoAndTipoPersonaAndMoneda(tipoProducto: string, tipoPersona: string, moneda: string): Observable<TipoSubproducto[]> {
+        return this.apiService.config(this.apiConfig).get(`/${tipoProducto}/${tipoPersona}/${moneda}/by-tipo-producto-tipo-persona-moneda/actives`);
     }
 
     activesByTipoProducto(tipoProducto: string): Observable<TipoSubproducto[]> {

@@ -43,7 +43,7 @@
         <mat-datepicker-toggle matSuffix [for]="fechaPicker">
         </mat-datepicker-toggle>
         <mat-error *ngIf="f.fecha.errors?.matDatepickerParse || f.fecha.errors?.matDatepickerMax">
-          Fecha Invalida
+          Fecha Inválida
         </mat-error>
         <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}} </mat-error>
       </mat-form-field>
@@ -140,7 +140,7 @@
         <mat-datepicker-toggle matSuffix [for]="fechaPicker">
         </mat-datepicker-toggle>
         <mat-error *ngIf="f.fecha.errors?.matDatepickerParse">
-          Fecha Invalida
+          Fecha Inválida
         </mat-error>
         <mat-error *ngIf="f.fecha.errors?.required">{{'error.required' | translate}} </mat-error>
       </mat-form-field>
