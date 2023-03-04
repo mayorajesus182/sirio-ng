@@ -17,7 +17,7 @@ import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
-import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -78,6 +78,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
+    warnings$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
 
     constructor(
         injector: Injector,
@@ -162,7 +163,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
 
         this.route.paramMap.subscribe(data => {
-
+            // esto solo pasara cuando el cliente esta siendo redireccionado desde otra pagina dentro del sistema
             if (data.get('doc') && data.get('tdoc')) {
                 this.fromOtherComponent = true;
 
@@ -173,14 +174,22 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
                 
                 this.buildForm();
                 this.loaded$.next(true);
-                
+                // en este aspecto realizo lo que hace el componente de consulta de persona
                 this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
 
                     this.updatePerson(p);
+                    if(p.id){
+
+                        this.mandatoyDataService.validate(p.id).subscribe(errors => {
+                            
+                            this.warnings$.next(this.mandatoyDataService.errorsToHtml(errors));    
+                          
+                        });
+
+                    }
 
                 }, error => {
-                    this.isNew = true;
-                    
+                    this.isNew = true;                    
                 });
             }
         });
@@ -327,11 +336,11 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     send() {
         this.disabled$.next(true);
 
-        this.mandatoyDataService.validate(this.personaJuridica.id).subscribe(data => {
-            console.log('errors', data);
+        this.mandatoyDataService.validate(this.personaJuridica.id).subscribe(errors => {
+            console.log('errors', errors);
             this.loadingDataForm.next(true);
 
-            if (data.length == 0) {
+            if (errors.length == 0) {
 
                 this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
@@ -357,6 +366,12 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
                     }
 
                 });
+            }else{
+                this.loadingDataForm.next(false);
+                this.disabled$.next(false);
+                this.mandatoyDataService.showErrorsAndRedirect(errors,this.personaJuridica as Persona);
+                // this.errors=data;
+                // this.cdr.detectChanges();
             }
 
 

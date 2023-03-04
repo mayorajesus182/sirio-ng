@@ -97,6 +97,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
+
+    warnings$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
+
     constructor(
         injector: Injector,
         dialog: MatDialog,
@@ -206,6 +209,16 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                 this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
 
                     this.updatePerson(p);
+
+                    if(p.id){
+
+                        this.mandatoyDataService.validate(p.id).subscribe(errors => {
+                            
+                            this.warnings$.next(this.mandatoyDataService.errorsToHtml(errors));    
+                          
+                        });
+
+                    }
 
                 }, error => {
                     this.isNew = true;

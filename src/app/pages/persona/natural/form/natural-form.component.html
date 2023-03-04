@@ -29,6 +29,17 @@
                     </sirio-person-query>
 
                     <ng-container *ngIf="loaded$ | async">
+
+
+                        <ng-container *ngIf="warnings$ | async" [fxFlex.gt-xs]="100" fxLayout="column" fxLayout.gt-sm="row">
+                            <!-- {{(warnings$ | async) | json}} -->
+                            <ngb-alert [dismissible]="true" (closed)="alertClosed()" >
+                                <i class="fa-regular fa-lightbulb-exclamation-on fa-lg"></i> &nbsp; 
+                                <strong>¡Información Importante!</strong> El cliente tiene pendiente la carga de
+                                la siguiente información: <br>
+                                <div [innerHTML]="(warnings$.asObservable() | async)" class="margin-top-sm"></div>
+                            </ngb-alert>
+                        </ng-container>
                      
                         <mat-accordion class="expansion-headers-align">
                             <mat-expansion-panel expanded="true">

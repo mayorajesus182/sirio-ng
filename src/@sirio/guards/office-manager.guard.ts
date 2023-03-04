@@ -5,6 +5,7 @@ import { User } from "../domain/services/security/auth.service";
 import { SessionService } from "../services/session.service";
 import { SweetAlertService } from "../services/swal.service";
 
+
 @Injectable()
 export class OfficeManagerGuard implements CanActivate {
 

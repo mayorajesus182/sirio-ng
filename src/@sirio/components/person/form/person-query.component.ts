@@ -215,13 +215,7 @@ export class PersonQueryComponent implements OnInit, AfterViewInit {
                         // this.cdref.detectChanges();
                         this.warnings$.next(this.mandatoyDataService.errorsToHtml(this.errors));
 
-                        // if (this.purpose === 'gestion-comercial') {
-
-                        //     setTimeout(() => {
-                        //         // tiempo para mostrar las alertas de cliente
-                        //     }, 2000);
-                        // }
-
+                      
                     });
                 }
 
