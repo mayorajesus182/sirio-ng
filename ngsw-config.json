@@ -12,7 +12,16 @@
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js",
+          "/*.js"
+        ]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
           "/assets/**",
           "/*.woff2",
           "/*.woff",
@@ -24,17 +33,6 @@
           "/*.jpg",
           "/*.jpeg",
           "/*.gif"
-        ]
-      }
-    },
-    {
-      "name": "assets",
-      "installMode": "lazy",
-      "updateMode": "prefetch",
-      "resources": {
-        "files": [
-          "/assets/**",
-          "/*.(svg|cur|jpg|jpeg|png|apng|webp|gif|otf|ttf|woff|woff2)"
         ]
       }
     }

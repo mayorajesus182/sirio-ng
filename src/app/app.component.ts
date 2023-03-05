@@ -115,11 +115,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         console.info("is enabled service update!");
         
         this.swUpdate.versionUpdates.subscribe(() => {
-          console.info("New version detected!");
-          // if (confirm('New version available. Load New Version?')) {
-            // window.location.reload();
-          // }
-            // this.forceUpdate();
+          
+            this.forceUpdate();
 
         });
         this.swUpdate.checkForUpdate();
@@ -129,7 +126,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   forceUpdate() {
-    this.swUpdate.activateUpdate().then(() => document.location.reload());
+    this.swUpdate.activateUpdate().then(() => {
+      document.location.reload();
+
+      console.info("New version detected!");
+      
+    });
   }
 
   ngAfterViewInit() {
