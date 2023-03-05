@@ -19,7 +19,7 @@ import { ThemeService } from '../@sirio/services/theme.service';
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  appTitle = 'Sirio By Novumideas';
+  appTitle = 'Sirio By Novumideas | Un futuro financiero más inteligente';
   pageTitle = '';
   tabCounter = 1;
   
