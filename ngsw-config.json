@@ -5,13 +5,25 @@
     {
       "name": "Sirio",
       "installMode": "prefetch",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/assets/**",
+          "/*.woff2",
+          "/*.woff",
+          "/*.otf",
+          "/*.ttf",
+          "/*.svg",
+          "/*.eot",
+          "/*.png",
+          "/*.jpg",
+          "/*.jpeg",
+          "/*.gif"
         ]
       }
     },
@@ -22,10 +34,10 @@
       "resources": {
         "files": [
           "/assets/**",
-          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/*.(svg|cur|jpg|jpeg|png|apng|webp|gif|otf|ttf|woff|woff2)"
         ]
       }
     }
-  ],
+  ]
   
 }

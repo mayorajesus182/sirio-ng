@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit {
           // if (confirm('New version available. Load New Version?')) {
             // window.location.reload();
           // }
-            this.forceUpdate();
+            // this.forceUpdate();
 
         });
         this.swUpdate.checkForUpdate();
