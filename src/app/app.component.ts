@@ -4,6 +4,7 @@ import { AfterViewInit, Component, HostListener, Inject, OnInit, Renderer2 } fro
 import { MatIconRegistry } from '@angular/material/icon';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
 import { Idioma } from 'src/@sirio/domain/services/preferencias/idioma.service';
@@ -60,9 +61,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
 
-  constructor(
+  constructor(    
     @Inject(DOCUMENT) private document: Document,
     @Inject(BROADCAST_SERVICE) private broadCastService: BroadcastService,
+    private swUpdate: SwUpdate,
     public title: Title,
     private router: Router,
     private routePartsService: RoutePartsService,
@@ -108,8 +110,26 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
+    
+      if (this.swUpdate.isEnabled) {
+        console.info("is enabled service update!");
+        
+        this.swUpdate.versionUpdates.subscribe(() => {
+          console.info("New version detected!");
+          // if (confirm('New version available. Load New Version?')) {
+            // window.location.reload();
+          // }
+            this.forceUpdate();
+
+        });
+        this.swUpdate.checkForUpdate();
+      }
 
     this.changePageTitle();
+  }
+
+  forceUpdate() {
+    this.swUpdate.activateUpdate().then(() => document.location.reload());
   }
 
   ngAfterViewInit() {

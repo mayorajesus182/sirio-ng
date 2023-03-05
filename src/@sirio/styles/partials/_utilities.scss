@@ -144,6 +144,11 @@ a {
 
 }
 
+
+.mat-menu-panel{
+  overflow-x: hidden;
+}
+
 .notifier__container{
   .notifier__notification--warning {
     background: $theme-color-accent !important;

@@ -27,7 +27,7 @@
 
   <sirio-card-content class="card-content container">
     <ng-container *ngIf="(chartOptions$ | async)">
-      <highcharts-chart [Highcharts]="highcharts" [options]="barChart">
+      <highcharts-chart [Highcharts]="highcharts" [options]="(chartOptions$ | async)">
       </highcharts-chart>
     </ng-container>
 
