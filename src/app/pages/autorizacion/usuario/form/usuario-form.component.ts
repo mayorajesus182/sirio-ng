@@ -116,7 +116,9 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
                 this.eventFromElement(this.email, 'keyup')?.subscribe(() => {
                     // this.filterChange.emit(this.filter.nativeElement.value);
-                    if (!this.f.email.errors && this.email.nativeElement.value.length > 4) {
+                    // console.log("email ", this.f.email.errors);
+                    
+                    if (!this.f.email.errors ) {
                         this.emailExists(this.email.nativeElement.value);
                     }
                 });
@@ -237,7 +239,10 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
     }
 
     private emailExists(email) {
+        // console.log('validando email', email);
         this.usuarioService.existsEmail(this.itemForm.value.id, email).subscribe(data => {
+            console.log('exists', email, data);
+            
             if (data.exists) {
                 this.itemForm.controls['email'].setErrors({
                     emailExists: "El Email ya esta registrado"

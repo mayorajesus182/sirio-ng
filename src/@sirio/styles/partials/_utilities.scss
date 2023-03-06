@@ -78,10 +78,12 @@ a {
 }
 
 
-
 @media (min-width: 1400px) {
   .sirio-container {
-    max-width: 100%;
+    max-width: 100% !important;
+  }
+  .sirio-card-content {
+    max-width: 100% !important;
   }
 }
 

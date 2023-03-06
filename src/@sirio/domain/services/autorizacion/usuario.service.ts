@@ -47,7 +47,7 @@ export class UsuarioService {
     }
 
     existsEmail(id: string,email: string): Observable<any> {
-        return this.apiService.config(this.apiConfig).get(`/${id}/${email}/exists/email`);
+        return this.apiService.config(this.apiConfig).get(`/${id}/${email}/email/exists`);
     }
 
     actives(): Observable<Usuario[]> {

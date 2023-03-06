@@ -52,7 +52,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:20000'
+      registrationStrategy: 'registerWhenStable:12000'
     })
   ],
   declarations: [AppComponent],
