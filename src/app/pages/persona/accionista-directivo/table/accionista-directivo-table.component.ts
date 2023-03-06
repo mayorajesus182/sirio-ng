@@ -66,6 +66,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
     this.swalService.show('¿Desea Eliminar Accionistas / Junta Directiva: ?', undefined,
       { 'html': ' <b>' + row.nombre + '</b>' }).then((resp) => {
         if (!resp.dismiss) {
+            console.log("row.id",row.id)
           this.accionistaDirectivoService.delete(row.id).subscribe(val => {
             if (val) {
               this.loadList();

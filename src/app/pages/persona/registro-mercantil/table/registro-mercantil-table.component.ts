@@ -67,7 +67,7 @@ export class RegistroMercantilTableComponent extends TableBaseComponent implemen
       data.ultimaModificacion = true;
     }
 
-    this.showFormPopup(RegistroMercantilFormPopupComponent, !data ? { persona: this.persona, tipoDocumento: this.tipoDocumento } : data, '60%').afterClosed().subscribe(event => {
+    this.showFormPopup(RegistroMercantilFormPopupComponent, !data ? { persona: this.persona, tipoDocumento: this.tipoDocumento } : data, '70%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

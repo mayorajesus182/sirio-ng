@@ -135,6 +135,7 @@
       <mat-form-field fxFlex="100" fxFlex.gt-xs="20">
         <mat-label>{{'global.date' | translate: {default: 'global.Date'} |
           translate }}</mat-label>
+
         <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
           [required]="esGobierno">
         <mat-datepicker-toggle matSuffix [for]="fechaPicker">

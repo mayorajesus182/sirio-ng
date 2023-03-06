@@ -17,7 +17,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 })
 
 export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent implements OnInit, AfterViewInit {
-  @Input() personaDoc = undefined;
+  personaDoc = undefined;
   referencia: ReferenciaPersonal = {} as ReferenciaPersonal;
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
   public telefonicaMovilList = new BehaviorSubject<Telefonica[]>([]);
@@ -106,12 +106,6 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
       }
 
-      // if (val) {
-
-      // }
-
-
-
     });
   }
 
@@ -141,7 +135,6 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
     console.log(identificacion);
 
-    console.log(this.referencias);
     if (this.personaDoc === identificacion){
       return false
     }
@@ -150,6 +143,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
 
   save() {
+    console.log(this.referencia)
     this.updateData(this.referencia);// aca actualizamos Informacion Laboral
     this.referencia.persona = this.defaults.payload.persona;
     this.referencia.telefonoFijo = this.referencia.telefonoFijo ? this.referencia.telefonoFijo.split(' ').join('') : undefined;

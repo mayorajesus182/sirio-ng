@@ -163,7 +163,7 @@
                                             <mat-label>Núm. de Doc. del Cónyuge </mat-label>
                                             <input matInput maxlength="15" autocomplete="off" name="identificacionConyuge"
                                                 formControlName="identificacionConyuge" uppercase [required]="evaluarEstadoCivil()">
-                                            <mat-error *ngIf="f.identificacionConyuge.errors?.exists2">"Numero de Identidad igual al Titular"</mat-error>
+                                            <mat-error *ngIf="f.identificacionConyuge.errors?.exists2">Numero de Documento corresponde al Titular</mat-error>
                                             <mat-error *ngIf="f.identificacionConyuge.errors?.required">{{'error.required' | translate}}</mat-error>
                                             <mat-error *ngIf="f.identificacionConyuge.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
                                         </mat-form-field>
@@ -267,7 +267,7 @@
                                     </mat-panel-description>
                                 </mat-expansion-panel-header>
                                 <div fxLayout="row" fxLayout="column">
-                                    <sirio-persona-referencia-personal-table [persona]="personaNatural.id "   [personaDoc]="personaNatural.identificacion"  ></sirio-persona-referencia-personal-table>
+                                    <sirio-persona-referencia-personal-table [persona]="personaNatural.id "   [personaDoc]="this.f.identificacion.value"  ></sirio-persona-referencia-personal-table>
                                 </div>
                             </mat-expansion-panel>
                             <mat-expansion-panel *ngIf="hasBasicData">
