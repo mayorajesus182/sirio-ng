@@ -80,22 +80,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
-  constructor() {
-    // this.swUpdate.activateUpdate().subscribe(event => {
-    //   console.log('current version is', event.current);
-    //   console.log('available version is', event.available);
-    //   if (confirm('New version available. Load New Version?')) {
-    //     window.location.reload();
-    //   }
-    // });
-    // if (this.swUpdate.isEnabled) {
-    //   this.swUpdate.versionUpdates.subscribe(v => {
-    //     console.warn('version update ',v);
-        
-        // if (confirm('New version available. Load new version?')) {
-        //   window.location.reload();
-        // }
-    //   });
-    // }
+  constructor() {  
   }
 }

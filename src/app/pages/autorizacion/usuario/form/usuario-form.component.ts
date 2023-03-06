@@ -36,7 +36,8 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
 
     agenciaMandatory: string[] = [
         this.rolConstant.GERENTE_TESORERO_AGENCIA,
-        this.rolConstant.OPERADOR_TAQUILLA
+        this.rolConstant.OPERADOR_TAQUILLA,
+        this.rolConstant.EJEC_COMER,
     ]
 
 
@@ -131,9 +132,7 @@ export class UsuarioFormComponent extends FormBaseComponent implements OnInit, A
                     this.f.transportista.setErrors(undefined);
 
 
-                })
-
-
+                });
 
                 this.telefonicaService.activesByTipoTelefonica(PersonaConstants.TELEFONO_FIJO).subscribe(data => {
                     this.telefonicaFijaList.next(data);

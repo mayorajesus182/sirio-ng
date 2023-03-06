@@ -12,9 +12,6 @@ import { DonutChartWidgetModule } from './widgets/donut-chart-widget/donut-chart
 import { LineChartWidgetModule } from './widgets/line-chart-widget/line-chart-widget.module';
 import { MapsWidgetModule } from './widgets/maps-widget/maps-widget.module';
 import { MarketWidgetModule } from './widgets/market-widget/market-widget.module';
-import { QuickInfoWidgetModule } from './widgets/quick-info-widget/quick-info-widget.module';
-import { RealtimeUsersWidgetModule } from './widgets/realtime-users-widget/realtime-users-widget.module';
-import { SalesSummaryWidgetModule } from './widgets/sales-summary-widget/sales-summary-widget.module';
 
 @NgModule({
   imports: [
@@ -27,10 +24,9 @@ import { SalesSummaryWidgetModule } from './widgets/sales-summary-widget/sales-s
     BarChartWidgetModule,
     LineChartWidgetModule,
     DonutChartWidgetModule,
-    SalesSummaryWidgetModule,
+    
     AudienceOverviewWidgetModule,
-    RealtimeUsersWidgetModule,
-    QuickInfoWidgetModule,
+    
     AdvancedPieChartWidgetModule,
     MapsWidgetModule,
     MarketWidgetModule

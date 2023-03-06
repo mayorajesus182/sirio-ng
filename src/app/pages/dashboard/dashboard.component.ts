@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChartData } from 'chart.js';
-import * as moment from 'moment';
-import { Observable, ReplaySubject } from 'rxjs';
-import { ChartWidgetOptions } from '../../../@sirio/shared/chart-widget/chart-widget-options.interface';
+import { Observable } from 'rxjs';
+import { ChartWidgetOptions } from 'src/@sirio/shared/chart-widget/chart-widget-options.interface';
 import { DashboardService } from './dashboard.service';
 import { AdvancedPieChartWidgetOptions } from './widgets/advanced-pie-chart-widget/advanced-pie-chart-widget-options.interface';
 import { AudienceOverviewWidgetOptions } from './widgets/audience-overview-widget/audience-overview-widget-options.interface';
 import { BarChartWidgetOptions } from './widgets/bar-chart-widget/bar-chart-widget-options.interface';
 import { DonutChartWidgetOptions } from './widgets/donut-chart-widget/donut-chart-widget-options.interface';
-import { RealtimeUsersWidgetData, RealtimeUsersWidgetPages } from './widgets/realtime-users-widget/realtime-users-widget.interface';
 
-import { SalesSummaryWidgetOptions } from './widgets/sales-summary-widget/sales-summary-widget-options.interface';
+
 @Component({
   selector: 'sirio-dashboard',
   templateUrl: './dashboard.component.html',
@@ -53,11 +51,7 @@ export class DashboardComponent implements OnInit {
     color: '#FFFFFF'
   };
   salesSummaryData$: Observable<ChartData>;
-  salesSummaryOptions: SalesSummaryWidgetOptions = {
-    title: 'Sales Summary',
-    subTitle: 'Compare Sales by Time',
-    gain: 37.2
-  };
+  
   top5CategoriesData$: Observable<ChartData>;
   top5CategoriesOptions: DonutChartWidgetOptions = {
     title: 'Top Categories',
@@ -80,10 +74,9 @@ export class DashboardComponent implements OnInit {
     subTitle: 'Top 3 countries sold 34% more items this month\n'
   };
   advancedPieChartData$: Observable<ChartData>;
-  private _realtimeUsersDataSubject = new ReplaySubject<RealtimeUsersWidgetData>(30);
-  realtimeUsersData$: Observable<RealtimeUsersWidgetData> = this._realtimeUsersDataSubject.asObservable();
-  private _realtimeUsersPagesSubject = new ReplaySubject<RealtimeUsersWidgetPages[]>(1);
-  realtimeUsersPages$: Observable<RealtimeUsersWidgetPages[]> = this._realtimeUsersPagesSubject.asObservable();
+  
+  
+  
   /**
    * Needed for the Layout
    */
@@ -119,23 +112,6 @@ export class DashboardComponent implements OnInit {
    
 
 
-    // Prefill realtimeUsersData with 30 random values
-    for (let i = 0; i < 30; i++) {
-      this._realtimeUsersDataSubject.next(
-        {
-          label: moment().fromNow(),
-          value: Math.round(Math.random() * (100 - 10) + 10)
-        } as RealtimeUsersWidgetData);
-    }
-
-    // Simulate incoming values for Realtime Users Widget
-    setInterval(() => {
-      this._realtimeUsersDataSubject.next(
-        {
-          label: moment().fromNow(),
-          value: Math.round(Math.random() * (100 - 10) + 10)
-        } as RealtimeUsersWidgetData);
-    }, 5000);
 
     // Prefill realtimeUsersPages with 3 random values
     const demoPages = [];
@@ -146,26 +122,9 @@ export class DashboardComponent implements OnInit {
         demoPages.push(nextPossibleValue);
       }
 
-      this._realtimeUsersPagesSubject.next(demoPages.map(pages => {
-        return { 'page': pages } as RealtimeUsersWidgetPages;
-      }));
     }
 
-    // Simulate incoming values for Realtime Users Widget
-    setInterval(() => {
-      const nextPossibleValue = demoPagesPossibleValues[+Math.round(Math.random() * (demoPagesPossibleValues.length - 1))];
-      if (demoPages.indexOf(nextPossibleValue) === -1) {
-        demoPages.push(nextPossibleValue);
-      }
-
-      if (demoPages.length > Math.random() * (5 - 1) + 1) {
-        demoPages.splice(Math.round(Math.random() * demoPages.length), 1);
-      }
-
-      this._realtimeUsersPagesSubject.next(demoPages.map(pages => {
-        return { 'page': pages } as RealtimeUsersWidgetPages;
-      }));
-    }, 5000);
+    
 
   }
 
