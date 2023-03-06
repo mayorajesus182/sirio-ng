@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import { ReferenciaPersonal, ReferenciaPersonalService } from 'src/@sirio/domain/services/persona/referencia-personal/referencia-personal.service';
@@ -45,11 +46,11 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
       this.tipoDocumentoList.next(data);
     });
 
-    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_FIJO).subscribe(data => {
+    this.telefonicaService.activesByTipoTelefonica(PersonaConstants.TELEFONO_FIJO).subscribe(data => {
       this.telefonicaFijaList.next(data);
     })
 
-    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_MOVIL).subscribe(data => {
+    this.telefonicaService.activesByTipoTelefonica(PersonaConstants.TELEFONO_MOVIL).subscribe(data => {
       this.telefonicaMovilList.next(data);
     })
 
@@ -77,7 +78,7 @@ export class ReferenciaPersonalFormPopupComponent extends PopupBaseComponent imp
 
   buildForm() {
     this.itemForm = this.fb.group({
-      tipoDocumento: new FormControl(this.referencia.tipoDocumento || GlobalConstants.PN_TIPO_DOC_DEFAULT, [Validators.required]),
+      tipoDocumento: new FormControl(this.referencia.tipoDocumento || PersonaConstants.PN_TIPO_DOC_DEFAULT, [Validators.required]),
       identificacion: new FormControl(this.referencia.identificacion || '', [Validators.required]),
       nombre: new FormControl(this.referencia.nombre || '', [Validators.required, Validators.pattern(RegularExpConstants.ALPHA_NUMERIC_CHARACTERS_SPACE)]),
       telefonoFijo: new FormControl(this.referencia.telefonoFijo || undefined, []),

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { Telefonica, TelefonicaService } from 'src/@sirio/domain/services/configuracion/telefono/telefonica.service';
 import { CuentaBanco } from 'src/@sirio/domain/services/persona/cuenta-banco.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
@@ -43,7 +44,7 @@ export class ProductoTDCSolicitudFormPopupComponent extends PopupBaseComponent i
       this.buildForm();
     }
 
-    this.telefonicaService.activesByTipoTelefonica(GlobalConstants.TELEFONO_MOVIL).subscribe(data => {
+    this.telefonicaService.activesByTipoTelefonica(PersonaConstants.TELEFONO_MOVIL).subscribe(data => {
       this.telefonicas.next(data);
       this.cdr.detectChanges();
     });

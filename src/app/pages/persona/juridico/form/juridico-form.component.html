@@ -28,16 +28,21 @@
                 </sirio-card-header>
                 <sirio-card-content fxLayout="column" >
 
-                    <!-- <input [focused]="attr.focus"> -->
-
                     <sirio-person-query *ngIf="!fromOtherComponent" [tipo_persona]="constants.PERSONA_JURIDICA" (result)="queryResult($event)"
                         (update)="updatePerson($event)" (create)="addPerson($event)"></sirio-person-query>
 
 
                     <ng-container *ngIf="loaded$ | async" >
 
-
-                        <!-- Put the component which needs to be destroyed + rerendered inside -->
+                        <ng-container *ngIf="warnings$ | async" [fxFlex.gt-xs]="100" fxLayout="column" fxLayout.gt-sm="row">
+                            <!-- {{(warnings$ | async) | json}} -->
+                            <ngb-alert [dismissible]="true" (closed)="alertClosed()" >
+                                <i class="fa-regular fa-lightbulb-exclamation-on fa-lg"></i> &nbsp; 
+                                <strong>¡Información Importante!</strong> El cliente tiene pendiente la carga de
+                                la siguiente información: <br>
+                                <div [innerHTML]="(warnings$.asObservable() | async)" class="margin-top-sm"></div>
+                            </ngb-alert>
+                        </ng-container>
 
                         <mat-accordion class="expansion-headers-align" tabNavigation>
 
@@ -486,7 +491,7 @@
                                         <button mat-icon-button type="button" color="primary">
                                             <mat-icon>peoples</mat-icon>
                                         </button>
-                                        <span class="margin-top-sm semi-bold"> Clientes / Proveedores </span>
+                                        <span class="margin-top-sm semi-bold"> Clientes / Proveedores / Empresas Relacionadas</span>
                                     </mat-panel-title>
                                     <mat-panel-description>
 

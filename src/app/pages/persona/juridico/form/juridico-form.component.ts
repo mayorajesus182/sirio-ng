@@ -7,6 +7,7 @@ import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
 import { ActividadEconomica, ActividadEconomicaService } from 'src/@sirio/domain/services/configuracion/persona-juridica/actividad-economica.service';
@@ -16,7 +17,7 @@ import { TipoDocumento, TipoDocumentoService } from 'src/@sirio/domain/services/
 import { Direccion } from 'src/@sirio/domain/services/persona/direccion/direccion.service';
 import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
-import { PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
+import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
 
 @Component({
@@ -63,7 +64,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     nombreCompletoPersona = 'FULL NAME';
 
     personaJuridica: PersonaJuridica = {} as PersonaJuridica;
-    constants = GlobalConstants;
+    constants = PersonaConstants;
     estado_civil: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
@@ -77,6 +78,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
     public direcciones: ReplaySubject<Direccion[]> = new ReplaySubject<Direccion[]>();
 
+    warnings$: BehaviorSubject<string> = new BehaviorSubject<string>(undefined);
 
     constructor(
         injector: Injector,
@@ -161,7 +163,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
 
 
         this.route.paramMap.subscribe(data => {
-
+            // esto solo pasara cuando el cliente esta siendo redireccionado desde otra pagina dentro del sistema
             if (data.get('doc') && data.get('tdoc')) {
                 this.fromOtherComponent = true;
 
@@ -172,14 +174,22 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
                 
                 this.buildForm();
                 this.loaded$.next(true);
-                
+                // en este aspecto realizo lo que hace el componente de consulta de persona
                 this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
 
                     this.updatePerson(p);
+                    if(p.id){
+
+                        this.mandatoyDataService.validate(p.id).subscribe(errors => {
+                            
+                            this.warnings$.next(this.mandatoyDataService.errorsToHtml(errors));    
+                          
+                        });
+
+                    }
 
                 }, error => {
-                    this.isNew = true;
-                    
+                    this.isNew = true;                    
                 });
             }
         });
@@ -326,11 +336,11 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
     send() {
         this.disabled$.next(true);
 
-        this.mandatoyDataService.validate(this.personaJuridica.id).subscribe(data => {
-            console.log('errors', data);
+        this.mandatoyDataService.validate(this.personaJuridica.id).subscribe(errors => {
+            console.log('errors', errors);
             this.loadingDataForm.next(true);
 
-            if (data.length == 0) {
+            if (errors.length == 0) {
 
                 this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
 
@@ -356,6 +366,12 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
                     }
 
                 });
+            }else{
+                this.loadingDataForm.next(false);
+                this.disabled$.next(false);
+                this.mandatoyDataService.showErrorsAndRedirect(errors,this.personaJuridica as Persona);
+                // this.errors=data;
+                // this.cdr.detectChanges();
             }
 
 

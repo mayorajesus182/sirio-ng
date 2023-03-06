@@ -18,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import {environment} from "../environments/environment";
-import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 @NgModule({
   imports: [
     // Angular Core Module // Don't remove!
@@ -80,15 +80,22 @@ import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
-  constructor(private swUpdate: SwUpdate) {
-    if (this.swUpdate.isEnabled) {
-      this.swUpdate.versionUpdates.subscribe(v => {
-        console.warn('version update ',v);
+  constructor() {
+    // this.swUpdate.activateUpdate().subscribe(event => {
+    //   console.log('current version is', event.current);
+    //   console.log('available version is', event.available);
+    //   if (confirm('New version available. Load New Version?')) {
+    //     window.location.reload();
+    //   }
+    // });
+    // if (this.swUpdate.isEnabled) {
+    //   this.swUpdate.versionUpdates.subscribe(v => {
+    //     console.warn('version update ',v);
         
         // if (confirm('New version available. Load new version?')) {
         //   window.location.reload();
         // }
-      });
-    }
+    //   });
+    // }
   }
 }

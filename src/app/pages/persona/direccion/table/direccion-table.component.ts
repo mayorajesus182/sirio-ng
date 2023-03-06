@@ -8,6 +8,7 @@ import { Direccion, DireccionService } from 'src/@sirio/domain/services/persona/
 import { TableBaseComponent } from 'src/@sirio/shared/base/table-base.component';
 import { DireccionFormPopupComponent } from '../popup/direccion-form.popup.component';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class DireccionTableComponent extends TableBaseComponent implements OnIni
   direccionList: Direccion[] = [];
   private principal: boolean = false;
   cantidadDirecciones: number = 0;
-  direccionPrincipal = GlobalConstants.DIRECCION_PRINCIPAL;
+  direccionPrincipal = PersonaConstants.DIRECCION_PRINCIPAL;
 
   constructor(
     injector: Injector,

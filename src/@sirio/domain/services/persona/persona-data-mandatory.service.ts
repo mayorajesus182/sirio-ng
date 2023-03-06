@@ -5,6 +5,7 @@ import { ApiConfConstants, GlobalConstants } from "src/@sirio/constants";
 import { ApiOption, ApiService } from "src/@sirio/services/api";
 import { SweetAlertService } from "src/@sirio/services/swal.service";
 import { Persona } from "./persona.service";
+import { PersonaConstants } from "src/@sirio/constants/persona.constants";
 
 
 @Injectable({
@@ -32,7 +33,7 @@ export class PersonaDataMandatoryService {
         if (errors.length > 0) {
             console.log('PERSONA ', persona);
             
-            const type = persona.tipoPersona === GlobalConstants.PERSONA_JURIDICA ? 'juridica' : 'natural';
+            const type = persona.tipoPersona === PersonaConstants.PERSONA_JURIDICA ? 'juridica' : 'natural';
 
 
             this.swalService.show('Para continuar usted debe:', undefined, { html: this.errorsToHtml(errors), showCancelButton: false }).then((resp) => {

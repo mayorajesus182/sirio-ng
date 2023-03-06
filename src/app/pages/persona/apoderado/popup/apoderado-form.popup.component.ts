@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants } from 'src/@sirio/constants/global.constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { RegularExpConstants } from 'src/@sirio/constants/regularexp.constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 import { Pais, PaisService } from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
@@ -171,7 +172,7 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   }
   isLegalPerson() {
 
-    let isLegal = this.tiposDocumentos.filter(t => t.id == this.f.tipoDocumento.value).map(t => t.tipoPersona).includes(GlobalConstants.PERSONA_JURIDICA);
+    let isLegal = this.tiposDocumentos.filter(t => t.id == this.f.tipoDocumento.value).map(t => t.tipoPersona).includes(PersonaConstants.PERSONA_JURIDICA);
     if (this.f.tipoDocumento.value && isLegal) {
 
       return true;

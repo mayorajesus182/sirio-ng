@@ -3,6 +3,7 @@ import { config } from "config";
 
 export const environment = {
   production: true,
+  ssl:true,
   api: {
     public: config.apiProUrl+'/api/public',
     default: config.apiProUrl+'/api',

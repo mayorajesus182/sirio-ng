@@ -3,8 +3,9 @@
   "index": "/index.html",
   "assetGroups": [
     {
-      "name": "sirio",
+      "name": "Sirio",
       "installMode": "prefetch",
+      "updateMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
@@ -22,9 +23,19 @@
       "resources": {
         "files": [
           "/assets/**",
-          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/*.woff2",
+          "/*.woff",
+          "/*.otf",
+          "/*.ttf",
+          "/*.svg",
+          "/*.eot",
+          "/*.png",
+          "/*.jpg",
+          "/*.jpeg",
+          "/*.gif"
         ]
       }
     }
   ]
+  
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { Construccion, ConstruccionService } from 'src/@sirio/domain/services/configuracion/domicilio/construccion.service';
 import { Estado, EstadoService } from 'src/@sirio/domain/services/configuracion/localizacion/estado.service';
 import { Municipio, MunicipioService } from 'src/@sirio/domain/services/configuracion/localizacion/municipio.service';
@@ -119,7 +120,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
     this.loadingDataForm.next(true);
     if (this.defaults.payload.id) {
       this.mode = 'global.edit';
-      this.principal = this.defaults.payload.tipoDireccion == GlobalConstants.DIRECCION_PRINCIPAL;
+      this.principal = this.defaults.payload.tipoDireccion == PersonaConstants.DIRECCION_PRINCIPAL;
       this.direccionService.get(this.defaults.payload.id).subscribe(data => {
         this.direccion = data;
         this.buildForm();
@@ -136,7 +137,7 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
   buildForm() {
 
     this.itemForm = this.fb.group({
-      tipoDireccion: new FormControl(this.direccion.tipoDireccion || (this.primerRegistro ? GlobalConstants.DIRECCION_PRINCIPAL : undefined), [Validators.required]),
+      tipoDireccion: new FormControl(this.direccion.tipoDireccion || (this.primerRegistro ? PersonaConstants.DIRECCION_PRINCIPAL : undefined), [Validators.required]),
       parroquia: new FormControl(this.direccion.parroquia || '', [Validators.required]),
       estado: new FormControl(this.direccion.estado || '', [Validators.required]),
       municipio: new FormControl(this.direccion.municipio || '', [Validators.required]),

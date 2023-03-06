@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
 import { GlobalConstants, RegularExpConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { CalendarioService } from 'src/@sirio/domain/services/calendario/calendar.service';
 //import { TipoRelacion, TipoRelacionService } from 'src/@sirio/domain/services/configuracion/persona-juridica/tipo-relacion.service';
 import { RegistroMercantil, RegistroMercantilService } from 'src/@sirio/domain/services/persona/registro-mercantil/registro-mercantil.service';
@@ -37,7 +38,7 @@ export class RegistroMercantilFormPopupComponent extends PopupBaseComponent impl
 
   ngOnInit() {
 
-    this.esGobierno = (this.defaults.payload.tipoDocumento === GlobalConstants.TIPDOC_GOBIERNO);
+    this.esGobierno = (this.defaults.payload.tipoDocumento === PersonaConstants.TIPDOC_GOBIERNO);
     this.ultimaModificacion = this.defaults.payload.ultimaModificacion;
 
     this.loadingDataForm.next(true);

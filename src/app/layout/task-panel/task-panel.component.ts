@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { fadeInRightAnimation } from 'src/@sirio/animations/fade-in-right.animation';
 import { fadeInUpAnimation } from 'src/@sirio/animations/fade-in-up.animation';
 import { GlobalConstants } from 'src/@sirio/constants';
+import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
 import { TaskConstants } from 'src/@sirio/constants/task.constants';
 import { BovedaAgencia, BovedaAgenciaService } from 'src/@sirio/domain/services/control-efectivo/boveda-agencia.service';
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
@@ -154,7 +155,7 @@ export class QuickpanelComponent implements OnInit {
     if (task.rol == TaskConstants.CHEQUEAR_CLIENTE) {
       this.personaService.getByExpediente(task.expediente).subscribe(data => {
         this.persona = data;
-        const personType = data.tipoPersona == GlobalConstants.PERSONA_NATURAL ? 'natural' : 'juridico';
+        const personType = data.tipoPersona == PersonaConstants.PERSONA_NATURAL ? 'natural' : 'juridico';
         this.router.navigate(['/sirio/workflow/' + personType + '/' + task.expediente + '/check']);
       });
     } 

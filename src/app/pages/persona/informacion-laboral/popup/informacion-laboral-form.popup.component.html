@@ -13,7 +13,7 @@
 
 
 <mat-dialog-content>
-    <form [formGroup]="itemForm" *ngIf="itemForm && (loaded | async)" tabNavigation>
+  <form [formGroup]="itemForm" *ngIf="itemForm && (loaded | async)" tabNavigation>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">
       <sirio-select-search fxFlex="100" fxFlex.gt-xs="auto" [label]="'Tipo Ingreso'" [readonly]="!isNew" formControlName="tipoIngreso" [required]="true"
@@ -44,15 +44,16 @@
       </mat-form-field> -->
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="auto" *ngIf="isRdOrNp()">
-        <mat-label>{{'RIF'}}</mat-label>
-        
-        <input autocomplete="off" class="text-center" matInput valid-rif-number doc-number-validate [tipo_documento]="f.tipoDocumento?.value" [imask]="{mask: '00000000-0'}"  [unmask]="true" name="identificacion" maxlength="15" formControlName="identificacion" [required]="isRdOrNp()" >
+        <mat-label>{{'Número de Documento'}}</mat-label>
+
+        <input autocomplete="off" class="text-center" matInput valid-rif-number doc-number-validate [tipo_documento]="f.tipoDocumento?.value"
+          [imask]="{mask: '00000000-0'}" [unmask]="true" name="identificacion" maxlength="15" formControlName="identificacion" [required]="isRdOrNp()">
         <mat-error *ngIf="f.identificacion.errors?.required">{{'error.required' | translate}}!</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.pattern">{{'error.invalidCharacter' | translate}}</mat-error>
         <mat-error *ngIf="f.identificacion.errors?.rif">{{f.identificacion.errors?.rif}}</mat-error>
         <!-- <mat-error *ngIf="f.identificacion.errors?.maxLength">Supera el máximo de {{f.identificacion.errors?.length}} dígitos </mat-error> -->
       </mat-form-field>
-      
+
 
     </div>
 
@@ -98,7 +99,7 @@
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
         <mat-label>{{ 'Número' }} </mat-label>
-        <input matInput maxlength="10" autocomplete="off" name="numero"  uppercase formControlName="numero"
+        <input matInput maxlength="10" autocomplete="off" name="numero" uppercase formControlName="numero"
           [required]="f.tipoIngreso.value==Tipo_Ingreso.NEGOCIO_PROPIO">
         <mat-error *ngIf="f.numero.errors?.required">{{'error.required' | translate}} </mat-error>
       </mat-form-field>
@@ -157,9 +158,10 @@
     </div>
 
     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px" *ngIf="isRd()">
-      
+
       <div fxFlex="100" fxFlex.gt-xs="100">
-        <sirio-select-search [label]="'Cargo'" formControlName="profesion" [required]="true" [elements]="profesionList.asObservable()" [attributeName]="'nombre'">
+        <sirio-select-search [label]="'Cargo'" formControlName="profesion" [required]="true" [elements]="profesionList.asObservable()"
+          [attributeName]="'nombre'">
         </sirio-select-search>
       </div>
 
@@ -180,10 +182,10 @@
 
   <sirio-loading-overlay [isLoading]="!(loaded | async)"></sirio-loading-overlay>
 
-  </mat-dialog-content>
-  <!-- {{printErrors() | json}} -->
+</mat-dialog-content>
+<!-- {{printErrors() | json}} -->
 
-  <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
-    <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
-    <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
-  </mat-dialog-actions>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center" *ngIf="itemForm">
+  <button mat-raised-button (click)="dialogRef.close()">{{'button.cancel'|translate}}</button>
+  <button mat-raised-button color="primary" (click)="save()" [disabled]="itemForm?.invalid || (loading$ | async)">{{'button.save'|translate}}</button>
+</mat-dialog-actions>
