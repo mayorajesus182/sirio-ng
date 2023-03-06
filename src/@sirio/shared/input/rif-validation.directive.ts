@@ -11,8 +11,8 @@ export class RifValidator implements Validator {
 
     @Input('tipo_documento') tipoDocumento: string;
 
-    private legal:string[]=['J','G' ,'C','W','I'];
-    private natural:string[]=['V' ,'E' ,'P','R','H'];
+    private legal: string[] = ['J', 'G', 'C', 'W', 'I'];
+    private natural: string[] = ['V', 'E', 'P', 'R', 'H'];
 
     // validate(c: FormControl): ValidationErrors | null {
     //     return RifValidator.validateRifNumber(c);
@@ -35,14 +35,16 @@ export class RifValidator implements Validator {
 
 
 
-    private  validateRifNumber(control: FormControl, tipoPerona?: string): ValidationErrors | Boolean {
-        
-        if (control.value == undefined ) {
-            return false;
+    private validateRifNumber(control: FormControl, tipoPerona?: string): ValidationErrors | Boolean {
+
+
+        if (!this.tipoDocumento) {
+            return { rif: 'Número de Documento Inválido' };
         }
 
-        if(!this.tipoDocumento){
-            return { rif: 'Número de Documento Inválido' };
+        if (control.value == undefined || this.tipoDocumento=='W') {
+            // la letra W supuestamente es rif provisional, no se validad
+            return false;
         }
 
         var TYPE = {
@@ -55,7 +57,7 @@ export class RifValidator implements Validator {
             "R": "1",
             "H": "1",
             "I": "3",
-            "W": "3",
+            // "W": "3",
         };
 
 
@@ -90,7 +92,7 @@ export class RifValidator implements Validator {
 
         // console.log('RIF: ',t+ ' - '+ rif);
         // console.log('RIF: ',rif);
-        
+
 
         if (controlGen < 0 || controlGen != rif.charAt(rif.length - 1)) {
             control.markAsTouched();
