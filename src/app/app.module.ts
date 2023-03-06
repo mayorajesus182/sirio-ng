@@ -18,7 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import {environment} from "../environments/environment";
-import { ServiceWorkerModule, SwUpdate } from '@angular/service-worker';
+import { ServiceWorkerModule } from '@angular/service-worker';
 @NgModule({
   imports: [
     // Angular Core Module // Don't remove!

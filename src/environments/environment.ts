@@ -7,6 +7,7 @@ import { config } from "config";
 
 export const environment = {
   production: false,
+  ssl:false,
   // googleMapsApiKey: '',
   // backend: 'http://localhost:4200' // Put your backend here
 

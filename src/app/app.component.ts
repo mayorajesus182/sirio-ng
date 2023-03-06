@@ -19,10 +19,10 @@ import { ThemeService } from '../@sirio/services/theme.service';
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
-  appTitle = 'Sirio By Novumideas | Un futuro financiero más inteligente';
+  appTitle = 'Sirio | Un futuro financiero más inteligente by Novumideas';
   pageTitle = '';
   tabCounter = 1;
-  
+
   @HostListener('mousewheel', ['$event'])
   onMousewheel(event: WheelEvent) {
     if (event.ctrlKey) {
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   @HostListener('document:keydown', ['$event'])
   disableZoomKeys(event: KeyboardEvent) {
     // console.log(event);
-    
+
     if ((event.ctrlKey || event.metaKey) && (event.key === '+' || event.key === '-')) {
       event.preventDefault();
     }
@@ -43,7 +43,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   // @HostListener('document:wheel', ['$event'])
   // disableZoomWheel(event: WheelEvent) {
   //   if (event.ctrlKey || event.metaKey) {
-      
+
   //     event.preventDefault();
   //   }
   // }
@@ -61,7 +61,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
 
-  constructor(    
+  constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(BROADCAST_SERVICE) private broadCastService: BroadcastService,
     private swUpdate: SwUpdate,
@@ -110,29 +110,24 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit() {
-    
-      if (this.swUpdate.isEnabled) {
-        console.info("is enabled service update!");
-        
-        this.swUpdate.versionUpdates.subscribe(() => {
-          
-            this.forceUpdate();
 
-        });
-        this.swUpdate.checkForUpdate();
-      }
+    if (this.swUpdate.isEnabled) {
+      console.info("is enabled service update!");
+
+      this.swUpdate.versionUpdates.subscribe((version) => {
+        console.info("New version detected!");
+        if(version.type=='VERSION_READY'){
+          console.info("New version ready !",version);
+          document.location.reload();
+        }
+        // this.forceUpdate();
+      });
+      // this.swUpdate.checkForUpdate();
+    }
 
     this.changePageTitle();
   }
 
-  forceUpdate() {
-    this.swUpdate.activateUpdate().then(() => {
-      document.location.reload();
-
-      console.info("New version detected!");
-      
-    });
-  }
 
   ngAfterViewInit() {
   }
