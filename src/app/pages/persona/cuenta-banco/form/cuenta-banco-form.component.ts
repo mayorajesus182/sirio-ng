@@ -446,14 +446,14 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
                     this.cuentaActiva = true;
                     this.loadingDataForm.next(false);
                     // obteniendo el certificado de la cuenta
-                    const name = this.getFileName(data);
-                    let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
-                    this.download(name, blob);
-                    this.disabled$.next(false);
+                    // const name = this.getFileName(data);
+                    // let blob: any = new Blob([data.body], { type: 'application/octet-stream' });
+                    // this.download(name, blob);
+                    // this.disabled$.next(false);
                     sessionStorage.removeItem(GlobalConstants.CURRENT_PERSON);
                     setTimeout(() => {
                         this.router.navigate([`/sirio/welcome`]);
-                    }, 2000);
+                    }, 1000);
                 }, err => {
                     this.cuentaActiva = false;
                     this.loadingDataForm.next(false);
