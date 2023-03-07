@@ -12,6 +12,7 @@ import { AccionistaDirectivo, AccionistaDirectivoService } from 'src/@sirio/doma
 import { PepAccionista } from 'src/@sirio/domain/services/persona/pep-accionista/pep.service';
 import { Pep } from 'src/@sirio/domain/services/persona/pep/pep.service';
 import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component';
+import {variable} from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'sirio-accionista-directivo-form.popup',
@@ -69,6 +70,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
 
   ngOnInit() {
     console.log(this.defaults)
+
     this.porcentajeAccionario = this.defaults.payload.porcentajeAccionario;
     this.accionistas = this.defaults.payload.accionistas;
 
@@ -151,7 +153,17 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
           this.f.identificacion.setErrors({ exists: true });
           this.f.identificacion.markAsDirty();
           this.cdr.detectChanges();
+
         }
+
+        if (this.validateTitular(this.f.tipoDocumento.value , this.f.identificacion.value )) {
+          this.f.identificacion.setErrors({ exists2: true });
+          this.f.identificacion.markAsDirty();
+          this.cdr.detectChanges();
+
+        }
+
+
       }
     });
     
@@ -232,7 +244,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     }
 
     this.updateDataItemForm(pep, this.pepAccionistaForm);
-    this.pepList.push(pep);`DX`
+    this.pepList.push(pep);
     this.pepAccionistas.next(this.pepList.slice());
     this.pepAccionistaForm.reset({});
     this.cdr.detectChanges();
@@ -245,6 +257,21 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     this.cdr.detectChanges();
     return this.accionistas.find(num => num === tipoDocumento + '-' + identificacion) == undefined;
   }
+
+
+
+  validateTitular(tipoDocumento: string, identificacion: string) {
+    if (!identificacion) {
+      return true;
+    }
+    this.cdr.detectChanges();
+
+    var titular = this.defaults.payload.Tipopersona.tipoDocumento + this.defaults.payload.Tipopersona.identificacion
+    console.log("titular",titular)
+    return titular === tipoDocumento + identificacion;
+  }
+
+
 
 
   validateIdentificacionPep(tipoDocumento: string, identificacion: string) {

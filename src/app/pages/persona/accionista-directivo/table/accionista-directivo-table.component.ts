@@ -20,6 +20,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
 
   @Output('propagar') propagar: EventEmitter<number> = new EventEmitter<number>();
   @Input() persona = undefined;
+  @Input() Tipopersona = undefined;
   @Input() onRefresh: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   accionistaDirectivoList: ReplaySubject<AccionistaDirectivo[]> = new ReplaySubject<AccionistaDirectivo[]>();
   accionistas: string[] = [];
@@ -48,6 +49,10 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
   }
 
   ngOnInit() {
+
+    console.log("this.persona",this.persona)
+    console.log("this.Tipopersona",this.Tipopersona)
+
     if (this.persona) {
       this.loadList();
       this.onRefresh.subscribe(val => {
@@ -80,7 +85,7 @@ export class AccionistaDirectivoTableComponent extends TableBaseComponent implem
     if (data) {
       data.persona = this.persona;
     }
-    this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data ? { persona: this.persona, porcentajeAccionario: this.porcentajeAccionario, accionistas: this.accionistas  } : { ...data, ...{ accionistas: this.accionistas } }, '70%').afterClosed().subscribe(event => {
+    this.showFormPopup(AccionistaDirectivoFormPopupComponent, !data ? { persona: this.persona, porcentajeAccionario: this.porcentajeAccionario, accionistas: this.accionistas , Tipopersona : this.Tipopersona } : { ...data, ...{ accionistas: this.accionistas } }, '70%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

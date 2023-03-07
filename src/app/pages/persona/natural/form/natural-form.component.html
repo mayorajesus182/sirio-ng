@@ -140,10 +140,11 @@
                                         </sirio-select-search>
                                         <mat-form-field fxFlex="100" fxFlex.gt-xs="auto">
                                             <mat-label>{{'naturalPerson.email' | translate: {default:'global.email'} | translate }} </mat-label>
-                                            <input matInput maxlength="60" autocomplete="off" name="email" formControlName="email" uppercase required
+                                            <input matInput maxlength="60" autocomplete="off" name="email" #email  formControlName="email" uppercase required
                                                 email-validate>
                                             <mat-error *ngIf="f.email.errors?.required">{{'error.required' | translate}}</mat-error>
                                             <mat-error *ngIf="f.email.errors?.email">Email es Inválido</mat-error>
+                                            <mat-error *ngIf="f.email.errors?.exists2">Email existe en base de datos</mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutGap.gt-sm="10px">

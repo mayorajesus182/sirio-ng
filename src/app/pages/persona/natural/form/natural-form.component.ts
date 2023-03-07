@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {MatDialog} from '@angular/material/dialog';
 import {ActivatedRoute} from '@angular/router';
@@ -7,7 +7,7 @@ import {BehaviorSubject, ReplaySubject} from 'rxjs';
 import {fadeInRightAnimation} from 'src/@sirio/animations/fade-in-right.animation';
 import {fadeInUpAnimation} from 'src/@sirio/animations/fade-in-up.animation';
 import {GlobalConstants, RegularExpConstants} from 'src/@sirio/constants';
-import { PersonaConstants } from 'src/@sirio/constants/persona.constants';
+import {PersonaConstants} from 'src/@sirio/constants/persona.constants';
 import {CalendarioService} from 'src/@sirio/domain/services/calendario/calendar.service';
 import {Tenencia, TenenciaService} from 'src/@sirio/domain/services/configuracion/domicilio/tenencia.service';
 import {Pais, PaisService} from 'src/@sirio/domain/services/configuracion/localizacion/pais.service';
@@ -28,10 +28,12 @@ import {Genero, GeneroService} from 'src/@sirio/domain/services/configuracion/pe
 import {Profesion, ProfesionService} from 'src/@sirio/domain/services/configuracion/persona-natural/profesion.service';
 import {TipoDocumento, TipoDocumentoService} from 'src/@sirio/domain/services/configuracion/tipo-documento.service';
 import {Direccion} from 'src/@sirio/domain/services/persona/direccion/direccion.service';
-import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
+import {PersonaDataMandatoryService} from 'src/@sirio/domain/services/persona/persona-data-mandatory.service';
 import {PersonaNatural, PersonaNaturalService} from 'src/@sirio/domain/services/persona/persona-natural.service';
 import {Persona, PersonaService} from 'src/@sirio/domain/services/persona/persona.service';
 import {FormBaseComponent} from 'src/@sirio/shared/base/form-base.component';
+import {Email, EmailExistService} from '../../../../../@sirio/domain/services/persona/email/email-exist-service';
+import {Cheque} from '../../../../../@sirio/domain/services/taquilla/deposito.service';
 
 
 @Component({
@@ -47,14 +49,13 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     fromOtherComponent: boolean = false;
     todayValue: moment.Moment = moment();
     totalAddress: number;
-
+    @ViewChild('email') email: ElementRef;
 
     totalRegistroMercantil: number;
 
     totalInfoLab: number;
     totalPep: number;
     totalApoderado: number;
-
     totalPhone: number;
     totalBankReference: number;
     totalPersonalReference: number;
@@ -64,6 +65,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     hasBasicData = false;
     showAddress = false;
 
+    chequeList: any[] = [];
     showRegistroMercantil = false;
     showPersonalReference = false;
     showBankReference = false;
@@ -80,13 +82,17 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     constants = PersonaConstants;
     estado_civil: string;
 
-    tipoDocumento = undefined ;
-    tipoPersona = "F";
-    identificacion= undefined;
+    tipoDocumento = undefined;
+    tipoPersona = 'F';
+    identificacion = undefined;
     tipo_DocumentoMenor: string;
     tipoDocumentos = new BehaviorSubject<TipoDocumento[]>([]);
     refreshDirecciones = new BehaviorSubject<boolean>(false);
     generos = new BehaviorSubject<Genero[]>([]);
+
+
+    existsEmail = new BehaviorSubject<Email[]>([]);
+    //existsEmail = String  ;
     paises = new BehaviorSubject<Pais[]>([]);
     nacionadades = new BehaviorSubject<Pais[]>([]);
     estadosCiviles = new BehaviorSubject<EstadoCivil[]>([]);
@@ -119,6 +125,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         private actividadEspecificaService: ActividadEspecificaService,
         private categoriaEspecialService: CategoriaEspecialService,
         private calendarioService: CalendarioService,
+        private emailExistService: EmailExistService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
     }
@@ -127,9 +134,9 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
         return this.searchForm ? this.searchForm.controls : {};
     }
 
-   
 
     ngAfterViewInit(): void {
+
         this.loading$.subscribe(loading => {
             if (!loading) {
                 if (this.f.actividadEconomica && this.f.actividadEconomica.value) {
@@ -144,8 +151,16 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
                     this.estado_civil = this.f.estadoCivil.value;
                 }
+
+
+
+
+
             }
+
+
         });
+
 
     }
 
@@ -203,27 +218,27 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                 this.personaNatural.tipoDocumento = data.get('tdoc');
 
                 this.isNew = this.router.url.endsWith('/add') || this.router.url.endsWith('/edit');
-                
+
                 this.buildForm();
                 this.loaded$.next(true);
-                
+
                 this.personaService.getByTipoDocAndIdentificacion(data.get('tdoc'), data.get('doc')).subscribe(p => {
 
                     this.updatePerson(p);
 
-                    if(p.id){
+                    if (p.id) {
 
                         this.mandatoyDataService.validate(p.id).subscribe(errors => {
-                            
-                            this.warnings$.next(this.mandatoyDataService.errorsToHtml(errors));    
-                          
+
+                            this.warnings$.next(this.mandatoyDataService.errorsToHtml(errors));
+
                         });
 
                     }
 
                 }, error => {
                     this.isNew = true;
-                    
+
                 });
             }
         });
@@ -284,12 +299,36 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             }
         });
 
+        this.f.email.valueChanges.subscribe(value => {
+        //this.eventFromElement(this.email, 'keyup')?.subscribe(() => {
+            if (!this.f.email.invalid) {
+
+                this.emailExistService.get(value,this.f.identificacion.value).subscribe(data => {
+
+                    if (data.exists) {
+                        this.f.email.setErrors({exists2: true});
+                        this.f.email.markAsDirty();
+                        this.cdr.detectChanges();
+
+                    }
+
+
+                });
+
+            }
+
+
+        });
+
+
+
+
 
         this.f.identificacionConyuge.valueChanges.subscribe(value => {
 
             if (value) {
                 if (this.validateTitular(this.f.tipoDocumentoConyuge.value ? this.f.tipoDocumentoConyuge.value : undefined, this.f.identificacionConyuge.value ? this.f.identificacionConyuge.value : undefined)) {
-                    this.f.identificacionConyuge.setErrors({ exists2: true });
+                    this.f.identificacionConyuge.setErrors({exists2: true});
                     this.f.identificacionConyuge.markAsDirty();
                     this.cdr.detectChanges();
                 }
@@ -323,10 +362,10 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
                 this.estado_civil = val;
                 if (!this.evaluarEstadoCivil()) {
                     // si esta evaluacion retorna false , es que no es casado, ni union estable
-                    this.addOrRemoveFieldValidator('tipoDocumentoConyuge', false)
-                    this.addOrRemoveFieldValidator('identificacionConyuge', false,'')
-                    this.addOrRemoveFieldValidator('nombreConyuge', false,'')
-                    this.addOrRemoveFieldValidator('fuenteIngreso', false)
+                    this.addOrRemoveFieldValidator('tipoDocumentoConyuge', false);
+                    this.addOrRemoveFieldValidator('identificacionConyuge', false, '');
+                    this.addOrRemoveFieldValidator('nombreConyuge', false, '');
+                    this.addOrRemoveFieldValidator('fuenteIngreso', false);
 
                     this.cdr.detectChanges();
 
@@ -347,14 +386,14 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
     }
 
 
-    validateTitular (tipoDocumento: string, identificacion: string) {
+    validateTitular(tipoDocumento: string, identificacion: string) {
         if (!identificacion) {
             return true;
         }
-        console.log(tipoDocumento+identificacion)
+        console.log(tipoDocumento + identificacion);
         this.cdr.detectChanges();
-        let cadenaExtraida = this.f.tipoDocumento.value.substring(0,1);
-        return  cadenaExtraida+this.f.identificacion.value === tipoDocumento + identificacion;
+        let cadenaExtraida = this.f.tipoDocumento.value.substring(0, 1);
+        return cadenaExtraida + this.f.identificacion.value === tipoDocumento + identificacion;
     }
 
 
@@ -381,7 +420,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.personaNatural = val;
             // console.log(this.personaNatural);             
             //TODO: OJO REVISAR ESTO LUEGO
-            
+
             this.buildForm();
             this.loadingDataForm.next(false);
             this.loaded$.next(true);
@@ -389,7 +428,6 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.cdr.detectChanges();
         });
 
-    
 
     }
 
@@ -399,7 +437,7 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
             this.loaded$.next(false);
             this.personaNatural = {} as PersonaNatural;
             this.isNew = true;
-            this.hasBasicData=false;
+            this.hasBasicData = false;
             this.cdr.detectChanges();
         }
     }
@@ -437,36 +475,36 @@ export class NaturalFormComponent extends FormBaseComponent implements OnInit, A
 
 
         this.mandatoyDataService.validate(this.personaNatural.id).subscribe(data => {
-            console.log('errors',data);
+            console.log('errors', data);
             this.loadingDataForm.next(true);
 
-            if(data.length == 0){
+            if (data.length == 0) {
                 // si no tengo errores pido confirmación de lo contrario muestro los errores
                 this.swalService.show('¿Desea realmente realizar esta operación?',).then((resp) => {
-                    
+
                     if (!resp.dismiss) {
-                        
+
                         this.personaService.send(this.personaNatural.id).subscribe(() => {
-                            
+
                             this.successResponse('Operacion', 'aplicada', true);
                             this.loadingDataForm.next(false);
                             this.disabled$.next(false);
                             this.router.navigate([sessionStorage.getItem(GlobalConstants.PREV_PAGE)]);
-                            
+
                         }, err => {
                             this.errorResponse(err);
                         });
-                        
+
                     } else {
                         this.disabled$.next(false);
                     }
-                    
+
                 });
-                
-            }else{
+
+            } else {
                 this.loadingDataForm.next(false);
                 this.disabled$.next(false);
-                this.mandatoyDataService.showErrorsAndRedirect(data,this.personaNatural as Persona);
+                this.mandatoyDataService.showErrorsAndRedirect(data, this.personaNatural as Persona);
                 // this.errors=data;
                 // this.cdr.detectChanges();
             }

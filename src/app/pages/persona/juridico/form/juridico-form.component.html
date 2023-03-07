@@ -442,7 +442,7 @@
                                 <!-- {{printErrors() | json}}  -->
 
                                 <div fxLayout="row" fxLayout="column" *ngIf="showAccionistaDirectivo">
-                                    <sirio-persona-accionista-directivo-table [persona]="personaJuridica.id" (propagar)="updateAddress($event)">
+                                    <sirio-persona-accionista-directivo-table [persona]="personaJuridica.id"  [Tipopersona]="personaJuridica" (propagar)="updateAddress($event)">
                                     </sirio-persona-accionista-directivo-table>
                                 </div>
                             </mat-expansion-panel>
