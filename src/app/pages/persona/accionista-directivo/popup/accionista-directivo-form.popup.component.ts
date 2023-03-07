@@ -144,6 +144,7 @@ export class AccionistaDirectivoFormPopupComponent extends PopupBaseComponent im
     })
 
     this.pepAccionistas.next(this.accionistaDirectivo.pepList);
+    console.log("this.accionistaDirectivo.pepList",this.accionistaDirectivo.pepList)
     this.pepList = this.accionistaDirectivo.pepList || [];
 
     this.f.identificacion.valueChanges.subscribe(val => {
