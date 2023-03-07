@@ -81,11 +81,12 @@ export class ReferenciaPersonalTableComponent extends TableBaseComponent impleme
 
   popup(data?: ReferenciaPersonal) {
     console.log("por aqui",data)
+    console.log("por aqui",this.persona)
     // if (data) {
     //   data.persona = this.persona;
     //
     // }
-    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias , personaDoc: this.personaDoc } : { ...data, ...{ referencias: this.referencias } }, '40%').afterClosed().subscribe(event => {
+    this.showFormPopup(ReferenciaPersonalFormPopupComponent, !data ? { persona: this.persona, referencias: this.referencias , personaDoc: this.personaDoc } : { ...data, ...{ persona: this.persona, referencias: this.referencias , personaDoc: this.personaDoc } }, '60%').afterClosed().subscribe(event => {
       if (event) {
         this.onRefresh.next(true);
       }

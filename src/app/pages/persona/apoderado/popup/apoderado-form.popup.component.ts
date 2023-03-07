@@ -29,9 +29,8 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   [x: string]: any;
 
   apoderado: Apoderado = {} as Apoderado;
-
+  HideTitulo : boolean;
   @Input() tipo_persona: string;
-
   private tiposDocumentos: TipoDocumento[] = [];
   public telefonicaList = new BehaviorSubject<TipoTelefono[]>([]);
   public tipoDocumentoList = new BehaviorSubject<TipoDocumento[]>([]);
@@ -62,9 +61,9 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
   ngOnInit() {
 
     this.loadingDataForm.next(false);
-
+    this.Showtitle()
     this.apoderados = this.defaults.payload.apoderados;
-
+    this.cdr.detectChanges();
     this.calendarioService.today().subscribe(data => {
       this.todayValue = moment(data.today, GlobalConstants.DATE_SHORT);
     });
@@ -161,6 +160,16 @@ export class ApoderadoFormPopupComponent extends PopupBaseComponent implements O
 
   }
 
+  Showtitle () {
+    console.log(this.defaults.payload.Tipopersona)
+    if (this.defaults.payload.Tipopersona=="F"){
+      this.HideTitulo =true
+
+    }else {
+      this.HideTitulo =false
+    }
+
+  }
   isLegalPerson() {
 
     let isLegal = this.tiposDocumentos.filter(t => t.id == this.f.tipoDocumento.value).map(t => t.tipoPersona).includes(PersonaConstants.PERSONA_JURIDICA);

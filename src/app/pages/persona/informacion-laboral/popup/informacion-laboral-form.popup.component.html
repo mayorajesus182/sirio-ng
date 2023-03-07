@@ -129,7 +129,8 @@
 
       <mat-form-field fxFlex="100" fxFlex.gt-xs="30" *ngIf="isRdOrNp()">
         <mat-label>{{f.tipoIngreso.value===Tipo_Ingreso.RELACION_DEPENDENCIA? 'Fecha Ingreso' : 'Fecha de Constitución' }}</mat-label>
-        <input class="text-center" autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
+
+        <input class="text-center"  autocomplete="off" matInput placeholder="DD/MM/YYYY" name="fecha" formControlName="fecha" [matDatepicker]="fechaPicker"
           [max]="todayValue" [required]="isRdOrNp()">
         <mat-datepicker-toggle matSuffix [for]="fechaPicker" tabindex="-1">
         </mat-datepicker-toggle>

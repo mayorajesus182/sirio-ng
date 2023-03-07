@@ -153,8 +153,13 @@ export class CuentaBancoFormComponent extends FormBaseComponent implements OnIni
         });
 
         this.tipoParticipacionService.actives().subscribe(data => {
+            console.log("data",data)
+            console.log("data",data)
+            console.log()
+            let titular = data.filter(t => t.id == '01');
+          //  console.log("isLegal",isLegal)
+            this.tipoParticipaciones.next(titular);
 
-            this.tipoParticipaciones.next(data);
             // this.cdr.detectChanges();
         })
 
