@@ -11,6 +11,7 @@ import { PopupBaseComponent } from 'src/@sirio/shared/base/popup-base.component'
 
 @Component({
   selector: 'sirio-telefono-form.popup',
+
   templateUrl: './telefono-form.popup.component.html',
   styleUrls: ['./telefono-form.popup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
