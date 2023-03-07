@@ -79,14 +79,15 @@ export class DireccionFormPopupComponent extends PopupBaseComponent implements O
         }
 
         this.tipoDireccionesService.actives().subscribe(data => {
+          console.log(this.primerRegistro)
           // if(this.isNew ){
-          //   if(!this.principal){
-          //     this.tiposDirecciones.next(data);              
-          //   }else{              
-          //     this.tiposDirecciones.next(data.filter(t=>t.id!='PR'));
-          //   }
+            if(this.primerRegistro){
+              this.tiposDirecciones.next(data);
+            }else{
+              this.tiposDirecciones.next(data.filter(t=>t.id!='PR'));
+            }
           // }else{
-            this.tiposDirecciones.next(data);
+           // this.tiposDirecciones.next(data);
           // }
           this.cdr.detectChanges();
         })

@@ -19,6 +19,7 @@ import { PersonaDataMandatoryService } from 'src/@sirio/domain/services/persona/
 import { PersonaJuridica, PersonaJuridicaService } from 'src/@sirio/domain/services/persona/persona-juridica.service';
 import { Persona, PersonaService } from 'src/@sirio/domain/services/persona/persona.service';
 import { FormBaseComponent } from 'src/@sirio/shared/base/form-base.component';
+import {EmailExistService} from '../../../../../@sirio/domain/services/persona/email/email-exist-service';
 
 @Component({
     selector: 'app-juridico-form',
@@ -93,6 +94,7 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         private actividadEconomicaService: ActividadEconomicaService,
         private actividadEspecificaService: ActividadEspecificaService,
         private categoriaEspecialService: CategoriaEspecialService,
+        private emailExistService: EmailExistService,
         private personaService: PersonaService,
         private cdr: ChangeDetectorRef) {
         super(dialog, injector);
@@ -251,6 +253,33 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
             }
         });
 
+        this.f.email.valueChanges.subscribe(value => {
+            //this.eventFromElement(this.email, 'keyup')?.subscribe(() => {
+            if (!this.f.email.invalid) {
+
+                this.emailExistService.get(value,this.f.identificacion.value).subscribe(data => {
+
+                    if (data.exists) {
+                        this.f.email.setErrors({exists2: true});
+                        this.f.email.markAsDirty();
+                        this.cdr.detectChanges();
+
+                    }
+
+
+                });
+
+            }
+
+
+        });
+
+
+
+
+
+
+
     }
 
 
@@ -378,6 +407,9 @@ export class JuridicoFormComponent extends FormBaseComponent implements OnInit, 
         });
 
     }
+
+
+
 
 
 
