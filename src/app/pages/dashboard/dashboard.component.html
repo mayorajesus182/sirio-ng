@@ -56,20 +56,6 @@
     <div fxLayout="column" [fxLayoutGap]="gap" [fxFlex]="col(2)"
          fxLayout.gt-sm="row">
 
-      <div [fxFlex.gt-sm]="col(2)" [fxLayoutGap]="gap" fxFlex="grow" fxLayout="column">
-        <sirio-sales-summary-widget [data]="salesSummaryData$ | async"
-                                   [options]="salesSummaryOptions"
-                                   class="fullheight"></sirio-sales-summary-widget>
-
-        <sirio-quick-info-widget class="route-animations-elements" fxFlex="grow" value="234" label="Customers"
-                                [background]="'#009688'" color="white"
-                                icon="people"></sirio-quick-info-widget>
-      </div>
-
-
-      <sirio-realtime-users-widget [data$]="realtimeUsersData$" [fxFlex.gt-sm]="col(2)"
-                                  [pages$]="realtimeUsersPages$"
-                                  fxFlex="grow"></sirio-realtime-users-widget>
 
     </div>
   </div>

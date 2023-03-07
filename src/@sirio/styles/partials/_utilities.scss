@@ -77,6 +77,16 @@ a {
   color: $theme-text
 }
 
+
+@media (min-width: 1400px) {
+  .sirio-container {
+    max-width: 100% !important;
+  }
+  .sirio-card-content {
+    max-width: 100% !important;
+  }
+}
+
 .notification-number {
   position: relative;
   top: 12px;
