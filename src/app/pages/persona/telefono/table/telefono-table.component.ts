@@ -82,7 +82,7 @@ export class TelefonoTableComponent extends TableBaseComponent implements OnInit
       data.persona=this.persona;
     }    
 
-    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos, principal: this.principal }:{data,telefonos:this.telefonos, principal: this.principal},'40%').afterClosed().subscribe(event=>{
+    this.showFormPopup(TelefonoFormPopupComponent, !data?{persona:this.persona,telefonos:this.telefonos, principal: this.principal }:{data,telefonos:this.telefonos, principal: this.principal},'60%').afterClosed().subscribe(event=>{
         if(event){
             this.onRefresh.next(true);
         }

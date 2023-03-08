@@ -13,12 +13,17 @@ export interface Telefono {
     tipoTelefono?: string;
 
     claseTelefono?: string;
-    
+
     prefijo?: string;
 
     numero: string;
 
     principal: number;
+}
+
+
+export interface TelefonoExists {
+    exists: any;
 }
 
 
@@ -44,6 +49,11 @@ export class TelefonoService {
 
     get(id: number): Observable<Telefono> {
         return this.apiService.config(this.apiConfig).get(`/${id}/get`);
+    }
+
+    exist(id: number , telefono : String): Observable<TelefonoExists> {
+        return this.apiService.config(this.apiConfig).get(`/${id}/${telefono}/get`);
+
     }
 
     detail(id: string): Observable<Telefono> {
